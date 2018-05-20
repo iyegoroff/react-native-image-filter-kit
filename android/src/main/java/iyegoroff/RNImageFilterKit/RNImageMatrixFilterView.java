@@ -1,4 +1,4 @@
-package iyegoroff.ImageColorFilter;
+package iyegoroff.RNImageFilterKit;
 
 import java.util.Arrays;
 
@@ -16,7 +16,7 @@ import com.facebook.react.views.view.ReactViewGroup;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.ReactConstants;
 
-public class RNImageColorFilterView extends ReactViewGroup {
+public class RNImageMatrixFilterView extends ReactViewGroup {
 
   private float[] mMatrix = {
     1, 0, 0, 0, 0,
@@ -25,7 +25,7 @@ public class RNImageColorFilterView extends ReactViewGroup {
     0, 0, 0, 1, 0
   };
 
-  public RNImageColorFilterView(Context context) {
+  public RNImageMatrixFilterView(Context context) {
     super(context);
   }
 
@@ -38,34 +38,35 @@ public class RNImageColorFilterView extends ReactViewGroup {
 
     invalidate();
 
-    invalidateAllImageColorFilterChildren(this);
+    // invalidateAllImageMatrixFilterChildren(this);
   }
 
   @Override
   public void draw(Canvas canvas) {
     useColorFilterOnAllChildren(
       this,
-      new ColorMatrixColorFilter(calculateColorMatrix(this, new ColorMatrix(mMatrix)))
+      new ColorMatrixColorFilter(new ColorMatrix(mMatrix))
+      // new ColorMatrixColorFilter(calculateColorMatrix(this, new ColorMatrix(mMatrix)))
     );
 
     super.draw(canvas);
   }
 
-  private ColorMatrix calculateColorMatrix(ViewGroup target, ColorMatrix currentMatrix) {
-    ViewParent parent = target.getParent();
+  // private ColorMatrix calculateColorMatrix(ViewGroup target, ColorMatrix currentMatrix) {
+  //   ViewParent parent = target.getParent();
 
-    if (parent instanceof ViewGroup) {
-      if (parent instanceof RNImageColorFilterView) {
-        currentMatrix.postConcat(new ColorMatrix(((RNImageColorFilterView) parent).mMatrix));
-      }
+  //   if (parent instanceof ViewGroup) {
+  //     if (parent instanceof RNImageMatrixFilterView) {
+  //       currentMatrix.postConcat(new ColorMatrix(((RNImageMatrixFilterView) parent).mMatrix));
+  //     }
 
-      return calculateColorMatrix((ViewGroup) parent, currentMatrix);
-    }
+  //     return calculateColorMatrix((ViewGroup) parent, currentMatrix);
+  //   }
 
-    Log.v(ReactConstants.TAG, Arrays.toString(currentMatrix.getArray()));
+  //   // Log.v(ReactConstants.TAG, Arrays.toString(currentMatrix.getArray()));
 
-    return currentMatrix;
-  }
+  //   return currentMatrix;
+  // }
 
   private void useColorFilterOnAllChildren(ViewGroup parent, ColorMatrixColorFilter filter) {
     for (int i = 0; i < parent.getChildCount(); i++) {
@@ -74,7 +75,7 @@ public class RNImageColorFilterView extends ReactViewGroup {
       if (child instanceof ImageView) {
         ((ImageView) child).setColorFilter(filter);
 
-      } else if (child instanceof RNImageColorFilterView) {
+      } else if (child instanceof RNImageMatrixFilterView) {
         return;
 
       } else if (child instanceof ViewGroup) {
@@ -83,16 +84,16 @@ public class RNImageColorFilterView extends ReactViewGroup {
     }
   }
 
-  private void invalidateAllImageColorFilterChildren(ViewGroup parent) {
+  private void invalidateAllImageMatrixFilterChildren(ViewGroup parent) {
     for (int i = 0; i < parent.getChildCount(); i++) {
       View child = parent.getChildAt(i);
 
-      if (child instanceof RNImageColorFilterView) {
-        ((RNImageColorFilterView) child).invalidate();
+      if (child instanceof RNImageMatrixFilterView) {
+        ((RNImageMatrixFilterView) child).invalidate();
       }
 
       if (child instanceof ViewGroup) {
-        invalidateAllImageColorFilterChildren((ViewGroup) child);
+        invalidateAllImageMatrixFilterChildren((ViewGroup) child);
       }
     }
   }

@@ -1,4 +1,4 @@
-package iyegoroff.ImageColorFilter;
+package iyegoroff.RNImageFilterKit;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,10 +10,10 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
 
-public class RNImageColorFilterPackage implements ReactPackage {
+public class RNImageFilterKitPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-      return Arrays.<ViewManager>asList(new RNImageColorFilterManager());
+      return Arrays.<ViewManager>asList(new RNImageMatrixFilterManager());
     }
 
     @Override

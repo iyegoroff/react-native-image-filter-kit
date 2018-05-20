@@ -7,53 +7,51 @@ import {
   Image,
   ScrollView,
   Slider,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Button
 } from 'react-native';
 import {
-  ImageNormalFilter,
-  ImageSaturateFilter,
-  ImageHueRotateFilter,
-  ImageLuminanceToAlphaFilter,
-  ImageInvertFilter,
-  ImageGrayscaleFilter,
-  ImageSepiaFilter,
-  ImageNightvisionFilter,
-  ImageWarmFilter,
-  ImageCoolFilter,
-  ImageBrightnessFilter,
-  ImageExposureFilter,
-  ImageContrastFilter,
-  ImageTemperatureFilter,
-  ImageTintFilter,
-  ImageThresholdFilter,
-  ImageProtanomalyFilter,
-  ImageDeuteranomalyFilter,
-  ImageTritanomalyFilter,
-  ImageProtanopiaFilter,
-  ImageDeuteranopiaFilter,
-  ImageTritanopiaFilter,
-  ImageAchromatopsiaFilter,
-  ImageAchromatomalyFilter
+  ImageNormalMatrixFilter,
+  ImageSaturateMatrixFilter,
+  ImageHueRotateMatrixFilter,
+  ImageLuminanceToAlphaMatrixFilter,
+  ImageInvertMatrixFilter,
+  ImageGrayscaleMatrixFilter,
+  ImageSepiaMatrixFilter,
+  ImageNightvisionMatrixFilter,
+  ImageWarmMatrixFilter,
+  ImageCoolMatrixFilter,
+  ImageBrightnessMatrixFilter,
+  ImageExposureMatrixFilter,
+  ImageContrastMatrixFilter,
+  ImageTemperatureMatrixFilter,
+  ImageTintMatrixFilter,
+  ImageThresholdMatrixFilter,
+  ImageProtanomalyMatrixFilter,
+  ImageDeuteranomalyMatrixFilter,
+  ImageTritanomalyMatrixFilter,
+  ImageProtanopiaMatrixFilter,
+  ImageDeuteranopiaMatrixFilter,
+  ImageTritanopiaMatrixFilter,
+  ImageAchromatopsiaMatrixFilter,
+  ImageAchromatomalyMatrixFilter
 } from 'react-native-image-filter-kit';
 
 // ios
-import {
-  ImageBoxBlurFilterIOS,
-  ImageGaussianBlurFilterIOS,
-  ImageDiscBlurFilterIOS,
-  ImageMedianFilterFilterIOS,
-  ImageMotionBlurFilterIOS,
-  ImageNoiseReductionFilterIOS,
-  ImageZoomBlurFilterIOS,
-  ImageColorControlsFilterIOS
-} from 'react-native-image-filter-kit';
-
-const parrot = require('./673px-Ara_macao_-flying_away-8a.png');
-// const parrot = {uri: 'https://i.stack.imgur.com/WCveg.jpg'};
+// import {
+//   ImageBoxBlurFilterIOS,
+//   ImageGaussianBlurFilterIOS,
+//   ImageDiscBlurFilterIOS,
+//   ImageMedianFilterFilterIOS,
+//   ImageMotionBlurFilterIOS,
+//   ImageNoiseReductionFilterIOS,
+//   ImageZoomBlurFilterIOS,
+//   ImageColorControlsFilterIOS
+// } from 'react-native-image-filter-kit';
 
 class FilterSlider extends Component {
   render() {
-    const {name, value, min, max} = this.props;
+    const { label, value, min, max } = this.props;
     const interval = Math.abs(min) + Math.abs(max);
 
     return (
@@ -62,7 +60,7 @@ class FilterSlider extends Component {
           style={styles.text}
           numberOfLines={1}
         >
-          {`${name}: ${Math.round(value * 10) / 10}`}
+          {`${label}: ${Math.round(value * 10) / 10}`}
         </Text>
         <Slider
           style={styles.slider}
@@ -86,43 +84,81 @@ class FilteredImage extends Component {
   state = {};
 
   render() {
-    const {name, Filter, ...ranges} = this.props;
+    const {source, filters} = this.props;
     const {original, ...values} = this.state;
 
     const image = (
       <Image
         style={styles.image}
-        source={parrot}
+        source={source}
       /> 
     );
 
-    const slidersProps = Object.entries(ranges).map(([valueName, [min, max]]) => ({
-      key: valueName,
-      name: valueName,
-      value: values[valueName] === undefined ? (min + max) / 2 : values[valueName],
-      min,
-      max
-    }));
-
-    const filterProps = slidersProps.reduce(
-      (acc, {name, value}) => { acc[name] = value; return acc; },
-      {}
-    );
+    const controlProps = filters.map(f => this.controlProps(f));
+    const filterProps = controlProps.map(c => this.filterProps(c));
 
     return (
       <View style={styles.view}>
-        <Text style={styles.title}>{name}</Text>
-        {slidersProps.map(props => <FilterSlider {...props} onValueChange={this.updateValue} />)}
+        {controlProps.map(c => this.renderControls(c))}
         <TouchableWithoutFeedback
           onPressIn={this.showOriginal}
           onPressOut={this.hideOriginal}
         >
           <View>
-            {original ? image : <Filter {...filterProps}>{image}</Filter>}
+            {original ? image : this.renderFilters(filterProps, image)}
           </View>
         </TouchableWithoutFeedback>
       </View>
     );
+  }
+
+  renderFilters(filterProps, image) {
+    return filterProps.reduceRight(
+      (content, { Filter, filters }) => <Filter {...filters}>{content}</Filter>,
+      image
+    );
+  }
+
+  renderControls(controls) {
+    const { name, sliders } = controls;
+
+    return (
+      <React.Fragment key={name}>
+        <Text style={styles.title}>{name}</Text>
+        {sliders.map(props => <FilterSlider {...props} onValueChange={this.updateValue} />)}
+      </React.Fragment>
+    )
+  }
+
+  filterProps(controls) {
+    const { sliders, Filter } = controls;
+
+    const filters = controls.sliders.reduce(
+      (acc, { label, value }) => { acc[label] = value; return acc; },
+      {}
+    );
+
+    return { filters, Filter };
+  }
+
+  controlProps(filter) {
+    const {name, Filter, ...ranges} = filter;
+    const {original, ...values} = this.state;
+
+    const sliders = Object.entries(ranges).map(([valueName, [min, max]]) => {
+      const key = `${name}_${valueName}`;
+
+      return {
+        key,
+        name: key,
+        label: valueName,
+        value: values[key] === undefined ? (min + max) / 2 : values[key],
+        min,
+        max
+      };
+    });
+
+    return { sliders, name, Filter };
   }
 
   updateValue = (name, value) => {
@@ -138,158 +174,182 @@ class FilteredImage extends Component {
   }
 }
 
+        // <FilteredImage
+        //   name='Box blur'
+        //   Filter={ImageBoxBlurFilterIOS}
+        //   radius={[0, 100]}
+        // /> 
+        // <FilteredImage
+        //   name='Gaussian blur'
+        //   Filter={ImageGaussianBlurFilterIOS}
+        //   radius={[0, 100]}
+        // /> 
+        // <FilteredImage
+        //   name='Disc blur'
+        //   Filter={ImageDiscBlurFilterIOS}
+        //   radius={[0, 100]}
+        // /> 
+        // <FilteredImage
+        //   name='Median filter'
+        //   Filter={ImageMedianFilterFilterIOS}
+        // /> 
+        // <FilteredImage
+        //   name='Motion blur'
+        //   Filter={ImageMotionBlurFilterIOS}
+        //   radius={[0, 100]}
+        //   angle={[-Math.PI, Math.PI]}
+        // /> 
+        // <FilteredImage
+        //   name='Noise reduction'
+        //   Filter={ImageNoiseReductionFilterIOS}
+        //   noiseLevel={[-1, 1]}
+        //   sharpness={[-1, 1]}
+        // /> 
+        // {/* <FilteredImage
+        //   name='Zoom blur'
+        //   Filter={ImageZoomBlurFilterIOS}
+        //   center={[-1, 1]}
+        //   amount={[-1, 1]}
+        // /> */}
+        // <FilteredImage
+        //   name='Color controls'
+        //   Filter={ImageColorControlsFilterIOS}
+        //   saturation={[-10, 10]}
+        //   brightness={[-10, 10]}
+        //   contrast={[-10, 10]}
+        // /> 
+
+const imageHeight = 300;
+
 export default class App extends Component {
+  state = { image: require('./673px-Ara_macao_-flying_away-8a.png') };
+
+  filters = [
+    [{
+      name: 'Normal',
+      Filter: ImageNormalMatrixFilter
+    }],
+    [{
+      name: 'Saturate',
+      Filter: ImageSaturateMatrixFilter,
+      value: [-10, 10]
+    }],
+    [{
+      name: 'HueRotate',
+      Filter: ImageHueRotateMatrixFilter,
+      value: [-10, 10]
+    }],
+    [{
+      name: 'Luminance to alpha',
+      Filter: ImageLuminanceToAlphaMatrixFilter
+    }],
+    [{
+      name: 'Invert',
+      Filter: ImageInvertMatrixFilter
+    }],
+    [{
+      name: 'Grayscale',
+      Filter: ImageGrayscaleMatrixFilter
+    }],
+    [{
+      name: 'Sepia',
+      Filter: ImageSepiaMatrixFilter
+    }],
+    [{
+      name: 'Nightvision',
+      Filter: ImageNightvisionMatrixFilter
+    }],
+    [{
+      name: 'Warm',
+      Filter: ImageWarmMatrixFilter
+    }],
+    [{
+      name: 'Cool',
+      Filter: ImageCoolMatrixFilter
+    }],
+    [{
+      name: 'Brightness',
+      Filter: ImageBrightnessMatrixFilter,
+      value: [-100, 100]
+    }],
+    [{
+      name: 'Exposure',
+      Filter: ImageExposureMatrixFilter,
+      value: [0, 5]
+    }],
+    [{
+      name: 'Contrast',
+      Filter: ImageContrastMatrixFilter,
+      value: [0, 5]
+    }],
+    [{
+      name: 'Temperature',
+      Filter: ImageTemperatureMatrixFilter,
+      value: [-5, 5]
+    }],
+    [{
+      name: 'Tint',
+      Filter: ImageTintMatrixFilter,
+      value: [-5, 5]
+    }],
+    [{
+      name:'Threshold',
+      Filter: ImageThresholdMatrixFilter,
+      value: [0, 255]
+    }],
+    [{
+      name: 'Protanomaly',
+      Filter: ImageProtanomalyMatrixFilter
+    }],
+    [{
+      name: 'Deuteranomaly',
+      Filter: ImageDeuteranomalyMatrixFilter
+    }],
+    [{
+      name: 'Tritanomaly',
+      Filter: ImageTritanomalyMatrixFilter
+    }],
+    [{
+      name: 'Protanopia',
+      Filter: ImageProtanopiaMatrixFilter
+    }],
+    [{
+      name: 'Deuteranopia',
+      Filter: ImageDeuteranopiaMatrixFilter
+    }],
+    [{
+      name: 'Tritanopia',
+      Filter: ImageTritanopiaMatrixFilter
+    }],
+    [{
+      name: 'Achromatopsia',
+      Filter: ImageAchromatopsiaMatrixFilter
+    }],
+    [{
+      name: 'Achromatomaly',
+      Filter: ImageAchromatomalyMatrixFilter
+    }]
+  ];
+
+  changeImage = () => {
+    this.setState({
+      image: {
+        uri: `https://picsum.photos/${imageHeight}?random&t=${Date.now()}`
+      }
+    });
+  }
+
   render() {
+    const { image } = this.state;
+
     return (
       <ScrollView style={styles.container}>
-        <FilteredImage
-          name='Normal'
-          Filter={ImageNormalFilter}
-        /> 
-        <FilteredImage
-          name='Saturate'
-          Filter={ImageSaturateFilter}
-          value={[-10, 10]}
+        <Text>Press and hold on filtered image to see original</Text>
+        <Button
+          onPress={this.changeImage}
+          title={'Change image'}
         />
-        <FilteredImage
-          name='HueRotate'
-          Filter={ImageHueRotateFilter}
-          value={[-10, 10]}
-        />
-        <FilteredImage
-          name='Luminance to alpha'
-          Filter={ImageLuminanceToAlphaFilter}
-        />
-        <FilteredImage
-          name='Invert'
-          Filter={ImageInvertFilter}
-        />
-        <FilteredImage
-          name='Grayscale'
-          Filter={ImageGrayscaleFilter}
-        />
-        <FilteredImage
-          name='Sepia'
-          Filter={ImageSepiaFilter}
-        />
-        <FilteredImage
-          name='Nightvision'
-          Filter={ImageNightvisionFilter}
-        />
-        <FilteredImage
-          name='Warm'
-          Filter={ImageWarmFilter}
-        />
-        <FilteredImage
-          name='Cool'
-          Filter={ImageCoolFilter}
-        />
-        <FilteredImage
-          name='Brightness'
-          Filter={ImageBrightnessFilter}
-          value={[-100, 100]}
-        />
-        <FilteredImage
-          name='Exposure'
-          Filter={ImageExposureFilter}
-          value={[0, 5]}
-        />
-        <FilteredImage
-          name='Contrast'
-          Filter={ImageContrastFilter}
-          value={[0, 5]}
-        />
-        <FilteredImage
-          name='Temperature'
-          Filter={ImageTemperatureFilter}
-          value={[-5, 5]}
-        />
-        <FilteredImage
-          name='Tint'
-          Filter={ImageTintFilter}
-          value={[-5, 5]}
-        />
-        <FilteredImage
-          name='Threshold'
-          Filter={ImageThresholdFilter}
-          value={[0, 255]}
-        />
-        <FilteredImage
-          name='Protanomaly'
-          Filter={ImageProtanomalyFilter}
-        />
-        <FilteredImage
-          name='Deuteranomaly'
-          Filter={ImageDeuteranomalyFilter}
-        />
-        <FilteredImage
-          name='Tritanomaly'
-          Filter={ImageTritanomalyFilter}
-        />
-        <FilteredImage
-          name='Protanopia'
-          Filter={ImageProtanopiaFilter}
-        />
-        <FilteredImage
-          name='Deuteranopia'
-          Filter={ImageDeuteranopiaFilter}
-        />
-        <FilteredImage
-          name='Tritanopia'
-          Filter={ImageTritanopiaFilter}
-        />
-        <FilteredImage
-          name='Achromatopsia'
-          Filter={ImageAchromatopsiaFilter}
-        />
-        <FilteredImage
-          name='Achromatomaly'
-          Filter={ImageAchromatomalyFilter}
-        />
-        <FilteredImage
-          name='Box blur'
-          Filter={ImageBoxBlurFilterIOS}
-          radius={[0, 100]}
-        /> 
-        <FilteredImage
-          name='Gaussian blur'
-          Filter={ImageGaussianBlurFilterIOS}
-          radius={[0, 100]}
-        /> 
-        <FilteredImage
-          name='Disc blur'
-          Filter={ImageDiscBlurFilterIOS}
-          radius={[0, 100]}
-        /> 
-        <FilteredImage
-          name='Median filter'
-          Filter={ImageMedianFilterFilterIOS}
-        /> 
-        <FilteredImage
-          name='Motion blur'
-          Filter={ImageMotionBlurFilterIOS}
-          radius={[0, 100]}
-          angle={[-Math.PI, Math.PI]}
-        /> 
-        <FilteredImage
-          name='Noise reduction'
-          Filter={ImageNoiseReductionFilterIOS}
-          noiseLevel={[-1, 1]}
-          sharpness={[-1, 1]}
-        /> 
-        {/* <FilteredImage
-          name='Zoom blur'
-          Filter={ImageZoomBlurFilterIOS}
-          center={[-1, 1]}
-          amount={[-1, 1]}
-        /> */}
-        <FilteredImage
-          name='Color controls'
-          Filter={ImageColorControlsFilterIOS}
-          saturation={[-10, 10]}
-          brightness={[-10, 10]}
-          contrast={[-10, 10]}
-        /> 
+        {this.filters.map((filter, i) => <FilteredImage source={image} filters={filter} key={i} />)}
       </ScrollView>
     );
   }
@@ -316,7 +376,7 @@ const styles = StyleSheet.create({
   image: {
     marginTop: 5,
     width: '100%',
-    height: 300,
+    height: imageHeight,
     resizeMode: 'cover'
   },
   title: {
