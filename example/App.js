@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { unflatten } from 'flat'; 
+import deepmerge from 'deepmerge';
 import {
   Platform,
   StyleSheet,
@@ -38,16 +40,30 @@ import {
 } from 'react-native-image-filter-kit';
 
 // ios
-// import {
-//   ImageBoxBlurFilterIOS,
-//   ImageGaussianBlurFilterIOS,
-//   ImageDiscBlurFilterIOS,
-//   ImageMedianFilterFilterIOS,
-//   ImageMotionBlurFilterIOS,
-//   ImageNoiseReductionFilterIOS,
-//   ImageZoomBlurFilterIOS,
-//   ImageColorControlsFilterIOS
-// } from 'react-native-image-filter-kit';
+import {
+  ImageBoxBlurFilter,
+  ImageGaussianBlurFilter,
+  ImageDiscBlurFilter,
+  ImageMedianFilterFilter,
+  ImageMotionBlurFilter,
+  ImageNoiseReductionFilter,
+  ImageZoomBlurFilter,
+  ImageColorControlsFilter,
+  ImageColorClampFilter,
+  ImageMaskToAlphaFilter,
+  ImageMaximumComponentFilter,
+  ImageMinimumComponentFilter,
+  ImagePhotoEffectChromeFilter,
+  ImagePhotoEffectFadeFilter,
+  ImagePhotoEffectInstantFilter,
+  ImagePhotoEffectMonoFilter,
+  ImagePhotoEffectNoirFilter,
+  ImagePhotoEffectProcessFilter,
+  ImagePhotoEffectTonalFilter,
+  ImagePhotoEffectTransferFilter,
+  ImageColorInvertFilter,
+  ImageColorPosterizeFilter
+} from 'react-native-image-filter-kit';
 
 class FilterSlider extends Component {
   render() {
@@ -59,6 +75,7 @@ class FilterSlider extends Component {
         <Text
           style={styles.text}
           numberOfLines={1}
+          ellipsizeMode={'middle'}
         >
           {`${label}: ${Math.round(value * 10) / 10}`}
         </Text>
@@ -84,12 +101,12 @@ class FilteredImage extends Component {
   state = {};
 
   render() {
-    const {source, filters} = this.props;
+    const {source, filters, background} = this.props;
     const {original, ...values} = this.state;
 
     const image = (
       <Image
-        style={styles.image}
+        style={[styles.image, {backgroundColor: background}]}
         source={source}
       /> 
     );
@@ -133,8 +150,14 @@ class FilteredImage extends Component {
   filterProps(controls) {
     const { sliders, Filter } = controls;
 
+    const options = {
+      arrayMerge: (d, s) => (
+        Array(Math.max(d.length, s.length)).fill(0).map((_, i) => s[i] !== undefined ? s[i] : d[i])
+      )
+    };
+
     const filters = controls.sliders.reduce(
-      (acc, { label, value }) => { acc[label] = value; return acc; },
+      (acc, { label, value }) => deepmerge(acc, unflatten({[label]: value}), options),
       {}
     );
 
@@ -222,114 +245,194 @@ class FilteredImage extends Component {
 const imageHeight = 300;
 
 export default class App extends Component {
-  state = { image: require('./673px-Ara_macao_-flying_away-8a.png') };
+  state = {
+    image: require('./673px-Ara_macao_-flying_away-8a.png'),
+    background: 'transparent'
+  };
 
   filters = [
     [{
-      name: 'Normal',
-      Filter: ImageNormalMatrixFilter
+      name: 'Box blur',
+      Filter: ImageBoxBlurFilter,
+      radius: [0, 100]
     }],
     [{
-      name: 'Saturate',
-      Filter: ImageSaturateMatrixFilter,
-      value: [-10, 10]
+      name: 'Disc blur',
+      Filter: ImageDiscBlurFilter,
+      radius: [0, 100]
     }],
     [{
-      name: 'HueRotate',
-      Filter: ImageHueRotateMatrixFilter,
-      value: [-10, 10]
+      name: 'Gaussian blur',
+      Filter: ImageGaussianBlurFilter,
+      radius: [0, 100]
     }],
     [{
-      name: 'Luminance to alpha',
-      Filter: ImageLuminanceToAlphaMatrixFilter
+      name: 'Median filter',
+      Filter: ImageMedianFilterFilter
     }],
     [{
-      name: 'Invert',
-      Filter: ImageInvertMatrixFilter
+      name: 'Motion blur',
+      Filter: ImageMotionBlurFilter,
+      radius: [0, 100],
+      angle: [-Math.PI, Math.PI]
     }],
     [{
-      name: 'Grayscale',
-      Filter: ImageGrayscaleMatrixFilter
+      name: 'Noise reduction',
+      Filter: ImageNoiseReductionFilter,
+      noiseLevel: [0, 1],
+      sharpness: [0, 30]
     }],
     [{
-      name: 'Sepia',
-      Filter: ImageSepiaMatrixFilter
+      name: 'Color controls',
+      Filter: ImageColorControlsFilter,
+      saturation: [-10, 10],
+      brightness: [-10, 10],
+      contrast: [-10, 10]
     }],
     [{
-      name: 'Nightvision',
-      Filter: ImageNightvisionMatrixFilter
+      name: 'Zoom blur',
+      Filter: ImageZoomBlurFilter,
+      amount: [0, 100],
+      'center.x': [0, 1],
+      'center.y': [0, 1]
     }],
     [{
-      name: 'Warm',
-      Filter: ImageWarmMatrixFilter
+      name: 'Color clamp',
+      Filter: ImageColorClampFilter,
+      'minComponents.0': [0, 1],
+      'minComponents.1': [0, 1],
+      'minComponents.2': [0, 1],
+      'minComponents.3': [0, 1],
+      'maxComponents.0': [0, 1],
+      'maxComponents.1': [0, 1],
+      'maxComponents.2': [0, 1],
+      'maxComponents.3': [0, 1]
     }],
-    [{
-      name: 'Cool',
-      Filter: ImageCoolMatrixFilter
-    }],
-    [{
-      name: 'Brightness',
-      Filter: ImageBrightnessMatrixFilter,
-      value: [-100, 100]
-    }],
-    [{
-      name: 'Exposure',
-      Filter: ImageExposureMatrixFilter,
-      value: [0, 5]
-    }],
-    [{
-      name: 'Contrast',
-      Filter: ImageContrastMatrixFilter,
-      value: [0, 5]
-    }],
-    [{
-      name: 'Temperature',
-      Filter: ImageTemperatureMatrixFilter,
-      value: [-5, 5]
-    }],
-    [{
-      name: 'Tint',
-      Filter: ImageTintMatrixFilter,
-      value: [-5, 5]
-    }],
-    [{
-      name:'Threshold',
-      Filter: ImageThresholdMatrixFilter,
-      value: [0, 255]
-    }],
-    [{
-      name: 'Protanomaly',
-      Filter: ImageProtanomalyMatrixFilter
-    }],
-    [{
-      name: 'Deuteranomaly',
-      Filter: ImageDeuteranomalyMatrixFilter
-    }],
-    [{
-      name: 'Tritanomaly',
-      Filter: ImageTritanomalyMatrixFilter
-    }],
-    [{
-      name: 'Protanopia',
-      Filter: ImageProtanopiaMatrixFilter
-    }],
-    [{
-      name: 'Deuteranopia',
-      Filter: ImageDeuteranopiaMatrixFilter
-    }],
-    [{
-      name: 'Tritanopia',
-      Filter: ImageTritanopiaMatrixFilter
-    }],
-    [{
-      name: 'Achromatopsia',
-      Filter: ImageAchromatopsiaMatrixFilter
-    }],
-    [{
-      name: 'Achromatomaly',
-      Filter: ImageAchromatomalyMatrixFilter
-    }]
+      [{ name: 'Mask to alpha', Filter: ImageMaskToAlphaFilter }],
+      [{ name: 'Maximum component', Filter: ImageMaximumComponentFilter }],
+      [{ name: 'Minimum component', Filter: ImageMinimumComponentFilter }],
+      [{ name: 'Photo effect "Chrome"', Filter: ImagePhotoEffectChromeFilter }],
+      [{ name: 'Photo effect "Fade"', Filter: ImagePhotoEffectFadeFilter }],
+      [{ name: 'Photo effect "Instant"', Filter: ImagePhotoEffectInstantFilter }],
+      [{ name: 'Photo effect "Mono"', Filter: ImagePhotoEffectMonoFilter }],
+      [{ name: 'Photo effect "Noir"', Filter: ImagePhotoEffectNoirFilter }],
+      [{ name: 'Photo effect "Process"', Filter: ImagePhotoEffectProcessFilter }],
+      [{ name: 'Photo effect "Tonal"', Filter: ImagePhotoEffectTonalFilter }],
+      [{ name: 'Photo effect "Transfer"', Filter: ImagePhotoEffectTransferFilter }],
+      [{ name: 'Color invert', Filter: ImageColorInvertFilter }],
+      [{
+        name: 'Color posterize',
+        Filter: ImageColorPosterizeFilter,
+        levels: [0, 50]
+      }],
   ];
+
+  // filters = [
+  //   [{
+  //     name: 'Normal',
+  //     Filter: ImageNormalMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Saturate',
+  //     Filter: ImageSaturateMatrixFilter,
+  //     value: [-10, 10]
+  //   }],
+  //   [{
+  //     name: 'HueRotate',
+  //     Filter: ImageHueRotateMatrixFilter,
+  //     value: [-10, 10]
+  //   }],
+  //   [{
+  //     name: 'Luminance to alpha',
+  //     Filter: ImageLuminanceToAlphaMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Invert',
+  //     Filter: ImageInvertMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Grayscale',
+  //     Filter: ImageGrayscaleMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Sepia',
+  //     Filter: ImageSepiaMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Nightvision',
+  //     Filter: ImageNightvisionMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Warm',
+  //     Filter: ImageWarmMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Cool',
+  //     Filter: ImageCoolMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Brightness',
+  //     Filter: ImageBrightnessMatrixFilter,
+  //     value: [-100, 100]
+  //   }],
+  //   [{
+  //     name: 'Exposure',
+  //     Filter: ImageExposureMatrixFilter,
+  //     value: [0, 5]
+  //   }],
+  //   [{
+  //     name: 'Contrast',
+  //     Filter: ImageContrastMatrixFilter,
+  //     value: [0, 5]
+  //   }],
+  //   [{
+  //     name: 'Temperature',
+  //     Filter: ImageTemperatureMatrixFilter,
+  //     value: [-5, 5]
+  //   }],
+  //   [{
+  //     name: 'Tint',
+  //     Filter: ImageTintMatrixFilter,
+  //     value: [-5, 5]
+  //   }],
+  //   [{
+  //     name:'Threshold',
+  //     Filter: ImageThresholdMatrixFilter,
+  //     value: [0, 255]
+  //   }],
+  //   [{
+  //     name: 'Protanomaly',
+  //     Filter: ImageProtanomalyMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Deuteranomaly',
+  //     Filter: ImageDeuteranomalyMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Tritanomaly',
+  //     Filter: ImageTritanomalyMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Protanopia',
+  //     Filter: ImageProtanopiaMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Deuteranopia',
+  //     Filter: ImageDeuteranopiaMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Tritanopia',
+  //     Filter: ImageTritanopiaMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Achromatopsia',
+  //     Filter: ImageAchromatopsiaMatrixFilter
+  //   }],
+  //   [{
+  //     name: 'Achromatomaly',
+  //     Filter: ImageAchromatomalyMatrixFilter
+  //   }]
+  // ];
 
   changeImage = () => {
     const imageId = Math.round(Math.random() * 992);
@@ -342,17 +445,35 @@ export default class App extends Component {
     });
   }
 
+  changeBackground = () => {
+    const r = Math.trunc(Math.random() * 255);
+    const g = Math.trunc(Math.random() * 255);
+    const b = Math.trunc(Math.random() * 255);
+    const a = Math.trunc(Math.random() * 100) / 100;
+
+    this.setState({
+      background: `rgba(${r}, ${g}, ${b}, ${a})`
+    });
+  }
+
   render() {
-    const { image } = this.state;
+    const { image, background } = this.state;
 
     return (
       <ScrollView style={styles.container}>
         <Text>Press and hold on filtered image to see original</Text>
         <Button
           onPress={this.changeImage}
-          title={'Change image'}
+          title={'Random image'}
         />
-        {this.filters.map((filter, i) => <FilteredImage source={image} filters={filter} key={i} />)}
+        <Button
+          onPress={this.changeBackground}
+          title={'Random background'}
+        />
+        <Text>{`Current background: \n${background}`}</Text>
+        {this.filters.map((filter, i) => (
+          <FilteredImage source={image} filters={filter} key={i} background={background} />
+        ))}
       </ScrollView>
     );
   }
@@ -387,6 +508,7 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   text: {
-    width: 100
+    minWidth: 100,
+    width: '30%'
   }
 });

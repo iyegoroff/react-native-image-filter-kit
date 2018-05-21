@@ -20,16 +20,4 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_VIEW_PROPERTY(matrix, NSArray);
 
-//#define RN_REMAP_IMAGE_FILTER_FILTER_PROPERTY(name, keyPath, type) \
-//RCT_CUSTOM_VIEW_PROPERTY(name, type, RNImageMatrixFilter)          \
-//{                                                                  \
-//  view.keyPath = json ? [RCTConvert type:json] : defaultView.name; \
-//  [view drawImages];                                               \
-//}
-//
-//#define RN_IMAGE_FILTER_FILTER_PROPERTY(name, type) \
-//RN_REMAP_IMAGE_FILTER_FILTER_PROPERTY(name, name, type)
-//
-//RN_IMAGE_FILTER_FILTER_PROPERTY(matrix, NSArray);
-
 @end

@@ -196,3 +196,76 @@ export interface ImageColorControlsFilterProps extends ReactNative.ViewProps {
 }
 
 export class ImageColorControlsFilter extends React.Component<ImageColorControlsFilterProps> { }
+
+
+export interface ImageColorClampFilterProps extends ReactNative.ViewProps {
+  readonly minComponents: ReadonlyArray<number>;
+  readonly maxComponents: ReadonlyArray<number>;
+}
+
+export class ImageColorClampFilter extends React.Component<ImageColorClampFilterProps> { }
+
+
+export interface ImageMaskToAlphaFilterProps extends ReactNative.ViewProps { }
+
+export class ImageMaskToAlphaFilter extends React.Component<ImageMaskToAlphaFilterProps> { }
+
+
+export interface ImageMaximumComponentFilterProps extends ReactNative.ViewProps { }
+
+export class ImageMaximumComponentFilter extends React.Component<ImageMaximumComponentFilterProps> { }
+
+
+export interface ImageMinimumComponentFilterProps extends ReactNative.ViewProps { }
+
+export class ImageMinimumComponentFilter extends React.Component<ImageMinimumComponentFilterProps> { }
+
+
+export interface ImagePhotoEffectChromeFilterProps extends ReactNative.ViewProps { }
+
+export class ImagePhotoEffectChromeFilter extends React.Component<ImagePhotoEffectChromeFilterProps> { }
+
+
+export interface ImagePhotoEffectFadeFilterProps extends ReactNative.ViewProps { }
+
+export class ImagePhotoEffectFadeFilter extends React.Component<ImagePhotoEffectFadeFilterProps> { }
+
+
+export interface ImagePhotoEffectInstantFilterProps extends ReactNative.ViewProps { }
+
+export class ImagePhotoEffectInstantFilter extends React.Component<ImagePhotoEffectInstantFilterProps> { }
+
+
+export interface ImagePhotoEffectMonoFilterProps extends ReactNative.ViewProps { }
+
+export class ImagePhotoEffectMonoFilter extends React.Component<ImagePhotoEffectMonoFilterProps> { }
+
+
+export interface ImagePhotoEffectNoirFilterProps extends ReactNative.ViewProps { }
+
+export class ImagePhotoEffectNoirFilter extends React.Component<ImagePhotoEffectNoirFilterProps> { }
+
+
+export interface ImagePhotoEffectProcessFilterProps extends ReactNative.ViewProps { }
+
+export class ImagePhotoEffectProcessFilter extends React.Component<ImagePhotoEffectProcessFilterProps> { }
+
+
+export interface ImagePhotoEffectTonalFilterProps extends ReactNative.ViewProps { }
+
+export class ImagePhotoEffectTonalFilter extends React.Component<ImagePhotoEffectTonalFilterProps> { }
+
+
+export interface ImagePhotoEffectTransferFilterProps extends ReactNative.ViewProps { }
+
+export class ImagePhotoEffectTransferFilter extends React.Component<ImagePhotoEffectTransferFilterProps> { }
+
+
+export interface ImageColorInvertFilterProps extends ReactNative.ViewProps { }
+
+export class ImageColorInvertFilter extends React.Component<ImageColorInvertFilterProps> { }
+
+
+export interface ImageColorPosterizeFilterProps extends ReactNative.ViewProps { }
+
+export class ImageColorPosterizeFilter extends React.Component<ImageColorPosterizeFilterProps> { }

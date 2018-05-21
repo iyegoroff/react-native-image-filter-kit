@@ -1,12 +1,11 @@
 #import <React/UIView+React.h>
 #import <React/RCTView.h>
 
-@interface RNImageColorFilter : RCTView
+@interface RNImageFilter : RCTView
 
-@property (nonatomic, strong) CIContext *context;
-@property (nonatomic, strong) NSMapTable<UIView *, CIImage *> *originalImages;
+@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong) NSArray<NSString *> *paramNames;
 
-@property (nonatomic, strong) NSArray<NSNumber *> *matrix;
 @property (nonatomic, assign) CGFloat radius;
 @property (nonatomic, strong) UIImage* mask;
 @property (nonatomic, assign) CGFloat angle;
@@ -14,9 +13,11 @@
 @property (nonatomic, assign) CGFloat sharpness;
 @property (nonatomic, assign) CGPoint filterCenter;
 @property (nonatomic, assign) CGFloat amount;
-@property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSArray<NSString *> *paramNames;
-
-- (void)drawImages;
+@property (nonatomic, assign) CGFloat saturation;
+@property (nonatomic, assign) CGFloat brightness;
+@property (nonatomic, assign) CGFloat contrast;
+@property (nonatomic, strong) NSArray<NSNumber *> *minComponents;
+@property (nonatomic, strong) NSArray<NSNumber *> *maxComponents;
+@property (nonatomic, assign) CGFloat levels;
 
 @end

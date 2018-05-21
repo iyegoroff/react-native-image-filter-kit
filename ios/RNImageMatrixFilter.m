@@ -53,7 +53,10 @@ static CIContext* context;
   
   for (UIView *child in self.subviews) {
     if ([child isKindOfClass:[UIImageView class]]) {
-      [child addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:NULL];
+      [child addObserver:self
+              forKeyPath:@"image"
+                 options:NSKeyValueObservingOptionNew
+                 context:NULL];
     }
   }
 }
@@ -107,13 +110,16 @@ static CIContext* context;
       [filter setValue:image forKey:@"inputImage"];
       
       CGImageRef cgim = [context createCGImage:filter.outputImage
-                                      fromRect:filter.outputImage.extent];
+                                      fromRect:image.extent];
       
       UIImage *newImage = [UIImage imageWithCGImage:cgim];
       
       [child removeObserver:self forKeyPath:@"image"];
       [child setImage:newImage];
-      [child addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:NULL];
+      [child addObserver:self
+              forKeyPath:@"image"
+                 options:NSKeyValueObservingOptionNew
+                 context:NULL];
 
       CGImageRelease(cgim);
     }

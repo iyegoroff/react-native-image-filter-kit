@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7487A2D520A90EAC0002A850 /* RNImageMatrixFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */; };
 		7487A2D820A90ECE0002A850 /* RNImageMatrixFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */; };
+		74BF08B320B258E300D93AFC /* RNImageFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */; };
+		74BF08B420B258E300D93AFC /* RNImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08B220B258E300D93AFC /* RNImageFilter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +31,10 @@
 		7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageMatrixFilterManager.m; sourceTree = "<group>"; };
 		7487A2D620A90ECE0002A850 /* RNImageMatrixFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageMatrixFilter.h; sourceTree = "<group>"; };
 		7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageMatrixFilter.m; sourceTree = "<group>"; };
+		74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterManager.m; sourceTree = "<group>"; };
+		74BF08B020B258E200D93AFC /* RNImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNImageFilter.h; sourceTree = "<group>"; };
+		74BF08B120B258E200D93AFC /* RNImageFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNImageFilterManager.h; sourceTree = "<group>"; };
+		74BF08B220B258E300D93AFC /* RNImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNImageFilter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +59,10 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				74BF08B020B258E200D93AFC /* RNImageFilter.h */,
+				74BF08B220B258E300D93AFC /* RNImageFilter.m */,
+				74BF08B120B258E200D93AFC /* RNImageFilterManager.h */,
+				74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */,
 				7487A2D320A90EAC0002A850 /* RNImageMatrixFilterManager.h */,
 				7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */,
 				7487A2D620A90ECE0002A850 /* RNImageMatrixFilter.h */,
@@ -117,8 +127,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74BF08B320B258E300D93AFC /* RNImageFilterManager.m in Sources */,
 				7487A2D520A90EAC0002A850 /* RNImageMatrixFilterManager.m in Sources */,
 				7487A2D820A90ECE0002A850 /* RNImageMatrixFilter.m in Sources */,
+				74BF08B420B258E300D93AFC /* RNImageFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

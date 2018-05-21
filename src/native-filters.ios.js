@@ -10,8 +10,8 @@ const filters = {
   CIMotionBlur: ['radius', 'angle'],
   CINoiseReduction: ['noiseLevel', 'sharpness'],
   CIZoomBlur: ['center', 'amount'],
-  // CIColorClamp,
-  CIColorControls: ['saturation', 'brightness', 'contrast']
+  CIColorClamp: ['minComponents', 'maxComponents'],
+  CIColorControls: ['saturation', 'brightness', 'contrast'],
   // CIColorMatrix,
   // CIColorPolynomial,
   // CIExposureAdjust,
@@ -26,22 +26,22 @@ const filters = {
   // CIColorCrossPolynomial,
   // CIColorCube,
   // CIColorCubeWithColorSpace,
-  // CIColorInvert,
+  CIColorInvert: [],
   // CIColorMap,
   // CIColorMonochrome,
-  // CIColorPosterize,
+  CIColorPosterize: ['levels'],
   // CIFalseColor,
-  // CIMaskToAlpha,
-  // CIMaximumComponent,
-  // CIMinimumComponent,
-  // CIPhotoEffectChrome,
-  // CIPhotoEffectFade,
-  // CIPhotoEffectInstant,
-  // CIPhotoEffectMono,
-  // CIPhotoEffectNoir,
-  // CIPhotoEffectProcess,
-  // CIPhotoEffectTonal,
-  // CIPhotoEffectTransfer,
+  CIMaskToAlpha: [],
+  CIMaximumComponent: [],
+  CIMinimumComponent: [],
+  CIPhotoEffectChrome: [],
+  CIPhotoEffectFade: [],
+  CIPhotoEffectInstant: [],
+  CIPhotoEffectMono: [],
+  CIPhotoEffectNoir: [],
+  CIPhotoEffectProcess: [],
+  CIPhotoEffectTonal: [],
+  CIPhotoEffectTransfer: []
   // CISepiaTone,
   // CIVignette,
   // CIVignetteEffect,
@@ -178,6 +178,8 @@ const filters = {
   // CISwipeTransition
 };
 
+const filterName = (name) => `Image${name.slice(2)}Filter`;
+
 const createImageNativeFilter = (name, paramNames) => ({ children, ...restProps }) => (
   <ImageFilter
     name={name}
@@ -190,7 +192,9 @@ const createImageNativeFilter = (name, paramNames) => ({ children, ...restProps 
 
 export default Object.keys(filters).reduce(
   (acc, name) => {
-    acc[`Image${name.slice(2)}Filter`] = createImageNativeFilter(name, filters[name]);
+    const key = filterName(name);
+    acc[key] = createImageNativeFilter(name, filters[name]);
+    acc[key].displayName = key;
     return acc;
   },
   {}

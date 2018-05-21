@@ -12,6 +12,8 @@
     "postinstall": "npm run reinstall:react-native-image-filter-kit"
   },
   "dependencies": {
+    "deepmerge": "^2.1.0",
+    "flat": "^4.0.0",
     "react": "16.3.1",
     "react-native": "0.55.3",
     "react-native-image-filter-kit": "file:local_modules/react-native-image-filter-kit"
