@@ -167,7 +167,7 @@ const filters = {
   cool: () => staticFilters.cool,
 
   brightness: (v = 0) => {
-    const n = 255 * (v / 100);
+    const n = (isIos ? 1 : 255) * (v / 100);
 
     return [
       1, 0, 0, 0, n,
@@ -222,9 +222,9 @@ const filters = {
     const b = b_lum * 256;
 
     return [
-      r, g, b, 0, -255 * v,
-      r, g, b, 0, -255 * v,
-      r, g, b, 0, -255 * v,
+      r, g, b, 0, -(isIos ? 1 : 255) * v,
+      r, g, b, 0, -(isIos ? 1 : 255) * v,
+      r, g, b, 0, -(isIos ? 1 : 255) * v,
       0, 0, 0, 1, 0
     ];
   },
@@ -281,6 +281,10 @@ const NativeImageMatrixFilter = requireNativeComponent(
   }
 );
 
+const filterName = (name) => `Image${upperCaseFirst(name)}MatrixFilter`;
+
+const allFilterNames = Object.keys(filters).map(filterName);
+
 const ImageMatrixFilter = ({ style, children, matrix, parentMatrix, ...restProps }) => {
   checkStyle(style);
 
@@ -288,11 +292,11 @@ const ImageMatrixFilter = ({ style, children, matrix, parentMatrix, ...restProps
 
   const mappedChildren = Children.deepMap(
     children,
-    child => (
-      child && child.type === 'ImageMatrixFilter'
+    (child) => {
+      return child && allFilterNames.indexOf(child.type.displayName) >= 0
         ? cloneElement(child, { ...child.props, parentMatrix: concatedMatrix })
         : child
-    )
+    }
   );
 
   return (
@@ -306,6 +310,8 @@ const ImageMatrixFilter = ({ style, children, matrix, parentMatrix, ...restProps
   );
 };
 
+ImageMatrixFilter.displayName = 'PRIVET';
+
 const createImageMatrixFilter = (filter) => ({ value, children, ...restProps }) => (
   <ImageMatrixFilter
     matrix={filter(value)}
@@ -317,7 +323,9 @@ const createImageMatrixFilter = (filter) => ({ value, children, ...restProps }) 
 
 export default Object.keys(filters).reduce(
   (acc, name) => {
-    acc[`Image${upperCaseFirst(name)}MatrixFilter`] = createImageMatrixFilter(filters[name]);
+    const key = filterName(name);
+    acc[key] = createImageMatrixFilter(filters[name]);
+    acc[key].displayName = key;
     return acc;
   },
   { 'ImageMatrixFilter': ImageMatrixFilter }

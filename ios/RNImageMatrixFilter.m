@@ -1,20 +1,50 @@
 #import <Foundation/Foundation.h>
-#import "RNImageColorFilter.h"
+#import "RNImageMatrixFilter.h"
 
-@implementation RNImageColorFilter
+static CIContext* context;
+
+@interface RNImageMatrixFilter ()
+
+@property (nonatomic, strong) NSMapTable<UIView *, CIImage *> *originalImages;
+@property (nonatomic, strong) CIFilter* filter;
+
+- (void)drawImages:(CIFilter* )filter;
+
+@end
+
+@implementation RNImageMatrixFilter
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
-    // use metal context if supported
-    EAGLContext *context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    // make _context static
-    _context = [CIContext contextWithEAGLContext: context];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+//      CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+      // use metal context if supported ?
+      EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+      eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+      
+      context = [CIContext contextWithEAGLContext:eaglContext
+                                          options:@{kCIImageColorSpace: [NSNull null],
+                                                    kCIImageProperties: [NSNull null],
+                                                    kCIContextWorkingColorSpace: [NSNull null]}];
+//      NSLog(@"filter: context %f", CFAbsoluteTimeGetCurrent() - start);
+    });
     
     _originalImages = [NSMapTable weakToStrongObjectsMapTable];
+    _filter = [CIFilter filterWithName:@"CIColorMatrix"];
   }
   
   return self;
+}
+
+- (void)dealloc
+{
+  for (UIView *child in self.subviews) {
+    if ([child isKindOfClass:[UIImageView class]]) {
+      [child removeObserver:self forKeyPath:@"image"];
+    }
+  }
 }
 
 - (void)layoutSubviews
@@ -26,17 +56,46 @@
       [child addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:NULL];
     }
   }
-  
-  [self setBackgroundColor:[UIColor redColor]];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
   if ([keyPath isEqualToString:@"image"]) {
-    [self drawImages];
+    [_originalImages removeObjectForKey:object];
+    [self drawImages: [_filter copy]];
   }
 }
 
-- (void)drawImages {
+- (void)setMatrix:(NSArray<NSNumber *> *)matrix
+{
+//  NSLog(@"filter: %i", [matrix isEqualToArray:_matrix]);
+//  CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+  _matrix = matrix;
+
+  CGFloat m[20] = {
+    [_matrix[0] floatValue], [_matrix[1] floatValue], [_matrix[2] floatValue], [_matrix[3] floatValue],
+    [_matrix[5] floatValue], [_matrix[6] floatValue], [_matrix[7] floatValue], [_matrix[8] floatValue],
+    [_matrix[10] floatValue], [_matrix[11] floatValue], [_matrix[12] floatValue], [_matrix[13] floatValue],
+    [_matrix[15] floatValue], [_matrix[16] floatValue], [_matrix[17] floatValue], [_matrix[18] floatValue],
+    [_matrix[4] floatValue], [_matrix[9] floatValue], [_matrix[14] floatValue], [_matrix[19] floatValue]
+  };
+  
+  [_filter setValue:[CIVector vectorWithValues:&m[0] count:4] forKey:@"inputRVector"];
+  [_filter setValue:[CIVector vectorWithValues:&m[4] count:4] forKey:@"inputGVector"];
+  [_filter setValue:[CIVector vectorWithValues:&m[8] count:4] forKey:@"inputBVector"];
+  [_filter setValue:[CIVector vectorWithValues:&m[12] count:4] forKey:@"inputAVector"];
+  [_filter setValue:[CIVector vectorWithValues:&m[16] count:4] forKey:@"inputBiasVector"];
+  
+//  NSLog(@"filter: setMatrix %f", CFAbsoluteTimeGetCurrent() - start);
+  
+  [self drawImages: [_filter copy]];
+}
+
+- (void)drawImages:(CIFilter *)filter {
+//  CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+  
   for (UIImageView *child in self.subviews) {
     if ([child isKindOfClass:[UIImageView class]]) {
       
@@ -45,57 +104,22 @@
       
       [_originalImages setObject:image forKey:child];
       
-      // make each filter static by name and copy it each time
-      CIFilter *filter = [CIFilter filterWithName:_name];
       [filter setValue:image forKey:@"inputImage"];
       
-      if ([_paramNames containsObject:@"matrix"]) {
-        NSLog(@"filter: matrix %@", _matrix);
-        // [filter setValue:[NSNumber numberWithFloat:_radius] forKey:@"inputRadius"];
-      }
-      
-      if ([_paramNames containsObject:@"radius"]) {
-        [filter setValue:[NSNumber numberWithFloat:_radius] forKey:@"inputRadius"];
-      }
-      
-      if ([_paramNames containsObject:@"angle"]) {
-        [filter setValue:[NSNumber numberWithFloat:_angle] forKey:@"inputAngle"];
-      }
-      
-      if ([_paramNames containsObject:@"noiseLevel"]) {
-        [filter setValue:[NSNumber numberWithFloat:_noiseLevel] forKey:@"inputNoiseLevel"];
-      }
-      
-      if ([_paramNames containsObject:@"sharpness"]) {
-        [filter setValue:[NSNumber numberWithFloat:_sharpness] forKey:@"inputSharpness"];
-      }
-      
-      if ([_paramNames containsObject:@"amount"]) {
-        [filter setValue:[NSNumber numberWithFloat:_amount] forKey:@"inputAmount"];
-      }
-      
-      if ([_paramNames containsObject:@"center"]) {
-        [filter setValue:[CIVector vectorWithCGPoint:_filterCenter] forKey:@"inputCenter"];
-      }
-      
-      if ([_paramNames containsObject:@"mask"]) {
-        // maybe cgim should be deallocated?
-        [filter setValue:[[CIImage alloc] initWithImage:_mask]  forKey:@"inputMask"];
-      }
-      
-      NSLog(@"filter: s %@", [NSDate date]);
-      // maybe cgim should be deallocated?
-      CGImageRef cgim = [_context createCGImage:filter.outputImage
-                                       fromRect:filter.outputImage.extent];
+      CGImageRef cgim = [context createCGImage:filter.outputImage
+                                      fromRect:filter.outputImage.extent];
       
       UIImage *newImage = [UIImage imageWithCGImage:cgim];
       
       [child removeObserver:self forKeyPath:@"image"];
       [child setImage:newImage];
       [child addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:NULL];
-      NSLog(@"filter: e %@", [NSDate date]);
+
+      CGImageRelease(cgim);
     }
   }
+  
+//  NSLog(@"filter: draw %f", CFAbsoluteTimeGetCurrent() - start);
 }
 
 @end

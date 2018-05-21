@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		743D4CA01F16FDD6006B3861 /* RNImageFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 743D4C9F1F16FDD6006B3861 /* RNImageFilterManager.m */; };
 		7487A2D520A90EAC0002A850 /* RNImageMatrixFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */; };
 		7487A2D820A90ECE0002A850 /* RNImageMatrixFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */; };
-		B3E7B58A1CC2AC0600A0062D /* RNImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E7B5891CC2AC0600A0062D /* RNImageFilter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,14 +25,10 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNImageFilterKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNImageFilterKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		743D4C9E1F16FDD6006B3861 /* RNImageFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNImageFilterManager.h; sourceTree = "<group>"; };
-		743D4C9F1F16FDD6006B3861 /* RNImageFilterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterManager.m; sourceTree = "<group>"; };
 		7487A2D320A90EAC0002A850 /* RNImageMatrixFilterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageMatrixFilterManager.h; sourceTree = "<group>"; };
 		7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageMatrixFilterManager.m; sourceTree = "<group>"; };
 		7487A2D620A90ECE0002A850 /* RNImageMatrixFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageMatrixFilter.h; sourceTree = "<group>"; };
 		7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageMatrixFilter.m; sourceTree = "<group>"; };
-		B3E7B5881CC2AC0600A0062D /* RNImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNImageFilter.h; sourceTree = "<group>"; };
-		B3E7B5891CC2AC0600A0062D /* RNImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNImageFilter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,10 +57,6 @@
 				7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */,
 				7487A2D620A90ECE0002A850 /* RNImageMatrixFilter.h */,
 				7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */,
-				743D4C9E1F16FDD6006B3861 /* RNImageFilterManager.h */,
-				743D4C9F1F16FDD6006B3861 /* RNImageFilterManager.m */,
-				B3E7B5881CC2AC0600A0062D /* RNImageFilter.h */,
-				B3E7B5891CC2AC0600A0062D /* RNImageFilter.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -128,9 +118,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7487A2D520A90EAC0002A850 /* RNImageMatrixFilterManager.m in Sources */,
-				B3E7B58A1CC2AC0600A0062D /* RNImageFilter.m in Sources */,
 				7487A2D820A90ECE0002A850 /* RNImageMatrixFilter.m in Sources */,
-				743D4CA01F16FDD6006B3861 /* RNImageFilterManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

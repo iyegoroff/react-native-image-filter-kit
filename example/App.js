@@ -332,9 +332,12 @@ export default class App extends Component {
   ];
 
   changeImage = () => {
+    const imageId = Math.round(Math.random() * 992);
+
     this.setState({
       image: {
-        uri: `https://picsum.photos/${imageHeight}?random&t=${Date.now()}`
+        uri: `https://picsum.photos/${imageHeight}?image=${imageId}&t=${Date.now()}`,
+        cache: `force-cache`
       }
     });
   }

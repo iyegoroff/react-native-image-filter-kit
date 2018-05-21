@@ -1,6 +1,6 @@
 #import <React/RCTViewManager.h>
 
-@interface RNImageColorFilterManager : RCTViewManager
+@interface RNImageMatrixFilterManager : RCTViewManager
 
 @end
 
