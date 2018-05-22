@@ -19,5 +19,6 @@
 @property (nonatomic, strong) NSArray<NSNumber *> *minComponents;
 @property (nonatomic, strong) NSArray<NSNumber *> *maxComponents;
 @property (nonatomic, assign) CGFloat levels;
+@property (nonatomic, assign) CGFloat filterWidth;
 
 @end

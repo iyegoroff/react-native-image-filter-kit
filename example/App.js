@@ -62,7 +62,9 @@ import {
   ImagePhotoEffectTonalFilter,
   ImagePhotoEffectTransferFilter,
   ImageColorInvertFilter,
-  ImageColorPosterizeFilter
+  ImageColorPosterizeFilter,
+  ImageVibranceFilter,
+  ImageCircularScreenFilter
 } from 'react-native-image-filter-kit';
 
 class FilterSlider extends Component {
@@ -252,79 +254,92 @@ export default class App extends Component {
 
   filters = [
     [{
-      name: 'Box blur',
-      Filter: ImageBoxBlurFilter,
-      radius: [0, 100]
-    }],
-    [{
-      name: 'Disc blur',
-      Filter: ImageDiscBlurFilter,
-      radius: [0, 100]
-    }],
-    [{
-      name: 'Gaussian blur',
-      Filter: ImageGaussianBlurFilter,
-      radius: [0, 100]
-    }],
-    [{
-      name: 'Median filter',
-      Filter: ImageMedianFilterFilter
-    }],
-    [{
-      name: 'Motion blur',
-      Filter: ImageMotionBlurFilter,
-      radius: [0, 100],
-      angle: [-Math.PI, Math.PI]
-    }],
-    [{
-      name: 'Noise reduction',
-      Filter: ImageNoiseReductionFilter,
-      noiseLevel: [0, 1],
-      sharpness: [0, 30]
-    }],
-    [{
-      name: 'Color controls',
-      Filter: ImageColorControlsFilter,
-      saturation: [-10, 10],
-      brightness: [-10, 10],
-      contrast: [-10, 10]
-    }],
-    [{
-      name: 'Zoom blur',
-      Filter: ImageZoomBlurFilter,
-      amount: [0, 100],
+      name: 'Circular screen',
+      Filter: ImageCircularScreenFilter,
+      filterWidth: [0, 300],
+      sharpness: [-10, 10],
       'center.x': [0, 1],
       'center.y': [0, 1]
     }],
     [{
-      name: 'Color clamp',
-      Filter: ImageColorClampFilter,
-      'minComponents.0': [0, 1],
-      'minComponents.1': [0, 1],
-      'minComponents.2': [0, 1],
-      'minComponents.3': [0, 1],
-      'maxComponents.0': [0, 1],
-      'maxComponents.1': [0, 1],
-      'maxComponents.2': [0, 1],
-      'maxComponents.3': [0, 1]
+      name: 'Vibrance',
+      Filter: ImageVibranceFilter,
+      amount: [-10, 10]
     }],
-      [{ name: 'Mask to alpha', Filter: ImageMaskToAlphaFilter }],
-      [{ name: 'Maximum component', Filter: ImageMaximumComponentFilter }],
-      [{ name: 'Minimum component', Filter: ImageMinimumComponentFilter }],
-      [{ name: 'Photo effect "Chrome"', Filter: ImagePhotoEffectChromeFilter }],
-      [{ name: 'Photo effect "Fade"', Filter: ImagePhotoEffectFadeFilter }],
-      [{ name: 'Photo effect "Instant"', Filter: ImagePhotoEffectInstantFilter }],
-      [{ name: 'Photo effect "Mono"', Filter: ImagePhotoEffectMonoFilter }],
-      [{ name: 'Photo effect "Noir"', Filter: ImagePhotoEffectNoirFilter }],
-      [{ name: 'Photo effect "Process"', Filter: ImagePhotoEffectProcessFilter }],
-      [{ name: 'Photo effect "Tonal"', Filter: ImagePhotoEffectTonalFilter }],
-      [{ name: 'Photo effect "Transfer"', Filter: ImagePhotoEffectTransferFilter }],
-      [{ name: 'Color invert', Filter: ImageColorInvertFilter }],
-      [{
-        name: 'Color posterize',
-        Filter: ImageColorPosterizeFilter,
-        levels: [0, 50]
-      }],
+    // [{
+    //   name: 'Box blur',
+    //   Filter: ImageBoxBlurFilter,
+    //   radius: [0, 100]
+    // }],
+    // [{
+    //   name: 'Disc blur',
+    //   Filter: ImageDiscBlurFilter,
+    //   radius: [0, 100]
+    // }],
+    // [{
+    //   name: 'Gaussian blur',
+    //   Filter: ImageGaussianBlurFilter,
+    //   radius: [0, 100]
+    // }],
+    // [{
+    //   name: 'Median filter',
+    //   Filter: ImageMedianFilterFilter
+    // }],
+    // [{
+    //   name: 'Motion blur',
+    //   Filter: ImageMotionBlurFilter,
+    //   radius: [0, 100],
+    //   angle: [-Math.PI, Math.PI]
+    // }],
+    // [{
+    //   name: 'Noise reduction',
+    //   Filter: ImageNoiseReductionFilter,
+    //   noiseLevel: [0, 1],
+    //   sharpness: [0, 30]
+    // }],
+    // [{
+    //   name: 'Color controls',
+    //   Filter: ImageColorControlsFilter,
+    //   saturation: [-10, 10],
+    //   brightness: [-10, 10],
+    //   contrast: [-10, 10]
+    // }],
+    // [{
+    //   name: 'Zoom blur',
+    //   Filter: ImageZoomBlurFilter,
+    //   amount: [0, 100],
+    //   'center.x': [0, 1],
+    //   'center.y': [0, 1]
+    // }],
+    // [{
+    //   name: 'Color clamp',
+    //   Filter: ImageColorClampFilter,
+    //   'minComponents.0': [0, 1],
+    //   'minComponents.1': [0, 1],
+    //   'minComponents.2': [0, 1],
+    //   'minComponents.3': [0, 1],
+    //   'maxComponents.0': [0, 1],
+    //   'maxComponents.1': [0, 1],
+    //   'maxComponents.2': [0, 1],
+    //   'maxComponents.3': [0, 1]
+    // }],
+    //   [{ name: 'Mask to alpha', Filter: ImageMaskToAlphaFilter }],
+    //   [{ name: 'Maximum component', Filter: ImageMaximumComponentFilter }],
+    //   [{ name: 'Minimum component', Filter: ImageMinimumComponentFilter }],
+    //   [{ name: 'Photo effect "Chrome"', Filter: ImagePhotoEffectChromeFilter }],
+    //   [{ name: 'Photo effect "Fade"', Filter: ImagePhotoEffectFadeFilter }],
+    //   [{ name: 'Photo effect "Instant"', Filter: ImagePhotoEffectInstantFilter }],
+    //   [{ name: 'Photo effect "Mono"', Filter: ImagePhotoEffectMonoFilter }],
+    //   [{ name: 'Photo effect "Noir"', Filter: ImagePhotoEffectNoirFilter }],
+    //   [{ name: 'Photo effect "Process"', Filter: ImagePhotoEffectProcessFilter }],
+    //   [{ name: 'Photo effect "Tonal"', Filter: ImagePhotoEffectTonalFilter }],
+    //   [{ name: 'Photo effect "Transfer"', Filter: ImagePhotoEffectTransferFilter }],
+    //   [{ name: 'Color invert', Filter: ImageColorInvertFilter }],
+    //   [{
+    //     name: 'Color posterize',
+    //     Filter: ImageColorPosterizeFilter,
+    //     levels: [0, 50]
+    //   }],
   ];
 
   // filters = [
@@ -501,7 +516,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     width: '100%',
     height: imageHeight,
-    resizeMode: 'cover'
+    resizeMode: 'center'
   },
   title: {
     fontSize: 20,

@@ -182,7 +182,7 @@ export class ImageNoiseReductionFilter extends React.Component<ImageNoiseReducti
 
 
 export interface ImageZoomBlurFilterProps extends ReactNative.ViewProps {
-  readonly center: number;
+  readonly center: Readonly<{ x: number; y: number }>;
   readonly amount: number;
 }
 
@@ -269,3 +269,19 @@ export class ImageColorInvertFilter extends React.Component<ImageColorInvertFilt
 export interface ImageColorPosterizeFilterProps extends ReactNative.ViewProps { }
 
 export class ImageColorPosterizeFilter extends React.Component<ImageColorPosterizeFilterProps> { }
+
+
+export interface ImageVibranceFilterProps extends ReactNative.ViewProps {
+  readonly amount: number;
+}
+
+export class ImageVibranceFilter extends React.Component<ImageVibranceFilterProps> { }
+
+
+export interface ImageCircularScreenFilterProps extends ReactNative.ViewProps {
+  readonly center: Readonly<{ x: number; y: number }>;
+  readonly sharpness: number;
+  readonly filterWidth: number;
+}
+
+export class ImageCircularScreenFilter extends React.Component<ImageCircularScreenFilterProps> { }

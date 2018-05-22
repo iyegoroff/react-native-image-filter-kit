@@ -25,7 +25,8 @@ const NativeImageFilter = requireNativeComponent(
         }),
         minComponents: PropTypes.arrayOf(PropTypes.number),
         maxComponents: PropTypes.arrayOf(PropTypes.number),
-        levels: PropTypes.number
+        levels: PropTypes.number,
+        filterWidth: PropTypes.number
       },
       ...View.propTypes
     }
