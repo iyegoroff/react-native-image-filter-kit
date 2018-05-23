@@ -6,19 +6,18 @@
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSArray<NSString *> *paramNames;
 
-@property (nonatomic, assign) CGFloat radius;
-@property (nonatomic, strong) UIImage* mask;
-@property (nonatomic, assign) CGFloat angle;
-@property (nonatomic, assign) CGFloat noiseLevel;
-@property (nonatomic, assign) CGFloat sharpness;
-@property (nonatomic, assign) CGPoint filterCenter;
-@property (nonatomic, assign) CGFloat amount;
-@property (nonatomic, assign) CGFloat saturation;
-@property (nonatomic, assign) CGFloat brightness;
-@property (nonatomic, assign) CGFloat contrast;
-@property (nonatomic, strong) NSArray<NSNumber *> *minComponents;
-@property (nonatomic, strong) NSArray<NSNumber *> *maxComponents;
-@property (nonatomic, assign) CGFloat levels;
-@property (nonatomic, assign) CGFloat filterWidth;
+@property (nonatomic, assign) CGFloat inputRadius;
+@property (nonatomic, assign) CGFloat inputAngle;
+@property (nonatomic, assign) CGFloat inputNoiseLevel;
+@property (nonatomic, assign) CGFloat inputSharpness;
+@property (nonatomic, assign) CGPoint inputCenter;
+@property (nonatomic, assign) CGFloat inputAmount;
+@property (nonatomic, assign) CGFloat inputSaturation;
+@property (nonatomic, assign) CGFloat inputBrightness;
+@property (nonatomic, assign) CGFloat inputContrast;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputMinComponents;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputMaxComponents;
+@property (nonatomic, assign) CGFloat inputLevels;
+@property (nonatomic, assign) CGFloat inputWidth;
 
 @end

@@ -11,22 +11,22 @@ const NativeImageFilter = requireNativeComponent(
       ...{
         name: PropTypes.string.isRequired,
         paramNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-        radius: PropTypes.number,
-        angle: PropTypes.number,
-        noiseLevel: PropTypes.number,
-        sharpness: PropTypes.number,
-        amount: PropTypes.number,
-        brightness: PropTypes.number,
-        contrast: PropTypes.number,
-        saturation: PropTypes.number,
-        center: PropTypes.shape({
+        inputRadius: PropTypes.number,
+        inputAngle: PropTypes.number,
+        inputNoiseLevel: PropTypes.number,
+        inputSharpness: PropTypes.number,
+        inputAmount: PropTypes.number,
+        inputBrightness: PropTypes.number,
+        inputContrast: PropTypes.number,
+        inputSaturation: PropTypes.number,
+        inputCenter: PropTypes.shape({
           x: PropTypes.number,
           y: PropTypes.number
         }),
-        minComponents: PropTypes.arrayOf(PropTypes.number),
-        maxComponents: PropTypes.arrayOf(PropTypes.number),
-        levels: PropTypes.number,
-        filterWidth: PropTypes.number
+        inputMinComponents: PropTypes.arrayOf(PropTypes.number),
+        inputMaxComponents: PropTypes.arrayOf(PropTypes.number),
+        inputLevels: PropTypes.number,
+        inputWidth: PropTypes.number
       },
       ...View.propTypes
     }

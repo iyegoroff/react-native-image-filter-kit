@@ -3,42 +3,33 @@
 #import "Image/RCTImageUtils.h"
 #import "RNImageFilter.h"
 
-#define UPDATE_FILTER_CUSTOM_NUMBER_PROPERTY(name, prop, Prop)                    \
-- (void)updateInput##Prop:(CIFilter *)filter {                                    \
-  if ([_paramNames containsObject:@#name]) {                                      \
-    [filter setValue:[NSNumber numberWithFloat:_##prop] forKey:@"input" @#Prop];  \
-  }                                                                               \
+#define UPDATE_FILTER_NUMBER_PROPERTY(Prop)                                           \
+- (void)updateInput##Prop:(CIFilter *)filter {                                        \
+  if ([_paramNames containsObject:@"input" @#Prop]) {                                 \
+    [filter setValue:[NSNumber numberWithFloat:_input##Prop] forKey:@"input" @#Prop]; \
+  }                                                                                   \
 }
 
-#define UPDATE_FILTER_NUMBER_PROPERTY(prop, Prop)        \
-  UPDATE_FILTER_CUSTOM_NUMBER_PROPERTY(prop, prop, Prop)
-
-#define UPDATE_FILTER_CUSTOM_VECTOR_4_PROPERTY(name, prop, Prop)                     \
-- (void)updateInput##Prop:(CIFilter *)filter {                                       \
-  if ([_paramNames containsObject:@#name]) {                                         \
-    CGFloat v[4] = {                                                                 \
-      [_##prop[0] floatValue],                                                       \
-      [_##prop[1] floatValue],                                                       \
-      [_##prop[2] floatValue],                                                       \
-      [_##prop[3] floatValue]                                                        \
-    };                                                                               \
-    [filter setValue:[CIVector vectorWithValues:v count:4] forKey:@"input" @#Prop];  \
-  }                                                                                  \
+#define UPDATE_FILTER_VECTOR_4_PROPERTY(Prop)                                       \
+- (void)updateInput##Prop:(CIFilter *)filter {                                      \
+  if ([_paramNames containsObject:@"input" @#Prop]) {                               \
+    CGFloat v[4] = {                                                                \
+      [_input##Prop[0] floatValue],                                                 \
+      [_input##Prop[1] floatValue],                                                 \
+      [_input##Prop[2] floatValue],                                                 \
+      [_input##Prop[3] floatValue]                                                  \
+    };                                                                              \
+    [filter setValue:[CIVector vectorWithValues:v count:4] forKey:@"input" @#Prop]; \
+  }                                                                                 \
 }
 
-#define UPDATE_FILTER_VECTOR_4_PROPERTY(prop, Prop)        \
-  UPDATE_FILTER_CUSTOM_VECTOR_4_PROPERTY(prop, prop, Prop)
-
-#define UPDATE_FILTER_CUSTOM_RELATIVE_POINT_PROPERTY(name, prop, Prop)            \
-- (void)updateInput##Prop:(CIFilter *)filter bounds:(CGSize)bounds {              \
-  if ([_paramNames containsObject:@#name]) {                                      \
-    CGPoint p = CGPointMake(_##prop.x * bounds.width, _##prop.y * bounds.height); \
-    [filter setValue:[CIVector vectorWithCGPoint:p] forKey:@"input" @#Prop];      \
-  }                                                                               \
+#define UPDATE_FILTER_POINT_PROPERTY(Prop)                                                  \
+- (void)updateInput##Prop:(CIFilter *)filter bounds:(CGSize)bounds {                        \
+  if ([_paramNames containsObject:@"input" @#Prop]) {                                       \
+    CGPoint p = CGPointMake(_input##Prop.x * bounds.width, _input##Prop.y * bounds.height); \
+    [filter setValue:[CIVector vectorWithCGPoint:p] forKey:@"input" @#Prop];                \
+  }                                                                                         \
 }
-
-#define UPDATE_FILTER_RELATIVE_POINT_PROPERTY(prop, Prop)       \
-  UPDATE_FILTER_CUSTOM_RELATIVE_POINT_PROPERTY(prop, prop, Prop)
 
 
 @interface UIImage (React)
@@ -47,23 +38,6 @@
 
 @end
 
-static UIImage *RCTResizeImageIfNeeded(UIImage *image,
-                                       CGSize size,
-                                       CGFloat scale,
-                                       RCTResizeMode resizeMode)
-{
-  if (CGSizeEqualToSize(size, CGSizeZero) ||
-      CGSizeEqualToSize(image.size, CGSizeZero) ||
-      CGSizeEqualToSize(image.size, size)) {
-    return image;
-  }
-  CAKeyframeAnimation *animation = image.reactKeyframeAnimation;
-  CGRect targetSize = RCTTargetRect(image.size, size, scale, resizeMode);
-  CGAffineTransform transform = RCTTransformFromTargetRect(image.size, targetSize);
-  image = RCTTransformImage(image, size, scale, transform);
-  image.reactKeyframeAnimation = animation;
-  return image;
-}
 
 static CIContext* context;
 
@@ -107,6 +81,20 @@ static CIContext* context;
   }
 }
 
+UPDATE_FILTER_NUMBER_PROPERTY(Radius);
+UPDATE_FILTER_NUMBER_PROPERTY(Angle);
+UPDATE_FILTER_NUMBER_PROPERTY(NoiseLevel);
+UPDATE_FILTER_NUMBER_PROPERTY(Sharpness);
+UPDATE_FILTER_NUMBER_PROPERTY(Amount);
+UPDATE_FILTER_NUMBER_PROPERTY(Saturation);
+UPDATE_FILTER_NUMBER_PROPERTY(Brightness);
+UPDATE_FILTER_NUMBER_PROPERTY(Contrast);
+UPDATE_FILTER_NUMBER_PROPERTY(Levels);
+UPDATE_FILTER_NUMBER_PROPERTY(Width);
+UPDATE_FILTER_VECTOR_4_PROPERTY(MinComponents);
+UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
+UPDATE_FILTER_POINT_PROPERTY(Center);
+
 - (void)layoutSubviews
 {
   [super layoutSubviews];
@@ -118,25 +106,6 @@ static CIContext* context;
                  options:NSKeyValueObservingOptionNew
                  context:NULL];
     }
-  }
-}
-
-UPDATE_FILTER_NUMBER_PROPERTY(radius, Radius);
-UPDATE_FILTER_NUMBER_PROPERTY(angle, Angle);
-UPDATE_FILTER_NUMBER_PROPERTY(noiseLevel, NoiseLevel);
-UPDATE_FILTER_NUMBER_PROPERTY(sharpness, Sharpness);
-UPDATE_FILTER_NUMBER_PROPERTY(amount, Amount);
-UPDATE_FILTER_NUMBER_PROPERTY(saturation, Saturation);
-UPDATE_FILTER_NUMBER_PROPERTY(brightness, Brightness);
-UPDATE_FILTER_NUMBER_PROPERTY(contrast, Contrast);
-UPDATE_FILTER_NUMBER_PROPERTY(levels, Levels);
-UPDATE_FILTER_VECTOR_4_PROPERTY(minComponents, MinComponents);
-UPDATE_FILTER_VECTOR_4_PROPERTY(maxComponents, MaxComponents);
-UPDATE_FILTER_CUSTOM_RELATIVE_POINT_PROPERTY(center, filterCenter, Center);
-
-- (void)updateInputWidth:(CIFilter *)filter {
-  if ([_paramNames containsObject:@"filterWidth"]) {
-    [filter setValue:[NSNumber numberWithFloat:_filterWidth] forKey:@"inputWidth"];
   }
 }
 
@@ -179,7 +148,8 @@ UPDATE_FILTER_CUSTOM_RELATIVE_POINT_PROPERTY(center, filterCenter, Center);
   }
 }
 
-- (void)drawImages:(CIFilter *)filter {
+- (void)drawImages:(CIFilter *)filter
+{
   //  CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
   if (filter) {
     for (RCTImageView *child in self.subviews) {
@@ -199,10 +169,10 @@ UPDATE_FILTER_CUSTOM_RELATIVE_POINT_PROPERTY(center, filterCenter, Center);
         CGImageRef cgim = [context createCGImage:filter.outputImage
                                         fromRect:image.extent];
         
-        UIImage *newImage = RCTResizeImageIfNeeded([UIImage imageWithCGImage:cgim],
-                                                   child.image.size,
-                                                   child.image.scale,
-                                                   child.resizeMode);
+        UIImage *newImage = [RNImageFilter resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
+                                                          size:child.image.size
+                                                         scale:child.image.scale
+                                                    resizeMode:child.resizeMode];
         
         [child removeObserver:self forKeyPath:@"image"];
         [child setImage:newImage];
@@ -216,6 +186,26 @@ UPDATE_FILTER_CUSTOM_RELATIVE_POINT_PROPERTY(center, filterCenter, Center);
     }
   }
   //  NSLog(@"filter: draw %f", CFAbsoluteTimeGetCurrent() - start);
+}
+
++ (UIImage *)resizeImageIfNeeded:(UIImage *)image
+                            size:(CGSize)size
+                           scale:(CGFloat)scale
+                      resizeMode:(RCTResizeMode)resizeMode
+{
+  if (CGSizeEqualToSize(size, CGSizeZero) ||
+      CGSizeEqualToSize(image.size, CGSizeZero) ||
+      CGSizeEqualToSize(image.size, size)) {
+    return image;
+  }
+
+  CAKeyframeAnimation *animation = image.reactKeyframeAnimation;
+  CGRect targetSize = RCTTargetRect(image.size, size, scale, resizeMode);
+  CGAffineTransform transform = RCTTransformFromTargetRect(image.size, targetSize);
+  image = RCTTransformImage(image, size, scale, transform);
+  image.reactKeyframeAnimation = animation;
+
+  return image;
 }
 
 @end

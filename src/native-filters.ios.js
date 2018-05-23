@@ -2,16 +2,16 @@ import React from 'react';
 import ImageFilter from './image-filter';
 
 const filters = {
-  CIBoxBlur: ['radius'],
-  CIDiscBlur: ['radius'],
-  CIGaussianBlur: ['radius'],
-  // CIMaskedVariableBlur: ['radius', 'mask'],
+  CIBoxBlur: ['inputRadius'],
+  CIDiscBlur: ['inputRadius'],
+  CIGaussianBlur: ['inputRadius'],
+  // CIMaskedVariableBlur: ['inputRadius', 'inputMask'],
   CIMedianFilter: [],
-  CIMotionBlur: ['radius', 'angle'],
-  CINoiseReduction: ['noiseLevel', 'sharpness'],
-  CIZoomBlur: ['center', 'amount'],
-  CIColorClamp: ['minComponents', 'maxComponents'],
-  CIColorControls: ['saturation', 'brightness', 'contrast'],
+  CIMotionBlur: ['inputRadius', 'inputAngle'],
+  CINoiseReduction: ['inputNoiseLevel', 'inputSharpness'],
+  CIZoomBlur: ['inputCenter', 'inputAmount'],
+  CIColorClamp: ['inputMinComponents', 'inputMaxComponents'],
+  CIColorControls: ['inputSaturation', 'inputBrightness', 'inputContrast'],
   // CIColorMatrix,
   // CIColorPolynomial,
   // CIExposureAdjust,
@@ -21,7 +21,7 @@ const filters = {
   // CISRGBToneCurveToLinear,
   // CITemperatureAndTint,
   // CIToneCurve,
-  CIVibrance: ['amount'],
+  CIVibrance: ['inputAmount'],
   // CIWhitePointAdjust,
   // CIColorCrossPolynomial,
   // CIColorCube,
@@ -29,7 +29,7 @@ const filters = {
   CIColorInvert: [],
   // CIColorMap,
   // CIColorMonochrome,
-  CIColorPosterize: ['levels'],
+  CIColorPosterize: ['inputLevels'],
   // CIFalseColor,
   CIMaskToAlpha: [],
   CIMaximumComponent: [],
@@ -110,7 +110,7 @@ const filters = {
   // CILinearGradient,
   // CIRadialGradient,
   // CISmoothLinearGradient,
-  CICircularScreen: ['center', 'filterWidth', 'sharpness'],
+  CICircularScreen: ['inputCenter', 'inputWidth', 'inputSharpness'],
   // CICMYKHalftone,
   // CIDotScreen,
   // CIHatchedScreen,
@@ -178,8 +178,6 @@ const filters = {
   // CISwipeTransition
 };
 
-const filterName = (name) => `Image${name.slice(2)}Filter`;
-
 const createImageNativeFilter = (name, paramNames) => ({ children, ...restProps }) => (
   <ImageFilter
     name={name}
@@ -192,9 +190,8 @@ const createImageNativeFilter = (name, paramNames) => ({ children, ...restProps 
 
 export default Object.keys(filters).reduce(
   (acc, name) => {
-    const key = filterName(name);
-    acc[key] = createImageNativeFilter(name, filters[name]);
-    acc[key].displayName = key;
+    acc[name] = createImageNativeFilter(name, filters[name]);
+    acc[name].displayName = name;
     return acc;
   },
   {}

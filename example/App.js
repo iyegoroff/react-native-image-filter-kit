@@ -41,30 +41,30 @@ import {
 
 // ios
 import {
-  ImageBoxBlurFilter,
-  ImageGaussianBlurFilter,
-  ImageDiscBlurFilter,
-  ImageMedianFilterFilter,
-  ImageMotionBlurFilter,
-  ImageNoiseReductionFilter,
-  ImageZoomBlurFilter,
-  ImageColorControlsFilter,
-  ImageColorClampFilter,
-  ImageMaskToAlphaFilter,
-  ImageMaximumComponentFilter,
-  ImageMinimumComponentFilter,
-  ImagePhotoEffectChromeFilter,
-  ImagePhotoEffectFadeFilter,
-  ImagePhotoEffectInstantFilter,
-  ImagePhotoEffectMonoFilter,
-  ImagePhotoEffectNoirFilter,
-  ImagePhotoEffectProcessFilter,
-  ImagePhotoEffectTonalFilter,
-  ImagePhotoEffectTransferFilter,
-  ImageColorInvertFilter,
-  ImageColorPosterizeFilter,
-  ImageVibranceFilter,
-  ImageCircularScreenFilter
+  CIBoxBlur,
+  CIGaussianBlur,
+  CIDiscBlur,
+  CIMedianFilter,
+  CIMotionBlur,
+  CINoiseReduction,
+  CIZoomBlur,
+  CIColorControls,
+  CIColorClamp,
+  CIMaskToAlpha,
+  CIMaximumComponent,
+  CIMinimumComponent,
+  CIPhotoEffectChrome,
+  CIPhotoEffectFade,
+  CIPhotoEffectInstant,
+  CIPhotoEffectMono,
+  CIPhotoEffectNoir,
+  CIPhotoEffectProcess,
+  CIPhotoEffectTonal,
+  CIPhotoEffectTransfer,
+  CIColorInvert,
+  CIColorPosterize,
+  CIVibrance,
+  CICircularScreen
 } from 'react-native-image-filter-kit';
 
 class FilterSlider extends Component {
@@ -199,51 +199,6 @@ class FilteredImage extends Component {
   }
 }
 
-        // <FilteredImage
-        //   name='Box blur'
-        //   Filter={ImageBoxBlurFilterIOS}
-        //   radius={[0, 100]}
-        // /> 
-        // <FilteredImage
-        //   name='Gaussian blur'
-        //   Filter={ImageGaussianBlurFilterIOS}
-        //   radius={[0, 100]}
-        // /> 
-        // <FilteredImage
-        //   name='Disc blur'
-        //   Filter={ImageDiscBlurFilterIOS}
-        //   radius={[0, 100]}
-        // /> 
-        // <FilteredImage
-        //   name='Median filter'
-        //   Filter={ImageMedianFilterFilterIOS}
-        // /> 
-        // <FilteredImage
-        //   name='Motion blur'
-        //   Filter={ImageMotionBlurFilterIOS}
-        //   radius={[0, 100]}
-        //   angle={[-Math.PI, Math.PI]}
-        // /> 
-        // <FilteredImage
-        //   name='Noise reduction'
-        //   Filter={ImageNoiseReductionFilterIOS}
-        //   noiseLevel={[-1, 1]}
-        //   sharpness={[-1, 1]}
-        // /> 
-        // {/* <FilteredImage
-        //   name='Zoom blur'
-        //   Filter={ImageZoomBlurFilterIOS}
-        //   center={[-1, 1]}
-        //   amount={[-1, 1]}
-        // /> */}
-        // <FilteredImage
-        //   name='Color controls'
-        //   Filter={ImageColorControlsFilterIOS}
-        //   saturation={[-10, 10]}
-        //   brightness={[-10, 10]}
-        //   contrast={[-10, 10]}
-        // /> 
-
 const imageHeight = 300;
 
 export default class App extends Component {
@@ -255,90 +210,90 @@ export default class App extends Component {
   filters = [
     [{
       name: 'Circular screen',
-      Filter: ImageCircularScreenFilter,
-      filterWidth: [0, 300],
-      sharpness: [-10, 10],
-      'center.x': [0, 1],
-      'center.y': [0, 1]
+      Filter: CICircularScreen,
+      inputWidth: [0, 300],
+      inputSharpness: [-10, 10],
+      'inputCenter.x': [0, 1],
+      'inputCenter.y': [0, 1]
     }],
     [{
       name: 'Vibrance',
-      Filter: ImageVibranceFilter,
-      amount: [-10, 10]
+      Filter: CIVibrance,
+      inputAmount: [-10, 10]
     }],
     // [{
     //   name: 'Box blur',
-    //   Filter: ImageBoxBlurFilter,
-    //   radius: [0, 100]
+    //   Filter: CIBoxBlur,
+    //   inputRadius: [0, 100]
     // }],
     // [{
     //   name: 'Disc blur',
-    //   Filter: ImageDiscBlurFilter,
-    //   radius: [0, 100]
+    //   Filter: CIDiscBlur,
+    //   inputRadius: [0, 100]
     // }],
     // [{
     //   name: 'Gaussian blur',
-    //   Filter: ImageGaussianBlurFilter,
-    //   radius: [0, 100]
+    //   Filter: CIGaussianBlur,
+    //   inputRadius: [0, 100]
     // }],
     // [{
     //   name: 'Median filter',
-    //   Filter: ImageMedianFilterFilter
+    //   Filter: CIMedianFilter
     // }],
     // [{
     //   name: 'Motion blur',
-    //   Filter: ImageMotionBlurFilter,
-    //   radius: [0, 100],
-    //   angle: [-Math.PI, Math.PI]
+    //   Filter: CIMotionBlur,
+    //   inputRadius: [0, 100],
+    //   inputAngle: [-Math.PI, Math.PI]
     // }],
     // [{
     //   name: 'Noise reduction',
-    //   Filter: ImageNoiseReductionFilter,
-    //   noiseLevel: [0, 1],
-    //   sharpness: [0, 30]
-    // }],
+    //   Filter: CINoiseReduction,
+    //   inputNoiseLevel: [0, 1],
+    //   inputSharpness: [0, 30]
+    // }]
     // [{
     //   name: 'Color controls',
-    //   Filter: ImageColorControlsFilter,
-    //   saturation: [-10, 10],
-    //   brightness: [-10, 10],
-    //   contrast: [-10, 10]
+    //   Filter: CIColorControls,
+    //   inputSaturation: [-10, 10],
+    //   inputBrightness: [-10, 10],
+    //   inputContrast: [-10, 10]
     // }],
     // [{
     //   name: 'Zoom blur',
-    //   Filter: ImageZoomBlurFilter,
-    //   amount: [0, 100],
-    //   'center.x': [0, 1],
-    //   'center.y': [0, 1]
+    //   Filter: CIZoomBlur,
+    //   inputAmount: [0, 100],
+    //   'inputCenter.x': [0, 1],
+    //   'inputCenter.y': [0, 1]
     // }],
     // [{
     //   name: 'Color clamp',
-    //   Filter: ImageColorClampFilter,
-    //   'minComponents.0': [0, 1],
-    //   'minComponents.1': [0, 1],
-    //   'minComponents.2': [0, 1],
-    //   'minComponents.3': [0, 1],
-    //   'maxComponents.0': [0, 1],
-    //   'maxComponents.1': [0, 1],
-    //   'maxComponents.2': [0, 1],
-    //   'maxComponents.3': [0, 1]
+    //   Filter: CIColorClamp,
+    //   'inputMinComponents.0': [0, 1],
+    //   'inputMinComponents.1': [0, 1],
+    //   'inputMinComponents.2': [0, 1],
+    //   'inputMinComponents.3': [0, 1],
+    //   'inputMaxComponents.0': [0, 1],
+    //   'inputMaxComponents.1': [0, 1],
+    //   'inputMaxComponents.2': [0, 1],
+    //   'inputMaxComponents.3': [0, 1]
     // }],
-    //   [{ name: 'Mask to alpha', Filter: ImageMaskToAlphaFilter }],
-    //   [{ name: 'Maximum component', Filter: ImageMaximumComponentFilter }],
-    //   [{ name: 'Minimum component', Filter: ImageMinimumComponentFilter }],
-    //   [{ name: 'Photo effect "Chrome"', Filter: ImagePhotoEffectChromeFilter }],
-    //   [{ name: 'Photo effect "Fade"', Filter: ImagePhotoEffectFadeFilter }],
-    //   [{ name: 'Photo effect "Instant"', Filter: ImagePhotoEffectInstantFilter }],
-    //   [{ name: 'Photo effect "Mono"', Filter: ImagePhotoEffectMonoFilter }],
-    //   [{ name: 'Photo effect "Noir"', Filter: ImagePhotoEffectNoirFilter }],
-    //   [{ name: 'Photo effect "Process"', Filter: ImagePhotoEffectProcessFilter }],
-    //   [{ name: 'Photo effect "Tonal"', Filter: ImagePhotoEffectTonalFilter }],
-    //   [{ name: 'Photo effect "Transfer"', Filter: ImagePhotoEffectTransferFilter }],
-    //   [{ name: 'Color invert', Filter: ImageColorInvertFilter }],
+    //   [{ name: 'Mask to alpha', Filter: CIMaskToAlpha }],
+    //   [{ name: 'Maximum component', Filter: CIMaximumComponent }],
+    //   [{ name: 'Minimum component', Filter: CIMinimumComponent }],
+    //   [{ name: 'Photo effect "Chrome"', Filter: CIPhotoEffectChrome }],
+    //   [{ name: 'Photo effect "Fade"', Filter: CIPhotoEffectFade }],
+    //   [{ name: 'Photo effect "Instant"', Filter: CIPhotoEffectInstant }],
+    //   [{ name: 'Photo effect "Mono"', Filter: CIPhotoEffectMono }],
+    //   [{ name: 'Photo effect "Noir"', Filter: CIPhotoEffectNoir }],
+    //   [{ name: 'Photo effect "Process"', Filter: CIPhotoEffectProcess }],
+    //   [{ name: 'Photo effect "Tonal"', Filter: CIPhotoEffectTonal }],
+    //   [{ name: 'Photo effect "Transfer"', Filter: CIPhotoEffectTransfer }],
+    //   [{ name: 'Color invert', Filter: CIColorInvert }],
     //   [{
     //     name: 'Color posterize',
-    //     Filter: ImageColorPosterizeFilter,
-    //     levels: [0, 50]
+    //     Filter: CIColorPosterize,
+    //     inputLevels: [0, 50]
     //   }],
   ];
 

@@ -146,142 +146,142 @@ export interface ImageAchromatomalyMatrixFilterProps extends ReactNative.ViewPro
 export class ImageAchromatomalyMatrixFilter extends React.Component<ImageAchromatomalyMatrixFilterProps> { }
 
 
-export interface ImageGaussianBlurFilterProps extends ReactNative.ViewProps {
-  readonly radius: number;
+export interface CIGaussianBlurProps extends ReactNative.ViewProps {
+  readonly inputRadius?: number;
 }
 
-export class ImageGaussianBlurFilter extends React.Component<ImageGaussianBlurFilterProps> { }
+export class CIGaussianBlur extends React.Component<CIGaussianBlurProps> { }
 
 
-export interface ImageDiscBlurFilterProps extends ReactNative.ViewProps {
-  readonly radius: number;
+export interface CIDiscBlurProps extends ReactNative.ViewProps {
+  readonly inputRadius?: number;
 }
 
-export class ImageDiscBlurFilter extends React.Component<ImageDiscBlurFilterProps> { }
+export class CIDiscBlur extends React.Component<CIDiscBlurProps> { }
 
 
-export interface ImageMedianFilterFilterProps extends ReactNative.ViewProps { }
+export interface CIMedianFilterProps extends ReactNative.ViewProps { }
 
-export class ImageMedianFilterFilter extends React.Component<ImageMedianFilterFilterProps> { }
+export class CIMedianFilter extends React.Component<CIMedianFilterProps> { }
 
 
-export interface ImageMotionBlurFilterProps extends ReactNative.ViewProps {
-  readonly radius: number;
-  readonly angle: number;
+export interface CIMotionBlurProps extends ReactNative.ViewProps {
+  readonly inputRadius?: number;
+  readonly inputAngle?: number;
 }
 
-export class ImageMotionBlurFilter extends React.Component<ImageMotionBlurFilterProps> { }
+export class CIMotionBlur extends React.Component<CIMotionBlurProps> { }
 
 
-export interface ImageNoiseReductionFilterProps extends ReactNative.ViewProps {
-  readonly noiseLevel: number;
-  readonly zoomBlur: number;
+export interface CINoiseReductionProps extends ReactNative.ViewProps {
+  readonly inputNoiseLevel?: number;
+  readonly inputSharpness?: number;
 }
 
-export class ImageNoiseReductionFilter extends React.Component<ImageNoiseReductionFilterProps> { }
+export class CINoiseReduction extends React.Component<CINoiseReductionProps> { }
 
 
-export interface ImageZoomBlurFilterProps extends ReactNative.ViewProps {
-  readonly center: Readonly<{ x: number; y: number }>;
-  readonly amount: number;
+export interface CIZoomBlurProps extends ReactNative.ViewProps {
+  readonly inputCenter?: Readonly<{ x: number; y: number }>;
+  readonly inputAmount?: number;
 }
 
-export class ImageZoomBlurFilter extends React.Component<ImageZoomBlurFilterProps> { }
+export class CIZoomBlur extends React.Component<CIZoomBlurProps> { }
 
 
-export interface ImageColorControlsFilterProps extends ReactNative.ViewProps {
-  readonly saturation: number;
-  readonly brightness: number;
-  readonly contrast: number;
+export interface CIColorControlsProps extends ReactNative.ViewProps {
+  readonly inputSaturation?: number;
+  readonly inputBrightness?: number;
+  readonly inputContrast?: number;
 }
 
-export class ImageColorControlsFilter extends React.Component<ImageColorControlsFilterProps> { }
+export class CIColorControls extends React.Component<CIColorControlsProps> { }
 
 
-export interface ImageColorClampFilterProps extends ReactNative.ViewProps {
-  readonly minComponents: ReadonlyArray<number>;
-  readonly maxComponents: ReadonlyArray<number>;
+export interface CIColorClampProps extends ReactNative.ViewProps {
+  readonly inputMinComponents?: ReadonlyArray<number>;
+  readonly inputMaxComponents?: ReadonlyArray<number>;
 }
 
-export class ImageColorClampFilter extends React.Component<ImageColorClampFilterProps> { }
+export class CIColorClamp extends React.Component<CIColorClampProps> { }
 
 
-export interface ImageMaskToAlphaFilterProps extends ReactNative.ViewProps { }
+export interface CIMaskToAlphaProps extends ReactNative.ViewProps { }
 
-export class ImageMaskToAlphaFilter extends React.Component<ImageMaskToAlphaFilterProps> { }
-
-
-export interface ImageMaximumComponentFilterProps extends ReactNative.ViewProps { }
-
-export class ImageMaximumComponentFilter extends React.Component<ImageMaximumComponentFilterProps> { }
+export class CIMaskToAlpha extends React.Component<CIMaskToAlphaProps> { }
 
 
-export interface ImageMinimumComponentFilterProps extends ReactNative.ViewProps { }
+export interface CIMaximumComponentProps extends ReactNative.ViewProps { }
 
-export class ImageMinimumComponentFilter extends React.Component<ImageMinimumComponentFilterProps> { }
-
-
-export interface ImagePhotoEffectChromeFilterProps extends ReactNative.ViewProps { }
-
-export class ImagePhotoEffectChromeFilter extends React.Component<ImagePhotoEffectChromeFilterProps> { }
+export class CIMaximumComponent extends React.Component<CIMaximumComponentProps> { }
 
 
-export interface ImagePhotoEffectFadeFilterProps extends ReactNative.ViewProps { }
+export interface CIMinimumComponentProps extends ReactNative.ViewProps { }
 
-export class ImagePhotoEffectFadeFilter extends React.Component<ImagePhotoEffectFadeFilterProps> { }
-
-
-export interface ImagePhotoEffectInstantFilterProps extends ReactNative.ViewProps { }
-
-export class ImagePhotoEffectInstantFilter extends React.Component<ImagePhotoEffectInstantFilterProps> { }
+export class CIMinimumComponent extends React.Component<CIMinimumComponentProps> { }
 
 
-export interface ImagePhotoEffectMonoFilterProps extends ReactNative.ViewProps { }
+export interface CIPhotoEffectChromeProps extends ReactNative.ViewProps { }
 
-export class ImagePhotoEffectMonoFilter extends React.Component<ImagePhotoEffectMonoFilterProps> { }
-
-
-export interface ImagePhotoEffectNoirFilterProps extends ReactNative.ViewProps { }
-
-export class ImagePhotoEffectNoirFilter extends React.Component<ImagePhotoEffectNoirFilterProps> { }
+export class CIPhotoEffectChrome extends React.Component<CIPhotoEffectChromeProps> { }
 
 
-export interface ImagePhotoEffectProcessFilterProps extends ReactNative.ViewProps { }
+export interface CIPhotoEffectFadeProps extends ReactNative.ViewProps { }
 
-export class ImagePhotoEffectProcessFilter extends React.Component<ImagePhotoEffectProcessFilterProps> { }
-
-
-export interface ImagePhotoEffectTonalFilterProps extends ReactNative.ViewProps { }
-
-export class ImagePhotoEffectTonalFilter extends React.Component<ImagePhotoEffectTonalFilterProps> { }
+export class CIPhotoEffectFade extends React.Component<CIPhotoEffectFadeProps> { }
 
 
-export interface ImagePhotoEffectTransferFilterProps extends ReactNative.ViewProps { }
+export interface CIPhotoEffectInstantProps extends ReactNative.ViewProps { }
 
-export class ImagePhotoEffectTransferFilter extends React.Component<ImagePhotoEffectTransferFilterProps> { }
-
-
-export interface ImageColorInvertFilterProps extends ReactNative.ViewProps { }
-
-export class ImageColorInvertFilter extends React.Component<ImageColorInvertFilterProps> { }
+export class CIPhotoEffectInstant extends React.Component<CIPhotoEffectInstantProps> { }
 
 
-export interface ImageColorPosterizeFilterProps extends ReactNative.ViewProps { }
+export interface CIPhotoEffectMonoProps extends ReactNative.ViewProps { }
 
-export class ImageColorPosterizeFilter extends React.Component<ImageColorPosterizeFilterProps> { }
+export class CIPhotoEffectMono extends React.Component<CIPhotoEffectMonoProps> { }
 
 
-export interface ImageVibranceFilterProps extends ReactNative.ViewProps {
-  readonly amount: number;
+export interface CIPhotoEffectNoirProps extends ReactNative.ViewProps { }
+
+export class CIPhotoEffectNoir extends React.Component<CIPhotoEffectNoirProps> { }
+
+
+export interface CIPhotoEffectProcessProps extends ReactNative.ViewProps { }
+
+export class CIPhotoEffectProcess extends React.Component<CIPhotoEffectProcessProps> { }
+
+
+export interface CIPhotoEffectTonalProps extends ReactNative.ViewProps { }
+
+export class CIPhotoEffectTonal extends React.Component<CIPhotoEffectTonalProps> { }
+
+
+export interface CIPhotoEffectTransferProps extends ReactNative.ViewProps { }
+
+export class CIPhotoEffectTransfer extends React.Component<CIPhotoEffectTransferProps> { }
+
+
+export interface CIColorInvertProps extends ReactNative.ViewProps { }
+
+export class CIColorInvert extends React.Component<CIColorInvertProps> { }
+
+
+export interface CIColorPosterizeProps extends ReactNative.ViewProps { }
+
+export class CIColorPosterize extends React.Component<CIColorPosterizeProps> { }
+
+
+export interface CIVibranceProps extends ReactNative.ViewProps {
+  readonly inputAmount?: number;
 }
 
-export class ImageVibranceFilter extends React.Component<ImageVibranceFilterProps> { }
+export class CIVibrance extends React.Component<CIVibranceProps> { }
 
 
-export interface ImageCircularScreenFilterProps extends ReactNative.ViewProps {
-  readonly center: Readonly<{ x: number; y: number }>;
-  readonly sharpness: number;
-  readonly filterWidth: number;
+export interface CICircularScreenProps extends ReactNative.ViewProps {
+  readonly inputCenter?: Readonly<{ x: number; y: number }>;
+  readonly inputSharpness?: number;
+  readonly inputWidth?: number;
 }
 
-export class ImageCircularScreenFilter extends React.Component<ImageCircularScreenFilterProps> { }
+export class CICircularScreen extends React.Component<CICircularScreenProps> { }
