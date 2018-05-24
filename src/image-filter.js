@@ -23,9 +23,20 @@ const NativeImageFilter = requireNativeComponent(
           x: PropTypes.number,
           y: PropTypes.number
         }),
+        inputPoint0: PropTypes.shape({
+          x: PropTypes.number,
+          y: PropTypes.number
+        }),
+        inputPoint1: PropTypes.shape({
+          x: PropTypes.number,
+          y: PropTypes.number
+        }),
         inputMinComponents: PropTypes.arrayOf(PropTypes.number),
         inputMaxComponents: PropTypes.arrayOf(PropTypes.number),
         inputLevels: PropTypes.number,
+        inputScale: PropTypes.number,
+        inputRotation: PropTypes.number,
+        inputRefraction: PropTypes.number,
         inputWidth: PropTypes.number
       },
       ...View.propTypes

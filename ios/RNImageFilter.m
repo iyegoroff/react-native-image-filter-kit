@@ -91,9 +91,14 @@ UPDATE_FILTER_NUMBER_PROPERTY(Brightness);
 UPDATE_FILTER_NUMBER_PROPERTY(Contrast);
 UPDATE_FILTER_NUMBER_PROPERTY(Levels);
 UPDATE_FILTER_NUMBER_PROPERTY(Width);
+UPDATE_FILTER_NUMBER_PROPERTY(Scale);
+UPDATE_FILTER_NUMBER_PROPERTY(Refraction);
+UPDATE_FILTER_NUMBER_PROPERTY(Rotation);
+UPDATE_FILTER_POINT_PROPERTY(Center);
+UPDATE_FILTER_POINT_PROPERTY(Point0);
+UPDATE_FILTER_POINT_PROPERTY(Point1);
 UPDATE_FILTER_VECTOR_4_PROPERTY(MinComponents);
 UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
-UPDATE_FILTER_POINT_PROPERTY(Center);
 
 - (void)layoutSubviews
 {
@@ -121,9 +126,9 @@ UPDATE_FILTER_POINT_PROPERTY(Center);
 
 - (void)didSetProps:(NSArray<NSString *> *)changedProps
 {
-  NSLog(@"filter: %@", changedProps);
+//  NSLog(@"filter: %@", changedProps);
   if ([changedProps containsObject:@"name"]) {
-    NSLog(@"filter: %@", _name);
+//    NSLog(@"filter: %@", _name);
     _filter = [CIFilter filterWithName:_name];
   }
   
@@ -136,9 +141,12 @@ UPDATE_FILTER_POINT_PROPERTY(Center);
   [self updateInputBrightness:_filter];
   [self updateInputNoiseLevel:_filter];
   [self updateInputSaturation:_filter];
+  [self updateInputWidth:_filter];
+  [self updateInputScale:_filter];
+  [self updateInputRotation:_filter];
+  [self updateInputRefraction:_filter];
   [self updateInputMinComponents:_filter];
   [self updateInputMaxComponents:_filter];
-  [self updateInputWidth:_filter];
   
   for (NSString* paramName in _paramNames) {
     if ([changedProps containsObject:paramName]) {
@@ -165,12 +173,16 @@ UPDATE_FILTER_POINT_PROPERTY(Center);
         [filter setValue:image forKey:@"inputImage"];
         
         [self updateInputCenter:filter bounds:image.extent.size];
+        [self updateInputPoint0:filter bounds:image.extent.size];
+        [self updateInputPoint1:filter bounds:image.extent.size];
         
         CGImageRef cgim = [context createCGImage:filter.outputImage
-                                        fromRect:image.extent];
+                           // TODO: add use filter.outputimage.extent if scaleResult, otherwise image.size
+                                        fromRect:filter.outputImage.extent];
         
         UIImage *newImage = [RNImageFilter resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
-                                                          size:child.image.size
+                                                       srcSize:filter.outputImage.extent.size
+                                                      destSize:child.image.size
                                                          scale:child.image.scale
                                                     resizeMode:child.resizeMode];
         
@@ -189,20 +201,21 @@ UPDATE_FILTER_POINT_PROPERTY(Center);
 }
 
 + (UIImage *)resizeImageIfNeeded:(UIImage *)image
-                            size:(CGSize)size
+                         srcSize:(CGSize)srcSize
+                        destSize:(CGSize)destSize
                            scale:(CGFloat)scale
                       resizeMode:(RCTResizeMode)resizeMode
 {
-  if (CGSizeEqualToSize(size, CGSizeZero) ||
-      CGSizeEqualToSize(image.size, CGSizeZero) ||
-      CGSizeEqualToSize(image.size, size)) {
+  if (CGSizeEqualToSize(destSize, CGSizeZero) ||
+      CGSizeEqualToSize(srcSize, CGSizeZero) ||
+      CGSizeEqualToSize(srcSize, destSize)) {
     return image;
   }
 
   CAKeyframeAnimation *animation = image.reactKeyframeAnimation;
-  CGRect targetSize = RCTTargetRect(image.size, size, scale, resizeMode);
-  CGAffineTransform transform = RCTTransformFromTargetRect(image.size, targetSize);
-  image = RCTTransformImage(image, size, scale, transform);
+  CGRect targetSize = RCTTargetRect(srcSize, destSize, scale, resizeMode);
+  CGAffineTransform transform = RCTTransformFromTargetRect(srcSize, targetSize);
+  image = RCTTransformImage(image, destSize, scale, transform);
   image.reactKeyframeAnimation = animation;
 
   return image;

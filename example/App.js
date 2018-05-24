@@ -64,7 +64,11 @@ import {
   CIColorInvert,
   CIColorPosterize,
   CIVibrance,
-  CICircularScreen
+  CICircularScreen,
+  CICircleSplashDistortion,
+  CICircularWrap,
+  CIBumpDistortion,
+  CIBumpDistortionLinear
 } from 'react-native-image-filter-kit';
 
 class FilterSlider extends Component {
@@ -209,6 +213,38 @@ export default class App extends Component {
 
   filters = [
     [{
+      name: 'Circular wrap',
+      Filter: CICircularWrap,
+      'inputCenter.x': [0, 1],
+      'inputCenter.y': [0, 1],
+      inputRadius: [0, 300],
+      inputAngle: [-Math.PI, Math.PI]
+    }],
+    // [{
+    //   name: 'Cicle splash distortion',
+    //   Filter: CICircleSplashDistortion,
+    //   'inputCenter.x': [0, 1],
+    //   'inputCenter.y': [0, 1],
+    //   inputRadius: [0, 100],
+    // }],
+    // [{
+    //   name: 'Bump distortion linear',
+    //   Filter: CIBumpDistortionLinear,
+    //   'inputCenter.x': [0, 1],
+    //   'inputCenter.y': [0, 1],
+    //   inputRadius: [0, 100],
+    //   inputScale: [0, 3],
+    //   inputAngle: [-Math.PI, Math.PI]
+    // }],
+    // [{
+    //   name: 'Bump distortion',
+    //   Filter: CIBumpDistortion,
+    //   'inputCenter.x': [0, 1],
+    //   'inputCenter.y': [0, 1],
+    //   inputRadius: [0, 100],
+    //   inputScale: [0, 3]
+    // }],
+    [{
       name: 'Circular screen',
       Filter: CICircularScreen,
       inputWidth: [0, 300],
@@ -216,11 +252,11 @@ export default class App extends Component {
       'inputCenter.x': [0, 1],
       'inputCenter.y': [0, 1]
     }],
-    [{
-      name: 'Vibrance',
-      Filter: CIVibrance,
-      inputAmount: [-10, 10]
-    }],
+    // [{
+    //   name: 'Vibrance',
+    //   Filter: CIVibrance,
+    //   inputAmount: [-10, 10]
+    // }],
     // [{
     //   name: 'Box blur',
     //   Filter: CIBoxBlur,
@@ -231,11 +267,11 @@ export default class App extends Component {
     //   Filter: CIDiscBlur,
     //   inputRadius: [0, 100]
     // }],
-    // [{
-    //   name: 'Gaussian blur',
-    //   Filter: CIGaussianBlur,
-    //   inputRadius: [0, 100]
-    // }],
+    [{
+      name: 'Gaussian blur',
+      Filter: CIGaussianBlur,
+      inputRadius: [0, 100]
+    }],
     // [{
     //   name: 'Median filter',
     //   Filter: CIMedianFilter
@@ -471,7 +507,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     width: '100%',
     height: imageHeight,
-    resizeMode: 'center'
+    resizeMode: 'stretch'
   },
   title: {
     fontSize: 20,

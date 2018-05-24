@@ -285,3 +285,39 @@ export interface CICircularScreenProps extends ReactNative.ViewProps {
 }
 
 export class CICircularScreen extends React.Component<CICircularScreenProps> { }
+
+
+export interface CIBumpDistortionProps extends ReactNative.ViewProps {
+  readonly inputCenter?: Readonly<{ x: number; y: number }>;
+  readonly inputRadius?: number;
+  readonly inputScale?: number;
+}
+
+export class CIBumpDistortion extends React.Component<CIBumpDistortionProps> { }
+
+
+export interface CIBumpDistortionLinearProps extends ReactNative.ViewProps {
+  readonly inputCenter?: Readonly<{ x: number; y: number }>;
+  readonly inputRadius?: number;
+  readonly inputScale?: number;
+  readonly inputAngle?: number;
+}
+
+export class CIBumpDistortionLinear extends React.Component<CIBumpDistortionLinearProps> { }
+
+
+export interface CICircleSplashDistortionProps extends ReactNative.ViewProps {
+  readonly inputCenter?: Readonly<{ x: number; y: number }>;
+  readonly inputRadius?: number;
+}
+
+export class CICircleSplashDistortion extends React.Component<CICircleSplashDistortionProps> { }
+
+
+export interface CICircularWrapProps extends ReactNative.ViewProps {
+  readonly inputCenter?: Readonly<{ x: number; y: number }>;
+  readonly inputRadius?: number;
+  readonly inputAngle?: number;
+}
+
+export class CICircularWrap extends React.Component<CICircularWrapProps> { }
