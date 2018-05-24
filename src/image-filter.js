@@ -11,6 +11,7 @@ const NativeImageFilter = requireNativeComponent(
       ...{
         name: PropTypes.string.isRequired,
         paramNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+        resizeOutput: PropTypes.bool,
         inputRadius: PropTypes.number,
         inputAngle: PropTypes.number,
         inputNoiseLevel: PropTypes.number,
@@ -37,7 +38,8 @@ const NativeImageFilter = requireNativeComponent(
         inputScale: PropTypes.number,
         inputRotation: PropTypes.number,
         inputRefraction: PropTypes.number,
-        inputWidth: PropTypes.number
+        inputWidth: PropTypes.number,
+        inputIntensity: PropTypes.number
       },
       ...View.propTypes
     }

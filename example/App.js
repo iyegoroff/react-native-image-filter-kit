@@ -10,7 +10,8 @@ import {
   ScrollView,
   Slider,
   TouchableWithoutFeedback,
-  Button
+  Button,
+  Switch
 } from 'react-native';
 import {
   ImageNormalMatrixFilter,
@@ -68,7 +69,9 @@ import {
   CICircleSplashDistortion,
   CICircularWrap,
   CIBumpDistortion,
-  CIBumpDistortionLinear
+  CIBumpDistortionLinear,
+  CIUnsharpMask,
+  CISharpenLuminance
 } from 'react-native-image-filter-kit';
 
 class FilterSlider extends Component {
@@ -137,7 +140,7 @@ class FilteredImage extends Component {
 
   renderFilters(filterProps, image) {
     return filterProps.reduceRight(
-      (content, { Filter, filters }) => <Filter {...filters}>{content}</Filter>,
+      (content, { Filter, filters }) => <Filter {...filters} resizeOutput={true}>{content}</Filter>,
       image
     );
   }
@@ -171,8 +174,8 @@ class FilteredImage extends Component {
   }
 
   controlProps(filter) {
-    const {name, Filter, ...ranges} = filter;
-    const {original, ...values} = this.state;
+    const { name, Filter, ...ranges } = filter;
+    const { original, ...values } = this.state;
 
     const sliders = Object.entries(ranges).map(([valueName, [min, max]]) => {
       const key = `${name}_${valueName}`;
@@ -213,13 +216,24 @@ export default class App extends Component {
 
   filters = [
     [{
-      name: 'Circular wrap',
-      Filter: CICircularWrap,
-      'inputCenter.x': [0, 1],
-      'inputCenter.y': [0, 1],
-      inputRadius: [0, 300],
-      inputAngle: [-Math.PI, Math.PI]
+      name: 'Sharpen luminance',
+      Filter: CISharpenLuminance,
+      inputSharpness: [-10, 10]
     }],
+    [{
+      name: 'Unsharp mask',
+      Filter: CIUnsharpMask,
+      inputRadius: [0, 100],
+      inputIntensity: [0, 30]
+    }],
+    // [{
+    //   name: 'Circular wrap',
+    //   Filter: CICircularWrap,
+    //   'inputCenter.x': [0, 1],
+    //   'inputCenter.y': [0, 1],
+    //   inputRadius: [0, 300],
+    //   inputAngle: [-Math.PI, Math.PI]
+    // }],
     // [{
     //   name: 'Cicle splash distortion',
     //   Filter: CICircleSplashDistortion,
@@ -244,14 +258,14 @@ export default class App extends Component {
     //   inputRadius: [0, 100],
     //   inputScale: [0, 3]
     // }],
-    [{
-      name: 'Circular screen',
-      Filter: CICircularScreen,
-      inputWidth: [0, 300],
-      inputSharpness: [-10, 10],
-      'inputCenter.x': [0, 1],
-      'inputCenter.y': [0, 1]
-    }],
+    // [{
+    //   name: 'Circular screen',
+    //   Filter: CICircularScreen,
+    //   inputWidth: [0, 300],
+    //   inputSharpness: [-10, 10],
+    //   'inputCenter.x': [0, 1],
+    //   'inputCenter.y': [0, 1]
+    // }],
     // [{
     //   name: 'Vibrance',
     //   Filter: CIVibrance,
@@ -267,11 +281,11 @@ export default class App extends Component {
     //   Filter: CIDiscBlur,
     //   inputRadius: [0, 100]
     // }],
-    [{
-      name: 'Gaussian blur',
-      Filter: CIGaussianBlur,
-      inputRadius: [0, 100]
-    }],
+    // [{
+    //   name: 'Gaussian blur',
+    //   Filter: CIGaussianBlur,
+    //   inputRadius: [0, 100]
+    // }],
     // [{
     //   name: 'Median filter',
     //   Filter: CIMedianFilter
@@ -497,8 +511,7 @@ const styles = StyleSheet.create({
   },
   sliderContainer: {
     marginBottom: 15,
-    flexDirection: 'row',
-    alignItems: 'center'
+    borderWidth: 1
   },
   slider: {
     flex: 1
@@ -507,14 +520,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     width: '100%',
     height: imageHeight,
-    resizeMode: 'stretch'
+    resizeMode: 'contain'
   },
   title: {
     fontSize: 20,
     marginBottom: 5
   },
   text: {
-    minWidth: 100,
-    width: '30%'
   }
 });

@@ -94,6 +94,7 @@ UPDATE_FILTER_NUMBER_PROPERTY(Width);
 UPDATE_FILTER_NUMBER_PROPERTY(Scale);
 UPDATE_FILTER_NUMBER_PROPERTY(Refraction);
 UPDATE_FILTER_NUMBER_PROPERTY(Rotation);
+UPDATE_FILTER_NUMBER_PROPERTY(Intensity);
 UPDATE_FILTER_POINT_PROPERTY(Center);
 UPDATE_FILTER_POINT_PROPERTY(Point0);
 UPDATE_FILTER_POINT_PROPERTY(Point1);
@@ -145,11 +146,12 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
   [self updateInputScale:_filter];
   [self updateInputRotation:_filter];
   [self updateInputRefraction:_filter];
+  [self updateInputIntensity:_filter];
   [self updateInputMinComponents:_filter];
   [self updateInputMaxComponents:_filter];
   
   for (NSString* paramName in _paramNames) {
-    if ([changedProps containsObject:paramName]) {
+    if ([changedProps containsObject:paramName] || [changedProps containsObject:@"resizeOutput"]) {
       [self drawImages:[_filter copy]];
       break;
     }
@@ -176,12 +178,12 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
         [self updateInputPoint0:filter bounds:image.extent.size];
         [self updateInputPoint1:filter bounds:image.extent.size];
         
-        CGImageRef cgim = [context createCGImage:filter.outputImage
-                           // TODO: add use filter.outputimage.extent if scaleResult, otherwise image.size
-                                        fromRect:filter.outputImage.extent];
+        CGRect outputRect = _resizeOutput ? filter.outputImage.extent : image.extent;
+        
+        CGImageRef cgim = [context createCGImage:filter.outputImage fromRect:outputRect];
         
         UIImage *newImage = [RNImageFilter resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
-                                                       srcSize:filter.outputImage.extent.size
+                                                       srcSize:outputRect.size
                                                       destSize:child.image.size
                                                          scale:child.image.scale
                                                     resizeMode:child.resizeMode];
