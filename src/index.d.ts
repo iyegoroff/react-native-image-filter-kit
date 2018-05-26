@@ -6,8 +6,8 @@ interface FilterProps extends ReactNative.ViewProps {
 }
 
 interface FilterPoint {
-  readonly x: number;
-  readonly y: number;
+  readonly x: string;
+  readonly y: string;
 }
 
 export interface ImageMatrixFilterProps extends FilterProps {
@@ -156,14 +156,14 @@ export class ImageAchromatomalyMatrixFilter extends React.Component<ImageAchroma
 
 
 export interface CIGaussianBlurProps extends FilterProps {
-  readonly inputRadius?: number;
+  readonly inputRadius?: string;
 }
 
 export class CIGaussianBlur extends React.Component<CIGaussianBlurProps> { }
 
 
 export interface CIDiscBlurProps extends FilterProps {
-  readonly inputRadius?: number;
+  readonly inputRadius?: string;
 }
 
 export class CIDiscBlur extends React.Component<CIDiscBlurProps> { }
@@ -175,7 +175,7 @@ export class CIMedianFilter extends React.Component<CIMedianFilterProps> { }
 
 
 export interface CIMotionBlurProps extends FilterProps {
-  readonly inputRadius?: number;
+  readonly inputRadius?: string;
   readonly inputAngle?: number;
 }
 
@@ -290,7 +290,7 @@ export class CIVibrance extends React.Component<CIVibranceProps> { }
 export interface CICircularScreenProps extends FilterProps {
   readonly inputCenter?: FilterPoint;
   readonly inputSharpness?: number;
-  readonly inputWidth?: number;
+  readonly inputWidth?: string;
 }
 
 export class CICircularScreen extends React.Component<CICircularScreenProps> { }
@@ -298,7 +298,7 @@ export class CICircularScreen extends React.Component<CICircularScreenProps> { }
 
 export interface CIBumpDistortionProps extends FilterProps {
   readonly inputCenter?: FilterPoint;
-  readonly inputRadius?: number;
+  readonly inputRadius?: string;
   readonly inputScale?: number;
 }
 
@@ -307,7 +307,7 @@ export class CIBumpDistortion extends React.Component<CIBumpDistortionProps> { }
 
 export interface CIBumpDistortionLinearProps extends FilterProps {
   readonly inputCenter?: FilterPoint;
-  readonly inputRadius?: number;
+  readonly inputRadius?: string;
   readonly inputScale?: number;
   readonly inputAngle?: number;
 }
@@ -317,7 +317,7 @@ export class CIBumpDistortionLinear extends React.Component<CIBumpDistortionLine
 
 export interface CICircleSplashDistortionProps extends FilterProps {
   readonly inputCenter?: FilterPoint;
-  readonly inputRadius?: number;
+  readonly inputRadius?: string;
 }
 
 export class CICircleSplashDistortion extends React.Component<CICircleSplashDistortionProps> { }
@@ -325,7 +325,7 @@ export class CICircleSplashDistortion extends React.Component<CICircleSplashDist
 
 export interface CICircularWrapProps extends FilterProps {
   readonly inputCenter?: FilterPoint;
-  readonly inputRadius?: number;
+  readonly inputRadius?: string;
   readonly inputAngle?: number;
 }
 
@@ -340,7 +340,7 @@ export class CISharpenLuminance extends React.Component<CISharpenLuminanceProps>
 
 
 export interface CIUnsharpMaskProps extends FilterProps {
-  readonly inputRadius?: number;
+  readonly inputRadius?: string;
   readonly inputIntensity?: number;
 }
 

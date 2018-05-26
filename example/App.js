@@ -74,10 +74,15 @@ import {
   CISharpenLuminance
 } from 'react-native-image-filter-kit';
 
+const parseRelative = value => `${value}`.match(/(\-?\d+)(\w*)/);
+
 class FilterSlider extends Component {
   render() {
     const { label, value, min, max } = this.props;
-    const interval = Math.abs(min) + Math.abs(max);
+    const [, val, suffix] = parseRelative(value);
+    const [, minimumValue] = parseRelative(min);
+    const [, maximumValue] = parseRelative(max);
+    const interval = Math.abs(+minimumValue) + Math.abs(+maximumValue);
 
     return (
       <View style={styles.sliderContainer}>
@@ -86,23 +91,26 @@ class FilterSlider extends Component {
           numberOfLines={1}
           ellipsizeMode={'middle'}
         >
-          {`${label}: ${Math.round(value * 10) / 10}`}
+          {`${label}: ${Math.round(+val * 10) / 10}${suffix}`}
         </Text>
         <Slider
           style={styles.slider}
           onValueChange={this.update}
-          value={value}
-          maximumValue={max} 
-          minimumValue={min}
+          value={+val}
+          maximumValue={+maximumValue} 
+          minimumValue={+minimumValue}
           step={interval >= 20 ? 0.1 : (interval / 200)}
         />
       </View>
     );
   }
 
-  update = (value) => {
-    const {name, onValueChange} = this.props;
-    onValueChange(name, value);
+  update = (val) => {
+    const { name, onValueChange, min } = this.props;
+    const [, , suffix] = parseRelative(min);
+    console.warn(parseRelative(min), min)
+    console.warn(suffix ? `${val}${suffix}` : val);
+    onValueChange(name, suffix ? `${val}${suffix}` : val);
   }
 }
 
@@ -177,16 +185,19 @@ class FilteredImage extends Component {
     const { name, Filter, ...ranges } = filter;
     const { original, ...values } = this.state;
 
-    const sliders = Object.entries(ranges).map(([valueName, [min, max]]) => {
+    const sliders = Object.entries(ranges).map(([valueName, [mn, mx]]) => {
       const key = `${name}_${valueName}`;
+      const [, min, suffix] = parseRelative(mn);
+      const [, max] = parseRelative(mx);
+      const value = values[key] === undefined ? (+min + +max) / 2 : values[key];
 
       return {
         key,
         name: key,
         label: valueName,
-        value: values[key] === undefined ? (min + max) / 2 : values[key],
-        min,
-        max
+        value: suffix ? `${value}${suffix}` : value,
+        min: suffix ? mn : +min,
+        max: suffix ? mx : +max
       };
     });
 
@@ -223,30 +234,30 @@ export default class App extends Component {
     [{
       name: 'Unsharp mask',
       Filter: CIUnsharpMask,
-      inputRadius: [0, 100],
+      inputRadius: ['0min', '1min'],
       inputIntensity: [0, 30]
     }],
     // [{
     //   name: 'Circular wrap',
     //   Filter: CICircularWrap,
-    //   'inputCenter.x': [0, 1],
-    //   'inputCenter.y': [0, 1],
-    //   inputRadius: [0, 300],
+    //   'inputCenter.x': [0w, 1w],
+    //   'inputCenter.y': [0h, 1h],
+    //   inputRadius: ['0min', '3min'],
     //   inputAngle: [-Math.PI, Math.PI]
     // }],
     // [{
     //   name: 'Cicle splash distortion',
     //   Filter: CICircleSplashDistortion,
-    //   'inputCenter.x': [0, 1],
-    //   'inputCenter.y': [0, 1],
-    //   inputRadius: [0, 100],
+    //   'inputCenter.x': [0w, 1],
+    //   'inputCenter.y': [0h, 1h],
+    //   inputRadius: ['0min', '1min'],
     // }],
     // [{
     //   name: 'Bump distortion linear',
     //   Filter: CIBumpDistortionLinear,
     //   'inputCenter.x': [0, 1],
     //   'inputCenter.y': [0, 1],
-    //   inputRadius: [0, 100],
+    //   inputRadius: ['0min', '1min'],
     //   inputScale: [0, 3],
     //   inputAngle: [-Math.PI, Math.PI]
     // }],
@@ -255,13 +266,13 @@ export default class App extends Component {
     //   Filter: CIBumpDistortion,
     //   'inputCenter.x': [0, 1],
     //   'inputCenter.y': [0, 1],
-    //   inputRadius: [0, 100],
+    //   inputRadius: ['0min', '1min'],
     //   inputScale: [0, 3]
     // }],
     // [{
     //   name: 'Circular screen',
     //   Filter: CICircularScreen,
-    //   inputWidth: [0, 300],
+    //   inputWidth: ['0max', '3max'],
     //   inputSharpness: [-10, 10],
     //   'inputCenter.x': [0, 1],
     //   'inputCenter.y': [0, 1]
@@ -274,17 +285,17 @@ export default class App extends Component {
     // [{
     //   name: 'Box blur',
     //   Filter: CIBoxBlur,
-    //   inputRadius: [0, 100]
+    //   inputRadius: ['0min', '1min']
     // }],
     // [{
     //   name: 'Disc blur',
     //   Filter: CIDiscBlur,
-    //   inputRadius: [0, 100]
+    //   inputRadius: ['0min', '1min']
     // }],
     // [{
     //   name: 'Gaussian blur',
     //   Filter: CIGaussianBlur,
-    //   inputRadius: [0, 100]
+    //   inputRadius: ['0min', '1min']
     // }],
     // [{
     //   name: 'Median filter',
@@ -293,7 +304,7 @@ export default class App extends Component {
     // [{
     //   name: 'Motion blur',
     //   Filter: CIMotionBlur,
-    //   inputRadius: [0, 100],
+    //   inputRadius: ['0min', '1min'],
     //   inputAngle: [-Math.PI, Math.PI]
     // }],
     // [{

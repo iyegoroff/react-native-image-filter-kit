@@ -10,6 +10,14 @@
   }                                                                                   \
 }
 
+#define UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Prop)                                  \
+- (void)updateInput##Prop:(CIFilter *)filter bounds:(CGSize)bounds {                  \
+  if ([_paramNames containsObject:@"input" @#Prop]) {                                 \
+    CGFloat num = [RNImageFilter convertRelativeNumber:_input##Prop bounds:bounds];   \
+    [filter setValue:[NSNumber numberWithFloat:num] forKey:@"input" @#Prop];          \
+  }                                                                                   \
+}
+
 #define UPDATE_FILTER_VECTOR_4_PROPERTY(Prop)                                       \
 - (void)updateInput##Prop:(CIFilter *)filter {                                      \
   if ([_paramNames containsObject:@"input" @#Prop]) {                               \
@@ -23,14 +31,15 @@
   }                                                                                 \
 }
 
-#define UPDATE_FILTER_POINT_PROPERTY(Prop)                                                  \
-- (void)updateInput##Prop:(CIFilter *)filter bounds:(CGSize)bounds {                        \
-  if ([_paramNames containsObject:@"input" @#Prop]) {                                       \
-    CGPoint p = CGPointMake(_input##Prop.x * bounds.width, _input##Prop.y * bounds.height); \
-    [filter setValue:[CIVector vectorWithCGPoint:p] forKey:@"input" @#Prop];                \
-  }                                                                                         \
+#define UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Prop)                                  \
+- (void)updateInput##Prop:(CIFilter *)filter bounds:(CGSize)bounds {                 \
+  if ([_paramNames containsObject:@"input" @#Prop]) {                                \
+    CGFloat x = [RNImageFilter convertRelativeNumber:_input##Prop[0] bounds:bounds]; \
+    CGFloat y = [RNImageFilter convertRelativeNumber:_input##Prop[1] bounds:bounds]; \
+    CGPoint p = CGPointMake(x, y);                                                   \
+    [filter setValue:[CIVector vectorWithCGPoint:p] forKey:@"input" @#Prop];         \
+  }                                                                                  \
 }
-
 
 @interface UIImage (React)
 
@@ -81,7 +90,6 @@ static CIContext* context;
   }
 }
 
-UPDATE_FILTER_NUMBER_PROPERTY(Radius);
 UPDATE_FILTER_NUMBER_PROPERTY(Angle);
 UPDATE_FILTER_NUMBER_PROPERTY(NoiseLevel);
 UPDATE_FILTER_NUMBER_PROPERTY(Sharpness);
@@ -90,14 +98,15 @@ UPDATE_FILTER_NUMBER_PROPERTY(Saturation);
 UPDATE_FILTER_NUMBER_PROPERTY(Brightness);
 UPDATE_FILTER_NUMBER_PROPERTY(Contrast);
 UPDATE_FILTER_NUMBER_PROPERTY(Levels);
-UPDATE_FILTER_NUMBER_PROPERTY(Width);
 UPDATE_FILTER_NUMBER_PROPERTY(Scale);
 UPDATE_FILTER_NUMBER_PROPERTY(Refraction);
 UPDATE_FILTER_NUMBER_PROPERTY(Rotation);
 UPDATE_FILTER_NUMBER_PROPERTY(Intensity);
-UPDATE_FILTER_POINT_PROPERTY(Center);
-UPDATE_FILTER_POINT_PROPERTY(Point0);
-UPDATE_FILTER_POINT_PROPERTY(Point1);
+UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Radius);
+UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Width);
+UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Center);
+UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Point0);
+UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Point1);
 UPDATE_FILTER_VECTOR_4_PROPERTY(MinComponents);
 UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
 
@@ -136,13 +145,11 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
   [self updateInputAngle:_filter];
   [self updateInputAmount:_filter];
   [self updateInputLevels:_filter];
-  [self updateInputRadius:_filter];
   [self updateInputContrast:_filter];
   [self updateInputSharpness:_filter];
   [self updateInputBrightness:_filter];
   [self updateInputNoiseLevel:_filter];
   [self updateInputSaturation:_filter];
-  [self updateInputWidth:_filter];
   [self updateInputScale:_filter];
   [self updateInputRotation:_filter];
   [self updateInputRefraction:_filter];
@@ -174,9 +181,13 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
         
         [filter setValue:image forKey:@"inputImage"];
         
-        [self updateInputCenter:filter bounds:image.extent.size];
-        [self updateInputPoint0:filter bounds:image.extent.size];
-        [self updateInputPoint1:filter bounds:image.extent.size];
+        CGSize imageSize = image.extent.size;
+        
+        [self updateInputCenter:filter bounds:imageSize];
+        [self updateInputPoint0:filter bounds:imageSize];
+        [self updateInputPoint1:filter bounds:imageSize];
+        [self updateInputRadius:filter bounds:imageSize];
+        [self updateInputWidth:filter bounds:imageSize];
         
         CGRect outputRect = _resizeOutput ? filter.outputImage.extent : image.extent;
         
@@ -221,6 +232,41 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
   image.reactKeyframeAnimation = animation;
 
   return image;
+}
+
++ (CGFloat)convertRelativeNumber:(NSString *)relative bounds:(CGSize)bounds
+{
+  double num;
+  NSScanner *scanner = [NSScanner scannerWithString:relative];
+  
+  [scanner scanDouble:&num];
+  NSString *unit = [relative substringFromIndex:[scanner scanLocation]];
+  
+  if ([unit isEqualToString:@""]) {
+    return num;
+  }
+  
+  if ([unit isEqualToString:@"h"]) {
+    return num * bounds.height;
+  }
+  
+  if ([unit isEqualToString:@"w"]) {
+    return num * bounds.width;
+  }
+  
+  if ([unit isEqualToString:@"max"]) {
+    return num * MAX(bounds.width, bounds.height);
+  }
+  
+  if ([unit isEqualToString:@"min"]) {
+    return num * MIN(bounds.width, bounds.height);
+  }
+  
+  if (RCT_DEBUG) {
+    RCTAssert(false, @"Invalid relative number - %@", relative);
+  }
+  
+  return num;
 }
 
 @end

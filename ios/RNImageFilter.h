@@ -7,7 +7,6 @@
 @property (nonatomic, strong) NSArray<NSString *> *paramNames;
 @property (nonatomic, assign) BOOL resizeOutput;
 
-@property (nonatomic, assign) CGFloat inputRadius;
 @property (nonatomic, assign) CGFloat inputAngle;
 @property (nonatomic, assign) CGFloat inputNoiseLevel;
 @property (nonatomic, assign) CGFloat inputSharpness;
@@ -19,11 +18,12 @@
 @property (nonatomic, assign) CGFloat inputRefraction;
 @property (nonatomic, assign) CGFloat inputRotation;
 @property (nonatomic, assign) CGFloat inputLevels;
-@property (nonatomic, assign) CGFloat inputWidth;
 @property (nonatomic, assign) CGFloat inputIntensity;
-@property (nonatomic, assign) CGPoint inputCenter;
-@property (nonatomic, assign) CGPoint inputPoint0;
-@property (nonatomic, assign) CGPoint inputPoint1;
+@property (nonatomic, strong) NSString *inputRadius;
+@property (nonatomic, strong) NSString *inputWidth;
+@property (nonatomic, strong) NSArray<NSString *> *inputCenter;
+@property (nonatomic, strong) NSArray<NSString *> *inputPoint0;
+@property (nonatomic, strong) NSArray<NSString *> *inputPoint1;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputMinComponents;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputMaxComponents;
 
