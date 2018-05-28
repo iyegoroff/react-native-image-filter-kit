@@ -1,0 +1,11 @@
+source https://nuget.org/api/v2
+storage: none
+nuget FSharp.Core  redirects:force, content:none
+nuget Fable.Core
+nuget Fable.Elmish
+nuget Fable.Elmish.React
+nuget Fable.Elmish.HMR
+nuget Fable.React.Native
+
+clitool dotnet-fable
+

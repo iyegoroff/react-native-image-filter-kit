@@ -1,4 +1,3 @@
-import { AppRegistry } from 'react-native';
-import App from './App';
-
-AppRegistry.registerComponent('example', () => App);
+import * as coreJs from "core-js/shim";
+import {AppRegistry} from 'react-native';
+import * as app from './out/App';
