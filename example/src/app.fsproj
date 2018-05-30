@@ -3,6 +3,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ReactNative.fs" />
+    <Compile Include="ReactNativeHelpers.fs" />
     <Compile Include="FilteredImage.fs" />
     <Compile Include="Styles.fs" />
     <Compile Include="Main.fs" />

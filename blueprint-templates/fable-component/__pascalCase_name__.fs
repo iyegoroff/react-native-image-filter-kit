@@ -8,20 +8,20 @@ module R = Fable.Helpers.ReactNative
 type Model = unit
 
 
-type Msg = None
+type Message = None
 
 
 let init () =
-  (), Cmd.none
+  ()
 
 
-let update (msg: Msg) model =
-  match msg with
+let update (message: Message) model =
+  match message with
   | None ->
-    (), Cmd.none
+    ()
 
 
-let view model (dispatch: Dispatch<Msg>) =
+let view model (dispatch: Dispatch<Message>) =
 
   R.view []
     [ R.text [] "{{pascalCase name}}" ]

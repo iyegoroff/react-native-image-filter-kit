@@ -5,7 +5,6 @@ nuget Fable.Core
 nuget Fable.Elmish
 nuget Fable.Elmish.React
 nuget Fable.Elmish.HMR
-nuget Fable.React.Native
 
 clitool dotnet-fable
 

@@ -8,6 +8,7 @@
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache"
   },
   "dependencies": {
+    "buffer": "^5.1.0",
     "core-js": "^2.5.7",
     "react": "^16.4.0",
     "react-native": "^0.55.4",

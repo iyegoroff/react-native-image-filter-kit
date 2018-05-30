@@ -1,27 +1,54 @@
 module FilteredImage
 
 open Elmish
-open Fable.Helpers.ReactNative.Props
-module R = Fable.Helpers.ReactNative
+open ReactNativeHelpers.Props
+module R = ReactNativeHelpers
 
 
-type Model = unit
+type Model = 
+  { image: IImageSourceProperties list
+    filterSelectIsVisible: bool }
 
 
-type Msg = None
+type Message =
+  | ShowFilterSelect
+  | HideFilterSelect
 
 
-let init () =
-  (), Cmd.none
+let init image =
+  { image = image
+    filterSelectIsVisible = false }
 
 
-let update (msg: Msg) model =
-  match msg with
-  | None ->
-    (), Cmd.none
+let update (message: Message) model =
+  match message with
+  | ShowFilterSelect ->
+    { model with filterSelectIsVisible = true }
+  | HideFilterSelect ->
+    { model with filterSelectIsVisible = false }
 
+let inline containerStyle<'a> =
+  ViewProperties.Style
+    [ MarginTop (Absolute 5.)
+      Padding (Absolute 5.)
+      BorderWidth 1.
+      BorderRadius 3.
+      BackgroundColor "white" ]
 
-let view model (dispatch: Dispatch<Msg>) =
+let inline imageStyle<'a> =
+  ImageProperties.Style
+    [ MarginTop (Absolute 5.)
+      Width (Relative "100%")
+      Height (Absolute 300.) ]
 
-  R.view []
-    [ R.text [] "FilteredImage" ]
+let view model (dispatch: Dispatch<Message>) =
+  R.view
+    [ containerStyle ]
+    [ R.button
+        [ ButtonProperties.Title "Add filter"
+          ButtonProperties.OnPress (fun () -> dispatch ShowFilterSelect)
+        ]
+        []
+      R.image
+        [ imageStyle
+          Source model.image ] ]
