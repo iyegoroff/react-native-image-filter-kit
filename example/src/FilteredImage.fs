@@ -24,6 +24,7 @@ let update (message: Message) model =
   match message with
   | ShowFilterSelect ->
     { model with filterSelectIsVisible = true }
+
   | HideFilterSelect ->
     { model with filterSelectIsVisible = false }
 

@@ -4,34 +4,57 @@ open Elmish
 open ReactNativeHelpers
 open ReactNativeHelpers.Props
 open System
+open Fable.Import
 module R = ReactNativeHelpers
 
 type ImageModel =
   { name: string
     source: IImageSourceProperties list }
 
+type AvailableImageModel =
+  | ImageModel of ImageModel
+  | RandomImage
+
 type Model = 
-  { availableImages: ImageModel array
+  { availableImages: AvailableImageModel array
     selectedImage: ImageModel }
 
-type Message = SelectImage of ImageModel
+type Message =
+  | SelectImage of ImageModel
+  | SelectRandomImage
 
 
 let init () =
-  let availableImages = [|
+  let selectedImage =
     { name = "Parrot"
       source = (localImage "${entryDir}/../parrot.png") }
-    { name = "Random"
-      source = (localImage "${entryDir}/../parrot.png") }
-  |]
+
+  let availableImages =
+    [| ImageModel selectedImage
+       RandomImage |]
  
   { availableImages = availableImages
-    selectedImage = availableImages.[0] }
+    selectedImage = selectedImage }
+
+let imageName = function
+  | RandomImage -> "Random"
+  | ImageModel model -> model.name
+
+let randomImageUrl () =
+  let id = JS.Math.round (JS.Math.random () * 992.)
+  let timestamp = JS.Date.now ()
+
+  sprintf "https://picsum.photos/%f?image=%f&t=%f" Constants.imageHeight id timestamp
 
 let update (message: Message) model =
   match message with
   | SelectImage image ->
-    { model with selectedImage = image }
+    { model with selectedImage = image }, []
+  
+  | SelectRandomImage ->
+    model,
+    Cmd.ofMsg (SelectImage { name = imageName RandomImage
+                             source = [ImageSourceProperties.Uri (randomImageUrl ())] })
 
 
 let inline itemStyle<'a> =
@@ -51,17 +74,24 @@ let inline separatorStyle<'a> =
       AlignSelf Alignment.Center
       BackgroundColor "lightgray" ]
 
+let separator () =
+  R.view [ separatorStyle ] []
+
 let view model (dispatch: Dispatch<Message>) =
-  let imageItem (image: FlatListRenderItemInfo<ImageModel>) =
+  let imageItem (image: FlatListRenderItemInfo<AvailableImageModel>) =
+    let onPress () = match image.item with
+                     | RandomImage -> dispatch SelectRandomImage
+                     | ImageModel model -> dispatch (SelectImage model)
+
     R.touchableNativeFeedback
-      [ OnPress (fun () -> dispatch (SelectImage image.item)) ]
+      [ OnPress onPress ]
       [ R.view
           [ itemStyle ]
           [ R.text
-              (if image.item.Equals model.selectedImage then [ selectedStyle ] else [])
-              image.item.name ] ]
+              (if (imageName image.item).Equals model.selectedImage.name then [ selectedStyle ] else [])
+              (imageName image.item) ] ]
 
   R.flatList model.availableImages
     [ RenderItem (Func<_, _>imageItem)
-      ItemSeparatorComponent (fun () -> (R.view [ separatorStyle ] []))
-      KeyExtractor (Func<_, _, _>(fun image _ -> image.name)) ]
+      ItemSeparatorComponent separator
+      KeyExtractor (Func<_, _, _>(fun image _ -> imageName image)) ]

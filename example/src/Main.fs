@@ -5,7 +5,6 @@ open Fable.Core
 open Fable.Import.ReactNative
 open Fable.Helpers.React
 open ReactNativeHelpers.Props
-// open ReactNativeHelpers.Alert
 module R = ReactNativeHelpers
 
 type Model =
@@ -14,7 +13,6 @@ type Model =
     imageSelectIsVisible: bool }
 
 type Message =
-  | ChangeAllImages
   | AddFilteredImage
   | ShowImageSelect
   | HideImageSelect
@@ -37,10 +35,6 @@ let update (message: Message) model =
     { model with filteredImages = (FilteredImage.init (selectedImage model)) :: model.filteredImages },
     []
 
-  | ChangeAllImages ->
-    // alert("Model", string model, [])
-    model, []
-
   | FilteredImageMessage (id, msg) ->
     { model with filteredImages =
                    model.filteredImages
@@ -53,8 +47,18 @@ let update (message: Message) model =
     { model with imageSelectIsVisible = false }, []
 
   | ImageSelectMessage msg ->
-    { model with imageSelect = (ImageSelect.update msg model.imageSelect) },
-    Cmd.ofMsg HideImageSelect
+    let imageSelect, cmd = ImageSelect.update msg model.imageSelect
+    let filteredImages = match msg with
+                         | ImageSelect.SelectImage imageModel ->
+                             model.filteredImages
+                             |> List.map (fun m -> { m with image = imageModel.source })
+                         | _ -> model.filteredImages
+    let mappedCmd = Cmd.map ImageSelectMessage cmd
+    let command = match msg with
+                  | ImageSelect.SelectImage _ -> Cmd.batch [ mappedCmd; Cmd.ofMsg HideImageSelect ]
+                  | _ -> mappedCmd
+    { model with imageSelect = imageSelect
+                 filteredImages = filteredImages }, command
 
 
 let inline containerStyle<'a> =
