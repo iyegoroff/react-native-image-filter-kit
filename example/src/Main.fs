@@ -2,7 +2,6 @@ module Main
 
 open Elmish
 open Fable.Core
-open ReactNativeHelpers
 open Fable.Import.ReactNative
 open Fable.Helpers.React
 open ReactNativeHelpers.Props
@@ -10,27 +9,33 @@ open ReactNativeHelpers.Props
 module R = ReactNativeHelpers
 
 type Model =
-  { defaultImage: IImageSourceProperties list
-    filteredImages: FilteredImage.Model list
+  { filteredImages: FilteredImage.Model list
+    imageSelect: ImageSelect.Model
     imageSelectIsVisible: bool }
 
 type Message =
   | ChangeAllImages
   | AddFilteredImage
-  | FilteredImageMessage of int * FilteredImage.Message
   | ShowImageSelect
   | HideImageSelect
+  | FilteredImageMessage of int * FilteredImage.Message
+  | ImageSelectMessage of ImageSelect.Message
+
 
 let init () =
-  { defaultImage = (localImage "${entryDir}/../parrot.png")
-    filteredImages = []
+  { filteredImages = []
+    imageSelect = ImageSelect.init ()
     imageSelectIsVisible = false },
   Cmd.none
+
+let selectedImage model =
+  model.imageSelect.selectedImage.source
 
 let update (message: Message) model =
   match message with
   | AddFilteredImage ->
-    { model with filteredImages = FilteredImage.init(model.defaultImage) :: model.filteredImages }, []
+    { model with filteredImages = (FilteredImage.init (selectedImage model)) :: model.filteredImages },
+    []
 
   | ChangeAllImages ->
     // alert("Model", string model, [])
@@ -46,6 +51,11 @@ let update (message: Message) model =
 
   | HideImageSelect ->
     { model with imageSelectIsVisible = false }, []
+
+  | ImageSelectMessage msg ->
+    { model with imageSelect = (ImageSelect.update msg model.imageSelect) },
+    Cmd.ofMsg HideImageSelect
+
 
 let inline containerStyle<'a> =
   ViewProperties.Style
@@ -72,19 +82,25 @@ let view model (dispatch: Dispatch<Message>) =
     | Some ref -> ref.scrollTo(U2.Case2 ({ y = height } :> obj))
     | None -> ()
 
-  R.scrollView
-    [ ScrollViewProperties.OnContentSizeChange scrollToBottom
-      ScrollViewProperties.Ref (fun ref -> scrollView <- Some ref)]
-    [ R.view
-        [ containerStyle ]
-        [ R.button
-            [ ButtonProperties.Title "Change all images"
-              ButtonProperties.OnPress (fun () -> dispatch ShowImageSelect)]
-            [] 
-          R.view [ gapStyle ] []
-          fragment [] [ yield! items ]
-          R.view [ gapStyle ] []
-          R.button
-            [ ButtonProperties.Title "Add filtered image"
-              ButtonProperties.OnPress (fun () -> dispatch AddFilteredImage)]
-            [] ] ]
+  fragment
+    []
+    [ R.modal
+        [ Visible model.imageSelectIsVisible
+          OnRequestClose (fun () -> dispatch HideImageSelect) ]
+        [ ImageSelect.view model.imageSelect (ImageSelectMessage >> dispatch) ]
+      R.scrollView
+        [ ScrollViewProperties.OnContentSizeChange scrollToBottom
+          ScrollViewProperties.Ref (fun ref -> scrollView <- Some ref)]
+        [ R.view
+            [ containerStyle ]
+            [ R.button
+                [ ButtonProperties.Title "Change all images"
+                  ButtonProperties.OnPress (fun () -> dispatch ShowImageSelect)]
+                [] 
+              R.view [ gapStyle ] []
+              fragment [] [ yield! items ]
+              R.view [ gapStyle ] []
+              R.button
+                [ ButtonProperties.Title "Add filtered image"
+                  ButtonProperties.OnPress (fun () -> dispatch AddFilteredImage)]
+                [] ] ] ]

@@ -1306,7 +1306,7 @@ module Props =
     type ViewabilityConfig = { minimumViewTime : float; viewAreaCoveragePercentThreshold : float; itemVisiblePercentThreshold : float; waitForInteraction : bool }
 
     type FlatListProperties<'a> =
-        | ItemSeparatorComponent of React.ReactElement
+        | ItemSeparatorComponent of (unit -> React.ReactElement)
         | ListEmptyComponent of React.ReactElement
         | ListFooterComponent of React.ReactElement
         | ListHeaderComponent of React.ReactElement
@@ -1595,12 +1595,22 @@ let inline listView<'a> (dataSource:ListViewDataSource<'a>) (props: IListViewPro
             createObj ["dataSource" ==> dataSource],
             keyValueList CaseRules.LowerFirst props), [])
 
-let inline flatList<'a> (data:'a []) (props: IFlatListProperties<'a> list)  : React.ReactElement =
+let inline flatList<'a> (data:'a []) (props: FlatListProperties<'a> list)  : React.ReactElement =
+    let pascalCaseProps, camelCaseProps =
+      List.partition (function
+                        | ItemSeparatorComponent _ -> true
+                        | ListEmptyComponent _ -> true
+                        | ListFooterComponent _ -> true
+                        | ListHeaderComponent _ -> true
+                        | _ -> false)
+                      props
+
     createElementWithObjProps(
       RN.FlatList,
       !!JS.Object.assign(
             createObj ["data" ==> data],
-            keyValueList CaseRules.LowerFirst props), [])
+            keyValueList CaseRules.LowerFirst camelCaseProps,
+            keyValueList CaseRules.None pascalCaseProps), [])
 
 let inline mapView (props:IMapViewProperties list) (children: React.ReactElement list): React.ReactElement =
     createElement(
@@ -1608,10 +1618,11 @@ let inline mapView (props:IMapViewProperties list) (children: React.ReactElement
       props,
       children)
 
-let inline modal (props:ModalProperties list) : React.ReactElement =
+let inline modal (props:ModalProperties list) (children: React.ReactElement list): React.ReactElement =
     createElement(
       RN.Modal,
-      props, [])
+      props,
+      children)
 
 let inline button (props:IButtonProperties list) (children: React.ReactElement list) : React.ReactElement =
     createElement(

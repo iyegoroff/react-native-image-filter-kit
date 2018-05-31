@@ -39,7 +39,7 @@ let inline imageStyle<'a> =
   ImageProperties.Style
     [ MarginTop (Absolute 5.)
       Width (Relative "100%")
-      Height (Absolute 300.) ]
+      Height (Absolute Constants.imageHeight) ]
 
 let view model (dispatch: Dispatch<Message>) =
   R.view

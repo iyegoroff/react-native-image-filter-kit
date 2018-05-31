@@ -5,6 +5,8 @@
   <ItemGroup>
     <Compile Include="ReactNative.fs" />
     <Compile Include="ReactNativeHelpers.fs" />
+    <Compile Include="Constants.fs" />
+    <Compile Include="ImageSelect.fs" />
     <Compile Include="FilteredImage.fs" />
     <Compile Include="Styles.fs" />
     <Compile Include="Main.fs" />

@@ -5,7 +5,8 @@
   "scripts": {
     "build": "fable-splitter -c splitter.config.js --define RELEASE",
     "watch": "fable-splitter -c splitter.config.js -w --define DEBUG",
-    "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache"
+    "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
+    "start:packager": "react-native start"
   },
   "dependencies": {
     "buffer": "^5.1.0",
