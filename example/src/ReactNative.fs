@@ -324,9 +324,6 @@ module ReactNative =
     and [<StringEnum>] FlexJustifyType =
         | ``Flex-start`` | ``Flex-end`` | Center | ``Space-between`` | ``Space-around``
 
-    and SizeUnit =
-        | Absolute of float | Relative of string
-
     and FlexStyle =
 
         abstract alignItems: FlexAlignType option with get, set
@@ -337,35 +334,35 @@ module ReactNative =
         abstract borderRightWidth: float option with get, set
         abstract borderTopWidth: float option with get, set
         abstract borderWidth: float option with get, set
-        abstract bottom: SizeUnit option with get, set
+        abstract bottom: U2<float, string> option with get, set
         abstract flex: float option with get, set
         abstract flexDirection: (* TODO StringEnum row | column | row-reverse | column-reverse *) string option with get, set
         abstract flexWrap: (* TODO StringEnum wrap | nowrap *) string option with get, set
-        abstract height: SizeUnit option with get, set
+        abstract height: U2<float, string> option with get, set
         abstract justifyContent: FlexJustifyType option with get, set
-        abstract left: SizeUnit option with get, set
-        abstract minWidth: SizeUnit option with get, set
-        abstract maxWidth: SizeUnit option with get, set
-        abstract minHeight: SizeUnit option with get, set
-        abstract maxHeight: SizeUnit option with get, set
-        abstract margin: SizeUnit option with get, set
-        abstract marginBottom: SizeUnit option with get, set
-        abstract marginHorizontal: SizeUnit option with get, set
-        abstract marginLeft: SizeUnit option with get, set
-        abstract marginRight: SizeUnit option with get, set
-        abstract marginTop: SizeUnit option with get, set
-        abstract marginVertical: SizeUnit option with get, set
-        abstract padding: SizeUnit option with get, set
-        abstract paddingBottom: SizeUnit option with get, set
-        abstract paddingHorizontal: SizeUnit option with get, set
-        abstract paddingLeft: SizeUnit option with get, set
-        abstract paddingRight: SizeUnit option with get, set
-        abstract paddingTop: SizeUnit option with get, set
-        abstract paddingVertical: SizeUnit option with get, set
+        abstract left: U2<float, string> option with get, set
+        abstract minWidth: U2<float, string> option with get, set
+        abstract maxWidth: U2<float, string> option with get, set
+        abstract minHeight: U2<float, string> option with get, set
+        abstract maxHeight: U2<float, string> option with get, set
+        abstract margin: U2<float, string> option with get, set
+        abstract marginBottom: U2<float, string> option with get, set
+        abstract marginHorizontal: U2<float, string> option with get, set
+        abstract marginLeft: U2<float, string> option with get, set
+        abstract marginRight: U2<float, string> option with get, set
+        abstract marginTop: U2<float, string> option with get, set
+        abstract marginVertical: U2<float, string> option with get, set
+        abstract padding: U2<float, string> option with get, set
+        abstract paddingBottom: U2<float, string> option with get, set
+        abstract paddingHorizontal: U2<float, string> option with get, set
+        abstract paddingLeft: U2<float, string> option with get, set
+        abstract paddingRight: U2<float, string> option with get, set
+        abstract paddingTop: U2<float, string> option with get, set
+        abstract paddingVertical: U2<float, string> option with get, set
         abstract position: (* TODO StringEnum absolute | relative *) string option with get, set
-        abstract right: SizeUnit option with get, set
-        abstract top: SizeUnit option with get, set
-        abstract width: SizeUnit option with get, set
+        abstract right: U2<float, string> option with get, set
+        abstract top: U2<float, string> option with get, set
+        abstract width: U2<float, string> option with get, set
         abstract zIndex: float option with get, set
 
     and ShadowPropTypesIOSStatic =

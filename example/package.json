@@ -11,6 +11,7 @@
   "dependencies": {
     "buffer": "^5.1.0",
     "core-js": "^2.5.7",
+    "fast-memoize": "^2.3.2",
     "react": "^16.4.0",
     "react-native": "^0.55.4",
     "remotedev": "^0.2.7"

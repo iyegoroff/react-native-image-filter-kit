@@ -24,14 +24,29 @@ type Message =
   | SelectRandomImage
 
 
-let init () =
-  let selectedImage =
+let init image =
+  let defaultImage =
     { name = "Parrot"
       source = (localImage "${entryDir}/../parrot.png") }
 
   let availableImages =
-    [| ImageModel selectedImage
+    [| ImageModel defaultImage
+       ImageModel { name = "React logo"
+                    source = [ ImageSourceProperties.Uri "https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_400x400.png" ]}
        RandomImage |]
+
+  let selectedImage =
+    match image with
+    | None -> defaultImage
+    | Some i ->
+      let found = Array.tryFind (function
+                                 | ImageModel m -> m.source = i
+                                 | RandomImage -> false)
+                                availableImages
+      match found with
+      | Some (ImageModel img) -> img
+      | _ -> defaultImage
+                      
  
   { availableImages = availableImages
     selectedImage = selectedImage }
@@ -54,12 +69,12 @@ let update (message: Message) model =
   | SelectRandomImage ->
     model,
     Cmd.ofMsg (SelectImage { name = imageName RandomImage
-                             source = [ImageSourceProperties.Uri (randomImageUrl ())] })
+                             source = [ ImageSourceProperties.Uri (randomImageUrl ()) ] })
 
 
 let inline itemStyle<'a> =
   ViewProperties.Style
-    [ Padding (Absolute 15.)
+    [ Padding (Dip 15.)
       Flex 1. ]
 
 let inline selectedStyle<'a> =
@@ -69,8 +84,8 @@ let inline selectedStyle<'a> =
 
 let inline separatorStyle<'a> =
   ViewProperties.Style
-    [ Height (Absolute 1.)
-      Width (Relative "95%")
+    [ Height (Dip 1.)
+      Width (Pct 95.)
       AlignSelf Alignment.Center
       BackgroundColor "lightgray" ]
 

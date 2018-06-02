@@ -423,10 +423,6 @@ module Props =
         | TranslateY of float
         interface ITransformsStyle
 
-    [<Erase>]
-    type SizeUnit =
-        | Absolute of float | Relative of string
-
     type FlexStyle =
         | AlignItems of ItemAlignment
         | AlignSelf of Alignment
@@ -436,35 +432,35 @@ module Props =
         | BorderRightWidth of float
         | BorderTopWidth of float
         | BorderWidth of float
-        | Bottom of SizeUnit
+        | Bottom of U2<float, string>
         | Flex of float
         | FlexDirection of FlexDirection
         | FlexWrap of FlexWrap
-        | Height of SizeUnit
+        | Height of U2<float, string>
         | JustifyContent of JustifyContent
-        | Left of SizeUnit
-        | MinWidth of SizeUnit
-        | MaxWidth of SizeUnit
-        | MinHeight of SizeUnit
-        | MaxHeight of SizeUnit
-        | Margin of SizeUnit
-        | MarginBottom of SizeUnit
-        | MarginHorizontal of SizeUnit
-        | MarginLeft of SizeUnit
-        | MarginRight of SizeUnit
-        | MarginTop of SizeUnit
-        | MarginVertical of SizeUnit
-        | Padding of SizeUnit
-        | PaddingBottom of SizeUnit
-        | PaddingHorizontal of SizeUnit
-        | PaddingLeft of SizeUnit
-        | PaddingRight of SizeUnit
-        | PaddingTop of SizeUnit
-        | PaddingVertical of SizeUnit
+        | Left of U2<float, string>
+        | MinWidth of U2<float, string>
+        | MaxWidth of U2<float, string>
+        | MinHeight of U2<float, string>
+        | MaxHeight of U2<float, string>
+        | Margin of U2<float, string>
+        | MarginBottom of U2<float, string>
+        | MarginHorizontal of U2<float, string>
+        | MarginLeft of U2<float, string>
+        | MarginRight of U2<float, string>
+        | MarginTop of U2<float, string>
+        | MarginVertical of U2<float, string>
+        | Padding of U2<float, string>
+        | PaddingBottom of U2<float, string>
+        | PaddingHorizontal of U2<float, string>
+        | PaddingLeft of U2<float, string>
+        | PaddingRight of U2<float, string>
+        | PaddingTop of U2<float, string>
+        | PaddingVertical of U2<float, string>
         | Position of Position
-        | Right of SizeUnit
-        | Top of SizeUnit
-        | Width of SizeUnit
+        | Right of U2<float, string>
+        | Top of U2<float, string>
+        | Width of U2<float, string>
         | ZIndex of float
         interface IFlexStyle
 
@@ -1447,6 +1443,12 @@ module R = Fable.Helpers.React
 // Use `require` to load a local image
 let inline localImage (path:string) : IImageSourceProperties list = jsNative
 
+// density-independent pixels
+let inline Dip x = U2.Case1 x
+
+// percents
+let inline Pct x = U2.Case2 (sprintf "%f%%" x)
+
 let inline createElement(c: React.ComponentClass<'T>, props: 'P list, children: React.ReactElement list) =
     R.createElement (c, keyValueList CaseRules.LowerFirst props, children)
 
@@ -1598,11 +1600,11 @@ let inline listView<'a> (dataSource:ListViewDataSource<'a>) (props: IListViewPro
 let inline flatList<'a> (data:'a []) (props: FlatListProperties<'a> list)  : React.ReactElement =
     let pascalCaseProps, camelCaseProps =
       List.partition (function
-                        | ItemSeparatorComponent _ -> true
-                        | ListEmptyComponent _ -> true
-                        | ListFooterComponent _ -> true
-                        | ListHeaderComponent _ -> true
-                        | _ -> false)
+                      | ItemSeparatorComponent _ -> true
+                      | ListEmptyComponent _ -> true
+                      | ListFooterComponent _ -> true
+                      | ListHeaderComponent _ -> true
+                      | _ -> false)
                       props
 
     createElementWithObjProps(
