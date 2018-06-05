@@ -1,3 +1,6 @@
-module Constants
+namespace FilterConstructor
 
-let imageHeight = 300.
+
+module Constants =
+
+  let imageHeight = 300.

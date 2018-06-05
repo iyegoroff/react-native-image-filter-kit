@@ -275,7 +275,9 @@ export interface CIColorInvertProps extends FilterProps { }
 export class CIColorInvert extends React.Component<CIColorInvertProps> { }
 
 
-export interface CIColorPosterizeProps extends FilterProps { }
+export interface CIColorPosterizeProps extends FilterProps {
+  readonly inputLevels?: number;
+}
 
 export class CIColorPosterize extends React.Component<CIColorPosterizeProps> { }
 

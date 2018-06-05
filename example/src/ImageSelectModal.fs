@@ -1,52 +1,22 @@
-module ImageSelectModal
+namespace FilterConstructor
 
 open Elmish
-open ReactNativeHelpers.Props
+open Image
+open SelectModal
+open Select
 module R = ReactNativeHelpers
 
 
-type Model = 
-  { imageSelect: ImageSelect.Model
-    isVisible: bool }
+module ImageSelectModal =
 
-type Message =
-  | Show
-  | Hide
-  | ImageSelected of ImageSelect.ImageModel
-  | ImageSelectMessage of ImageSelect.Message
+  type Message = SelectModal.Message<Image.Model>
 
 
-let init image =
-  { imageSelect = ImageSelect.init image
-    isVisible = false }
+  let view image isVisible (dispatch: Dispatch<Message>) =
+    let dispatch' =
+      function
+      | (SelectMessage (ItemSelected (Random _))) ->
+        dispatch (SelectMessage (ItemSelected (Image.random ())))
+      | x -> dispatch x
 
-let inline selectedImage model =
-  model.imageSelect.selectedImage.source
-
-let update (message: Message) model =
-  match message with
-  | Show ->
-    { model with isVisible = true }, []
-
-  | Hide ->
-    { model with isVisible = false }, []
-  
-  | ImageSelectMessage msg ->
-    let imageSelect, cmd = ImageSelect.update msg model.imageSelect
-    let imageSelectCommand = Cmd.map ImageSelectMessage cmd
-    let commands = match msg with
-                   | ImageSelect.SelectImage image -> Cmd.batch [ imageSelectCommand
-                                                                  Cmd.ofMsg (ImageSelected image)
-                                                                  Cmd.ofMsg Hide ]
-                   | _ -> imageSelectCommand
-    { model with imageSelect = imageSelect }, commands
-
-  | ImageSelected _ ->
-    model, []
-  
-
-let view model (dispatch: Dispatch<Message>) =
-  R.modal
-    [ Visible model.isVisible
-      OnRequestClose (fun () -> dispatch Hide) ]
-    [ ImageSelect.view model.imageSelect (ImageSelectMessage >> dispatch) ]
+    SelectModal.view Image.availableImages image Image.name Image.equals isVisible dispatch'

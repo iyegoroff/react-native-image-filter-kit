@@ -5,9 +5,12 @@
   <ItemGroup>
     <Compile Include="FastMemoize.fs" />
     <Compile Include="ReactNative.fs" />
+    <Compile Include="ReactNativeImageFilterKit.fs" />
     <Compile Include="ReactNativeHelpers.fs" />
     <Compile Include="Constants.fs" />
-    <Compile Include="ImageSelect.fs" />
+    <Compile Include="Image.fs" />
+    <Compile Include="Select.fs" />
+    <Compile Include="SelectModal.fs" />
     <Compile Include="ImageSelectModal.fs" />
     <Compile Include="FilteredImage.fs" />
     <Compile Include="Styles.fs" />
