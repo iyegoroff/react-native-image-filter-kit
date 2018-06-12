@@ -7,4 +7,3 @@ nuget Fable.Elmish.React
 nuget Fable.Elmish.HMR
 
 clitool dotnet-fable
-

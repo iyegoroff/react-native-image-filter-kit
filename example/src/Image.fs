@@ -1,7 +1,7 @@
 namespace FilterConstructor
 
-open ReactNativeHelpers
-open ReactNativeHelpers.Props
+open Fable.Helpers.ReactNative
+open Fable.Helpers.ReactNative.Props
 open Fable.Import
 
 

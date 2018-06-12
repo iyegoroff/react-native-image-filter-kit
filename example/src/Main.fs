@@ -2,12 +2,11 @@ namespace FilterConstructor
 
 open Elmish
 open Fable.Helpers.React
-open ReactNativeHelpers
-open ReactNativeHelpers.Props
+open Fable.Helpers.ReactNative
+open Fable.Helpers.ReactNative.Props
 open SelectModal
 open Select
-open Fable.Import
-module R = ReactNativeHelpers
+module R = Fable.Helpers.ReactNative
 
 
 module Main =

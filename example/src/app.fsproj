@@ -4,9 +4,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="FastMemoize.fs" />
-    <Compile Include="ReactNative.fs" />
+    <Compile Include="Fable.Import.ReactNative.fs" />
+    <Compile Include="Fable.Helpers.ReactNative.fs" />
     <Compile Include="ReactNativeImageFilterKit.fs" />
-    <Compile Include="ReactNativeHelpers.fs" />
+    <Compile Include="ReactNativeImageFilterKitHelpers.fs" />
     <Compile Include="Constants.fs" />
     <Compile Include="Image.fs" />
     <Compile Include="Select.fs" />

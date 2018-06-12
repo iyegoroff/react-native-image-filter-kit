@@ -2,13 +2,15 @@
 namespace FilterConstructor
 
 open Elmish
-open ReactNativeHelpers
-open ReactNativeHelpers.Props
+open Fable.Helpers.ReactNative
+open Fable.Helpers.ReactNative.Props
 open Fable.Helpers.React
 open SelectModal
 open Select
 open Fable.Import
-module R = ReactNativeHelpers
+open ReactNativeImageFilterKit.Helpers
+open ReactNativeImageFilterKit.Helpers.Props
+module R = Fable.Helpers.ReactNative
 
 
 module FilteredImage =
@@ -88,9 +90,11 @@ module FilteredImage =
             ActivityIndicator.Size Size.Large ]
           [ R.activityIndicator
               [ spinnerStyle ]
-            R.image
-              [ imageStyle
-                Source (Image.source model.Image) ]
+            CIBoxBlur
+              [ CIBoxBlurProps.InputRadius (Distance.HPct 0.25) ]
+              [ R.image
+                  [ imageStyle
+                    Source (Image.source model.Image) ] ]
             R.view
               [ controlsStyle ]
               [ R.button

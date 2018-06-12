@@ -4,7 +4,6 @@ open Elmish
 open Image
 open SelectModal
 open Select
-module R = ReactNativeHelpers
 
 
 module ImageSelectModal =

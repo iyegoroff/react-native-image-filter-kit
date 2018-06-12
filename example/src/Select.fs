@@ -1,10 +1,10 @@
 namespace FilterConstructor
 
 open Elmish
-open ReactNativeHelpers
-open ReactNativeHelpers.Props
+open Fable.Helpers.ReactNative
+open Fable.Helpers.ReactNative.Props
 open System
-module R = ReactNativeHelpers
+module R = Fable.Helpers.ReactNative
 
 
 module Select =
@@ -33,12 +33,15 @@ module Select =
   let separator () =
     R.view [ separatorStyle ] []
 
+  let touchable =
+    Platform.select
+      [ Platform.Ios (fun onPress -> R.touchableOpacity [ OnPress onPress ])
+        Platform.Android (fun onPress -> R.touchableNativeFeedback [ OnPress onPress ]) ]
+
   let view items selected itemKey equals (dispatch: Dispatch<Message<'a>>) =
     let renderItem (item: FlatListRenderItemInfo<'a>) =
-      let onPress () = dispatch (ItemSelected item.item)
-
-      R.touchableNativeFeedback
-        [ OnPress onPress ]
+      touchable
+        (fun () -> dispatch (ItemSelected item.item))
         [ R.view
             [ itemStyle ]
             [ R.text
@@ -46,7 +49,7 @@ module Select =
                 (itemKey item.item) ] ]
 
     R.flatList items
-      [ RenderItem (Func<_, _>renderItem)
+      [ RenderItem renderItem
         ItemSeparatorComponent separator
         ExtraData selected
-        KeyExtractor (Func<_, _, _>(fun item _ -> itemKey item)) ]
+        KeyExtractor (fun item _ -> itemKey item) ]
