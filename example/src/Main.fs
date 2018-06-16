@@ -72,7 +72,7 @@ module Main =
 
   let inline containerStyle<'a> =
     ViewProperties.Style
-      [ Padding (Dip 15.)
+      [ Padding (Pct 1.5)
         Flex 1. ]
 
   let inline gapStyle<'a> =

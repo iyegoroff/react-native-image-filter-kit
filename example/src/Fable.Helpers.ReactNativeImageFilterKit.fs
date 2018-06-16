@@ -1,4 +1,4 @@
-module ReactNativeImageFilterKit.Helpers
+module Fable.Helpers.ReactNativeImageFilterKit
 
 // open System
 // open Fable.Import.ReactNative

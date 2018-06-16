@@ -4,31 +4,35 @@ namespace FilterConstructor
 open Elmish
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
-open Fable.Helpers.React
 open SelectModal
 open Select
 open Fable.Import
-open ReactNativeImageFilterKit.Helpers
-open ReactNativeImageFilterKit.Helpers.Props
-module R = Fable.Helpers.ReactNative
+
+module R = Fable.Helpers.React
+module RN = Fable.Helpers.ReactNative
 
 
 module FilteredImage =
 
   type Model = 
     { Image: Image.Model
-      ImageSelectModalIsVisible: bool }
+      Filters: Filter.Model list
+      ImageSelectModalIsVisible: bool
+      FilterSelectModalIsVisible: bool }
 
   type Message =
     | Delete
-    | SelectImage
-    | AddFilter
     | ImageSelectModalMessage of ImageSelectModal.Message
+    | SelectImage
+    | FilterSelectModalMessage of FilterSelectModal.Message
+    | SelectFilter
 
 
   let init image =
     { Image = image
-      ImageSelectModalIsVisible = false }
+      Filters = []
+      ImageSelectModalIsVisible = false 
+      FilterSelectModalIsVisible = false }
 
   let selectImage model image =
     { model with Image = image }
@@ -48,7 +52,15 @@ module FilteredImage =
     | SelectImage ->
       { model with ImageSelectModalIsVisible = true }, []
 
-    | AddFilter -> model, []
+    | FilterSelectModalMessage msg ->
+      match msg with
+      | SelectMessage (ItemSelected filter) -> 
+        { model with Filters = model.Filters @ [filter] }, []
+      | Hide ->
+        { model with FilterSelectModalIsVisible = false }, []
+
+    | SelectFilter ->
+      { model with FilterSelectModalIsVisible = true }, []
 
 
   let containerStyle =
@@ -78,34 +90,50 @@ module FilteredImage =
         FlexStyle.Left (Dip 5.)
         FlexStyle.Top (Dip 5.) ]
 
+  let controls model dispatch =
+    model.Filters
+    |> List.map (fun filter -> RN.text [] (Filter.name filter))
+    |> R.fragment []
+      
+
+  let filteredImage model dispatch =
+    model.Filters
+    |> List.fold
+         (fun child filter -> [ (Filter.element filter) child ])
+         [ RN.image
+             [ imageStyle
+               Source (Image.source model.Image) ] ]
+    |> R.fragment []
+      
+    
   let view model (dispatch: Dispatch<Message>) =
-    fragment
+    R.fragment
       []
       [ ImageSelectModal.view
           model.Image
           model.ImageSelectModalIsVisible
           (ImageSelectModalMessage >> dispatch)
-        R.view
+        FilterSelectModal.view
+          model.FilterSelectModalIsVisible
+          (FilterSelectModalMessage >> dispatch)
+        RN.view
           [ containerStyle
             ActivityIndicator.Size Size.Large ]
-          [ R.activityIndicator
+          [ (controls model dispatch)
+            RN.activityIndicator
               [ spinnerStyle ]
-            CIBoxBlur
-              [ CIBoxBlurProps.InputRadius (Distance.HPct 0.25) ]
-              [ R.image
-                  [ imageStyle
-                    Source (Image.source model.Image) ] ]
-            R.view
+            (filteredImage model dispatch)
+            RN.view
               [ controlsStyle ]
-              [ R.button
+              [ RN.button
                   [ ButtonProperties.Title "Add filter"
-                    ButtonProperties.OnPress (fun () -> dispatch AddFilter) ]
+                    ButtonProperties.OnPress (fun () -> dispatch SelectFilter) ]
                   []
-                R.button
+                RN.button
                   [ ButtonProperties.Title "Change image"
                     ButtonProperties.OnPress (fun () -> dispatch SelectImage) ]
                   [] 
-                R.button
+                RN.button
                   [ ButtonProperties.Title "Delete"
                     ButtonProperties.Color "red"
                     ButtonProperties.OnPress (fun () -> dispatch Delete) ]

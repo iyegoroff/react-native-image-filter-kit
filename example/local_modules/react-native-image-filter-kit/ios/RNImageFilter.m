@@ -3,16 +3,17 @@
 #import "Image/RCTImageUtils.h"
 #import "RNImageFilter.h"
 
-#define UPDATE_FILTER_NUMBER_PROPERTY(Prop)                                           \
-- (void)updateInput##Prop:(CIFilter *)filter {                                        \
-  if ([_paramNames containsObject:@"input" @#Prop]) {                                 \
-    [filter setValue:[NSNumber numberWithFloat:_input##Prop] forKey:@"input" @#Prop]; \
-  }                                                                                   \
+#define UPDATE_FILTER_NUMBER_PROPERTY(Prop)                                                     \
+- (void)updateInput##Prop:(CIFilter *)filter changedProps:(NSArray<NSString *> *)changedProps { \
+  NSString* prop = @"input" @#Prop;                                                             \
+  if ([_paramNames containsObject:prop] && [changedProps containsObject:prop]) {                \
+    [filter setValue:[NSNumber numberWithFloat:_input##Prop] forKey:@"input" @#Prop];           \
+  }                                                                                             \
 }
 
 #define UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Prop)                                  \
 - (void)updateInput##Prop:(CIFilter *)filter bounds:(CGSize)bounds {                  \
-  if ([_paramNames containsObject:@"input" @#Prop]) {                                 \
+  if ([_paramNames containsObject:@"input" @#Prop] && _input##Prop != nil) {          \
     CGFloat num = [RNImageFilter convertRelativeNumber:_input##Prop bounds:bounds];   \
     [filter setValue:[NSNumber numberWithFloat:num] forKey:@"input" @#Prop];          \
   }                                                                                   \
@@ -20,7 +21,7 @@
 
 #define UPDATE_FILTER_VECTOR_4_PROPERTY(Prop)                                       \
 - (void)updateInput##Prop:(CIFilter *)filter {                                      \
-  if ([_paramNames containsObject:@"input" @#Prop]) {                               \
+  if ([_paramNames containsObject:@"input" @#Prop] && _input##Prop != nil) {        \
     CGFloat v[4] = {                                                                \
       [_input##Prop[0] floatValue],                                                 \
       [_input##Prop[1] floatValue],                                                 \
@@ -33,7 +34,7 @@
 
 #define UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Prop)                                  \
 - (void)updateInput##Prop:(CIFilter *)filter bounds:(CGSize)bounds {                 \
-  if ([_paramNames containsObject:@"input" @#Prop]) {                                \
+  if ([_paramNames containsObject:@"input" @#Prop] && _input##Prop != nil) {         \
     CGFloat x = [RNImageFilter convertRelativeNumber:_input##Prop[0] bounds:bounds]; \
     CGFloat y = [RNImageFilter convertRelativeNumber:_input##Prop[1] bounds:bounds]; \
     CGPoint p = CGPointMake(x, y);                                                   \
@@ -145,18 +146,18 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
     _filter = [CIFilter filterWithName:_name];
   }
   
-  [self updateInputAngle:_filter];
-  [self updateInputAmount:_filter];
-  [self updateInputLevels:_filter];
-  [self updateInputContrast:_filter];
-  [self updateInputSharpness:_filter];
-  [self updateInputBrightness:_filter];
-  [self updateInputNoiseLevel:_filter];
-  [self updateInputSaturation:_filter];
-  [self updateInputScale:_filter];
-  [self updateInputRotation:_filter];
-  [self updateInputRefraction:_filter];
-  [self updateInputIntensity:_filter];
+  [self updateInputAngle:_filter changedProps:changedProps];
+  [self updateInputAmount:_filter changedProps:changedProps];
+  [self updateInputLevels:_filter changedProps:changedProps];
+  [self updateInputContrast:_filter changedProps:changedProps];
+  [self updateInputSharpness:_filter changedProps:changedProps];
+  [self updateInputBrightness:_filter changedProps:changedProps];
+  [self updateInputNoiseLevel:_filter changedProps:changedProps];
+  [self updateInputSaturation:_filter changedProps:changedProps];
+  [self updateInputScale:_filter changedProps:changedProps];
+  [self updateInputRotation:_filter changedProps:changedProps];
+  [self updateInputRefraction:_filter changedProps:changedProps];
+  [self updateInputIntensity:_filter changedProps:changedProps];
   [self updateInputMinComponents:_filter];
   [self updateInputMaxComponents:_filter];
   

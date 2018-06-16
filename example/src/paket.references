@@ -3,4 +3,5 @@ Fable.Elmish
 Fable.Elmish.HMR
 Fable.Elmish.React
 Fable.React
+Fable.React.Native
 dotnet-fable

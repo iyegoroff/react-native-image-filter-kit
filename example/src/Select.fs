@@ -40,12 +40,15 @@ module Select =
 
   let view items selected itemKey equals (dispatch: Dispatch<Message<'a>>) =
     let renderItem (item: FlatListRenderItemInfo<'a>) =
+      let style = match selected with
+                  | Some sel when (equals item.item sel) -> [ selectedStyle ]
+                  | _ -> []
       touchable
         (fun () -> dispatch (ItemSelected item.item))
         [ R.view
             [ itemStyle ]
             [ R.text
-                (if equals item.item selected then [ selectedStyle ] else [])
+                style
                 (itemKey item.item) ] ]
 
     R.flatList items

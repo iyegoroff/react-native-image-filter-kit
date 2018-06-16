@@ -1,21 +1,25 @@
-module {{pascalCase name}}
+namespace FilterConstructor
 
 open Elmish
 open Fable.Helpers.ReactNative.Props
-module R = Fable.Helpers.ReactNative
+module R = Fable.Helpers.React
+module RN = Fable.Helpers.ReactNative
 
-type Model = unit
 
-type Message = None
+module {{pascalCase name}} =
 
-let init () =
-  ()
+  type Model = unit
 
-let update (message: Message) model =
-  match message with
-  | None ->
+  type Message = None
+
+  let init () =
     ()
 
-let view model (dispatch: Dispatch<Message>) =
-  R.view []
-    [ R.text [] "{{pascalCase name}}" ]
+  let update (message: Message) model =
+    match message with
+    | None ->
+      ()
+
+  let view model (dispatch: Dispatch<Message>) =
+    RN.view []
+      [ RN.text [] "{{pascalCase name}}" ]

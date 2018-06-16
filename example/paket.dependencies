@@ -1,5 +1,6 @@
 source https://nuget.org/api/v2
 storage: none
+nuget Fable.React.Native 2.0.0-alpha-001 alpha
 nuget FSharp.Core  redirects:force, content:none
 nuget Fable.Core
 nuget Fable.Elmish

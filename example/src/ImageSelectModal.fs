@@ -18,4 +18,4 @@ module ImageSelectModal =
         dispatch (SelectMessage (ItemSelected (Image.random ())))
       | x -> dispatch x
 
-    SelectModal.view Image.availableImages image Image.name Image.equals isVisible dispatch'
+    SelectModal.view Image.availableImages (Some image) Image.name Image.equals isVisible dispatch'

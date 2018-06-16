@@ -1,7 +1,7 @@
 namespace Fable.Import
 
 open Fable.Core
-open ReactNative
+open Fable.Import.ReactNative
 
 [<Erase>]
 module ReactNativeImageFilterKit =
