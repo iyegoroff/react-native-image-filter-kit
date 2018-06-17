@@ -1,13 +1,9 @@
 module Fable.Helpers.ReactNativeImageFilterKit
 
-// open System
-// open Fable.Import.ReactNative
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 open Fable.Core
-// open Fable.Core.JsInterop
 open Fable.Import
-// open Fable.PowerPack
 
 type RN = ReactNative.Globals
 type RNIFK = ReactNativeImageFilterKit.Globals
@@ -251,323 +247,323 @@ module Props =
     inherit ICISharpenLuminanceProps
     inherit ICIUnsharpMaskProps
 
-    type ImageMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | Matrix of ResizeArray<float>
-      interface IFilterProps
+  type ImageMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Matrix of ResizeArray<float>
+    interface IFilterProps
 
-    type ImageNormalMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageNormalMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageSaturateMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | Value of float
-      interface IFilterProps
+  type ImageSaturateMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+    interface IFilterProps
 
-    type ImageHueRotateMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | Value of float
-      interface IFilterProps
+  type ImageHueRotateMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+    interface IFilterProps
 
-    type ImageLuminanceToAlphaMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageLuminanceToAlphaMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageInvertMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageInvertMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageGrayscaleMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageGrayscaleMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageSepiaMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageSepiaMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageNightvisionMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | Value of float
-      interface IFilterProps
+  type ImageNightvisionMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+    interface IFilterProps
 
-    type ImageWarmMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageWarmMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageCoolMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageCoolMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageBrightnessMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | Value of float
-      interface IFilterProps
+  type ImageBrightnessMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+    interface IFilterProps
 
-    type ImageExposureMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | Value of float
-      interface IFilterProps
+  type ImageExposureMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+    interface IFilterProps
 
-    type ImageContrastMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | Value of float
-      interface IFilterProps
+  type ImageContrastMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+    interface IFilterProps
 
-    type ImageTemperatureMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | Value of float
-      interface IFilterProps
+  type ImageTemperatureMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+    interface IFilterProps
 
-    type ImageTintMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | Value of float
-      interface IFilterProps
+  type ImageTintMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+    interface IFilterProps
 
-    type ImageThresholdMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageThresholdMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageProtanomalyMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageProtanomalyMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageDeuteranomalyMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageDeuteranomalyMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageTritanomalyMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageTritanomalyMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageProtanopiaMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageProtanopiaMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageDeuteranopiaMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageDeuteranopiaMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageTritanopiaMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageTritanopiaMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageAchromatopsiaMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageAchromatopsiaMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type ImageAchromatomalyMatrixFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type ImageAchromatomalyMatrixFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIBoxBlurProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputRadius of IDistance
-      interface IFilterProps
+  type CIBoxBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+    interface IFilterProps
 
-    type CIGaussianBlurProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputRadius of IDistance
-      interface IFilterProps
+  type CIGaussianBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+    interface IFilterProps
 
-    type CIDiscBlurProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputRadius of IDistance
-      interface IFilterProps
+  type CIDiscBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+    interface IFilterProps
 
-    type CIMedianFilterProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIMedianFilterProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIMotionBlurProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputRadius of IDistance
-      | InputAngle of float
-      interface IFilterProps
+  type CIMotionBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+    | InputAngle of float
+    interface IFilterProps
 
-    type CINoiseReductionProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputNoiseLevel of float
-      | InputSharpness of float
-      interface IFilterProps
+  type CINoiseReductionProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputNoiseLevel of float
+    | InputSharpness of float
+    interface IFilterProps
 
-    type CIZoomBlurProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputCenter of Point
-      | InputAmount of float
-      interface IFilterProps
+  type CIZoomBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of Point
+    | InputAmount of float
+    interface IFilterProps
 
-    type CIColorControlsProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputSaturation of float
-      | InputBrightness of float
-      | InputContrast of float
-      interface IFilterProps
+  type CIColorControlsProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputSaturation of float
+    | InputBrightness of float
+    | InputContrast of float
+    interface IFilterProps
 
-    type CIColorClampProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputMinComponents of ResizeArray<float>
-      | InputMaxComponents of ResizeArray<float>
-      interface IFilterProps
+  type CIColorClampProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputMinComponents of ResizeArray<float>
+    | InputMaxComponents of ResizeArray<float>
+    interface IFilterProps
 
-    type CIMaskToAlphaProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIMaskToAlphaProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIMaximumComponentProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIMaximumComponentProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIMinimumComponentProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIMinimumComponentProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIPhotoEffectChromeProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIPhotoEffectChromeProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIPhotoEffectFadeProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIPhotoEffectFadeProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIPhotoEffectInstantProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIPhotoEffectInstantProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIPhotoEffectMonoProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIPhotoEffectMonoProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIPhotoEffectNoirProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIPhotoEffectNoirProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIPhotoEffectProcessProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIPhotoEffectProcessProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIPhotoEffectTonalProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIPhotoEffectTonalProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIPhotoEffectTransferProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIPhotoEffectTransferProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIColorInvertProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      interface IFilterProps
+  type CIColorInvertProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    interface IFilterProps
 
-    type CIColorPosterizeProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputLevels of float
-      interface IFilterProps
+  type CIColorPosterizeProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputLevels of float
+    interface IFilterProps
 
-    type CIVibranceProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputAmount of float
-      interface IFilterProps
+  type CIVibranceProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputAmount of float
+    interface IFilterProps
 
-    type CICircularScreenProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputCenter of Point
-      | InputSharpness of float
-      | InputWidth of IDistance
-      interface IFilterProps
+  type CICircularScreenProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of Point
+    | InputSharpness of float
+    | InputWidth of IDistance
+    interface IFilterProps
 
-    type CIBumpDistortionProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputCenter of Point
-      | InputRadius of IDistance
-      | InputScale of float
-      interface IFilterProps
+  type CIBumpDistortionProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of Point
+    | InputRadius of IDistance
+    | InputScale of float
+    interface IFilterProps
 
-    type CIBumpDistortionLinearProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputCenter of Point
-      | InputRadius of IDistance
-      | InputScale of float
-      | InputAngle of float
-      interface IFilterProps
+  type CIBumpDistortionLinearProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of Point
+    | InputRadius of IDistance
+    | InputScale of float
+    | InputAngle of float
+    interface IFilterProps
 
-    type CICircleSplashDistortionProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputCenter of Point
-      | InputRadius of IDistance
-      interface IFilterProps
+  type CICircleSplashDistortionProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of Point
+    | InputRadius of IDistance
+    interface IFilterProps
 
-    type CICircularWrapProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputCenter of Point
-      | InputRadius of IDistance
-      | InputAngle of float
-      interface IFilterProps
+  type CICircularWrapProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of Point
+    | InputRadius of IDistance
+    | InputAngle of float
+    interface IFilterProps
 
-    type CISharpenLuminanceProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputSharpness of float
-      interface IFilterProps
+  type CISharpenLuminanceProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputSharpness of float
+    interface IFilterProps
 
-    type CIUnsharpMaskProps =
-      | Style of IStyle list
-      | ResizeOutput of bool
-      | InputRadius of IDistance
-      | InputIntensity of float
-      interface IFilterProps
+  type CIUnsharpMaskProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+    | InputIntensity of float
+    interface IFilterProps
 
 
 open Props

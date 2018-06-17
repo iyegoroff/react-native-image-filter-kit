@@ -1356,6 +1356,7 @@ module Props =
         | ListFooterComponent of (unit -> React.ReactElement)
         | ListHeaderComponent of (unit -> React.ReactElement)
         | ColumnWrapperStyle of IStyle list
+        | ContentContainerStyle of IStyle list
         | ExtraData of obj
         | GetItemLayout of (ResizeArray<'a> -> GetItemLayoutResult)
         | Horizontal of bool
@@ -1371,6 +1372,8 @@ module Props =
         | Refreshing of bool
         | RemoveClippedSubviews of bool
         | RenderItem of (FlatListRenderItemInfo<'a> -> React.ReactElement)
+        | ScrollEnabled of bool
+        | Style of IStyle list
         | ViewabilityConfig of ViewabilityConfig
         | Ref of Ref<obj>
         interface IFlatListProperties<'a>

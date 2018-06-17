@@ -1,10 +1,11 @@
 namespace FilterConstructor
 
 open Elmish
+open Elmish.React
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
-open System
-module R = Fable.Helpers.ReactNative
+open Fable.Import
+module RN = Fable.Helpers.ReactNative
 
 
 module Select =
@@ -13,46 +14,46 @@ module Select =
     | ItemSelected of 'a
 
 
-  let inline itemStyle<'a> =
+  let private itemStyle =
     ViewProperties.Style
-      [ Padding (Dip 15.)
-        Flex 1. ]
+      [ Padding (Dip 15.) ]
 
-  let inline selectedStyle<'a> =
+  let private selectedStyle =
     TextProperties.Style
       [ FontWeight FontWeight.Bold
         TextDecorationLine TextDecorationLine.Underline ]
 
-  let inline separatorStyle<'a> =
+  let private separatorStyle =
     ViewProperties.Style
       [ Height (Dip 1.)
         Width (Pct 95.)
         AlignSelf Alignment.Center
         BackgroundColor "lightgray" ]
+    
 
-  let separator () =
-    R.view [ separatorStyle ] []
+  let private separator () =
+    RN.view [ separatorStyle ] []
 
-  let touchable =
+  let private touchable =
     Platform.select
-      [ Platform.Ios (fun onPress -> R.touchableOpacity [ OnPress onPress ])
-        Platform.Android (fun onPress -> R.touchableNativeFeedback [ OnPress onPress ]) ]
+      [ Platform.Ios (fun onPress -> RN.touchableOpacity [ OnPress onPress ])
+        Platform.Android (fun onPress -> RN.touchableNativeFeedback [ OnPress onPress ]) ]
 
   let view items selected itemKey equals (dispatch: Dispatch<Message<'a>>) =
-    let renderItem (item: FlatListRenderItemInfo<'a>) =
+    let renderItem item =
       let style = match selected with
-                  | Some sel when (equals item.item sel) -> [ selectedStyle ]
+                  | Some sel when (equals item sel) -> [ selectedStyle ]
                   | _ -> []
       touchable
-        (fun () -> dispatch (ItemSelected item.item))
-        [ R.view
+        (fun () -> dispatch (ItemSelected item))
+        [ RN.view
             [ itemStyle ]
-            [ R.text
+            [ RN.text
                 style
-                (itemKey item.item) ] ]
+                (itemKey item) ] ]
 
-    R.flatList items
-      [ RenderItem renderItem
+    RN.flatList items
+      [ RenderItem (fun item -> lazyView renderItem item.item)
         ItemSeparatorComponent separator
         ExtraData selected
         KeyExtractor (fun item _ -> itemKey item) ]

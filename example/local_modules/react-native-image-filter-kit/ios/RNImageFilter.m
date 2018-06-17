@@ -1,4 +1,4 @@
-#import <Foundation/Foundation.h>
+#import "MustBeOverriden.h"
 #import "Image/RCTImageView.h"
 #import "Image/RCTImageUtils.h"
 #import "RNImageFilter.h"
@@ -49,8 +49,6 @@
 @end
 
 
-static CIContext* context;
-
 @interface RNImageFilter ()
 
 @property (nonatomic, strong) NSMapTable<UIView *, CIImage *> *originalImages;
@@ -66,17 +64,6 @@ static CIContext* context;
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-//            CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-      // use metal context if supported ?
-      EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-      eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-   
-      context = [CIContext contextWithEAGLContext:eaglContext];
-//            NSLog(@"filter: context %f", CFAbsoluteTimeGetCurrent() - start);
-    });
-
     _originalImages = [NSMapTable weakToStrongObjectsMapTable];
     _observedChildren = [NSHashTable weakObjectsHashTable];
   }
@@ -91,6 +78,24 @@ static CIContext* context;
       [child removeObserver:self forKeyPath:@"image"];
     }
   }
+}
+
++ (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options
+{
+  // CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+  // use metal context if supported ?
+  EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+  eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+  
+  CIContext *context = [CIContext contextWithEAGLContext:eaglContext options:options];
+  // NSLog(@"filter: context %f", CFAbsoluteTimeGetCurrent() - start);
+  
+  return context;
+}
+
+- (CIContext *)context
+{
+  MUST_BE_OVERRIDEN()
 }
 
 UPDATE_FILTER_NUMBER_PROPERTY(Angle);
@@ -195,7 +200,7 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
         
         CGRect outputRect = _resizeOutput ? filter.outputImage.extent : image.extent;
         
-        CGImageRef cgim = [context createCGImage:filter.outputImage fromRect:outputRect];
+        CGImageRef cgim = [[self context] createCGImage:filter.outputImage fromRect:outputRect];
         
         UIImage *newImage = [RNImageFilter resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
                                                        srcSize:outputRect.size

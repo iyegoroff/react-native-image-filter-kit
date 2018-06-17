@@ -1,12 +1,15 @@
 namespace FilterConstructor
 
 open Elmish
-open Fable.Helpers.React
+open Elmish.React
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 open SelectModal
 open Select
-module R = Fable.Helpers.ReactNative
+open Fable.Import
+module RN = Fable.Helpers.ReactNative
+module R = Fable.Helpers.React
+module RNP = Fable.Helpers.ReactNativePortal
 
 
 module Main =
@@ -14,7 +17,7 @@ module Main =
   type Id = int
 
   type Model =
-    { FilteredImages: (Id * FilteredImage.Model) list
+    { FilteredImages: (Id * FilteredImage.Model) array
       DefaultImageSelectModalIsVisible: bool
       DefaultImage: Image.Model
       NextId: Id }
@@ -22,12 +25,12 @@ module Main =
   type Message =
     | AddFilteredImage
     | ChangeAllImages
-    | FilteredImageMessage of int * FilteredImage.Message
+    | FilteredImageMessage of Id * FilteredImage.Message
     | ImageSelectModalMessage of ImageSelectModal.Message
 
 
   let init () =
-    { FilteredImages = []
+    { FilteredImages = [||]
       DefaultImageSelectModalIsVisible = false
       DefaultImage = Image.defaultImage
       NextId = 0 },
@@ -37,24 +40,26 @@ module Main =
     match message with
     | AddFilteredImage ->
       { model with FilteredImages =
-                     (model.NextId, FilteredImage.init model.DefaultImage) :: model.FilteredImages
+                     Array.append
+                       [| (model.NextId, FilteredImage.init model.DefaultImage) |]
+                       model.FilteredImages
                    NextId = model.NextId + 1 }, []
 
     | ChangeAllImages ->
       { model with DefaultImageSelectModalIsVisible = true }, []
 
     | FilteredImageMessage (id, msg) ->
-      match List.tryFind (fun (i, _) -> i = id) model.FilteredImages with
+      match Array.tryFind (fun (i, _) -> i = id) model.FilteredImages with
       | None -> model, []
       | Some (_, image) ->
         match msg with
         | FilteredImage.Delete ->
-          { model with FilteredImages = List.filter
+          { model with FilteredImages = Array.filter
                                           (fun (i, _) -> i <> id)
                                           model.FilteredImages }, []
         | _ ->
           let image', cmd = FilteredImage.update msg image
-          { model with FilteredImages = List.map
+          { model with FilteredImages = Array.map
                                           (fun (i, m) -> i, if i = id then image' else m)
                                           model.FilteredImages },
           Cmd.map (fun sub -> FilteredImageMessage (id, sub)) cmd
@@ -63,21 +68,28 @@ module Main =
       match msg with
       | SelectMessage (ItemSelected image) ->
         let filteredImages =
-          List.map (fun (i, m) -> i, (FilteredImage.selectImage m image)) model.FilteredImages
+          Array.map (fun (i, m) -> i, (FilteredImage.selectImage m image)) model.FilteredImages
         { model with DefaultImage = image 
                      FilteredImages = filteredImages }, []
       | Hide ->
         { model with DefaultImageSelectModalIsVisible = false }, []
 
 
-  let inline containerStyle<'a> =
+  let private separatorStyle =
     ViewProperties.Style
-      [ Padding (Pct 1.5)
-        Flex 1. ]
+      [ Height (Dip 1.5) ]
 
-  let inline gapStyle<'a> =
-    ViewProperties.Style
-      [ Height (Dip 5.) ]
+  let private listContentStyle =
+    FlatListProperties.ContentContainerStyle
+      [ Padding (Pct 1.5)
+        PaddingTop (Dip 25.) ]
+
+  let private listStyle =
+    FlatListProperties.Style
+      [ BackgroundColor "wheat" ]
+
+  let separator () =
+    RN.view [ separatorStyle ] []
 
   // [<Pojo>]
   // type ScrollToConfig = { y: float }
@@ -85,8 +97,20 @@ module Main =
   let view model (dispatch: Dispatch<Message>) =
     let filteredImageDispatch i msg = dispatch <| FilteredImageMessage (i, msg)
 
-    let items =
-      List.map (fun (i, c) -> FilteredImage.view c (filteredImageDispatch i)) model.FilteredImages
+    let renderFilteredImage (id, image) =
+      FilteredImage.view image (filteredImageDispatch id)
+
+    let listControls () =
+      R.fragment
+        []
+        [ RN.button
+            [ ButtonProperties.Title "Change all images"
+              ButtonProperties.OnPress (fun () -> dispatch ChangeAllImages) ]
+            []
+          RN.button
+            [ ButtonProperties.Title "Add filtered image"
+              ButtonProperties.OnPress (fun () -> dispatch AddFilteredImage) ]
+            [] ]
 
     // let mutable scrollView: Option<ScrollView> = None
 
@@ -95,26 +119,20 @@ module Main =
     //   | Some ref -> ref.scrollTo(U2.Case2 ({ y = height } :> obj))
     //   | None -> ()
 
-    fragment
-      []
+    // [ ScrollViewProperties.OnContentSizeChange scrollToBottom
+    //   ScrollViewProperties.Ref (fun ref -> scrollView <- Some ref)]
+
+    RNP.portalProvider
       [ ImageSelectModal.view
           model.DefaultImage
           model.DefaultImageSelectModalIsVisible
           (ImageSelectModalMessage >> dispatch)
-        R.scrollView
-          []
-          // [ ScrollViewProperties.OnContentSizeChange scrollToBottom
-          //   ScrollViewProperties.Ref (fun ref -> scrollView <- Some ref)]
-          [ R.view
-              [ containerStyle ]
-              [ R.button
-                  [ ButtonProperties.Title "Change all images"
-                    ButtonProperties.OnPress (fun () -> dispatch ChangeAllImages) ]
-                  []
-                R.view [ gapStyle ] []
-                R.button
-                  [ ButtonProperties.Title "Add filtered image"
-                    ButtonProperties.OnPress (fun () -> dispatch AddFilteredImage) ]
-                  []
-                fragment [] [ yield! items ]
-                R.view [ gapStyle ] [] ] ] ]
+        RNP.exitPortal Constants.filterPortal []
+        RNP.exitPortal Constants.imagePortal []
+        RN.flatList model.FilteredImages
+          [ listContentStyle
+            listStyle
+            RenderItem (fun item -> lazyView renderFilteredImage item.item)
+            ItemSeparatorComponent separator
+            ListHeaderComponent listControls
+            KeyExtractor (fun (id, _) _ -> string id) ] ]

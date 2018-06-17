@@ -4,10 +4,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="FastMemoize.fs" />
-    <!-- <Compile Include="Fable.Import.ReactNative.fs" />
-    <Compile Include="Fable.Helpers.ReactNative.fs" /> -->
+    <Compile Include="Fable.Import.ReactNative.fs" />
+    <Compile Include="Fable.Helpers.ReactNative.fs" />
     <Compile Include="Fable.Import.ReactNativeImageFilterKit.fs" />
     <Compile Include="Fable.Helpers.ReactNativeImageFilterKit.fs" />
+    <Compile Include="Fable.Import.ReactNativePortal.fs" />
+    <Compile Include="Fable.Helpers.ReactNativePortal.fs" />
     <Compile Include="Constants.fs" />
     <Compile Include="Filter.fs" />
     <Compile Include="Image.fs" />

@@ -10,6 +10,7 @@ open Fable.Import
 
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
+module RNP = Fable.Helpers.ReactNativePortal
 
 
 module FilteredImage =
@@ -107,15 +108,20 @@ module FilteredImage =
       
     
   let view model (dispatch: Dispatch<Message>) =
+    Browser.console.warn("render")
     R.fragment
       []
-      [ ImageSelectModal.view
-          model.Image
-          model.ImageSelectModalIsVisible
-          (ImageSelectModalMessage >> dispatch)
-        FilterSelectModal.view
-          model.FilterSelectModalIsVisible
-          (FilterSelectModalMessage >> dispatch)
+      [ RNP.enterPortal
+          Constants.imagePortal
+          [ ImageSelectModal.view
+              model.Image
+              model.ImageSelectModalIsVisible
+              (ImageSelectModalMessage >> dispatch) ]
+        RNP.enterPortal
+          Constants.filterPortal
+          [ FilterSelectModal.view
+              model.FilterSelectModalIsVisible
+              (FilterSelectModalMessage >> dispatch) ]
         RN.view
           [ containerStyle
             ActivityIndicator.Size Size.Large ]

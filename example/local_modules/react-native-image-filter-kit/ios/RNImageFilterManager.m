@@ -1,17 +1,11 @@
 #import <React/RCTBridge.h>
 #import "RNImageFilterManager.h"
-#import "RNImageFilter.h"
 
 @implementation RNImageFilterManager
 
-RCT_EXPORT_MODULE();
-
 @synthesize bridge = _bridge;
 
-- (UIView *)view
-{
-  return [[RNImageFilter alloc] init];
-}
+RCT_EXPORT_MODULE();
 
 - (dispatch_queue_t)methodQueue
 {
