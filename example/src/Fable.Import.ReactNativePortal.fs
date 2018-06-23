@@ -1,37 +1,31 @@
 namespace Fable.Import
 
-open Fable.Core
-open Fable.Import.ReactNative
+open Fable.Helpers.ReactNative
+open Fable.Core.JsInterop
 
-[<Erase>]
 module ReactNativePortal =
 
-    type BlackPortalProps =
-      abstract name: string with get, set
+  let inline blackPortal (name: string) (children: React.ReactElement list): React.ReactElement =
+    createElementWithObjProps(
+      import "BlackPortal" "react-native-portal",
+      createObj ["name" ==> name],
+      children
+    )
 
-    and BlackPortalStatic =
-      inherit React.ComponentClass<BlackPortalProps>
+  let inline whitePortal (name: string) (children: React.ReactElement list): React.ReactElement =
+    createElementWithObjProps(
+      import "WhitePortal" "react-native-portal",
+      createObj ["name" ==> name],
+      children
+    )
 
-    and BlackPortal =
-      BlackPortalStatic
+  let inline portalProvider (children: React.ReactElement list): React.ReactElement =
+    createElement(
+      import "PortalProvider" "react-native-portal",
+      [],
+      children
+    )
 
-    and WhitePortalProps<'a> =
-      abstract name: string with get, set
-      abstract childrenProps: 'a option with get, set
+  let inline enterPortal<'a> = blackPortal
 
-    and WhitePortalStatic<'a> =
-      inherit React.ComponentClass<WhitePortalProps<'a>>
-
-    and WhitePortal<'a> =
-      WhitePortalStatic<'a>
-
-    and PortalProviderStatic =
-      inherit React.ComponentClass<Unit>
-
-    and PortalProvider =
-      PortalProviderStatic
-
-    type Globals =
-      [<Import("BlackPortal", "react-native-portal")>] static member BlackPortal with get(): BlackPortalStatic = jsNative and set(v: BlackPortalStatic): unit = jsNative
-      [<Import("WhitePortal", "react-native-portal")>] static member WhitePortal with get(): WhitePortalStatic<obj> = jsNative and set(v: WhitePortalStatic<obj>): unit = jsNative
-      [<Import("PortalProvider", "react-native-portal")>] static member PortalProvider with get(): PortalProviderStatic = jsNative and set(v: PortalProviderStatic): unit = jsNative
+  let inline exitPortal<'a> = whitePortal

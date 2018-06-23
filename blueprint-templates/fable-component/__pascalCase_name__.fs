@@ -12,14 +12,14 @@ module {{pascalCase name}} =
 
   type Message = None
 
-  let init () =
+  let init () : Model =
     ()
 
-  let update (message: Message) model =
+  let update (message: Message) (model: Model) =
     match message with
     | None ->
       ()
 
-  let view model (dispatch: Dispatch<Message>) =
+  let view (model: Model) (dispatch: Dispatch<Message>) =
     RN.view []
       [ RN.text [] "{{pascalCase name}}" ]

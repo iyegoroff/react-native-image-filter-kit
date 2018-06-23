@@ -2,7 +2,7 @@ namespace FilterConstructor
 
 open Elmish
 open Fable.Helpers.ReactNative.Props
-module R = Fable.Helpers.ReactNative
+module RN = Fable.Helpers.ReactNative
 
 
 module SelectModal =
@@ -13,7 +13,7 @@ module SelectModal =
 
 
   let view items selected itemKey equals isVisible (dispatch: Dispatch<Message<'a>>) =
-    R.modal
+    RN.modal
       [ Visible isVisible
         OnRequestClose (fun () -> dispatch Hide) ]
       [ Select.view items selected itemKey equals (fun msg ->

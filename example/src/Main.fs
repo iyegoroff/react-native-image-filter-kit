@@ -9,7 +9,7 @@ open Select
 open Fable.Import
 module RN = Fable.Helpers.ReactNative
 module R = Fable.Helpers.React
-module RNP = Fable.Helpers.ReactNativePortal
+module RNP = Fable.Import.ReactNativePortal
 
 
 module Main =
@@ -90,10 +90,7 @@ module Main =
 
   let separator () =
     RN.view [ separatorStyle ] []
-
-  // [<Pojo>]
-  // type ScrollToConfig = { y: float }
-
+        
   let view model (dispatch: Dispatch<Message>) =
     let filteredImageDispatch i msg = dispatch <| FilteredImageMessage (i, msg)
 
@@ -111,16 +108,6 @@ module Main =
             [ ButtonProperties.Title "Add filtered image"
               ButtonProperties.OnPress (fun () -> dispatch AddFilteredImage) ]
             [] ]
-
-    // let mutable scrollView: Option<ScrollView> = None
-
-    // let scrollToBottom = fun _ height ->
-    //   match scrollView with
-    //   | Some ref -> ref.scrollTo(U2.Case2 ({ y = height } :> obj))
-    //   | None -> ()
-
-    // [ ScrollViewProperties.OnContentSizeChange scrollToBottom
-    //   ScrollViewProperties.Ref (fun ref -> scrollView <- Some ref)]
 
     RNP.portalProvider
       [ ImageSelectModal.view

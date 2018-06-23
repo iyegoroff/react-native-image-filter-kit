@@ -10,7 +10,7 @@ open Fable.Import
 
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
-module RNP = Fable.Helpers.ReactNativePortal
+module RNP = Fable.Import.ReactNativePortal
 
 
 module FilteredImage =

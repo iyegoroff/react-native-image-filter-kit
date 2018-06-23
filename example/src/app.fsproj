@@ -11,8 +11,10 @@
     <Compile Include="Fable.Import.ReactNativePortal.fs" />
     <Compile Include="Fable.Helpers.ReactNativePortal.fs" />
     <Compile Include="Constants.fs" />
-    <Compile Include="Filter.fs" />
     <Compile Include="Image.fs" />
+    <Compile Include="Filter.fs" />
+    <Compile Include="FilterInputSlider.fs" />
+    <Compile Include="FilterInput.fs" />
     <Compile Include="Select.fs" />
     <Compile Include="SelectModal.fs" />
     <Compile Include="FilterSelectModal.fs" />

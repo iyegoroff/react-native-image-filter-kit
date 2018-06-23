@@ -213,6 +213,13 @@ module Props =
         | Visible | Hidden
 
     [<StringEnum; RequireQualifiedAccess>]
+    type ImageCache =
+        | Default
+        | Reload
+        | [<CompiledName("force-cache")>] ForceCache
+        | [<CompiledName("only-if-cached")>] OnlyIfCached
+
+    [<StringEnum; RequireQualifiedAccess>]
     type Behavior =
         | Height | Position | Padding
 
@@ -360,11 +367,15 @@ module Props =
     type IRefreshControlProperties =
         interface end
 
-    type ISliderProperties =
-        interface end
-
     type ISliderIOSProperties =
         interface end
+
+    type ISliderAndroidProperties =
+        interface end
+
+    type ISliderProperties =
+        inherit ISliderIOSProperties
+        inherit ISliderAndroidProperties
 
     type ITabBarItemProperties =
         interface end
@@ -429,13 +440,33 @@ module Props =
         inherit IProgressViewIOSProperties
         inherit IRefreshControlProperties
         inherit ISliderProperties
-        inherit ISliderIOSProperties
         inherit ITabBarItemProperties
         inherit ITabBarIOSProperties
         inherit IScrollViewProperties
         inherit IStatusBarProperties
         inherit ISwitchProperties
         inherit IMapViewProperties
+
+    type IImageIOSSourceProperties =
+        interface end
+
+    type IImageSourceProperties =
+        inherit IImageIOSSourceProperties
+
+    type ImageIOSSourceProperties =
+        | Bundle of string
+        | ImageCache of ImageCache
+        interface IImageIOSSourceProperties
+
+    type ImageSourceProperties =
+        | Uri of string
+        | Method of string
+        | Headers of obj
+        | Body of string
+        | Width of float
+        | Height of float
+        | Scale of float
+        interface IImageSourceProperties
 
     type ITouchable =
         inherit IScrollViewProperties
@@ -950,19 +981,22 @@ module Props =
         | Ref of Ref<RefreshControl>
         interface IRefreshControlProperties
 
-    type SliderPropertiesIOS =
-        | MaximumTrackImage of obj
-        | MaximumTrackTintColor of string
-        | MinimumTrackImage of string
-        | MinimumTrackTintColor of string
-        | ThumbImage of obj
-        | TrackImage of obj
-        | Ref of Ref<Slider>
-        interface ISliderProperties
+    type SliderIOSProperties =
+        | MaximumTrackImage of IImageSourceProperties
+        | MinimumTrackImage of IImageSourceProperties
+        | ThumbImage of IImageSourceProperties
+        | TrackImage of IImageSourceProperties
+        interface ISliderIOSProperties
+
+    type SliderAndroidProperties =
+        | ThumbTintColor of string
+        interface ISliderAndroidProperties
 
     type SliderProperties =
         | Disabled of bool
+        | MaximumTrackTintColor of string
         | MaximumValue of float
+        | MinimumTrackTintColor of string
         | MinimumValue of float
         | OnSlidingComplete of (float -> unit)
         | OnValueChange of (float -> unit)
@@ -971,21 +1005,6 @@ module Props =
         | TestID of string
         | Value of float
         interface ISliderProperties
-
-    type SliderIOSProperties =
-        | Disabled of bool
-        | MaximumValue of float
-        | MaximumTrackTintColor of string
-        | MinimumValue of float
-        | MinimumTrackImage of obj
-        | MinimumTrackTintColor of string
-        | OnSlidingComplete of (unit -> unit)
-        | OnValueChange of (float -> unit)
-        | Step of float
-        | Style of IStyle list
-        | Value of float
-        | Ref of Ref<SliderIOS>
-        interface ISliderIOSProperties
 
     type SwitchIOSProperties =
         | Disabled of bool
@@ -1018,14 +1037,6 @@ module Props =
 
     type IImageProperties =
         inherit IImagePropertiesIOS
-
-    type IImageSourceProperties =
-        interface end
-
-    type ImageSourceProperties =
-        | Uri of string
-        | IsStatic of bool
-        interface IImageSourceProperties
 
     type ImagePropertiesIOS =
         | AccessibilityLabel of string
