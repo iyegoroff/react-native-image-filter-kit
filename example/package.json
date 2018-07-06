@@ -12,7 +12,12 @@
     "install:react-native-image-filter-kit": "shx cp -R '../!(example|_example|node_modules|blueprint-templates)' 'local_modules/react-native-image-filter-kit' && npm i react-native-image-filter-kit",
     "reinstall:react-native-image-filter-kit": "npm run reset:local-modules && npm run add-dependency:react-native-image-filter-kit && npm run install:react-native-image-filter-kit",
     "run:android": "npm run reinstall:react-native-image-filter-kit && react-native run-android",
-    "postinstall": "npm run reinstall:react-native-image-filter-kit"
+    "postinstall": "npm run reinstall:react-native-image-filter-kit",
+    "restore": "cd src && dotnet restore",
+    "start": "cd src && dotnet fable npm-run watch",
+    "paket:add": "mono .paket/paket.exe add",
+    "paket:remove": "mono .paket/paket.exe remove",
+    "paket:update": "mono .paket/paket.exe update"
   },
   "dependencies": {
     "buffer": "^5.1.0",

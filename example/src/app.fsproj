@@ -1,20 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <WarningsAsErrors>25</WarningsAsErrors>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="FastMemoize.fs" />
     <Compile Include="Fable.Import.ReactNative.fs" />
     <Compile Include="Fable.Helpers.ReactNative.fs" />
     <Compile Include="Fable.Import.ReactNativeImageFilterKit.fs" />
     <Compile Include="Fable.Helpers.ReactNativeImageFilterKit.fs" />
-    <Compile Include="Fable.Import.ReactNativePortal.fs" />
-    <Compile Include="Fable.Helpers.ReactNativePortal.fs" />
     <Compile Include="Constants.fs" />
+    <Compile Include="Utils.fs" />
     <Compile Include="Image.fs" />
-    <Compile Include="Filter.fs" />
-    <Compile Include="FilterInputSlider.fs" />
-    <Compile Include="FilterInput.fs" />
+    <Compile Include="FilterInputs/FilterInputSlider.fs" />
+    <Compile Include="FilterInputs/FilterInput.fs" />
+    <Compile Include="FilterInputs/FilterScalarInput.fs" />
+    <Compile Include="FilterInputs/FilterDistanceInput.fs" />
+    <Compile Include="FilterInputs/FilterRGBAVectorInput.fs" />
+    <Compile Include="FilterInputs/FilterPointInput.fs" />
+    <Compile Include="Filters/Filter.fs" />
+    <Compile Include="Filters/FilterCollection.fs" />
     <Compile Include="Select.fs" />
     <Compile Include="SelectModal.fs" />
     <Compile Include="FilterSelectModal.fs" />

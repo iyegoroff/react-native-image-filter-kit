@@ -29,7 +29,7 @@ module Main =
     | ImageSelectModalMessage of ImageSelectModal.Message
 
 
-  let init () =
+  let init () = 
     { FilteredImages = [||]
       DefaultImageSelectModalIsVisible = false
       DefaultImage = Image.defaultImage

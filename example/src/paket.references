@@ -3,4 +3,5 @@ Fable.Elmish
 Fable.Elmish.HMR
 Fable.Elmish.React
 Fable.React
+Fable.Import.ReactNativePortal
 dotnet-fable

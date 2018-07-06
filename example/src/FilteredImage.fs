@@ -108,7 +108,6 @@ module FilteredImage =
       
     
   let view model (dispatch: Dispatch<Message>) =
-    Browser.console.warn("render")
     R.fragment
       []
       [ RNP.enterPortal
