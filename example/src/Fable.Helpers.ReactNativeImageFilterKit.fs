@@ -164,7 +164,7 @@ module Props =
     | Style of IStyle list
     | ResizeOutput of bool
     | InputCenter of IPoint
-    | InputAmount of float
+    | InputAmount of IDistance
 
   type CIColorControlsProps =
     | Style of IStyle list

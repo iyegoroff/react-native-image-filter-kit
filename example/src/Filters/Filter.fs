@@ -12,6 +12,7 @@ module Filter =
 
   type InputShape<'scalar, 'distance, 'point, 'rgbaVector> =
     | InputAmount of 'scalar
+    | InputAmountDistance of 'distance
     | InputAngle of 'scalar
     | InputBrightness of 'scalar
     | InputCenter of 'point
@@ -48,6 +49,8 @@ module Filter =
          match input, newInput with
          | InputAmount _, InputAmount _ -> newInput
          | InputAmount _, _ -> input
+         | InputAmountDistance _, InputAmountDistance _ -> newInput
+         | InputAmountDistance _, _ -> input
          | InputAngle _, InputAngle _ -> newInput
          | InputAngle _, _ -> input
          | InputBrightness _, InputBrightness _ -> newInput
@@ -89,6 +92,7 @@ module Filter =
     | FilterInputMessage msg ->
       match msg with
       | InputAmount msg' -> updateInput msg' model InputAmount
+      | InputAmountDistance msg' -> updateInput msg' model InputAmountDistance
       | InputAngle msg' -> updateInput msg' model InputAngle
       | InputBrightness msg' -> updateInput msg' model InputBrightness
       | InputCenter msg' -> updateInput msg' model InputCenter
@@ -116,6 +120,8 @@ module Filter =
       |> List.map
            (function
             | InputAmount input -> FilterScalarInput.view input (InputAmount >> dispatch')
+            | InputAmountDistance input ->
+              FilterDistanceInput.view input (InputAmountDistance >> dispatch')
             | InputAngle input -> FilterScalarInput.view input (InputAngle >> dispatch')
             | InputBrightness input -> FilterScalarInput.view input (InputBrightness >> dispatch')
             | InputCenter input -> FilterPointInput.view input (InputCenter >> dispatch')

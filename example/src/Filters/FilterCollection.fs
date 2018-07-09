@@ -6,7 +6,6 @@ open Fable.Core
 open Fable.Helpers
 open Elmish
 open System
-open Fable.Helpers.ReactNativeImageFilterKit
 open Fable.Helpers.ReactNativeImageFilterKit.Props
 
 module R = Fable.Helpers.React
@@ -80,18 +79,50 @@ module FilterCollection =
     | CISharpenLuminance -> "CISharpenLuminance"
     | CIUnsharpMask -> "CIUnsharpMask"
 
-  let init =
-    function
+  
+  let private inputName case =
+    Array.head ((sprintf "%A" case).Split [| |])
+
+  let private distanceInput case toDistance min max =
+    case (FilterDistanceInput.init (inputName case) toDistance min max)
+
+  let private scalarInput case min max =
+    case (FilterScalarInput.init (inputName case) min max)
+
+  let private pointInput case toPoint min max =
+    case (FilterPointInput.init (inputName case) toPoint min max)
+
+  let private rgbaVectorInput case min max =
+    case (FilterRGBAVectorInput.init (inputName case) min max)
+
+  let private toPoint (x, y) =
+    RNF.Point (RNF.Distance.WPct x, RNF.Distance.HPct y)
+
+  let init model : Filter.Model =
+    match model with
     | CIBoxBlur ->
-      [ FilterDistanceInput.init Distance.Dip "inputRadius" 0. 100. ]
-    | CIDiscBlur -> []
-    | CIGaussianBlur -> []
+      [ distanceInput Filter.InputRadius RNF.Distance.MaxPct  0. 50. ]
+    | CIDiscBlur ->
+      [ distanceInput Filter.InputRadius RNF.Distance.MaxPct  0. 50. ]
+    | CIGaussianBlur ->
+      [ distanceInput Filter.InputRadius RNF.Distance.MaxPct  0. 50. ]
     | CIMedianFilter -> []
-    | CIMotionBlur -> []
-    | CINoiseReduction -> []
-    | CIZoomBlur -> []
-    | CIColorClamp -> []
-    | CIColorControls -> []
+    | CIMotionBlur ->
+      [ distanceInput Filter.InputRadius RNF.Distance.MaxPct  0. 50.
+        scalarInput Filter.InputAngle 0. (2. * Math.PI) ]
+    | CINoiseReduction ->
+      [ scalarInput Filter.InputNoiseLevel 0. 10.
+        scalarInput Filter.InputSharpness 0. 10. ]
+    | CIZoomBlur ->
+      [ pointInput Filter.InputCenter toPoint (0., 100.) (0., 100.)
+        distanceInput Filter.InputAmountDistance RNF.Distance.MaxPct  0. 100. ]
+    | CIColorClamp ->
+      [ rgbaVectorInput Filter.InputMinComponents (0., 0., 0., 0.) (100., 100., 100., 100.)
+        rgbaVectorInput Filter.InputMaxComponents (0., 0., 0., 0.) (100., 100., 100., 100.) ]
+    | CIColorControls -> 
+      [ scalarInput Filter.InputSaturation 0. 10.
+        scalarInput Filter.InputBrightness 0. 10.
+        scalarInput Filter.InputContrast 0. 10. ]
     | CIMaskToAlpha -> []
     | CIMaximumComponent -> []
     | CIMinimumComponent -> []
@@ -104,15 +135,35 @@ module FilterCollection =
     | CIPhotoEffectTonal -> []
     | CIPhotoEffectTransfer -> []
     | CIColorInvert -> []
-    | CIColorPosterize -> []
-    | CIVibrance -> []
-    | CICircularScreen -> []
-    | CIBumpDistortion -> []
-    | CIBumpDistortionLinear -> []
-    | CICircleSplashDistortion -> []
-    | CICircularWrap -> []
-    | CISharpenLuminance -> []
-    | CIUnsharpMask -> []
+    | CIColorPosterize ->
+      [ scalarInput Filter.InputLevels 0. 10. ]
+    | CIVibrance ->
+      [ scalarInput Filter.InputAmount 0. 10. ]
+    | CICircularScreen ->
+      [ pointInput Filter.InputCenter toPoint (0., 100.) (0., 100.)
+        scalarInput Filter.InputSharpness 0. 10.
+        distanceInput Filter.InputWidth RNF.Distance.MaxPct 0. 100. ]
+    | CIBumpDistortion ->
+      [ pointInput Filter.InputCenter toPoint (0., 100.) (0., 100.)
+        distanceInput Filter.InputRadius RNF.Distance.MaxPct  0. 50.
+        scalarInput Filter.InputScale -2. 2. ]
+    | CIBumpDistortionLinear ->
+      [ pointInput Filter.InputCenter toPoint (0., 100.) (0., 100.)
+        distanceInput Filter.InputRadius RNF.Distance.MaxPct  0. 50.
+        scalarInput Filter.InputScale -2. 2.
+        scalarInput Filter.InputAngle 0. (2. * Math.PI) ]
+    | CICircleSplashDistortion ->
+      [ pointInput Filter.InputCenter toPoint (0., 100.) (0., 100.)
+        distanceInput Filter.InputRadius RNF.Distance.MaxPct  0. 50. ]
+    | CICircularWrap ->
+      [ pointInput Filter.InputCenter toPoint (0., 100.) (0., 100.)
+        distanceInput Filter.InputRadius RNF.Distance.MaxPct  0. 50.
+        scalarInput Filter.InputAngle 0. (2. * Math.PI) ]
+    | CISharpenLuminance ->
+      [ scalarInput Filter.InputSharpness 0. 10. ]
+    | CIUnsharpMask ->
+      [ distanceInput Filter.InputRadius RNF.Distance.MaxPct  0. 50.
+        scalarInput Filter.InputIntensity 0. 10. ]
 
   let view =
     function
@@ -172,7 +223,7 @@ module FilterCollection =
         (function
          | Filter.InputCenter input ->
            Some (CIZoomBlurProps.InputCenter (input.Convert input.Value))
-         | Filter.InputAmount input ->
+         | Filter.InputAmountDistance input ->
            Some (CIZoomBlurProps.InputAmount (input.Convert input.Value))
          | _ -> None)
          

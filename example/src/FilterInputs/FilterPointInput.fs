@@ -15,8 +15,8 @@ module FilterPointInput =
   let private averagePoint (x1, y1) (x2, y2) =
     (Utils.average x1 x2, Utils.average y1 y2)
 
-  let init (toDistance: float -> IDistance) =
-    FilterInput.init averagePoint (fun (x, y) -> RNF.Point (toDistance x, toDistance y))
+  let init name (toPoint: float * float -> IPoint) =
+    FilterInput.init averagePoint toPoint name
 
   let private updatePointX (model: Model) x =
     let (_, y) = model.Value
