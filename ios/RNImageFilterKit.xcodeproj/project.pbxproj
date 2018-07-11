@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		744193AC20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193AB20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m */; };
+		744193AF20D58CA700E7725F /* RNImageFilterWithColorManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193AE20D58CA700E7725F /* RNImageFilterWithColorManagement.m */; };
+		744193B320D58D5700E7725F /* RNImageFilterWithoutColorManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193B220D58D5700E7725F /* RNImageFilterWithoutColorManagement.m */; };
+		744193B620D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193B520D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m */; };
 		7487A2D520A90EAC0002A850 /* RNImageMatrixFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */; };
 		7487A2D820A90ECE0002A850 /* RNImageMatrixFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */; };
 		74BF08B320B258E300D93AFC /* RNImageFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */; };
@@ -27,6 +31,15 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNImageFilterKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNImageFilterKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		744193AA20D58C5100E7725F /* RNImageFilterWithColorManagementManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageFilterWithColorManagementManager.h; sourceTree = "<group>"; };
+		744193AB20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterWithColorManagementManager.m; sourceTree = "<group>"; };
+		744193AD20D58CA700E7725F /* RNImageFilterWithColorManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageFilterWithColorManagement.h; sourceTree = "<group>"; };
+		744193AE20D58CA700E7725F /* RNImageFilterWithColorManagement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterWithColorManagement.m; sourceTree = "<group>"; };
+		744193B120D58D5700E7725F /* RNImageFilterWithoutColorManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageFilterWithoutColorManagement.h; sourceTree = "<group>"; };
+		744193B220D58D5700E7725F /* RNImageFilterWithoutColorManagement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterWithoutColorManagement.m; sourceTree = "<group>"; };
+		744193B420D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageFilterWithoutColorManagementManager.h; sourceTree = "<group>"; };
+		744193B520D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterWithoutColorManagementManager.m; sourceTree = "<group>"; };
+		744193B720D591AC00E7725F /* MustBeOverriden.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MustBeOverriden.h; sourceTree = "<group>"; };
 		7487A2D320A90EAC0002A850 /* RNImageMatrixFilterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageMatrixFilterManager.h; sourceTree = "<group>"; };
 		7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageMatrixFilterManager.m; sourceTree = "<group>"; };
 		7487A2D620A90ECE0002A850 /* RNImageMatrixFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageMatrixFilter.h; sourceTree = "<group>"; };
@@ -59,16 +72,49 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				74BF08B020B258E200D93AFC /* RNImageFilter.h */,
-				74BF08B220B258E300D93AFC /* RNImageFilter.m */,
-				74BF08B120B258E200D93AFC /* RNImageFilterManager.h */,
-				74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */,
+				744193B720D591AC00E7725F /* MustBeOverriden.h */,
+				744193B020D58D3600E7725F /* RNImageFilterWithoutColorManagement */,
+				744193A820D58B9400E7725F /* RNImageFilterWithColorManagement */,
+				744193A720D58B8400E7725F /* RNImageFilter */,
 				7487A2D320A90EAC0002A850 /* RNImageMatrixFilterManager.h */,
 				7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */,
 				7487A2D620A90ECE0002A850 /* RNImageMatrixFilter.h */,
 				7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		744193A720D58B8400E7725F /* RNImageFilter */ = {
+			isa = PBXGroup;
+			children = (
+				74BF08B020B258E200D93AFC /* RNImageFilter.h */,
+				74BF08B220B258E300D93AFC /* RNImageFilter.m */,
+				74BF08B120B258E200D93AFC /* RNImageFilterManager.h */,
+				74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */,
+			);
+			name = RNImageFilter;
+			sourceTree = "<group>";
+		};
+		744193A820D58B9400E7725F /* RNImageFilterWithColorManagement */ = {
+			isa = PBXGroup;
+			children = (
+				744193AD20D58CA700E7725F /* RNImageFilterWithColorManagement.h */,
+				744193AE20D58CA700E7725F /* RNImageFilterWithColorManagement.m */,
+				744193AA20D58C5100E7725F /* RNImageFilterWithColorManagementManager.h */,
+				744193AB20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m */,
+			);
+			name = RNImageFilterWithColorManagement;
+			sourceTree = "<group>";
+		};
+		744193B020D58D3600E7725F /* RNImageFilterWithoutColorManagement */ = {
+			isa = PBXGroup;
+			children = (
+				744193B120D58D5700E7725F /* RNImageFilterWithoutColorManagement.h */,
+				744193B220D58D5700E7725F /* RNImageFilterWithoutColorManagement.m */,
+				744193B420D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.h */,
+				744193B520D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m */,
+			);
+			name = RNImageFilterWithoutColorManagement;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +174,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				74BF08B320B258E300D93AFC /* RNImageFilterManager.m in Sources */,
+				744193AC20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m in Sources */,
+				744193B320D58D5700E7725F /* RNImageFilterWithoutColorManagement.m in Sources */,
+				744193B620D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m in Sources */,
+				744193AF20D58CA700E7725F /* RNImageFilterWithColorManagement.m in Sources */,
 				7487A2D520A90EAC0002A850 /* RNImageMatrixFilterManager.m in Sources */,
 				7487A2D820A90ECE0002A850 /* RNImageMatrixFilter.m in Sources */,
 				74BF08B420B258E300D93AFC /* RNImageFilter.m in Sources */,

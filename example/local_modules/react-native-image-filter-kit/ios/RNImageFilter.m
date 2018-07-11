@@ -256,19 +256,19 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
   }
   
   if ([unit isEqualToString:@"h"]) {
-    return num * bounds.height * 0.1f;
+    return num * bounds.height * 0.01f;
   }
   
   if ([unit isEqualToString:@"w"]) {
-    return num * bounds.width * 0.1f;
+    return num * bounds.width * 0.01f;
   }
   
   if ([unit isEqualToString:@"max"]) {
-    return num * MAX(bounds.width, bounds.height) * 0.1f;
+    return num * MAX(bounds.width, bounds.height) * 0.01f;
   }
   
   if ([unit isEqualToString:@"min"]) {
-    return num * MIN(bounds.width, bounds.height) * 0.1f;
+    return num * MIN(bounds.width, bounds.height) * 0.01f;
   }
   
   if (RCT_DEBUG) {

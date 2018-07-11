@@ -27,4 +27,7 @@
 @property (nonatomic, strong) NSArray<NSNumber *> *inputMinComponents;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputMaxComponents;
 
++ (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options;
+- (CIContext *)context;
+
 @end

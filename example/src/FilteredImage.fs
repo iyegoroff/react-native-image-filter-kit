@@ -1,6 +1,5 @@
 
 namespace FilterConstructor
-
 open Elmish
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props

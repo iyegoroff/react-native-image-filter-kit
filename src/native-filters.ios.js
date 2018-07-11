@@ -1,5 +1,8 @@
 import React from 'react';
-import ImageFilter from './image-filter';
+import {
+  ImageFilterWithColorManagement,
+  ImageFilterWithoutColorManagement
+} from './image-filter';
 
 const filters = {
   CIBoxBlur: ['inputRadius'],
@@ -178,7 +181,13 @@ const filters = {
   // CISwipeTransition
 };
 
-const createImageNativeFilter = (name, paramNames) => ({ children, ...restProps }) => (
+const nativeImageFilter = (name) => {
+  return name === 'CIColorMatrix' || name === 'CIColorInvert'
+    ? ImageFilterWithoutColorManagement
+    : ImageFilterWithColorManagement;
+};
+
+const createImageNativeFilter = (name, paramNames, ImageFilter) => ({ children, ...restProps }) => (
   <ImageFilter
     name={name}
     paramNames={paramNames}
@@ -190,7 +199,7 @@ const createImageNativeFilter = (name, paramNames) => ({ children, ...restProps 
 
 export default Object.keys(filters).reduce(
   (acc, name) => {
-    acc[name] = createImageNativeFilter(name, filters[name]);
+    acc[name] = createImageNativeFilter(name, filters[name], nativeImageFilter(name));
     acc[name].displayName = name;
     return acc;
   },
