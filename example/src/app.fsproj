@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <WarningsAsErrors>25</WarningsAsErrors>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
@@ -17,8 +16,9 @@
     <Compile Include="FilterInputs/FilterDistanceInput.fs" />
     <Compile Include="FilterInputs/FilterRGBAVectorInput.fs" />
     <Compile Include="FilterInputs/FilterPointInput.fs" />
+    <Compile Include="FilterInputs/CombinedFilterInput.fs" />
     <Compile Include="Filters/Filter.fs" />
-    <Compile Include="Filters/FilterCollection.fs" />
+    <Compile Include="Filters/CombinedFilter.fs" />
     <Compile Include="Select.fs" />
     <Compile Include="SelectModal.fs" />
     <Compile Include="FilterSelectModal.fs" />

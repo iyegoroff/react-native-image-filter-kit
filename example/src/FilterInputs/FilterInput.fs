@@ -1,6 +1,7 @@
 namespace FilterConstructor
 
 open Elmish
+open Fable.Import
 
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
@@ -9,12 +10,20 @@ module RNF = Fable.Helpers.ReactNativeImageFilterKit
 
 module FilterInput =
 
-  type Model<'v, 'r> =
+  [<CustomEquality>]
+  [<NoComparison>]
+  type Model<'v, 'r when 'r : equality> =
     { Name: string
       Value: 'r
       Min: 'r
       Max: 'r
       Convert: 'r -> 'v }
+    override _x.GetHashCode() = 0
+    override x.Equals(yObj) =
+      match yObj with
+      | :? Model<'v, 'r> as y -> 
+        x.Name = y.Name && x.Value = y.Value && x.Min = y.Min && x.Max = y.Max
+      | _ -> false
 
   type Message<'model> =
     | ValueChanged of 'model
@@ -35,7 +44,7 @@ module FilterInput =
     | FilterInputSliderMessage (update, msg) ->
       match msg with
       | FilterInputSlider.ValueChanged value ->
-        model, [ Cmd.ofMsg (ValueChanged (update value)) ]
+        model, Cmd.ofMsg (ValueChanged (update value))
 
 
   let sliderView

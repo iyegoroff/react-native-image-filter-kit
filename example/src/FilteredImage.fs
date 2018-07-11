@@ -15,11 +15,14 @@ module RNP = Fable.Import.ReactNativePortal
 
 module FilteredImage =
 
+  type Id = int
+
   type Model = 
     { Image: Image.Model
-      Filters: Filter.Model list
+      Filters: (Id * CombinedFilter.Model * Filter.Model) list
       ImageSelectModalIsVisible: bool
-      FilterSelectModalIsVisible: bool }
+      FilterSelectModalIsVisible: bool
+      NextId: Id }
 
   type Message =
     | Delete
@@ -27,13 +30,15 @@ module FilteredImage =
     | SelectImage
     | FilterSelectModalMessage of FilterSelectModal.Message
     | SelectFilter
+    | FilterMessage of Id * Filter.Message
 
 
   let init image =
     { Image = image
       Filters = []
       ImageSelectModalIsVisible = false 
-      FilterSelectModalIsVisible = false }
+      FilterSelectModalIsVisible = false
+      NextId = 0 }
 
   let selectImage model image =
     { model with Image = image }
@@ -56,12 +61,24 @@ module FilteredImage =
     | FilterSelectModalMessage msg ->
       match msg with
       | SelectMessage (ItemSelected filter) -> 
-        { model with Filters = model.Filters @ [filter] }, []
+        { model with Filters = model.Filters @ [model.NextId, filter, CombinedFilter.init filter]
+                     NextId = model.NextId + 1 }, []
       | Hide ->
         { model with FilterSelectModalIsVisible = false }, []
 
     | SelectFilter ->
       { model with FilterSelectModalIsVisible = true }, []
+
+    | FilterMessage (id, msg) ->
+      match List.tryFind (fun (i, _, _) -> i = id) model.Filters with
+      | None -> model, []
+      | Some (_, _, filter) ->
+        let filter', cmd = Filter.update msg filter
+        { model with Filters = List.map
+                                 (fun (i, t, f) -> i, t, if i = id then filter' else f)
+                                 model.Filters },
+        Cmd.map (fun sub -> FilterMessage (id, sub)) cmd
+      
 
 
   let containerStyle =
@@ -76,7 +93,8 @@ module FilteredImage =
     ImageProperties.Style
       [ MarginBottom (Dip 5.)
         Width (Pct 100.)
-        Height (Dip Constants.imageHeight) ]
+        Height (Dip Constants.imageHeight)
+        ImageStyle.ResizeMode "contain" ]
 
   let controlsStyle =
     ViewProperties.Style
@@ -93,18 +111,18 @@ module FilteredImage =
 
   let controls model dispatch =
     model.Filters
-    |> List.map (fun filter -> RN.text [] (Filter.name filter))
+    |> List.map
+       (fun (id, tag, filter) -> CombinedFilter.controls tag filter (fun msg -> dispatch (id, msg)))
     |> R.fragment []
       
 
-  let filteredImage model dispatch =
-    model.Filters
-    |> List.fold
-         (fun child filter -> [ (Filter.element filter) child ])
-         [ RN.image
-             [ imageStyle
-               Source (Image.source model.Image) ] ]
-    |> R.fragment []
+  let filteredImage model =
+    List.fold
+     (fun child (_, tag, filter) -> CombinedFilter.view tag filter child)
+     (RN.image
+       [ imageStyle
+         Source (Image.source model.Image) ])
+     model.Filters
       
     
   let view model (dispatch: Dispatch<Message>) =
@@ -124,10 +142,12 @@ module FilteredImage =
         RN.view
           [ containerStyle
             ActivityIndicator.Size Size.Large ]
-          [ (controls model dispatch)
-            RN.activityIndicator
-              [ spinnerStyle ]
-            (filteredImage model dispatch)
+          [ (controls model (FilterMessage >> dispatch))
+            RN.view
+              []
+              [ RN.activityIndicator
+                  [ spinnerStyle ]
+                (filteredImage model) ]
             RN.view
               [ controlsStyle ]
               [ RN.button

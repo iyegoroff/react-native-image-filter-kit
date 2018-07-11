@@ -8,8 +8,8 @@ open Select
 
 module FilterSelectModal =
 
-  type Message = SelectModal.Message<Filter.Model>
+  type Message = SelectModal.Message<CombinedFilter.Model>
 
 
   let view isVisible (dispatch: Dispatch<Message>) =
-    SelectModal.view Filter.availableFilters None Filter.name (=) isVisible dispatch
+    SelectModal.view CombinedFilter.availableFilters None CombinedFilter.name (=) isVisible dispatch
