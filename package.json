@@ -14,10 +14,6 @@
     "url": "https://github.com/iyegoroff/react-native-image-filter-kit/issues"
   },
   "homepage": "https://github.com/iyegoroff/react-native-image-filter-kit#readme",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "precommit": "dot-json example/package.json dependencies.react-native-image-filter-kit -d && git add example/package.json"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iyegoroff/react-native-image-filter-kit.git"
@@ -26,9 +22,5 @@
   "dependencies": {
     "react-children-utilities": "github:iyegoroff/react-children-utilities#prebuilt",
     "upper-case-first": "^1.1.2"
-  },
-  "devDependencies": {
-    "dot-json": "^1.0.4",
-    "husky": "^0.14.3"
   }
 }
