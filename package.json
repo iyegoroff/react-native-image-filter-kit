@@ -22,5 +22,9 @@
   "dependencies": {
     "react-children-utilities": "github:iyegoroff/react-children-utilities#prebuilt",
     "upper-case-first": "^1.1.2"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
   }
 }
