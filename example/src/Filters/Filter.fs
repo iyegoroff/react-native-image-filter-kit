@@ -27,6 +27,7 @@ module Filter =
     | InputScale
     | InputSharpness
     | InputWidth
+    | ResizeOutput
 
   type Model = (Input * CombinedFilterInput.Model) list
 
@@ -34,7 +35,9 @@ module Filter =
     | FilterInputMessage of Input * CombinedFilterInput.Message
 
   let init inputs : Model =
-    List.map (fun (input, toModel) -> input, toModel (sprintf "%A" input)) inputs
+    List.map
+      (fun (input, toModel) -> input, toModel (sprintf "%A" input))
+      (inputs @ [ ResizeOutput, CombinedFilterInput.initBoolean ])
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match message with
@@ -48,11 +51,16 @@ module Filter =
 
   let private controlsContainer =
     ViewProperties.Style
-      [ PaddingHorizontal (Dip 3.)
-        PaddingTop (Dip 3.)
-        MarginBottom (Dip 2.)
+      [ PaddingHorizontal (dip 3.)
+        PaddingTop (dip 3.)
+        MarginBottom (dip 2.)
         BorderRadius 3. 
-        BorderWidth 1. ]
+        BorderWidth 1. 
+        BackgroundColor "gainsboro" ]
+
+  let private titleStyle =
+    TextProperties.Style
+      [ FontWeight FontWeight.Bold ]
 
   let view filterComponent mapInput (model: Model) content =
     filterComponent
@@ -69,5 +77,5 @@ module Filter =
         
     RN.view
       [ controlsContainer ]
-      [ RN.text [] name
+      [ RN.text [ titleStyle ] name
         R.fragment [] sliders ]

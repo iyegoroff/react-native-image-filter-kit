@@ -9,21 +9,24 @@ module RN = Fable.Helpers.ReactNative
 
 module CombinedFilterInput =
 
-  type Shape<'scalar, 'distance, 'point, 'rgbaVector> =
+  type Shape<'scalar, 'distance, 'point, 'rgbaVector, 'boolean> =
     | Scalar of 'scalar
     | Distance of 'distance
     | Point of 'point
     | RGBAVector of 'rgbaVector
+    | Boolean of 'boolean
 
   type Model = Shape<FilterScalarInput.Model,
                      FilterDistanceInput.Model,
                      FilterPointInput.Model,
-                     FilterRGBAVectorInput.Model>
+                     FilterRGBAVectorInput.Model,
+                     FilterBooleanInput.Model>
 
   type Message = Shape<FilterScalarInput.Message,
                        FilterDistanceInput.Message,
                        FilterPointInput.Message,
-                       FilterRGBAVectorInput.Message>
+                       FilterRGBAVectorInput.Message,
+                       FilterBooleanInput.Message>
   
 
   let initScalar min max name =
@@ -37,6 +40,9 @@ module CombinedFilterInput =
 
   let initRGBAVector min max name =
     RGBAVector (FilterRGBAVectorInput.init name min max)
+
+  let initBoolean name =
+    Boolean (FilterBooleanInput.init name false)
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match (model, message) with
@@ -60,9 +66,15 @@ module CombinedFilterInput =
       (RGBAVector m), Cmd.map RGBAVector cmd
     | RGBAVector _, _ -> model, []
 
+    | Boolean model', Boolean message' ->
+      let m, cmd = FilterBooleanInput.update message' model'
+      (Boolean m), Cmd.map Boolean cmd
+    | Boolean _, _ -> model, []
+
   let view (model: Model) (dispatch: Dispatch<Message>) : React.ReactElement =
     match model with
     | Scalar model' -> FilterScalarInput.view model' (Scalar >> dispatch)
     | Distance model' -> FilterDistanceInput.view model' (Distance >> dispatch)
     | Point model' -> FilterPointInput.view model' (Point >> dispatch)
     | RGBAVector model' -> FilterRGBAVectorInput.view model' (RGBAVector >> dispatch)
+    | Boolean model' -> FilterBooleanInput.view model' (Boolean >> dispatch)

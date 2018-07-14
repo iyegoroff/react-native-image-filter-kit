@@ -101,7 +101,6 @@
 UPDATE_FILTER_NUMBER_PROPERTY(Angle);
 UPDATE_FILTER_NUMBER_PROPERTY(NoiseLevel);
 UPDATE_FILTER_NUMBER_PROPERTY(Sharpness);
-UPDATE_FILTER_NUMBER_PROPERTY(Amount);
 UPDATE_FILTER_NUMBER_PROPERTY(Saturation);
 UPDATE_FILTER_NUMBER_PROPERTY(Brightness);
 UPDATE_FILTER_NUMBER_PROPERTY(Contrast);
@@ -110,6 +109,7 @@ UPDATE_FILTER_NUMBER_PROPERTY(Scale);
 UPDATE_FILTER_NUMBER_PROPERTY(Refraction);
 UPDATE_FILTER_NUMBER_PROPERTY(Rotation);
 UPDATE_FILTER_NUMBER_PROPERTY(Intensity);
+UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Amount);
 UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Radius);
 UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Width);
 UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Center);
@@ -152,7 +152,6 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
   }
   
   [self updateInputAngle:_filter changedProps:changedProps];
-  [self updateInputAmount:_filter changedProps:changedProps];
   [self updateInputLevels:_filter changedProps:changedProps];
   [self updateInputContrast:_filter changedProps:changedProps];
   [self updateInputSharpness:_filter changedProps:changedProps];
@@ -197,6 +196,7 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
         [self updateInputPoint1:filter bounds:imageSize];
         [self updateInputRadius:filter bounds:imageSize];
         [self updateInputWidth:filter bounds:imageSize];
+        [self updateInputAmount:filter bounds:imageSize];
         
         CGRect outputRect = _resizeOutput ? filter.outputImage.extent : image.extent;
         

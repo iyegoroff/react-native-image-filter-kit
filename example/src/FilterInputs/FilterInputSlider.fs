@@ -17,8 +17,9 @@ module FilterInputSlider =
     ViewProperties.Style
       [ BorderWidth 1.
         BorderRadius 3.
-        Padding (Dip 3.)
-        MarginBottom (Dip 3.) ]
+        Padding (dip 3.)
+        MarginBottom (dip 3.)
+        BackgroundColor "white" ]
 
   let private rangeLegendStyle =
     ViewProperties.Style

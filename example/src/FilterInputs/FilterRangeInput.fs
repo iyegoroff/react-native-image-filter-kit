@@ -8,7 +8,7 @@ module RN = Fable.Helpers.ReactNative
 module RNF = Fable.Helpers.ReactNativeImageFilterKit
 
 
-module FilterInput =
+module FilterRangeInput =
 
   [<CustomEquality>]
   [<NoComparison>]

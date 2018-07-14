@@ -8,15 +8,15 @@ module RNF = Fable.Helpers.ReactNativeImageFilterKit
 
 module FilterRGBAVectorInput =
 
-  type Model = FilterInput.Model<IRGBAVector, float * float * float * float>
+  type Model = FilterRangeInput.Model<IRGBAVector, float * float * float * float>
 
-  type Message = FilterInput.Message<Model>
+  type Message = FilterRangeInput.Message<Model>
 
   let private averageRGBAVector (r0, g0, b0, a0) (r1, g1, b1, a1) =
     (Utils.average r0 r1, Utils.average g0 g1, Utils.average b0 b1, Utils.average a0 a1)
 
   let init =
-    FilterInput.init averageRGBAVector RNF.RGBAVector
+    FilterRangeInput.init averageRGBAVector RNF.RGBAVector
 
   let private updateRGBAVectorR (model: Model) r =
     let (_, g, b, a) = model.Value
@@ -35,12 +35,12 @@ module FilterRGBAVectorInput =
     { model with Value = (r, g, b, a) }
 
   let update (message: Message) (model: Model) =
-    FilterInput.update message model
+    FilterRangeInput.update message model
 
   let view (model: Model) (dispatch: Dispatch<Message>) =
     R.fragment
       []
-      [ FilterInput.sliderView model "%s.r" (fun (r, _, _, _) -> r) updateRGBAVectorR dispatch
-        FilterInput.sliderView model "%s.g" (fun (_, g, _, _) -> g) updateRGBAVectorG dispatch
-        FilterInput.sliderView model "%s.b" (fun (_, _, b, _) -> b) updateRGBAVectorB dispatch
-        FilterInput.sliderView model "%s.a" (fun (_, _, _, a) -> a) updateRGBAVectorA dispatch ]
+      [ FilterRangeInput.sliderView model "%s.r" (fun (r, _, _, _) -> r) updateRGBAVectorR dispatch
+        FilterRangeInput.sliderView model "%s.g" (fun (_, g, _, _) -> g) updateRGBAVectorG dispatch
+        FilterRangeInput.sliderView model "%s.b" (fun (_, _, b, _) -> b) updateRGBAVectorB dispatch
+        FilterRangeInput.sliderView model "%s.a" (fun (_, _, _, a) -> a) updateRGBAVectorA dispatch ]

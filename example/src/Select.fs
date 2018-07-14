@@ -16,7 +16,7 @@ module Select =
 
   let private itemStyle =
     ViewProperties.Style
-      [ Padding (Dip 15.) ]
+      [ Padding (dip 15.) ]
 
   let private selectedStyle =
     TextProperties.Style
@@ -25,8 +25,8 @@ module Select =
 
   let private separatorStyle =
     ViewProperties.Style
-      [ Height (Dip 1.)
-        Width (Pct 95.)
+      [ Height (dip 1.)
+        Width (pct 95.)
         AlignSelf Alignment.Center
         BackgroundColor "lightgray" ]
     

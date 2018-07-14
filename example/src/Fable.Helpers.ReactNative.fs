@@ -118,7 +118,7 @@ module Props =
     | Contain
     | Cover
     | Stretch
-    | Conter
+    | Center
     | Repeat
 
     [<StringEnum; RequireQualifiedAccess>]
@@ -213,7 +213,7 @@ module Props =
         | Visible | Hidden
 
     [<StringEnum; RequireQualifiedAccess>]
-    type ImageCache =
+    type ImageURISourceCache =
         | Default
         | Reload
         | [<CompiledName("force-cache")>] ForceCache
@@ -298,6 +298,9 @@ module Props =
     type Direction =
         | Horizontal | Vertical
 
+    type IImageSource =
+        interface end
+
     type ISizeUnit =
         interface end
 
@@ -305,9 +308,6 @@ module Props =
         interface end
 
     type IScrollViewStyle =
-        inherit IStyle
-
-    type ISwitchIOSStyle =
         inherit IStyle
 
     type ITextStyle =
@@ -447,26 +447,69 @@ module Props =
         inherit ISwitchProperties
         inherit IMapViewProperties
 
-    type IImageIOSSourceProperties =
-        interface end
+    type WebViewPropertiesAndroid =
+        | JavaScriptEnabled of bool
+        | DomStorageEnabled of bool
+        interface IWebViewPropertiesAndroid
 
-    type IImageSourceProperties =
-        inherit IImageIOSSourceProperties
+    type WebViewPropertiesIOS =
+        | AllowsInlineMediaPlayback of bool
+        | Bounces of bool
+        | DecelerationRate of DecelerationRate
+        | OnShouldStartLoadWithRequest of (WebViewIOSLoadRequestEvent -> bool)
+        | ScrollEnabled of bool
+        interface IWebViewPropertiesIOS
 
-    type ImageIOSSourceProperties =
-        | Bundle of string
-        | ImageCache of ImageCache
-        interface IImageIOSSourceProperties
-
-    type ImageSourceProperties =
+    type WebViewBundleSource =
         | Uri of string
         | Method of string
         | Headers of obj
+        | Cache of Image
         | Body of string
+
+    type WebViewHtmlSource =
+        | Html of string // REQUIRED!
+        | BaseUrl of string
+
+    type WebViewProperties =
+        | AutomaticallyAdjustContentInsets of bool
+        | Bounces of bool
+        | ContentInset of Insets
+        | Html of string
+        | InjectedJavaScript of string
+        | OnError of (NavState -> unit)
+        | OnLoad of (NavState -> unit)
+        | OnLoadEnd of (NavState -> unit)
+        | OnLoadStart of (NavState -> unit)
+        | OnNavigationStateChange of (NavState -> unit)
+        | OnShouldStartLoadWithRequest of (obj -> bool)
+        | RenderError of (unit -> React.ReactElement)
+        | RenderLoading of (unit -> React.ReactElement)
+        | ScrollEnabled of bool
+        | StartInLoadingState of bool
+        | Style of IStyle list
+        | Url of string
+        | Source of U3<WebViewUriSource, WebViewHtmlSource, float>
+        | MediaPlaybackRequiresUserAction of bool
+        | ScalesPageToFit of bool
+        | Ref of Ref<obj>
+        interface IWebViewProperties
+
+    type ImageURISourceProperties =
+        | Uri of string
+        | Bundle of string
+        | Method of string
+        | Headers of obj
+        | Body of string
+        | Cache of ImageURISourceCache
         | Width of float
         | Height of float
         | Scale of float
-        interface IImageSourceProperties
+
+    type ImageSource =
+        | Remote of ImageURISourceProperties list
+        | Local of string
+        | RemoteList of ImageURISourceProperties list list
 
     type ITouchable =
         inherit IScrollViewProperties
@@ -713,10 +756,10 @@ module Props =
             | Actions of ToolbarAndroidAction []
             | ContentInsetEnd of float
             | ContentInsetStart of float
-            | Logo of obj
-            | NavIcon of obj
+            | Logo of IImageSource
+            | NavIcon of IImageSource
             | OnIconClicked of (unit -> unit)
-            | OverflowIcon of obj
+            | OverflowIcon of IImageSource
             | Rtl of bool
             | Style of IStyle list
             | Subtitle of string
@@ -784,53 +827,6 @@ module Props =
         | KeyboardVerticalOffset of float // REQUIRED!
         | Ref of Ref<obj>
         interface IKeyboardAvoidingViewProps
-
-    type WebViewPropertiesAndroid =
-        | JavaScriptEnabled of bool
-        | DomStorageEnabled of bool
-        interface IWebViewPropertiesAndroid
-
-    type WebViewPropertiesIOS =
-        | AllowsInlineMediaPlayback of bool
-        | Bounces of bool
-        | DecelerationRate of DecelerationRate
-        | OnShouldStartLoadWithRequest of (WebViewIOSLoadRequestEvent -> bool)
-        | ScrollEnabled of bool
-        interface IWebViewPropertiesIOS
-
-    type WebViewUriSource =
-        | Uri of string
-        | Method of string
-        | Headers of obj
-        | Body of string
-
-    type WebViewHtmlSource =
-        | Html of string // REQUIRED!
-        | BaseUrl of string
-
-    type WebViewProperties =
-        | AutomaticallyAdjustContentInsets of bool
-        | Bounces of bool
-        | ContentInset of Insets
-        | Html of string
-        | InjectedJavaScript of string
-        | OnError of (NavState -> unit)
-        | OnLoad of (NavState -> unit)
-        | OnLoadEnd of (NavState -> unit)
-        | OnLoadStart of (NavState -> unit)
-        | OnNavigationStateChange of (NavState -> unit)
-        | OnShouldStartLoadWithRequest of (obj -> bool)
-        | RenderError of (unit -> React.ReactElement)
-        | RenderLoading of (unit -> React.ReactElement)
-        | ScrollEnabled of bool
-        | StartInLoadingState of bool
-        | Style of IStyle list
-        | Url of string
-        | Source of U3<WebViewUriSource, WebViewHtmlSource, float>
-        | MediaPlaybackRequiresUserAction of bool
-        | ScalesPageToFit of bool
-        | Ref of Ref<obj>
-        interface IWebViewProperties
 
     type SegmentedControlIOSProperties =
         | Enabled of bool
@@ -953,8 +949,8 @@ module Props =
             | Progress of float
             | ProgressTintColor of string
             | TrackTintColor of string
-            | ProgressImage of obj
-            | TrackImage of obj
+            | ProgressImage of IImageSource
+            | TrackImage of IImageSource
             | Ref of Ref<ProgressViewIOS>
             interface IProgressViewIOSProperties
 
@@ -982,10 +978,10 @@ module Props =
         interface IRefreshControlProperties
 
     type SliderIOSProperties =
-        | MaximumTrackImage of IImageSourceProperties
-        | MinimumTrackImage of IImageSourceProperties
-        | ThumbImage of IImageSourceProperties
-        | TrackImage of IImageSourceProperties
+        | TrackImage of IImageSource
+        | MinimumTrackImage of IImageSource
+        | MaximumTrackImage of IImageSource
+        | ThumbImage of IImageSource
         interface ISliderIOSProperties
 
     type SliderAndroidProperties =
@@ -1004,16 +1000,19 @@ module Props =
         | Style of IStyle list
         | TestID of string
         | Value of float
+        | Ref of Ref<Slider>
         interface ISliderProperties
 
-    type SwitchIOSProperties =
+    type SwitchProperties =
         | Disabled of bool
         | OnTintColor of string
         | OnValueChange of (bool -> unit)
         | ThumbTintColor of string
         | TintColor of string
         | Value of bool
-        | Style of IStyle list
+        | TestID of string
+        | Ref of Ref<Switch>
+        interface ISwitchProperties
 
     type ImageStyle =
         | ResizeMode of string
@@ -1042,7 +1041,7 @@ module Props =
         | AccessibilityLabel of string
         | Accessible of bool
         | CapInsets of Insets
-        | DefaultSource of IImageSourceProperties list
+        | DefaultSource of IImageSource
         | OnError of (obj -> unit)
         | OnProgress of (unit -> unit)
         interface IImagePropertiesIOS
@@ -1053,7 +1052,7 @@ module Props =
         | OnLoadEnd of (unit -> unit)
         | OnLoadStart of (unit -> unit)
         | ResizeMode of ResizeMode
-        | Source of IImageSourceProperties list
+        | Source of IImageSource
         | Style of IStyle list
         | TestID of string
         interface IImageProperties
@@ -1443,20 +1442,6 @@ module Props =
         | Hidden of bool
         interface IStatusBarProperties
 
-    type SwitchPropertiesIOS =
-        | OnTintColor of string
-        | ThumbTintColor of string
-        | TintColor of string
-        | Ref of Ref<Switch>
-        interface ISwitchProperties
-
-    type SwitchProperties =
-        | Disabled of bool
-        | TestID of string
-        | Style of IStyle list
-        | Ref of Ref<Switch>
-        interface ISwitchProperties
-
     type NavigationAnimatedViewProps =
         | Route of obj
         | Style of IStyle list
@@ -1504,15 +1489,21 @@ module R = Fable.Helpers.React
 
 [<Emit("$0")>]
 // density independent pixels
-let Dip (_: float): ISizeUnit = jsNative
+let dip (_: float): ISizeUnit = jsNative
 
 [<Emit("$0 + \"%\"")>]
 // percents
-let Pct (_: float): ISizeUnit = jsNative
+let pct (_: float): ISizeUnit = jsNative
 
 [<Emit("require($0)")>]
 // Use `require` to load a local image
-let inline localImage (path:string) : IImageSourceProperties list = jsNative
+let inline localImage (_path:string) : IImageSource = jsNative
+
+let inline remoteImage (source: ImageURISourceProperties list) =
+  unbox<IImageSource> (keyValueList CaseRules.LowerFirst source)
+
+let inline remoteImages (sources: ImageURISourceProperties list array) =
+  unbox<IImageSource> (Array.map remoteImage sources)
 
 let inline createElement(c: React.ComponentClass<'T>, props: 'P list, children: React.ReactElement list) =
     R.createElement (c, keyValueList CaseRules.LowerFirst props, children)
@@ -1533,7 +1524,7 @@ let inline createToolbarAction(title:string,showStatus:ToolbarActionShowStatus) 
         "show" ==> showStatus
     ]
 
-let inline createToolbarActionWithIcon(title:string,icon: IImageSourceProperties list,showStatus:ToolbarActionShowStatus) : ToolbarAndroidAction =
+let inline createToolbarActionWithIcon(title:string,icon: IImageSource,showStatus:ToolbarActionShowStatus) : ToolbarAndroidAction =
     createObj [
         "title" ==> title
         "icon" ==> icon
@@ -1634,14 +1625,9 @@ let inline slider (props:ISliderProperties list) : React.ReactElement =
       RN.Slider,
       props, [])
 
-let inline sliderIOS (props:ISliderIOSProperties list) : React.ReactElement =
+let inline switch (props:ISwitchProperties list) : React.ReactElement =
     createElement(
-      RN.SliderIOS,
-      props, [])
-
-let inline switchIOS (props:SwitchIOSProperties list) : React.ReactElement =
-    createElement(
-      RN.SwitchIOS,
+      RN.Switch,
       props, [])
 
 let inline image (props:IImageProperties list) : React.ReactElement =
@@ -1765,14 +1751,6 @@ let inline statusBar (props:IStatusBarProperties list) : React.ReactElement =
     createElement(
       RN.StatusBar,
       props, [])
-
-let inline switch (props:ISwitchProperties list) (onValueChange: bool -> unit) (value:bool) : React.ReactElement =
-    createElementWithObjProps(
-      RN.Switch,
-      !!JS.Object.assign(
-            createObj ["onValueChange" ==> onValueChange
-                       "value" ==> value],
-            keyValueList CaseRules.LowerFirst props), [])
 
 let inline navigationHeader (props:INavigationHeaderProps list) (rendererProps:NavigationTransitionProps): React.ReactElement =
     createElementWithObjProps(

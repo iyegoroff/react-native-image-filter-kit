@@ -3,6 +3,7 @@ namespace FilterConstructor
 open Elmish
 open Fable.Import
 open Fable.Helpers.ReactNative.Props
+
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
 

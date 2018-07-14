@@ -10,7 +10,6 @@
 @property (nonatomic, assign) CGFloat inputAngle;
 @property (nonatomic, assign) CGFloat inputNoiseLevel;
 @property (nonatomic, assign) CGFloat inputSharpness;
-@property (nonatomic, assign) CGFloat inputAmount;
 @property (nonatomic, assign) CGFloat inputSaturation;
 @property (nonatomic, assign) CGFloat inputBrightness;
 @property (nonatomic, assign) CGFloat inputContrast;
@@ -19,6 +18,7 @@
 @property (nonatomic, assign) CGFloat inputRotation;
 @property (nonatomic, assign) CGFloat inputLevels;
 @property (nonatomic, assign) CGFloat inputIntensity;
+@property (nonatomic, strong) NSString *inputAmount;
 @property (nonatomic, strong) NSString *inputRadius;
 @property (nonatomic, strong) NSString *inputWidth;
 @property (nonatomic, strong) NSArray<NSString *> *inputCenter;

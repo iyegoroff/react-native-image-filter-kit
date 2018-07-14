@@ -77,12 +77,12 @@ module Main =
 
   let private separatorStyle =
     ViewProperties.Style
-      [ Height (Dip 1.5) ]
+      [ Height (dip 1.5) ]
 
   let private listContentStyle =
     FlatListProperties.ContentContainerStyle
-      [ Padding (Pct 1.5)
-        PaddingTop (Dip 25.) ]
+      [ Padding (pct 1.5)
+        PaddingTop (dip 25.) ]
 
   let private listStyle =
     FlatListProperties.Style

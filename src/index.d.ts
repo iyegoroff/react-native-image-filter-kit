@@ -199,7 +199,7 @@ export class CINoiseReduction extends React.Component<CINoiseReductionProps> { }
 
 export interface CIZoomBlurProps extends FilterProps {
   readonly inputCenter?: FilterPoint;
-  readonly inputAmount?: number;
+  readonly inputAmount?: string;
 }
 
 export class CIZoomBlur extends React.Component<CIZoomBlurProps> { }

@@ -47,3 +47,5 @@ packages/
 paket-files/
 .vscode/.react/
 .vscode/launchReactNative.js
+
+rn-cli.config.js

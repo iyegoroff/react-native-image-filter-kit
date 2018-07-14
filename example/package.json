@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "postinstall": "metro-with-symlinks",
     "build": "fable-splitter -c splitter.config.js --define RELEASE",
     "watch": "fable-splitter -c splitter.config.js -w --define DEBUG",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
@@ -16,7 +17,6 @@
   "dependencies": {
     "buffer": "^5.1.0",
     "core-js": "^2.5.7",
-    "fast-memoize": "^2.3.2",
     "react": "^16.4.0",
     "react-native": "^0.55.4",
     "react-native-image-filter-kit": "file:../",
@@ -26,6 +26,7 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-react-native": "^4.0.0",
-    "fable-splitter": "^0.1.21"
+    "fable-splitter": "^0.1.21",
+    "metro-with-symlinks": "^1.1.1"
   }
 }

@@ -20,11 +20,12 @@
   },
   "version": "0.0.0",
   "dependencies": {
-    "react-children-utilities": "github:iyegoroff/react-children-utilities#prebuilt",
-    "upper-case-first": "^1.1.2"
+    "react-children-utilities": "github:iyegoroff/react-children-utilities#prebuilt"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "prop-types": "*",
+    "fbjs": "*"
   }
 }

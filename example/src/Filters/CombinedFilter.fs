@@ -55,7 +55,7 @@ module CombinedFilter =
     match model with
     | CIBoxBlur ->
       Filter.init
-        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 1. ]
+        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50. ]
 
     | CIDiscBlur ->
       Filter.init
@@ -75,13 +75,13 @@ module CombinedFilter =
 
     | CINoiseReduction ->
       Filter.init
-        [ Filter.InputNoiseLevel, CFI.initScalar 0. 10.
-          Filter.InputSharpness, CFI.initScalar 0. 10. ]
+        [ Filter.InputNoiseLevel, CFI.initScalar 0. 1.
+          Filter.InputSharpness, CFI.initScalar 0. 1. ]
 
     | CIZoomBlur ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (1., 1.)
-          Filter.InputAmount, CFI.initDistance RNF.Distance.MaxPct  0. 1. ]
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
+          Filter.InputAmount, CFI.initDistance RNF.Distance.MaxPct  0. 100. ]
 
     | CIColorClamp ->
       Filter.init
@@ -140,27 +140,27 @@ module CombinedFilter =
 
     | CICircularScreen ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (1., 1.)
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
           Filter.InputSharpness, CFI.initScalar 0. 10.
-          Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 1. ]
+          Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 100. ]
 
     | CIBumpDistortion ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (1., 1.)
-          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 1.
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100.
           Filter.InputScale, CFI.initScalar -2. 2. ]
 
     | CIBumpDistortionLinear ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (1., 1.)
-          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 1.
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100.
           Filter.InputScale, CFI.initScalar -2. 2.
           Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) ]
 
     | CICircleSplashDistortion ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (10., 10.)
-          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 10. ]
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. ]
 
     | CICircularWrap ->
       Filter.init
@@ -177,6 +177,11 @@ module CombinedFilter =
         [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
           Filter.InputIntensity, CFI.initScalar 0. 10. ]
 
+  let private (|ResizeOutput|_|) =
+    function
+    | Filter.ResizeOutput, CFI.Boolean (input: FilterBooleanInput.Model) -> Some input.Value
+    | _ -> None
+
   let view =
     function
     | CIBoxBlur ->
@@ -185,6 +190,7 @@ module CombinedFilter =
         (function
          | Filter.InputRadius, CFI.Distance input ->
            Some (CIBoxBlurProps.InputRadius (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIBoxBlurProps.ResizeOutput value)
          | _ -> None)
          
     | CIDiscBlur ->
@@ -193,6 +199,7 @@ module CombinedFilter =
         (function
          | Filter.InputRadius, CFI.Distance input ->
            Some (CIDiscBlurProps.InputRadius (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIDiscBlurProps.ResizeOutput value)
          | _ -> None)
          
     | CIGaussianBlur ->
@@ -201,12 +208,14 @@ module CombinedFilter =
         (function
          | Filter.InputRadius, CFI.Distance input ->
            Some (CIGaussianBlurProps.InputRadius (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIGaussianBlurProps.ResizeOutput value)
          | _ -> None)
          
     | CIMedianFilter ->
       Filter.view
         RNF.CIMedianFilter
         (function
+         | ResizeOutput value -> Some (CIMedianFilterProps.ResizeOutput value)
          | _ -> None)
          
     | CIMotionBlur ->
@@ -217,6 +226,7 @@ module CombinedFilter =
            Some (CIMotionBlurProps.InputRadius (input.Convert input.Value))
          | Filter.InputAngle, CFI.Scalar input ->
            Some (CIMotionBlurProps.InputAngle (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIMotionBlurProps.ResizeOutput value)
          | _ -> None)
          
     | CINoiseReduction ->
@@ -227,6 +237,7 @@ module CombinedFilter =
            Some (CINoiseReductionProps.InputNoiseLevel (input.Convert input.Value))
          | Filter.InputSharpness, CFI.Scalar input ->
            Some (CINoiseReductionProps.InputSharpness (input.Convert input.Value))
+         | ResizeOutput value -> Some (CINoiseReductionProps.ResizeOutput value)
          | _ -> None)
          
     | CIZoomBlur ->
@@ -237,6 +248,7 @@ module CombinedFilter =
            Some (CIZoomBlurProps.InputCenter (input.Convert input.Value))
          | Filter.InputAmount, CFI.Distance input ->
            Some (CIZoomBlurProps.InputAmount (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIZoomBlurProps.ResizeOutput value)
          | _ -> None)
          
     | CIColorClamp ->
@@ -247,6 +259,7 @@ module CombinedFilter =
            Some (CIColorClampProps.InputMinComponents (input.Convert input.Value))
          | Filter.InputMaxComponents, CFI.RGBAVector input ->
            Some (CIColorClampProps.InputMaxComponents (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIColorClampProps.ResizeOutput value)
          | _ -> None)
          
     | CIColorControls ->
@@ -259,78 +272,91 @@ module CombinedFilter =
            Some (CIColorControlsProps.InputBrightness (input.Convert input.Value))
          | Filter.InputContrast, CFI.Scalar input ->
            Some (CIColorControlsProps.InputContrast (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIColorControlsProps.ResizeOutput value)
          | _ -> None)
          
     | CIMaskToAlpha ->
       Filter.view
         RNF.CIMaskToAlpha
         (function
+         | ResizeOutput value -> Some (CIMaskToAlphaProps.ResizeOutput value)
          | _ -> None)
          
     | CIMaximumComponent ->
       Filter.view
         RNF.CIMaximumComponent
         (function
+         | ResizeOutput value -> Some (CIMaximumComponentProps.ResizeOutput value) 
          | _ -> None)
          
     | CIMinimumComponent ->
       Filter.view
         RNF.CIMinimumComponent
         (function
+         | ResizeOutput value -> Some (CIMinimumComponentProps.ResizeOutput value)
          | _ -> None)
          
     | CIPhotoEffectChrome ->
       Filter.view
         RNF.CIPhotoEffectChrome
         (function
+         | ResizeOutput value -> Some (CIPhotoEffectChromeProps.ResizeOutput value)
          | _ -> None)
          
     | CIPhotoEffectFade ->
       Filter.view
         RNF.CIPhotoEffectFade
         (function
+         | ResizeOutput value -> Some (CIPhotoEffectFadeProps.ResizeOutput value)
          | _ -> None)
          
     | CIPhotoEffectInstant ->
       Filter.view
         RNF.CIPhotoEffectInstant
         (function
+         | ResizeOutput value -> Some (CIPhotoEffectInstantProps.ResizeOutput value)
          | _ -> None)
          
     | CIPhotoEffectMono ->
       Filter.view
         RNF.CIPhotoEffectMono
         (function
+         | ResizeOutput value -> Some (CIPhotoEffectMonoProps.ResizeOutput value)
          | _ -> None)
          
     | CIPhotoEffectNoir ->
       Filter.view
         RNF.CIPhotoEffectNoir
         (function
+         | ResizeOutput value -> Some (CIPhotoEffectNoirProps.ResizeOutput value)
          | _ -> None)
          
     | CIPhotoEffectProcess ->
       Filter.view
         RNF.CIPhotoEffectProcess
         (function
+         | ResizeOutput value -> Some (CIPhotoEffectProcessProps.ResizeOutput value)
          | _ -> None)
          
     | CIPhotoEffectTonal ->
       Filter.view
         RNF.CIPhotoEffectTonal
         (function
+         | ResizeOutput value -> Some (CIPhotoEffectTonalProps.ResizeOutput value)
          | _ -> None)
          
     | CIPhotoEffectTransfer ->
       Filter.view
         RNF.CIPhotoEffectTransfer
         (function
+         | ResizeOutput value -> Some (CIPhotoEffectTransferProps.ResizeOutput value)
          | _ -> None)
          
     | CIColorInvert ->
       Filter.view
         RNF.CIColorInvert
         (function
+         | ResizeOutput value -> Some (CIColorInvertProps.ResizeOutput value)
          | _ -> None)
          
     | CIColorPosterize ->
@@ -339,6 +365,7 @@ module CombinedFilter =
         (function
          | Filter.InputLevels, CFI.Scalar input ->
            Some (CIColorPosterizeProps.InputLevels (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIColorPosterizeProps.ResizeOutput value)
          | _ -> None)
          
     | CIVibrance ->
@@ -347,6 +374,7 @@ module CombinedFilter =
         (function
          | Filter.InputAmount, CFI.Scalar input ->
            Some (CIVibranceProps.InputAmount (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIVibranceProps.ResizeOutput value)
          | _ -> None)
          
     | CICircularScreen ->
@@ -359,6 +387,7 @@ module CombinedFilter =
            Some (CICircularScreenProps.InputSharpness (input.Convert input.Value))
          | Filter.InputWidth, CFI.Distance input ->
            Some (CICircularScreenProps.InputWidth (input.Convert input.Value))
+         | ResizeOutput value -> Some (CICircularScreenProps.ResizeOutput value)
          | _ -> None)
          
     | CIBumpDistortion ->
@@ -371,6 +400,7 @@ module CombinedFilter =
            Some (CIBumpDistortionProps.InputRadius (input.Convert input.Value))
          | Filter.InputScale, CFI.Scalar input ->
            Some (CIBumpDistortionProps.InputScale (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIBumpDistortionProps.ResizeOutput value)
          | _ -> None)
          
     | CIBumpDistortionLinear ->
@@ -385,6 +415,7 @@ module CombinedFilter =
            Some (CIBumpDistortionLinearProps.InputScale (input.Convert input.Value))
          | Filter.InputAngle, CFI.Scalar input ->
            Some (CIBumpDistortionLinearProps.InputAngle (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIBumpDistortionLinearProps.ResizeOutput value)
          | _ -> None)
          
     | CICircleSplashDistortion ->
@@ -395,6 +426,7 @@ module CombinedFilter =
            Some (CICircleSplashDistortionProps.InputCenter (input.Convert input.Value))
          | Filter.InputRadius, CFI.Distance input ->
            Some (CICircleSplashDistortionProps.InputRadius (input.Convert input.Value))
+         | ResizeOutput value -> Some (CICircleSplashDistortionProps.ResizeOutput value)
          | _ -> None)
          
     | CICircularWrap ->
@@ -407,6 +439,7 @@ module CombinedFilter =
            Some (CICircularWrapProps.InputRadius (input.Convert input.Value))
          | Filter.InputAngle, CFI.Scalar input ->
            Some (CICircularWrapProps.InputAngle (input.Convert input.Value))
+         | ResizeOutput value -> Some (CICircularWrapProps.ResizeOutput value)
          | _ -> None)
          
     | CISharpenLuminance ->
@@ -415,6 +448,7 @@ module CombinedFilter =
         (function
          | Filter.InputSharpness, CFI.Scalar input ->
            Some (CISharpenLuminanceProps.InputSharpness (input.Convert input.Value))
+         | ResizeOutput value -> Some (CISharpenLuminanceProps.ResizeOutput value)
          | _ -> None)
          
     | CIUnsharpMask ->
@@ -425,6 +459,7 @@ module CombinedFilter =
            Some (CIUnsharpMaskProps.InputRadius (input.Convert input.Value))
          | Filter.InputIntensity, CFI.Scalar input ->
            Some (CIUnsharpMaskProps.InputIntensity (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIUnsharpMaskProps.ResizeOutput value)
          | _ -> None)
 
   let controls =

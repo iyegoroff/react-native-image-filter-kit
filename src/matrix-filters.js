@@ -1,5 +1,4 @@
 import React, { cloneElement } from 'react';
-import upperCaseFirst from 'upper-case-first';
 import PropTypes from 'prop-types';
 import Children from 'react-children-utilities';
 import { defaultStyle, checkStyle } from './style';
@@ -281,7 +280,7 @@ const NativeImageMatrixFilter = requireNativeComponent(
   }
 );
 
-const filterName = (name) => `Image${upperCaseFirst(name)}MatrixFilter`;
+const filterName = ([first, ...rest]) => `Image${first.toUpperCase() + rest.join('')}MatrixFilter`;
 
 const allFilterNames = Object.keys(filters).map(filterName);
 

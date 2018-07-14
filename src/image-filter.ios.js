@@ -20,7 +20,7 @@ const requireNativeImageFilter = (name) => {
           inputAngle: PropTypes.number,
           inputNoiseLevel: PropTypes.number,
           inputSharpness: PropTypes.number,
-          inputAmount: PropTypes.number,
+          inputAmount: PropTypes.string,
           inputBrightness: PropTypes.number,
           inputContrast: PropTypes.number,
           inputSaturation: PropTypes.number,
@@ -48,6 +48,7 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
   const {
     inputRadius,
     inputWidth,
+    inputAmount,
     inputCenter,
     inputPoint0,
     inputPoint1,
@@ -57,6 +58,7 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
   const props = {
     ...(inputRadius ? { inputRadius: anyToString(inputRadius) } : {}),
     ...(inputWidth ? { inputWidth: anyToString(inputWidth) } : {}),
+    ...(inputAmount ? { inputAmount: anyToString(inputAmount) } : {}),
     ...(inputCenter ? { inputCenter: pointToArray(inputCenter) } : {}),
     ...(inputPoint0 ? { inputPoint0: pointToArray(inputPoint0) } : {}),
     ...(inputPoint1 ? { inputPoint1: pointToArray(inputPoint1) } : {}),

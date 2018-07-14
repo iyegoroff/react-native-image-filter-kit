@@ -82,18 +82,17 @@ module FilteredImage =
 
   let containerStyle =
     ViewProperties.Style
-      [ MarginTop (Dip 5.)
-        Padding (Dip 5.)
+      [ MarginTop (dip 5.)
+        Padding (dip 5.)
         BorderWidth 2.
         BorderRadius 3.
         BackgroundColor "white" ]
 
   let imageStyle =
     ImageProperties.Style
-      [ MarginBottom (Dip 5.)
-        Width (Pct 100.)
-        Height (Dip Constants.imageHeight)
-        ImageStyle.ResizeMode "contain" ]
+      [ MarginBottom (dip 5.)
+        Width (pct 100.)
+        Height (dip Constants.imageHeight) ]
 
   let controlsStyle =
     ViewProperties.Style
@@ -103,10 +102,10 @@ module FilteredImage =
   let spinnerStyle =
     ViewProperties.Style
       [ Position Position.Absolute
-        Width (Pct 100.) 
-        Height (Dip Constants.imageHeight)
-        FlexStyle.Left (Dip 5.)
-        FlexStyle.Top (Dip 5.) ]
+        Width (pct 100.) 
+        Height (dip Constants.imageHeight)
+        FlexStyle.Left (dip 5.)
+        FlexStyle.Top (dip 5.) ]
 
   let controls model dispatch =
     model.Filters
@@ -120,6 +119,7 @@ module FilteredImage =
      (fun child (_, tag, filter) -> CombinedFilter.view tag filter child)
      (RN.image
        [ imageStyle
+         ResizeMode ResizeMode.Repeat
          Source (Image.source model.Image) ])
      model.Filters
       

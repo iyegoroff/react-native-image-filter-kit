@@ -9,7 +9,7 @@ module Image =
 
   type Model' =
     { Name: string
-      Source: IImageSourceProperties list }
+      Source: IImageSource }
 
   type Model =
     | Concrete of Model'
@@ -37,7 +37,7 @@ module Image =
     let timestamp = JS.Date.now ()
     let uri = sprintf "https://picsum.photos/%f?image=%f&t=%f" Constants.imageHeight id timestamp
     Random { Name = "Random"
-             Source = [ ImageSourceProperties.Uri uri ] }  
+             Source = remoteImage [ Uri uri ] }  
 
 
   let defaultImage =
@@ -47,7 +47,7 @@ module Image =
   let availableImages =
     [| defaultImage
        Concrete { Name = "React logo"
-                  Source = [ ImageSourceProperties.Uri "https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_400x400.png" ]}
+                  Source = remoteImage [ Uri "https://pbs.twimg.com/profile_images/446356636710363136/OYIaJ1KK_400x400.png" ]}
        Concrete { Name = "Triangle"
-                  Source = [ ImageSourceProperties.Uri "http://thumbnails.visually.netdna-cdn.com/BizarreSierpinskiTriangle_510736b6b60fa.png" ] }
+                  Source = remoteImage [ Uri "http://thumbnails.visually.netdna-cdn.com/BizarreSierpinskiTriangle_510736b6b60fa.png" ] }
        random () |]
