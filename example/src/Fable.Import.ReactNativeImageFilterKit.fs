@@ -333,6 +333,20 @@ module ReactNativeImageFilterKit =
   and CIColorControls =
       CIColorControlsStatic
 
+  and CIColorMatrixProps =
+      inherit FilterProps
+      abstract inputRVector: ResizeArray<float> option with get, set
+      abstract inputGVector: ResizeArray<float> option with get, set
+      abstract inputBVector: ResizeArray<float> option with get, set
+      abstract inputAVector: ResizeArray<float> option with get, set
+      abstract inputBiasVector: ResizeArray<float> option with get, set
+
+  and CIColorMatrixStatic =
+      inherit React.ComponentClass<CIColorMatrixProps>
+
+  and CIColorMatrix =
+      CIColorMatrixStatic
+
   and CIColorClampProps =
       inherit FilterProps
       abstract inputMinComponents: ResizeArray<float> option with get, set
@@ -587,6 +601,7 @@ module ReactNativeImageFilterKit =
       [<Import("CINoiseReduction", "react-native-image-filter-kit")>] static member CINoiseReduction with get(): CINoiseReductionStatic = jsNative and set(v: CINoiseReductionStatic): unit = jsNative
       [<Import("CIZoomBlur", "react-native-image-filter-kit")>] static member CIZoomBlur with get(): CIZoomBlurStatic = jsNative and set(v: CIZoomBlurStatic): unit = jsNative
       [<Import("CIColorControls", "react-native-image-filter-kit")>] static member CIColorControls with get(): CIColorControlsStatic = jsNative and set(v: CIColorControlsStatic): unit = jsNative
+      [<Import("CIColorMatrix", "react-native-image-filter-kit")>] static member CIColorMatrix with get(): CIColorMatrixStatic = jsNative and set(v: CIColorMatrixStatic): unit = jsNative
       [<Import("CIColorClamp", "react-native-image-filter-kit")>] static member CIColorClamp with get(): CIColorClampStatic = jsNative and set(v: CIColorClampStatic): unit = jsNative
       [<Import("CIMaskToAlpha", "react-native-image-filter-kit")>] static member CIMaskToAlpha with get(): CIMaskToAlphaStatic = jsNative and set(v: CIMaskToAlphaStatic): unit = jsNative
       [<Import("CIMaximumComponent", "react-native-image-filter-kit")>] static member CIMaximumComponent with get(): CIMaximumComponentStatic = jsNative and set(v: CIMaximumComponentStatic): unit = jsNative

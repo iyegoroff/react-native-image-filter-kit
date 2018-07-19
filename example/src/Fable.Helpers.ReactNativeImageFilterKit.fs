@@ -173,6 +173,15 @@ module Props =
     | InputBrightness of float
     | InputContrast of float
 
+  type CIColorMatrixProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRVector of IRGBAVector
+    | InputGVector of IRGBAVector
+    | InputBVector of IRGBAVector
+    | InputAVector of IRGBAVector
+    | InputBiasVector of IRGBAVector
+
   type CIColorClampProps =
     | Style of IStyle list
     | ResizeOutput of bool
@@ -406,6 +415,9 @@ let inline CIZoomBlur (props: CIZoomBlurProps list) (children: React.ReactElemen
 
 let inline CIColorControls (props: CIColorControlsProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIColorControls, props, children)
+
+let inline CIColorMatrix (props: CIColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.CIColorMatrix, props, children)
 
 let inline CIColorClamp (props: CIColorClampProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIColorClamp, props, children)

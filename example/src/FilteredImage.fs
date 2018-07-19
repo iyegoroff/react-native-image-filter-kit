@@ -1,6 +1,7 @@
 
 namespace FilterConstructor
 open Elmish
+open Fable.Import.ReactNative
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 open SelectModal
@@ -21,6 +22,7 @@ module FilteredImage =
       Filters: (Id * CombinedFilter.Model * Filter.Model) list
       ImageSelectModalIsVisible: bool
       FilterSelectModalIsVisible: bool
+      SelectedResizeMode: ResizeMode
       NextId: Id }
 
   type Message =
@@ -30,17 +32,33 @@ module FilteredImage =
     | FilterSelectModalMessage of FilterSelectModal.Message
     | SelectFilter
     | FilterMessage of Id * Filter.Message
+    | ResizeModeChanged of int
 
+
+  let private resizeModes =
+    [| ResizeMode.Contain
+       ResizeMode.Cover
+       ResizeMode.Stretch
+       ResizeMode.Center
+       ResizeMode.Repeat |]
+
+  let private resizeControlValues = new ResizeArray<string> (Array.map unbox<string> resizeModes)
 
   let init image =
     { Image = image
       Filters = []
       ImageSelectModalIsVisible = false 
       FilterSelectModalIsVisible = false
+      SelectedResizeMode = ResizeMode.Contain
       NextId = 0 }
 
   let selectImage model image =
     { model with Image = image }
+
+  let resizeControlIndex model =
+    match Array.tryFindIndex (fun x -> x = model.SelectedResizeMode) resizeModes with
+    | Some x -> x
+    | None -> 0
 
   let update (message: Message) model =
     match message with
@@ -77,6 +95,9 @@ module FilteredImage =
                                  (fun (i, t, f) -> i, t, if i = id then filter' else f)
                                  model.Filters },
         Cmd.map (fun sub -> FilterMessage (id, sub)) cmd
+
+    | ResizeModeChanged index ->
+      { model with SelectedResizeMode = resizeModes.[index] }, []
       
 
 
@@ -119,7 +140,7 @@ module FilteredImage =
      (fun child (_, tag, filter) -> CombinedFilter.view tag filter child)
      (RN.image
        [ imageStyle
-         ResizeMode ResizeMode.Repeat
+         ResizeMode model.SelectedResizeMode
          Source (Image.source model.Image) ])
      model.Filters
       
@@ -147,6 +168,11 @@ module FilteredImage =
               [ RN.activityIndicator
                   [ spinnerStyle ]
                 (filteredImage model) ]
+            RN.segmentedControlIOS
+              [ Values resizeControlValues
+                SegmentedControlIOSProperties.OnChange
+                  (fun event -> dispatch (ResizeModeChanged event.nativeEvent.selectedSegmentIndex)) 
+                SelectedIndex (resizeControlIndex model)]
             RN.view
               [ controlsStyle ]
               [ RN.button

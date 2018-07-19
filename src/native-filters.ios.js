@@ -15,7 +15,9 @@ const filters = {
   CIZoomBlur: ['inputCenter', 'inputAmount'],
   CIColorClamp: ['inputMinComponents', 'inputMaxComponents'],
   CIColorControls: ['inputSaturation', 'inputBrightness', 'inputContrast'],
-  // CIColorMatrix,
+  CIColorMatrix: [
+    'inputRVector', 'inputGVector', 'inputBVector', 'inputAVector', 'inputBiasVector'
+  ],
   // CIColorPolynomial,
   // CIExposureAdjust,
   // CIGammaAdjust,

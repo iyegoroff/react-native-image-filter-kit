@@ -35,5 +35,10 @@ RCT_EXPORT_VIEW_PROPERTY(inputPoint0, NSArray<NSString *>);
 RCT_EXPORT_VIEW_PROPERTY(inputPoint1, NSArray<NSString *>);
 RCT_EXPORT_VIEW_PROPERTY(inputMinComponents, NSArray<NSNumber *>);
 RCT_EXPORT_VIEW_PROPERTY(inputMaxComponents, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputRVector, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputGVector, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputBVector, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputAVector, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputBiasVector, NSArray<NSNumber *>);
 
 @end

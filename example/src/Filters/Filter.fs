@@ -27,6 +27,11 @@ module Filter =
     | InputScale
     | InputSharpness
     | InputWidth
+    | InputRVector
+    | InputGVector
+    | InputBVector
+    | InputAVector
+    | InputBiasVector
     | ResizeOutput
 
   type Model = (Input * CombinedFilterInput.Model) list

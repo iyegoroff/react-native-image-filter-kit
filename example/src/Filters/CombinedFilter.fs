@@ -23,6 +23,7 @@ module CombinedFilter =
     | CIZoomBlur
     | CIColorClamp
     | CIColorControls
+    | CIColorMatrix
     | CIMaskToAlpha
     | CIMaximumComponent
     | CIMinimumComponent
@@ -85,14 +86,22 @@ module CombinedFilter =
 
     | CIColorClamp ->
       Filter.init
-        [ Filter.InputMinComponents, CFI.initRGBAVector (0., 0., 0., 0.) (100., 100., 100., 100.)
-          Filter.InputMaxComponents, CFI.initRGBAVector (0., 0., 0., 0.) (100., 100., 100., 100.) ]
+        [ Filter.InputMinComponents, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
+          Filter.InputMaxComponents, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) ]
 
     | CIColorControls -> 
       Filter.init
         [ Filter.InputSaturation, CFI.initScalar 0. 10.
           Filter.InputBrightness, CFI.initScalar 0. 10.
           Filter.InputContrast, CFI.initScalar 0. 10. ]
+
+    | CIColorMatrix ->
+      Filter.init
+        [ Filter.InputRVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
+          Filter.InputGVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
+          Filter.InputBVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
+          Filter.InputAVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
+          Filter.InputBiasVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) ]
 
     | CIMaskToAlpha ->
       Filter.init []
@@ -141,7 +150,7 @@ module CombinedFilter =
     | CICircularScreen ->
       Filter.init
         [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputSharpness, CFI.initScalar 0. 10.
+          Filter.InputSharpness, CFI.initScalar 0. 1.
           Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 100. ]
 
     | CIBumpDistortion ->
@@ -170,7 +179,7 @@ module CombinedFilter =
 
     | CISharpenLuminance ->
       Filter.init
-        [ Filter.InputSharpness, CFI.initScalar 0. 10. ]
+        [ Filter.InputSharpness, CFI.initScalar 0. 100. ]
 
     | CIUnsharpMask ->
       Filter.init
@@ -183,6 +192,7 @@ module CombinedFilter =
     | _ -> None
 
   let view =
+    Browser.console.warn("filter")
     function
     | CIBoxBlur ->
       Filter.view
@@ -273,6 +283,23 @@ module CombinedFilter =
          | Filter.InputContrast, CFI.Scalar input ->
            Some (CIColorControlsProps.InputContrast (input.Convert input.Value))
          | ResizeOutput value -> Some (CIColorControlsProps.ResizeOutput value)
+         | _ -> None)
+
+    | CIColorMatrix ->
+      Filter.view
+        RNF.CIColorMatrix
+        (function
+         | Filter.InputRVector, CFI.RGBAVector input ->
+           Some (CIColorMatrixProps.InputRVector (input.Convert input.Value))
+         | Filter.InputGVector, CFI.RGBAVector input ->
+           Some (CIColorMatrixProps.InputGVector (input.Convert input.Value))
+         | Filter.InputBVector, CFI.RGBAVector input ->
+           Some (CIColorMatrixProps.InputBVector (input.Convert input.Value))
+         | Filter.InputAVector, CFI.RGBAVector input ->
+           Some (CIColorMatrixProps.InputAVector (input.Convert input.Value))
+         | Filter.InputBiasVector, CFI.RGBAVector input ->
+           Some (CIColorMatrixProps.InputBiasVector (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIColorMatrixProps.ResizeOutput value)
          | _ -> None)
          
     | CIMaskToAlpha ->
@@ -473,6 +500,7 @@ module CombinedFilter =
     | CIZoomBlur -> Filter.controls (name CIZoomBlur)
     | CIColorClamp -> Filter.controls (name CIColorClamp)
     | CIColorControls -> Filter.controls (name CIColorControls)
+    | CIColorMatrix -> Filter.controls (name CIColorMatrix)
     | CIMaskToAlpha -> Filter.controls (name CIMaskToAlpha)
     | CIMaximumComponent -> Filter.controls (name CIMaximumComponent)
     | CIMinimumComponent -> Filter.controls (name CIMinimumComponent)
@@ -508,6 +536,7 @@ module CombinedFilter =
        CIZoomBlur
        CIColorClamp
        CIColorControls
+       CIColorMatrix
        CIMaskToAlpha
        CIMaximumComponent
        CIMinimumComponent

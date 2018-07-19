@@ -8,36 +8,7 @@ const pointToArray = p => [`${p.x}`, `${p.y}`];
 
 const NativeImageFilter = requireNativeComponent(
   'RNImageFilter',
-  {
-    name: 'NativeImageFilter',
-    propTypes: {
-      ...{
-        name: PropTypes.string.isRequired,
-        paramNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-        resizeOutput: PropTypes.bool,
-        inputRadius: PropTypes.string,
-        inputAngle: PropTypes.number,
-        inputNoiseLevel: PropTypes.number,
-        inputSharpness: PropTypes.number,
-        inputAmount: PropTypes.number,
-        inputBrightness: PropTypes.number,
-        inputContrast: PropTypes.number,
-        inputSaturation: PropTypes.number,
-        inputCenter: PropTypes.arrayOf(PropTypes.string),
-        inputPoint0: PropTypes.arrayOf(PropTypes.string),
-        inputPoint1: PropTypes.arrayOf(PropTypes.string),
-        inputMinComponents: PropTypes.arrayOf(PropTypes.number),
-        inputMaxComponents: PropTypes.arrayOf(PropTypes.number),
-        inputLevels: PropTypes.number,
-        inputScale: PropTypes.number,
-        inputRotation: PropTypes.number,
-        inputRefraction: PropTypes.number,
-        inputWidth: PropTypes.string,
-        inputIntensity: PropTypes.number
-      },
-      ...View.propTypes
-    }
-  },
+  { name: 'NativeImageFilter' },
   {
     nativeOnly: {
       nativeBackgroundAndroid: true,

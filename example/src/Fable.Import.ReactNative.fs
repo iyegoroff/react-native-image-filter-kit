@@ -349,7 +349,7 @@ module ReactNative =
         | [<CompiledName("space-between")>] SpaceBetween
         | [<CompiledName("space-around")>] SpaceAround
 
-    and [<StringEnum>] FlexDisplayType =
+    and [<StringEnum; RequireQualifiedAccess>] FlexDisplayType =
         | None | Flex
 
     and [<StringEnum>] FlexDirectionType =
@@ -788,7 +788,7 @@ module ReactNative =
 
     and NativeSegmentedControlIOSChangeEvent =
         abstract value: string with get, set
-        abstract selectedSegmentIndex: float with get, set
+        abstract selectedSegmentIndex: int with get, set
         abstract target: float with get, set
 
     and SegmentedControlIOSProperties =

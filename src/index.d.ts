@@ -214,6 +214,17 @@ export interface CIColorControlsProps extends FilterProps {
 export class CIColorControls extends React.Component<CIColorControlsProps> { }
 
 
+export interface CIColorMatrixProps extends FilterProps {
+  readonly inputRVector?: ReadonlyArray<number>;
+  readonly inputGVector?: ReadonlyArray<number>;
+  readonly inputBVector?: ReadonlyArray<number>;
+  readonly inputAVector?: ReadonlyArray<number>;
+  readonly inputBiasVector?: ReadonlyArray<number>;
+}
+
+export class CIColorMatrix extends React.Component<CIColorMatrixProps> { }
+
+
 export interface CIColorClampProps extends FilterProps {
   readonly inputMinComponents?: ReadonlyArray<number>;
   readonly inputMaxComponents?: ReadonlyArray<number>;

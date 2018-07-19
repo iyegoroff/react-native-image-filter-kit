@@ -26,6 +26,11 @@
 @property (nonatomic, strong) NSArray<NSString *> *inputPoint1;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputMinComponents;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputMaxComponents;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputRVector;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputGVector;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputBVector;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputAVector;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputBiasVector;
 
 + (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options;
 - (CIContext *)context;

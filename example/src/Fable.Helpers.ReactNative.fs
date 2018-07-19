@@ -833,7 +833,7 @@ module Props =
         | Momentary of bool
         | OnChange of (NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent> -> unit)
         | OnValueChange of (string -> unit)
-        | SelectedIndex of float
+        | SelectedIndex of int
         | TintColor of string
         | Values of ResizeArray<string>
         | Ref of Ref<SegmentedControlIOS>
