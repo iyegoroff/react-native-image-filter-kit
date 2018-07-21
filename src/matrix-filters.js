@@ -1,6 +1,4 @@
 import React, { cloneElement } from 'react';
-import PropTypes from 'prop-types';
-import Children from 'react-children-utilities';
 import { defaultStyle, checkStyle } from './style';
 import { requireNativeComponent, View, Platform } from 'react-native';
 
@@ -245,32 +243,28 @@ const filters = {
   achromatomaly: () => staticFilters.achromatomaly
 };
 
-const concatColorMatrices = (matA, matB) => {
-  const a = [...matA];
-  const b = [...matB];
-  const tmp = Array(20);
+// const concatColorMatrices = (matA, matB) => {
+//   const a = [...matA];
+//   const b = [...matB];
+//   const tmp = Array(20);
 
-  let index = 0;
-  for (let j = 0; j < 20; j += 5) {
-    for (let i = 0; i < 4; i++) {
-      tmp[index++] = a[j + 0] * b[i + 0] + a[j + 1] * b[i + 5] +
-        a[j + 2] * b[i + 10] + a[j + 3] * b[i + 15];
-    }
-    tmp[index++] = a[j + 0] * b[4] + a[j + 1] * b[9] +
-      a[j + 2] * b[14] + a[j + 3] * b[19] + a[j + 4];
-  }
+//   let index = 0;
+//   for (let j = 0; j < 20; j += 5) {
+//     for (let i = 0; i < 4; i++) {
+//       tmp[index++] = a[j + 0] * b[i + 0] + a[j + 1] * b[i + 5] +
+//         a[j + 2] * b[i + 10] + a[j + 3] * b[i + 15];
+//     }
+//     tmp[index++] = a[j + 0] * b[4] + a[j + 1] * b[9] +
+//       a[j + 2] * b[14] + a[j + 3] * b[19] + a[j + 4];
+//   }
 
-  return tmp;
-};
+//   return tmp;
+// };
 
-const NativeImageMatrixFilter = requireNativeComponent(
-  'RNImageMatrixFilter',
+const ImageColorMatrixFilter = requireNativeComponent(
+  'RNImageColorMatrixFilter',
   {
-    name: 'NativeImageMatrixFilter',
-    propTypes: {
-      matrix: PropTypes.arrayOf(PropTypes.number),
-      ...View.propTypes
-    }
+    name: 'RNImageColorMatrixFilter'
   },
   {
     nativeOnly: {
@@ -280,52 +274,37 @@ const NativeImageMatrixFilter = requireNativeComponent(
   }
 );
 
-const filterName = ([first, ...rest]) => `Image${first.toUpperCase() + rest.join('')}MatrixFilter`;
+const filterName = ([first, ...rest]) => first.toUpperCase() + rest.join('');
 
-const allFilterNames = Object.keys(filters).map(filterName);
-
-const ImageMatrixFilter = ({ style, children, matrix, parentMatrix, ...restProps }) => {
+const ColorMatrix = ({ style, children, matrix, ...restProps }) => {
   checkStyle(style);
 
-  const concatedMatrix = parentMatrix ? concatColorMatrices(matrix, parentMatrix) : matrix;
-
-  const mappedChildren = Children.deepMap(
-    children,
-    (child) => {
-      return child && allFilterNames.indexOf(child.type.displayName) >= 0
-        ? cloneElement(child, { ...child.props, parentMatrix: concatedMatrix })
-        : child
-    }
-  );
-
   return (
-    <NativeImageMatrixFilter
+    <ImageColorMatrixFilter
       style={[defaultStyle.container, style]}
-      matrix={concatedMatrix}
+      matrix={matrix}
       {...restProps}
     >
-      {mappedChildren}
-    </NativeImageMatrixFilter>
+      {children}
+    </ImageColorMatrixFilter>
   );
 };
 
-ImageMatrixFilter.displayName = 'PRIVET';
-
-const createImageMatrixFilter = (filter) => ({ value, children, ...restProps }) => (
-  <ImageMatrixFilter
+const createImageColorMatrixFilter = (filter) => ({ value, children, ...restProps }) => (
+  <ColorMatrix
     matrix={filter(value)}
     {...restProps}
   >
     {children}
-  </ImageMatrixFilter>
+  </ColorMatrix>
 );
 
 export default Object.keys(filters).reduce(
   (acc, name) => {
     const key = filterName(name);
-    acc[key] = createImageMatrixFilter(filters[name]);
+    acc[key] = createImageColorMatrixFilter(filters[name]);
     acc[key].displayName = key;
     return acc;
   },
-  { 'ImageMatrixFilter': ImageMatrixFilter }
+  { 'ColorMatrix': ColorMatrix }
 );

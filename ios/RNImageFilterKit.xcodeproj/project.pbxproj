@@ -11,8 +11,8 @@
 		744193AF20D58CA700E7725F /* RNImageFilterWithColorManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193AE20D58CA700E7725F /* RNImageFilterWithColorManagement.m */; };
 		744193B320D58D5700E7725F /* RNImageFilterWithoutColorManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193B220D58D5700E7725F /* RNImageFilterWithoutColorManagement.m */; };
 		744193B620D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193B520D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m */; };
-		7487A2D520A90EAC0002A850 /* RNImageMatrixFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */; };
-		7487A2D820A90ECE0002A850 /* RNImageMatrixFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */; };
+		7453D4822103B25100FAD5C1 /* RNImageColorMatrixFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7453D4812103B25100FAD5C1 /* RNImageColorMatrixFilterManager.m */; };
+		7453D4852103B29700FAD5C1 /* RNImageColorMatrixFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7453D4842103B29700FAD5C1 /* RNImageColorMatrixFilter.m */; };
 		74BF08B320B258E300D93AFC /* RNImageFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */; };
 		74BF08B420B258E300D93AFC /* RNImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08B220B258E300D93AFC /* RNImageFilter.m */; };
 /* End PBXBuildFile section */
@@ -40,10 +40,10 @@
 		744193B420D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageFilterWithoutColorManagementManager.h; sourceTree = "<group>"; };
 		744193B520D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterWithoutColorManagementManager.m; sourceTree = "<group>"; };
 		744193B720D591AC00E7725F /* MustBeOverriden.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MustBeOverriden.h; sourceTree = "<group>"; };
-		7487A2D320A90EAC0002A850 /* RNImageMatrixFilterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageMatrixFilterManager.h; sourceTree = "<group>"; };
-		7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageMatrixFilterManager.m; sourceTree = "<group>"; };
-		7487A2D620A90ECE0002A850 /* RNImageMatrixFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageMatrixFilter.h; sourceTree = "<group>"; };
-		7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageMatrixFilter.m; sourceTree = "<group>"; };
+		7453D4802103B25100FAD5C1 /* RNImageColorMatrixFilterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageColorMatrixFilterManager.h; sourceTree = "<group>"; };
+		7453D4812103B25100FAD5C1 /* RNImageColorMatrixFilterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageColorMatrixFilterManager.m; sourceTree = "<group>"; };
+		7453D4832103B29700FAD5C1 /* RNImageColorMatrixFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageColorMatrixFilter.h; sourceTree = "<group>"; };
+		7453D4842103B29700FAD5C1 /* RNImageColorMatrixFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageColorMatrixFilter.m; sourceTree = "<group>"; };
 		74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterManager.m; sourceTree = "<group>"; };
 		74BF08B020B258E200D93AFC /* RNImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNImageFilter.h; sourceTree = "<group>"; };
 		74BF08B120B258E200D93AFC /* RNImageFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNImageFilterManager.h; sourceTree = "<group>"; };
@@ -73,13 +73,10 @@
 			isa = PBXGroup;
 			children = (
 				744193B720D591AC00E7725F /* MustBeOverriden.h */,
+				7453D47F2103B1CB00FAD5C1 /* RNImageColorMatrixFilter */,
 				744193B020D58D3600E7725F /* RNImageFilterWithoutColorManagement */,
 				744193A820D58B9400E7725F /* RNImageFilterWithColorManagement */,
 				744193A720D58B8400E7725F /* RNImageFilter */,
-				7487A2D320A90EAC0002A850 /* RNImageMatrixFilterManager.h */,
-				7487A2D420A90EAC0002A850 /* RNImageMatrixFilterManager.m */,
-				7487A2D620A90ECE0002A850 /* RNImageMatrixFilter.h */,
-				7487A2D720A90ECE0002A850 /* RNImageMatrixFilter.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -115,6 +112,17 @@
 				744193B520D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m */,
 			);
 			name = RNImageFilterWithoutColorManagement;
+			sourceTree = "<group>";
+		};
+		7453D47F2103B1CB00FAD5C1 /* RNImageColorMatrixFilter */ = {
+			isa = PBXGroup;
+			children = (
+				7453D4832103B29700FAD5C1 /* RNImageColorMatrixFilter.h */,
+				7453D4842103B29700FAD5C1 /* RNImageColorMatrixFilter.m */,
+				7453D4802103B25100FAD5C1 /* RNImageColorMatrixFilterManager.h */,
+				7453D4812103B25100FAD5C1 /* RNImageColorMatrixFilterManager.m */,
+			);
+			name = RNImageColorMatrixFilter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,11 +183,11 @@
 			files = (
 				74BF08B320B258E300D93AFC /* RNImageFilterManager.m in Sources */,
 				744193AC20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m in Sources */,
+				7453D4852103B29700FAD5C1 /* RNImageColorMatrixFilter.m in Sources */,
 				744193B320D58D5700E7725F /* RNImageFilterWithoutColorManagement.m in Sources */,
 				744193B620D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m in Sources */,
 				744193AF20D58CA700E7725F /* RNImageFilterWithColorManagement.m in Sources */,
-				7487A2D520A90EAC0002A850 /* RNImageMatrixFilterManager.m in Sources */,
-				7487A2D820A90ECE0002A850 /* RNImageMatrixFilter.m in Sources */,
+				7453D4822103B25100FAD5C1 /* RNImageColorMatrixFilterManager.m in Sources */,
 				74BF08B420B258E300D93AFC /* RNImageFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,6 +14,31 @@ module CFI = CombinedFilterInput
 module CombinedFilter =
 
   type Model =
+    | ColorMatrix
+    | Normal
+    | Saturate
+    | HueRotate
+    | LuminanceToAlpha
+    | Invert
+    | Grayscale
+    | Sepia
+    | Nightvision
+    | Warm
+    | Cool
+    | Brightness
+    | Exposure
+    | Contrast
+    | Temperature
+    | Tint
+    | Threshold
+    | Protanomaly
+    | Deuteranomaly
+    | Tritanomaly
+    | Protanopia
+    | Deuteranopia
+    | Tritanopia
+    | Achromatopsia
+    | Achromatomaly
     | CIBoxBlur
     | CIDiscBlur
     | CIGaussianBlur
@@ -54,6 +79,106 @@ module CombinedFilter =
 
   let init model : Filter.Model =
     match model with
+    | ColorMatrix ->
+      Filter.init
+        []
+
+    | Normal ->
+      Filter.init
+        []
+
+    | Saturate ->
+      Filter.init
+        [ Filter.Value, CFI.initScalar -10. 10. ]
+
+    | HueRotate ->
+      Filter.init
+        [ Filter.Value, CFI.initScalar -10. 10. ]
+
+    | LuminanceToAlpha ->
+      Filter.init
+        []
+
+    | Invert ->
+      Filter.init
+        []
+
+    | Grayscale ->
+      Filter.init
+        []
+
+    | Sepia ->
+      Filter.init
+        []
+
+    | Nightvision ->
+      Filter.init
+        [ Filter.Value, CFI.initScalar -10. 10. ]
+
+    | Warm ->
+      Filter.init
+        []
+
+    | Cool ->
+      Filter.init
+        []
+
+    | Brightness ->
+      Filter.init
+        [ Filter.Value, CFI.initScalar -10. 10. ]
+
+    | Exposure ->
+      Filter.init
+        [ Filter.Value, CFI.initScalar -10. 10. ]
+
+    | Contrast ->
+      Filter.init
+        [ Filter.Value, CFI.initScalar -10. 10. ]
+
+    | Temperature ->
+      Filter.init
+        [ Filter.Value, CFI.initScalar -10. 10. ]
+
+    | Tint ->
+      Filter.init
+        [ Filter.Value, CFI.initScalar -10. 10. ]
+
+    | Threshold ->
+      Filter.init
+        [ Filter.Value, CFI.initScalar -10. 10. ]
+
+    | Protanomaly ->
+      Filter.init
+        []
+
+    | Deuteranomaly ->
+      Filter.init
+        []
+
+    | Tritanomaly ->
+      Filter.init
+        []
+
+    | Protanopia ->
+      Filter.init
+        []
+
+    | Deuteranopia ->
+      Filter.init
+        []
+
+    | Tritanopia ->
+      Filter.init
+        []
+
+    | Achromatopsia ->
+      Filter.init
+        []
+
+    | Achromatomaly ->
+      Filter.init
+        []
+
     | CIBoxBlur ->
       Filter.init
         [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50. ]
@@ -192,8 +317,175 @@ module CombinedFilter =
     | _ -> None
 
   let view =
-    Browser.console.warn("filter")
     function
+    | ColorMatrix ->
+      Filter.view
+        RNF.Normal
+        (function
+         | _ -> None)
+
+    | Normal ->
+      Filter.view
+        RNF.Normal
+        (function
+         | _ -> None)
+
+    | Saturate ->
+      Filter.view
+        RNF.Saturate
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (SaturateProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | HueRotate ->
+      Filter.view
+        RNF.HueRotate
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (HueRotateProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | LuminanceToAlpha ->
+      Filter.view
+        RNF.LuminanceToAlpha
+        (function
+         | _ -> None)
+
+    | Invert ->
+      Filter.view
+        RNF.Invert
+        (function
+         | _ -> None)
+
+    | Grayscale ->
+      Filter.view
+        RNF.Grayscale
+        (function
+         | _ -> None)
+
+    | Sepia ->
+      Filter.view
+        RNF.Sepia
+        (function
+         | _ -> None)
+
+    | Nightvision ->
+      Filter.view
+        RNF.Nightvision
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (NightvisionProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Warm ->
+      Filter.view
+        RNF.Warm
+        (function
+         | _ -> None)
+
+    | Cool ->
+      Filter.view
+        RNF.Cool
+        (function
+         | _ -> None)
+
+    | Brightness ->
+      Filter.view
+        RNF.Brightness
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (BrightnessProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Exposure ->
+      Filter.view
+        RNF.Exposure
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (ExposureProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Contrast ->
+      Filter.view
+        RNF.Contrast
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (ContrastProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Temperature ->
+      Filter.view
+        RNF.Temperature
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (TemperatureProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Tint ->
+      Filter.view
+        RNF.Tint
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (TintProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Threshold ->
+      Filter.view
+        RNF.Threshold
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (ThresholdProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Protanomaly ->
+      Filter.view
+        RNF.Protanomaly
+        (function
+         | _ -> None)
+
+    | Deuteranomaly ->
+      Filter.view
+        RNF.Deuteranomaly
+        (function
+         | _ -> None)
+
+    | Tritanomaly ->
+      Filter.view
+        RNF.Tritanomaly
+        (function
+         | _ -> None)
+
+    | Protanopia ->
+      Filter.view
+        RNF.Protanopia
+        (function
+         | _ -> None)
+
+    | Deuteranopia ->
+      Filter.view
+        RNF.Deuteranopia
+        (function
+         | _ -> None)
+
+    | Tritanopia ->
+      Filter.view
+        RNF.Tritanopia
+        (function
+         | _ -> None)
+
+    | Achromatopsia ->
+      Filter.view
+        RNF.Achromatopsia
+        (function
+         | _ -> None)
+
+    | Achromatomaly ->
+      Filter.view
+        RNF.Achromatomaly
+        (function
+         | _ -> None)
+
     | CIBoxBlur ->
       Filter.view
         RNF.CIBoxBlur
@@ -491,6 +783,31 @@ module CombinedFilter =
 
   let controls =
     function
+    | ColorMatrix -> Filter.controls (name ColorMatrix)
+    | Normal -> Filter.controls (name Normal)
+    | Saturate -> Filter.controls (name Saturate)
+    | HueRotate -> Filter.controls (name HueRotate)
+    | LuminanceToAlpha -> Filter.controls (name LuminanceToAlpha)
+    | Invert -> Filter.controls (name Invert)
+    | Grayscale -> Filter.controls (name Grayscale)
+    | Sepia -> Filter.controls (name Sepia)
+    | Nightvision -> Filter.controls (name Nightvision)
+    | Warm -> Filter.controls (name Warm)
+    | Cool -> Filter.controls (name Cool)
+    | Brightness -> Filter.controls (name Brightness)
+    | Exposure -> Filter.controls (name Exposure)
+    | Contrast -> Filter.controls (name Contrast)
+    | Temperature -> Filter.controls (name Temperature)
+    | Tint -> Filter.controls (name Tint)
+    | Threshold -> Filter.controls (name Threshold)
+    | Protanomaly -> Filter.controls (name Protanomaly)
+    | Deuteranomaly -> Filter.controls (name Deuteranomaly)
+    | Tritanomaly -> Filter.controls (name Tritanomaly)
+    | Protanopia -> Filter.controls (name Protanopia)
+    | Deuteranopia -> Filter.controls (name Deuteranopia)
+    | Tritanopia -> Filter.controls (name Tritanopia)
+    | Achromatopsia -> Filter.controls (name Achromatopsia)
+    | Achromatomaly -> Filter.controls (name Achromatomaly)
     | CIBoxBlur -> Filter.controls (name CIBoxBlur)
     | CIDiscBlur -> Filter.controls (name CIDiscBlur)
     | CIGaussianBlur -> Filter.controls (name CIGaussianBlur)
@@ -527,7 +844,32 @@ module CombinedFilter =
     [| |]
 
   let private availableIosFilters =
-    [| CIBoxBlur
+    [| ColorMatrix
+       Normal
+       Saturate
+       HueRotate
+       LuminanceToAlpha
+       Invert
+       Grayscale
+       Sepia
+       Nightvision
+       Warm
+       Cool
+       Brightness
+       Exposure
+       Contrast
+       Temperature
+       Tint
+       Threshold
+       Protanomaly
+       Deuteranomaly
+       Tritanomaly
+       Protanopia
+       Deuteranopia
+       Tritanopia
+       Achromatopsia
+       Achromatomaly
+       CIBoxBlur
        CIDiscBlur
        CIGaussianBlur
        CIMedianFilter

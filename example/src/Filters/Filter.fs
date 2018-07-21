@@ -32,6 +32,7 @@ module Filter =
     | InputBVector
     | InputAVector
     | InputBiasVector
+    | Value
     | ResizeOutput
 
   type Model = (Input * CombinedFilterInput.Model) list

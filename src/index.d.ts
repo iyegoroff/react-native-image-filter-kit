@@ -10,149 +10,149 @@ interface FilterPoint {
   readonly y: string;
 }
 
-export interface ImageMatrixFilterProps extends FilterProps {
+export interface ColorMatrixProps extends FilterProps {
   readonly matrix: ReadonlyArray<number>;
 }
 
-export class ImageMatrixFilter extends React.Component<ImageMatrixFilterProps> { }
+export class ColorMatrix extends React.Component<ColorMatrixProps> { }
 
 
-export interface ImageNormalMatrixFilterProps extends FilterProps { }
+export interface NormalProps extends FilterProps { }
 
-export class ImageNormalMatrixFilter extends React.Component<ImageNormalMatrixFilterProps> { }
+export class Normal extends React.Component<NormalProps> { }
 
 
-export interface ImageSaturateMatrixFilterProps extends FilterProps {
+export interface SaturateProps extends FilterProps {
   readonly value: number;
 }
 
-export class ImageSaturateMatrixFilter extends React.Component<ImageSaturateMatrixFilterProps> { }
+export class Saturate extends React.Component<SaturateProps> { }
 
 
-export interface ImageHueRotateMatrixFilterProps extends FilterProps {
+export interface HueRotateProps extends FilterProps {
   readonly value: number;
 }
 
-export class ImageHueRotateMatrixFilter extends React.Component<ImageHueRotateMatrixFilterProps> { }
+export class HueRotate extends React.Component<HueRotateProps> { }
 
 
-export interface ImageLuminanceToAlphaMatrixFilterProps extends FilterProps { }
+export interface LuminanceToAlphaProps extends FilterProps { }
 
-export class ImageLuminanceToAlphaMatrixFilter extends React.Component<ImageLuminanceToAlphaMatrixFilterProps> { }
-
-
-export interface ImageInvertMatrixFilterProps extends FilterProps { }
-
-export class ImageInvertMatrixFilter extends React.Component<ImageInvertMatrixFilterProps> { }
+export class LuminanceToAlpha extends React.Component<LuminanceToAlphaProps> { }
 
 
-export interface ImageGrayscaleMatrixFilterProps extends FilterProps { }
+export interface InvertProps extends FilterProps { }
 
-export class ImageGrayscaleMatrixFilter extends React.Component<ImageGrayscaleMatrixFilterProps> { }
-
-
-export interface ImageSepiaMatrixFilterProps extends FilterProps { }
-
-export class ImageSepiaMatrixFilter extends React.Component<ImageSepiaMatrixFilterProps> { }
+export class Invert extends React.Component<InvertProps> { }
 
 
-export interface ImageNightvisionMatrixFilterProps extends FilterProps {
+export interface GrayscaleProps extends FilterProps { }
+
+export class Grayscale extends React.Component<GrayscaleProps> { }
+
+
+export interface SepiaProps extends FilterProps { }
+
+export class Sepia extends React.Component<SepiaProps> { }
+
+
+export interface NightvisionProps extends FilterProps {
   readonly value: number;
 }
 
-export class ImageNightvisionMatrixFilter extends React.Component<ImageNightvisionMatrixFilterProps> { }
+export class Nightvision extends React.Component<NightvisionProps> { }
 
 
-export interface ImageWarmMatrixFilterProps extends FilterProps { }
+export interface WarmProps extends FilterProps { }
 
-export class ImageWarmMatrixFilter extends React.Component<ImageWarmMatrixFilterProps> { }
-
-
-export interface ImageCoolMatrixFilterProps extends FilterProps { }
-
-export class ImageCoolMatrixFilter extends React.Component<ImageCoolMatrixFilterProps> { }
+export class Warm extends React.Component<WarmProps> { }
 
 
-export interface ImageBrightnessMatrixFilterProps extends FilterProps {
+export interface CoolProps extends FilterProps { }
+
+export class Cool extends React.Component<CoolProps> { }
+
+
+export interface BrightnessProps extends FilterProps {
   readonly value: number;
 }
 
-export class ImageBrightnessMatrixFilter extends React.Component<ImageBrightnessMatrixFilterProps> { }
+export class Brightness extends React.Component<BrightnessProps> { }
 
 
-export interface ImageExposureMatrixFilterProps extends FilterProps {
+export interface ExposureProps extends FilterProps {
   readonly value: number;
 }
 
-export class ImageExposureMatrixFilter extends React.Component<ImageExposureMatrixFilterProps> { }
+export class Exposure extends React.Component<ExposureProps> { }
 
 
-export interface ImageContrastMatrixFilterProps extends FilterProps {
+export interface ContrastProps extends FilterProps {
   readonly value: number;
 }
 
-export class ImageContrastMatrixFilter extends React.Component<ImageContrastMatrixFilterProps> { }
+export class Contrast extends React.Component<ContrastProps> { }
 
 
-export interface ImageTemperatureMatrixFilterProps extends FilterProps {
+export interface TemperatureProps extends FilterProps {
   readonly value: number;
 }
 
-export class ImageTemperatureMatrixFilter extends React.Component<ImageTemperatureMatrixFilterProps> { }
+export class Temperature extends React.Component<TemperatureProps> { }
 
 
-export interface ImageTintMatrixFilterProps extends FilterProps {
+export interface TintProps extends FilterProps {
   readonly value: number;
 }
 
-export class ImageTintMatrixFilter extends React.Component<ImageTintMatrixFilterProps> { }
+export class Tint extends React.Component<TintProps> { }
 
 
-export interface ImageThresholdMatrixFilterProps extends FilterProps {
+export interface ThresholdProps extends FilterProps {
   readonly value: number;
 }
 
-export class ImageThresholdMatrixFilter extends React.Component<ImageThresholdMatrixFilterProps> { }
+export class Threshold extends React.Component<ThresholdProps> { }
 
 
-export interface ImageProtanomalyMatrixFilterProps extends FilterProps { }
+export interface ProtanomalyProps extends FilterProps { }
 
-export class ImageProtanomalyMatrixFilter extends React.Component<ImageProtanomalyMatrixFilterProps> { }
-
-
-export interface ImageDeuteranomalyMatrixFilterProps extends FilterProps { }
-
-export class ImageDeuteranomalyMatrixFilter extends React.Component<ImageDeuteranomalyMatrixFilterProps> { }
+export class Protanomaly extends React.Component<ProtanomalyProps> { }
 
 
-export interface ImageTritanomalyMatrixFilterProps extends FilterProps { }
+export interface DeuteranomalyProps extends FilterProps { }
 
-export class ImageTritanomalyMatrixFilter extends React.Component<ImageTritanomalyMatrixFilterProps> { }
-
-
-export interface ImageProtanopiaMatrixFilterProps extends FilterProps { }
-
-export class ImageProtanopiaMatrixFilter extends React.Component<ImageProtanopiaMatrixFilterProps> { }
+export class Deuteranomaly extends React.Component<DeuteranomalyProps> { }
 
 
-export interface ImageDeuteranopiaMatrixFilterProps extends FilterProps { }
+export interface TritanomalyProps extends FilterProps { }
 
-export class ImageDeuteranopiaMatrixFilter extends React.Component<ImageDeuteranopiaMatrixFilterProps> { }
-
-
-export interface ImageTritanopiaMatrixFilterProps extends FilterProps { }
-
-export class ImageTritanopiaMatrixFilter extends React.Component<ImageTritanopiaMatrixFilterProps> { }
+export class Tritanomaly extends React.Component<TritanomalyProps> { }
 
 
-export interface ImageAchromatopsiaMatrixFilterProps extends FilterProps { }
+export interface ProtanopiaProps extends FilterProps { }
 
-export class ImageAchromatopsiaMatrixFilter extends React.Component<ImageAchromatopsiaMatrixFilterProps> { }
+export class Protanopia extends React.Component<ProtanopiaProps> { }
 
 
-export interface ImageAchromatomalyMatrixFilterProps extends FilterProps { }
+export interface DeuteranopiaProps extends FilterProps { }
 
-export class ImageAchromatomalyMatrixFilter extends React.Component<ImageAchromatomalyMatrixFilterProps> { }
+export class Deuteranopia extends React.Component<DeuteranopiaProps> { }
+
+
+export interface TritanopiaProps extends FilterProps { }
+
+export class Tritanopia extends React.Component<TritanopiaProps> { }
+
+
+export interface AchromatopsiaProps extends FilterProps { }
+
+export class Achromatopsia extends React.Component<AchromatopsiaProps> { }
+
+
+export interface AchromatomalyProps extends FilterProps { }
+
+export class Achromatomaly extends React.Component<AchromatomalyProps> { }
 
 
 export interface CIBoxBlurProps extends FilterProps {

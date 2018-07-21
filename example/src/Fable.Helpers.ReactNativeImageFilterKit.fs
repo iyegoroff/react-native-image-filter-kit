@@ -20,112 +20,113 @@ module Props =
   type IRGBAVector =
     interface end
 
-  type ImageMatrixFilterProps =
+  type ColorMatrixProps =
     | Style of IStyle list
     | ResizeOutput of bool
     | Matrix of ResizeArray<float>
 
-  type ImageNormalMatrixFilterProps =
+  type NormalProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageSaturateMatrixFilterProps =
-    | Style of IStyle list
-    | ResizeOutput of bool
-    | Value of float
-
-  type ImageHueRotateMatrixFilterProps =
+  type SaturateProps =
     | Style of IStyle list
     | ResizeOutput of bool
     | Value of float
 
-  type ImageLuminanceToAlphaMatrixFilterProps =
-    | Style of IStyle list
-    | ResizeOutput of bool
-
-  type ImageInvertMatrixFilterProps =
-    | Style of IStyle list
-    | ResizeOutput of bool
-
-  type ImageGrayscaleMatrixFilterProps =
-    | Style of IStyle list
-    | ResizeOutput of bool
-
-  type ImageSepiaMatrixFilterProps =
-    | Style of IStyle list
-    | ResizeOutput of bool
-
-  type ImageNightvisionMatrixFilterProps =
+  type HueRotateProps =
     | Style of IStyle list
     | ResizeOutput of bool
     | Value of float
 
-  type ImageWarmMatrixFilterProps =
+  type LuminanceToAlphaProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageCoolMatrixFilterProps =
+  type InvertProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageBrightnessMatrixFilterProps =
+  type GrayscaleProps =
     | Style of IStyle list
     | ResizeOutput of bool
-    | Value of float
 
-  type ImageExposureMatrixFilterProps =
+  type SepiaProps =
     | Style of IStyle list
     | ResizeOutput of bool
-    | Value of float
 
-  type ImageContrastMatrixFilterProps =
-    | Style of IStyle list
-    | ResizeOutput of bool
-    | Value of float
-
-  type ImageTemperatureMatrixFilterProps =
+  type NightvisionProps =
     | Style of IStyle list
     | ResizeOutput of bool
     | Value of float
 
-  type ImageTintMatrixFilterProps =
+  type WarmProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+
+  type CoolProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+
+  type BrightnessProps =
     | Style of IStyle list
     | ResizeOutput of bool
     | Value of float
 
-  type ImageThresholdMatrixFilterProps =
+  type ExposureProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+
+  type ContrastProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+
+  type TemperatureProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+
+  type TintProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+
+  type ThresholdProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | Value of float
+
+  type ProtanomalyProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageProtanomalyMatrixFilterProps =
+  type DeuteranomalyProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageDeuteranomalyMatrixFilterProps =
+  type TritanomalyProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageTritanomalyMatrixFilterProps =
+  type ProtanopiaProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageProtanopiaMatrixFilterProps =
+  type DeuteranopiaProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageDeuteranopiaMatrixFilterProps =
+  type TritanopiaProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageTritanopiaMatrixFilterProps =
+  type AchromatopsiaProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
-  type ImageAchromatopsiaMatrixFilterProps =
-    | Style of IStyle list
-    | ResizeOutput of bool
-
-  type ImageAchromatomalyMatrixFilterProps =
+  type AchromatomalyProps =
     | Style of IStyle list
     | ResizeOutput of bool
 
@@ -317,80 +318,80 @@ let Point (_x: IDistance, _y: IDistance): IPoint = jsNative
 [<Emit("[$0, $1, $2, $3]")>]
 let RGBAVector (_r: float, _g: float, _b: float, _a: float): IRGBAVector = jsNative
 
-let inline ImageMatrixFilter (props: ImageMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageMatrixFilter, props, children)
+let inline ColorMatrix (props: ColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.ColorMatrix, props, children)
 
-let inline ImageNormalMatrixFilter (props: ImageNormalMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageNormalMatrixFilter, props, children)
+let inline Normal (props: NormalProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Normal, props, children)
 
-let inline ImageSaturateMatrixFilter (props: ImageSaturateMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageSaturateMatrixFilter, props, children)
+let inline Saturate (props: SaturateProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Saturate, props, children)
 
-let inline ImageHueRotateMatrixFilter (props: ImageHueRotateMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageHueRotateMatrixFilter, props, children)
+let inline HueRotate (props: HueRotateProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.HueRotate, props, children)
 
-let inline ImageLuminanceToAlphaMatrixFilter (props: ImageLuminanceToAlphaMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageLuminanceToAlphaMatrixFilter, props, children)
+let inline LuminanceToAlpha (props: LuminanceToAlphaProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.LuminanceToAlpha, props, children)
 
-let inline ImageInvertMatrixFilter (props: ImageInvertMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageInvertMatrixFilter, props, children)
+let inline Invert (props: InvertProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Invert, props, children)
 
-let inline ImageGrayscaleMatrixFilter (props: ImageGrayscaleMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageGrayscaleMatrixFilter, props, children)
+let inline Grayscale (props: GrayscaleProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Grayscale, props, children)
 
-let inline ImageSepiaMatrixFilter (props: ImageSepiaMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageSepiaMatrixFilter, props, children)
+let inline Sepia (props: SepiaProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Sepia, props, children)
 
-let inline ImageNightvisionMatrixFilter (props: ImageNightvisionMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageNightvisionMatrixFilter, props, children)
+let inline Nightvision (props: NightvisionProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Nightvision, props, children)
 
-let inline ImageWarmMatrixFilter (props: ImageWarmMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageWarmMatrixFilter, props, children)
+let inline Warm (props: WarmProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Warm, props, children)
 
-let inline ImageCoolMatrixFilter (props: ImageCoolMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageCoolMatrixFilter, props, children)
+let inline Cool (props: CoolProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Cool, props, children)
 
-let inline ImageBrightnessMatrixFilter (props: ImageBrightnessMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageBrightnessMatrixFilter, props, children)
+let inline Brightness (props: BrightnessProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Brightness, props, children)
 
-let inline ImageExposureMatrixFilter (props: ImageExposureMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageExposureMatrixFilter, props, children)
+let inline Exposure (props: ExposureProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Exposure, props, children)
 
-let inline ImageContrastMatrixFilter (props: ImageContrastMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageContrastMatrixFilter, props, children)
+let inline Contrast (props: ContrastProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Contrast, props, children)
 
-let inline ImageTemperatureMatrixFilter (props: ImageTemperatureMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageTemperatureMatrixFilter, props, children)
+let inline Temperature (props: TemperatureProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Temperature, props, children)
 
-let inline ImageTintMatrixFilter (props: ImageTintMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageTintMatrixFilter, props, children)
+let inline Tint (props: TintProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Tint, props, children)
 
-let inline ImageThresholdMatrixFilter (props: ImageThresholdMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageThresholdMatrixFilter, props, children)
+let inline Threshold (props: ThresholdProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Threshold, props, children)
 
-let inline ImageProtanomalyMatrixFilter (props: ImageProtanomalyMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageProtanomalyMatrixFilter, props, children)
+let inline Protanomaly (props: ProtanomalyProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Protanomaly, props, children)
 
-let inline ImageDeuteranomalyMatrixFilter (props: ImageDeuteranomalyMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageDeuteranomalyMatrixFilter, props, children)
+let inline Deuteranomaly (props: DeuteranomalyProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Deuteranomaly, props, children)
 
-let inline ImageTritanomalyMatrixFilter (props: ImageTritanomalyMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageTritanomalyMatrixFilter, props, children)
+let inline Tritanomaly (props: TritanomalyProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Tritanomaly, props, children)
 
-let inline ImageProtanopiaMatrixFilter (props: ImageProtanopiaMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageProtanopiaMatrixFilter, props, children)
+let inline Protanopia (props: ProtanopiaProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Protanopia, props, children)
 
-let inline ImageDeuteranopiaMatrixFilter (props: ImageDeuteranopiaMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageDeuteranopiaMatrixFilter, props, children)
+let inline Deuteranopia (props: DeuteranopiaProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Deuteranopia, props, children)
 
-let inline ImageTritanopiaMatrixFilter (props: ImageTritanopiaMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageTritanopiaMatrixFilter, props, children)
+let inline Tritanopia (props: TritanopiaProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Tritanopia, props, children)
 
-let inline ImageAchromatopsiaMatrixFilter (props: ImageAchromatopsiaMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageAchromatopsiaMatrixFilter, props, children)
+let inline Achromatopsia (props: AchromatopsiaProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Achromatopsia, props, children)
 
-let inline ImageAchromatomalyMatrixFilter (props: ImageAchromatomalyMatrixFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.ImageAchromatomalyMatrixFilter, props, children)
+let inline Achromatomaly (props: AchromatomalyProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.Achromatomaly, props, children)
 
 let inline CIBoxBlur (props: CIBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIBoxBlur, props, children)

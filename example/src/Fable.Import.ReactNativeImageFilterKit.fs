@@ -14,240 +14,240 @@ module ReactNativeImageFilterKit =
       abstract x: string with get, set
       abstract y: string with get, set
 
-  and ImageMatrixFilterProps =
+  and ColorMatrixProps =
       inherit FilterProps
       abstract matrix: ResizeArray<float> with get, set
 
-  and ImageMatrixFilterStatic =
-      inherit React.ComponentClass<ImageMatrixFilterProps>
+  and ColorMatrixStatic =
+      inherit React.ComponentClass<ColorMatrixProps>
 
-  and ImageMatrixFilter =
-      ImageMatrixFilterStatic
+  and ColorMatrix =
+      ColorMatrixStatic
 
-  and ImageNormalMatrixFilterProps =
+  and NormalProps =
       inherit FilterProps
 
-  and ImageNormalMatrixFilterStatic =
-      inherit React.ComponentClass<ImageNormalMatrixFilterProps>
+  and NormalStatic =
+      inherit React.ComponentClass<NormalProps>
 
-  and ImageNormalMatrixFilter =
-      ImageNormalMatrixFilterStatic
+  and Normal =
+      NormalStatic
 
-  and ImageSaturateMatrixFilterProps =
-      inherit FilterProps
-      abstract value: float with get, set
-
-  and ImageSaturateMatrixFilterStatic =
-      inherit React.ComponentClass<ImageSaturateMatrixFilterProps>
-
-  and ImageSaturateMatrixFilter =
-      ImageSaturateMatrixFilterStatic
-
-  and ImageHueRotateMatrixFilterProps =
+  and SaturateProps =
       inherit FilterProps
       abstract value: float with get, set
 
-  and ImageHueRotateMatrixFilterStatic =
-      inherit React.ComponentClass<ImageHueRotateMatrixFilterProps>
+  and SaturateStatic =
+      inherit React.ComponentClass<SaturateProps>
 
-  and ImageHueRotateMatrixFilter =
-      ImageHueRotateMatrixFilterStatic
+  and Saturate =
+      SaturateStatic
 
-  and ImageLuminanceToAlphaMatrixFilterProps =
-      inherit FilterProps
-
-  and ImageLuminanceToAlphaMatrixFilterStatic =
-      inherit React.ComponentClass<ImageLuminanceToAlphaMatrixFilterProps>
-
-  and ImageLuminanceToAlphaMatrixFilter =
-      ImageLuminanceToAlphaMatrixFilterStatic
-
-  and ImageInvertMatrixFilterProps =
-      inherit FilterProps
-
-  and ImageInvertMatrixFilterStatic =
-      inherit React.ComponentClass<ImageInvertMatrixFilterProps>
-
-  and ImageInvertMatrixFilter =
-      ImageInvertMatrixFilterStatic
-
-  and ImageGrayscaleMatrixFilterProps =
-      inherit FilterProps
-
-  and ImageGrayscaleMatrixFilterStatic =
-      inherit React.ComponentClass<ImageGrayscaleMatrixFilterProps>
-
-  and ImageGrayscaleMatrixFilter =
-      ImageGrayscaleMatrixFilterStatic
-
-  and ImageSepiaMatrixFilterProps =
-      inherit FilterProps
-
-  and ImageSepiaMatrixFilterStatic =
-      inherit React.ComponentClass<ImageSepiaMatrixFilterProps>
-
-  and ImageSepiaMatrixFilter =
-      ImageSepiaMatrixFilterStatic
-
-  and ImageNightvisionMatrixFilterProps =
+  and HueRotateProps =
       inherit FilterProps
       abstract value: float with get, set
 
-  and ImageNightvisionMatrixFilterStatic =
-      inherit React.ComponentClass<ImageNightvisionMatrixFilterProps>
+  and HueRotateStatic =
+      inherit React.ComponentClass<HueRotateProps>
 
-  and ImageNightvisionMatrixFilter =
-      ImageNightvisionMatrixFilterStatic
+  and HueRotate =
+      HueRotateStatic
 
-  and ImageWarmMatrixFilterProps =
+  and LuminanceToAlphaProps =
       inherit FilterProps
 
-  and ImageWarmMatrixFilterStatic =
-      inherit React.ComponentClass<ImageWarmMatrixFilterProps>
+  and LuminanceToAlphaStatic =
+      inherit React.ComponentClass<LuminanceToAlphaProps>
 
-  and ImageWarmMatrixFilter =
-      ImageWarmMatrixFilterStatic
+  and LuminanceToAlpha =
+      LuminanceToAlphaStatic
 
-  and ImageCoolMatrixFilterProps =
+  and InvertProps =
       inherit FilterProps
 
-  and ImageCoolMatrixFilterStatic =
-      inherit React.ComponentClass<ImageCoolMatrixFilterProps>
+  and InvertStatic =
+      inherit React.ComponentClass<InvertProps>
 
-  and ImageCoolMatrixFilter =
-      ImageCoolMatrixFilterStatic
+  and Invert =
+      InvertStatic
 
-  and ImageBrightnessMatrixFilterProps =
+  and GrayscaleProps =
       inherit FilterProps
-      abstract value: float with get, set
 
-  and ImageBrightnessMatrixFilterStatic =
-      inherit React.ComponentClass<ImageBrightnessMatrixFilterProps>
+  and GrayscaleStatic =
+      inherit React.ComponentClass<GrayscaleProps>
 
-  and ImageBrightnessMatrixFilter =
-      ImageBrightnessMatrixFilterStatic
+  and Grayscale =
+      GrayscaleStatic
 
-  and ImageExposureMatrixFilterProps =
+  and SepiaProps =
       inherit FilterProps
-      abstract value: float with get, set
 
-  and ImageExposureMatrixFilterStatic =
-      inherit React.ComponentClass<ImageExposureMatrixFilterProps>
+  and SepiaStatic =
+      inherit React.ComponentClass<SepiaProps>
 
-  and ImageExposureMatrixFilter =
-      ImageExposureMatrixFilterStatic
+  and Sepia =
+      SepiaStatic
 
-  and ImageContrastMatrixFilterProps =
+  and NightvisionProps =
       inherit FilterProps
       abstract value: float with get, set
 
-  and ImageContrastMatrixFilterStatic =
-      inherit React.ComponentClass<ImageContrastMatrixFilterProps>
+  and NightvisionStatic =
+      inherit React.ComponentClass<NightvisionProps>
 
-  and ImageContrastMatrixFilter =
-      ImageContrastMatrixFilterStatic
+  and Nightvision =
+      NightvisionStatic
 
-  and ImageTemperatureMatrixFilterProps =
+  and WarmProps =
+      inherit FilterProps
+
+  and WarmStatic =
+      inherit React.ComponentClass<WarmProps>
+
+  and Warm =
+      WarmStatic
+
+  and CoolProps =
+      inherit FilterProps
+
+  and CoolStatic =
+      inherit React.ComponentClass<CoolProps>
+
+  and Cool =
+      CoolStatic
+
+  and BrightnessProps =
       inherit FilterProps
       abstract value: float with get, set
 
-  and ImageTemperatureMatrixFilterStatic =
-      inherit React.ComponentClass<ImageTemperatureMatrixFilterProps>
+  and BrightnessStatic =
+      inherit React.ComponentClass<BrightnessProps>
 
-  and ImageTemperatureMatrixFilter =
-      ImageTemperatureMatrixFilterStatic
+  and Brightness =
+      BrightnessStatic
 
-  and ImageTintMatrixFilterProps =
+  and ExposureProps =
       inherit FilterProps
       abstract value: float with get, set
 
-  and ImageTintMatrixFilterStatic =
-      inherit React.ComponentClass<ImageTintMatrixFilterProps>
+  and ExposureStatic =
+      inherit React.ComponentClass<ExposureProps>
 
-  and ImageTintMatrixFilter =
-      ImageTintMatrixFilterStatic
+  and Exposure =
+      ExposureStatic
 
-  and ImageThresholdMatrixFilterProps =
+  and ContrastProps =
       inherit FilterProps
       abstract value: float with get, set
 
-  and ImageThresholdMatrixFilterStatic =
-      inherit React.ComponentClass<ImageThresholdMatrixFilterProps>
+  and ContrastStatic =
+      inherit React.ComponentClass<ContrastProps>
 
-  and ImageThresholdMatrixFilter =
-      ImageThresholdMatrixFilterStatic
+  and Contrast =
+      ContrastStatic
 
-  and ImageProtanomalyMatrixFilterProps =
+  and TemperatureProps =
+      inherit FilterProps
+      abstract value: float with get, set
+
+  and TemperatureStatic =
+      inherit React.ComponentClass<TemperatureProps>
+
+  and Temperature =
+      TemperatureStatic
+
+  and TintProps =
+      inherit FilterProps
+      abstract value: float with get, set
+
+  and TintStatic =
+      inherit React.ComponentClass<TintProps>
+
+  and Tint =
+      TintStatic
+
+  and ThresholdProps =
+      inherit FilterProps
+      abstract value: float with get, set
+
+  and ThresholdStatic =
+      inherit React.ComponentClass<ThresholdProps>
+
+  and Threshold =
+      ThresholdStatic
+
+  and ProtanomalyProps =
       inherit FilterProps
 
-  and ImageProtanomalyMatrixFilterStatic =
-      inherit React.ComponentClass<ImageProtanomalyMatrixFilterProps>
+  and ProtanomalyStatic =
+      inherit React.ComponentClass<ProtanomalyProps>
 
-  and ImageProtanomalyMatrixFilter =
-      ImageProtanomalyMatrixFilterStatic
+  and Protanomaly =
+      ProtanomalyStatic
 
-  and ImageDeuteranomalyMatrixFilterProps =
+  and DeuteranomalyProps =
       inherit FilterProps
 
-  and ImageDeuteranomalyMatrixFilterStatic =
-      inherit React.ComponentClass<ImageDeuteranomalyMatrixFilterProps>
+  and DeuteranomalyStatic =
+      inherit React.ComponentClass<DeuteranomalyProps>
 
-  and ImageDeuteranomalyMatrixFilter =
-      ImageDeuteranomalyMatrixFilterStatic
+  and Deuteranomaly =
+      DeuteranomalyStatic
 
-  and ImageTritanomalyMatrixFilterProps =
+  and TritanomalyProps =
       inherit FilterProps
 
-  and ImageTritanomalyMatrixFilterStatic =
-      inherit React.ComponentClass<ImageTritanomalyMatrixFilterProps>
+  and TritanomalyStatic =
+      inherit React.ComponentClass<TritanomalyProps>
 
-  and ImageTritanomalyMatrixFilter =
-      ImageTritanomalyMatrixFilterStatic
+  and Tritanomaly =
+      TritanomalyStatic
 
-  and ImageProtanopiaMatrixFilterProps =
+  and ProtanopiaProps =
       inherit FilterProps
 
-  and ImageProtanopiaMatrixFilterStatic =
-      inherit React.ComponentClass<ImageProtanopiaMatrixFilterProps>
+  and ProtanopiaStatic =
+      inherit React.ComponentClass<ProtanopiaProps>
 
-  and ImageProtanopiaMatrixFilter =
-      ImageProtanopiaMatrixFilterStatic
+  and Protanopia =
+      ProtanopiaStatic
 
-  and ImageDeuteranopiaMatrixFilterProps =
+  and DeuteranopiaProps =
       inherit FilterProps
 
-  and ImageDeuteranopiaMatrixFilterStatic =
-      inherit React.ComponentClass<ImageDeuteranopiaMatrixFilterProps>
+  and DeuteranopiaStatic =
+      inherit React.ComponentClass<DeuteranopiaProps>
 
-  and ImageDeuteranopiaMatrixFilter =
-      ImageDeuteranopiaMatrixFilterStatic
+  and Deuteranopia =
+      DeuteranopiaStatic
 
-  and ImageTritanopiaMatrixFilterProps =
+  and TritanopiaProps =
       inherit FilterProps
 
-  and ImageTritanopiaMatrixFilterStatic =
-      inherit React.ComponentClass<ImageTritanopiaMatrixFilterProps>
+  and TritanopiaStatic =
+      inherit React.ComponentClass<TritanopiaProps>
 
-  and ImageTritanopiaMatrixFilter =
-      ImageTritanopiaMatrixFilterStatic
+  and Tritanopia =
+      TritanopiaStatic
 
-  and ImageAchromatopsiaMatrixFilterProps =
+  and AchromatopsiaProps =
       inherit FilterProps
 
-  and ImageAchromatopsiaMatrixFilterStatic =
-      inherit React.ComponentClass<ImageAchromatopsiaMatrixFilterProps>
+  and AchromatopsiaStatic =
+      inherit React.ComponentClass<AchromatopsiaProps>
 
-  and ImageAchromatopsiaMatrixFilter =
-      ImageAchromatopsiaMatrixFilterStatic
+  and Achromatopsia =
+      AchromatopsiaStatic
 
-  and ImageAchromatomalyMatrixFilterProps =
+  and AchromatomalyProps =
       inherit FilterProps
 
-  and ImageAchromatomalyMatrixFilterStatic =
-      inherit React.ComponentClass<ImageAchromatomalyMatrixFilterProps>
+  and AchromatomalyStatic =
+      inherit React.ComponentClass<AchromatomalyProps>
 
-  and ImageAchromatomalyMatrixFilter =
-      ImageAchromatomalyMatrixFilterStatic
+  and Achromatomaly =
+      AchromatomalyStatic
 
   and CIBoxBlurProps =
       inherit FilterProps
@@ -568,31 +568,31 @@ module ReactNativeImageFilterKit =
       CIUnsharpMaskStatic
 
   type Globals =
-      [<Import("ImageMatrixFilter", "react-native-image-filter-kit")>] static member ImageMatrixFilter with get(): ImageMatrixFilterStatic = jsNative and set(v: ImageMatrixFilterStatic): unit = jsNative
-      [<Import("ImageNormalMatrixFilter", "react-native-image-filter-kit")>] static member ImageNormalMatrixFilter with get(): ImageNormalMatrixFilterStatic = jsNative and set(v: ImageNormalMatrixFilterStatic): unit = jsNative
-      [<Import("ImageSaturateMatrixFilter", "react-native-image-filter-kit")>] static member ImageSaturateMatrixFilter with get(): ImageSaturateMatrixFilterStatic = jsNative and set(v: ImageSaturateMatrixFilterStatic): unit = jsNative
-      [<Import("ImageHueRotateMatrixFilter", "react-native-image-filter-kit")>] static member ImageHueRotateMatrixFilter with get(): ImageHueRotateMatrixFilterStatic = jsNative and set(v: ImageHueRotateMatrixFilterStatic): unit = jsNative
-      [<Import("ImageLuminanceToAlphaMatrixFilter", "react-native-image-filter-kit")>] static member ImageLuminanceToAlphaMatrixFilter with get(): ImageLuminanceToAlphaMatrixFilterStatic = jsNative and set(v: ImageLuminanceToAlphaMatrixFilterStatic): unit = jsNative
-      [<Import("ImageInvertMatrixFilter", "react-native-image-filter-kit")>] static member ImageInvertMatrixFilter with get(): ImageInvertMatrixFilterStatic = jsNative and set(v: ImageInvertMatrixFilterStatic): unit = jsNative
-      [<Import("ImageGrayscaleMatrixFilter", "react-native-image-filter-kit")>] static member ImageGrayscaleMatrixFilter with get(): ImageGrayscaleMatrixFilterStatic = jsNative and set(v: ImageGrayscaleMatrixFilterStatic): unit = jsNative
-      [<Import("ImageSepiaMatrixFilter", "react-native-image-filter-kit")>] static member ImageSepiaMatrixFilter with get(): ImageSepiaMatrixFilterStatic = jsNative and set(v: ImageSepiaMatrixFilterStatic): unit = jsNative
-      [<Import("ImageNightvisionMatrixFilter", "react-native-image-filter-kit")>] static member ImageNightvisionMatrixFilter with get(): ImageNightvisionMatrixFilterStatic = jsNative and set(v: ImageNightvisionMatrixFilterStatic): unit = jsNative
-      [<Import("ImageWarmMatrixFilter", "react-native-image-filter-kit")>] static member ImageWarmMatrixFilter with get(): ImageWarmMatrixFilterStatic = jsNative and set(v: ImageWarmMatrixFilterStatic): unit = jsNative
-      [<Import("ImageCoolMatrixFilter", "react-native-image-filter-kit")>] static member ImageCoolMatrixFilter with get(): ImageCoolMatrixFilterStatic = jsNative and set(v: ImageCoolMatrixFilterStatic): unit = jsNative
-      [<Import("ImageBrightnessMatrixFilter", "react-native-image-filter-kit")>] static member ImageBrightnessMatrixFilter with get(): ImageBrightnessMatrixFilterStatic = jsNative and set(v: ImageBrightnessMatrixFilterStatic): unit = jsNative
-      [<Import("ImageExposureMatrixFilter", "react-native-image-filter-kit")>] static member ImageExposureMatrixFilter with get(): ImageExposureMatrixFilterStatic = jsNative and set(v: ImageExposureMatrixFilterStatic): unit = jsNative
-      [<Import("ImageContrastMatrixFilter", "react-native-image-filter-kit")>] static member ImageContrastMatrixFilter with get(): ImageContrastMatrixFilterStatic = jsNative and set(v: ImageContrastMatrixFilterStatic): unit = jsNative
-      [<Import("ImageTemperatureMatrixFilter", "react-native-image-filter-kit")>] static member ImageTemperatureMatrixFilter with get(): ImageTemperatureMatrixFilterStatic = jsNative and set(v: ImageTemperatureMatrixFilterStatic): unit = jsNative
-      [<Import("ImageTintMatrixFilter", "react-native-image-filter-kit")>] static member ImageTintMatrixFilter with get(): ImageTintMatrixFilterStatic = jsNative and set(v: ImageTintMatrixFilterStatic): unit = jsNative
-      [<Import("ImageThresholdMatrixFilter", "react-native-image-filter-kit")>] static member ImageThresholdMatrixFilter with get(): ImageThresholdMatrixFilterStatic = jsNative and set(v: ImageThresholdMatrixFilterStatic): unit = jsNative
-      [<Import("ImageProtanomalyMatrixFilter", "react-native-image-filter-kit")>] static member ImageProtanomalyMatrixFilter with get(): ImageProtanomalyMatrixFilterStatic = jsNative and set(v: ImageProtanomalyMatrixFilterStatic): unit = jsNative
-      [<Import("ImageDeuteranomalyMatrixFilter", "react-native-image-filter-kit")>] static member ImageDeuteranomalyMatrixFilter with get(): ImageDeuteranomalyMatrixFilterStatic = jsNative and set(v: ImageDeuteranomalyMatrixFilterStatic): unit = jsNative
-      [<Import("ImageTritanomalyMatrixFilter", "react-native-image-filter-kit")>] static member ImageTritanomalyMatrixFilter with get(): ImageTritanomalyMatrixFilterStatic = jsNative and set(v: ImageTritanomalyMatrixFilterStatic): unit = jsNative
-      [<Import("ImageProtanopiaMatrixFilter", "react-native-image-filter-kit")>] static member ImageProtanopiaMatrixFilter with get(): ImageProtanopiaMatrixFilterStatic = jsNative and set(v: ImageProtanopiaMatrixFilterStatic): unit = jsNative
-      [<Import("ImageDeuteranopiaMatrixFilter", "react-native-image-filter-kit")>] static member ImageDeuteranopiaMatrixFilter with get(): ImageDeuteranopiaMatrixFilterStatic = jsNative and set(v: ImageDeuteranopiaMatrixFilterStatic): unit = jsNative
-      [<Import("ImageTritanopiaMatrixFilter", "react-native-image-filter-kit")>] static member ImageTritanopiaMatrixFilter with get(): ImageTritanopiaMatrixFilterStatic = jsNative and set(v: ImageTritanopiaMatrixFilterStatic): unit = jsNative
-      [<Import("ImageAchromatopsiaMatrixFilter", "react-native-image-filter-kit")>] static member ImageAchromatopsiaMatrixFilter with get(): ImageAchromatopsiaMatrixFilterStatic = jsNative and set(v: ImageAchromatopsiaMatrixFilterStatic): unit = jsNative
-      [<Import("ImageAchromatomalyMatrixFilter", "react-native-image-filter-kit")>] static member ImageAchromatomalyMatrixFilter with get(): ImageAchromatomalyMatrixFilterStatic = jsNative and set(v: ImageAchromatomalyMatrixFilterStatic): unit = jsNative
+      [<Import("ColorMatrix", "react-native-image-filter-kit")>] static member ColorMatrix with get(): ColorMatrixStatic = jsNative and set(v: ColorMatrixStatic): unit = jsNative
+      [<Import("Normal", "react-native-image-filter-kit")>] static member Normal with get(): NormalStatic = jsNative and set(v: NormalStatic): unit = jsNative
+      [<Import("Saturate", "react-native-image-filter-kit")>] static member Saturate with get(): SaturateStatic = jsNative and set(v: SaturateStatic): unit = jsNative
+      [<Import("HueRotate", "react-native-image-filter-kit")>] static member HueRotate with get(): HueRotateStatic = jsNative and set(v: HueRotateStatic): unit = jsNative
+      [<Import("LuminanceToAlpha", "react-native-image-filter-kit")>] static member LuminanceToAlpha with get(): LuminanceToAlphaStatic = jsNative and set(v: LuminanceToAlphaStatic): unit = jsNative
+      [<Import("Invert", "react-native-image-filter-kit")>] static member Invert with get(): InvertStatic = jsNative and set(v: InvertStatic): unit = jsNative
+      [<Import("Grayscale", "react-native-image-filter-kit")>] static member Grayscale with get(): GrayscaleStatic = jsNative and set(v: GrayscaleStatic): unit = jsNative
+      [<Import("Sepia", "react-native-image-filter-kit")>] static member Sepia with get(): SepiaStatic = jsNative and set(v: SepiaStatic): unit = jsNative
+      [<Import("Nightvision", "react-native-image-filter-kit")>] static member Nightvision with get(): NightvisionStatic = jsNative and set(v: NightvisionStatic): unit = jsNative
+      [<Import("Warm", "react-native-image-filter-kit")>] static member Warm with get(): WarmStatic = jsNative and set(v: WarmStatic): unit = jsNative
+      [<Import("Cool", "react-native-image-filter-kit")>] static member Cool with get(): CoolStatic = jsNative and set(v: CoolStatic): unit = jsNative
+      [<Import("Brightness", "react-native-image-filter-kit")>] static member Brightness with get(): BrightnessStatic = jsNative and set(v: BrightnessStatic): unit = jsNative
+      [<Import("Exposure", "react-native-image-filter-kit")>] static member Exposure with get(): ExposureStatic = jsNative and set(v: ExposureStatic): unit = jsNative
+      [<Import("Contrast", "react-native-image-filter-kit")>] static member Contrast with get(): ContrastStatic = jsNative and set(v: ContrastStatic): unit = jsNative
+      [<Import("Temperature", "react-native-image-filter-kit")>] static member Temperature with get(): TemperatureStatic = jsNative and set(v: TemperatureStatic): unit = jsNative
+      [<Import("Tint", "react-native-image-filter-kit")>] static member Tint with get(): TintStatic = jsNative and set(v: TintStatic): unit = jsNative
+      [<Import("Threshold", "react-native-image-filter-kit")>] static member Threshold with get(): ThresholdStatic = jsNative and set(v: ThresholdStatic): unit = jsNative
+      [<Import("Protanomaly", "react-native-image-filter-kit")>] static member Protanomaly with get(): ProtanomalyStatic = jsNative and set(v: ProtanomalyStatic): unit = jsNative
+      [<Import("Deuteranomaly", "react-native-image-filter-kit")>] static member Deuteranomaly with get(): DeuteranomalyStatic = jsNative and set(v: DeuteranomalyStatic): unit = jsNative
+      [<Import("Tritanomaly", "react-native-image-filter-kit")>] static member Tritanomaly with get(): TritanomalyStatic = jsNative and set(v: TritanomalyStatic): unit = jsNative
+      [<Import("Protanopia", "react-native-image-filter-kit")>] static member Protanopia with get(): ProtanopiaStatic = jsNative and set(v: ProtanopiaStatic): unit = jsNative
+      [<Import("Deuteranopia", "react-native-image-filter-kit")>] static member Deuteranopia with get(): DeuteranopiaStatic = jsNative and set(v: DeuteranopiaStatic): unit = jsNative
+      [<Import("Tritanopia", "react-native-image-filter-kit")>] static member Tritanopia with get(): TritanopiaStatic = jsNative and set(v: TritanopiaStatic): unit = jsNative
+      [<Import("Achromatopsia", "react-native-image-filter-kit")>] static member Achromatopsia with get(): AchromatopsiaStatic = jsNative and set(v: AchromatopsiaStatic): unit = jsNative
+      [<Import("Achromatomaly", "react-native-image-filter-kit")>] static member Achromatomaly with get(): AchromatomalyStatic = jsNative and set(v: AchromatomalyStatic): unit = jsNative
       [<Import("CIBoxBlur", "react-native-image-filter-kit")>] static member CIBoxBlur with get(): CIBoxBlurStatic = jsNative and set(v: CIBoxBlurStatic): unit = jsNative
       [<Import("CIGaussianBlur", "react-native-image-filter-kit")>] static member CIGaussianBlur with get(): CIGaussianBlurStatic = jsNative and set(v: CIGaussianBlurStatic): unit = jsNative
       [<Import("CIDiscBlur", "react-native-image-filter-kit")>] static member CIDiscBlur with get(): CIDiscBlurStatic = jsNative and set(v: CIDiscBlurStatic): unit = jsNative
