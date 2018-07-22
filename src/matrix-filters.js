@@ -1,6 +1,7 @@
 import React, { cloneElement } from 'react';
-import { defaultStyle, checkStyle } from './style';
 import { requireNativeComponent, View, Platform } from 'react-native';
+import { defaultStyle, checkStyle } from './style';
+import nativeFilters from './native-filters';
 
 // taken from here: https://github.com/skratchdot/color-matrix/blob/master/lib/filters.js
 
@@ -261,34 +262,22 @@ const filters = {
 //   return tmp;
 // };
 
-const ImageColorMatrixFilter = requireNativeComponent(
-  'RNImageColorMatrixFilter',
-  {
-    name: 'RNImageColorMatrixFilter'
-  },
-  {
-    nativeOnly: {
-      nativeBackgroundAndroid: true,
-      nativeForegroundAndroid: true,
-    }
-  }
-);
-
 const filterName = ([first, ...rest]) => first.toUpperCase() + rest.join('');
 
-const ColorMatrix = ({ style, children, matrix, ...restProps }) => {
-  checkStyle(style);
+const { CIColorMatrix } = nativeFilters;
 
-  return (
-    <ImageColorMatrixFilter
-      style={[defaultStyle.container, style]}
-      matrix={matrix}
-      {...restProps}
-    >
-      {children}
-    </ImageColorMatrixFilter>
-  );
-};
+const ColorMatrix = ({ matrix, children, ...restProps }) => (
+  <CIColorMatrix
+    inputRVector={matrix.slice(0, 4)}
+    inputGVector={matrix.slice(5, 9)}
+    inputBVector={matrix.slice(10, 14)}
+    inputAVector={matrix.slice(15, 19)}
+    inputBiasVector={[matrix[4], matrix[9], matrix[14], matrix[19]]}
+    {...restProps}
+  >
+    {children}
+  </CIColorMatrix>
+);
 
 const createImageColorMatrixFilter = (filter) => ({ value, children, ...restProps }) => (
   <ColorMatrix

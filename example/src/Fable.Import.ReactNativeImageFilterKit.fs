@@ -8,6 +8,9 @@ module ReactNativeImageFilterKit =
 
   type FilterProps =
       inherit ViewProperties
+
+  and ResizingFilterProps =
+      inherit FilterProps
       abstract resizeOutput: bool option with get, set
 
   and FilterPoint =
@@ -91,7 +94,6 @@ module ReactNativeImageFilterKit =
 
   and NightvisionProps =
       inherit FilterProps
-      abstract value: float with get, set
 
   and NightvisionStatic =
       inherit React.ComponentClass<NightvisionProps>
@@ -250,7 +252,7 @@ module ReactNativeImageFilterKit =
       AchromatomalyStatic
 
   and CIBoxBlurProps =
-      inherit FilterProps
+      inherit ResizingFilterProps
       abstract inputRadius: string option with get, set
 
   and CIBoxBlurStatic =
@@ -260,7 +262,7 @@ module ReactNativeImageFilterKit =
       CIBoxBlurStatic
 
   and CIGaussianBlurProps =
-      inherit FilterProps
+      inherit ResizingFilterProps
       abstract inputRadius: string option with get, set
 
   and CIGaussianBlurStatic =
@@ -270,7 +272,7 @@ module ReactNativeImageFilterKit =
       CIGaussianBlurStatic
 
   and CIDiscBlurProps =
-      inherit FilterProps
+      inherit ResizingFilterProps
       abstract inputRadius: string option with get, set
 
   and CIDiscBlurStatic =
@@ -289,7 +291,7 @@ module ReactNativeImageFilterKit =
       CIMedianFilterStatic
 
   and CIMotionBlurProps =
-      inherit FilterProps
+      inherit ResizingFilterProps
       abstract inputRadius: string option with get, set
       abstract inputAngle: float option with get, set
 
@@ -311,7 +313,7 @@ module ReactNativeImageFilterKit =
       CINoiseReductionStatic
 
   and CIZoomBlurProps =
-      inherit FilterProps
+      inherit ResizingFilterProps
       abstract inputCenter: FilterPoint option with get, set
       abstract inputAmount: float option with get, set
 
@@ -346,6 +348,16 @@ module ReactNativeImageFilterKit =
 
   and CIColorMatrix =
       CIColorMatrixStatic
+
+  and CIHueAdjustProps =
+      inherit FilterProps
+      abstract inputAngle: float option with get, set
+
+  and CIHueAdjustStatic =
+      inherit React.ComponentClass<CIHueAdjustProps>
+
+  and CIHueAdjust =
+      CIHueAdjustStatic
 
   and CIColorClampProps =
       inherit FilterProps
@@ -457,6 +469,18 @@ module ReactNativeImageFilterKit =
   and CIPhotoEffectTransfer =
       CIPhotoEffectTransferStatic
 
+  and CIVignetteEffectProps =
+      inherit FilterProps
+      abstract inputCenter: FilterPoint option with get, set
+      abstract inputIntensity: float option with get, set
+      abstract inputRadius: string option with get, set
+
+  and CIVignetteEffectStatic =
+      inherit React.ComponentClass<CIVignetteEffectProps>
+
+  and CIVignetteEffect =
+      CIVignetteEffectStatic
+
   and CIColorInvertProps =
       inherit FilterProps
 
@@ -498,8 +522,21 @@ module ReactNativeImageFilterKit =
   and CICircularScreen =
       CICircularScreenStatic
 
-  and CIBumpDistortionProps =
+  and CIDotScreenProps =
       inherit FilterProps
+      abstract inputCenter: FilterPoint option with get, set
+      abstract inputAngle: float option with get, set
+      abstract inputSharpness: float option with get, set
+      abstract inputWidth: string option with get, set
+
+  and CIDotScreenStatic =
+      inherit React.ComponentClass<CIDotScreenProps>
+
+  and CIDotScreen =
+      CIDotScreenStatic
+
+  and CIBumpDistortionProps =
+      inherit ResizingFilterProps
       abstract inputCenter: FilterPoint option with get, set
       abstract inputRadius: string option with get, set
       abstract inputScale: float option with get, set
@@ -535,7 +572,7 @@ module ReactNativeImageFilterKit =
       CICircleSplashDistortionStatic
 
   and CICircularWrapProps =
-      inherit FilterProps
+      inherit ResizingFilterProps
       abstract inputCenter: FilterPoint option with get, set
       abstract inputRadius: string option with get, set
       abstract inputAngle: float option with get, set
@@ -566,6 +603,17 @@ module ReactNativeImageFilterKit =
 
   and CIUnsharpMask =
       CIUnsharpMaskStatic
+
+  and CICrystallizeProps =
+      inherit FilterProps
+      abstract inputRadius: string option with get, set
+      abstract inputCenter: FilterPoint option with get, set
+
+  and CICrystallizeStatic =
+      inherit React.ComponentClass<CICrystallizeProps>
+
+  and CICrystallize =
+      CICrystallizeStatic
 
   type Globals =
       [<Import("ColorMatrix", "react-native-image-filter-kit")>] static member ColorMatrix with get(): ColorMatrixStatic = jsNative and set(v: ColorMatrixStatic): unit = jsNative
@@ -602,6 +650,7 @@ module ReactNativeImageFilterKit =
       [<Import("CIZoomBlur", "react-native-image-filter-kit")>] static member CIZoomBlur with get(): CIZoomBlurStatic = jsNative and set(v: CIZoomBlurStatic): unit = jsNative
       [<Import("CIColorControls", "react-native-image-filter-kit")>] static member CIColorControls with get(): CIColorControlsStatic = jsNative and set(v: CIColorControlsStatic): unit = jsNative
       [<Import("CIColorMatrix", "react-native-image-filter-kit")>] static member CIColorMatrix with get(): CIColorMatrixStatic = jsNative and set(v: CIColorMatrixStatic): unit = jsNative
+      [<Import("CIHueAdjust", "react-native-image-filter-kit")>] static member CIHueAdjust with get(): CIHueAdjustStatic = jsNative and set(v: CIHueAdjustStatic): unit = jsNative
       [<Import("CIColorClamp", "react-native-image-filter-kit")>] static member CIColorClamp with get(): CIColorClampStatic = jsNative and set(v: CIColorClampStatic): unit = jsNative
       [<Import("CIMaskToAlpha", "react-native-image-filter-kit")>] static member CIMaskToAlpha with get(): CIMaskToAlphaStatic = jsNative and set(v: CIMaskToAlphaStatic): unit = jsNative
       [<Import("CIMaximumComponent", "react-native-image-filter-kit")>] static member CIMaximumComponent with get(): CIMaximumComponentStatic = jsNative and set(v: CIMaximumComponentStatic): unit = jsNative
@@ -614,13 +663,16 @@ module ReactNativeImageFilterKit =
       [<Import("CIPhotoEffectProcess", "react-native-image-filter-kit")>] static member CIPhotoEffectProcess with get(): CIPhotoEffectProcessStatic = jsNative and set(v: CIPhotoEffectProcessStatic): unit = jsNative
       [<Import("CIPhotoEffectTonal", "react-native-image-filter-kit")>] static member CIPhotoEffectTonal with get(): CIPhotoEffectTonalStatic = jsNative and set(v: CIPhotoEffectTonalStatic): unit = jsNative
       [<Import("CIPhotoEffectTransfer", "react-native-image-filter-kit")>] static member CIPhotoEffectTransfer with get(): CIPhotoEffectTransferStatic = jsNative and set(v: CIPhotoEffectTransferStatic): unit = jsNative
+      [<Import("CIVignetteEffect", "react-native-image-filter-kit")>] static member CIVignetteEffect with get(): CIVignetteEffectStatic = jsNative and set(v: CIVignetteEffectStatic): unit = jsNative
       [<Import("CIColorInvert", "react-native-image-filter-kit")>] static member CIColorInvert with get(): CIColorInvertStatic = jsNative and set(v: CIColorInvertStatic): unit = jsNative
       [<Import("CIColorPosterize", "react-native-image-filter-kit")>] static member CIColorPosterize with get(): CIColorPosterizeStatic = jsNative and set(v: CIColorPosterizeStatic): unit = jsNative
       [<Import("CIVibrance", "react-native-image-filter-kit")>] static member CIVibrance with get(): CIVibranceStatic = jsNative and set(v: CIVibranceStatic): unit = jsNative
       [<Import("CICircularScreen", "react-native-image-filter-kit")>] static member CICircularScreen with get(): CICircularScreenStatic = jsNative and set(v: CICircularScreenStatic): unit = jsNative
+      [<Import("CIDotScreen", "react-native-image-filter-kit")>] static member CIDotScreen with get(): CIDotScreenStatic = jsNative and set(v: CIDotScreenStatic): unit = jsNative
       [<Import("CIBumpDistortion", "react-native-image-filter-kit")>] static member CIBumpDistortion with get(): CIBumpDistortionStatic = jsNative and set(v: CIBumpDistortionStatic): unit = jsNative
       [<Import("CIBumpDistortionLinear", "react-native-image-filter-kit")>] static member CIBumpDistortionLinear with get(): CIBumpDistortionLinearStatic = jsNative and set(v: CIBumpDistortionLinearStatic): unit = jsNative
       [<Import("CICircleSplashDistortion", "react-native-image-filter-kit")>] static member CICircleSplashDistortion with get(): CICircleSplashDistortionStatic = jsNative and set(v: CICircleSplashDistortionStatic): unit = jsNative
       [<Import("CICircularWrap", "react-native-image-filter-kit")>] static member CICircularWrap with get(): CICircularWrapStatic = jsNative and set(v: CICircularWrapStatic): unit = jsNative
       [<Import("CISharpenLuminance", "react-native-image-filter-kit")>] static member CISharpenLuminance with get(): CISharpenLuminanceStatic = jsNative and set(v: CISharpenLuminanceStatic): unit = jsNative
       [<Import("CIUnsharpMask", "react-native-image-filter-kit")>] static member CIUnsharpMask with get(): CIUnsharpMaskStatic = jsNative and set(v: CIUnsharpMaskStatic): unit = jsNative
+      [<Import("CICrystallize", "react-native-image-filter-kit")>] static member CICrystallize with get(): CICrystallizeStatic = jsNative and set(v: CICrystallizeStatic): unit = jsNative

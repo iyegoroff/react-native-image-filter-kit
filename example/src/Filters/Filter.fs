@@ -39,11 +39,14 @@ module Filter =
 
   type Message =
     | FilterInputMessage of Input * CombinedFilterInput.Message
+    | MoveUp
+    | MoveDown
+    | Delete
 
   let init inputs : Model =
     List.map
       (fun (input, toModel) -> input, toModel (sprintf "%A" input))
-      (inputs @ [ ResizeOutput, CombinedFilterInput.initBoolean ])
+      inputs
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match message with
@@ -54,6 +57,10 @@ module Filter =
         List.map (fun (id, m) -> id, if input = id then inputModel' else m) model,
         Cmd.map (fun sub -> FilterInputMessage (input, sub)) cmd
       | None -> model, []
+
+    | MoveUp
+    | MoveDown
+    | Delete -> model, []
 
   let private controlsContainer =
     ViewProperties.Style
@@ -67,6 +74,11 @@ module Filter =
   let private titleStyle =
     TextProperties.Style
       [ FontWeight FontWeight.Bold ]
+
+  let private controlButtonsStyle =
+    ViewProperties.Style
+      [ FlexDirection FlexDirection.Row
+        JustifyContent JustifyContent.SpaceBetween ]
 
   let view filterComponent mapInput (model: Model) content =
     filterComponent
@@ -84,4 +96,19 @@ module Filter =
     RN.view
       [ controlsContainer ]
       [ RN.text [ titleStyle ] name
-        R.fragment [] sliders ]
+        R.fragment [] sliders
+        RN.view
+          [ controlButtonsStyle ]
+          [ RN.button
+              [ ButtonProperties.Title "Move Up"
+                ButtonProperties.OnPress (fun () -> dispatch MoveUp) ]
+              []
+            RN.button
+              [ ButtonProperties.Title "Move Down"
+                ButtonProperties.OnPress (fun () -> dispatch MoveDown) ]
+              []
+            RN.button
+              [ ButtonProperties.Title "Delete"
+                ButtonProperties.Color "red"
+                ButtonProperties.OnPress (fun () -> dispatch Delete) ]
+              [] ] ]

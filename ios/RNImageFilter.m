@@ -64,15 +64,11 @@
 - (void)dealloc
 {
   [self unlinkTarget];
-  [_inputFilter setOutputFilter:_outputFilter];
-  [_outputFilter setInputFilter:_inputFilter];
-  [_outputFilter setInputImage:_inputImage];
 }
 
 + (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options
 {
   // CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-  // use metal context if supported ?
   EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
   eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
   

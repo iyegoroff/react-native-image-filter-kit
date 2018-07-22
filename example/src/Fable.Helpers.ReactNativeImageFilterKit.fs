@@ -22,113 +22,87 @@ module Props =
 
   type ColorMatrixProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | Matrix of ResizeArray<float>
 
   type NormalProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type SaturateProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | Value of float
 
   type HueRotateProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | Value of float
 
   type LuminanceToAlphaProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type InvertProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type GrayscaleProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type SepiaProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type NightvisionProps =
     | Style of IStyle list
-    | ResizeOutput of bool
-    | Value of float
 
   type WarmProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CoolProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type BrightnessProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | Value of float
 
   type ExposureProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | Value of float
 
   type ContrastProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | Value of float
 
   type TemperatureProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | Value of float
 
   type TintProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | Value of float
 
   type ThresholdProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | Value of float
 
   type ProtanomalyProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type DeuteranomalyProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type TritanomalyProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type ProtanopiaProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type DeuteranopiaProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type TritanopiaProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type AchromatopsiaProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type AchromatomalyProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIBoxBlurProps =
     | Style of IStyle list
@@ -147,7 +121,6 @@ module Props =
 
   type CIMedianFilterProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIMotionBlurProps =
     | Style of IStyle list
@@ -157,7 +130,6 @@ module Props =
 
   type CINoiseReductionProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputNoiseLevel of float
     | InputSharpness of float
 
@@ -169,88 +141,87 @@ module Props =
 
   type CIColorControlsProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputSaturation of float
     | InputBrightness of float
     | InputContrast of float
 
   type CIColorMatrixProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputRVector of IRGBAVector
     | InputGVector of IRGBAVector
     | InputBVector of IRGBAVector
     | InputAVector of IRGBAVector
     | InputBiasVector of IRGBAVector
 
+  type CIHueAdjustProps =
+    | Style of IStyle list
+    | InputAngle of float
+
   type CIColorClampProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputMinComponents of IRGBAVector
     | InputMaxComponents of IRGBAVector
 
   type CIMaskToAlphaProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIMaximumComponentProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIMinimumComponentProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIPhotoEffectChromeProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIPhotoEffectFadeProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIPhotoEffectInstantProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIPhotoEffectMonoProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIPhotoEffectNoirProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIPhotoEffectProcessProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIPhotoEffectTonalProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIPhotoEffectTransferProps =
     | Style of IStyle list
-    | ResizeOutput of bool
+
+  type CIVignetteEffectProps =
+    | Style of IStyle list
+    | InputCenter of IPoint
+    | InputIntensity of float
+    | InputRadius of IDistance
 
   type CIColorInvertProps =
     | Style of IStyle list
-    | ResizeOutput of bool
 
   type CIColorPosterizeProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputLevels of float
 
   type CIVibranceProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputAmount of float
 
   type CICircularScreenProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputCenter of IPoint
+    | InputSharpness of float
+    | InputWidth of IDistance
+
+  type CIDotScreenProps =
+    | Style of IStyle list
+    | InputCenter of IPoint
+    | InputAngle of float
     | InputSharpness of float
     | InputWidth of IDistance
 
@@ -263,7 +234,6 @@ module Props =
 
   type CIBumpDistortionLinearProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputCenter of IPoint
     | InputRadius of IDistance
     | InputScale of float
@@ -271,7 +241,6 @@ module Props =
 
   type CICircleSplashDistortionProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputCenter of IPoint
     | InputRadius of IDistance
 
@@ -284,14 +253,17 @@ module Props =
 
   type CISharpenLuminanceProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputSharpness of float
 
   type CIUnsharpMaskProps =
     | Style of IStyle list
-    | ResizeOutput of bool
     | InputRadius of IDistance
     | InputIntensity of float
+
+  type CICrystallizeProps =
+    | Style of IStyle list
+    | InputRadius of IDistance
+    | InputCenter of IPoint
 
 
 open Props
@@ -420,6 +392,9 @@ let inline CIColorControls (props: CIColorControlsProps list) (children: React.R
 let inline CIColorMatrix (props: CIColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIColorMatrix, props, children)
 
+let inline CIHueAdjust (props: CIHueAdjustProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.CIHueAdjust, props, children)
+
 let inline CIColorClamp (props: CIColorClampProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIColorClamp, props, children)
 
@@ -456,6 +431,9 @@ let inline CIPhotoEffectTonal (props: CIPhotoEffectTonalProps list) (children: R
 let inline CIPhotoEffectTransfer (props: CIPhotoEffectTransferProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIPhotoEffectTransfer, props, children)
 
+let inline CIVignetteEffect (props: CIVignetteEffectProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.CIVignetteEffect, props, children)
+
 let inline CIColorInvert (props: CIColorInvertProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIColorInvert, props, children)
 
@@ -467,6 +445,9 @@ let inline CIVibrance (props: CIVibranceProps list) (children: React.ReactElemen
 
 let inline CICircularScreen (props: CICircularScreenProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CICircularScreen, props, children)
+
+let inline CIDotScreen (props: CIDotScreenProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.CIDotScreen, props, children)
 
 let inline CIBumpDistortion (props: CIBumpDistortionProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIBumpDistortion, props, children)
@@ -485,3 +466,6 @@ let inline CISharpenLuminance (props: CISharpenLuminanceProps list) (children: R
 
 let inline CIUnsharpMask (props: CIUnsharpMaskProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIUnsharpMask, props, children)
+
+let inline CICrystallize (props: CICrystallizeProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.CICrystallize, props, children)

@@ -1,7 +1,9 @@
 import * as React from 'react';
 import * as ReactNative from 'react-native';  
 
-interface FilterProps extends ReactNative.ViewProps {
+interface FilterProps extends ReactNative.ViewProps { }
+
+interface ResizingFilterProps extends FilterProps {
   readonly resizeOutput?: boolean;
 }
 
@@ -56,9 +58,7 @@ export interface SepiaProps extends FilterProps { }
 export class Sepia extends React.Component<SepiaProps> { }
 
 
-export interface NightvisionProps extends FilterProps {
-  readonly value: number;
-}
+export interface NightvisionProps extends FilterProps { }
 
 export class Nightvision extends React.Component<NightvisionProps> { }
 
@@ -155,21 +155,21 @@ export interface AchromatomalyProps extends FilterProps { }
 export class Achromatomaly extends React.Component<AchromatomalyProps> { }
 
 
-export interface CIBoxBlurProps extends FilterProps {
+export interface CIBoxBlurProps extends ResizingFilterProps {
   readonly inputRadius?: string;
 }
 
 export class CIBoxBlur extends React.Component<CIBoxBlurProps> { }
 
 
-export interface CIGaussianBlurProps extends FilterProps {
+export interface CIGaussianBlurProps extends ResizingFilterProps {
   readonly inputRadius?: string;
 }
 
 export class CIGaussianBlur extends React.Component<CIGaussianBlurProps> { }
 
 
-export interface CIDiscBlurProps extends FilterProps {
+export interface CIDiscBlurProps extends ResizingFilterProps {
   readonly inputRadius?: string;
 }
 
@@ -181,7 +181,7 @@ export interface CIMedianFilterProps extends FilterProps { }
 export class CIMedianFilter extends React.Component<CIMedianFilterProps> { }
 
 
-export interface CIMotionBlurProps extends FilterProps {
+export interface CIMotionBlurProps extends ResizingFilterProps {
   readonly inputRadius?: string;
   readonly inputAngle?: number;
 }
@@ -197,7 +197,7 @@ export interface CINoiseReductionProps extends FilterProps {
 export class CINoiseReduction extends React.Component<CINoiseReductionProps> { }
 
 
-export interface CIZoomBlurProps extends FilterProps {
+export interface CIZoomBlurProps extends ResizingFilterProps {
   readonly inputCenter?: FilterPoint;
   readonly inputAmount?: string;
 }
@@ -223,6 +223,13 @@ export interface CIColorMatrixProps extends FilterProps {
 }
 
 export class CIColorMatrix extends React.Component<CIColorMatrixProps> { }
+
+
+export interface CIHueAdjustProps extends FilterProps {
+  readonly inputAngle?: number;
+}
+
+export class CIHueAdjust extends React.Component<CIHueAdjustProps> { }
 
 
 export interface CIColorClampProps extends FilterProps {
@@ -288,6 +295,15 @@ export interface CIPhotoEffectTransferProps extends FilterProps { }
 export class CIPhotoEffectTransfer extends React.Component<CIPhotoEffectTransferProps> { }
 
 
+export interface CIVignetteEffectProps extends FilterProps {
+  readonly inputCenter?: FilterPoint;
+  readonly inputIntensity?: number;
+  readonly inputRadius?: string;
+}
+
+export class CIVignetteEffect extends React.Component<CIVignetteEffectProps> { }
+
+
 export interface CIColorInvertProps extends FilterProps { }
 
 export class CIColorInvert extends React.Component<CIColorInvertProps> { }
@@ -316,7 +332,17 @@ export interface CICircularScreenProps extends FilterProps {
 export class CICircularScreen extends React.Component<CICircularScreenProps> { }
 
 
-export interface CIBumpDistortionProps extends FilterProps {
+export interface CIDotScreenProps extends FilterProps {
+  readonly inputCenter?: FilterPoint;
+  readonly inputAngle?: FilterPoint;
+  readonly inputSharpness?: number;
+  readonly inputWidth?: string;
+}
+
+export class CIDotScreen extends React.Component<CIDotScreenProps> { }
+
+
+export interface CIBumpDistortionProps extends ResizingFilterProps {
   readonly inputCenter?: FilterPoint;
   readonly inputRadius?: string;
   readonly inputScale?: number;
@@ -343,7 +369,7 @@ export interface CICircleSplashDistortionProps extends FilterProps {
 export class CICircleSplashDistortion extends React.Component<CICircleSplashDistortionProps> { }
 
 
-export interface CICircularWrapProps extends FilterProps {
+export interface CICircularWrapProps extends ResizingFilterProps {
   readonly inputCenter?: FilterPoint;
   readonly inputRadius?: string;
   readonly inputAngle?: number;
@@ -365,3 +391,11 @@ export interface CIUnsharpMaskProps extends FilterProps {
 }
 
 export class CIUnsharpMask extends React.Component<CIUnsharpMaskProps> { }
+
+
+export interface CICrystallizeProps extends FilterProps {
+  readonly inputRadius?: string;
+  readonly inputCenter?: FilterPoint;
+}
+
+export class CICrystallize extends React.Component<CICrystallizeProps> { }

@@ -91,9 +91,18 @@ module FilteredImage =
       | None -> model, []
       | Some (_, _, filter) ->
         let filter', cmd = Filter.update msg filter
-        { model with Filters = List.map
-                                 (fun (i, t, f) -> i, t, if i = id then filter' else f)
-                                 model.Filters },
+        let filters = List.map (fun (i, t, f) -> i, t, if i = id then filter' else f) model.Filters
+        let filters' =
+          match msg with
+          | Filter.Message.Delete ->
+            List.filter (fun (i, _, _) -> i <> id) filters
+          | Filter.Message.MoveDown ->
+            Utils.moveUpAt (List.findIndex (fun (i, _, _) -> i = id) filters) filters
+          | Filter.Message.MoveUp ->
+            Utils.moveDownAt (List.findIndex (fun (i, _, _) -> i = id) filters) filters
+          | _ -> filters
+
+        { model with Filters = filters' },
         Cmd.map (fun sub -> FilterMessage (id, sub)) cmd
 
     | ResizeModeChanged index ->
@@ -130,6 +139,7 @@ module FilteredImage =
 
   let controls model dispatch =
     model.Filters
+    |> List.rev
     |> List.map
        (fun (id, tag, filter) -> CombinedFilter.controls tag filter (fun msg -> dispatch (id, msg)))
     |> R.fragment []
