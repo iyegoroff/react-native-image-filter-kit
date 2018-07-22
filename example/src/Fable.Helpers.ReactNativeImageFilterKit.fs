@@ -265,6 +265,9 @@ module Props =
     | InputRadius of IDistance
     | InputCenter of IPoint
 
+  type AndroidTestFilterProps =
+    | Style of IStyle list
+
 
 open Props
 
@@ -469,3 +472,6 @@ let inline CIUnsharpMask (props: CIUnsharpMaskProps list) (children: React.React
 
 let inline CICrystallize (props: CICrystallizeProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CICrystallize, props, children)
+
+let inline AndroidTestFilter (props: AndroidTestFilterProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.AndroidTestFilter, props, children)

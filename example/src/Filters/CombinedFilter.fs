@@ -74,6 +74,8 @@ module CombinedFilter =
     | CIUnsharpMask
     | CICrystallize
 
+    | AndroidTestFilter
+
   let name =
     sprintf "%A"
 
@@ -293,6 +295,10 @@ module CombinedFilter =
       Filter.init
         [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
           Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) ]
+
+    | AndroidTestFilter ->
+      Filter.init
+        []
 
   let private (|ResizeOutput|_|) =
     function
@@ -665,6 +671,12 @@ module CombinedFilter =
          | Filter.InputCenter, CFI.Point input ->
            Some (CICrystallizeProps.InputCenter (input.Convert input.Value))
          | _ -> None)
+         
+    | AndroidTestFilter ->
+      Filter.view
+        RNF.AndroidTestFilter
+        (function
+         | _ -> None)
 
   let controls =
     function
@@ -727,9 +739,10 @@ module CombinedFilter =
     | CISharpenLuminance -> Filter.controls (name CISharpenLuminance)
     | CIUnsharpMask -> Filter.controls (name CIUnsharpMask)
     | CICrystallize -> Filter.controls (name CICrystallize)
+    | AndroidTestFilter -> Filter.controls (name AndroidTestFilter)
 
   let private availableAndroidFilters: Model array =
-    [| |]
+    [| AndroidTestFilter |]
 
   let private availableIosFilters =
     [| Normal
