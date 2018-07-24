@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "postinstall": "metro-with-symlinks && npm run restore",
+    "patch:react-native": "rm -rf node_modules/react-native/Examples node_modules/react-native/Libraries/CustomComponents",
+    "patch:react-native-android-plugins": "find . -type f -name build.gradle -not -path \"*/react-native/*\" -not -path \"*/Examples/*\" -not -path \"*/examples/*\" -print0 -exec sed -i '' \"s/.*com.facebook.react:react-native:.*/ compile project(':react-native-android')/\" {} +",
     "build": "fable-splitter -c splitter.config.js --define RELEASE",
     "watch": "fable-splitter -c splitter.config.js -w --define DEBUG",
     "run:android": "cd android && ./gradlew clean && cd .. && react-native run-android",
