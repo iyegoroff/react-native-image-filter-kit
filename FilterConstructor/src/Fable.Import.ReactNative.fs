@@ -1094,6 +1094,7 @@ module ReactNative =
     and ImageProperties =
         inherit ImagePropertiesIOS
         inherit React.Props<Image>
+        abstract blurRadius: float option with get, set
         abstract onLayout: (LayoutChangeEvent -> unit) option with get, set
         abstract onLoad: (unit -> unit) option with get, set
         abstract onLoadEnd: (unit -> unit) option with get, set

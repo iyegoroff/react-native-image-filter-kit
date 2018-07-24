@@ -1068,7 +1068,7 @@ export const Props = function (__exports) {
       return {
         type: "Fable.Helpers.ReactNative.Props.ImageProperties",
         interfaces: ["FSharpUnion", "Fable.Helpers.ReactNative.Props.IImageProperties"],
-        cases: [["OnLayout", _Function([Interface("Fable.Import.ReactNative.LayoutChangeEvent"), Unit])], ["OnLoad", _Function([Unit, Unit])], ["OnLoadEnd", _Function([Unit, Unit])], ["OnLoadStart", _Function([Unit, Unit])], ["ResizeMode", "string"], ["Source", Interface("Fable.Helpers.ReactNative.Props.IImageSource")], ["Style", makeGeneric(List, {
+        cases: [["BlurRadius", "number"], ["OnLayout", _Function([Interface("Fable.Import.ReactNative.LayoutChangeEvent"), Unit])], ["OnLoad", _Function([Unit, Unit])], ["OnLoadEnd", _Function([Unit, Unit])], ["OnLoadStart", _Function([Unit, Unit])], ["ResizeMode", "string"], ["Source", Interface("Fable.Helpers.ReactNative.Props.IImageSource")], ["Style", makeGeneric(List, {
           T: Interface("Fable.Helpers.ReactNative.Props.IStyle")
         })], ["TestID", "string"]]
       };

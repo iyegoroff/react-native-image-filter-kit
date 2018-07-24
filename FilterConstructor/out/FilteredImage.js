@@ -18,11 +18,10 @@ import { Cmd } from "./fable/cmd";
 import { Props } from "./Fable.Helpers.ReactNative";
 import { filterPortal, imagePortal, imageHeight } from "./Constants";
 import { Fragment, createElement } from "react";
-import { FilterableImage } from "react-native-image-filter-kit";
+import { Button, SegmentedControlIOS, ActivityIndicator, View, Image } from "react-native";
 import { BlackPortal } from "react-native-portal";
 import { view as view_2 } from "./ImageSelectModal";
 import { view as view_3 } from "./FilterSelectModal";
-import { Button, SegmentedControlIOS, ActivityIndicator, View } from "react-native";
 export class Model {
   constructor(image, filters, imageSelectModalIsVisible, filterSelectModalIsVisible, selectedResizeMode, nextId) {
     this.Image = image;
@@ -178,7 +177,7 @@ export function update(message, model) {
   }
 }
 export const containerStyle = new Props.ViewProperties(8, ofArray([new Props.FlexStyle(30, 5), new Props.FlexStyle(37, 5), new Props.ScrollViewStyle(13, 2), new Props.ScrollViewStyle(7, 3), new Props.ScrollViewStyle(1, "white")]));
-export const imageStyle = new Props.ImageProperties(6, ofArray([new Props.FlexStyle(24, 5), new Props.FlexStyle(50, 100 + "%"), new Props.FlexStyle(20, imageHeight)]));
+export const imageStyle = new Props.ImageProperties(7, ofArray([new Props.FlexStyle(24, 5), new Props.FlexStyle(50, 100 + "%"), new Props.FlexStyle(20, imageHeight)]));
 export const controlsStyle = new Props.ViewProperties(8, ofArray([new Props.FlexStyle(16, "row"), new Props.FlexStyle(21, "space-between")]));
 export const spinnerStyle = new Props.ViewProperties(8, ofArray([new Props.FlexStyle(46, "absolute"), new Props.FlexStyle(50, 100 + "%"), new Props.FlexStyle(20, imageHeight), new Props.FlexStyle(22, 5), new Props.FlexStyle(49, 5)]));
 export function controls(model, dispatch) {
@@ -191,7 +190,7 @@ export function controls(model, dispatch) {
 export function filteredImage(model) {
   return fold(function (child, tupledArg) {
     return view_1(tupledArg[1])(tupledArg[2], child);
-  }, createElement(FilterableImage, createObj(ofArray([imageStyle, new Props.ImageProperties(4, model.SelectedResizeMode), new Props.ImageProperties(5, source(model.Image))]), 1)), model.Filters);
+  }, createElement(Image, createObj(ofArray([imageStyle, new Props.ImageProperties(5, model.SelectedResizeMode), new Props.ImageProperties(6, source(model.Image))]), 1)), model.Filters);
 }
 export function view(model, dispatch) {
   return createElement(Fragment, {}, function (name, children) {

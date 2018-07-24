@@ -1047,6 +1047,7 @@ module Props =
         interface IImagePropertiesIOS
 
     type ImageProperties =
+        | BlurRadius of float
         | OnLayout of (LayoutChangeEvent -> unit)
         | OnLoad of (unit -> unit)
         | OnLoadEnd of (unit -> unit)

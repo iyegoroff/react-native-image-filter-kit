@@ -7,6 +7,7 @@ open Fable.Helpers.ReactNative.Props
 open SelectModal
 open Select
 open Fable.Import
+open Fable.Import.ReactNative
 
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
@@ -149,7 +150,7 @@ module FilteredImage =
   let filteredImage model =
     List.fold
      (fun child (_, tag, filter) -> CombinedFilter.view tag filter child)
-     (RNF.filterableImage
+     (RN.image
        [ imageStyle
          ResizeMode model.SelectedResizeMode
          Source (Image.source model.Image) ])
