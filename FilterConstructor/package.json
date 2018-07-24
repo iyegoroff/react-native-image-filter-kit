@@ -6,6 +6,7 @@
     "postinstall": "metro-with-symlinks && npm run restore",
     "build": "fable-splitter -c splitter.config.js --define RELEASE",
     "watch": "fable-splitter -c splitter.config.js -w --define DEBUG",
+    "run:android": "cd android && ./gradlew clean && cd .. && react-native run-android",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
     "start:packager": "react-native start",
     "restore": "cd src && dotnet restore",

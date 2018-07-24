@@ -1,13 +1,16 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.facebook.imagepipeline.request.BasePostprocessor;
+import com.facebook.react.common.ReactConstants;
 
 public class FastGreyScalePostprocessor extends BasePostprocessor {
 
   @Override
   public void process(Bitmap bitmap) {
+    Log.i(ReactConstants.TAG, "filter: gray " + String.valueOf(bitmap));
     final int w = bitmap.getWidth();
     final int h = bitmap.getHeight();
     final int[] pixels = new int[w * h];

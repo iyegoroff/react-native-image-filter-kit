@@ -13,7 +13,7 @@ import com.facebook.react.bridge.JavaScriptModule;
 public class RNImageFilterKitPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-      return Arrays.<ViewManager>asList(new RNImageFilterManager(), new RNFilterableImageManager());
+      return Arrays.<ViewManager>asList(new RNImageFilterManager());
     }
 
     @Override

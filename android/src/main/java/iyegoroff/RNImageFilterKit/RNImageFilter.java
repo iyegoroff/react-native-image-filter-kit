@@ -1,11 +1,13 @@
 
 package iyegoroff.RNImageFilterKit;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 import com.facebook.imagepipeline.request.Postprocessor;
+import com.facebook.react.common.ReactConstants;
 import com.facebook.react.views.image.ReactImageView;
 import com.facebook.react.views.view.ReactViewGroup;
 
@@ -40,7 +42,16 @@ public class RNImageFilter extends ReactViewGroup {
                   ReactImageView.class,
                   image,
                   "mIterativeBoxBlurPostProcessor",
-                  processor);
+                  mPostprocessor);
+
+          processor = RNReflectUtils.getFieldValue(
+                  ReactImageView.class,
+                  image,
+                  "mIterativeBoxBlurPostProcessor");
+
+          Log.i(ReactConstants.TAG, "filter: " + String.valueOf(processor) + " " + String.valueOf(image.isDirty()));
+
+          image.maybeUpdateView();
         }
       }
     }
