@@ -51,6 +51,8 @@ public class RNImageFilter extends ReactViewGroup {
 
           Log.i(ReactConstants.TAG, "filter: " + String.valueOf(processor) + " " + String.valueOf(image.isDirty()));
 
+          RNReflectUtils.setFieldValue(ReactImageView.class, image, "mIsDirty", false);
+
           image.maybeUpdateView();
         }
       }
