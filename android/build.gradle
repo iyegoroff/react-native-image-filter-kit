@@ -33,11 +33,7 @@ android {
     }
 }
 
-// dependencies {
-//     //noinspection GradleDynamicVersion
-//     provided "com.facebook.react:react-native:${_reactNativeVersion}"
-// }
-
 dependencies {
- compile project(':react-native-android')
+    //noinspection GradleDynamicVersion
+    provided "com.facebook.react:react-native:${_reactNativeVersion}"
 }
