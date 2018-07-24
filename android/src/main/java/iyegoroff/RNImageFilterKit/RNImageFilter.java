@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
-import com.facebook.imagepipeline.request.BasePostprocessor;
 import com.facebook.imagepipeline.request.Postprocessor;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.views.image.ReactImageView;
@@ -26,6 +25,8 @@ public class RNImageFilter extends ReactViewGroup {
   protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
 
+    Log.i(ReactConstants.TAG, "filter: layout");
+
     for (int i = 0; i < this.getChildCount(); i++) {
       View child = this.getChildAt(i);
 
@@ -44,14 +45,7 @@ public class RNImageFilter extends ReactViewGroup {
                   "mIterativeBoxBlurPostProcessor",
                   mPostprocessor);
 
-          processor = RNReflectUtils.getFieldValue(
-                  ReactImageView.class,
-                  image,
-                  "mIterativeBoxBlurPostProcessor");
-
-          Log.i(ReactConstants.TAG, "filter: " + String.valueOf(processor) + " " + String.valueOf(image.isDirty()));
-
-          RNReflectUtils.setFieldValue(ReactImageView.class, image, "mIsDirty", false);
+          RNReflectUtils.setFieldValue(ReactImageView.class, image, "mIsDirty", true);
 
           image.maybeUpdateView();
         }
