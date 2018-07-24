@@ -1,5 +1,0 @@
-rootProject.name = 'FilterConstructor'
-include ':react-native-image-filter-kit'
-project(':react-native-image-filter-kit').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-filter-kit/android')
-
-include ':app'

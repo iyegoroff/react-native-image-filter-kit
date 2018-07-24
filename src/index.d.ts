@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactNative from 'react-native';  
+import * as ReactNative from 'react-native';
 
 interface FilterProps extends ReactNative.ViewProps { }
 
@@ -11,6 +11,8 @@ interface FilterPoint {
   readonly x: string;
   readonly y: string;
 }
+
+export declare class FilterableImage extends ReactNative.Image { }
 
 export interface ColorMatrixProps extends FilterProps {
   readonly matrix: ReadonlyArray<number>;

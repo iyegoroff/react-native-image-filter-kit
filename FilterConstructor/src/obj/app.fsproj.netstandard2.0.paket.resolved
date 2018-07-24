@@ -1,0 +1,10 @@
+Microsoft.NETCore.Platforms,2.1,Transitive,Main,false
+FSharp.Core,4.5,Transitive,Main,false
+Fable.Core,1.3.17,Direct,Main,false
+Fable.Import.Browser,1.1.2,Transitive,Main,false
+Fable.PowerPack,1.5,Transitive,Main,false
+Fable.Elmish,1.0.3,Direct,Main,false
+Fable.Elmish.HMR,1.0,Direct,Main,false
+Fable.React,3.1.3,Direct,Main,false
+Fable.Elmish.React,1.0.3,Direct,Main,false
+Fable.Import.ReactNativePortal,1.0,Direct,Main,false
