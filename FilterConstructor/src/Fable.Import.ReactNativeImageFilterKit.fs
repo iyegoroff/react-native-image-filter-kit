@@ -251,6 +251,26 @@ module ReactNativeImageFilterKit =
   and Achromatomaly =
       AchromatomalyStatic
 
+  and ColorMatrixColorFilterProps =
+      inherit FilterProps
+      abstract matrix: ResizeArray<float> with get, set
+
+  and ColorMatrixColorFilterStatic =
+      inherit React.ComponentClass<ColorMatrixColorFilterProps>
+
+  and ColorMatrixColorFilter =
+      ColorMatrixColorFilterStatic
+
+  and BlurMaskFilterProps =
+      inherit FilterProps
+      abstract radius: float with get, set
+
+  and BlurMaskFilterStatic =
+      inherit React.ComponentClass<BlurMaskFilterProps>
+
+  and BlurMaskFilter =
+      BlurMaskFilterStatic
+
   and CIBoxBlurProps =
       inherit ResizingFilterProps
       abstract inputRadius: string option with get, set
@@ -615,14 +635,6 @@ module ReactNativeImageFilterKit =
   and CICrystallize =
       CICrystallizeStatic
 
-  and AndroidTestFilterProps =
-      inherit FilterProps
-
-  and AndroidTestFilterStatic =
-      inherit React.ComponentClass<AndroidTestFilterProps>
-
-  and AndroidTestFilter =
-      AndroidTestFilterStatic
 
   type Globals =
       [<Import("FilterableImage", "react-native-image-filter-kit")>] static member FilterableImage with get(): ImageStatic = jsNative and set(v: ImageStatic): unit = jsNative
@@ -651,6 +663,8 @@ module ReactNativeImageFilterKit =
       [<Import("Tritanopia", "react-native-image-filter-kit")>] static member Tritanopia with get(): TritanopiaStatic = jsNative and set(v: TritanopiaStatic): unit = jsNative
       [<Import("Achromatopsia", "react-native-image-filter-kit")>] static member Achromatopsia with get(): AchromatopsiaStatic = jsNative and set(v: AchromatopsiaStatic): unit = jsNative
       [<Import("Achromatomaly", "react-native-image-filter-kit")>] static member Achromatomaly with get(): AchromatomalyStatic = jsNative and set(v: AchromatomalyStatic): unit = jsNative
+      [<Import("ColorMatrixColorFilter", "react-native-image-filter-kit")>] static member ColorMatrixColorFilter with get(): ColorMatrixColorFilterStatic = jsNative and set(v: ColorMatrixColorFilterStatic): unit = jsNative
+      [<Import("BlurMaskFilter", "react-native-image-filter-kit")>] static member BlurMaskFilter with get(): BlurMaskFilterStatic = jsNative and set(v: BlurMaskFilterStatic): unit = jsNative
       [<Import("CIBoxBlur", "react-native-image-filter-kit")>] static member CIBoxBlur with get(): CIBoxBlurStatic = jsNative and set(v: CIBoxBlurStatic): unit = jsNative
       [<Import("CIGaussianBlur", "react-native-image-filter-kit")>] static member CIGaussianBlur with get(): CIGaussianBlurStatic = jsNative and set(v: CIGaussianBlurStatic): unit = jsNative
       [<Import("CIDiscBlur", "react-native-image-filter-kit")>] static member CIDiscBlur with get(): CIDiscBlurStatic = jsNative and set(v: CIDiscBlurStatic): unit = jsNative
@@ -686,4 +700,3 @@ module ReactNativeImageFilterKit =
       [<Import("CISharpenLuminance", "react-native-image-filter-kit")>] static member CISharpenLuminance with get(): CISharpenLuminanceStatic = jsNative and set(v: CISharpenLuminanceStatic): unit = jsNative
       [<Import("CIUnsharpMask", "react-native-image-filter-kit")>] static member CIUnsharpMask with get(): CIUnsharpMaskStatic = jsNative and set(v: CIUnsharpMaskStatic): unit = jsNative
       [<Import("CICrystallize", "react-native-image-filter-kit")>] static member CICrystallize with get(): CICrystallizeStatic = jsNative and set(v: CICrystallizeStatic): unit = jsNative
-      [<Import("AndroidTestFilter", "react-native-image-filter-kit")>] static member AndroidTestFilter with get(): AndroidTestFilterStatic = jsNative and set(v: AndroidTestFilterStatic): unit = jsNative

@@ -59,10 +59,10 @@
           "lib/netstandard1.6/Fable.Elmish.React.dll": {}
         }
       },
-      "Fable.Import.Browser/1.1.2": {
+      "Fable.Import.Browser/1.1.3": {
         "type": "package",
         "dependencies": {
-          "Fable.Core": "1.3.8"
+          "Fable.Core": "1.3.17"
         },
         "compile": {
           "lib/netstandard1.6/Fable.Import.Browser.dll": {}
@@ -85,7 +85,22 @@
           "lib/netstandard1.6/Fable.Import.ReactNativePortal.dll": {}
         }
       },
-      "Fable.PowerPack/1.5.0": {
+      "Fable.Import.ReactNativeSegmentedControlTab/0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "4.5.1",
+          "Fable.Core": "1.3.17",
+          "Fable.React": "3.1.4",
+          "Fable.React.Native": "1.7.2"
+        },
+        "compile": {
+          "lib/netstandard1.6/Fable.Import.ReactNativeSegmentedControlTab.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/Fable.Import.ReactNativeSegmentedControlTab.dll": {}
+        }
+      },
+      "Fable.PowerPack/1.5.1": {
         "type": "package",
         "dependencies": {
           "FSharp.Core": "4.2.3",
@@ -99,7 +114,7 @@
           "lib/netstandard1.6/Fable.PowerPack.dll": {}
         }
       },
-      "Fable.React/3.1.3": {
+      "Fable.React/3.1.4": {
         "type": "package",
         "dependencies": {
           "Fable.Core": "1.3.12",
@@ -112,7 +127,22 @@
           "lib/netstandard2.0/Fable.React.dll": {}
         }
       },
-      "FSharp.Core/4.5.0": {
+      "Fable.React.Native/1.7.2": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "4.2.3",
+          "Fable.Core": "1.3.7",
+          "Fable.PowerPack": "1.3.2",
+          "Fable.React": "1.2.2"
+        },
+        "compile": {
+          "lib/netstandard1.6/Fable.React.Native.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6/Fable.React.Native.dll": {}
+        }
+      },
+      "FSharp.Core/4.5.1": {
         "type": "package",
         "compile": {
           "lib/netstandard1.6/FSharp.Core.dll": {}
@@ -285,14 +315,13 @@
         "paket-installmodel.cache"
       ]
     },
-    "Fable.Import.Browser/1.1.2": {
-      "sha512": "RykaSFbbrGv1xiicAoy1BF71RM7T5bjmhH8lSad5PszBRhLEwKT2NuA8+jityEOkFxAtivgkp15eSzl44q1WZA==",
+    "Fable.Import.Browser/1.1.3": {
+      "sha512": "4H0rwa2gDudjRzlCIB3APPLLTSQx0o92Z+BpErcdVpvDCIzKI+BC3/sgGuBDIDoZepLAtGeSUAJUuu4pzxN4+Q==",
       "type": "package",
-      "path": "fable.import.browser/1.1.2",
+      "path": "fable.import.browser/1.1.3",
       "files": [
-        "fable.import.browser.1.1.2.nupkg.sha512",
+        "fable.import.browser.1.1.3.nupkg.sha512",
         "fable.import.browser.nuspec",
-        "lib/.DS_Store",
         "lib/netstandard1.6/Fable.Import.Browser.dll",
         "lib/netstandard1.6/Fable.Import.Browser.xml",
         "paket-installmodel.cache"
@@ -312,12 +341,26 @@
         "paket-installmodel.cache"
       ]
     },
-    "Fable.PowerPack/1.5.0": {
-      "sha512": "XpIbXmwURMjFU90viF+0tQ0sWtDj3XuLKBW7f3mq57EX4b84nKFxA0HgO1+ZWbaVMDt9tYI37BCG4rlurzwgBg==",
+    "Fable.Import.ReactNativeSegmentedControlTab/0.0.1": {
+      "sha512": "0kdcXGrXx49QJuIzZm5n2MGT7qHdT/IITagHHzPnn8MeYBHyrdx2sOQroQ6Ss4ES6OHXL56x5sFC5MgZ+FcaSg==",
       "type": "package",
-      "path": "fable.powerpack/1.5.0",
+      "path": "fable.import.reactnativesegmentedcontroltab/0.0.1",
       "files": [
-        "fable.powerpack.1.5.0.nupkg.sha512",
+        "fable.import.reactnativesegmentedcontroltab.0.0.1.nupkg.sha512",
+        "fable.import.reactnativesegmentedcontroltab.nuspec",
+        "fable/Fable.Import.ReactNativeSegmentedControlTab.fs",
+        "fable/Fable.Import.ReactNativeSegmentedControlTab.fsproj",
+        "lib/netstandard1.6/Fable.Import.ReactNativeSegmentedControlTab.dll",
+        "lib/netstandard1.6/Fable.Import.ReactNativeSegmentedControlTab.xml",
+        "paket-installmodel.cache"
+      ]
+    },
+    "Fable.PowerPack/1.5.1": {
+      "sha512": "+6lAUvQnC1kCKpdHkWGZa5/40oU+Rgc0zqsv7/bYzdL4ypXWiIgOpynsXUjBUuv2SnGp87vv5bs7Z1bn9nW+Ww==",
+      "type": "package",
+      "path": "fable.powerpack/1.5.1",
+      "files": [
+        "fable.powerpack.1.5.1.nupkg.sha512",
         "fable.powerpack.nuspec",
         "fable/Fable.PowerPack.fsproj",
         "fable/src/BrowserLocalStorage.fs",
@@ -339,13 +382,13 @@
         "paket-installmodel.cache"
       ]
     },
-    "Fable.React/3.1.3": {
-      "sha512": "0bbDMbD9q3BPUW7p/GzZgk7DHKtaHURK7Alh6PYqXvQezna6CXQnYK1JgRP1x+NmXOkgEaOWxeOI0mwKIO8zYQ==",
+    "Fable.React/3.1.4": {
+      "sha512": "xmIQvGgSQm2tHpINn6BZJZk657cE8EWgspZeNEyjdGUjI8tU5f7988OKzjGIeZuOe+5OSIlEPzrNeaLOBqU0lw==",
       "type": "package",
-      "path": "fable.react/3.1.3",
+      "path": "fable.react/3.1.4",
       "files": [
-        "Fable.React.3.1.3.nupkg.sha512",
-        "Fable.React.nuspec",
+        "fable.react.3.1.4.nupkg.sha512",
+        "fable.react.nuspec",
         "fable/Fable.Helpers.Isomorphic.fs",
         "fable/Fable.Helpers.React.fs",
         "fable/Fable.Helpers.ReactServer.fs",
@@ -358,13 +401,50 @@
         "paket-installmodel.cache"
       ]
     },
-    "FSharp.Core/4.5.0": {
-      "sha512": "uTxylzhk+Qi3uT/kSB33jC/AY1se99vxg7opq6UFZiBL9l1RDNAeXLMFew5+HavGVPsMZtYy5P3QTsaFTCaFjQ==",
+    "Fable.React.Native/1.7.2": {
+      "sha512": "j3iTFB7bMDuOoiIKIIN0eCV8awlxu0NCw8vyFGFeiVDuVjRBwOEtFrAz0i8Fy4zLTe/we4KogVJvbJaF6BwEfQ==",
       "type": "package",
-      "path": "fsharp.core/4.5.0",
+      "path": "fable.react.native/1.7.2",
+      "files": [
+        "fable.react.native.1.7.2.nupkg.sha512",
+        "fable.react.native.nuspec",
+        "fable/Fable.Helpers.ReactNative.fs",
+        "fable/Fable.Import.ReactNative.fs",
+        "fable/Fable.Import.XmlDom.fs",
+        "fable/Fable.React.Native.fsproj",
+        "fable/extra/react-native-barcodescanner/Fable.Helpers.ReactNativeBarcodeScanner.fs",
+        "fable/extra/react-native-barcodescanner/Fable.Import.ReactNativeBarcodeScanner.fs",
+        "fable/extra/react-native-camera/Fable.Helpers.ReactNativeCamera.fs",
+        "fable/extra/react-native-device-info/Fable.Helpers.ReactNativeDeviceInfo.fs",
+        "fable/extra/react-native-image-picker/Fable.Helpers.ReactNativeImagePicker.fs",
+        "fable/extra/react-native-image-picker/Fable.Import.ReactNativeImagePicker.fs",
+        "fable/extra/react-native-image-resizer/Fable.Helpers.ReactNativeImageResizer.fs",
+        "fable/extra/react-native-image-resizer/Fable.Import.ReactNativeImageResizer.fs",
+        "fable/extra/react-native-modal-datetime-picker/Fable.Helpers.ReactNativeDateTimePicker.fs",
+        "fable/extra/react-native-onesignal/Fable.Helpers.ReactNativeOneSignal.fs",
+        "fable/extra/react-native-onesignal/Fable.Import.ReactNativeOneSignal.fs",
+        "fable/extra/react-native-popup-menu/Fable.Helpers.ReactNativePopupMenu.fs",
+        "fable/extra/react-native-popup-menu/Fable.Import.ReactNativePopupMenu.fs",
+        "fable/extra/react-native-push-notification/Fable.Helpers.ReactNativePushNotification.fs",
+        "fable/extra/react-native-push-notification/Fable.Import.ReactNativePushNotification.fs",
+        "fable/extra/react-native-signature-pad/Fable.Helpers.ReactNativeSignaturePad.fs",
+        "fable/extra/react-native-signature-view/Fable.Helpers.ReactNativeSignatureView.fs",
+        "fable/extra/react-native-simple-store/Fable.Helpers.ReactNative.SimpleStore.DB.fs",
+        "fable/extra/react-native-simple-store/Fable.Helpers.ReactNative.SimpleStore.KeyValueStore.fs",
+        "fable/extra/react-native-video/Fable.Helpers.ReactNativeVideo.fs",
+        "fable/extra/react-native-video/Fable.Import.ReactNativeVideo.fs",
+        "lib/netstandard1.6/Fable.React.Native.dll",
+        "lib/netstandard1.6/Fable.React.Native.xml",
+        "paket-installmodel.cache"
+      ]
+    },
+    "FSharp.Core/4.5.1": {
+      "sha512": "3Vv/IVtYfjTWUSEA/HcAT8VN27rmTJGrf7SL2tjXssUkXSxxg92erHvqIFoLkGIWwmFodvqwkDjZsfdY4SrD7Q==",
+      "type": "package",
+      "path": "fsharp.core/4.5.1",
       "files": [
         ".signature.p7s",
-        "fsharp.core.4.5.0.nupkg.sha512",
+        "fsharp.core.4.5.1.nupkg.sha512",
         "fsharp.core.nuspec",
         "lib/net45/FSharp.Core.dll",
         "lib/net45/FSharp.Core.optdata",
@@ -554,15 +634,17 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
-      "FSharp.Core >= 4.5.0",
+      "FSharp.Core >= 4.5.1",
       "Fable.Core >= 1.3.17",
       "Fable.Elmish >= 1.0.3",
       "Fable.Elmish.HMR >= 1.0.0",
       "Fable.Elmish.React >= 1.0.3",
-      "Fable.Import.Browser >= 1.1.2",
+      "Fable.Import.Browser >= 1.1.3",
       "Fable.Import.ReactNativePortal >= 1.0.0",
-      "Fable.PowerPack >= 1.5.0",
-      "Fable.React >= 3.1.3",
+      "Fable.Import.ReactNativeSegmentedControlTab >= 0.0.1",
+      "Fable.PowerPack >= 1.5.1",
+      "Fable.React >= 3.1.4",
+      "Fable.React.Native >= 1.7.2",
       "Microsoft.NETCore.Platforms >= 2.1.0",
       "NETStandard.Library >= 2.0.1"
     ]
@@ -611,7 +693,7 @@
         "dependencies": {
           "FSharp.Core": {
             "target": "Package",
-            "version": "[4.5.0, )"
+            "version": "[4.5.1, )"
           },
           "Fable.Core": {
             "target": "Package",
@@ -631,19 +713,27 @@
           },
           "Fable.Import.Browser": {
             "target": "Package",
-            "version": "[1.1.2, )"
+            "version": "[1.1.3, )"
           },
           "Fable.Import.ReactNativePortal": {
             "target": "Package",
             "version": "[1.0.0, )"
           },
+          "Fable.Import.ReactNativeSegmentedControlTab": {
+            "target": "Package",
+            "version": "[0.0.1, )"
+          },
           "Fable.PowerPack": {
             "target": "Package",
-            "version": "[1.5.0, )"
+            "version": "[1.5.1, )"
           },
           "Fable.React": {
             "target": "Package",
-            "version": "[3.1.3, )"
+            "version": "[3.1.4, )"
+          },
+          "Fable.React.Native": {
+            "target": "Package",
+            "version": "[1.7.2, )"
           },
           "Microsoft.NETCore.Platforms": {
             "target": "Package",

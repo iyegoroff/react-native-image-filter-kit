@@ -104,6 +104,14 @@ module Props =
   type AchromatomalyProps =
     | Style of IStyle list
 
+  type ColorMatrixColorFilterProps =
+    | Style of IStyle list
+    | Matrix of ResizeArray<float>
+
+  type BlurMaskFilterProps =
+    | Style of IStyle list
+    | Radius of float
+
   type CIBoxBlurProps =
     | Style of IStyle list
     | ResizeOutput of bool
@@ -371,6 +379,12 @@ let inline Achromatopsia (props: AchromatopsiaProps list) (children: React.React
 let inline Achromatomaly (props: AchromatomalyProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.Achromatomaly, props, children)
 
+let inline ColorMatrixColorFilter (props: ColorMatrixColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.ColorMatrixColorFilter, props, children)
+
+let inline BlurMaskFilter (props: BlurMaskFilterProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.BlurMaskFilter, props, children)
+
 let inline CIBoxBlur (props: CIBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIBoxBlur, props, children)
 
@@ -475,6 +489,3 @@ let inline CIUnsharpMask (props: CIUnsharpMaskProps list) (children: React.React
 
 let inline CICrystallize (props: CICrystallizeProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CICrystallize, props, children)
-
-let inline AndroidTestFilter (props: AndroidTestFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.AndroidTestFilter, props, children)

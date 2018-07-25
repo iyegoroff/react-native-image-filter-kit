@@ -33,7 +33,6 @@ module FilterInputSlider =
         RN.slider
           [ MaximumValue max
             MinimumValue min
-            Step ((min - max) / 100.)
             SliderProperties.Value value 
             SliderProperties.OnSlidingComplete (ValueChanged >> dispatch) ]
         RN.view

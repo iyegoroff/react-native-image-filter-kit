@@ -22,7 +22,7 @@ export class Input {
     return {
       type: "FilterConstructor.Filter.Input",
       interfaces: ["FSharpUnion", "System.IEquatable", "System.IComparable"],
-      cases: [["InputAmount"], ["InputAngle"], ["InputBrightness"], ["InputCenter"], ["InputContrast"], ["InputIntensity"], ["InputLevels"], ["InputMinComponents"], ["InputMaxComponents"], ["InputNoiseLevel"], ["InputRadius"], ["InputSaturation"], ["InputScale"], ["InputSharpness"], ["InputWidth"], ["InputRVector"], ["InputGVector"], ["InputBVector"], ["InputAVector"], ["InputBiasVector"], ["Value"], ["ResizeOutput"]]
+      cases: [["InputAmount"], ["InputAngle"], ["InputBrightness"], ["InputCenter"], ["InputContrast"], ["InputIntensity"], ["InputLevels"], ["InputMinComponents"], ["InputMaxComponents"], ["InputNoiseLevel"], ["InputRadius"], ["InputSaturation"], ["InputScale"], ["InputSharpness"], ["InputWidth"], ["InputRVector"], ["InputGVector"], ["InputBVector"], ["InputAVector"], ["InputBiasVector"], ["Value"], ["Radius"], ["ResizeOutput"]]
     };
   }
 
@@ -108,7 +108,7 @@ export function update(message, model) {
       return [model, new List()];
   }
 }
-const controlsContainer = new Props.ViewProperties(8, ofArray([new Props.FlexStyle(40, 3), new Props.FlexStyle(44, 3), new Props.FlexStyle(24, 2), new Props.ScrollViewStyle(7, 3), new Props.ScrollViewStyle(13, 1), new Props.ScrollViewStyle(1, "gainsboro")]));
+const controlsContainer = new Props.ViewProperties(8, ofArray([new Props.FlexStyle(37, 3), new Props.FlexStyle(24, 2), new Props.ScrollViewStyle(7, 3), new Props.ScrollViewStyle(13, 1), new Props.ScrollViewStyle(1, "gainsboro")]));
 const titleStyle = new Props.TextProperties(5, ofArray([new Props.TextStyle(4, "bold")]));
 const controlButtonsStyle = new Props.ViewProperties(8, ofArray([new Props.FlexStyle(16, "row"), new Props.FlexStyle(21, "space-between")]));
 export function view(filterComponent, mapInput, model, content) {

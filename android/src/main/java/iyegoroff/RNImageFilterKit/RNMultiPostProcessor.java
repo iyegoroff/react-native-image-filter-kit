@@ -1,7 +1,6 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
@@ -9,7 +8,6 @@ import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.Postprocessor;
-import com.facebook.react.common.ReactConstants;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +45,6 @@ public class RNMultiPostProcessor extends IterativeBoxBlurPostProcessor {
 
   @Override
   public CloseableReference<Bitmap> process(Bitmap sourceBitmap, PlatformBitmapFactory bitmapFactory) {
-    Log.i(ReactConstants.TAG, "filter: multi " + String.valueOf(sourceBitmap));
     CloseableReference<Bitmap> prevBitmap = null, nextBitmap = null;
 
     try {

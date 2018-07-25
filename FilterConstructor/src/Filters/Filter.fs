@@ -33,6 +33,7 @@ module Filter =
     | InputAVector
     | InputBiasVector
     | Value
+    | Radius
     | ResizeOutput
 
   type Model = (Input * CombinedFilterInput.Model) list
@@ -64,8 +65,7 @@ module Filter =
 
   let private controlsContainer =
     ViewProperties.Style
-      [ PaddingHorizontal (dip 3.)
-        PaddingTop (dip 3.)
+      [ Padding (dip 3.)
         MarginBottom (dip 2.)
         BorderRadius 3. 
         BorderWidth 1. 

@@ -12,8 +12,6 @@ interface FilterPoint {
   readonly y: string;
 }
 
-export declare class FilterableImage extends ReactNative.Image { }
-
 export interface ColorMatrixProps extends FilterProps {
   readonly matrix: ReadonlyArray<number>;
 }
@@ -155,6 +153,21 @@ export class Achromatopsia extends React.Component<AchromatopsiaProps> { }
 export interface AchromatomalyProps extends FilterProps { }
 
 export class Achromatomaly extends React.Component<AchromatomalyProps> { }
+
+
+export interface ColorMatrixColorFilterProps extends FilterProps {
+  readonly matrix: ReadonlyArray<number>;
+}
+
+export class ColorMatrixColorFilter extends React.Component<ColorMatrixColorFilterProps> { }
+
+
+export interface BlurMaskFilterProps extends FilterProps {
+  readonly radius?: number;
+  readonly blurStyle?: 'normal' | 'solid' | 'outer' | 'inner';
+}
+
+export class BlurMaskFilter extends React.Component<BlurMaskFilterProps> { }
 
 
 export interface CIBoxBlurProps extends ResizingFilterProps {

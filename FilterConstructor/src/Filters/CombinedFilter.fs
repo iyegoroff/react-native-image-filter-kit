@@ -38,6 +38,7 @@ module CombinedFilter =
     | Tritanopia
     | Achromatopsia
     | Achromatomaly
+    | BlurMaskFilter
     | CIBoxBlur
     | CIDiscBlur
     | CIGaussianBlur
@@ -74,7 +75,6 @@ module CombinedFilter =
     | CIUnsharpMask
     | CICrystallize
 
-    | AndroidTestFilter
 
   let name =
     sprintf "%A"
@@ -147,6 +147,10 @@ module CombinedFilter =
     | Achromatopsia -> Filter.init []
 
     | Achromatomaly -> Filter.init []
+
+    | BlurMaskFilter ->
+      Filter.init
+        [ Filter.Radius, CFI.initScalar 0. 100. ]
 
     | CIBoxBlur ->
       Filter.init
@@ -296,10 +300,6 @@ module CombinedFilter =
         [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
           Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) ]
 
-    | AndroidTestFilter ->
-      Filter.init
-        []
-
   let private (|ResizeOutput|_|) =
     function
     | Filter.ResizeOutput, CFI.Boolean (input: FilterBooleanInput.Model) -> Some input.Value
@@ -408,6 +408,14 @@ module CombinedFilter =
     | Achromatopsia -> emptyView RNF.Achromatopsia
 
     | Achromatomaly -> emptyView RNF.Achromatomaly
+
+    | BlurMaskFilter ->
+      Filter.view
+        RNF.BlurMaskFilter
+        (function
+         | Filter.Radius, CFI.Scalar input ->
+           Some (BlurMaskFilterProps.Radius (input.Convert input.Value))
+         | _ -> None)
 
     | CIBoxBlur ->
       Filter.view
@@ -671,12 +679,6 @@ module CombinedFilter =
          | Filter.InputCenter, CFI.Point input ->
            Some (CICrystallizeProps.InputCenter (input.Convert input.Value))
          | _ -> None)
-         
-    | AndroidTestFilter ->
-      Filter.view
-        RNF.AndroidTestFilter
-        (function
-         | _ -> None)
 
   let controls =
     function
@@ -704,6 +706,7 @@ module CombinedFilter =
     | Tritanopia -> Filter.controls (name Tritanopia)
     | Achromatopsia -> Filter.controls (name Achromatopsia)
     | Achromatomaly -> Filter.controls (name Achromatomaly)
+    | BlurMaskFilter -> Filter.controls (name BlurMaskFilter)
     | CIBoxBlur -> Filter.controls (name CIBoxBlur)
     | CIDiscBlur -> Filter.controls (name CIDiscBlur)
     | CIGaussianBlur -> Filter.controls (name CIGaussianBlur)
@@ -739,12 +742,8 @@ module CombinedFilter =
     | CISharpenLuminance -> Filter.controls (name CISharpenLuminance)
     | CIUnsharpMask -> Filter.controls (name CIUnsharpMask)
     | CICrystallize -> Filter.controls (name CICrystallize)
-    | AndroidTestFilter -> Filter.controls (name AndroidTestFilter)
 
-  let private availableAndroidFilters: Model array =
-    [| AndroidTestFilter |]
-
-  let private availableIosFilters =
+  let private availableCommonFilters: Model array =
     [| Normal
        Saturate
        HueRotate
@@ -768,43 +767,76 @@ module CombinedFilter =
        Deuteranopia
        Tritanopia
        Achromatopsia
-       Achromatomaly
-       CIBoxBlur
-       CIDiscBlur
-       CIGaussianBlur
-       CIMedianFilter
-       CIMotionBlur
-       CINoiseReduction
-       CIZoomBlur
-       CIColorClamp
-       CIColorControls
-       CIColorMatrix
-       CIHueAdjust
-       CIMaskToAlpha
-       CIMaximumComponent
-       CIMinimumComponent
-       CIPhotoEffectChrome
-       CIPhotoEffectFade
-       CIPhotoEffectInstant
-       CIPhotoEffectMono
-       CIPhotoEffectNoir
-       CIPhotoEffectProcess
-       CIPhotoEffectTonal
-       CIPhotoEffectTransfer
-       CIVignetteEffect
-       CIColorInvert
-       CIColorPosterize
-       CIVibrance
-       CICircularScreen
-       CIDotScreen
-       CIBumpDistortion
-       CIBumpDistortionLinear
-       CICircleSplashDistortion
-       CICircularWrap
-       CISharpenLuminance
-       CIUnsharpMask
-       CICrystallize |]
+       Achromatomaly |]
 
+  let private availableAndroidFilters: Model array =
+    Array.concat
+      [ availableCommonFilters
+        [| BlurMaskFilter |] ]
+
+  let private availableIosFilters =
+    Array.concat
+      [ availableCommonFilters
+        [| Normal
+           Saturate
+           HueRotate
+           LuminanceToAlpha
+           Invert
+           Grayscale
+           Sepia
+           Nightvision
+           Warm
+           Cool
+           Brightness
+           Exposure
+           Contrast
+           Temperature
+           Tint
+           Threshold
+           Protanomaly
+           Deuteranomaly
+           Tritanomaly
+           Protanopia
+           Deuteranopia
+           Tritanopia
+           Achromatopsia
+           Achromatomaly
+           CIBoxBlur
+           CIDiscBlur
+           CIGaussianBlur
+           CIMedianFilter
+           CIMotionBlur
+           CINoiseReduction
+           CIZoomBlur
+           CIColorClamp
+           CIColorControls
+           CIColorMatrix
+           CIHueAdjust
+           CIMaskToAlpha
+           CIMaximumComponent
+           CIMinimumComponent
+           CIPhotoEffectChrome
+           CIPhotoEffectFade
+           CIPhotoEffectInstant
+           CIPhotoEffectMono
+           CIPhotoEffectNoir
+           CIPhotoEffectProcess
+           CIPhotoEffectTonal
+           CIPhotoEffectTransfer
+           CIVignetteEffect
+           CIColorInvert
+           CIColorPosterize
+           CIVibrance
+           CICircularScreen
+           CIDotScreen
+           CIBumpDistortion
+           CIBumpDistortionLinear
+           CICircleSplashDistortion
+           CICircularWrap
+           CISharpenLuminance
+           CIUnsharpMask
+           CICrystallize |] ]
+    
   let availableFilters =
     Platform.select
       [ Platform.Ios availableIosFilters

@@ -2,7 +2,8 @@ import React from 'react';
 import { ImageFilter } from './image-filter';
 
 const filters = {
-  'AndroidTestFilter': []
+  'ColorMatrixColorFilter': ['matrix'],
+  'BlurMaskFilter': ['radius', 'blurStyle']
 };
 
 const createImageNativeFilter = (name, paramNames, ImageFilter) => ({
@@ -23,5 +24,6 @@ export default Object.keys(filters).reduce(
     acc[name] = createImageNativeFilter(name, filters[name], ImageFilter);
     acc[name].displayName = name;
     return acc;
-  }, {}
+  }, 
+  {}
 );

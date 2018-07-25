@@ -264,20 +264,31 @@ const filters = {
 
 const filterName = ([first, ...rest]) => first.toUpperCase() + rest.join('');
 
-const { CIColorMatrix } = nativeFilters;
+const { CIColorMatrix, ColorMatrixColorFilter } = nativeFilters;
 
-const ColorMatrix = ({ matrix, children, ...restProps }) => (
-  <CIColorMatrix
-    inputRVector={matrix.slice(0, 4)}
-    inputGVector={matrix.slice(5, 9)}
-    inputBVector={matrix.slice(10, 14)}
-    inputAVector={matrix.slice(15, 19)}
-    inputBiasVector={[matrix[4], matrix[9], matrix[14], matrix[19]]}
-    {...restProps}
-  >
-    {children}
-  </CIColorMatrix>
-);
+const ColorMatrix = Platform.select({
+  ios: ({ matrix, children, ...restProps }) => (
+    <CIColorMatrix
+      inputRVector={matrix.slice(0, 4)}
+      inputGVector={matrix.slice(5, 9)}
+      inputBVector={matrix.slice(10, 14)}
+      inputAVector={matrix.slice(15, 19)}
+      inputBiasVector={[matrix[4], matrix[9], matrix[14], matrix[19]]}
+      {...restProps}
+    >
+      {children}
+    </CIColorMatrix>
+  ),
+
+  android: ({ matrix, children, ...restProps }) => (
+    <ColorMatrixColorFilter
+      matrix={matrix}
+      {...restProps}
+    >
+      {children}
+    </ColorMatrixColorFilter>
+  )
+});
 
 const createImageColorMatrixFilter = (filter) => ({ value, children, ...restProps }) => (
   <ColorMatrix

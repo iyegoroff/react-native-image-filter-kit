@@ -36,7 +36,6 @@ export function view(name, suffix, value, min, max, dispatch) {
   return createElement(View, createObj(ofArray([containerStyle]), 1), createElement(_Text, {}, toText(printf("%s %.2f"))(name, value)), createElement(Slider, {
     maximumValue: max,
     minimumValue: min,
-    step: (min - max) / 100,
     value: value,
     onSlidingComplete: $var1 => dispatch(function (arg0) {
       return new Message(0, arg0);

@@ -553,6 +553,50 @@ export const Props = function (__exports) {
 
   };
   setType("Fable.Helpers.ReactNativeImageFilterKit.Props.AchromatomalyProps", AchromatomalyProps);
+  const ColorMatrixColorFilterProps = __exports.ColorMatrixColorFilterProps = class ColorMatrixColorFilterProps {
+    constructor(tag, data) {
+      this.tag = tag | 0;
+      this.data = data;
+    }
+
+    [_Symbol.reflection]() {
+      return {
+        type: "Fable.Helpers.ReactNativeImageFilterKit.Props.ColorMatrixColorFilterProps",
+        interfaces: ["FSharpUnion", "System.IEquatable"],
+        cases: [["Style", makeGeneric(List, {
+          T: Interface("Fable.Helpers.ReactNative.Props.IStyle")
+        })], ["Matrix", _Array(Float64Array, true)]]
+      };
+    }
+
+    Equals(other) {
+      return this === other || this.tag === other.tag && equals(this.data, other.data);
+    }
+
+  };
+  setType("Fable.Helpers.ReactNativeImageFilterKit.Props.ColorMatrixColorFilterProps", ColorMatrixColorFilterProps);
+  const BlurMaskFilterProps = __exports.BlurMaskFilterProps = class BlurMaskFilterProps {
+    constructor(tag, data) {
+      this.tag = tag | 0;
+      this.data = data;
+    }
+
+    [_Symbol.reflection]() {
+      return {
+        type: "Fable.Helpers.ReactNativeImageFilterKit.Props.BlurMaskFilterProps",
+        interfaces: ["FSharpUnion", "System.IEquatable"],
+        cases: [["Style", makeGeneric(List, {
+          T: Interface("Fable.Helpers.ReactNative.Props.IStyle")
+        })], ["Radius", "number"]]
+      };
+    }
+
+    Equals(other) {
+      return this === other || this.tag === other.tag && equals(this.data, other.data);
+    }
+
+  };
+  setType("Fable.Helpers.ReactNativeImageFilterKit.Props.BlurMaskFilterProps", BlurMaskFilterProps);
   const CIBoxBlurProps = __exports.CIBoxBlurProps = class CIBoxBlurProps {
     constructor(tag, data) {
       this.tag = tag | 0;
