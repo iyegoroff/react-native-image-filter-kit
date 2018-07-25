@@ -9,4 +9,4 @@ Fable.React,3.1.4,Direct,Main,false
 Fable.Elmish.React,1.0.3,Direct,Main,false
 Fable.Import.ReactNativePortal,1.0,Direct,Main,false
 Fable.React.Native,1.7.2,Transitive,Main,false
-Fable.Import.ReactNativeSegmentedControlTab,0.0.1,Direct,Main,false
+Fable.Import.ReactNativeSegmentedControlTab,0.0.2,Direct,Main,false

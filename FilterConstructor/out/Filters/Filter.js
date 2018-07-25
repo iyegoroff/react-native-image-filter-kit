@@ -22,7 +22,7 @@ export class Input {
     return {
       type: "FilterConstructor.Filter.Input",
       interfaces: ["FSharpUnion", "System.IEquatable", "System.IComparable"],
-      cases: [["InputAmount"], ["InputAngle"], ["InputBrightness"], ["InputCenter"], ["InputContrast"], ["InputIntensity"], ["InputLevels"], ["InputMinComponents"], ["InputMaxComponents"], ["InputNoiseLevel"], ["InputRadius"], ["InputSaturation"], ["InputScale"], ["InputSharpness"], ["InputWidth"], ["InputRVector"], ["InputGVector"], ["InputBVector"], ["InputAVector"], ["InputBiasVector"], ["Value"], ["Radius"], ["ResizeOutput"]]
+      cases: [["InputAmount"], ["InputAngle"], ["InputBrightness"], ["InputCenter"], ["InputContrast"], ["InputIntensity"], ["InputLevels"], ["InputMinComponents"], ["InputMaxComponents"], ["InputNoiseLevel"], ["InputRadius"], ["InputSaturation"], ["InputScale"], ["InputSharpness"], ["InputWidth"], ["InputRVector"], ["InputGVector"], ["InputBVector"], ["InputAVector"], ["InputBiasVector"], ["Value"], ["BlurRadius"], ["Iterations"], ["ResizeOutput"]]
     };
   }
 

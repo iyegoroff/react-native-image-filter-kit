@@ -108,9 +108,13 @@ module Props =
     | Style of IStyle list
     | Matrix of ResizeArray<float>
 
-  type BlurMaskFilterProps =
+  type IterativeBoxBlurProps =
     | Style of IStyle list
-    | Radius of float
+    | BlurRadius of float
+    | Iterations of float
+
+  type RoundAsCircleProps =
+    | Style of IStyle list
 
   type CIBoxBlurProps =
     | Style of IStyle list
@@ -382,8 +386,11 @@ let inline Achromatomaly (props: AchromatomalyProps list) (children: React.React
 let inline ColorMatrixColorFilter (props: ColorMatrixColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.ColorMatrixColorFilter, props, children)
 
-let inline BlurMaskFilter (props: BlurMaskFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  createElement(RNIFK.BlurMaskFilter, props, children)
+let inline IterativeBoxBlur (props: IterativeBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.IterativeBoxBlur, props, children)
+
+let inline RoundAsCircle (props: RoundAsCircleProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.RoundAsCircle, props, children)
 
 let inline CIBoxBlur (props: CIBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.CIBoxBlur, props, children)

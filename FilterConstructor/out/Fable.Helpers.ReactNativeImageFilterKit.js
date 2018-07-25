@@ -575,7 +575,7 @@ export const Props = function (__exports) {
 
   };
   setType("Fable.Helpers.ReactNativeImageFilterKit.Props.ColorMatrixColorFilterProps", ColorMatrixColorFilterProps);
-  const BlurMaskFilterProps = __exports.BlurMaskFilterProps = class BlurMaskFilterProps {
+  const IterativeBoxBlurProps = __exports.IterativeBoxBlurProps = class IterativeBoxBlurProps {
     constructor(tag, data) {
       this.tag = tag | 0;
       this.data = data;
@@ -583,11 +583,11 @@ export const Props = function (__exports) {
 
     [_Symbol.reflection]() {
       return {
-        type: "Fable.Helpers.ReactNativeImageFilterKit.Props.BlurMaskFilterProps",
+        type: "Fable.Helpers.ReactNativeImageFilterKit.Props.IterativeBoxBlurProps",
         interfaces: ["FSharpUnion", "System.IEquatable"],
         cases: [["Style", makeGeneric(List, {
           T: Interface("Fable.Helpers.ReactNative.Props.IStyle")
-        })], ["Radius", "number"]]
+        })], ["BlurRadius", "number"], ["Iterations", "number"]]
       };
     }
 
@@ -596,7 +596,29 @@ export const Props = function (__exports) {
     }
 
   };
-  setType("Fable.Helpers.ReactNativeImageFilterKit.Props.BlurMaskFilterProps", BlurMaskFilterProps);
+  setType("Fable.Helpers.ReactNativeImageFilterKit.Props.IterativeBoxBlurProps", IterativeBoxBlurProps);
+  const RoundAsCircleProps = __exports.RoundAsCircleProps = class RoundAsCircleProps {
+    constructor(tag, data) {
+      this.tag = tag | 0;
+      this.data = data;
+    }
+
+    [_Symbol.reflection]() {
+      return {
+        type: "Fable.Helpers.ReactNativeImageFilterKit.Props.RoundAsCircleProps",
+        interfaces: ["FSharpUnion", "System.IEquatable"],
+        cases: [["Style", makeGeneric(List, {
+          T: Interface("Fable.Helpers.ReactNative.Props.IStyle")
+        })]]
+      };
+    }
+
+    Equals(other) {
+      return this === other || this.tag === other.tag && equals(this.data, other.data);
+    }
+
+  };
+  setType("Fable.Helpers.ReactNativeImageFilterKit.Props.RoundAsCircleProps", RoundAsCircleProps);
   const CIBoxBlurProps = __exports.CIBoxBlurProps = class CIBoxBlurProps {
     constructor(tag, data) {
       this.tag = tag | 0;

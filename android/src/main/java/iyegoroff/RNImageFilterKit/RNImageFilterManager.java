@@ -1,7 +1,5 @@
 package iyegoroff.RNImageFilterKit;
 
-import android.graphics.BlurMaskFilter;
-
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -17,7 +15,8 @@ public class RNImageFilterManager extends ReactViewManager {
   protected static final String PROP_NAME = "name";
   protected static final String PROP_MATRIX = "matrix";
   protected static final String PROP_RADIUS = "radius";
-  protected static final String PROP_BLUR_STYLE = "blurStyle";
+  protected static final String PROP_BLUR_RADIUS = "blurRadius";
+  protected static final String PROP_ITERATIONS = "iterations";
 
   @Override
   public String getName() {
@@ -44,19 +43,12 @@ public class RNImageFilterManager extends ReactViewManager {
     view.setRadius(radius);
   }
 
-  @ReactProp(name = PROP_BLUR_STYLE)
-  public void setBlurStyle(RNImageFilter view, @Nullable String blurStyle) {
-    if ("normal".equals(blurStyle)) {
-      view.setBlurStyle(BlurMaskFilter.Blur.NORMAL);
-
-    } else if ("solid".equals(blurStyle)) {
-      view.setBlurStyle(BlurMaskFilter.Blur.SOLID);
-
-    } else if ("outer".equals(blurStyle)) {
-      view.setBlurStyle(BlurMaskFilter.Blur.OUTER);
-
-    } else if ("inner".equals(blurStyle)) {
-      view.setBlurStyle(BlurMaskFilter.Blur.INNER);
-    }
+  @ReactProp(name = PROP_BLUR_RADIUS)
+  public void setBlurRadius(RNImageFilter view, float blurRadius) {
+    view.setBlurRadius((int) blurRadius);
+  }
+  @ReactProp(name = PROP_ITERATIONS)
+  public void setIterations(RNImageFilter view, float iterations) {
+    view.setIterations((int) iterations);
   }
 }

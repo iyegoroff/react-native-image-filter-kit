@@ -60,14 +60,14 @@ function _ImageModel_(_arg1) {
 
 export { _ImageModel_ as $7C$ImageModel$7C$ };
 export function name(_arg1) {
-  const activePatternResult5768 = _ImageModel_(_arg1);
+  const activePatternResult8405 = _ImageModel_(_arg1);
 
-  return activePatternResult5768.Name;
+  return activePatternResult8405.Name;
 }
 export function source(_arg1) {
-  const activePatternResult5770 = _ImageModel_(_arg1);
+  const activePatternResult8407 = _ImageModel_(_arg1);
 
-  return activePatternResult5770.Source;
+  return activePatternResult8407.Source;
 }
 export function equals(first, second) {
   const matchValue = [first, second];

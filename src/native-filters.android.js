@@ -3,7 +3,8 @@ import { ImageFilter } from './image-filter';
 
 const filters = {
   'ColorMatrixColorFilter': ['matrix'],
-  'BlurMaskFilter': ['radius', 'blurStyle']
+  'IterativeBoxBlur': ['blurRadius', 'iterations'],
+  'RoundAsCircle': []
 };
 
 const createImageNativeFilter = (name, paramNames, ImageFilter) => ({

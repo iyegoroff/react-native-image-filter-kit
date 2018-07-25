@@ -13,6 +13,7 @@ module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
 module RNP = Fable.Import.ReactNativePortal
 module RNF = Fable.Helpers.ReactNativeImageFilterKit
+module RNS = Fable.Import.ReactNativeSegmentedControlTab
 
 
 module FilteredImage =
@@ -180,11 +181,10 @@ module FilteredImage =
               [ RN.activityIndicator
                   [ spinnerStyle ]
                 (filteredImage model) ]
-            RN.segmentedControlIOS
-              [ Values resizeControlValues
-                SegmentedControlIOSProperties.OnChange
-                  (fun event -> dispatch (ResizeModeChanged event.nativeEvent.selectedSegmentIndex)) 
-                SelectedIndex (resizeControlIndex model)]
+            RNS.segmentedControlTab
+              [ RNS.Props.Values resizeControlValues
+                RNS.Props.OnTabPress (ResizeModeChanged >> dispatch)
+                RNS.Props.SelectedIndex (resizeControlIndex model) ]
             RN.view
               [ controlsStyle ]
               [ RN.button

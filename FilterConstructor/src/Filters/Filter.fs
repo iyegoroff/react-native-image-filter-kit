@@ -33,7 +33,8 @@ module Filter =
     | InputAVector
     | InputBiasVector
     | Value
-    | Radius
+    | BlurRadius
+    | Iterations
     | ResizeOutput
 
   type Model = (Input * CombinedFilterInput.Model) list

@@ -85,7 +85,7 @@
           "lib/netstandard1.6/Fable.Import.ReactNativePortal.dll": {}
         }
       },
-      "Fable.Import.ReactNativeSegmentedControlTab/0.0.1": {
+      "Fable.Import.ReactNativeSegmentedControlTab/0.0.2": {
         "type": "package",
         "dependencies": {
           "FSharp.Core": "4.5.1",
@@ -341,12 +341,12 @@
         "paket-installmodel.cache"
       ]
     },
-    "Fable.Import.ReactNativeSegmentedControlTab/0.0.1": {
-      "sha512": "0kdcXGrXx49QJuIzZm5n2MGT7qHdT/IITagHHzPnn8MeYBHyrdx2sOQroQ6Ss4ES6OHXL56x5sFC5MgZ+FcaSg==",
+    "Fable.Import.ReactNativeSegmentedControlTab/0.0.2": {
+      "sha512": "crqpjMmoCFx58/r53G1PajwhBCNBtD7dCTX4ERt3KYnYtihQl88W4IpR2+4vEP6uFi8Xj9wrRB/XRk1POyBJHg==",
       "type": "package",
-      "path": "fable.import.reactnativesegmentedcontroltab/0.0.1",
+      "path": "fable.import.reactnativesegmentedcontroltab/0.0.2",
       "files": [
-        "fable.import.reactnativesegmentedcontroltab.0.0.1.nupkg.sha512",
+        "fable.import.reactnativesegmentedcontroltab.0.0.2.nupkg.sha512",
         "fable.import.reactnativesegmentedcontroltab.nuspec",
         "fable/Fable.Import.ReactNativeSegmentedControlTab.fs",
         "fable/Fable.Import.ReactNativeSegmentedControlTab.fsproj",
@@ -641,7 +641,7 @@
       "Fable.Elmish.React >= 1.0.3",
       "Fable.Import.Browser >= 1.1.3",
       "Fable.Import.ReactNativePortal >= 1.0.0",
-      "Fable.Import.ReactNativeSegmentedControlTab >= 0.0.1",
+      "Fable.Import.ReactNativeSegmentedControlTab >= 0.0.2",
       "Fable.PowerPack >= 1.5.1",
       "Fable.React >= 3.1.4",
       "Fable.React.Native >= 1.7.2",
@@ -721,7 +721,7 @@
           },
           "Fable.Import.ReactNativeSegmentedControlTab": {
             "target": "Package",
-            "version": "[0.0.1, )"
+            "version": "[0.0.2, )"
           },
           "Fable.PowerPack": {
             "target": "Package",

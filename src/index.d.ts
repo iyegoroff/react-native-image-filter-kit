@@ -162,12 +162,18 @@ export interface ColorMatrixColorFilterProps extends FilterProps {
 export class ColorMatrixColorFilter extends React.Component<ColorMatrixColorFilterProps> { }
 
 
-export interface BlurMaskFilterProps extends FilterProps {
-  readonly radius?: number;
-  readonly blurStyle?: 'normal' | 'solid' | 'outer' | 'inner';
+export interface IterativeBoxBlurProps extends FilterProps {
+  readonly blurRadius?: number;
+  readonly iterations?: number;
 }
 
-export class BlurMaskFilter extends React.Component<BlurMaskFilterProps> { }
+export class IterativeBoxBlur
+  extends React.Component<IterativeBoxBlurProps> { }
+
+
+export interface RoundAsCircleProps extends FilterProps { }
+
+export class RoundAsCircle extends React.Component<RoundAsCircleProps> { }
 
 
 export interface CIBoxBlurProps extends ResizingFilterProps {

@@ -18,10 +18,12 @@ import { Cmd } from "./fable/cmd";
 import { Props } from "./Fable.Helpers.ReactNative";
 import { filterPortal, imagePortal, imageHeight } from "./Constants";
 import { Fragment, createElement } from "react";
-import { Button, SegmentedControlIOS, ActivityIndicator, View, Image } from "react-native";
+import { Button, ActivityIndicator, View, Image } from "react-native";
 import { BlackPortal } from "react-native-portal";
 import { view as view_2 } from "./ImageSelectModal";
 import { view as view_3 } from "./FilterSelectModal";
+import react_native_segmented_control_tab from "react-native-segmented-control-tab";
+import { Props as Props_1 } from "./fable/Fable.Import.ReactNativeSegmentedControlTab";
 export class Model {
   constructor(image, filters, imageSelectModalIsVisible, filterSelectModalIsVisible, selectedResizeMode, nextId) {
     this.Image = image;
@@ -207,13 +209,9 @@ export function view(model, dispatch) {
     return new Message(3, arg0_1);
   }($var2)))])), createElement(View, createObj(ofArray([containerStyle, new Props.ActivityIndicator.ActivityIndicatorProperties(3, "large")]), 1), controls(model, $var3 => dispatch(function (tupledArg) {
     return new Message(5, [tupledArg[0], tupledArg[1]]);
-  }($var3))), createElement(View, {}, createElement(ActivityIndicator, createObj(ofArray([spinnerStyle]), 1)), filteredImage(model)), createElement(SegmentedControlIOS, {
-    values: resizeControlValues,
-    onChange: function (event) {
-      dispatch(new Message(6, event.nativeEvent.selectedSegmentIndex));
-    },
-    selectedIndex: resizeControlIndex(model)
-  }), createElement(View, createObj(ofArray([controlsStyle]), 1), createElement(Button, {
+  }($var3))), createElement(View, {}, createElement(ActivityIndicator, createObj(ofArray([spinnerStyle]), 1)), filteredImage(model)), createElement(react_native_segmented_control_tab, ofArray([new Props_1.SegmentedControlTabProps(0, resizeControlValues), new Props_1.SegmentedControlTabProps(15, $var4 => dispatch(function (arg0_2) {
+    return new Message(6, arg0_2);
+  }($var4))), new Props_1.SegmentedControlTabProps(1, resizeControlIndex(model))])), createElement(View, createObj(ofArray([controlsStyle]), 1), createElement(Button, {
     title: "Add filter",
     onPress: function () {
       dispatch(new Message(4));

@@ -1,12 +1,12 @@
-
 package iyegoroff.RNImageFilterKit;
+
 import android.content.Context;
-import android.graphics.BlurMaskFilter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
+import com.facebook.imagepipeline.postprocessors.RoundAsCirclePostprocessor;
 import com.facebook.imagepipeline.request.Postprocessor;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.common.ReactConstants;
@@ -28,7 +28,8 @@ public class RNImageFilter extends ReactViewGroup {
           0, 0, 0, 1, 0,
   };
   private float mRadius = 0;
-  private BlurMaskFilter.Blur mBlurStyle = BlurMaskFilter.Blur.NORMAL;
+  private int mBlurRadius = 1;
+  private int mIterations = 3;
 
   public RNImageFilter(Context context) {
     super(context);
@@ -56,8 +57,14 @@ public class RNImageFilter extends ReactViewGroup {
     this.runFilterPipeline();
   }
 
-  public void setBlurStyle(BlurMaskFilter.Blur blurStyle) {
-    mBlurStyle = blurStyle;
+  public void setBlurRadius(int blurRadius) {
+    mBlurRadius = blurRadius;
+
+    this.runFilterPipeline();
+  }
+
+  public void setIterations(int iterations) {
+    mIterations = iterations;
 
     this.runFilterPipeline();
   }
@@ -66,8 +73,6 @@ public class RNImageFilter extends ReactViewGroup {
   protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
 
-    Log.i(ReactConstants.TAG, "filter: layout " + String.valueOf(this));
-
     this.runFilterPipeline();
   }
 
@@ -75,8 +80,11 @@ public class RNImageFilter extends ReactViewGroup {
     if ("ColorMatrixColorFilter".equals(mName)) {
       mPostProcessor = new ColorMatrixColorFilterPostProcessor(mMatrix);
 
-    } else if ("BlurMaskFilter".equals(mName)) {
-      mPostProcessor = new BlurMaskFilterPostProcessor(mRadius, mBlurStyle);
+    } else if ("IterativeBoxBlur".equals(mName)) {
+      mPostProcessor = new IterativeBoxBlurPostProcessor(mIterations, mBlurRadius);
+
+    } else if ("RoundAsCircle".equals(mName)) {
+      mPostProcessor = new RoundAsCirclePostprocessor();
     }
 
     if (mPostProcessor != null) {
@@ -115,11 +123,7 @@ public class RNImageFilter extends ReactViewGroup {
 
         RNReflectUtils.setFieldValue(ReactImageView.class, image, "mIsDirty", true);
 
-        image.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
         image.maybeUpdateView();
-
-//          Log.i(ReactConstants.TAG, "filter: renderFilteredImage");
       }
     }
   }

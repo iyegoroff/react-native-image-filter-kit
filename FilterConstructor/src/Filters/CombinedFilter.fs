@@ -38,7 +38,8 @@ module CombinedFilter =
     | Tritanopia
     | Achromatopsia
     | Achromatomaly
-    | BlurMaskFilter
+    | RoundAsCircle
+    | IterativeBoxBlur
     | CIBoxBlur
     | CIDiscBlur
     | CIGaussianBlur
@@ -148,9 +149,12 @@ module CombinedFilter =
 
     | Achromatomaly -> Filter.init []
 
-    | BlurMaskFilter ->
+    | RoundAsCircle -> Filter.init []
+
+    | IterativeBoxBlur ->
       Filter.init
-        [ Filter.Radius, CFI.initScalar 0. 100. ]
+        [ Filter.BlurRadius, CFI.initScalar 1. 50.
+          Filter.Iterations, CFI.initScalar 1. 10. ]
 
     | CIBoxBlur ->
       Filter.init
@@ -409,12 +413,16 @@ module CombinedFilter =
 
     | Achromatomaly -> emptyView RNF.Achromatomaly
 
-    | BlurMaskFilter ->
+    | RoundAsCircle -> emptyView RNF.RoundAsCircle
+
+    | IterativeBoxBlur ->
       Filter.view
-        RNF.BlurMaskFilter
+        RNF.IterativeBoxBlur
         (function
-         | Filter.Radius, CFI.Scalar input ->
-           Some (BlurMaskFilterProps.Radius (input.Convert input.Value))
+         | Filter.BlurRadius, CFI.Scalar input ->
+           Some (IterativeBoxBlurProps.BlurRadius (input.Convert input.Value))
+         | Filter.Iterations, CFI.Scalar input ->
+           Some (IterativeBoxBlurProps.Iterations (input.Convert input.Value))
          | _ -> None)
 
     | CIBoxBlur ->
@@ -706,7 +714,8 @@ module CombinedFilter =
     | Tritanopia -> Filter.controls (name Tritanopia)
     | Achromatopsia -> Filter.controls (name Achromatopsia)
     | Achromatomaly -> Filter.controls (name Achromatomaly)
-    | BlurMaskFilter -> Filter.controls (name BlurMaskFilter)
+    | RoundAsCircle -> Filter.controls (name RoundAsCircle)
+    | IterativeBoxBlur -> Filter.controls (name IterativeBoxBlur)
     | CIBoxBlur -> Filter.controls (name CIBoxBlur)
     | CIDiscBlur -> Filter.controls (name CIDiscBlur)
     | CIGaussianBlur -> Filter.controls (name CIGaussianBlur)
@@ -772,7 +781,8 @@ module CombinedFilter =
   let private availableAndroidFilters: Model array =
     Array.concat
       [ availableCommonFilters
-        [| BlurMaskFilter |] ]
+        [| RoundAsCircle
+           IterativeBoxBlur |] ]
 
   let private availableIosFilters =
     Array.concat
