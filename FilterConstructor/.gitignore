@@ -57,5 +57,5 @@ buck-out/
 
 rn-cli.config.js
 
-./src/bin/
-./src/obj/
+src/bin/
+src/obj/
