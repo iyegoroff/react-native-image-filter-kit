@@ -113,6 +113,11 @@ module Props =
     | BlurRadius of float
     | Iterations of float
 
+  type LightingColorFilterProps =
+    | Style of IStyle list
+    | Mul of string
+    | Add of string
+
   type RoundAsCircleProps =
     | Style of IStyle list
 
@@ -305,9 +310,6 @@ let Point (_x: IDistance, _y: IDistance): IPoint = jsNative
 [<Emit("[$0, $1, $2, $3]")>]
 let RGBAVector (_r: float, _g: float, _b: float, _a: float): IRGBAVector = jsNative
 
-let inline filterableImage (props:IImageProperties list) : React.ReactElement =
-  createElement(RNIFK.FilterableImage, props, [])
-
 let inline ColorMatrix (props: ColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.ColorMatrix, props, children)
 
@@ -388,6 +390,9 @@ let inline ColorMatrixColorFilter (props: ColorMatrixColorFilterProps list) (chi
 
 let inline IterativeBoxBlur (props: IterativeBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.IterativeBoxBlur, props, children)
+
+let inline LightingColorFilter (props: LightingColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
+  createElement(RNIFK.LightingColorFilter, props, children)
 
 let inline RoundAsCircle (props: RoundAsCircleProps list) (children: React.ReactElement list): React.ReactElement =
   createElement(RNIFK.RoundAsCircle, props, children)

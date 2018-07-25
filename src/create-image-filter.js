@@ -1,6 +1,6 @@
 import React from 'react';
 import { defaultStyle, checkStyle } from './style';
-import { View } from 'react-native';
+import { View, processColor } from 'react-native';
 
 const anyToString = n => `${n}`;
 const pointToArray = p => [`${p.x}`, `${p.y}`];
@@ -15,6 +15,8 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
     inputCenter,
     inputPoint0,
     inputPoint1,
+    mul,
+    add,
     ...restInputs
   } = restProps;
 
@@ -25,6 +27,8 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
     ...(inputCenter ? { inputCenter: pointToArray(inputCenter) } : {}),
     ...(inputPoint0 ? { inputPoint0: pointToArray(inputPoint0) } : {}),
     ...(inputPoint1 ? { inputPoint1: pointToArray(inputPoint1) } : {}),
+    ...(mul ? { mul: processColor(mul) } : {}),
+    ...(add ? { add: processColor(add) } : {}),
     ...restInputs
   };
 

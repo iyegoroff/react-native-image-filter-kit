@@ -59,3 +59,4 @@ rn-cli.config.js
 
 src/bin/
 src/obj/
+out/

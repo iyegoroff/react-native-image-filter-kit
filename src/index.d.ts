@@ -171,6 +171,15 @@ export class IterativeBoxBlur
   extends React.Component<IterativeBoxBlurProps> { }
 
 
+export interface LightingColorFilterProps extends FilterProps {
+  readonly mul?: string;
+  readonly add?: string;
+}
+
+export class LightingColorFilter
+  extends React.Component<LightingColorFilterProps> { }
+
+
 export interface RoundAsCircleProps extends FilterProps { }
 
 export class RoundAsCircle extends React.Component<RoundAsCircleProps> { }

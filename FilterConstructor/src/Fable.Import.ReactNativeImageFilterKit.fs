@@ -281,6 +281,17 @@ module ReactNativeImageFilterKit =
   and IterativeBoxBlur =
       IterativeBoxBlurStatic
 
+  and LightingColorFilterProps =
+      inherit FilterProps
+      abstract mul: string option with get, set
+      abstract add: string option with get, set
+
+  and LightingColorFilterStatic =
+      inherit React.ComponentClass<LightingColorFilterProps>
+
+  and LightingColorFilter =
+      LightingColorFilterStatic
+
   and CIBoxBlurProps =
       inherit ResizingFilterProps
       abstract inputRadius: string option with get, set
@@ -675,6 +686,7 @@ module ReactNativeImageFilterKit =
       [<Import("ColorMatrixColorFilter", "react-native-image-filter-kit")>] static member ColorMatrixColorFilter with get(): ColorMatrixColorFilterStatic = jsNative and set(v: ColorMatrixColorFilterStatic): unit = jsNative
       [<Import("RoundAsCircle", "react-native-image-filter-kit")>] static member RoundAsCircle with get(): RoundAsCircleStatic = jsNative and set(v: RoundAsCircleStatic): unit = jsNative
       [<Import("IterativeBoxBlur", "react-native-image-filter-kit")>] static member IterativeBoxBlur with get(): IterativeBoxBlurStatic = jsNative and set(v: IterativeBoxBlurStatic): unit = jsNative
+      [<Import("LightingColorFilter", "react-native-image-filter-kit")>] static member LightingColorFilter with get(): LightingColorFilterStatic = jsNative and set(v: LightingColorFilterStatic): unit = jsNative
       [<Import("CIBoxBlur", "react-native-image-filter-kit")>] static member CIBoxBlur with get(): CIBoxBlurStatic = jsNative and set(v: CIBoxBlurStatic): unit = jsNative
       [<Import("CIGaussianBlur", "react-native-image-filter-kit")>] static member CIGaussianBlur with get(): CIGaussianBlurStatic = jsNative and set(v: CIGaussianBlurStatic): unit = jsNative
       [<Import("CIDiscBlur", "react-native-image-filter-kit")>] static member CIDiscBlur with get(): CIDiscBlurStatic = jsNative and set(v: CIDiscBlurStatic): unit = jsNative

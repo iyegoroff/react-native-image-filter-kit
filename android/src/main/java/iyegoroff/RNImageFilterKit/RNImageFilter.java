@@ -30,6 +30,8 @@ public class RNImageFilter extends ReactViewGroup {
   private float mRadius = 0;
   private int mBlurRadius = 1;
   private int mIterations = 3;
+  private int mMul = 0;
+  private int mAdd = 0;
 
   public RNImageFilter(Context context) {
     super(context);
@@ -69,6 +71,18 @@ public class RNImageFilter extends ReactViewGroup {
     this.runFilterPipeline();
   }
 
+  public void setMul(int mul) {
+    mMul = mul;
+
+    this.runFilterPipeline();
+  }
+
+  public void setAdd(int add) {
+    mAdd = add;
+
+    this.runFilterPipeline();
+  }
+
   @Override
   protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
@@ -85,6 +99,9 @@ public class RNImageFilter extends ReactViewGroup {
 
     } else if ("RoundAsCircle".equals(mName)) {
       mPostProcessor = new RoundAsCirclePostprocessor();
+
+    } else if ("LightingColorFilter".equals(mName)) {
+      mPostProcessor = new LightingColorFilterPostProcessor(mMul, mAdd);
     }
 
     if (mPostProcessor != null) {

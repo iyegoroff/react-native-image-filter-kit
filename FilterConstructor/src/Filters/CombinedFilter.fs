@@ -154,7 +154,7 @@ module CombinedFilter =
     | IterativeBoxBlur ->
       Filter.init
         [ Filter.BlurRadius, CFI.initScalar 1. 50.
-          Filter.Iterations, CFI.initScalar 1. 10. ]
+          Filter.Iterations, CFI.initScalar 1. 5. ]
 
     | CIBoxBlur ->
       Filter.init

@@ -7,8 +7,6 @@
     <Compile Include="Fable.Helpers.ReactNative.fs" />
     <Compile Include="Fable.Import.ReactNativeImageFilterKit.fs" />
     <Compile Include="Fable.Helpers.ReactNativeImageFilterKit.fs" />
-    <Compile Include="Fable.Import.ReactNativeSegmentedControlTab.fs" />
-    <Compile Include="Fable.Helpers.ReactNativeSegmentedControlTab.fs" />
     <Compile Include="Constants.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="Image.fs" />

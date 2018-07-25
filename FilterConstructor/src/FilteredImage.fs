@@ -13,7 +13,7 @@ module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
 module RNP = Fable.Import.ReactNativePortal
 module RNF = Fable.Helpers.ReactNativeImageFilterKit
-module RNS = Fable.Import.ReactNativeSegmentedControlTab
+module RNS = Fable.Helpers.ReactNativeSegmentedControlTab
 
 
 module FilteredImage =
