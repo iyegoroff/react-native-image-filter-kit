@@ -4,7 +4,7 @@ import { ImageFilter } from './image-filter';
 const filters = {
   'ColorMatrixColorFilter': ['matrix'],
   'IterativeBoxBlur': ['blurRadius', 'iterations'],
-  'LightingColorFilter': ['mul', 'add']
+  'LightingColorFilter': ['mul', 'add'],
   'RoundAsCircle': []
 };
 

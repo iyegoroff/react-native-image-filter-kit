@@ -17,6 +17,8 @@ public class RNImageFilterManager extends ReactViewManager {
   protected static final String PROP_RADIUS = "radius";
   protected static final String PROP_BLUR_RADIUS = "blurRadius";
   protected static final String PROP_ITERATIONS = "iterations";
+  protected static final String PROP_MUL = "mul";
+  protected static final String PROP_ADD = "add";
 
   @Override
   public String getName() {
@@ -47,8 +49,19 @@ public class RNImageFilterManager extends ReactViewManager {
   public void setBlurRadius(RNImageFilter view, float blurRadius) {
     view.setBlurRadius((int) blurRadius);
   }
+
   @ReactProp(name = PROP_ITERATIONS)
   public void setIterations(RNImageFilter view, float iterations) {
     view.setIterations((int) iterations);
+  }
+
+  @ReactProp(name = PROP_MUL)
+  public void setMul(RNImageFilter view, float mul) {
+    view.setMul((int) mul);
+  }
+
+  @ReactProp(name = PROP_ADD)
+  public void setAdd(RNImageFilter view, float add) {
+    view.setAdd((int) add);
   }
 }

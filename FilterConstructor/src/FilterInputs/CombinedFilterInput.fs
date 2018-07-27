@@ -9,24 +9,27 @@ module RN = Fable.Helpers.ReactNative
 
 module CombinedFilterInput =
 
-  type Shape<'scalar, 'distance, 'point, 'rgbaVector, 'boolean> =
+  type Shape<'scalar, 'distance, 'point, 'rgbaVector, 'boolean, 'color> =
     | Scalar of 'scalar
     | Distance of 'distance
     | Point of 'point
     | RGBAVector of 'rgbaVector
     | Boolean of 'boolean
+    | Color of 'color
 
   type Model = Shape<FilterScalarInput.Model,
                      FilterDistanceInput.Model,
                      FilterPointInput.Model,
                      FilterRGBAVectorInput.Model,
-                     FilterBooleanInput.Model>
+                     FilterBooleanInput.Model,
+                     FilterColorInput.Model>
 
   type Message = Shape<FilterScalarInput.Message,
                        FilterDistanceInput.Message,
                        FilterPointInput.Message,
                        FilterRGBAVectorInput.Message,
-                       FilterBooleanInput.Message>
+                       FilterBooleanInput.Message,
+                       FilterColorInput.Message>
   
 
   let initScalar min max name =
@@ -43,6 +46,9 @@ module CombinedFilterInput =
 
   let initBoolean name =
     Boolean (FilterBooleanInput.init name false)
+    
+  let initColor name =
+    Color (FilterColorInput.init name "#ffffff")
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match (model, message) with
@@ -71,6 +77,11 @@ module CombinedFilterInput =
       (Boolean m), Cmd.map Boolean cmd
     | Boolean _, _ -> model, []
 
+    | Color model', Color message' ->
+      let m, cmd = FilterColorInput.update message' model'
+      (Color m), Cmd.map Color cmd
+    | Color _, _ -> model, []
+
   let view (model: Model) (dispatch: Dispatch<Message>) : React.ReactElement =
     match model with
     | Scalar model' -> FilterScalarInput.view model' (Scalar >> dispatch)
@@ -78,3 +89,4 @@ module CombinedFilterInput =
     | Point model' -> FilterPointInput.view model' (Point >> dispatch)
     | RGBAVector model' -> FilterRGBAVectorInput.view model' (RGBAVector >> dispatch)
     | Boolean model' -> FilterBooleanInput.view model' (Boolean >> dispatch)
+    | Color model' -> FilterColorInput.view model' (Color >> dispatch)

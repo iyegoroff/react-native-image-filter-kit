@@ -129,7 +129,8 @@ module FilteredImage =
 
   let controlsStyle =
     ViewProperties.Style
-      [ FlexDirection FlexDirection.Row
+      [ MarginTop (dip 10.)
+        FlexDirection FlexDirection.Row
         JustifyContent JustifyContent.SpaceBetween ]
 
   let spinnerStyle =

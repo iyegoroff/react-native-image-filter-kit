@@ -367,30 +367,23 @@ module Props =
     type IRefreshControlProperties =
         interface end
 
-    type ISliderIOSProperties =
-        interface end
-
-    type ISliderAndroidProperties =
-        interface end
-
     type ISliderProperties =
-        inherit ISliderIOSProperties
-        inherit ISliderAndroidProperties
+        interface end
 
     type ITabBarItemProperties =
         interface end
 
     type ITabBarIOSProperties =
         interface end
+    
+    type IScrollViewProperties =
+        interface end
 
     type IListViewProperties =
         interface end
 
     type IFlatListProperties<'a> =
-        interface end
-
-    type IScrollViewProperties =
-        inherit IListViewProperties
+        inherit IScrollViewProperties
 
     type IStatusBarProperties =
         interface end
@@ -982,11 +975,11 @@ module Props =
         | MinimumTrackImage of IImageSource
         | MaximumTrackImage of IImageSource
         | ThumbImage of IImageSource
-        interface ISliderIOSProperties
+        interface ISliderProperties
 
     type SliderAndroidProperties =
         | ThumbTintColor of string
-        interface ISliderAndroidProperties
+        interface ISliderProperties
 
     type SliderProperties =
         | Disabled of bool
@@ -1317,12 +1310,16 @@ module Props =
     | Always
     | Handled
 
-    type ScrollViewProperties =
+    type ScrollViewProperties<'a> =
         | ContentContainerStyle of ViewStyle list
         | Horizontal of bool
         | KeyboardDismissMode of string
         | KeyboardShouldPersistTaps of KeyboardShouldPersistTapsProperties
         | OnScroll of (obj -> unit)
+        | OnScrollBeginDrag of (obj -> unit)
+        | OnScrollEndDrag of (obj -> unit)
+        | OnMomentumScrollBegin of (obj -> unit)
+        | OnMomentumScrollEnd of (obj -> unit)
         | PagingEnabled of bool
         | RemoveClippedSubviews of bool
         | ShowsHorizontalScrollIndicator of bool
@@ -1331,6 +1328,7 @@ module Props =
         | RefreshControl of React.ReactElement
         | Ref of Ref<ScrollView>
         interface IScrollViewProperties
+        interface IFlatListProperties<'a>
 
     type ListViewProperties<'a> =
         | DataSource of ListViewDataSource<'a>
@@ -1649,7 +1647,7 @@ let inline listView<'a> (dataSource:ListViewDataSource<'a>) (props: IListViewPro
             createObj ["dataSource" ==> dataSource],
             keyValueList CaseRules.LowerFirst props), [])
 
-let inline flatList<'a> (data:'a []) (props: FlatListProperties<'a> list)  : React.ReactElement =
+let inline flatList<'a> (data:'a []) (props: IFlatListProperties<'a> list)  : React.ReactElement =
     // Some of FlatList properties are upper case:
     // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-native/index.d.ts#L3608-L3623
     let pascalCaseProps, camelCaseProps =
@@ -1659,7 +1657,7 @@ let inline flatList<'a> (data:'a []) (props: FlatListProperties<'a> list)  : Rea
                       | ListFooterComponent _ -> true
                       | ListHeaderComponent _ -> true
                       | _ -> false)
-                      props
+                      (unbox<FlatListProperties<'a> list> props)
 
     createElementWithObjProps(
       RN.FlatList,

@@ -40,6 +40,7 @@ module CombinedFilter =
     | Achromatomaly
     | RoundAsCircle
     | IterativeBoxBlur
+    | LightingColorFilter
     | CIBoxBlur
     | CIDiscBlur
     | CIGaussianBlur
@@ -155,6 +156,11 @@ module CombinedFilter =
       Filter.init
         [ Filter.BlurRadius, CFI.initScalar 1. 50.
           Filter.Iterations, CFI.initScalar 1. 5. ]
+
+    | LightingColorFilter ->
+      Filter.init
+        [ Filter.Mul, CFI.initColor
+          Filter.Add, CFI.initColor ]
 
     | CIBoxBlur ->
       Filter.init
@@ -423,6 +429,16 @@ module CombinedFilter =
            Some (IterativeBoxBlurProps.BlurRadius (input.Convert input.Value))
          | Filter.Iterations, CFI.Scalar input ->
            Some (IterativeBoxBlurProps.Iterations (input.Convert input.Value))
+         | _ -> None)
+
+    | LightingColorFilter ->
+      Filter.view
+        RNF.LightingColorFilter
+        (function
+         | Filter.Mul, CFI.Color input ->
+           Some (LightingColorFilterProps.Mul input.Value)
+         | Filter.Add, CFI.Color input ->
+           Some (LightingColorFilterProps.Add input.Value)
          | _ -> None)
 
     | CIBoxBlur ->
@@ -716,6 +732,7 @@ module CombinedFilter =
     | Achromatomaly -> Filter.controls (name Achromatomaly)
     | RoundAsCircle -> Filter.controls (name RoundAsCircle)
     | IterativeBoxBlur -> Filter.controls (name IterativeBoxBlur)
+    | LightingColorFilter -> Filter.controls (name LightingColorFilter)
     | CIBoxBlur -> Filter.controls (name CIBoxBlur)
     | CIDiscBlur -> Filter.controls (name CIDiscBlur)
     | CIGaussianBlur -> Filter.controls (name CIGaussianBlur)
@@ -782,36 +799,13 @@ module CombinedFilter =
     Array.concat
       [ availableCommonFilters
         [| RoundAsCircle
-           IterativeBoxBlur |] ]
+           IterativeBoxBlur
+           LightingColorFilter |] ]
 
   let private availableIosFilters =
     Array.concat
       [ availableCommonFilters
-        [| Normal
-           Saturate
-           HueRotate
-           LuminanceToAlpha
-           Invert
-           Grayscale
-           Sepia
-           Nightvision
-           Warm
-           Cool
-           Brightness
-           Exposure
-           Contrast
-           Temperature
-           Tint
-           Threshold
-           Protanomaly
-           Deuteranomaly
-           Tritanomaly
-           Protanopia
-           Deuteranopia
-           Tritanopia
-           Achromatopsia
-           Achromatomaly
-           CIBoxBlur
+        [| CIBoxBlur
            CIDiscBlur
            CIGaussianBlur
            CIMedianFilter

@@ -1552,6 +1552,10 @@ module ReactNative =
         abstract keyboardDismissMode: string option with get, set
         abstract keyboardShouldPersistTaps: bool option with get, set
         abstract onScroll: (obj -> unit) option with get, set
+        abstract onScrollBeginDrag: (obj -> unit) option with get, set
+        abstract onScrollEndDrag: (obj -> unit) option with get, set
+        abstract onMomentumScrollBegin: (obj -> unit) option with get, set
+        abstract onMomentumScrollEnd: (obj -> unit) option with get, set
         abstract pagingEnabled: bool option with get, set
         abstract removeClippedSubviews: bool option with get, set
         abstract showsHorizontalScrollIndicator: bool option with get, set

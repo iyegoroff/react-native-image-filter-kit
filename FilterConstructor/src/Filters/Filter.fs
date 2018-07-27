@@ -35,6 +35,8 @@ module Filter =
     | Value
     | BlurRadius
     | Iterations
+    | Mul
+    | Add
     | ResizeOutput
 
   type Model = (Input * CombinedFilterInput.Model) list
