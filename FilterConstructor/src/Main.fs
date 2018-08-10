@@ -4,9 +4,8 @@ open Elmish
 open Elmish.React
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
-open SelectModal
-open Select
 open Fable.Import
+
 module RN = Fable.Helpers.ReactNative
 module R = Fable.Helpers.React
 module RNP = Fable.Import.ReactNativePortal
@@ -24,13 +23,13 @@ module Main =
 
   type Message =
     | AddFilteredImage
-    | ChangeAllImages
-    | FilteredImageMessage of Id * FilteredImage.Message
+    | SelectDefaultImage
     | ImageSelectModalMessage of ImageSelectModal.Message
+    | FilteredImageMessage of Id * FilteredImage.Message
     | ContainerScrolled
 
-
   let init () = 
+    // Utils.enableExperimentalLayoutAnimationOnAndroid ()
     { FilteredImages = [||]
       DefaultImageSelectModalIsVisible = false
       DefaultImage = Image.defaultImage
@@ -40,14 +39,32 @@ module Main =
   let update (message: Message) model =
     match message with
     | AddFilteredImage ->
-      { model with FilteredImages =
-                     Array.append
-                       [| (model.NextId, FilteredImage.init model.DefaultImage) |]
-                       model.FilteredImages
+      Utils.configureNextLayoutAnimation ()
+      let newImage = FilteredImage.init model.DefaultImage
+      { model with FilteredImages = Array.append [| (model.NextId, newImage) |] model.FilteredImages
                    NextId = model.NextId + 1 }, []
 
-    | ChangeAllImages ->
+    | SelectDefaultImage ->
       { model with DefaultImageSelectModalIsVisible = true }, []
+
+    | ImageSelectModalMessage msg ->
+      match msg with
+      | ImageSelectModal.ImageSelectionSucceed image ->
+        { model with DefaultImage = image },
+        model.FilteredImages
+        |> Array.map
+             (fun (id, _) ->
+                Cmd.map
+                  (fun sub -> FilteredImageMessage (id, sub))
+                  (Cmd.ofMsg (FilteredImage.SetImage image)))
+        |> Cmd.batch
+      | ImageSelectModal.ImageSelectionCancelled ->
+        model, []
+      | ImageSelectModal.ImageSelectionFailed message ->
+        Alert.alert ("Error", message, [])
+        model, []
+      | ImageSelectModal.Hide ->
+        { model with DefaultImageSelectModalIsVisible = false }, []
 
     | FilteredImageMessage (id, msg) ->
       match Array.tryFind (fun (i, _) -> i = id) model.FilteredImages with
@@ -55,6 +72,7 @@ module Main =
       | Some (_, image) ->
         match msg with
         | FilteredImage.Delete ->
+          Utils.configureNextLayoutAnimation ()
           { model with FilteredImages = Array.filter
                                           (fun (i, _) -> i <> id)
                                           model.FilteredImages }, []
@@ -64,16 +82,6 @@ module Main =
                                           (fun (i, m) -> i, if i = id then image' else m)
                                           model.FilteredImages },
           Cmd.map (fun sub -> FilteredImageMessage (id, sub)) cmd
-
-    | ImageSelectModalMessage msg ->
-      match msg with
-      | SelectMessage (ItemSelected image) ->
-        let filteredImages =
-          Array.map (fun (i, m) -> i, (FilteredImage.selectImage m image)) model.FilteredImages
-        { model with DefaultImage = image 
-                     FilteredImages = filteredImages }, []
-      | Hide ->
-        { model with DefaultImageSelectModalIsVisible = false }, []
 
     | ContainerScrolled ->
       model.FilteredImages
@@ -95,7 +103,10 @@ module Main =
   let private listContentStyle =
     FlatListProperties.ContentContainerStyle
       [ Padding (pct 1.5)
-        PaddingTop (dip 25.) ]
+        PaddingTop 
+          (Platform.select
+            [ Platform.Ios (dip 25.)
+              Platform.Android (dip 5.) ]) ]
 
   let private listStyle =
     FlatListProperties.Style
@@ -115,10 +126,13 @@ module Main =
         []
         [ RN.button
             [ ButtonProperties.Title "Change all images"
-              ButtonProperties.OnPress (fun () -> dispatch ChangeAllImages) ]
+              ButtonProperties.Color "green"
+              ButtonProperties.OnPress (fun () -> dispatch SelectDefaultImage) ]
             []
+          Spacer.view
           RN.button
             [ ButtonProperties.Title "Add filtered image"
+              ButtonProperties.Color "green"
               ButtonProperties.OnPress (fun () -> dispatch AddFilteredImage) ]
             [] ]
 

@@ -1,0 +1,975 @@
+08-05 03:42:35.686  5072  5072 D ReactNative: ReactInstanceManager.onJSBundleLoadedFromServer()
+08-05 03:42:35.686  5072  5072 D ReactNative: ReactInstanceManager.recreateReactContextInBackground()
+08-05 03:42:35.686  5072  5072 D ReactNative: ReactInstanceManager.runCreateReactContextOnNewThread()
+08-05 03:42:35.686  5072  5072 D ReactNative: ReactInstanceManager.tearDownReactContext()
+08-05 03:42:35.690  5072  5072 D ReactNative: CatalystInstanceImpl.destroy() start
+08-05 03:42:35.692  5072  9268 D ReactNative: ReactInstanceManager.createReactContext()
+08-05 03:42:35.803  5072  9270 D ReactNative: CatalystInstanceImpl.destroy() end
+08-05 03:42:35.808  5072  9268 D ReactNative: Initializing React Xplat Bridge.
+08-05 03:42:35.809  5072  9268 D ReactNative: Initializing React Xplat Bridge before initializeBridge
+08-05 03:42:35.815  5072  9268 D ReactNative: Initializing React Xplat Bridge after initializeBridge
+08-05 03:42:35.815  5072  9268 D ReactNative: CatalystInstanceImpl.runJSBundle()
+08-05 03:42:35.816  5072  9273 D ReactNative: ReactInstanceManager.setupReactContext()
+08-05 03:42:35.816  5072  9273 D ReactNative: CatalystInstanceImpl.initialize()
+08-05 03:42:35.816  5072  9273 D ReactNative: ReactInstanceManager.attachRootViewToInstance()
+08-05 03:42:37.546  5072  9272 W ReactNativeJS: { head: 
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:    { tag: 0,
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:      data: 
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:       [ { tag: 0 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 1 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 2 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 3 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 4 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 5 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 6 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 7 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 8 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 9 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 10 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 11 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 12 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 13 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 14 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 15 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 16 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 17 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 18 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 19 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 20 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 21 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 22 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 23 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 27 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 28 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 29 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 30 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 31 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 32 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 33 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 34 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 35 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 36 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 37 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 38 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 39 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 40 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 41 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 42 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 43 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 44 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 45 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 46 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 47 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 48 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 49 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 50 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 51 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 52 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 53 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 54 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 55 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 56 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 57 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 58 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 59 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 60 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         { tag: 61 } ] },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:   tail: 
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:    { head: 
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:       { tag: 1,
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:         data: 
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:          [ { tag: 0 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 1 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 2 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 3 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 4 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 5 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 6 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 7 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 8 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 9 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 10 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 11 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 12 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 13 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 14 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 15 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 16 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 17 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 18 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 19 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 20 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 21 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 22 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 23 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 24 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 25 },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:            { tag: 26 } ] },
+08-05 03:42:37.546  5072  9272 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:42:37.570  5072  9272 W ReactNativeJS: { head: { tag: 0, data: { [Function: curriedFn] curried: true } },
+08-05 03:42:37.570  5072  9272 W ReactNativeJS:   tail: 
+08-05 03:42:37.570  5072  9272 W ReactNativeJS:    { head: { tag: 1, data: { [Function: curriedFn] curried: true } },
+08-05 03:42:37.570  5072  9272 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:42:37.591  5072  9272 W ReactNativeJS: { head: { tag: 0, data: 25 },
+08-05 03:42:37.591  5072  9272 W ReactNativeJS:   tail: 
+08-05 03:42:37.591  5072  9272 W ReactNativeJS:    { head: { tag: 1, data: 5 },
+08-05 03:42:37.591  5072  9272 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:42:37.605  5072  9272 I ReactNativeJS: Running application "FilterConstructor" with appParams: {"rootTag":161}. __DEV__ === true, development-level warning are ON, performance optimizations are OFF
+08-05 03:42:37.648  5072  9272 W ReactNativeJS: { head: { tag: 0, data: 'slide' },
+08-05 03:42:37.648  5072  9272 W ReactNativeJS:   tail: 
+08-05 03:42:37.648  5072  9272 W ReactNativeJS:    { head: { tag: 1, data: 'fade' },
+08-05 03:42:37.648  5072  9272 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:42:37.659  5072  9272 W ReactNativeJS: { head: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:    { tag: 1,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:      data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:       [ { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:           data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:         { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:           data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:            { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:              data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:               { Name: 'React logo',
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                 Source: { uri: 'https://tinyurl.com/y8xs3ehd' } } } },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:         { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:           data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:            { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:              data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:               { Name: 'Triangle',
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                 Source: { uri: 'https://tinyurl.com/ycedtewy' } } } },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:         { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:           data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:            { tag: 1,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:              data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:               { Name: 'Random',
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                 Source: { uri: 'https://picsum.photos/320.000000?image=410.000000&t=1533429757317.000000' } } } },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:         { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:           data: { tag: 2, data: { Name: 'Pick image', Source: null } } } ] },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:   tail: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:    { head: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:       { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:         data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:          [ { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:              data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:            { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:              data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:               { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                 data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                  { Name: 'React logo',
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                    Source: { uri: 'https://tinyurl.com/y8xs3ehd' } } } },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:            { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:              data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:               { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                 data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                  { Name: 'Triangle',
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                    Source: { uri: 'https://tinyurl.com/ycedtewy' } } } },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:            { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:              data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:               { tag: 1,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                 data: 
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                  { Name: 'Random',
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:                    Source: { uri: 'https://picsum.photos/320.000000?image=410.000000&t=1533429757317.000000' } } } },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:            { tag: 0,
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:              data: { tag: 2, data: { Name: 'Pick image', Source: null } } },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:            { tag: 1, data: undefined } ] },
+08-05 03:42:37.659  5072  9272 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:42:37.665  5072  9272 W ReactNativeJS: { head: { tag: 20, data: [Function] },
+08-05 03:42:37.665  5072  9272 W ReactNativeJS:   tail: 
+08-05 03:42:37.665  5072  9272 W ReactNativeJS:    { head: 
+08-05 03:42:37.665  5072  9272 W ReactNativeJS:       { tag: 6,
+08-05 03:42:37.665  5072  9272 W ReactNativeJS:         data: 
+08-05 03:42:37.665  5072  9272 W ReactNativeJS:          { tag: 0,
+08-05 03:42:37.665  5072  9272 W ReactNativeJS:            data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } } },
+08-05 03:42:37.665  5072  9272 W ReactNativeJS:      tail: 
+08-05 03:42:37.665  5072  9272 W ReactNativeJS:       { head: { tag: 11, data: [Function] },
+08-05 03:42:37.665  5072  9272 W ReactNativeJS:         tail: { head: undefined, tail: undefined } } } }
+08-05 03:42:37.670  5072  9272 W ReactNativeJS: { head: { tag: 0, data: [Function: separator] },
+08-05 03:42:37.670  5072  9272 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:42:37.677  5072  9272 W ReactNativeJS: { head: 
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:    { tag: 5,
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:      data: 
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:       { head: { tag: 37, data: '1.5%' },
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:         tail: 
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:          { head: { tag: 44, data: 5 },
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } } },
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:   tail: 
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:    { head: 
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:       { tag: 22,
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:         data: 
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:          { head: { tag: 4, data: 'wheat' },
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } },
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:      tail: 
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:       { head: { tag: 20, data: [Function] },
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:         tail: 
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:          { head: { tag: 11, data: [Function] },
+08-05 03:42:37.677  5072  9272 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } } } }
+08-05 03:42:37.681  5072  9272 W ReactNativeJS: { head: { tag: 37, data: '1.5%' },
+08-05 03:42:37.681  5072  9272 W ReactNativeJS:   tail: 
+08-05 03:42:37.681  5072  9272 W ReactNativeJS:    { head: { tag: 44, data: 5 },
+08-05 03:42:37.681  5072  9272 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:42:37.686  5072  9272 W ReactNativeJS: { head: { tag: 4, data: 'wheat' },
+08-05 03:42:37.686  5072  9272 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:42:37.689  5072  9272 W ReactNativeJS: { head: { tag: 0, data: [Function: separator] },
+08-05 03:42:37.689  5072  9272 W ReactNativeJS:   tail: 
+08-05 03:42:37.689  5072  9272 W ReactNativeJS:    { head: { tag: 3, data: [Function: listControls] },
+08-05 03:42:37.689  5072  9272 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:42:37.746  5072  9272 W ReactNativeJS: { head: 
+08-05 03:42:37.746  5072  9272 W ReactNativeJS:    { tag: 8,
+08-05 03:42:37.746  5072  9272 W ReactNativeJS:      data: 
+08-05 03:42:37.746  5072  9272 W ReactNativeJS:       { head: { data: 125 },
+08-05 03:42:37.746  5072  9272 W ReactNativeJS:         tail: { head: undefined, tail: undefined } } },
+08-05 03:42:37.746  5072  9272 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:42:37.749  5072  9272 W ReactNativeJS: { head: { data: 125 },
+08-05 03:42:37.749  5072  9272 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:42:37.753  5072  9272 W ReactNativeJS: { head: 
+08-05 03:42:37.753  5072  9272 W ReactNativeJS:    { tag: 8,
+08-05 03:42:37.753  5072  9272 W ReactNativeJS:      data: 
+08-05 03:42:37.753  5072  9272 W ReactNativeJS:       { head: { data: 125 },
+08-05 03:42:37.753  5072  9272 W ReactNativeJS:         tail: { head: undefined, tail: undefined } } },
+08-05 03:42:37.753  5072  9272 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:42:37.756  5072  9272 W ReactNativeJS: { head: { data: 125 },
+08-05 03:42:37.756  5072  9272 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:42:37.825  5072  9272 E ReactNativeJS: Error: Cannot infer key and value of [object Object]
+08-05 03:42:37.825  5072  9272 E ReactNativeJS: 
+08-05 03:42:37.825  5072  9272 E ReactNativeJS: This error is located at:
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in listControls (at VirtualizedList.js:753)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in VirtualizedCellWrapper (at VirtualizedList.js:756)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in RCTScrollView (at ScrollView.js:1070)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in ScrollView (at VirtualizedList.js:1045)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in VirtualizedList (at FlatList.js:654)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in FlatList (created by App)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in PortalProvider (created by App)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in App (at renderApplication.js:32)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:42:37.825  5072  9272 E ReactNativeJS:     in AppContainer (at renderApplication.js:31)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS: Error: Cannot infer key and value of [object Object]
+08-05 03:42:37.866  5072  9272 E ReactNativeJS: 
+08-05 03:42:37.866  5072  9272 E ReactNativeJS: This error is located at:
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in listControls (at VirtualizedList.js:753)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in VirtualizedCellWrapper (at VirtualizedList.js:756)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in RCTScrollView (at ScrollView.js:1070)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in ScrollView (at VirtualizedList.js:1045)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in VirtualizedList (at FlatList.js:654)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in FlatList (created by App)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in PortalProvider (created by App)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in App (at renderApplication.js:32)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:42:37.866  5072  9272 E ReactNativeJS:     in AppContainer (at renderApplication.js:31)
+08-05 03:44:16.707  5072  5072 D ReactNative: ReactInstanceManager.onJSBundleLoadedFromServer()
+08-05 03:44:16.707  5072  5072 D ReactNative: ReactInstanceManager.recreateReactContextInBackground()
+08-05 03:44:16.707  5072  5072 D ReactNative: ReactInstanceManager.runCreateReactContextOnNewThread()
+08-05 03:44:16.707  5072  5072 D ReactNative: ReactInstanceManager.tearDownReactContext()
+08-05 03:44:16.708  5072  5072 D ReactNative: CatalystInstanceImpl.destroy() start
+08-05 03:44:16.710  5072  9448 D ReactNative: ReactInstanceManager.createReactContext()
+08-05 03:44:16.804  5072  9450 D ReactNative: CatalystInstanceImpl.destroy() end
+08-05 03:44:16.809  5072  9448 D ReactNative: Initializing React Xplat Bridge.
+08-05 03:44:16.811  5072  9448 D ReactNative: Initializing React Xplat Bridge before initializeBridge
+08-05 03:44:16.816  5072  9448 D ReactNative: Initializing React Xplat Bridge after initializeBridge
+08-05 03:44:16.817  5072  9448 D ReactNative: CatalystInstanceImpl.runJSBundle()
+08-05 03:44:16.817  5072  9453 D ReactNative: ReactInstanceManager.setupReactContext()
+08-05 03:44:16.817  5072  9453 D ReactNative: CatalystInstanceImpl.initialize()
+08-05 03:44:16.817  5072  9453 D ReactNative: ReactInstanceManager.attachRootViewToInstance()
+08-05 03:44:18.550  5072  9452 W ReactNativeJS: { head: 
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:    { tag: 0,
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:      data: 
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:       [ { tag: 0 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 1 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 2 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 3 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 4 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 5 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 6 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 7 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 8 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 9 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 10 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 11 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 12 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 13 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 14 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 15 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 16 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 17 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 18 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 19 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 20 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 21 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 22 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 23 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 27 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 28 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 29 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 30 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 31 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 32 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 33 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 34 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 35 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 36 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 37 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 38 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 39 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 40 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 41 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 42 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 43 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 44 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 45 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 46 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 47 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 48 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 49 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 50 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 51 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 52 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 53 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 54 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 55 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 56 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 57 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 58 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 59 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 60 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         { tag: 61 } ] },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:   tail: 
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:    { head: 
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:       { tag: 1,
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:         data: 
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:          [ { tag: 0 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 1 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 2 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 3 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 4 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 5 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 6 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 7 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 8 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 9 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 10 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 11 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 12 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 13 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 14 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 15 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 16 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 17 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 18 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 19 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 20 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 21 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 22 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 23 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 24 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 25 },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:            { tag: 26 } ] },
+08-05 03:44:18.550  5072  9452 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:18.574  5072  9452 W ReactNativeJS: { head: { tag: 0, data: { [Function: curriedFn] curried: true } },
+08-05 03:44:18.574  5072  9452 W ReactNativeJS:   tail: 
+08-05 03:44:18.574  5072  9452 W ReactNativeJS:    { head: { tag: 1, data: { [Function: curriedFn] curried: true } },
+08-05 03:44:18.574  5072  9452 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:18.595  5072  9452 W ReactNativeJS: { head: 
+08-05 03:44:18.595  5072  9452 W ReactNativeJS:    { tag: 8,
+08-05 03:44:18.595  5072  9452 W ReactNativeJS:      data: 
+08-05 03:44:18.595  5072  9452 W ReactNativeJS:       { head: { tag: 20, data: 5 },
+08-05 03:44:18.595  5072  9452 W ReactNativeJS:         tail: { head: undefined, tail: undefined } } },
+08-05 03:44:18.595  5072  9452 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:18.598  5072  9452 W ReactNativeJS: { head: { tag: 20, data: 5 },
+08-05 03:44:18.598  5072  9452 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:18.605  5072  9452 W ReactNativeJS: { head: { tag: 0, data: 25 },
+08-05 03:44:18.605  5072  9452 W ReactNativeJS:   tail: 
+08-05 03:44:18.605  5072  9452 W ReactNativeJS:    { head: { tag: 1, data: 5 },
+08-05 03:44:18.605  5072  9452 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:18.620  5072  9452 I ReactNativeJS: Running application "FilterConstructor" with appParams: {"rootTag":171}. __DEV__ === true, development-level warning are ON, performance optimizations are OFF
+08-05 03:44:18.660  5072  9452 W ReactNativeJS: { head: { tag: 0, data: 'slide' },
+08-05 03:44:18.660  5072  9452 W ReactNativeJS:   tail: 
+08-05 03:44:18.660  5072  9452 W ReactNativeJS:    { head: { tag: 1, data: 'fade' },
+08-05 03:44:18.660  5072  9452 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:18.672  5072  9452 W ReactNativeJS: { head: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:    { tag: 1,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:      data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:       [ { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:           data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:         { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:           data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:            { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:              data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:               { Name: 'React logo',
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                 Source: { uri: 'https://tinyurl.com/y8xs3ehd' } } } },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:         { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:           data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:            { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:              data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:               { Name: 'Triangle',
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                 Source: { uri: 'https://tinyurl.com/ycedtewy' } } } },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:         { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:           data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:            { tag: 1,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:              data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:               { Name: 'Random',
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                 Source: { uri: 'https://picsum.photos/320.000000?image=726.000000&t=1533429858320.000000' } } } },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:         { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:           data: { tag: 2, data: { Name: 'Pick image', Source: null } } } ] },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:   tail: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:    { head: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:       { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:         data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:          [ { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:              data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:            { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:              data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:               { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                 data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                  { Name: 'React logo',
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                    Source: { uri: 'https://tinyurl.com/y8xs3ehd' } } } },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:            { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:              data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:               { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                 data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                  { Name: 'Triangle',
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                    Source: { uri: 'https://tinyurl.com/ycedtewy' } } } },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:            { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:              data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:               { tag: 1,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                 data: 
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                  { Name: 'Random',
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:                    Source: { uri: 'https://picsum.photos/320.000000?image=726.000000&t=1533429858320.000000' } } } },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:            { tag: 0,
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:              data: { tag: 2, data: { Name: 'Pick image', Source: null } } },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:            { tag: 1, data: undefined } ] },
+08-05 03:44:18.672  5072  9452 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:18.677  5072  9452 W ReactNativeJS: { head: { tag: 20, data: [Function] },
+08-05 03:44:18.677  5072  9452 W ReactNativeJS:   tail: 
+08-05 03:44:18.677  5072  9452 W ReactNativeJS:    { head: 
+08-05 03:44:18.677  5072  9452 W ReactNativeJS:       { tag: 6,
+08-05 03:44:18.677  5072  9452 W ReactNativeJS:         data: 
+08-05 03:44:18.677  5072  9452 W ReactNativeJS:          { tag: 0,
+08-05 03:44:18.677  5072  9452 W ReactNativeJS:            data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } } },
+08-05 03:44:18.677  5072  9452 W ReactNativeJS:      tail: 
+08-05 03:44:18.677  5072  9452 W ReactNativeJS:       { head: { tag: 11, data: [Function] },
+08-05 03:44:18.677  5072  9452 W ReactNativeJS:         tail: { head: undefined, tail: undefined } } } }
+08-05 03:44:18.683  5072  9452 W ReactNativeJS: { head: { tag: 0, data: [Function: separator] },
+08-05 03:44:18.683  5072  9452 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:18.691  5072  9452 W ReactNativeJS: { head: 
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:    { tag: 5,
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:      data: 
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:       { head: { tag: 37, data: '1.5%' },
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:         tail: 
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:          { head: { tag: 44, data: 5 },
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } } },
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:   tail: 
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:    { head: 
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:       { tag: 22,
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:         data: 
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:          { head: { tag: 4, data: 'wheat' },
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } },
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:      tail: 
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:       { head: { tag: 20, data: [Function] },
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:         tail: 
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:          { head: { tag: 11, data: [Function] },
+08-05 03:44:18.691  5072  9452 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } } } }
+08-05 03:44:18.694  5072  9452 W ReactNativeJS: { head: { tag: 37, data: '1.5%' },
+08-05 03:44:18.694  5072  9452 W ReactNativeJS:   tail: 
+08-05 03:44:18.694  5072  9452 W ReactNativeJS:    { head: { tag: 44, data: 5 },
+08-05 03:44:18.694  5072  9452 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:18.696  5072  9452 W ReactNativeJS: { head: { tag: 4, data: 'wheat' },
+08-05 03:44:18.696  5072  9452 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:18.700  5072  9452 W ReactNativeJS: { head: { tag: 0, data: [Function: separator] },
+08-05 03:44:18.700  5072  9452 W ReactNativeJS:   tail: 
+08-05 03:44:18.700  5072  9452 W ReactNativeJS:    { head: { tag: 3, data: [Function: listControls] },
+08-05 03:44:18.700  5072  9452 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:18.824  5072  9452 E ReactNativeJS: TypeError: Object is not a function (evaluating '(0, _Spacer.view)(125)')
+08-05 03:44:18.824  5072  9452 E ReactNativeJS: 
+08-05 03:44:18.824  5072  9452 E ReactNativeJS: This error is located at:
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in listControls (at VirtualizedList.js:753)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in VirtualizedCellWrapper (at VirtualizedList.js:756)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in RCTScrollView (at ScrollView.js:1070)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in ScrollView (at VirtualizedList.js:1045)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in VirtualizedList (at FlatList.js:654)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in FlatList (created by App)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in PortalProvider (created by App)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in App (at renderApplication.js:32)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:44:18.824  5072  9452 E ReactNativeJS:     in AppContainer (at renderApplication.js:31)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS: TypeError: Object is not a function (evaluating '(0, _Spacer.view)(125)')
+08-05 03:44:18.864  5072  9452 E ReactNativeJS: 
+08-05 03:44:18.864  5072  9452 E ReactNativeJS: This error is located at:
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in listControls (at VirtualizedList.js:753)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in VirtualizedCellWrapper (at VirtualizedList.js:756)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in RCTScrollView (at ScrollView.js:1070)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in ScrollView (at VirtualizedList.js:1045)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in VirtualizedList (at FlatList.js:654)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in FlatList (created by App)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in PortalProvider (created by App)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in App (at renderApplication.js:32)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in RCTView (at View.js:43)
+08-05 03:44:18.864  5072  9452 E ReactNativeJS:     in AppContainer (at renderApplication.js:31)
+08-05 03:44:25.060  5072  5072 D ReactNative: ReactInstanceManager.onJSBundleLoadedFromServer()
+08-05 03:44:25.061  5072  5072 D ReactNative: ReactInstanceManager.recreateReactContextInBackground()
+08-05 03:44:25.061  5072  5072 D ReactNative: ReactInstanceManager.runCreateReactContextOnNewThread()
+08-05 03:44:25.061  5072  5072 D ReactNative: ReactInstanceManager.tearDownReactContext()
+08-05 03:44:25.062  5072  5072 D ReactNative: CatalystInstanceImpl.destroy() start
+08-05 03:44:25.064  5072  9472 D ReactNative: ReactInstanceManager.createReactContext()
+08-05 03:44:25.159  5072  9473 D ReactNative: CatalystInstanceImpl.destroy() end
+08-05 03:44:25.167  5072  9472 D ReactNative: Initializing React Xplat Bridge.
+08-05 03:44:25.169  5072  9472 D ReactNative: Initializing React Xplat Bridge before initializeBridge
+08-05 03:44:25.174  5072  9472 D ReactNative: Initializing React Xplat Bridge after initializeBridge
+08-05 03:44:25.174  5072  9472 D ReactNative: CatalystInstanceImpl.runJSBundle()
+08-05 03:44:25.175  5072  9475 D ReactNative: ReactInstanceManager.setupReactContext()
+08-05 03:44:25.175  5072  9475 D ReactNative: CatalystInstanceImpl.initialize()
+08-05 03:44:25.175  5072  9475 D ReactNative: ReactInstanceManager.attachRootViewToInstance()
+08-05 03:44:26.901  5072  9474 W ReactNativeJS: { head: 
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:    { tag: 0,
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:      data: 
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:       [ { tag: 0 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 1 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 2 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 3 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 4 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 5 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 6 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 7 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 8 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 9 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 10 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 11 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 12 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 13 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 14 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 15 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 16 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 17 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 18 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 19 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 20 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 21 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 22 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 23 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 27 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 28 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 29 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 30 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 31 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 32 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 33 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 34 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 35 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 36 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 37 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 38 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 39 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 40 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 41 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 42 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 43 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 44 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 45 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 46 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 47 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 48 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 49 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 50 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 51 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 52 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 53 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 54 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 55 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 56 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 57 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 58 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 59 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 60 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         { tag: 61 } ] },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:   tail: 
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:    { head: 
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:       { tag: 1,
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:         data: 
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:          [ { tag: 0 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 1 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 2 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 3 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 4 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 5 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 6 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 7 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 8 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 9 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 10 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 11 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 12 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 13 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 14 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 15 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 16 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 17 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 18 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 19 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 20 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 21 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 22 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 23 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 24 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 25 },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:            { tag: 26 } ] },
+08-05 03:44:26.901  5072  9474 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:26.925  5072  9474 W ReactNativeJS: { head: { tag: 0, data: { [Function: curriedFn] curried: true } },
+08-05 03:44:26.925  5072  9474 W ReactNativeJS:   tail: 
+08-05 03:44:26.925  5072  9474 W ReactNativeJS:    { head: { tag: 1, data: { [Function: curriedFn] curried: true } },
+08-05 03:44:26.925  5072  9474 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:26.946  5072  9474 W ReactNativeJS: { head: 
+08-05 03:44:26.946  5072  9474 W ReactNativeJS:    { tag: 8,
+08-05 03:44:26.946  5072  9474 W ReactNativeJS:      data: 
+08-05 03:44:26.946  5072  9474 W ReactNativeJS:       { head: { tag: 20, data: 5 },
+08-05 03:44:26.946  5072  9474 W ReactNativeJS:         tail: { head: undefined, tail: undefined } } },
+08-05 03:44:26.946  5072  9474 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:26.949  5072  9474 W ReactNativeJS: { head: { tag: 20, data: 5 },
+08-05 03:44:26.949  5072  9474 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:26.956  5072  9474 W ReactNativeJS: { head: { tag: 0, data: 25 },
+08-05 03:44:26.956  5072  9474 W ReactNativeJS:   tail: 
+08-05 03:44:26.956  5072  9474 W ReactNativeJS:    { head: { tag: 1, data: 5 },
+08-05 03:44:26.956  5072  9474 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:26.972  5072  9474 I ReactNativeJS: Running application "FilterConstructor" with appParams: {"rootTag":181}. __DEV__ === true, development-level warning are ON, performance optimizations are OFF
+08-05 03:44:27.012  5072  9474 W ReactNativeJS: { head: { tag: 0, data: 'slide' },
+08-05 03:44:27.012  5072  9474 W ReactNativeJS:   tail: 
+08-05 03:44:27.012  5072  9474 W ReactNativeJS:    { head: { tag: 1, data: 'fade' },
+08-05 03:44:27.012  5072  9474 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:27.024  5072  9474 W ReactNativeJS: { head: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:    { tag: 1,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:      data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:       [ { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:           data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:         { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:           data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:            { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:              data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:               { Name: 'React logo',
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                 Source: { uri: 'https://tinyurl.com/y8xs3ehd' } } } },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:         { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:           data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:            { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:              data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:               { Name: 'Triangle',
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                 Source: { uri: 'https://tinyurl.com/ycedtewy' } } } },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:         { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:           data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:            { tag: 1,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:              data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:               { Name: 'Random',
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                 Source: { uri: 'https://picsum.photos/320.000000?image=235.000000&t=1533429866672.000000' } } } },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:         { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:           data: { tag: 2, data: { Name: 'Pick image', Source: null } } } ] },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:   tail: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:    { head: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:       { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:         data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:          [ { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:              data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:            { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:              data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:               { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                 data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                  { Name: 'React logo',
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                    Source: { uri: 'https://tinyurl.com/y8xs3ehd' } } } },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:            { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:              data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:               { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                 data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                  { Name: 'Triangle',
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                    Source: { uri: 'https://tinyurl.com/ycedtewy' } } } },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:            { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:              data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:               { tag: 1,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                 data: 
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                  { Name: 'Random',
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:                    Source: { uri: 'https://picsum.photos/320.000000?image=235.000000&t=1533429866672.000000' } } } },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:            { tag: 0,
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:              data: { tag: 2, data: { Name: 'Pick image', Source: null } } },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:            { tag: 1, data: undefined } ] },
+08-05 03:44:27.024  5072  9474 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:27.030  5072  9474 W ReactNativeJS: { head: { tag: 20, data: [Function] },
+08-05 03:44:27.030  5072  9474 W ReactNativeJS:   tail: 
+08-05 03:44:27.030  5072  9474 W ReactNativeJS:    { head: 
+08-05 03:44:27.030  5072  9474 W ReactNativeJS:       { tag: 6,
+08-05 03:44:27.030  5072  9474 W ReactNativeJS:         data: 
+08-05 03:44:27.030  5072  9474 W ReactNativeJS:          { tag: 0,
+08-05 03:44:27.030  5072  9474 W ReactNativeJS:            data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } } },
+08-05 03:44:27.030  5072  9474 W ReactNativeJS:      tail: 
+08-05 03:44:27.030  5072  9474 W ReactNativeJS:       { head: { tag: 11, data: [Function] },
+08-05 03:44:27.030  5072  9474 W ReactNativeJS:         tail: { head: undefined, tail: undefined } } } }
+08-05 03:44:27.035  5072  9474 W ReactNativeJS: { head: { tag: 0, data: [Function: separator] },
+08-05 03:44:27.035  5072  9474 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:27.043  5072  9474 W ReactNativeJS: { head: 
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:    { tag: 5,
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:      data: 
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:       { head: { tag: 37, data: '1.5%' },
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:         tail: 
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:          { head: { tag: 44, data: 5 },
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } } },
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:   tail: 
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:    { head: 
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:       { tag: 22,
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:         data: 
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:          { head: { tag: 4, data: 'wheat' },
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } },
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:      tail: 
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:       { head: { tag: 20, data: [Function] },
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:         tail: 
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:          { head: { tag: 11, data: [Function] },
+08-05 03:44:27.043  5072  9474 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } } } }
+08-05 03:44:27.046  5072  9474 W ReactNativeJS: { head: { tag: 37, data: '1.5%' },
+08-05 03:44:27.046  5072  9474 W ReactNativeJS:   tail: 
+08-05 03:44:27.046  5072  9474 W ReactNativeJS:    { head: { tag: 44, data: 5 },
+08-05 03:44:27.046  5072  9474 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:27.048  5072  9474 W ReactNativeJS: { head: { tag: 4, data: 'wheat' },
+08-05 03:44:27.048  5072  9474 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:27.052  5072  9474 W ReactNativeJS: { head: { tag: 0, data: [Function: separator] },
+08-05 03:44:27.052  5072  9474 W ReactNativeJS:   tail: 
+08-05 03:44:27.052  5072  9474 W ReactNativeJS:    { head: { tag: 3, data: [Function: listControls] },
+08-05 03:44:27.052  5072  9474 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:33.416  5072  5072 D ReactNative: ReactInstanceManager.onJSBundleLoadedFromServer()
+08-05 03:44:33.416  5072  5072 D ReactNative: ReactInstanceManager.recreateReactContextInBackground()
+08-05 03:44:33.416  5072  5072 D ReactNative: ReactInstanceManager.runCreateReactContextOnNewThread()
+08-05 03:44:33.416  5072  5072 D ReactNative: ReactInstanceManager.tearDownReactContext()
+08-05 03:44:33.420  5072  5072 D ReactNative: CatalystInstanceImpl.destroy() start
+08-05 03:44:33.421  5072  9496 D ReactNative: ReactInstanceManager.createReactContext()
+08-05 03:44:33.521  5072  9496 D ReactNative: Initializing React Xplat Bridge.
+08-05 03:44:33.524  5072  9450 D ReactNative: CatalystInstanceImpl.destroy() end
+08-05 03:44:33.524  5072  9496 D ReactNative: Initializing React Xplat Bridge before initializeBridge
+08-05 03:44:33.530  5072  9496 D ReactNative: Initializing React Xplat Bridge after initializeBridge
+08-05 03:44:33.530  5072  9496 D ReactNative: CatalystInstanceImpl.runJSBundle()
+08-05 03:44:33.530  5072  9498 D ReactNative: ReactInstanceManager.setupReactContext()
+08-05 03:44:33.530  5072  9498 D ReactNative: CatalystInstanceImpl.initialize()
+08-05 03:44:33.531  5072  9498 D ReactNative: ReactInstanceManager.attachRootViewToInstance()
+08-05 03:44:35.255  5072  9497 W ReactNativeJS: { head: 
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:    { tag: 0,
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:      data: 
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:       [ { tag: 0 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 1 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 2 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 3 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 4 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 5 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 6 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 7 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 8 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 9 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 10 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 11 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 12 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 13 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 14 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 15 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 16 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 17 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 18 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 19 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 20 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 21 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 22 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 23 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 27 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 28 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 29 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 30 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 31 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 32 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 33 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 34 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 35 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 36 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 37 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 38 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 39 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 40 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 41 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 42 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 43 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 44 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 45 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 46 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 47 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 48 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 49 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 50 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 51 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 52 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 53 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 54 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 55 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 56 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 57 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 58 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 59 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 60 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         { tag: 61 } ] },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:   tail: 
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:    { head: 
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:       { tag: 1,
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:         data: 
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:          [ { tag: 0 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 1 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 2 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 3 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 4 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 5 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 6 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 7 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 8 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 9 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 10 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 11 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 12 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 13 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 14 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 15 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 16 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 17 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 18 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 19 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 20 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 21 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 22 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 23 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 24 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 25 },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:            { tag: 26 } ] },
+08-05 03:44:35.255  5072  9497 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:35.280  5072  9497 W ReactNativeJS: { head: { tag: 0, data: { [Function: curriedFn] curried: true } },
+08-05 03:44:35.280  5072  9497 W ReactNativeJS:   tail: 
+08-05 03:44:35.280  5072  9497 W ReactNativeJS:    { head: { tag: 1, data: { [Function: curriedFn] curried: true } },
+08-05 03:44:35.280  5072  9497 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:35.295  5072  9497 W ReactNativeJS: { head: 
+08-05 03:44:35.295  5072  9497 W ReactNativeJS:    { tag: 8,
+08-05 03:44:35.295  5072  9497 W ReactNativeJS:      data: 
+08-05 03:44:35.295  5072  9497 W ReactNativeJS:       { head: { tag: 20, data: 5 },
+08-05 03:44:35.295  5072  9497 W ReactNativeJS:         tail: { head: undefined, tail: undefined } } },
+08-05 03:44:35.295  5072  9497 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:35.298  5072  9497 W ReactNativeJS: { head: { tag: 20, data: 5 },
+08-05 03:44:35.298  5072  9497 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:35.313  5072  9497 W ReactNativeJS: { head: { tag: 0, data: 25 },
+08-05 03:44:35.313  5072  9497 W ReactNativeJS:   tail: 
+08-05 03:44:35.313  5072  9497 W ReactNativeJS:    { head: { tag: 1, data: 5 },
+08-05 03:44:35.313  5072  9497 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:35.329  5072  9497 I ReactNativeJS: Running application "FilterConstructor" with appParams: {"rootTag":191}. __DEV__ === true, development-level warning are ON, performance optimizations are OFF
+08-05 03:44:35.371  5072  9497 W ReactNativeJS: { head: { tag: 0, data: 'slide' },
+08-05 03:44:35.371  5072  9497 W ReactNativeJS:   tail: 
+08-05 03:44:35.371  5072  9497 W ReactNativeJS:    { head: { tag: 1, data: 'fade' },
+08-05 03:44:35.371  5072  9497 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:35.382  5072  9497 W ReactNativeJS: { head: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:    { tag: 1,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:      data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:       [ { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:           data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:         { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:           data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:            { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:              data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:               { Name: 'React logo',
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                 Source: { uri: 'https://tinyurl.com/y8xs3ehd' } } } },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:         { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:           data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:            { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:              data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:               { Name: 'Triangle',
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                 Source: { uri: 'https://tinyurl.com/ycedtewy' } } } },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:         { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:           data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:            { tag: 1,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:              data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:               { Name: 'Random',
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                 Source: { uri: 'https://picsum.photos/320.000000?image=535.000000&t=1533429875025.000000' } } } },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:         { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:           data: { tag: 2, data: { Name: 'Pick image', Source: null } } } ] },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:   tail: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:    { head: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:       { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:         data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:          [ { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:              data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:            { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:              data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:               { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                 data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                  { Name: 'React logo',
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                    Source: { uri: 'https://tinyurl.com/y8xs3ehd' } } } },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:            { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:              data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:               { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                 data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                  { Name: 'Triangle',
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                    Source: { uri: 'https://tinyurl.com/ycedtewy' } } } },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:            { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:              data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:               { tag: 1,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                 data: 
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                  { Name: 'Random',
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:                    Source: { uri: 'https://picsum.photos/320.000000?image=535.000000&t=1533429875025.000000' } } } },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:            { tag: 0,
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:              data: { tag: 2, data: { Name: 'Pick image', Source: null } } },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:            { tag: 1, data: undefined } ] },
+08-05 03:44:35.382  5072  9497 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:35.388  5072  9497 W ReactNativeJS: { head: { tag: 20, data: [Function] },
+08-05 03:44:35.388  5072  9497 W ReactNativeJS:   tail: 
+08-05 03:44:35.388  5072  9497 W ReactNativeJS:    { head: 
+08-05 03:44:35.388  5072  9497 W ReactNativeJS:       { tag: 6,
+08-05 03:44:35.388  5072  9497 W ReactNativeJS:         data: 
+08-05 03:44:35.388  5072  9497 W ReactNativeJS:          { tag: 0,
+08-05 03:44:35.388  5072  9497 W ReactNativeJS:            data: { tag: 0, data: { Name: 'Parrot', Source: 1 } } } },
+08-05 03:44:35.388  5072  9497 W ReactNativeJS:      tail: 
+08-05 03:44:35.388  5072  9497 W ReactNativeJS:       { head: { tag: 11, data: [Function] },
+08-05 03:44:35.388  5072  9497 W ReactNativeJS:         tail: { head: undefined, tail: undefined } } } }
+08-05 03:44:35.393  5072  9497 W ReactNativeJS: { head: { tag: 0, data: [Function: separator] },
+08-05 03:44:35.393  5072  9497 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:35.401  5072  9497 W ReactNativeJS: { head: 
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:    { tag: 5,
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:      data: 
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:       { head: { tag: 37, data: '1.5%' },
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:         tail: 
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:          { head: { tag: 44, data: 5 },
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } } },
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:   tail: 
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:    { head: 
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:       { tag: 22,
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:         data: 
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:          { head: { tag: 4, data: 'wheat' },
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } },
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:      tail: 
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:       { head: { tag: 20, data: [Function] },
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:         tail: 
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:          { head: { tag: 11, data: [Function] },
+08-05 03:44:35.401  5072  9497 W ReactNativeJS:            tail: { head: undefined, tail: undefined } } } } }
+08-05 03:44:35.404  5072  9497 W ReactNativeJS: { head: { tag: 37, data: '1.5%' },
+08-05 03:44:35.404  5072  9497 W ReactNativeJS:   tail: 
+08-05 03:44:35.404  5072  9497 W ReactNativeJS:    { head: { tag: 44, data: 5 },
+08-05 03:44:35.404  5072  9497 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:35.407  5072  9497 W ReactNativeJS: { head: { tag: 4, data: 'wheat' },
+08-05 03:44:35.407  5072  9497 W ReactNativeJS:   tail: { head: undefined, tail: undefined } }
+08-05 03:44:35.410  5072  9497 W ReactNativeJS: { head: { tag: 0, data: [Function: separator] },
+08-05 03:44:35.410  5072  9497 W ReactNativeJS:   tail: 
+08-05 03:44:35.410  5072  9497 W ReactNativeJS:    { head: { tag: 3, data: [Function: listControls] },
+08-05 03:44:35.410  5072  9497 W ReactNativeJS:      tail: { head: undefined, tail: undefined } } }
+08-05 03:44:45.615  5072  5072 D ReactNative: ReactInstanceManager.onJSBundleLoadedFromServer()
+08-05 03:44:45.615  5072  5072 D ReactNative: ReactInstanceManager.recreateReactContextInBackground()
+08-05 03:44:45.615  5072  5072 D ReactNative: ReactInstanceManager.runCreateReactContextOnNewThread()
+08-05 03:44:45.615  5072  5072 D ReactNative: ReactInstanceManager.tearDownReactContext()
+08-05 03:44:45.619  5072  5072 D ReactNative: CatalystInstanceImpl.destroy() start
+08-05 03:44:45.622  5072  9556 D ReactNative: ReactInstanceManager.createReactContext()
+08-05 03:44:45.722  5072  9450 D ReactNative: CatalystInstanceImpl.destroy() end
+08-05 03:44:45.725  5072  9556 D ReactNative: Initializing React Xplat Bridge.
+08-05 03:44:45.726  5072  9556 D ReactNative: Initializing React Xplat Bridge before initializeBridge
+08-05 03:44:45.732  5072  9556 D ReactNative: Initializing React Xplat Bridge after initializeBridge
+08-05 03:44:45.732  5072  9556 D ReactNative: CatalystInstanceImpl.runJSBundle()
+08-05 03:44:45.732  5072  9558 D ReactNative: ReactInstanceManager.setupReactContext()
+08-05 03:44:45.732  5072  9558 D ReactNative: CatalystInstanceImpl.initialize()
+08-05 03:44:45.733  5072  9558 D ReactNative: ReactInstanceManager.attachRootViewToInstance()
+08-05 03:44:47.508  5072  9557 I ReactNativeJS: Running application "FilterConstructor" with appParams: {"rootTag":201}. __DEV__ === true, development-level warning are ON, performance optimizations are OFF

@@ -45,10 +45,11 @@ module FilterColorInput =
 
   let private colorWheelStyle =
     RNC.Props.Style
-      [ Width (dip 235.)
-        Height (dip 200.)
-        AlignSelf Alignment.Center
-        Flex 1. ]
+      []
+      // [ Width (dip 235.)
+      //   Height (dip 200.)
+      //   AlignSelf Alignment.Center
+      //   Flex 1. ]
 
   let view (model: Model) (dispatch: Dispatch<Message>) : React.ReactElement =
     RN.view

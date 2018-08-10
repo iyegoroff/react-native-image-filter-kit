@@ -5,6 +5,7 @@ open Elmish.React
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 open Fable.Import
+
 module RN = Fable.Helpers.ReactNative
 
 
@@ -12,7 +13,6 @@ module Select =
 
   type Message<'a> =
     | ItemSelected of 'a
-
 
   let private itemStyle =
     ViewProperties.Style

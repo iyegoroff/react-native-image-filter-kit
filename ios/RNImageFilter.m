@@ -51,11 +51,9 @@
 
 @interface RNImageFilter ()
 
-@property (nonatomic, strong) UIImage *inputImage;
-@property (nonatomic, weak) RNImageFilter *inputFilter;
-@property (nonatomic, weak) RNImageFilter *outputFilter;
-@property (nonatomic, weak) RCTImageView *target;
 @property (nonatomic, strong) CIFilter* filter;
+@property (nonatomic, strong) UIImage *inputImage;
+@property (nonatomic, weak) RCTImageView *target;
 
 @end
 
@@ -66,16 +64,11 @@
   [self unlinkTarget];
 }
 
-+ (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options
+- (void)layoutSubviews
 {
-  // CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-  EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-  eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+  [super layoutSubviews];
   
-  CIContext *context = [CIContext contextWithEAGLContext:eaglContext options:options];
-  // NSLog(@"filter: context %f", CFAbsoluteTimeGetCurrent() - start);
-  
-  return context;
+  [self linkTarget];
 }
 
 - (CIContext *)context
@@ -108,47 +101,20 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(BVector);
 UPDATE_FILTER_VECTOR_4_PROPERTY(AVector);
 UPDATE_FILTER_VECTOR_4_PROPERTY(BiasVector);
 
-- (void)layoutSubviews
-{
-  [super layoutSubviews];
-  
-  [self linkFilterPipeline];
-}
-
-- (void)linkFilterPipeline
-{
-  [self linkTarget];
-  [self linkFilters:self];
-}
-
 - (void)linkTarget
 {
-  for (UIView *child in self.subviews) {
-    if ([child isKindOfClass:[RCTImageView class]] && !_target) {
+  UIView* parent = self;
+  
+  while (!_target && parent.subviews.count > 0 && ![parent.subviews[0] isKindOfClass:[RNImageFilter class]]) {
+    UIView* child = parent.subviews[0];
+    if ([child isKindOfClass:[RCTImageView class]]) {
       _target = (RCTImageView *)child;
       [child addObserver:self
               forKeyPath:@"image"
                  options:NSKeyValueObservingOptionNew
                  context:NULL];
-      break;
-    }
-  }
-}
-
-- (void)linkFilters:(UIView *)view
-{
-  for (UIView *child in view.subviews) {
-    if ([child isKindOfClass:[RNImageFilter class]]) {
-      RNImageFilter *filter = (RNImageFilter *)child;
-      
-      if (!_inputFilter) {
-        _inputFilter = filter;
-        [_inputFilter setOutputFilter:self];
-        
-        break;
-      }
-    } else if (![child isKindOfClass:[RCTImageView class]]) {
-      [self linkFilters:child];
+    } else {
+      parent = child;
     }
   }
 }
@@ -166,7 +132,8 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(BiasVector);
                         change:(NSDictionary *)change
                        context:(void *)context {
   if ([keyPath isEqualToString:@"image"]) {
-    [self runFilterPipeline:self];
+    _inputImage = [_target.image copy];
+    [self renderFilteredImage];
   }
 }
 
@@ -197,121 +164,70 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(BiasVector);
   
   for (NSString *paramName in _paramNames) {
     if ([changedProps containsObject:paramName] || [changedProps containsObject:@"resizeOutput"]) {
-      [self runFilterPipeline: _outputFilter];
+      [self renderFilteredImage];
       break;
     }
   }
 }
 
-- (void)runFilterPipeline:(RNImageFilter *)invalidationStartNode
-{
-  if (_filter) {
-    [invalidationStartNode invalidateInputImages];
-    RNImageFilter *filteringStartNode = [self setupFilteringStartNode];
-    
-    if (filteringStartNode) {
-      UIImage *filteredImage = [filteringStartNode buildFilteredImage: [self resizeMode]];
-      [self renderFilteredImage:filteredImage];
-    }
-  }
-}
-
-- (void)invalidateInputImages
-{
-  _inputImage = nil;
-  [_outputFilter invalidateInputImages];
-}
-
-- (RNImageFilter *)setupFilteringStartNode
-{
-  if (_target && _inputImage) {
-    return self;
-    
-  } else if (_target) {
-    _inputImage = [_target.image copy];
-    return self;
-    
-  } else if (_inputImage) {
-    return self;
-    
-  } else if (_inputFilter) {
-    return [_inputFilter setupFilteringStartNode];
-    
-  } else {
-    return nil;
-  }
-}
-
-- (UIImage *)buildFilteredImage:(RCTResizeMode)resizeMode
-{
-  UIImage *image = [self filteredImage:_inputImage filter:_filter resizeMode:resizeMode];
-  
-  if (_outputFilter) {
-    _outputFilter.inputImage = [image copy];
-    return [_outputFilter buildFilteredImage:resizeMode];
-
-  } else {
-    return image;
-  }
-}
-
-- (RCTResizeMode)resizeMode
+- (void)renderFilteredImage
 {
   if (_target) {
-    return _target.resizeMode;
-  }
-  
-  if (_inputFilter) {
-    return [_inputFilter resizeMode];
-  }
-  
-  return RCTResizeModeCover;
-}
-
-- (void)renderFilteredImage:(UIImage *)image
-{
-  if (_target) {
+    UIImage *image = [self filteredImage:_inputImage resizeMode:_target.resizeMode];
+    
     [_target removeObserver:self forKeyPath:@"image"];
     [_target setImage:image];
     [_target addObserver:self
               forKeyPath:@"image"
                  options:NSKeyValueObservingOptionNew
                  context:NULL];
-    
-  } else if (_inputFilter) {
-    [_inputFilter renderFilteredImage:image];
   }
 }
 
 - (UIImage *)filteredImage:(UIImage *)image
-                    filter:(CIFilter *)filter
                 resizeMode:(RCTResizeMode)resizeMode
 {
-  CIImage *tmp = [[CIImage alloc] initWithImage:image];
-  [filter setValue:tmp forKey:@"inputImage"];
+  if (image != nil) {
+    CIImage *tmp = [[CIImage alloc] initWithImage:image];
+    [_filter setValue:tmp forKey:@"inputImage"];
+    
+    CGSize imageSize = tmp.extent.size;
   
-  CGSize imageSize = tmp.extent.size;
+    [self updateInputCenter:_filter bounds:imageSize];
+    [self updateInputPoint0:_filter bounds:imageSize];
+    [self updateInputPoint1:_filter bounds:imageSize];
+    [self updateInputRadius:_filter bounds:imageSize];
+    [self updateInputWidth:_filter bounds:imageSize];
+    [self updateInputAmount:_filter bounds:imageSize];
   
-  [self updateInputCenter:filter bounds:imageSize];
-  [self updateInputPoint0:filter bounds:imageSize];
-  [self updateInputPoint1:filter bounds:imageSize];
-  [self updateInputRadius:filter bounds:imageSize];
-  [self updateInputWidth:filter bounds:imageSize];
-  [self updateInputAmount:filter bounds:imageSize];
+    CGRect outputRect = _resizeOutput ? _filter.outputImage.extent : tmp.extent;
+    
+    CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:outputRect];
+    
+    UIImage *filteredImage = [RNImageFilter resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
+                                                        srcSize:outputRect.size
+                                                       destSize:image.size
+                                                          scale:image.scale
+                                                     resizeMode:resizeMode];
+    
+    CGImageRelease(cgim);
+    
+    return filteredImage;
+  }
   
-  CGRect outputRect = _resizeOutput ? filter.outputImage.extent : tmp.extent;
+  return nil;
+}
+
++ (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options
+{
+  // CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+  EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+  eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
   
-  CGImageRef cgim = [[self context] createCGImage:filter.outputImage fromRect:outputRect];
+  CIContext *context = [CIContext contextWithEAGLContext:eaglContext options:options];
+  // NSLog(@"filter: context %f", CFAbsoluteTimeGetCurrent() - start);
   
-  UIImage *filteredImage = [RNImageFilter resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
-                                                      srcSize:outputRect.size
-                                                     destSize:image.size
-                                                        scale:image.scale
-                                                   resizeMode:resizeMode];
-  
-  CGImageRelease(cgim);
-  
-  return filteredImage;
+  return context;
 }
 
 + (UIImage *)resizeImageIfNeeded:(UIImage *)image

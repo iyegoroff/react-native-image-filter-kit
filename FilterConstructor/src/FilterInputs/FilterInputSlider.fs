@@ -6,6 +6,7 @@ open Fable.Helpers.ReactNative.Props
 open Fable.Import
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
+module RS = Fable.Import.ReactNativeSlider
 
 
 module FilterInputSlider =
@@ -26,15 +27,34 @@ module FilterInputSlider =
       [ FlexDirection FlexDirection.Row
         JustifyContent JustifyContent.SpaceBetween ]
 
+  let private thumbStyle =
+    RS.Props.ThumbStyle
+      [ ShadowColor "black"
+        ShadowRadius 1.
+        ShadowOpacity 1.
+        ShadowOffset
+          { width = 0.
+            height = 0. }
+        BackgroundColor "white"
+        Elevation 2. ]
+
   let view name suffix value min max (dispatch: Dispatch<Message>) =
     RN.view
       [ containerStyle ]
       [ RN.text [] (sprintf "%s %.2f" name value)
-        RN.slider
-          [ MaximumValue max
-            MinimumValue min
-            SliderProperties.Value value 
-            SliderProperties.OnSlidingComplete (ValueChanged >> dispatch) ]
+        (Platform.select
+          [ Platform.Android
+              (RN.slider
+                [ MaximumValue max
+                  MinimumValue min
+                  SliderProperties.OnValueChange (ValueChanged >> dispatch) ])
+            Platform.Ios
+              (RS.slider
+                [ thumbStyle
+                  RS.Props.MaximumValue max
+                  RS.Props.MinimumValue min
+                  RS.Props.MinimumTrackTintColor "#007aff"
+                  RS.Props.OnValueChange (ValueChanged >> dispatch) ]) ]) 
         RN.view
           [ rangeLegendStyle ]
           [ RN.text [] (sprintf "%.2f%s" min suffix)

@@ -132,7 +132,7 @@ module CombinedFilter =
 
     | Threshold ->
       Filter.init
-        [ Filter.Value, CFI.initScalar -10. 10. ]
+        [ Filter.Value, CFI.initScalar -100. 100. ]
 
     | Protanomaly -> Filter.init []
 

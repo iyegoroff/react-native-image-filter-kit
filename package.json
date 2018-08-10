@@ -25,8 +25,6 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "prop-types": "*",
-    "create-react-class": "*",
     "fbjs": "*"
   }
 }

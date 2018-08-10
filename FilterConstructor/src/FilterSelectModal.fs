@@ -1,9 +1,6 @@
 namespace FilterConstructor
 
 open Elmish
-open Filter
-open SelectModal
-open Select
 
 
 module FilterSelectModal =
