@@ -4,11 +4,11 @@ open Fable.Helpers.ReactNative
 open Fable.Import
 open Fable.Helpers
 open System
-open Fable.Helpers.ReactNativeImageFilterKit.Props
+open Fable.Import.ReactNativeImageFilterKit.Props
 
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
-module RNF = Fable.Helpers.ReactNativeImageFilterKit
+module RNF = Fable.Import.ReactNativeImageFilterKit
 module CFI = CombinedFilterInput
 
 module CombinedFilter =
@@ -73,6 +73,7 @@ module CombinedFilter =
     | CIBumpDistortionLinear
     | CICircleSplashDistortion
     | CICircularWrap
+    | CIVortexDistortion
     | CISharpenLuminance
     | CIUnsharpMask
     | CICrystallize
@@ -294,6 +295,13 @@ module CombinedFilter =
         [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
           Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100.
           Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 
+          Filter.ResizeOutput, CFI.initBoolean ]
+
+    | CIVortexDistortion ->
+      Filter.init
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100.
+          Filter.InputAngle, CFI.initScalar 0. 360. 
           Filter.ResizeOutput, CFI.initBoolean ]
 
     | CISharpenLuminance ->
@@ -676,6 +684,19 @@ module CombinedFilter =
          | ResizeOutput value -> Some (CICircularWrapProps.ResizeOutput value)
          | _ -> None)
          
+    | CIVortexDistortion ->
+      Filter.view
+        RNF.CIVortexDistortion
+        (function
+         | Filter.InputCenter, CFI.Point input ->
+           Some (CIVortexDistortionProps.InputCenter (input.Convert input.Value))
+         | Filter.InputRadius, CFI.Distance input ->
+           Some (CIVortexDistortionProps.InputRadius (input.Convert input.Value))
+         | Filter.InputAngle, CFI.Scalar input ->
+           Some (CIVortexDistortionProps.InputAngle (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIVortexDistortionProps.ResizeOutput value)
+         | _ -> None)
+         
     | CISharpenLuminance ->
       Filter.view
         RNF.CISharpenLuminance
@@ -765,6 +786,7 @@ module CombinedFilter =
     | CIBumpDistortionLinear -> Filter.controls (name CIBumpDistortionLinear)
     | CICircleSplashDistortion -> Filter.controls (name CICircleSplashDistortion)
     | CICircularWrap -> Filter.controls (name CICircularWrap)
+    | CIVortexDistortion -> Filter.controls (name CIVortexDistortion)
     | CISharpenLuminance -> Filter.controls (name CISharpenLuminance)
     | CIUnsharpMask -> Filter.controls (name CIUnsharpMask)
     | CICrystallize -> Filter.controls (name CICrystallize)
@@ -837,6 +859,7 @@ module CombinedFilter =
            CIBumpDistortionLinear
            CICircleSplashDistortion
            CICircularWrap
+           CIVortexDistortion
            CISharpenLuminance
            CIUnsharpMask
            CICrystallize |] ]

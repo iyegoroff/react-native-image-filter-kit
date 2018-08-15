@@ -1,10 +1,10 @@
 namespace FilterConstructor
 
 open Elmish
-open Fable.Helpers.ReactNativeImageFilterKit.Props
+open Fable.Import.ReactNativeImageFilterKit.Props
 
 module R = Fable.Helpers.React
-module RNF = Fable.Helpers.ReactNativeImageFilterKit
+module RNF = Fable.Import.ReactNativeImageFilterKit
 
 module FilterRGBAVectorInput =
 

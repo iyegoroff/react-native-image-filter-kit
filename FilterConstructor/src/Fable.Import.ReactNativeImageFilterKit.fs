@@ -1,724 +1,514 @@
-namespace Fable.Import
+module Fable.Import.ReactNativeImageFilterKit
 
+open Fable.Helpers.ReactNative
+open Fable.Helpers.React
+open Fable.Helpers.ReactNative.Props
 open Fable.Core
-open Fable.Import.ReactNative
+open Fable.Core.JsInterop
+open Fable.Import
 
-[<Erase>]
-module ReactNativeImageFilterKit =
 
-  type FilterProps =
-      inherit ViewProperties
+module Props =
 
-  and ResizingFilterProps =
-      inherit FilterProps
-      abstract resizeOutput: bool option with get, set
+  type IDistance =
+    interface end
 
-  and FilterPoint =
-      abstract x: string with get, set
-      abstract y: string with get, set
+  type IPoint =
+    interface end
 
-  and ColorMatrixProps =
-      inherit FilterProps
-      abstract matrix: ResizeArray<float> with get, set
+  type IRGBAVector =
+    interface end
 
-  and ColorMatrixStatic =
-      inherit React.ComponentClass<ColorMatrixProps>
+  type ColorMatrixProps =
+    | Style of IStyle list
+    | Matrix of ResizeArray<float>
 
-  and ColorMatrix =
-      ColorMatrixStatic
+  type NormalProps =
+    | Style of IStyle list
 
-  and NormalProps =
-      inherit FilterProps
+  type SaturateProps =
+    | Style of IStyle list
+    | Value of float
 
-  and NormalStatic =
-      inherit React.ComponentClass<NormalProps>
+  type HueRotateProps =
+    | Style of IStyle list
+    | Value of float
 
-  and Normal =
-      NormalStatic
+  type LuminanceToAlphaProps =
+    | Style of IStyle list
 
-  and SaturateProps =
-      inherit FilterProps
-      abstract value: float with get, set
+  type InvertProps =
+    | Style of IStyle list
 
-  and SaturateStatic =
-      inherit React.ComponentClass<SaturateProps>
+  type GrayscaleProps =
+    | Style of IStyle list
 
-  and Saturate =
-      SaturateStatic
+  type SepiaProps =
+    | Style of IStyle list
 
-  and HueRotateProps =
-      inherit FilterProps
-      abstract value: float with get, set
+  type NightvisionProps =
+    | Style of IStyle list
 
-  and HueRotateStatic =
-      inherit React.ComponentClass<HueRotateProps>
+  type WarmProps =
+    | Style of IStyle list
 
-  and HueRotate =
-      HueRotateStatic
+  type CoolProps =
+    | Style of IStyle list
 
-  and LuminanceToAlphaProps =
-      inherit FilterProps
+  type BrightnessProps =
+    | Style of IStyle list
+    | Value of float
 
-  and LuminanceToAlphaStatic =
-      inherit React.ComponentClass<LuminanceToAlphaProps>
+  type ExposureProps =
+    | Style of IStyle list
+    | Value of float
 
-  and LuminanceToAlpha =
-      LuminanceToAlphaStatic
+  type ContrastProps =
+    | Style of IStyle list
+    | Value of float
 
-  and InvertProps =
-      inherit FilterProps
+  type TemperatureProps =
+    | Style of IStyle list
+    | Value of float
 
-  and InvertStatic =
-      inherit React.ComponentClass<InvertProps>
+  type TintProps =
+    | Style of IStyle list
+    | Value of float
 
-  and Invert =
-      InvertStatic
+  type ThresholdProps =
+    | Style of IStyle list
+    | Value of float
 
-  and GrayscaleProps =
-      inherit FilterProps
+  type ProtanomalyProps =
+    | Style of IStyle list
 
-  and GrayscaleStatic =
-      inherit React.ComponentClass<GrayscaleProps>
+  type DeuteranomalyProps =
+    | Style of IStyle list
 
-  and Grayscale =
-      GrayscaleStatic
+  type TritanomalyProps =
+    | Style of IStyle list
 
-  and SepiaProps =
-      inherit FilterProps
+  type ProtanopiaProps =
+    | Style of IStyle list
 
-  and SepiaStatic =
-      inherit React.ComponentClass<SepiaProps>
+  type DeuteranopiaProps =
+    | Style of IStyle list
 
-  and Sepia =
-      SepiaStatic
+  type TritanopiaProps =
+    | Style of IStyle list
 
-  and NightvisionProps =
-      inherit FilterProps
+  type AchromatopsiaProps =
+    | Style of IStyle list
 
-  and NightvisionStatic =
-      inherit React.ComponentClass<NightvisionProps>
+  type AchromatomalyProps =
+    | Style of IStyle list
 
-  and Nightvision =
-      NightvisionStatic
+  type ColorMatrixColorFilterProps =
+    | Style of IStyle list
+    | Matrix of ResizeArray<float>
+
+  type IterativeBoxBlurProps =
+    | Style of IStyle list
+    | BlurRadius of float
+    | Iterations of float
+
+  type LightingColorFilterProps =
+    | Style of IStyle list
+    | Mul of string
+    | Add of string
+
+  type RoundAsCircleProps =
+    | Style of IStyle list
+
+  type CIBoxBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+
+  type CIGaussianBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+
+  type CIDiscBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+
+  type CIMedianFilterProps =
+    | Style of IStyle list
+
+  type CIMotionBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+    | InputAngle of float
+
+  type CINoiseReductionProps =
+    | Style of IStyle list
+    | InputNoiseLevel of float
+    | InputSharpness of float
+
+  type CIZoomBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of IPoint
+    | InputAmount of IDistance
+
+  type CIColorControlsProps =
+    | Style of IStyle list
+    | InputSaturation of float
+    | InputBrightness of float
+    | InputContrast of float
+
+  type CIColorMatrixProps =
+    | Style of IStyle list
+    | InputRVector of IRGBAVector
+    | InputGVector of IRGBAVector
+    | InputBVector of IRGBAVector
+    | InputAVector of IRGBAVector
+    | InputBiasVector of IRGBAVector
+
+  type CIHueAdjustProps =
+    | Style of IStyle list
+    | InputAngle of float
+
+  type CIColorClampProps =
+    | Style of IStyle list
+    | InputMinComponents of IRGBAVector
+    | InputMaxComponents of IRGBAVector
+
+  type CIMaskToAlphaProps =
+    | Style of IStyle list
+
+  type CIMaximumComponentProps =
+    | Style of IStyle list
+
+  type CIMinimumComponentProps =
+    | Style of IStyle list
+
+  type CIPhotoEffectChromeProps =
+    | Style of IStyle list
+
+  type CIPhotoEffectFadeProps =
+    | Style of IStyle list
+
+  type CIPhotoEffectInstantProps =
+    | Style of IStyle list
+
+  type CIPhotoEffectMonoProps =
+    | Style of IStyle list
+
+  type CIPhotoEffectNoirProps =
+    | Style of IStyle list
+
+  type CIPhotoEffectProcessProps =
+    | Style of IStyle list
+
+  type CIPhotoEffectTonalProps =
+    | Style of IStyle list
+
+  type CIPhotoEffectTransferProps =
+    | Style of IStyle list
+
+  type CIVignetteEffectProps =
+    | Style of IStyle list
+    | InputCenter of IPoint
+    | InputIntensity of float
+    | InputRadius of IDistance
+
+  type CIColorInvertProps =
+    | Style of IStyle list
+
+  type CIColorPosterizeProps =
+    | Style of IStyle list
+    | InputLevels of float
+
+  type CIVibranceProps =
+    | Style of IStyle list
+    | InputAmount of float
+
+  type CICircularScreenProps =
+    | Style of IStyle list
+    | InputCenter of IPoint
+    | InputSharpness of float
+    | InputWidth of IDistance
+
+  type CIDotScreenProps =
+    | Style of IStyle list
+    | InputCenter of IPoint
+    | InputAngle of float
+    | InputSharpness of float
+    | InputWidth of IDistance
+
+  type CIBumpDistortionProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of IPoint
+    | InputRadius of IDistance
+    | InputScale of float
+
+  type CIBumpDistortionLinearProps =
+    | Style of IStyle list
+    | InputCenter of IPoint
+    | InputRadius of IDistance
+    | InputScale of float
+    | InputAngle of float
 
-  and WarmProps =
-      inherit FilterProps
+  type CICircleSplashDistortionProps =
+    | Style of IStyle list
+    | InputCenter of IPoint
+    | InputRadius of IDistance
 
-  and WarmStatic =
-      inherit React.ComponentClass<WarmProps>
+  type CICircularWrapProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of IPoint
+    | InputRadius of IDistance
+    | InputAngle of float
 
-  and Warm =
-      WarmStatic
+  type CIVortexDistortionProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputCenter of IPoint
+    | InputRadius of IDistance
+    | InputAngle of float
 
-  and CoolProps =
-      inherit FilterProps
+  type CISharpenLuminanceProps =
+    | Style of IStyle list
+    | InputSharpness of float
 
-  and CoolStatic =
-      inherit React.ComponentClass<CoolProps>
+  type CIUnsharpMaskProps =
+    | Style of IStyle list
+    | InputRadius of IDistance
+    | InputIntensity of float
 
-  and Cool =
-      CoolStatic
+  type CICrystallizeProps =
+    | Style of IStyle list
+    | InputRadius of IDistance
+    | InputCenter of IPoint
 
-  and BrightnessProps =
-      inherit FilterProps
-      abstract value: float with get, set
+  type AndroidTestFilterProps =
+    | Style of IStyle list
 
-  and BrightnessStatic =
-      inherit React.ComponentClass<BrightnessProps>
 
-  and Brightness =
-      BrightnessStatic
+open Props
 
-  and ExposureProps =
-      inherit FilterProps
-      abstract value: float with get, set
+type Distance =
+  [<Emit("$0 + \"\"")>]
+  static member Dip (_: float): IDistance = jsNative
 
-  and ExposureStatic =
-      inherit React.ComponentClass<ExposureProps>
+  [<Emit("$0 + \"h\"")>]
+  static member HPct (_: float): IDistance = jsNative
 
-  and Exposure =
-      ExposureStatic
+  [<Emit("$0 + \"w\"")>]
+  static member WPct (_: float): IDistance = jsNative
 
-  and ContrastProps =
-      inherit FilterProps
-      abstract value: float with get, set
+  [<Emit("$0 + \"max\"")>]
+  static member MaxPct (_: float): IDistance = jsNative
 
-  and ContrastStatic =
-      inherit React.ComponentClass<ContrastProps>
+  [<Emit("$0 + \"min\"")>]
+  static member MinPct (_: float): IDistance = jsNative
 
-  and Contrast =
-      ContrastStatic
+[<Emit("({ x:$0, y:$1 })")>]
+let Point (_x: IDistance, _y: IDistance): IPoint = jsNative
 
-  and TemperatureProps =
-      inherit FilterProps
-      abstract value: float with get, set
+[<Emit("[$0, $1, $2, $3]")>]
+let RGBAVector (_r: float, _g: float, _b: float, _a: float): IRGBAVector = jsNative
 
-  and TemperatureStatic =
-      inherit React.ComponentClass<TemperatureProps>
+let inline private propsToObj (props: 'a list): obj = keyValueList CaseRules.LowerFirst props
 
-  and Temperature =
-      TemperatureStatic
+let inline ColorMatrix (props: ColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "ColorMatrix" "react-native-image-filter-kit" (propsToObj props) children
 
-  and TintProps =
-      inherit FilterProps
-      abstract value: float with get, set
+let inline Normal (props: NormalProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Normal" "react-native-image-filter-kit" (propsToObj props) children
 
-  and TintStatic =
-      inherit React.ComponentClass<TintProps>
+let inline Saturate (props: SaturateProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Saturate" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Tint =
-      TintStatic
+let inline HueRotate (props: HueRotateProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "HueRotate" "react-native-image-filter-kit" (propsToObj props) children
 
-  and ThresholdProps =
-      inherit FilterProps
-      abstract value: float with get, set
+let inline LuminanceToAlpha (props: LuminanceToAlphaProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "LuminanceToAlpha" "react-native-image-filter-kit" (propsToObj props) children
 
-  and ThresholdStatic =
-      inherit React.ComponentClass<ThresholdProps>
+let inline Invert (props: InvertProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Invert" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Threshold =
-      ThresholdStatic
+let inline Grayscale (props: GrayscaleProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Grayscale" "react-native-image-filter-kit" (propsToObj props) children
 
-  and ProtanomalyProps =
-      inherit FilterProps
+let inline Sepia (props: SepiaProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Sepia" "react-native-image-filter-kit" (propsToObj props) children
 
-  and ProtanomalyStatic =
-      inherit React.ComponentClass<ProtanomalyProps>
+let inline Nightvision (props: NightvisionProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Nightvision" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Protanomaly =
-      ProtanomalyStatic
+let inline Warm (props: WarmProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Warm" "react-native-image-filter-kit" (propsToObj props) children
 
-  and DeuteranomalyProps =
-      inherit FilterProps
+let inline Cool (props: CoolProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Cool" "react-native-image-filter-kit" (propsToObj props) children
 
-  and DeuteranomalyStatic =
-      inherit React.ComponentClass<DeuteranomalyProps>
+let inline Brightness (props: BrightnessProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Brightness" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Deuteranomaly =
-      DeuteranomalyStatic
+let inline Exposure (props: ExposureProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Exposure" "react-native-image-filter-kit" (propsToObj props) children
 
-  and TritanomalyProps =
-      inherit FilterProps
+let inline Contrast (props: ContrastProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Contrast" "react-native-image-filter-kit" (propsToObj props) children
 
-  and TritanomalyStatic =
-      inherit React.ComponentClass<TritanomalyProps>
+let inline Temperature (props: TemperatureProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Temperature" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Tritanomaly =
-      TritanomalyStatic
+let inline Tint (props: TintProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Tint" "react-native-image-filter-kit" (propsToObj props) children
 
-  and ProtanopiaProps =
-      inherit FilterProps
+let inline Threshold (props: ThresholdProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Threshold" "react-native-image-filter-kit" (propsToObj props) children
 
-  and ProtanopiaStatic =
-      inherit React.ComponentClass<ProtanopiaProps>
+let inline Protanomaly (props: ProtanomalyProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Protanomaly" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Protanopia =
-      ProtanopiaStatic
+let inline Deuteranomaly (props: DeuteranomalyProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Deuteranomaly" "react-native-image-filter-kit" (propsToObj props) children
 
-  and DeuteranopiaProps =
-      inherit FilterProps
+let inline Tritanomaly (props: TritanomalyProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Tritanomaly" "react-native-image-filter-kit" (propsToObj props) children
 
-  and DeuteranopiaStatic =
-      inherit React.ComponentClass<DeuteranopiaProps>
+let inline Protanopia (props: ProtanopiaProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Protanopia" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Deuteranopia =
-      DeuteranopiaStatic
+let inline Deuteranopia (props: DeuteranopiaProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Deuteranopia" "react-native-image-filter-kit" (propsToObj props) children
 
-  and TritanopiaProps =
-      inherit FilterProps
+let inline Tritanopia (props: TritanopiaProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Tritanopia" "react-native-image-filter-kit" (propsToObj props) children
 
-  and TritanopiaStatic =
-      inherit React.ComponentClass<TritanopiaProps>
+let inline Achromatopsia (props: AchromatopsiaProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Achromatopsia" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Tritanopia =
-      TritanopiaStatic
+let inline Achromatomaly (props: AchromatomalyProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Achromatomaly" "react-native-image-filter-kit" (propsToObj props) children
 
-  and AchromatopsiaProps =
-      inherit FilterProps
+let inline ColorMatrixColorFilter (props: ColorMatrixColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "ColorMatrixColorFilter" "react-native-image-filter-kit" (propsToObj props) children
 
-  and AchromatopsiaStatic =
-      inherit React.ComponentClass<AchromatopsiaProps>
+let inline IterativeBoxBlur (props: IterativeBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "IterativeBoxBlur" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Achromatopsia =
-      AchromatopsiaStatic
+let inline LightingColorFilter (props: LightingColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "LightingColorFilter" "react-native-image-filter-kit" (propsToObj props) children
 
-  and AchromatomalyProps =
-      inherit FilterProps
+let inline RoundAsCircle (props: RoundAsCircleProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "RoundAsCircle" "react-native-image-filter-kit" (propsToObj props) children
 
-  and AchromatomalyStatic =
-      inherit React.ComponentClass<AchromatomalyProps>
+let inline CIBoxBlur (props: CIBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIBoxBlur" "react-native-image-filter-kit" (propsToObj props) children
 
-  and Achromatomaly =
-      AchromatomalyStatic
+let inline CIGaussianBlur (props: CIGaussianBlurProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIGaussianBlur" "react-native-image-filter-kit" (propsToObj props) children
 
-  and ColorMatrixColorFilterProps =
-      inherit FilterProps
-      abstract matrix: ResizeArray<float> with get, set
+let inline CIDiscBlur (props: CIDiscBlurProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIDiscBlur" "react-native-image-filter-kit" (propsToObj props) children
 
-  and ColorMatrixColorFilterStatic =
-      inherit React.ComponentClass<ColorMatrixColorFilterProps>
+let inline CIMedianFilter (props: CIMedianFilterProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIMedianFilter" "react-native-image-filter-kit" (propsToObj props) children
 
-  and ColorMatrixColorFilter =
-      ColorMatrixColorFilterStatic
+let inline CIMotionBlur (props: CIMotionBlurProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIMotionBlur" "react-native-image-filter-kit" (propsToObj props) children
 
-  and RoundAsCircleProps =
-      inherit FilterProps
+let inline CINoiseReduction (props: CINoiseReductionProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CINoiseReduction" "react-native-image-filter-kit" (propsToObj props) children
 
-  and RoundAsCircleStatic =
-      inherit React.ComponentClass<RoundAsCircleProps>
+let inline CIZoomBlur (props: CIZoomBlurProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIZoomBlur" "react-native-image-filter-kit" (propsToObj props) children
 
-  and RoundAsCircle =
-      RoundAsCircleStatic
+let inline CIColorControls (props: CIColorControlsProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorControls" "react-native-image-filter-kit" (propsToObj props) children
 
-  and IterativeBoxBlurProps =
-      inherit FilterProps
-      abstract blurRadius: float option with get, set
-      abstract iterations: float option with get, set
+let inline CIColorMatrix (props: CIColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorMatrix" "react-native-image-filter-kit" (propsToObj props) children
 
-  and IterativeBoxBlurStatic =
-      inherit React.ComponentClass<IterativeBoxBlurProps>
+let inline CIHueAdjust (props: CIHueAdjustProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIHueAdjust" "react-native-image-filter-kit" (propsToObj props) children
 
-  and IterativeBoxBlur =
-      IterativeBoxBlurStatic
+let inline CIColorClamp (props: CIColorClampProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorClamp" "react-native-image-filter-kit" (propsToObj props) children
 
-  and LightingColorFilterProps =
-      inherit FilterProps
-      abstract mul: string option with get, set
-      abstract add: string option with get, set
+let inline CIMaskToAlpha (props: CIMaskToAlphaProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIMaskToAlpha" "react-native-image-filter-kit" (propsToObj props) children
 
-  and LightingColorFilterStatic =
-      inherit React.ComponentClass<LightingColorFilterProps>
+let inline CIMaximumComponent (props: CIMaximumComponentProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIMaximumComponent" "react-native-image-filter-kit" (propsToObj props) children
 
-  and LightingColorFilter =
-      LightingColorFilterStatic
+let inline CIMinimumComponent (props: CIMinimumComponentProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIMinimumComponent" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIBoxBlurProps =
-      inherit ResizingFilterProps
-      abstract inputRadius: string option with get, set
+let inline CIPhotoEffectChrome (props: CIPhotoEffectChromeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPhotoEffectChrome" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIBoxBlurStatic =
-      inherit React.ComponentClass<CIBoxBlurProps>
+let inline CIPhotoEffectFade (props: CIPhotoEffectFadeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPhotoEffectFade" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIBoxBlur =
-      CIBoxBlurStatic
+let inline CIPhotoEffectInstant (props: CIPhotoEffectInstantProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPhotoEffectInstant" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIGaussianBlurProps =
-      inherit ResizingFilterProps
-      abstract inputRadius: string option with get, set
+let inline CIPhotoEffectMono (props: CIPhotoEffectMonoProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPhotoEffectMono" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIGaussianBlurStatic =
-      inherit React.ComponentClass<CIGaussianBlurProps>
+let inline CIPhotoEffectNoir (props: CIPhotoEffectNoirProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPhotoEffectNoir" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIGaussianBlur =
-      CIGaussianBlurStatic
+let inline CIPhotoEffectProcess (props: CIPhotoEffectProcessProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPhotoEffectProcess" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIDiscBlurProps =
-      inherit ResizingFilterProps
-      abstract inputRadius: string option with get, set
+let inline CIPhotoEffectTonal (props: CIPhotoEffectTonalProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPhotoEffectTonal" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIDiscBlurStatic =
-      inherit React.ComponentClass<CIDiscBlurProps>
+let inline CIPhotoEffectTransfer (props: CIPhotoEffectTransferProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPhotoEffectTransfer" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIDiscBlur =
-      CIDiscBlurStatic
+let inline CIVignetteEffect (props: CIVignetteEffectProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIVignetteEffect" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIMedianFilterProps =
-      inherit FilterProps
+let inline CIColorInvert (props: CIColorInvertProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorInvert" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIMedianFilterStatic =
-      inherit React.ComponentClass<CIMedianFilterProps>
+let inline CIColorPosterize (props: CIColorPosterizeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorPosterize" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIMedianFilter =
-      CIMedianFilterStatic
+let inline CIVibrance (props: CIVibranceProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIVibrance" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIMotionBlurProps =
-      inherit ResizingFilterProps
-      abstract inputRadius: string option with get, set
-      abstract inputAngle: float option with get, set
+let inline CICircularScreen (props: CICircularScreenProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CICircularScreen" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIMotionBlurStatic =
-      inherit React.ComponentClass<CIMotionBlurProps>
+let inline CIDotScreen (props: CIDotScreenProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIDotScreen" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIMotionBlur =
-      CIMotionBlurStatic
+let inline CIBumpDistortion (props: CIBumpDistortionProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIBumpDistortion" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CINoiseReductionProps =
-      inherit FilterProps
-      abstract inputNoiseLevel: float option with get, set
-      abstract inputSharpness: float option with get, set
+let inline CIBumpDistortionLinear (props: CIBumpDistortionLinearProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIBumpDistortionLinear" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CINoiseReductionStatic =
-      inherit React.ComponentClass<CINoiseReductionProps>
+let inline CICircleSplashDistortion (props: CICircleSplashDistortionProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CICircleSplashDistortion" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CINoiseReduction =
-      CINoiseReductionStatic
+let inline CICircularWrap (props: CICircularWrapProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CICircularWrap" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIZoomBlurProps =
-      inherit ResizingFilterProps
-      abstract inputCenter: FilterPoint option with get, set
-      abstract inputAmount: float option with get, set
+let inline CIVortexDistortion (props: CIVortexDistortionProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIVortexDistortion" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIZoomBlurStatic =
-      inherit React.ComponentClass<CIZoomBlurProps>
+let inline CISharpenLuminance (props: CISharpenLuminanceProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CISharpenLuminance" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIZoomBlur =
-      CIZoomBlurStatic
+let inline CIUnsharpMask (props: CIUnsharpMaskProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIUnsharpMask" "react-native-image-filter-kit" (propsToObj props) children
 
-  and CIColorControlsProps =
-      inherit FilterProps
-      abstract inputSaturation: float option with get, set
-      abstract inputBrightness: float option with get, set
-      abstract inputContrast: float option with get, set
-
-  and CIColorControlsStatic =
-      inherit React.ComponentClass<CIColorControlsProps>
-
-  and CIColorControls =
-      CIColorControlsStatic
-
-  and CIColorMatrixProps =
-      inherit FilterProps
-      abstract inputRVector: ResizeArray<float> option with get, set
-      abstract inputGVector: ResizeArray<float> option with get, set
-      abstract inputBVector: ResizeArray<float> option with get, set
-      abstract inputAVector: ResizeArray<float> option with get, set
-      abstract inputBiasVector: ResizeArray<float> option with get, set
-
-  and CIColorMatrixStatic =
-      inherit React.ComponentClass<CIColorMatrixProps>
-
-  and CIColorMatrix =
-      CIColorMatrixStatic
-
-  and CIHueAdjustProps =
-      inherit FilterProps
-      abstract inputAngle: float option with get, set
-
-  and CIHueAdjustStatic =
-      inherit React.ComponentClass<CIHueAdjustProps>
-
-  and CIHueAdjust =
-      CIHueAdjustStatic
-
-  and CIColorClampProps =
-      inherit FilterProps
-      abstract inputMinComponents: ResizeArray<float> option with get, set
-      abstract inputMaxComponents: ResizeArray<float> option with get, set
-
-  and CIColorClampStatic =
-      inherit React.ComponentClass<CIColorClampProps>
-
-  and CIColorClamp =
-      CIColorClampStatic
-
-  and CIMaskToAlphaProps =
-      inherit FilterProps
-
-  and CIMaskToAlphaStatic =
-      inherit React.ComponentClass<CIMaskToAlphaProps>
-
-  and CIMaskToAlpha =
-      CIMaskToAlphaStatic
-
-  and CIMaximumComponentProps =
-      inherit FilterProps
-
-  and CIMaximumComponentStatic =
-      inherit React.ComponentClass<CIMaximumComponentProps>
-
-  and CIMaximumComponent =
-      CIMaximumComponentStatic
-
-  and CIMinimumComponentProps =
-      inherit FilterProps
-
-  and CIMinimumComponentStatic =
-      inherit React.ComponentClass<CIMinimumComponentProps>
-
-  and CIMinimumComponent =
-      CIMinimumComponentStatic
-
-  and CIPhotoEffectChromeProps =
-      inherit FilterProps
-
-  and CIPhotoEffectChromeStatic =
-      inherit React.ComponentClass<CIPhotoEffectChromeProps>
-
-  and CIPhotoEffectChrome =
-      CIPhotoEffectChromeStatic
-
-  and CIPhotoEffectFadeProps =
-      inherit FilterProps
-
-  and CIPhotoEffectFadeStatic =
-      inherit React.ComponentClass<CIPhotoEffectFadeProps>
-
-  and CIPhotoEffectFade =
-      CIPhotoEffectFadeStatic
-
-  and CIPhotoEffectInstantProps =
-      inherit FilterProps
-
-  and CIPhotoEffectInstantStatic =
-      inherit React.ComponentClass<CIPhotoEffectInstantProps>
-
-  and CIPhotoEffectInstant =
-      CIPhotoEffectInstantStatic
-
-  and CIPhotoEffectMonoProps =
-      inherit FilterProps
-
-  and CIPhotoEffectMonoStatic =
-      inherit React.ComponentClass<CIPhotoEffectMonoProps>
-
-  and CIPhotoEffectMono =
-      CIPhotoEffectMonoStatic
-
-  and CIPhotoEffectNoirProps =
-      inherit FilterProps
-
-  and CIPhotoEffectNoirStatic =
-      inherit React.ComponentClass<CIPhotoEffectNoirProps>
-
-  and CIPhotoEffectNoir =
-      CIPhotoEffectNoirStatic
-
-  and CIPhotoEffectProcessProps =
-      inherit FilterProps
-
-  and CIPhotoEffectProcessStatic =
-      inherit React.ComponentClass<CIPhotoEffectProcessProps>
-
-  and CIPhotoEffectProcess =
-      CIPhotoEffectProcessStatic
-
-  and CIPhotoEffectTonalProps =
-      inherit FilterProps
-
-  and CIPhotoEffectTonalStatic =
-      inherit React.ComponentClass<CIPhotoEffectTonalProps>
-
-  and CIPhotoEffectTonal =
-      CIPhotoEffectTonalStatic
-
-  and CIPhotoEffectTransferProps =
-      inherit FilterProps
-
-  and CIPhotoEffectTransferStatic =
-      inherit React.ComponentClass<CIPhotoEffectTransferProps>
-
-  and CIPhotoEffectTransfer =
-      CIPhotoEffectTransferStatic
-
-  and CIVignetteEffectProps =
-      inherit FilterProps
-      abstract inputCenter: FilterPoint option with get, set
-      abstract inputIntensity: float option with get, set
-      abstract inputRadius: string option with get, set
-
-  and CIVignetteEffectStatic =
-      inherit React.ComponentClass<CIVignetteEffectProps>
-
-  and CIVignetteEffect =
-      CIVignetteEffectStatic
-
-  and CIColorInvertProps =
-      inherit FilterProps
-
-  and CIColorInvertStatic =
-      inherit React.ComponentClass<CIColorInvertProps>
-
-  and CIColorInvert =
-      CIColorInvertStatic
-
-  and CIColorPosterizeProps =
-      inherit FilterProps
-      abstract inputLevels: float option with get, set
-
-  and CIColorPosterizeStatic =
-      inherit React.ComponentClass<CIColorPosterizeProps>
-
-  and CIColorPosterize =
-      CIColorPosterizeStatic
-
-  and CIVibranceProps =
-      inherit FilterProps
-      abstract inputAmount: float option with get, set
-
-  and CIVibranceStatic =
-      inherit React.ComponentClass<CIVibranceProps>
-
-  and CIVibrance =
-      CIVibranceStatic
-
-  and CICircularScreenProps =
-      inherit FilterProps
-      abstract inputCenter: FilterPoint option with get, set
-      abstract inputSharpness: float option with get, set
-      abstract inputWidth: string option with get, set
-
-  and CICircularScreenStatic =
-      inherit React.ComponentClass<CICircularScreenProps>
-
-  and CICircularScreen =
-      CICircularScreenStatic
-
-  and CIDotScreenProps =
-      inherit FilterProps
-      abstract inputCenter: FilterPoint option with get, set
-      abstract inputAngle: float option with get, set
-      abstract inputSharpness: float option with get, set
-      abstract inputWidth: string option with get, set
-
-  and CIDotScreenStatic =
-      inherit React.ComponentClass<CIDotScreenProps>
-
-  and CIDotScreen =
-      CIDotScreenStatic
-
-  and CIBumpDistortionProps =
-      inherit ResizingFilterProps
-      abstract inputCenter: FilterPoint option with get, set
-      abstract inputRadius: string option with get, set
-      abstract inputScale: float option with get, set
-
-  and CIBumpDistortionStatic =
-      inherit React.ComponentClass<CIBumpDistortionProps>
-
-  and CIBumpDistortion =
-      CIBumpDistortionStatic
-
-  and CIBumpDistortionLinearProps =
-      inherit FilterProps
-      abstract inputCenter: FilterPoint option with get, set
-      abstract inputRadius: string option with get, set
-      abstract inputScale: float option with get, set
-      abstract inputAngle: float option with get, set
-
-  and CIBumpDistortionLinearStatic =
-      inherit React.ComponentClass<CIBumpDistortionLinearProps>
-
-  and CIBumpDistortionLinear =
-      CIBumpDistortionLinearStatic
-
-  and CICircleSplashDistortionProps =
-      inherit FilterProps
-      abstract inputCenter: FilterPoint option with get, set
-      abstract inputRadius: string option with get, set
-
-  and CICircleSplashDistortionStatic =
-      inherit React.ComponentClass<CICircleSplashDistortionProps>
-
-  and CICircleSplashDistortion =
-      CICircleSplashDistortionStatic
-
-  and CICircularWrapProps =
-      inherit ResizingFilterProps
-      abstract inputCenter: FilterPoint option with get, set
-      abstract inputRadius: string option with get, set
-      abstract inputAngle: float option with get, set
-
-  and CICircularWrapStatic =
-      inherit React.ComponentClass<CICircularWrapProps>
-
-  and CICircularWrap =
-      CICircularWrapStatic
-
-  and CISharpenLuminanceProps =
-      inherit FilterProps
-      abstract inputSharpness: float option with get, set
-
-  and CISharpenLuminanceStatic =
-      inherit React.ComponentClass<CISharpenLuminanceProps>
-
-  and CISharpenLuminance =
-      CISharpenLuminanceStatic
-
-  and CIUnsharpMaskProps =
-      inherit FilterProps
-      abstract inputRadius: string option with get, set
-      abstract inputIntensity: float option with get, set
-
-  and CIUnsharpMaskStatic =
-      inherit React.ComponentClass<CIUnsharpMaskProps>
-
-  and CIUnsharpMask =
-      CIUnsharpMaskStatic
-
-  and CICrystallizeProps =
-      inherit FilterProps
-      abstract inputRadius: string option with get, set
-      abstract inputCenter: FilterPoint option with get, set
-
-  and CICrystallizeStatic =
-      inherit React.ComponentClass<CICrystallizeProps>
-
-  and CICrystallize =
-      CICrystallizeStatic
-
-
-  type Globals =
-      [<Import("ColorMatrix", "react-native-image-filter-kit")>] static member ColorMatrix with get(): ColorMatrixStatic = jsNative and set(v: ColorMatrixStatic): unit = jsNative
-      [<Import("Normal", "react-native-image-filter-kit")>] static member Normal with get(): NormalStatic = jsNative and set(v: NormalStatic): unit = jsNative
-      [<Import("Saturate", "react-native-image-filter-kit")>] static member Saturate with get(): SaturateStatic = jsNative and set(v: SaturateStatic): unit = jsNative
-      [<Import("HueRotate", "react-native-image-filter-kit")>] static member HueRotate with get(): HueRotateStatic = jsNative and set(v: HueRotateStatic): unit = jsNative
-      [<Import("LuminanceToAlpha", "react-native-image-filter-kit")>] static member LuminanceToAlpha with get(): LuminanceToAlphaStatic = jsNative and set(v: LuminanceToAlphaStatic): unit = jsNative
-      [<Import("Invert", "react-native-image-filter-kit")>] static member Invert with get(): InvertStatic = jsNative and set(v: InvertStatic): unit = jsNative
-      [<Import("Grayscale", "react-native-image-filter-kit")>] static member Grayscale with get(): GrayscaleStatic = jsNative and set(v: GrayscaleStatic): unit = jsNative
-      [<Import("Sepia", "react-native-image-filter-kit")>] static member Sepia with get(): SepiaStatic = jsNative and set(v: SepiaStatic): unit = jsNative
-      [<Import("Nightvision", "react-native-image-filter-kit")>] static member Nightvision with get(): NightvisionStatic = jsNative and set(v: NightvisionStatic): unit = jsNative
-      [<Import("Warm", "react-native-image-filter-kit")>] static member Warm with get(): WarmStatic = jsNative and set(v: WarmStatic): unit = jsNative
-      [<Import("Cool", "react-native-image-filter-kit")>] static member Cool with get(): CoolStatic = jsNative and set(v: CoolStatic): unit = jsNative
-      [<Import("Brightness", "react-native-image-filter-kit")>] static member Brightness with get(): BrightnessStatic = jsNative and set(v: BrightnessStatic): unit = jsNative
-      [<Import("Exposure", "react-native-image-filter-kit")>] static member Exposure with get(): ExposureStatic = jsNative and set(v: ExposureStatic): unit = jsNative
-      [<Import("Contrast", "react-native-image-filter-kit")>] static member Contrast with get(): ContrastStatic = jsNative and set(v: ContrastStatic): unit = jsNative
-      [<Import("Temperature", "react-native-image-filter-kit")>] static member Temperature with get(): TemperatureStatic = jsNative and set(v: TemperatureStatic): unit = jsNative
-      [<Import("Tint", "react-native-image-filter-kit")>] static member Tint with get(): TintStatic = jsNative and set(v: TintStatic): unit = jsNative
-      [<Import("Threshold", "react-native-image-filter-kit")>] static member Threshold with get(): ThresholdStatic = jsNative and set(v: ThresholdStatic): unit = jsNative
-      [<Import("Protanomaly", "react-native-image-filter-kit")>] static member Protanomaly with get(): ProtanomalyStatic = jsNative and set(v: ProtanomalyStatic): unit = jsNative
-      [<Import("Deuteranomaly", "react-native-image-filter-kit")>] static member Deuteranomaly with get(): DeuteranomalyStatic = jsNative and set(v: DeuteranomalyStatic): unit = jsNative
-      [<Import("Tritanomaly", "react-native-image-filter-kit")>] static member Tritanomaly with get(): TritanomalyStatic = jsNative and set(v: TritanomalyStatic): unit = jsNative
-      [<Import("Protanopia", "react-native-image-filter-kit")>] static member Protanopia with get(): ProtanopiaStatic = jsNative and set(v: ProtanopiaStatic): unit = jsNative
-      [<Import("Deuteranopia", "react-native-image-filter-kit")>] static member Deuteranopia with get(): DeuteranopiaStatic = jsNative and set(v: DeuteranopiaStatic): unit = jsNative
-      [<Import("Tritanopia", "react-native-image-filter-kit")>] static member Tritanopia with get(): TritanopiaStatic = jsNative and set(v: TritanopiaStatic): unit = jsNative
-      [<Import("Achromatopsia", "react-native-image-filter-kit")>] static member Achromatopsia with get(): AchromatopsiaStatic = jsNative and set(v: AchromatopsiaStatic): unit = jsNative
-      [<Import("Achromatomaly", "react-native-image-filter-kit")>] static member Achromatomaly with get(): AchromatomalyStatic = jsNative and set(v: AchromatomalyStatic): unit = jsNative
-      [<Import("ColorMatrixColorFilter", "react-native-image-filter-kit")>] static member ColorMatrixColorFilter with get(): ColorMatrixColorFilterStatic = jsNative and set(v: ColorMatrixColorFilterStatic): unit = jsNative
-      [<Import("RoundAsCircle", "react-native-image-filter-kit")>] static member RoundAsCircle with get(): RoundAsCircleStatic = jsNative and set(v: RoundAsCircleStatic): unit = jsNative
-      [<Import("IterativeBoxBlur", "react-native-image-filter-kit")>] static member IterativeBoxBlur with get(): IterativeBoxBlurStatic = jsNative and set(v: IterativeBoxBlurStatic): unit = jsNative
-      [<Import("LightingColorFilter", "react-native-image-filter-kit")>] static member LightingColorFilter with get(): LightingColorFilterStatic = jsNative and set(v: LightingColorFilterStatic): unit = jsNative
-      [<Import("CIBoxBlur", "react-native-image-filter-kit")>] static member CIBoxBlur with get(): CIBoxBlurStatic = jsNative and set(v: CIBoxBlurStatic): unit = jsNative
-      [<Import("CIGaussianBlur", "react-native-image-filter-kit")>] static member CIGaussianBlur with get(): CIGaussianBlurStatic = jsNative and set(v: CIGaussianBlurStatic): unit = jsNative
-      [<Import("CIDiscBlur", "react-native-image-filter-kit")>] static member CIDiscBlur with get(): CIDiscBlurStatic = jsNative and set(v: CIDiscBlurStatic): unit = jsNative
-      [<Import("CIMedianFilter", "react-native-image-filter-kit")>] static member CIMedianFilter with get(): CIMedianFilterStatic = jsNative and set(v: CIMedianFilterStatic): unit = jsNative
-      [<Import("CIMotionBlur", "react-native-image-filter-kit")>] static member CIMotionBlur with get(): CIMotionBlurStatic = jsNative and set(v: CIMotionBlurStatic): unit = jsNative
-      [<Import("CINoiseReduction", "react-native-image-filter-kit")>] static member CINoiseReduction with get(): CINoiseReductionStatic = jsNative and set(v: CINoiseReductionStatic): unit = jsNative
-      [<Import("CIZoomBlur", "react-native-image-filter-kit")>] static member CIZoomBlur with get(): CIZoomBlurStatic = jsNative and set(v: CIZoomBlurStatic): unit = jsNative
-      [<Import("CIColorControls", "react-native-image-filter-kit")>] static member CIColorControls with get(): CIColorControlsStatic = jsNative and set(v: CIColorControlsStatic): unit = jsNative
-      [<Import("CIColorMatrix", "react-native-image-filter-kit")>] static member CIColorMatrix with get(): CIColorMatrixStatic = jsNative and set(v: CIColorMatrixStatic): unit = jsNative
-      [<Import("CIHueAdjust", "react-native-image-filter-kit")>] static member CIHueAdjust with get(): CIHueAdjustStatic = jsNative and set(v: CIHueAdjustStatic): unit = jsNative
-      [<Import("CIColorClamp", "react-native-image-filter-kit")>] static member CIColorClamp with get(): CIColorClampStatic = jsNative and set(v: CIColorClampStatic): unit = jsNative
-      [<Import("CIMaskToAlpha", "react-native-image-filter-kit")>] static member CIMaskToAlpha with get(): CIMaskToAlphaStatic = jsNative and set(v: CIMaskToAlphaStatic): unit = jsNative
-      [<Import("CIMaximumComponent", "react-native-image-filter-kit")>] static member CIMaximumComponent with get(): CIMaximumComponentStatic = jsNative and set(v: CIMaximumComponentStatic): unit = jsNative
-      [<Import("CIMinimumComponent", "react-native-image-filter-kit")>] static member CIMinimumComponent with get(): CIMinimumComponentStatic = jsNative and set(v: CIMinimumComponentStatic): unit = jsNative
-      [<Import("CIPhotoEffectChrome", "react-native-image-filter-kit")>] static member CIPhotoEffectChrome with get(): CIPhotoEffectChromeStatic = jsNative and set(v: CIPhotoEffectChromeStatic): unit = jsNative
-      [<Import("CIPhotoEffectFade", "react-native-image-filter-kit")>] static member CIPhotoEffectFade with get(): CIPhotoEffectFadeStatic = jsNative and set(v: CIPhotoEffectFadeStatic): unit = jsNative
-      [<Import("CIPhotoEffectInstant", "react-native-image-filter-kit")>] static member CIPhotoEffectInstant with get(): CIPhotoEffectInstantStatic = jsNative and set(v: CIPhotoEffectInstantStatic): unit = jsNative
-      [<Import("CIPhotoEffectMono", "react-native-image-filter-kit")>] static member CIPhotoEffectMono with get(): CIPhotoEffectMonoStatic = jsNative and set(v: CIPhotoEffectMonoStatic): unit = jsNative
-      [<Import("CIPhotoEffectNoir", "react-native-image-filter-kit")>] static member CIPhotoEffectNoir with get(): CIPhotoEffectNoirStatic = jsNative and set(v: CIPhotoEffectNoirStatic): unit = jsNative
-      [<Import("CIPhotoEffectProcess", "react-native-image-filter-kit")>] static member CIPhotoEffectProcess with get(): CIPhotoEffectProcessStatic = jsNative and set(v: CIPhotoEffectProcessStatic): unit = jsNative
-      [<Import("CIPhotoEffectTonal", "react-native-image-filter-kit")>] static member CIPhotoEffectTonal with get(): CIPhotoEffectTonalStatic = jsNative and set(v: CIPhotoEffectTonalStatic): unit = jsNative
-      [<Import("CIPhotoEffectTransfer", "react-native-image-filter-kit")>] static member CIPhotoEffectTransfer with get(): CIPhotoEffectTransferStatic = jsNative and set(v: CIPhotoEffectTransferStatic): unit = jsNative
-      [<Import("CIVignetteEffect", "react-native-image-filter-kit")>] static member CIVignetteEffect with get(): CIVignetteEffectStatic = jsNative and set(v: CIVignetteEffectStatic): unit = jsNative
-      [<Import("CIColorInvert", "react-native-image-filter-kit")>] static member CIColorInvert with get(): CIColorInvertStatic = jsNative and set(v: CIColorInvertStatic): unit = jsNative
-      [<Import("CIColorPosterize", "react-native-image-filter-kit")>] static member CIColorPosterize with get(): CIColorPosterizeStatic = jsNative and set(v: CIColorPosterizeStatic): unit = jsNative
-      [<Import("CIVibrance", "react-native-image-filter-kit")>] static member CIVibrance with get(): CIVibranceStatic = jsNative and set(v: CIVibranceStatic): unit = jsNative
-      [<Import("CICircularScreen", "react-native-image-filter-kit")>] static member CICircularScreen with get(): CICircularScreenStatic = jsNative and set(v: CICircularScreenStatic): unit = jsNative
-      [<Import("CIDotScreen", "react-native-image-filter-kit")>] static member CIDotScreen with get(): CIDotScreenStatic = jsNative and set(v: CIDotScreenStatic): unit = jsNative
-      [<Import("CIBumpDistortion", "react-native-image-filter-kit")>] static member CIBumpDistortion with get(): CIBumpDistortionStatic = jsNative and set(v: CIBumpDistortionStatic): unit = jsNative
-      [<Import("CIBumpDistortionLinear", "react-native-image-filter-kit")>] static member CIBumpDistortionLinear with get(): CIBumpDistortionLinearStatic = jsNative and set(v: CIBumpDistortionLinearStatic): unit = jsNative
-      [<Import("CICircleSplashDistortion", "react-native-image-filter-kit")>] static member CICircleSplashDistortion with get(): CICircleSplashDistortionStatic = jsNative and set(v: CICircleSplashDistortionStatic): unit = jsNative
-      [<Import("CICircularWrap", "react-native-image-filter-kit")>] static member CICircularWrap with get(): CICircularWrapStatic = jsNative and set(v: CICircularWrapStatic): unit = jsNative
-      [<Import("CISharpenLuminance", "react-native-image-filter-kit")>] static member CISharpenLuminance with get(): CISharpenLuminanceStatic = jsNative and set(v: CISharpenLuminanceStatic): unit = jsNative
-      [<Import("CIUnsharpMask", "react-native-image-filter-kit")>] static member CIUnsharpMask with get(): CIUnsharpMaskStatic = jsNative and set(v: CIUnsharpMaskStatic): unit = jsNative
-      [<Import("CICrystallize", "react-native-image-filter-kit")>] static member CICrystallize with get(): CICrystallizeStatic = jsNative and set(v: CICrystallizeStatic): unit = jsNative
+let inline CICrystallize (props: CICrystallizeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CICrystallize" "react-native-image-filter-kit" (propsToObj props) children

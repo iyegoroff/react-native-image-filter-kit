@@ -47,14 +47,16 @@ module FilterInputSlider =
               (RN.slider
                 [ MaximumValue max
                   MinimumValue min
-                  SliderProperties.OnValueChange (ValueChanged >> dispatch) ])
+                  SliderProperties.Value value
+                  SliderProperties.OnSlidingComplete (ValueChanged >> dispatch) ])
             Platform.Ios
               (RS.slider
                 [ thumbStyle
                   RS.Props.MaximumValue max
                   RS.Props.MinimumValue min
+                  RS.Props.Value value
                   RS.Props.MinimumTrackTintColor "#007aff"
-                  RS.Props.OnValueChange (ValueChanged >> dispatch) ]) ]) 
+                  RS.Props.OnSlidingComplete (ValueChanged >> dispatch) ]) ]) 
         RN.view
           [ rangeLegendStyle ]
           [ RN.text [] (sprintf "%.2f%s" min suffix)

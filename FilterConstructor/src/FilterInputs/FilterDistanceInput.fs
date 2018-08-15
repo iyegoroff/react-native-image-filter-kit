@@ -1,7 +1,7 @@
 namespace FilterConstructor
 
 open Elmish
-open Fable.Helpers.ReactNativeImageFilterKit.Props
+open Fable.Import.ReactNativeImageFilterKit.Props
 
 module FilterDistanceInput =
 

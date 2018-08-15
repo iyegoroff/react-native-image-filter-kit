@@ -1,6 +1,7 @@
 namespace FilterConstructor
 
 open Fable.Import.ReactNative
+open Fable.PowerPack
 
 module Utils =
 
@@ -18,3 +19,9 @@ module Utils =
 
   let configureNextLayoutAnimation () =
     Globals.LayoutAnimation.spring id
+
+  let delay ms = 
+    promise {
+      do! Promise.sleep ms
+      return ()
+    }

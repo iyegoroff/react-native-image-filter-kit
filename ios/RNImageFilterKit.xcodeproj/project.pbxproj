@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7412B1132123FCF500FB00FF /* NSArray+FilterMapReduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 7412B1122123FCF500FB00FF /* NSArray+FilterMapReduce.m */; };
 		744193AC20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193AB20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m */; };
 		744193AF20D58CA700E7725F /* RNImageFilterWithColorManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193AE20D58CA700E7725F /* RNImageFilterWithColorManagement.m */; };
 		744193B320D58D5700E7725F /* RNImageFilterWithoutColorManagement.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193B220D58D5700E7725F /* RNImageFilterWithoutColorManagement.m */; };
 		744193B620D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 744193B520D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m */; };
+		744B74CF211F758F009CBCAE /* RNFilteredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 744B74CE211F758F009CBCAE /* RNFilteredImage.m */; };
 		74BF08B320B258E300D93AFC /* RNImageFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */; };
 		74BF08B420B258E300D93AFC /* RNImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08B220B258E300D93AFC /* RNImageFilter.m */; };
+		74F6B5F6211E2A01005A9DB1 /* RNFilterPostProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F6B5F5211E2A01005A9DB1 /* RNFilterPostProcessor.m */; };
+		74F6B5F9211E40D2005A9DB1 /* RNImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F6B5F8211E40D2005A9DB1 /* RNImageCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNImageFilterKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNImageFilterKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7412B1112123FCF400FB00FF /* NSArray+FilterMapReduce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+FilterMapReduce.h"; sourceTree = "<group>"; };
+		7412B1122123FCF500FB00FF /* NSArray+FilterMapReduce.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+FilterMapReduce.m"; sourceTree = "<group>"; };
 		744193AA20D58C5100E7725F /* RNImageFilterWithColorManagementManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageFilterWithColorManagementManager.h; sourceTree = "<group>"; };
 		744193AB20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterWithColorManagementManager.m; sourceTree = "<group>"; };
 		744193AD20D58CA700E7725F /* RNImageFilterWithColorManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageFilterWithColorManagement.h; sourceTree = "<group>"; };
@@ -38,10 +44,16 @@
 		744193B420D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageFilterWithoutColorManagementManager.h; sourceTree = "<group>"; };
 		744193B520D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterWithoutColorManagementManager.m; sourceTree = "<group>"; };
 		744193B720D591AC00E7725F /* MustBeOverriden.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MustBeOverriden.h; sourceTree = "<group>"; };
+		744B74CD211F758F009CBCAE /* RNFilteredImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNFilteredImage.h; sourceTree = "<group>"; };
+		744B74CE211F758F009CBCAE /* RNFilteredImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNFilteredImage.m; sourceTree = "<group>"; };
 		74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNImageFilterManager.m; sourceTree = "<group>"; };
 		74BF08B020B258E200D93AFC /* RNImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNImageFilter.h; sourceTree = "<group>"; };
 		74BF08B120B258E200D93AFC /* RNImageFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNImageFilterManager.h; sourceTree = "<group>"; };
 		74BF08B220B258E300D93AFC /* RNImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNImageFilter.m; sourceTree = "<group>"; };
+		74F6B5F4211E2A01005A9DB1 /* RNFilterPostProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNFilterPostProcessor.h; sourceTree = "<group>"; };
+		74F6B5F5211E2A01005A9DB1 /* RNFilterPostProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNFilterPostProcessor.m; sourceTree = "<group>"; };
+		74F6B5F7211E40D2005A9DB1 /* RNImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNImageCache.h; sourceTree = "<group>"; };
+		74F6B5F8211E40D2005A9DB1 /* RNImageCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNImageCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +93,14 @@
 				74BF08B220B258E300D93AFC /* RNImageFilter.m */,
 				74BF08B120B258E200D93AFC /* RNImageFilterManager.h */,
 				74BF08AF20B258E200D93AFC /* RNImageFilterManager.m */,
+				74F6B5F4211E2A01005A9DB1 /* RNFilterPostProcessor.h */,
+				74F6B5F5211E2A01005A9DB1 /* RNFilterPostProcessor.m */,
+				74F6B5F7211E40D2005A9DB1 /* RNImageCache.h */,
+				74F6B5F8211E40D2005A9DB1 /* RNImageCache.m */,
+				744B74CD211F758F009CBCAE /* RNFilteredImage.h */,
+				744B74CE211F758F009CBCAE /* RNFilteredImage.m */,
+				7412B1112123FCF400FB00FF /* NSArray+FilterMapReduce.h */,
+				7412B1122123FCF500FB00FF /* NSArray+FilterMapReduce.m */,
 			);
 			name = RNImageFilter;
 			sourceTree = "<group>";
@@ -163,11 +183,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74F6B5F9211E40D2005A9DB1 /* RNImageCache.m in Sources */,
+				744B74CF211F758F009CBCAE /* RNFilteredImage.m in Sources */,
 				74BF08B320B258E300D93AFC /* RNImageFilterManager.m in Sources */,
+				74F6B5F6211E2A01005A9DB1 /* RNFilterPostProcessor.m in Sources */,
 				744193AC20D58C5100E7725F /* RNImageFilterWithColorManagementManager.m in Sources */,
 				744193B320D58D5700E7725F /* RNImageFilterWithoutColorManagement.m in Sources */,
 				744193B620D58D6B00E7725F /* RNImageFilterWithoutColorManagementManager.m in Sources */,
 				744193AF20D58CA700E7725F /* RNImageFilterWithColorManagement.m in Sources */,
+				7412B1132123FCF500FB00FF /* NSArray+FilterMapReduce.m in Sources */,
 				74BF08B420B258E300D93AFC /* RNImageFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

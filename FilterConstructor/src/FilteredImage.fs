@@ -11,7 +11,7 @@ open Fable.Import.ReactNative
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
 module RNP = Fable.Import.ReactNativePortal
-module RNF = Fable.Helpers.ReactNativeImageFilterKit
+module RNF = Fable.Import.ReactNativeImageFilterKit
 module RNS = Fable.Helpers.ReactNativeSegmentedControlTab
 
 
@@ -27,6 +27,7 @@ module FilteredImage =
   type Model = 
     { Image: Image.Model
       Filters: (Id * CombinedFilter.Model * Filter.Model) list
+      UnanimatedFilters: (Id * CombinedFilter.Model * Filter.Model) list
       ImageSelectModalIsVisible: bool
       FilterSelectModalIsVisible: bool
       SelectedResizeMode: ResizeMode
@@ -46,6 +47,8 @@ module FilteredImage =
     | ImageLoadingStarted
     | ImageLoadingSucceed
     | ImageLoadingFailed
+    | UpdateUnanimatedFilters of unit
+    | Error of System.Exception
 
 
   let private resizeModes =
@@ -60,6 +63,7 @@ module FilteredImage =
   let init image =
     { Image = image
       Filters = []
+      UnanimatedFilters = []
       ImageSelectModalIsVisible = false 
       FilterSelectModalIsVisible = false
       SelectedResizeMode = ResizeMode.Contain
@@ -71,7 +75,13 @@ module FilteredImage =
 
   let update (message: Message) model =
     match message with
+    | UpdateUnanimatedFilters _ ->
+      { model with UnanimatedFilters = model.Filters }, []
+
     | Delete ->
+      model, []
+
+    | Error _ ->
       model, []
       
     | SelectImage  -> 
@@ -101,7 +111,8 @@ module FilteredImage =
         Utils.configureNextLayoutAnimation ()
         { model with Filters= 
                        model.Filters @ [model.NextId, filter, CombinedFilter.init filter]
-                     NextId = model.NextId + 1 }, []
+                     NextId = model.NextId + 1 },
+        Cmd.ofPromise Utils.delay 0 UpdateUnanimatedFilters Error
       | Hide ->
         { model with FilterSelectModalIsVisible = false }, []
 
@@ -126,7 +137,9 @@ module FilteredImage =
           | _ -> filters
 
         { model with Filters = filters' },
-        Cmd.map (fun sub -> FilterMessage (id, sub)) cmd
+        Cmd.batch
+          [ Cmd.map (fun sub -> FilterMessage (id, sub)) cmd
+            Cmd.ofPromise Utils.delay 0 UpdateUnanimatedFilters Error ]
 
     | ResizeModeChanged index ->
       { model with SelectedResizeMode = resizeModes.[index] }, []
@@ -241,7 +254,7 @@ module FilteredImage =
                          OnError (fun _ -> dispatch ImageLoadingFailed)
                          ResizeMode model.SelectedResizeMode
                          Source source ])
-                     model.Filters)) ]
+                     model.UnanimatedFilters)) ]
             (Platform.select
               [ Platform.Android
                   (RNS.segmentedControlTab

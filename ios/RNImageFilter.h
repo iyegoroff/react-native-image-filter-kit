@@ -5,6 +5,7 @@
 
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSArray<NSString *> *paramNames;
+@property (nonatomic, strong) NSArray<NSString *> *imageNames;
 @property (nonatomic, assign) BOOL resizeOutput;
 
 @property (nonatomic, assign) CGFloat inputAngle;

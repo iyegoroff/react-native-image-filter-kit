@@ -2,73 +2,87 @@
 #import "Image/RCTImageView.h"
 #import "Image/RCTImageUtils.h"
 #import "RNImageFilter.h"
+#import "RNFilterPostProcessor.h"
+#import "RNFilteredImage.h"
+#import "React/RCTImageSource.h"
+#import "NSArray+FilterMapReduce.h"
 
-#define UPDATE_FILTER_NUMBER_PROPERTY(Prop)                                                     \
-- (void)updateInput##Prop:(CIFilter *)filter changedProps:(NSArray<NSString *> *)changedProps { \
-  NSString* prop = @"input" @#Prop;                                                             \
-  if ([_paramNames containsObject:prop] && [changedProps containsObject:prop]) {                \
-    [filter setValue:[NSNumber numberWithFloat:_input##Prop] forKey:@"input" @#Prop];           \
-  }                                                                                             \
-}
-
-#define UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Prop)                                  \
-- (void)updateInput##Prop:(CIFilter *)filter bounds:(CGSize)bounds {                  \
-  if ([_paramNames containsObject:@"input" @#Prop] && _input##Prop != nil) {          \
-    CGFloat num = [RNImageFilter convertRelativeNumber:_input##Prop bounds:bounds];   \
-    [filter setValue:[NSNumber numberWithFloat:num] forKey:@"input" @#Prop];          \
-  }                                                                                   \
-}
-
-#define UPDATE_FILTER_VECTOR_4_PROPERTY(Prop)                                       \
-- (void)updateInput##Prop:(CIFilter *)filter {                                      \
-  if ([_paramNames containsObject:@"input" @#Prop] && _input##Prop != nil) {        \
-    CGFloat v[4] = {                                                                \
-      [_input##Prop[0] floatValue],                                                 \
-      [_input##Prop[1] floatValue],                                                 \
-      [_input##Prop[2] floatValue],                                                 \
-      [_input##Prop[3] floatValue]                                                  \
-    };                                                                              \
-    [filter setValue:[CIVector vectorWithValues:v count:4] forKey:@"input" @#Prop]; \
-  }                                                                                 \
-}
-
-#define UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Prop)                                  \
-- (void)updateInput##Prop:(CIFilter *)filter bounds:(CGSize)bounds {                 \
-  if ([_paramNames containsObject:@"input" @#Prop] && _input##Prop != nil) {         \
-    CGFloat x = [RNImageFilter convertRelativeNumber:_input##Prop[0] bounds:bounds]; \
-    CGFloat y = [RNImageFilter convertRelativeNumber:_input##Prop[1] bounds:bounds]; \
-    CGPoint p = CGPointMake(x, y);                                                   \
-    [filter setValue:[CIVector vectorWithCGPoint:p] forKey:@"input" @#Prop];         \
+#define UPDATE_FILTER_NUMBER_INPUT(Prop)                                             \
+- (void)updateInput##Prop:(NSMutableDictionary *)dict                                \
+             changedProps:(NSArray<NSString *> *)changedProps {                      \
+  NSString* prop = @"input" @#Prop;                                                  \
+  if ([_paramNames containsObject:prop] && [changedProps containsObject:prop]) {     \
+    [dict setObject:[NSNumber numberWithFloat:_input##Prop] forKey:@"input" @#Prop]; \
   }                                                                                  \
 }
 
-@interface UIImage (React)
+#define UPDATE_FILTER_RELATIVE_NUMBER_INPUT(Prop)                                    \
+- (void)updateInput##Prop:(NSMutableDictionary *)dict bounds:(CGSize)bounds {        \
+  if ([_paramNames containsObject:@"input" @#Prop] && _input##Prop != nil) {         \
+    CGFloat num = [RNImageFilter convertRelativeNumber:_input##Prop bounds:bounds];  \
+    [dict setObject:[NSNumber numberWithFloat:num] forKey:@"input" @#Prop];          \
+  }                                                                                  \
+}
 
-@property (nonatomic, copy) CAKeyframeAnimation *reactKeyframeAnimation;
+#define UPDATE_FILTER_VECTOR_4_INPUT(Prop)                                         \
+- (void)updateInput##Prop:(NSMutableDictionary *)dict {                            \
+  if ([_paramNames containsObject:@"input" @#Prop] && _input##Prop != nil) {       \
+    CGFloat v[4] = {                                                               \
+      [_input##Prop[0] floatValue],                                                \
+      [_input##Prop[1] floatValue],                                                \
+      [_input##Prop[2] floatValue],                                                \
+      [_input##Prop[3] floatValue]                                                 \
+    };                                                                             \
+    [dict setObject:[CIVector vectorWithValues:v count:4] forKey:@"input" @#Prop]; \
+  }                                                                                \
+}
 
-@end
-
+#define UPDATE_FILTER_RELATIVE_POINT_INPUT(Prop)                                      \
+- (void)updateInput##Prop:(NSMutableDictionary *)dict bounds:(CGSize)bounds {         \
+  if ([_paramNames containsObject:@"input" @#Prop] && _input##Prop != nil) {          \
+    CGFloat x = [RNImageFilter convertRelativeNumber:_input##Prop[0] bounds:bounds];  \
+    CGFloat y = [RNImageFilter convertRelativeNumber:_input##Prop[1] bounds:bounds];  \
+    CGPoint p = CGPointMake(x, y);                                                    \
+    [dict setObject:[CIVector vectorWithCGPoint:p] forKey:@"input" @#Prop];           \
+  }                                                                                   \
+}
 
 @interface RNImageFilter ()
 
-@property (nonatomic, strong) CIFilter* filter;
-@property (nonatomic, strong) UIImage *inputImage;
-@property (nonatomic, weak) RCTImageView *target;
+@property (nonatomic, strong) NSMutableDictionary *inputs;
+@property (nonatomic, strong) NSArray<UIImage *> *originalImages;
+@property (nonatomic, strong) NSArray<RCTImageView *> *targets;
 
 @end
 
 @implementation RNImageFilter
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+  if ((self = [super initWithFrame:frame])) {
+    _inputs = [NSMutableDictionary dictionary];
+    _originalImages = [NSArray array];
+    _targets = [NSArray array];
+    _imageNames = [NSArray array];
+  }
+  
+  return self;
+}
+
+
 - (void)dealloc
 {
-  [self unlinkTarget];
+  [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                           selector:@selector(renderFilteredImage)
+                                             object:nil];
+  [self unlinkTargets];
 }
 
 - (void)layoutSubviews
 {
   [super layoutSubviews];
   
-  [self linkTarget];
+  [self linkTargets];
 }
 
 - (CIContext *)context
@@ -76,146 +90,207 @@
   MUST_BE_OVERRIDEN()
 }
 
-UPDATE_FILTER_NUMBER_PROPERTY(Angle);
-UPDATE_FILTER_NUMBER_PROPERTY(NoiseLevel);
-UPDATE_FILTER_NUMBER_PROPERTY(Sharpness);
-UPDATE_FILTER_NUMBER_PROPERTY(Saturation);
-UPDATE_FILTER_NUMBER_PROPERTY(Brightness);
-UPDATE_FILTER_NUMBER_PROPERTY(Contrast);
-UPDATE_FILTER_NUMBER_PROPERTY(Levels);
-UPDATE_FILTER_NUMBER_PROPERTY(Scale);
-UPDATE_FILTER_NUMBER_PROPERTY(Refraction);
-UPDATE_FILTER_NUMBER_PROPERTY(Rotation);
-UPDATE_FILTER_NUMBER_PROPERTY(Intensity);
-UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Amount);
-UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Radius);
-UPDATE_FILTER_RELATIVE_NUMBER_PROPERTY(Width);
-UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Center);
-UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Point0);
-UPDATE_FILTER_RELATIVE_POINT_PROPERTY(Point1);
-UPDATE_FILTER_VECTOR_4_PROPERTY(MinComponents);
-UPDATE_FILTER_VECTOR_4_PROPERTY(MaxComponents);
-UPDATE_FILTER_VECTOR_4_PROPERTY(RVector);
-UPDATE_FILTER_VECTOR_4_PROPERTY(GVector);
-UPDATE_FILTER_VECTOR_4_PROPERTY(BVector);
-UPDATE_FILTER_VECTOR_4_PROPERTY(AVector);
-UPDATE_FILTER_VECTOR_4_PROPERTY(BiasVector);
+UPDATE_FILTER_NUMBER_INPUT(Angle);
+UPDATE_FILTER_NUMBER_INPUT(NoiseLevel);
+UPDATE_FILTER_NUMBER_INPUT(Sharpness);
+UPDATE_FILTER_NUMBER_INPUT(Saturation);
+UPDATE_FILTER_NUMBER_INPUT(Brightness);
+UPDATE_FILTER_NUMBER_INPUT(Contrast);
+UPDATE_FILTER_NUMBER_INPUT(Levels);
+UPDATE_FILTER_NUMBER_INPUT(Scale);
+UPDATE_FILTER_NUMBER_INPUT(Refraction);
+UPDATE_FILTER_NUMBER_INPUT(Rotation);
+UPDATE_FILTER_NUMBER_INPUT(Intensity);
+UPDATE_FILTER_RELATIVE_NUMBER_INPUT(Amount);
+UPDATE_FILTER_RELATIVE_NUMBER_INPUT(Radius);
+UPDATE_FILTER_RELATIVE_NUMBER_INPUT(Width);
+UPDATE_FILTER_RELATIVE_POINT_INPUT(Center);
+UPDATE_FILTER_RELATIVE_POINT_INPUT(Point0);
+UPDATE_FILTER_RELATIVE_POINT_INPUT(Point1);
+UPDATE_FILTER_VECTOR_4_INPUT(MinComponents);
+UPDATE_FILTER_VECTOR_4_INPUT(MaxComponents);
+UPDATE_FILTER_VECTOR_4_INPUT(RVector);
+UPDATE_FILTER_VECTOR_4_INPUT(GVector);
+UPDATE_FILTER_VECTOR_4_INPUT(BVector);
+UPDATE_FILTER_VECTOR_4_INPUT(AVector);
+UPDATE_FILTER_VECTOR_4_INPUT(BiasVector);
 
-- (void)linkTarget
+- (void)linkTargets
 {
-  UIView* parent = self;
+  [self unlinkTargets];
   
-  while (!_target && parent.subviews.count > 0 && ![parent.subviews[0] isKindOfClass:[RNImageFilter class]]) {
-    UIView* child = parent.subviews[0];
-    if ([child isKindOfClass:[RCTImageView class]]) {
-      _target = (RCTImageView *)child;
-      [child addObserver:self
-              forKeyPath:@"image"
-                 options:NSKeyValueObservingOptionNew
-                 context:NULL];
+  _targets = [self.subviews filter:^BOOL(__kindof UIView *val, int idx) {
+    return [val isKindOfClass:[RCTImageView class]];
+  }];
+  
+  if (_originalImages.count == 0) {
+    _originalImages = [_targets map:^id(RCTImageView *val, int idx) {
+      return [val.image copy] ?: [NSNull null];
+    }];
+  }
+  
+  for (RCTImageView *target in _targets) {
+    [target addObserver:self
+             forKeyPath:@"image"
+                options:NSKeyValueObservingOptionNew
+                context:NULL];
+  }
+}
+
+- (void)unlinkTargets
+{
+  for (id target in _targets) {
+    [target removeObserver:self forKeyPath:@"image"];
+  }
+}
+
+- (nonnull RNImageFilter *)topFilter
+{
+  UIView* parent = self.superview;
+  
+  if ([parent isKindOfClass:[RNImageFilter class]]) {
+    return [(RNImageFilter *)parent topFilter];
+  } else {
+    return self;
+  }
+}
+
+- (nullable RNFilteredImage *)filteredImage
+{
+  if (_name != nil) {
+    NSDictionary* inputs = [_imageNames reduce:^id(id acc, NSString *val, int idx) {
+      UIImage *image = [_originalImages at:idx];
+      RCTImageView *target = [_targets at:idx];
+      
+      RNFilteredImage *filteredImage = image && (NSNull *)image != [NSNull null] && target
+        ? [RNFilteredImage createWithImage:image
+                                resizeMode:target.resizeMode
+                       accumulatedCacheKey:[RNImageFilter imageCacheKey:target]]
+        : [[self.subviews at:idx] isKindOfClass:[RNImageFilter class]]
+        ? [(RNImageFilter *)[self.subviews at:idx] filteredImage]
+        : nil;
+      
+      if (filteredImage) {
+        [acc setObject:filteredImage forKey:val];
+      }
+      
+      return acc;
+    } init:[NSMutableDictionary dictionary]];
+    
+    RNFilteredImage* main = [inputs objectForKey:[_imageNames at:0]];
+    
+    if (main) {
+      [self updateDependentInputs:main.image];
+      
+      return [[self postProcessor] process:inputs];
+    }
+  }
+  
+  return nil;
+}
+
+- (void)updateDependentInputs:(UIImage *)image
+{
+  CGSize size = [[CIImage alloc] initWithImage:image].extent.size;
+  
+  [self updateInputCenter:_inputs bounds:size];
+  [self updateInputPoint0:_inputs bounds:size];
+  [self updateInputPoint1:_inputs bounds:size];
+  [self updateInputRadius:_inputs bounds:size];
+  [self updateInputWidth:_inputs bounds:size];
+  [self updateInputAmount:_inputs bounds:size];
+}
+
+- (RNFilterPostProcessor *)postProcessor
+{
+  return [RNFilterPostProcessor createWithName:_name
+                                        inputs:_inputs
+                                       context:[self context]
+                                  resizeOutput:_resizeOutput];
+}
+
+- (void)renderFilteredImage
+{
+  RNFilteredImage *image = [[self topFilter] filteredImage];
+  
+  if (image) {
+    [self updateImage:image.image];
+  }
+}
+
+- (void)updateImage:(nullable UIImage *)image
+{
+  for (int i = 0; i < self.subviews.count; i++) {
+    UIView *child = self.subviews[i];
+    
+    if (i == 0) {
+      if ([child isKindOfClass:[RCTImageView class]]) {
+        [self updateTarget:(RCTImageView *)child image:image];
+      } else if ([child isKindOfClass:[RNImageFilter class]]) {
+        [(RNImageFilter *)child updateImage:image];
+      }
+      
     } else {
-      parent = child;
+      if ([child isKindOfClass:[RCTImageView class]]) {
+        [self updateTarget:(RCTImageView *)child image:nil];
+      } else if ([child isKindOfClass:[RNImageFilter class]]) {
+        [(RNImageFilter *)child updateImage:nil];
+      }
     }
   }
 }
 
-- (void)unlinkTarget
+- (void)updateTarget:(nullable RCTImageView *)target image:(nullable UIImage *)image
 {
-  if (_target) {
-    [_target removeObserver:self forKeyPath:@"image"];
-    _target = nil;
-  }
+  [target removeObserver:self forKeyPath:@"image"];
+  [target setImage:image];
+  [target addObserver:self
+           forKeyPath:@"image"
+              options:NSKeyValueObservingOptionNew
+              context:NULL];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
+                      ofObject:(RCTImageView *)object
                         change:(NSDictionary *)change
                        context:(void *)context {
   if ([keyPath isEqualToString:@"image"]) {
-    _inputImage = [_target.image copy];
+    _originalImages = [_originalImages map:^id(UIImage *val, int idx) {
+      return object == [_targets at:idx] ? [object.image copy] : val;
+    }];
+    
     [self renderFilteredImage];
   }
 }
 
 - (void)didSetProps:(NSArray<NSString *> *)changedProps
-{
-  if ([changedProps containsObject:@"name"]) {
-    _filter = [CIFilter filterWithName:_name];
-  }
-  
-  [self updateInputAngle:_filter changedProps:changedProps];
-  [self updateInputLevels:_filter changedProps:changedProps];
-  [self updateInputContrast:_filter changedProps:changedProps];
-  [self updateInputSharpness:_filter changedProps:changedProps];
-  [self updateInputBrightness:_filter changedProps:changedProps];
-  [self updateInputNoiseLevel:_filter changedProps:changedProps];
-  [self updateInputSaturation:_filter changedProps:changedProps];
-  [self updateInputScale:_filter changedProps:changedProps];
-  [self updateInputRotation:_filter changedProps:changedProps];
-  [self updateInputRefraction:_filter changedProps:changedProps];
-  [self updateInputIntensity:_filter changedProps:changedProps];
-  [self updateInputMinComponents:_filter];
-  [self updateInputMaxComponents:_filter];
-  [self updateInputRVector:_filter];
-  [self updateInputGVector:_filter];
-  [self updateInputBVector:_filter];
-  [self updateInputAVector:_filter];
-  [self updateInputBiasVector:_filter];
+{  
+  [self updateInputAngle:_inputs changedProps:changedProps];
+  [self updateInputLevels:_inputs changedProps:changedProps];
+  [self updateInputContrast:_inputs changedProps:changedProps];
+  [self updateInputSharpness:_inputs changedProps:changedProps];
+  [self updateInputBrightness:_inputs changedProps:changedProps];
+  [self updateInputNoiseLevel:_inputs changedProps:changedProps];
+  [self updateInputSaturation:_inputs changedProps:changedProps];
+  [self updateInputScale:_inputs changedProps:changedProps];
+  [self updateInputRotation:_inputs changedProps:changedProps];
+  [self updateInputRefraction:_inputs changedProps:changedProps];
+  [self updateInputIntensity:_inputs changedProps:changedProps];
+  [self updateInputMinComponents:_inputs];
+  [self updateInputMaxComponents:_inputs];
+  [self updateInputRVector:_inputs];
+  [self updateInputGVector:_inputs];
+  [self updateInputBVector:_inputs];
+  [self updateInputAVector:_inputs];
+  [self updateInputBiasVector:_inputs];
   
   for (NSString *paramName in _paramNames) {
     if ([changedProps containsObject:paramName] || [changedProps containsObject:@"resizeOutput"]) {
+      NSLog(@"filter: render image");
       [self renderFilteredImage];
       break;
     }
   }
-}
-
-- (void)renderFilteredImage
-{
-  if (_target) {
-    UIImage *image = [self filteredImage:_inputImage resizeMode:_target.resizeMode];
-    
-    [_target removeObserver:self forKeyPath:@"image"];
-    [_target setImage:image];
-    [_target addObserver:self
-              forKeyPath:@"image"
-                 options:NSKeyValueObservingOptionNew
-                 context:NULL];
-  }
-}
-
-- (UIImage *)filteredImage:(UIImage *)image
-                resizeMode:(RCTResizeMode)resizeMode
-{
-  if (image != nil) {
-    CIImage *tmp = [[CIImage alloc] initWithImage:image];
-    [_filter setValue:tmp forKey:@"inputImage"];
-    
-    CGSize imageSize = tmp.extent.size;
-  
-    [self updateInputCenter:_filter bounds:imageSize];
-    [self updateInputPoint0:_filter bounds:imageSize];
-    [self updateInputPoint1:_filter bounds:imageSize];
-    [self updateInputRadius:_filter bounds:imageSize];
-    [self updateInputWidth:_filter bounds:imageSize];
-    [self updateInputAmount:_filter bounds:imageSize];
-  
-    CGRect outputRect = _resizeOutput ? _filter.outputImage.extent : tmp.extent;
-    
-    CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:outputRect];
-    
-    UIImage *filteredImage = [RNImageFilter resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
-                                                        srcSize:outputRect.size
-                                                       destSize:image.size
-                                                          scale:image.scale
-                                                     resizeMode:resizeMode];
-    
-    CGImageRelease(cgim);
-    
-    return filteredImage;
-  }
-  
-  return nil;
 }
 
 + (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options
@@ -230,25 +305,18 @@ UPDATE_FILTER_VECTOR_4_PROPERTY(BiasVector);
   return context;
 }
 
-+ (UIImage *)resizeImageIfNeeded:(UIImage *)image
-                         srcSize:(CGSize)srcSize
-                        destSize:(CGSize)destSize
-                           scale:(CGFloat)scale
-                      resizeMode:(RCTResizeMode)resizeMode
++ (nonnull NSString *)imageCacheKey:(RCTImageView *)image
 {
-  if (CGSizeEqualToSize(destSize, CGSizeZero) ||
-      CGSizeEqualToSize(srcSize, CGSizeZero) ||
-      CGSizeEqualToSize(srcSize, destSize)) {
-    return image;
+  NSString *key = @"";
+  for (RCTImageSource *source in image.imageSources) {
+    key = [NSString stringWithFormat:@"%@,%@:%f:%@",
+           key,
+           [NSValue valueWithCGSize:source.size],
+           source.scale,
+           source.request.URL.absoluteString];
   }
-
-  CAKeyframeAnimation *animation = image.reactKeyframeAnimation;
-  CGRect targetSize = RCTTargetRect(srcSize, destSize, scale, resizeMode);
-  CGAffineTransform transform = RCTTransformFromTargetRect(srcSize, targetSize);
-  image = RCTTransformImage(image, destSize, scale, transform);
-  image.reactKeyframeAnimation = animation;
-
-  return image;
+  
+  return [NSString stringWithFormat:@"{%@}", key];
 }
 
 + (CGFloat)convertRelativeNumber:(NSString *)relative bounds:(CGSize)bounds

@@ -405,7 +405,16 @@ export interface CICircularWrapProps extends ResizingFilterProps {
   readonly inputAngle?: number;
 }
 
-export class CICircularWrap extends React.Component<CICircularWrapProps> { }
+export class CIVortexDistortion extends React.Component<CIVortexDistortionProps> { }
+
+
+export interface CIVortexDistortionProps extends ResizingFilterProps {
+  readonly inputCenter?: FilterPoint;
+  readonly inputRadius?: string;
+  readonly inputAngle?: number;
+}
+
+export class CIVortexDistortion extends React.Component<CIVortexDistortionProps> { }
 
 
 export interface CISharpenLuminanceProps extends FilterProps {
