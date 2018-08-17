@@ -169,6 +169,10 @@ module Props =
     | InputAVector of IRGBAVector
     | InputBiasVector of IRGBAVector
 
+  type CIGammaAdjustProps =
+    | Style of IStyle list
+    | InputPower of float
+
   type CIHueAdjustProps =
     | Style of IStyle list
     | InputAngle of float
@@ -286,6 +290,11 @@ module Props =
   type CICrystallizeProps =
     | Style of IStyle list
     | InputRadius of IDistance
+    | InputCenter of IPoint
+
+  type CIPixellateProps =
+    | Style of IStyle list
+    | InputScale of IDistance
     | InputCenter of IPoint
 
   type AndroidTestFilterProps =
@@ -432,6 +441,9 @@ let inline CIColorControls (props: CIColorControlsProps list) (children: React.R
 let inline CIColorMatrix (props: CIColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorMatrix" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline CIGammaAdjust (props: CIGammaAdjustProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIGammaAdjust" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CIHueAdjust (props: CIHueAdjustProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIHueAdjust" "react-native-image-filter-kit" (propsToObj props) children
 
@@ -512,3 +524,6 @@ let inline CIUnsharpMask (props: CIUnsharpMaskProps list) (children: React.React
 
 let inline CICrystallize (props: CICrystallizeProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CICrystallize" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIPixellate (props: CIPixellateProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPixellate" "react-native-image-filter-kit" (propsToObj props) children

@@ -3,6 +3,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Fable.Import.ReactNative.fs" />
+    <Compile Include="Fable.Helpers.ReactNative.fs" />
     <Compile Include="Fable.Import.ReactNativeImageFilterKit.fs" />
     <Compile Include="Constants.fs" />
     <Compile Include="Utils.fs" />

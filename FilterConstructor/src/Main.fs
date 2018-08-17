@@ -5,6 +5,7 @@ open Elmish.React
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 open Fable.Import
+open Fable.Import.ReactNative
 
 module RN = Fable.Helpers.ReactNative
 module R = Fable.Helpers.React
@@ -101,15 +102,12 @@ module Main =
       [ Height (dip 1.5) ]
 
   let private listContentStyle =
-    FlatListProperties.ContentContainerStyle
+    ScrollViewProperties.ContentContainerStyle
       [ Padding (pct 1.5)
-        PaddingTop 
-          (Platform.select
-            [ Platform.Ios (dip 25.)
-              Platform.Android (dip 5.) ]) ]
+        PaddingTop (dip 5.) ]
 
   let private listStyle =
-    FlatListProperties.Style
+    ScrollViewProperties.Style
       [ BackgroundColor "wheat" ]
 
   let separator () =
@@ -137,7 +135,9 @@ module Main =
             [] ]
 
     RNP.portalProvider
-      [ ImageSelectModal.view
+      [ RN.statusBar
+          [ StatusBarProperties.Hidden true ]
+        ImageSelectModal.view
           model.DefaultImage
           model.DefaultImageSelectModalIsVisible
           (ImageSelectModalMessage >> dispatch)

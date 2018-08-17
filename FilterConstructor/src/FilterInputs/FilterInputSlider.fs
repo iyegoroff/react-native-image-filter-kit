@@ -29,14 +29,15 @@ module FilterInputSlider =
 
   let private thumbStyle =
     RS.Props.ThumbStyle
-      [ ShadowColor "black"
-        ShadowRadius 1.
-        ShadowOpacity 1.
-        ShadowOffset
-          { width = 0.
-            height = 0. }
-        BackgroundColor "white"
-        Elevation 2. ]
+      []
+      // [ ShadowColor "black"
+      //   ShadowRadius 1.
+      //   ShadowOpacity 1.
+      //   ShadowOffset
+      //     { width = 0.
+      //       height = 0. }
+      //   BackgroundColor "white"
+      //   Elevation 2. ]
 
   let view name suffix value min max (dispatch: Dispatch<Message>) =
     RN.view

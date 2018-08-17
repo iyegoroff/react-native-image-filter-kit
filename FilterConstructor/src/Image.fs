@@ -18,7 +18,7 @@ module Image =
   
   let defaultImage =
     Concrete { Name = "Parrot"
-               Source = Some (localImage "${entryDir}/../parrot.png") }
+               Source = Some (localImage "${entryDir}/../img/parrot.png") }
 
   let random () =
     let id = JS.Math.round (JS.Math.random () * 992.)
@@ -37,6 +37,32 @@ module Image =
                   Source = Some (remoteImage [ Uri "https://tinyurl.com/y8xs3ehd" ]) }
        Concrete { Name = "Triangle"
                   Source = Some (remoteImage [ Uri "https://tinyurl.com/ycedtewy" ]) }
+       Concrete { Name = "Text"
+                  Source = Some (localImage "${entryDir}/../img/text.png") }
+       Concrete { Name = "Black circle"
+                  Source = Some (localImage "${entryDir}/../img/black-circle.png") }
+       Concrete { Name = "Black star"
+                  Source = Some (localImage "${entryDir}/../img/black-star.png") }
+       Concrete { Name = "Blue circle"
+                  Source = Some (localImage "${entryDir}/../img/blue-circle.png") }
+       Concrete { Name = "Blue star"
+                  Source = Some (localImage "${entryDir}/../img/blue-star.png") }
+       Concrete { Name = "Gradient circle"
+                  Source = Some (localImage "${entryDir}/../img/gradient-circle.png") }
+       Concrete { Name = "Gradient star"
+                  Source = Some (localImage "${entryDir}/../img/gradient-star.png") }
+       Concrete { Name = "Green circle"
+                  Source = Some (localImage "${entryDir}/../img/green-circle.png") }
+       Concrete { Name = "Green star"
+                  Source = Some (localImage "${entryDir}/../img/green-star.png") }
+       Concrete { Name = "Red circle"
+                  Source = Some (localImage "${entryDir}/../img/red-circle.png") }
+       Concrete { Name = "Red star"
+                  Source = Some (localImage "${entryDir}/../img/red-star.png") }
+       Concrete { Name = "White circle"
+                  Source = Some (localImage "${entryDir}/../img/white-circle.png") }
+       Concrete { Name = "White star"
+                  Source = Some (localImage "${entryDir}/../img/white-star.png") }
        random ()
        fromPicker None |]
 

@@ -14,6 +14,8 @@ module Select =
   type Message<'a> =
     | ItemSelected of 'a
 
+  type CustomSection = { title: string }
+
   let private itemStyle =
     ViewProperties.Style
       [ Padding (dip 15.) ]
@@ -29,6 +31,15 @@ module Select =
         Width (pct 95.)
         AlignSelf Alignment.Center
         BackgroundColor "lightgray" ]
+
+  let private sectionHeaderStyle =
+    TextProperties.Style
+      [ PaddingVertical (dip 2.)
+        PaddingLeft (dip 5.)
+        BackgroundColor "wheat" 
+        FontSize 14.
+        TextStyle.Color "darkblue"
+        FontWeight FontWeight.Bold ]
     
 
   let private separator () =
@@ -38,6 +49,11 @@ module Select =
     Platform.select
       [ Platform.Ios (fun onPress -> RN.touchableOpacity [ OnPress onPress ])
         Platform.Android (fun onPress -> RN.touchableNativeFeedback [ OnPress onPress ]) ]
+
+  let private sectionHeader section =
+    RN.text
+      [ sectionHeaderStyle ]
+      (unbox<CustomSection> section).title
 
   let view items selected itemKey equals (dispatch: Dispatch<Message<'a>>) =
     let renderItem item =
@@ -52,8 +68,9 @@ module Select =
                 style
                 (itemKey item) ] ]
 
-    RN.flatList items
-      [ RenderItem (fun item -> lazyView renderItem item.item)
-        ItemSeparatorComponent separator
-        ExtraData selected
-        KeyExtractor (fun item _ -> itemKey item) ]
+    RN.sectionList items
+      [ RenderSectionHeader (fun info -> sectionHeader info.section)
+        SectionListProperties.RenderItem (fun item -> lazyView renderItem item.item)
+        SectionListProperties.ItemSeparatorComponent separator
+        SectionListProperties.ExtraData selected
+        SectionListProperties.KeyExtractor (fun item _ -> itemKey item) ]

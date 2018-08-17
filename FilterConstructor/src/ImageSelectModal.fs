@@ -6,6 +6,7 @@ open Fable.Helpers.ReactNative.Props
 open Fable.Helpers.ReactNativeImagePicker
 open Fable.Import
 open Fable.PowerPack
+open Select
 
 
 module ImageSelectModal =
@@ -15,6 +16,9 @@ module ImageSelectModal =
     | ImageSelectionSucceed of Image.Model
     | ImageSelectionFailed of string
     | ImageSelectionCancelled
+
+  let private sections = 
+    [| section Image.availableImages [] { title = "Images" } |]
 
   let view image isVisible (dispatch: Dispatch<Message>) =
     let dispatch' =
@@ -39,4 +43,4 @@ module ImageSelectModal =
       | SelectModal.Hide ->
         dispatch Hide
 
-    SelectModal.view Image.availableImages (Some image) Image.name (=) isVisible dispatch'
+    SelectModal.view sections (Some image) Image.name (=) isVisible dispatch'

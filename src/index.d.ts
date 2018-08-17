@@ -255,6 +255,13 @@ export interface CIColorMatrixProps extends FilterProps {
 export class CIColorMatrix extends React.Component<CIColorMatrixProps> { }
 
 
+export interface CIGammaAdjustProps extends FilterProps {
+  readonly inputPower?: number;
+}
+
+export class CIGammaAdjust extends React.Component<CIGammaAdjustProps> { }
+
+
 export interface CIHueAdjustProps extends FilterProps {
   readonly inputAngle?: number;
 }
@@ -438,3 +445,11 @@ export interface CICrystallizeProps extends FilterProps {
 }
 
 export class CICrystallize extends React.Component<CICrystallizeProps> { }
+
+
+export interface CIPixellateProps extends FilterProps {
+  readonly inputScale?: string;
+  readonly inputCenter?: FilterPoint;
+}
+
+export class CIPixellate extends React.Component<CIPixellateProps> { }

@@ -6,6 +6,7 @@ open Fable.Helpers.ReactNative
 open Fable.Import.ReactNative
 open Fable.Core
 open Fable.Import
+open Select
 
 module RN = Fable.Helpers.ReactNative
 
@@ -46,7 +47,14 @@ module SelectModal =
       | Close -> dispatch Hide
     
   let view items selected itemKey equals isVisible (dispatch: Dispatch<Message<'a>>) =
-    let items = Array.map Item items
+    let items =
+      items
+      |> Array.map
+           (fun (s: SectionListData<'a>) ->
+              section
+                (Array.map Item (s.data.ToArray ()))
+                []
+                { title = (unbox<CustomSection> s).title })
       
     RN.modal
       [ AnimationType
@@ -58,7 +66,7 @@ module SelectModal =
       [ Select.view
           (Platform.select
              [ Platform.Android items
-               Platform.Ios (Array.append items [| Close |]) ])
+               Platform.Ios (Array.append items [| section [| Close |] [] { title = "" } |]) ])
           (Option.map Item selected)
           (itemKeyWithClose itemKey)
           (equalsWithClose equals)

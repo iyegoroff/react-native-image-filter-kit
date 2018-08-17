@@ -22,6 +22,7 @@ module Filter =
     | InputMinComponents
     | InputMaxComponents
     | InputNoiseLevel
+    | InputPower
     | InputRadius
     | InputSaturation
     | InputScale

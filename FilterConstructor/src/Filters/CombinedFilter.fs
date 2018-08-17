@@ -13,6 +13,25 @@ module CFI = CombinedFilterInput
 
 module CombinedFilter =
 
+  type Category =
+    | Android
+    | ColorMatrix
+    | CICategoryBlur
+    | CICategoryColorAdjustment
+    | CICategoryColorEffect
+    | CICategoryCompositeOperation
+    | CICategoryDistortionEffect
+    | CICategoryGenerator
+    | CICategoryGeometryAdjustment
+    | CICategoryGradient
+    | CICategoryHalftoneEffect
+    | CICategoryReduction
+    | CICategorySharpen
+    | CICategoryStylize
+    | CICategoryTileEffect
+    | CICategoryTransition
+
+
   type Model =
     | Normal
     | Saturate
@@ -51,6 +70,7 @@ module CombinedFilter =
     | CIColorClamp
     | CIColorControls
     | CIColorMatrix
+    | CIGammaAdjust
     | CIHueAdjust
     | CIMaskToAlpha
     | CIMaximumComponent
@@ -77,6 +97,9 @@ module CombinedFilter =
     | CISharpenLuminance
     | CIUnsharpMask
     | CICrystallize
+    | CIPixellate
+
+  type GroupedModel = Category * (Model array)
 
 
   let name =
@@ -220,6 +243,10 @@ module CombinedFilter =
       Filter.init
         [ Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) ]
 
+    | CIGammaAdjust ->
+      Filter.init
+        [ Filter.InputPower, CFI.initScalar 0. 10. ]
+
     | CIMaskToAlpha -> Filter.init []
 
     | CIMaximumComponent -> Filter.init []
@@ -316,6 +343,11 @@ module CombinedFilter =
     | CICrystallize ->
       Filter.init
         [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
+          Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) ]
+
+    | CIPixellate ->
+      Filter.init
+        [ Filter.InputScale, CFI.initDistance RNF.Distance.MaxPct  0. 20.
           Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) ]
 
   let private (|ResizeOutput|_|) =
@@ -548,6 +580,14 @@ module CombinedFilter =
            Some (CIColorMatrixProps.InputBiasVector (input.Convert input.Value))
          | _ -> None)
 
+    | CIGammaAdjust ->
+      Filter.view
+        RNF.CIGammaAdjust
+        (function
+         | Filter.InputPower, CFI.Scalar input ->
+           Some (CIGammaAdjustProps.InputPower (input.Convert input.Value))
+         | _ -> None)
+
     | CIHueAdjust ->
       Filter.view
         RNF.CIHueAdjust
@@ -724,6 +764,16 @@ module CombinedFilter =
          | Filter.InputCenter, CFI.Point input ->
            Some (CICrystallizeProps.InputCenter (input.Convert input.Value))
          | _ -> None)
+         
+    | CIPixellate ->
+      Filter.view
+        RNF.CIPixellate
+        (function
+         | Filter.InputScale, CFI.Distance input ->
+           Some (CIPixellateProps.InputScale (input.Convert input.Value))
+         | Filter.InputCenter, CFI.Point input ->
+           Some (CIPixellateProps.InputCenter (input.Convert input.Value))
+         | _ -> None)
 
   let controls =
     function
@@ -764,6 +814,7 @@ module CombinedFilter =
     | CIColorClamp -> Filter.controls (name CIColorClamp)
     | CIColorControls -> Filter.controls (name CIColorControls)
     | CIColorMatrix -> Filter.controls (name CIColorMatrix)
+    | CIGammaAdjust -> Filter.controls (name CIGammaAdjust)
     | CIHueAdjust -> Filter.controls (name CIHueAdjust)
     | CIMaskToAlpha -> Filter.controls (name CIMaskToAlpha)
     | CIMaximumComponent -> Filter.controls (name CIMaximumComponent)
@@ -790,80 +841,120 @@ module CombinedFilter =
     | CISharpenLuminance -> Filter.controls (name CISharpenLuminance)
     | CIUnsharpMask -> Filter.controls (name CIUnsharpMask)
     | CICrystallize -> Filter.controls (name CICrystallize)
+    | CIPixellate -> Filter.controls (name CIPixellate)
 
-  let private availableCommonFilters: Model array =
-    [| Normal
-       Saturate
-       HueRotate
-       LuminanceToAlpha
-       Invert
-       Grayscale
-       Sepia
-       Nightvision
-       Warm
-       Cool
-       Brightness
-       Exposure
-       Contrast
-       Temperature
-       Tint
-       Threshold
-       Protanomaly
-       Deuteranomaly
-       Tritanomaly
-       Protanopia
-       Deuteranopia
-       Tritanopia
-       Achromatopsia
-       Achromatomaly |]
+  let private availableCommonFilters: GroupedModel array =
+    [| ColorMatrix,
+       [| Normal
+          Saturate
+          HueRotate
+          LuminanceToAlpha
+          Invert
+          Grayscale
+          Sepia
+          Nightvision
+          Warm
+          Cool
+          Brightness
+          Exposure
+          Contrast
+          Temperature
+          Tint
+          Threshold
+          Protanomaly
+          Deuteranomaly
+          Tritanomaly
+          Protanopia
+          Deuteranopia
+          Tritanopia
+          Achromatopsia
+          Achromatomaly |] |]
 
-  let private availableAndroidFilters: Model array =
+  let private availableAndroidFilters: GroupedModel array =
     Array.concat
       [ availableCommonFilters
-        [| RoundAsCircle
-           IterativeBoxBlur
-           LightingColorFilter |] ]
+        [| Android,
+           [| RoundAsCircle
+              IterativeBoxBlur
+              LightingColorFilter |] |] ]
 
   let private availableIosFilters =
     Array.concat
       [ availableCommonFilters
-        [| CIBoxBlur
-           CIDiscBlur
-           CIGaussianBlur
-           CIMedianFilter
-           CIMotionBlur
-           CINoiseReduction
-           CIZoomBlur
-           CIColorClamp
-           CIColorControls
-           CIColorMatrix
-           CIHueAdjust
-           CIMaskToAlpha
-           CIMaximumComponent
-           CIMinimumComponent
-           CIPhotoEffectChrome
-           CIPhotoEffectFade
-           CIPhotoEffectInstant
-           CIPhotoEffectMono
-           CIPhotoEffectNoir
-           CIPhotoEffectProcess
-           CIPhotoEffectTonal
-           CIPhotoEffectTransfer
-           CIVignetteEffect
-           CIColorInvert
-           CIColorPosterize
-           CIVibrance
-           CICircularScreen
-           CIDotScreen
-           CIBumpDistortion
-           CIBumpDistortionLinear
-           CICircleSplashDistortion
-           CICircularWrap
-           CIVortexDistortion
-           CISharpenLuminance
-           CIUnsharpMask
-           CICrystallize |] ]
-    
+
+        [| CICategoryBlur,
+           [| CIBoxBlur
+              CIDiscBlur
+              CIGaussianBlur
+              CIMedianFilter
+              CIMotionBlur
+              CINoiseReduction
+              CIZoomBlur |];
+
+            CICategoryColorAdjustment,
+            [| CIColorClamp
+               CIColorControls
+               CIColorMatrix
+               CIGammaAdjust
+               CIHueAdjust
+               CIVibrance |];
+                
+            CICategoryColorEffect,
+            [| CIColorInvert
+               CIColorPosterize
+               CIMaskToAlpha
+               CIMaximumComponent
+               CIMinimumComponent
+               CIPhotoEffectChrome
+               CIPhotoEffectFade
+               CIPhotoEffectInstant
+               CIPhotoEffectMono
+               CIPhotoEffectNoir
+               CIPhotoEffectProcess
+               CIPhotoEffectTonal
+               CIPhotoEffectTransfer
+               CIVignetteEffect |];
+               
+            CICategoryCompositeOperation,
+            [| |];
+            
+            CICategoryDistortionEffect,
+            [| CIBumpDistortion
+               CIBumpDistortionLinear
+               CICircleSplashDistortion
+               CICircularWrap
+               CIVortexDistortion |];
+            
+            CICategoryGenerator,
+            [| |];
+            
+            CICategoryGeometryAdjustment,
+            [| |];
+            
+            CICategoryGradient,
+            [| |];
+            
+            CICategoryHalftoneEffect,
+            [| CICircularScreen
+               CIDotScreen |];
+               
+            CICategoryReduction,
+            [| |];
+            
+            CICategorySharpen,
+            [| CISharpenLuminance
+               CIUnsharpMask |];
+               
+            CICategoryStylize,
+            [| CICrystallize
+               CIPixellate |];
+            
+            CICategoryTileEffect,
+            [| |];
+            
+            CICategoryTransition,
+            [| |] |] ]
+
   let availableFilters =
     Platform.select
       [ Platform.Ios availableIosFilters

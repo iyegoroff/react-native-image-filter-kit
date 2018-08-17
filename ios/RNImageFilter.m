@@ -72,9 +72,6 @@
 
 - (void)dealloc
 {
-  [NSObject cancelPreviousPerformRequestsWithTarget:self
-                                           selector:@selector(renderFilteredImage)
-                                             object:nil];
   [self unlinkTargets];
 }
 
@@ -97,13 +94,14 @@ UPDATE_FILTER_NUMBER_INPUT(Saturation);
 UPDATE_FILTER_NUMBER_INPUT(Brightness);
 UPDATE_FILTER_NUMBER_INPUT(Contrast);
 UPDATE_FILTER_NUMBER_INPUT(Levels);
-UPDATE_FILTER_NUMBER_INPUT(Scale);
 UPDATE_FILTER_NUMBER_INPUT(Refraction);
 UPDATE_FILTER_NUMBER_INPUT(Rotation);
 UPDATE_FILTER_NUMBER_INPUT(Intensity);
+UPDATE_FILTER_NUMBER_INPUT(Power);
 UPDATE_FILTER_RELATIVE_NUMBER_INPUT(Amount);
 UPDATE_FILTER_RELATIVE_NUMBER_INPUT(Radius);
 UPDATE_FILTER_RELATIVE_NUMBER_INPUT(Width);
+UPDATE_FILTER_RELATIVE_NUMBER_INPUT(Scale);
 UPDATE_FILTER_RELATIVE_POINT_INPUT(Center);
 UPDATE_FILTER_RELATIVE_POINT_INPUT(Point0);
 UPDATE_FILTER_RELATIVE_POINT_INPUT(Point1);
@@ -134,6 +132,8 @@ UPDATE_FILTER_VECTOR_4_INPUT(BiasVector);
              forKeyPath:@"image"
                 options:NSKeyValueObservingOptionNew
                 context:NULL];
+    
+    [self renderFilteredImage];
   }
 }
 
@@ -199,6 +199,7 @@ UPDATE_FILTER_VECTOR_4_INPUT(BiasVector);
   [self updateInputRadius:_inputs bounds:size];
   [self updateInputWidth:_inputs bounds:size];
   [self updateInputAmount:_inputs bounds:size];
+  [self updateInputScale:_inputs bounds:size];
 }
 
 - (RNFilterPostProcessor *)postProcessor
@@ -223,19 +224,10 @@ UPDATE_FILTER_VECTOR_4_INPUT(BiasVector);
   for (int i = 0; i < self.subviews.count; i++) {
     UIView *child = self.subviews[i];
     
-    if (i == 0) {
-      if ([child isKindOfClass:[RCTImageView class]]) {
-        [self updateTarget:(RCTImageView *)child image:image];
-      } else if ([child isKindOfClass:[RNImageFilter class]]) {
-        [(RNImageFilter *)child updateImage:image];
-      }
-      
-    } else {
-      if ([child isKindOfClass:[RCTImageView class]]) {
-        [self updateTarget:(RCTImageView *)child image:nil];
-      } else if ([child isKindOfClass:[RNImageFilter class]]) {
-        [(RNImageFilter *)child updateImage:nil];
-      }
+    if ([child isKindOfClass:[RCTImageView class]]) {
+      [self updateTarget:(RCTImageView *)child image:(i == 0 ? image : nil)];
+    } else if ([child isKindOfClass:[RNImageFilter class]]) {
+      [(RNImageFilter *)child updateImage:(i == 0 ? image : nil)];
     }
   }
 }
@@ -272,10 +264,10 @@ UPDATE_FILTER_VECTOR_4_INPUT(BiasVector);
   [self updateInputBrightness:_inputs changedProps:changedProps];
   [self updateInputNoiseLevel:_inputs changedProps:changedProps];
   [self updateInputSaturation:_inputs changedProps:changedProps];
-  [self updateInputScale:_inputs changedProps:changedProps];
   [self updateInputRotation:_inputs changedProps:changedProps];
   [self updateInputRefraction:_inputs changedProps:changedProps];
   [self updateInputIntensity:_inputs changedProps:changedProps];
+  [self updateInputPower:_inputs changedProps:changedProps];
   [self updateInputMinComponents:_inputs];
   [self updateInputMaxComponents:_inputs];
   [self updateInputRVector:_inputs];
@@ -286,7 +278,6 @@ UPDATE_FILTER_VECTOR_4_INPUT(BiasVector);
   
   for (NSString *paramName in _paramNames) {
     if ([changedProps containsObject:paramName] || [changedProps containsObject:@"resizeOutput"]) {
-      NSLog(@"filter: render image");
       [self renderFilteredImage];
       break;
     }
