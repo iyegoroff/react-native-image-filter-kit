@@ -60,7 +60,7 @@ module FilteredImage =
 
   let private resizeControlValues = new ResizeArray<string> (Array.map unbox<string> resizeModes)
 
-  let init image =
+  let init image =    
     { Image = image
       Filters = []
       UnanimatedFilters = []

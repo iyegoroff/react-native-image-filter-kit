@@ -16,7 +16,7 @@ module FilterPointInput =
     (Utils.average x1 x2, Utils.average y1 y2)
 
   let init name (toPoint: float * float -> IPoint) =
-    FilterRangeInput.init averagePoint toPoint name
+    FilterRangeInput.init toPoint name
 
   let private updatePointX (model: Model) x =
     let (_, y) = model.Value

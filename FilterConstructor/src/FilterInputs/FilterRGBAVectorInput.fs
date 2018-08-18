@@ -16,7 +16,7 @@ module FilterRGBAVectorInput =
     (Utils.average r0 r1, Utils.average g0 g1, Utils.average b0 b1, Utils.average a0 a1)
 
   let init =
-    FilterRangeInput.init averageRGBAVector RNF.RGBAVector
+    FilterRangeInput.init RNF.RGBAVector
 
   let private updateRGBAVectorR (model: Model) r =
     let (_, g, b, a) = model.Value

@@ -292,10 +292,26 @@ module Props =
     | InputRadius of IDistance
     | InputCenter of IPoint
 
+  type CIEdgesProps =
+    | Style of IStyle list
+    | InputIntensity of float
+
   type CIPixellateProps =
     | Style of IStyle list
     | InputScale of IDistance
     | InputCenter of IPoint
+
+  type CIPointillizeProps =
+    | Style of IStyle list
+    | InputRadius of IDistance
+    | InputCenter of IPoint
+
+  type CIOpTileProps =
+    | Style of IStyle list
+    | InputWidth of IDistance
+    | InputCenter of IPoint
+    | InputAngle of float
+    | InputScale of float
 
   type AndroidTestFilterProps =
     | Style of IStyle list
@@ -525,5 +541,14 @@ let inline CIUnsharpMask (props: CIUnsharpMaskProps list) (children: React.React
 let inline CICrystallize (props: CICrystallizeProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CICrystallize" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline CIEdges (props: CIEdgesProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIEdges" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CIPixellate (props: CIPixellateProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIPixellate" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIPointillize (props: CIPointillizeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIPointillize" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIOpTile (props: CIOpTileProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIOpTile" "react-native-image-filter-kit" (propsToObj props) children

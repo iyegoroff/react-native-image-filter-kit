@@ -2,6 +2,7 @@
 #import "Image/RCTImageView.h"
 #import "Image/RCTImageUtils.h"
 #import "RNImageCache.h"
+#import <React/RCTLog.h>
 
 @interface UIImage (React)
 
@@ -77,12 +78,22 @@
       [_filter setValue:tmp forKey:inputName];
     }
     
-    CGRect outputRect = _resizeOutput ? _filter.outputImage.extent : extent;
-    
-    CGImageRef cgim = [_context createCGImage:_filter.outputImage fromRect:outputRect];
+    if (CGRectEqualToRect(_filter.outputImage.extent, CGRectInfinite)) {
+      RCTLog(@"filter: %@ produces infinite extent!", _filter.name);
+    }
     
     CGSize destSize = mainImage ? mainImage.image.size : CGSizeZero;
     CGFloat scale = mainImage ? mainImage.image.scale : 1.0f;
+    
+//    CIImage *outputImage = CGRectEqualToRect(_filter.outputImage.extent, CGRectInfinite)
+//      ? [_filter.outputImage imageByCroppingToRect:CGRectMake(0, 0, destSize.width, destSize.height)]
+//      : _filter.outputImage;
+    
+    CGRect outputRect = _resizeOutput ? _filter.outputImage.extent : extent; //outputImage.extent
+    
+    RCTLog(@"filter: output rect %@", [NSValue valueWithCGRect:outputRect]);
+    
+    CGImageRef cgim = [_context createCGImage:_filter.outputImage fromRect:outputRect];
     
     UIImage *filteredImage = [RNFilterPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
                                                                 srcSize:outputRect.size
@@ -114,6 +125,7 @@
                            scale:(CGFloat)scale
                       resizeMode:(RCTResizeMode)resizeMode
 {
+  RCTLog(@"filter: sizes %@ -> %@", [NSValue valueWithCGSize:srcSize], [NSValue valueWithCGSize:destSize]);
   if (CGSizeEqualToSize(destSize, CGSizeZero) ||
       CGSizeEqualToSize(srcSize, CGSizeZero) ||
       CGSizeEqualToSize(srcSize, destSize)) {

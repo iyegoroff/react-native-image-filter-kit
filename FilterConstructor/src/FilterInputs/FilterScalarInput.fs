@@ -10,7 +10,7 @@ module FilterScalarInput =
   type Message = FilterRangeInput.Message<Model>
 
   let init =
-    FilterRangeInput.init Utils.average id
+    FilterRangeInput.init id<float>
 
   let private updateScalar (model: Model) scalar =
     { model with Value = scalar }

@@ -6,6 +6,7 @@
 #import "RNFilteredImage.h"
 #import "React/RCTImageSource.h"
 #import "NSArray+FilterMapReduce.h"
+#import <React/RCTLog.h>
 
 #define UPDATE_FILTER_NUMBER_INPUT(Prop)                                             \
 - (void)updateInput##Prop:(NSMutableDictionary *)dict                                \
@@ -181,6 +182,8 @@ UPDATE_FILTER_VECTOR_4_INPUT(BiasVector);
     
     if (main) {
       [self updateDependentInputs:main.image];
+      
+      RCTLog(@"filter: inputs %@", _inputs);
       
       return [[self postProcessor] process:inputs];
     }

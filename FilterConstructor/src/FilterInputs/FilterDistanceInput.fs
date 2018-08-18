@@ -10,7 +10,7 @@ module FilterDistanceInput =
   type Message = FilterRangeInput.Message<Model>
 
   let init name (toDistance: float -> IDistance) =
-    FilterRangeInput.init Utils.average toDistance name
+    FilterRangeInput.init toDistance name
 
   let private updateDistance (model: Model) distance =
     { model with Value = distance }

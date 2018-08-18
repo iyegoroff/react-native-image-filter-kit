@@ -29,11 +29,12 @@ module FilterRangeInput =
     | ValueChanged of 'model
     | FilterInputSliderMessage of (float -> 'model) * FilterInputSlider.Message
 
-  let init average convert name min max : Model<'a, 'b> =
+  let init convert name min max value : Model<'a, 'b> =
+    Utils.invariant (value >= min && value <= max) "FilterRangeInput.init: value"
     { Name = name
       Min = min
       Max = max
-      Value = average min max
+      Value = value
       Convert = convert }
 
   let update (message: Message<Model<'v, 'r>>) (model: Model<'v, 'r>) =

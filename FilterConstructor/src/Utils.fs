@@ -2,6 +2,7 @@ namespace FilterConstructor
 
 open Fable.Import.ReactNative
 open Fable.PowerPack
+open Fable.Import
 
 module Utils =
 
@@ -25,3 +26,9 @@ module Utils =
       do! Promise.sleep ms
       return ()
     }
+
+  let invariant x msg =
+    if not x then
+      let error = sprintf "Contract violation: %s" msg
+      Browser.console.log(error)
+      failwith error

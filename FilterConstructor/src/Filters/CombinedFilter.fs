@@ -97,7 +97,10 @@ module CombinedFilter =
     | CISharpenLuminance
     | CIUnsharpMask
     | CICrystallize
+    | CIEdges
     | CIPixellate
+    | CIPointillize
+    | CIOpTile
 
   type GroupedModel = Category * (Model array)
 
@@ -114,11 +117,11 @@ module CombinedFilter =
 
     | Saturate ->
       Filter.init
-        [ Filter.Value, CFI.initScalar -10. 10. ]
+        [ Filter.Value, CFI.initScalar -10. 10. 1.]
 
     | HueRotate ->
       Filter.init
-        [ Filter.Value, CFI.initScalar -10. 10. ]
+        [ Filter.Value, CFI.initScalar -10. 10. 0. ]
 
     | LuminanceToAlpha -> Filter.init []
 
@@ -136,27 +139,27 @@ module CombinedFilter =
 
     | Brightness ->
       Filter.init
-        [ Filter.Value, CFI.initScalar -10. 10. ]
+        [ Filter.Value, CFI.initScalar -10. 10. 1. ]
 
     | Exposure ->
       Filter.init
-        [ Filter.Value, CFI.initScalar -10. 10. ]
+        [ Filter.Value, CFI.initScalar -10. 10. 1. ]
 
     | Contrast ->
       Filter.init
-        [ Filter.Value, CFI.initScalar -10. 10. ]
+        [ Filter.Value, CFI.initScalar -10. 10. 1. ]
 
     | Temperature ->
       Filter.init
-        [ Filter.Value, CFI.initScalar -10. 10. ]
+        [ Filter.Value, CFI.initScalar -10. 10. 1. ]
 
     | Tint ->
       Filter.init
-        [ Filter.Value, CFI.initScalar -10. 10. ]
+        [ Filter.Value, CFI.initScalar -10. 10. 0. ]
 
     | Threshold ->
       Filter.init
-        [ Filter.Value, CFI.initScalar -100. 100. ]
+        [ Filter.Value, CFI.initScalar -100. 100. 0. ]
 
     | Protanomaly -> Filter.init []
 
@@ -178,8 +181,8 @@ module CombinedFilter =
 
     | IterativeBoxBlur ->
       Filter.init
-        [ Filter.BlurRadius, CFI.initScalar 1. 50.
-          Filter.Iterations, CFI.initScalar 1. 5. ]
+        [ Filter.BlurRadius, CFI.initScalar 1. 50. 5.
+          Filter.Iterations, CFI.initScalar 1. 5. 3. ]
 
     | LightingColorFilter ->
       Filter.init
@@ -188,64 +191,71 @@ module CombinedFilter =
 
     | CIBoxBlur ->
       Filter.init
-        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
+        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50. 10.
           Filter.ResizeOutput, CFI.initBoolean ]
 
     | CIDiscBlur ->
       Filter.init
-        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
+        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50. 8.
           Filter.ResizeOutput, CFI.initBoolean ]
 
     | CIGaussianBlur ->
       Filter.init
-        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
+        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50. 10.
           Filter.ResizeOutput, CFI.initBoolean ]
 
     | CIMedianFilter -> Filter.init []
 
     | CIMotionBlur ->
       Filter.init
-        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
-          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 
+        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50. 20.
+          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0.
           Filter.ResizeOutput, CFI.initBoolean ]
 
     | CINoiseReduction ->
       Filter.init
-        [ Filter.InputNoiseLevel, CFI.initScalar 0. 1.
-          Filter.InputSharpness, CFI.initScalar 0. 1. ]
+        [ Filter.InputNoiseLevel, CFI.initScalar 0. 1. 0.02
+          Filter.InputSharpness, CFI.initScalar 0. 1. 0.4 ]
 
     | CIZoomBlur ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputAmount, CFI.initDistance RNF.Distance.MaxPct  0. 100. 
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputAmount, CFI.initDistance RNF.Distance.MaxPct  0. 100. 20.
           Filter.ResizeOutput, CFI.initBoolean ]
 
     | CIColorClamp ->
       Filter.init
-        [ Filter.InputMinComponents, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
-          Filter.InputMaxComponents, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) ]
+        [ (Filter.InputMinComponents,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 0., 0., 0.))
+          (Filter.InputMaxComponents,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (1., 1., 1., 1.)) ]
 
     | CIColorControls -> 
       Filter.init
-        [ Filter.InputSaturation, CFI.initScalar 0. 10.
-          Filter.InputBrightness, CFI.initScalar 0. 10.
-          Filter.InputContrast, CFI.initScalar 0. 10. ]
+        [ Filter.InputSaturation, CFI.initScalar 0. 10. 1.
+          Filter.InputBrightness, CFI.initScalar 0. 10. 0.
+          Filter.InputContrast, CFI.initScalar 0. 10. 1. ]
 
     | CIColorMatrix ->
       Filter.init
-        [ Filter.InputRVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
-          Filter.InputGVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
-          Filter.InputBVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
-          Filter.InputAVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.)
-          Filter.InputBiasVector, CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) ]
-
-    | CIHueAdjust ->
-      Filter.init
-        [ Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) ]
+        [ (Filter.InputRVector,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (1., 0., 0., 0.))
+          (Filter.InputGVector,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 1., 0., 0.))
+          (Filter.InputBVector,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 0., 1., 0.))
+          (Filter.InputAVector,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 0., 0., 1.))
+          (Filter.InputBiasVector,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 0., 0., 0.)) ]
 
     | CIGammaAdjust ->
       Filter.init
-        [ Filter.InputPower, CFI.initScalar 0. 10. ]
+        [ Filter.InputPower, CFI.initScalar 0. 10. 0.75 ]
+
+    | CIHueAdjust ->
+      Filter.init
+        [ Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0. ]
 
     | CIMaskToAlpha -> Filter.init []
 
@@ -271,84 +281,101 @@ module CombinedFilter =
 
     | CIVignetteEffect ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputIntensity, CFI.initScalar 0. 1.
-          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. ]
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputIntensity, CFI.initScalar 0. 1. 1.
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. 0. ]
 
     | CIColorInvert -> Filter.init []
 
     | CIColorPosterize ->
       Filter.init
-        [ Filter.InputLevels, CFI.initScalar 0. 10. ]
+        [ Filter.InputLevels, CFI.initScalar 0. 10. 6. ]
 
     | CIVibrance ->
       Filter.init
-        [ Filter.InputAmount, CFI.initScalar -1. 1. ]
+        [ Filter.InputAmount, CFI.initScalar -1. 1. 0. ]
 
     | CICircularScreen ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputSharpness, CFI.initScalar 0. 1.
-          Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 100. ]
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputSharpness, CFI.initScalar 0. 1. 0.7
+          Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 100. 6. ]
 
     | CIDotScreen ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI)
-          Filter.InputSharpness, CFI.initScalar 0. 1.
-          Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 50. ]
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0.
+          Filter.InputSharpness, CFI.initScalar 0. 1. 0.7
+          Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 50. 10. ]
 
     | CIBumpDistortion ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100.
-          Filter.InputScale, CFI.initScalar -2. 2.
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. 50.
+          Filter.InputScale, CFI.initScalar -2. 2. 0.5
           Filter.ResizeOutput, CFI.initBoolean ]
 
     | CIBumpDistortionLinear ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100.
-          Filter.InputScale, CFI.initScalar -2. 2.
-          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) ]
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. 50.
+          Filter.InputScale, CFI.initScalar -2. 2. 0.5
+          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0. ]
 
     | CICircleSplashDistortion ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. ]
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. 50. ]
 
     | CICircularWrap ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100.
-          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. 50.
+          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0.
           Filter.ResizeOutput, CFI.initBoolean ]
 
     | CIVortexDistortion ->
       Filter.init
-        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.)
-          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100.
-          Filter.InputAngle, CFI.initScalar 0. 360. 
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. 50.
+          Filter.InputAngle, CFI.initScalar 0. 360. 56.55
           Filter.ResizeOutput, CFI.initBoolean ]
 
     | CISharpenLuminance ->
       Filter.init
-        [ Filter.InputSharpness, CFI.initScalar 0. 100. ]
+        [ Filter.InputSharpness, CFI.initScalar 0. 10. 0.4 ]
 
     | CIUnsharpMask ->
       Filter.init
-        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
-          Filter.InputIntensity, CFI.initScalar 0. 10. ]
+        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 20. 8.
+          Filter.InputIntensity, CFI.initScalar 0. 10. 0.5 ]
 
     | CICrystallize ->
       Filter.init
-        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50.
-          Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) ]
+        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 20. 8.
+          Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.) ]
+
+    | CIEdges ->
+      Filter.init
+        [ Filter.InputIntensity, CFI.initScalar 0. 30. 1. ]
 
     | CIPixellate ->
       Filter.init
-        [ Filter.InputScale, CFI.initDistance RNF.Distance.MaxPct  0. 20.
-          Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) ]
+        [ Filter.InputScale, CFI.initDistance RNF.Distance.MaxPct  0. 20. 8.
+          Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.) ]
+
+    | CIPointillize ->
+      Filter.init
+        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 20. 8.
+          Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.) ]
+
+    | CIOpTile ->
+      Filter.init
+        [ Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct  0. 20. 8.
+          Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.) 
+          Filter.InputScale, CFI.initScalar 0. 5. 2.8 
+          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0.
+          Filter.ResizeOutput, CFI.initBoolean ]
 
   let private (|ResizeOutput|_|) =
     function
@@ -765,6 +792,14 @@ module CombinedFilter =
            Some (CICrystallizeProps.InputCenter (input.Convert input.Value))
          | _ -> None)
          
+    | CIEdges ->
+      Filter.view
+        RNF.CIEdges
+        (function
+         | Filter.InputIntensity, CFI.Scalar input ->
+           Some (CIEdgesProps.InputIntensity (input.Convert input.Value))
+         | _ -> None)
+         
     | CIPixellate ->
       Filter.view
         RNF.CIPixellate
@@ -773,6 +808,30 @@ module CombinedFilter =
            Some (CIPixellateProps.InputScale (input.Convert input.Value))
          | Filter.InputCenter, CFI.Point input ->
            Some (CIPixellateProps.InputCenter (input.Convert input.Value))
+         | _ -> None)
+         
+    | CIPointillize ->
+      Filter.view
+        RNF.CIPointillize
+        (function
+         | Filter.InputRadius, CFI.Distance input ->
+           Some (CIPointillizeProps.InputRadius (input.Convert input.Value))
+         | Filter.InputCenter, CFI.Point input ->
+           Some (CIPointillizeProps.InputCenter (input.Convert input.Value))
+         | _ -> None)
+         
+    | CIOpTile ->
+      Filter.view
+        RNF.CIOpTile
+        (function
+         | Filter.InputWidth, CFI.Distance input ->
+           Some (CIOpTileProps.InputWidth (input.Convert input.Value))
+         | Filter.InputCenter, CFI.Point input ->
+           Some (CIOpTileProps.InputCenter (input.Convert input.Value))
+         | Filter.InputScale, CFI.Scalar input ->
+           Some (CIOpTileProps.InputScale (input.Convert input.Value))
+         | Filter.InputAngle, CFI.Scalar input ->
+           Some (CIOpTileProps.InputAngle (input.Convert input.Value))
          | _ -> None)
 
   let controls =
@@ -841,7 +900,10 @@ module CombinedFilter =
     | CISharpenLuminance -> Filter.controls (name CISharpenLuminance)
     | CIUnsharpMask -> Filter.controls (name CIUnsharpMask)
     | CICrystallize -> Filter.controls (name CICrystallize)
+    | CIEdges -> Filter.controls (name CIEdges)
     | CIPixellate -> Filter.controls (name CIPixellate)
+    | CIPointillize -> Filter.controls (name CIPointillize)
+    | CIOpTile -> Filter.controls (name CIOpTile)
 
   let private availableCommonFilters: GroupedModel array =
     [| ColorMatrix,
@@ -947,10 +1009,12 @@ module CombinedFilter =
                
             CICategoryStylize,
             [| CICrystallize
-               CIPixellate |];
+               CIEdges
+               CIPixellate
+               CIPointillize |];
             
             CICategoryTileEffect,
-            [| |];
+            [| CIOpTile |];
             
             CICategoryTransition,
             [| |] |] ]

@@ -32,17 +32,17 @@ module CombinedFilterInput =
                        FilterColorInput.Message>
   
 
-  let initScalar min max name =
-    Scalar (FilterScalarInput.init name min max)
+  let initScalar min max value name =
+    Scalar (FilterScalarInput.init name min max value)
 
-  let initDistance toDistance min max name =
-    Distance (FilterDistanceInput.init name toDistance min max)
+  let initDistance toDistance min max value name =
+    Distance (FilterDistanceInput.init name toDistance min max value)
 
-  let initPoint toPoint min max name =
-    Point (FilterPointInput.init name toPoint min max)
+  let initPoint toPoint min max value name =
+    Point (FilterPointInput.init name toPoint min max value)
 
-  let initRGBAVector min max name =
-    RGBAVector (FilterRGBAVectorInput.init name min max)
+  let initRGBAVector min max value name =
+    RGBAVector (FilterRGBAVectorInput.init name min max value)
 
   let initBoolean name =
     Boolean (FilterBooleanInput.init name false)
