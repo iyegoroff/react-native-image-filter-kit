@@ -3,55 +3,130 @@ import {
   ImageFilterWithColorManagement,
   ImageFilterWithoutColorManagement
 } from './image-filter';
+import {
+  distance,
+  point,
+  scalar,
+  vector
+} from './input-types';
 
-const filter = (paramNames, imageNames = ['inputImage']) => ({ paramNames, imageNames });
+const filter = (paramMap, imageNames = ['inputImage']) => ({
+  paramNames: Object.keys(paramMap),
+  paramTypes: Object.values(paramMap),
+  imageNames
+});
 
 const filters = {
-  CIBoxBlur: filter(['inputRadius']),
-  CIDiscBlur: filter(['inputRadius']),
-  CIGaussianBlur: filter(['inputRadius']),
+  CIBoxBlur: filter({
+    inputRadius: distance
+  }),
+
+  CIDiscBlur: filter({
+    inputRadius: distance
+  }),
+
+  CIGaussianBlur: filter({
+    inputRadius: distance
+  }),
+
   // CIMaskedVariableBlur: filter(['inputRadius', 'inputMask']),
-  CIMedianFilter: filter([]),
-  CIMotionBlur: filter(['inputRadius', 'inputAngle']),
-  CINoiseReduction: filter(['inputNoiseLevel', 'inputSharpness']),
-  CIZoomBlur: filter(['inputCenter', 'inputAmount']),
-  CIColorClamp: filter(['inputMinComponents', 'inputMaxComponents']),
-  CIColorControls: filter(['inputSaturation', 'inputBrightness', 'inputContrast']),
-  CIColorMatrix: filter([
-    'inputRVector', 'inputGVector', 'inputBVector', 'inputAVector', 'inputBiasVector'
-  ]),
+  CIMedianFilter: filter({}),
+
+  CIMotionBlur: filter({
+    inputRadius: distance,
+    inputAngle: scalar
+  }),
+
+  CINoiseReduction: filter({
+    inputNoiseLevel: scalar,
+    inputSharpness: scalar
+  }),
+
+  CIZoomBlur: filter({
+    inputCenter: point,
+    inputAmount: distance
+  }),
+
+  CIColorClamp: filter({
+    inputMinComponents: vector,
+    inputMaxComponents: vector
+  }),
+
+  CIColorControls: filter({
+    inputSaturation: scalar,
+    inputBrightness: scalar,
+    inputContrast: scalar
+  }),
+
+  CIColorMatrix: filter({
+    inputRVector: vector,
+    inputGVector: vector,
+    inputBVector: vector,
+    inputAVector: vector,
+    inputBiasVector: vector
+  }),
+
   // CIColorPolynomial,
   // CIExposureAdjust,
-  CIGammaAdjust: filter(['inputPower']),
-  CIHueAdjust: filter(['inputAngle']),
+  CIGammaAdjust: filter({
+    inputPower: scalar
+  }),
+
+  CIHueAdjust: filter({
+    inputAngle: scalar
+  }),
+
   // CILinearToSRGBToneCurve,
   // CISRGBToneCurveToLinear,
   // CITemperatureAndTint,
   // CIToneCurve,
-  CIVibrance: filter(['inputAmount']),
+  CIVibrance: filter({
+    inputAmount: scalar
+  }),
+
   // CIWhitePointAdjust,
   // CIColorCrossPolynomial,
   // CIColorCube,
   // CIColorCubeWithColorSpace,
-  CIColorInvert: filter([]),
+  CIColorInvert: filter({}),
+
   // CIColorMap,
   // CIColorMonochrome,
-  CIColorPosterize: filter(['inputLevels']),
+  CIColorPosterize: filter({
+    inputLevels: scalar
+  }),
+
   // CIFalseColor,
-  CIMaskToAlpha: filter([]),
-  CIMaximumComponent: filter([]),
-  CIMinimumComponent: filter([]),
-  CIPhotoEffectChrome: filter([]),
-  CIPhotoEffectFade: filter([]),
-  CIPhotoEffectInstant: filter([]),
-  CIPhotoEffectMono: filter([]),
-  CIPhotoEffectNoir: filter([]),
-  CIPhotoEffectProcess: filter([]),
-  CIPhotoEffectTonal: filter([]),
-  CIPhotoEffectTransfer: filter([]),
+  CIMaskToAlpha: filter({}),
+
+  CIMaximumComponent: filter({}),
+
+  CIMinimumComponent: filter({}),
+
+  CIPhotoEffectChrome: filter({}),
+
+  CIPhotoEffectFade: filter({}),
+
+  CIPhotoEffectInstant: filter({}),
+
+  CIPhotoEffectMono: filter({}),
+
+  CIPhotoEffectNoir: filter({}),
+
+  CIPhotoEffectProcess: filter({}),
+
+  CIPhotoEffectTonal: filter({}),
+
+  CIPhotoEffectTransfer: filter({}),
+
   // CISepiaTone,
   // CIVignette,
-  CIVignetteEffect: filter(['inputCenter', 'inputIntensity', 'inputRadius']),
+  CIVignetteEffect: filter({
+    inputCenter: point,
+    inputIntensity: scalar,
+    inputRadius: distance
+  }),
+
   // CIAdditionCompositing,
   // CIColorBlendMode,
   // CIColorBurnBlendMode,
@@ -80,10 +155,30 @@ const filters = {
   // CISourceOutCompositing,
   // CISourceOverCompositing,
   // CISubtractBlendMode,
-  CIBumpDistortion: filter(['inputCenter', 'inputRadius', 'inputScale']),
-  CIBumpDistortionLinear: filter(['inputCenter', 'inputRadius', 'inputScale', 'inputAngle']),
-  CICircleSplashDistortion: filter(['inputCenter', 'inputRadius']),
-  CICircularWrap: filter(['inputCenter', 'inputRadius', 'inputAngle']),
+  CIBumpDistortion: filter({
+    inputCenter: point,
+    inputRadius: distance,
+    inputScale: scalar
+  }),
+
+  CIBumpDistortionLinear: filter({
+    inputCenter: point,
+    inputRadius: distance,
+    inputScale: scalar,
+    inputAngle: scalar
+  }),
+
+  CICircleSplashDistortion: filter({
+    inputCenter: point,
+    inputRadius: distance
+  }),
+
+  CICircularWrap: filter({
+    inputCenter: point,
+    inputRadius: distance,
+    inputAngle: scalar
+  }),
+
   // CIDroste,
   // CIDisplacementDistortion,
   // CIGlassDistortion,
@@ -94,7 +189,12 @@ const filters = {
   // CIStretchCrop,
   // CITorusLensDistortion,
   // CITwirlDistortion,
-  CIVortexDistortion: filter(['inputCenter', 'inputRadius', 'inputAngle']),
+  CIVortexDistortion: filter({
+    inputCenter: point,
+    inputRadius: distance,
+    inputAngle: scalar
+  }),
+
   // CIAztecCodeGenerator,
   // CICheckerboardGenerator,
   // CICode128BarcodeGenerator,
@@ -117,9 +217,20 @@ const filters = {
   // CILinearGradient,
   // CIRadialGradient,
   // CISmoothLinearGradient,
-  CICircularScreen: filter(['inputCenter', 'inputWidth', 'inputSharpness']),
+  CICircularScreen: filter({
+    inputCenter: point,
+    inputWidth: distance, 
+    inputSharpness: scalar
+  }),
+
   // CICMYKHalftone,
-  CIDotScreen: filter(['inputCenter', 'inputAngle', 'inputWidth', 'inputSharpness']),
+  CIDotScreen: filter({
+    inputCenter: point,
+    inputAngle: scalar,
+    inputWidth: distance,
+    inputSharpness: scalar
+  }),
+
   // CIHatchedScreen,
   // CILineScreen,
   // CIAreaAverage,
@@ -131,8 +242,15 @@ const filters = {
   // CIAreaMinimum,
   // CIAreaMaximumAlpha,
   // CIAreaMinimumAlpha,
-  CISharpenLuminance: filter(['inputSharpness']),
-  CIUnsharpMask: filter(['inputRadius', 'inputIntensity']),
+  CISharpenLuminance: filter({
+    inputSharpness: scalar
+  }),
+
+  CIUnsharpMask: filter({
+    inputRadius: distance,
+    inputIntensity: scalar
+  }),
+
   // CIBlendWithAlphaMask,
   // CIBlendWithMask,
   // CIBloom,
@@ -142,17 +260,32 @@ const filters = {
   // CIConvolution7X7,
   // CIConvolution9Horizontal,
   // CIConvolution9Vertical,
-  CICrystallize: filter(['inputRadius', 'inputCenter']),
+  CICrystallize: filter({
+    inputRadius: distance,
+    inputCenter: point
+  }),
+
   // CIDepthOfField,
-  CIEdges: filter(['inputIntensity']),
+  CIEdges: filter({
+    inputIntensity: scalar
+  }),
+
   // CIEdgeWork,
   // CIGloom,
   // CIHeightFieldFromMask,
   // CIHexagonalPixellate,
   // CIHighlightShadowAdjust,
   // CILineOverlay,
-  CIPixellate: filter(['inputCenter', 'inputScale']),
-  CIPointillize: filter(['inputRadius', 'inputCenter']),
+  CIPixellate: filter({
+    inputCenter: point,
+    inputScale: distance
+  }),
+
+  CIPointillize: filter({
+    inputRadius: distance,
+    inputCenter: point
+  }),
+
   // CIShadedMaterial,
   // CISpotColor,
   // CISpotLight,
@@ -164,7 +297,13 @@ const filters = {
   // CIFourfoldTranslatedTile,
   // CIGlideReflectedTile,
   // CIKaleidoscope,
-  CIOpTile: filter(['inputScale', 'inputAngle', 'inputCenter', 'inputWidth']),
+  CIOpTile: filter({
+    inputScale: scalar,
+    inputAngle: scalar,
+    inputCenter: point,
+    inputWidth: distance
+  }),
+
   // CIParallelogramTile,
   // CIPerspectiveTile,
   // CISixfoldReflectedTile,

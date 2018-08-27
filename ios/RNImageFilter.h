@@ -5,20 +5,21 @@
 
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSArray<NSString *> *paramNames;
+@property (nonatomic, strong) NSArray<NSString *> *paramTypes;
 @property (nonatomic, strong) NSArray<NSString *> *imageNames;
 @property (nonatomic, assign) BOOL resizeOutput;
 
-@property (nonatomic, assign) CGFloat inputAngle;
-@property (nonatomic, assign) CGFloat inputNoiseLevel;
-@property (nonatomic, assign) CGFloat inputSharpness;
-@property (nonatomic, assign) CGFloat inputSaturation;
-@property (nonatomic, assign) CGFloat inputBrightness;
-@property (nonatomic, assign) CGFloat inputContrast;
-@property (nonatomic, assign) CGFloat inputRefraction;
-@property (nonatomic, assign) CGFloat inputRotation;
-@property (nonatomic, assign) CGFloat inputLevels;
-@property (nonatomic, assign) CGFloat inputIntensity;
-@property (nonatomic, assign) CGFloat inputPower;
+@property (nonatomic, strong) NSString *inputAngle;
+@property (nonatomic, strong) NSString *inputNoiseLevel;
+@property (nonatomic, strong) NSString *inputSharpness;
+@property (nonatomic, strong) NSString *inputSaturation;
+@property (nonatomic, strong) NSString *inputBrightness;
+@property (nonatomic, strong) NSString *inputContrast;
+@property (nonatomic, strong) NSString *inputRefraction;
+@property (nonatomic, strong) NSString *inputRotation;
+@property (nonatomic, strong) NSString *inputLevels;
+@property (nonatomic, strong) NSString *inputIntensity;
+@property (nonatomic, strong) NSString *inputPower;
 @property (nonatomic, strong) NSString *inputAmount;
 @property (nonatomic, strong) NSString *inputRadius;
 @property (nonatomic, strong) NSString *inputWidth;

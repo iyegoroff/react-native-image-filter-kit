@@ -371,9 +371,9 @@ module CombinedFilter =
 
     | CIOpTile ->
       Filter.init
-        [ Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct  0. 20. 8.
+        [ Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct  0. 100. 8.
           Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.) 
-          Filter.InputScale, CFI.initScalar 0. 5. 2.8 
+          Filter.InputScale, CFI.initScalar 0. 15. 1. 
           Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0.
           Filter.ResizeOutput, CFI.initBoolean ]
 
@@ -832,6 +832,7 @@ module CombinedFilter =
            Some (CIOpTileProps.InputScale (input.Convert input.Value))
          | Filter.InputAngle, CFI.Scalar input ->
            Some (CIOpTileProps.InputAngle (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIOpTileProps.ResizeOutput value)
          | _ -> None)
 
   let controls =

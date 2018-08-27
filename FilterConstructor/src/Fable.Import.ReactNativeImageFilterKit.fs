@@ -308,6 +308,7 @@ module Props =
 
   type CIOpTileProps =
     | Style of IStyle list
+    | ResizeOutput of bool
     | InputWidth of IDistance
     | InputCenter of IPoint
     | InputAngle of float

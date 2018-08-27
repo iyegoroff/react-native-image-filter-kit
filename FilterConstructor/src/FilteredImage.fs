@@ -175,7 +175,8 @@ module FilteredImage =
     ImageProperties.Style
       [ MarginBottom (dip 5.)
         Width (pct 100.)
-        Height (dip Constants.imageHeight) ]
+        Height (dip Constants.imageHeight) 
+        BackgroundColor "red" ]
 
   let private controlsStyle =
     ViewProperties.Style

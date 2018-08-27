@@ -1,18 +1,15 @@
 #import <UIKit/UIKit.h>
 #import "RNFilteredImage.h"
+#import "RNTuple.h"
+
+typedef RNFilteredImage * (^Filtering) (void);
 
 @interface RNFilterPostProcessor : NSObject
 
-- (nonnull instancetype)initWithName:(nonnull NSString *)name
-                              inputs:(nonnull NSDictionary *)inputs
-                             context:(nonnull CIContext *)context
-                        resizeOutput:(BOOL)resizeOutput;
-
-+ (nonnull instancetype)createWithName:(nonnull NSString *)name
-                                inputs:(nonnull NSDictionary *)inputs
-                               context:(nonnull CIContext *)context
-                          resizeOutput:(BOOL)resizeOutput;
-
-- (nonnull RNFilteredImage *)process:(nonnull NSDictionary<NSString *, RNFilteredImage *> *)images;
++ (RNFilteredImage *)process:(nonnull NSString *)name
+                      inputs:(nonnull NSDictionary<NSString *, RNTuple<id, NSString *> *> *)inputs
+                     context:(nonnull CIContext *)context
+                  filterings:(nonnull NSDictionary<NSString *, Filtering> *)filterings
+                resizeOutput:(BOOL)resizeOutput;
 
 @end
