@@ -3,9 +3,6 @@ namespace FilterConstructor
 open Elmish
 open Fable.Import
 
-module R = Fable.Helpers.React
-module RN = Fable.Helpers.ReactNative
-
 
 module CombinedFilterInput =
 

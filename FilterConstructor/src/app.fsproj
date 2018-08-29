@@ -27,7 +27,10 @@
     <Compile Include="ImageSelectModal.fs" />
     <Compile Include="JSTemplate.fs" />
     <Compile Include="JSGenerator.fs" />
-    <Compile Include="FilteredImage.fs" />
+    <Compile Include="FilteredImage/FilteredImage.fs" />
+    <Compile Include="FilteredImage/SingularFilteredImage.fs" />
+    <Compile Include="FilteredImage/FilteredImageComposition.fs" />
+    <Compile Include="FilteredImage/CombinedFilteredImage.fs" />
     <Compile Include="Main.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>

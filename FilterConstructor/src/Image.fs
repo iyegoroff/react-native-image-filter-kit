@@ -37,6 +37,8 @@ module Image =
                   Source = Some (remoteImage [ Uri "https://tinyurl.com/y8xs3ehd" ]) }
        Concrete { Name = "Triangle"
                   Source = Some (remoteImage [ Uri "https://tinyurl.com/ycedtewy" ]) }
+       random ()
+       fromPicker None
        Concrete { Name = "Text"
                   Source = Some (localImage "${entryDir}/../img/text.png") }
        Concrete { Name = "Black circle"
@@ -62,9 +64,7 @@ module Image =
        Concrete { Name = "White circle"
                   Source = Some (localImage "${entryDir}/../img/white-circle.png") }
        Concrete { Name = "White star"
-                  Source = Some (localImage "${entryDir}/../img/white-star.png") }
-       random ()
-       fromPicker None |]
+                  Source = Some (localImage "${entryDir}/../img/white-star.png") } |]
 
   let equals first second =
     function

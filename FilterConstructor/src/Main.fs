@@ -14,16 +14,17 @@ module RNP = Fable.Import.ReactNativePortal
 
 module Main =
 
-  type Id = int
+  type Id = Constants.Id
 
   type Model =
-    { FilteredImages: (Id * FilteredImage.Model) array
+    { FilteredImages: (Id * CombinedFilteredImage.Model) array
       DefaultImageSelectModalIsVisible: bool
       DefaultImage: Image.Model
       NextId: Id }
 
   type Message =
     | AddFilteredImage
+    | ComposeTwoFirstImages
     | SelectDefaultImage
     | ImageSelectModalMessage of ImageSelectModal.Message
     | FilteredImageMessage of Id * FilteredImage.Message
@@ -44,6 +45,27 @@ module Main =
       let newImage = FilteredImage.init model.DefaultImage
       { model with FilteredImages = Array.append [| (model.NextId, newImage) |] model.FilteredImages
                    NextId = model.NextId + 1 }, []
+
+    | ComposeTwoFirstImages ->
+      let composableImages =
+        model.FilteredImages
+        |> Array.filter (fun (_, image) -> not (FilteredImage.isCompositionInput image))
+      
+      if composableImages.Length > 1 then
+        Utils.configureNextLayoutAnimation ()
+        let (fId, fImage) = composableImages.[0]
+        let (sId, sImage) = composableImages.[1]
+        let newImage = FilteredImage.init fImage.Image (Some sImage.Image)
+        let filteredImages =
+          model.FilteredImages
+          |> Array.map
+               (fun (i, m) ->
+                  (i, { m with IsCompositionInput = (i = fId || i = sId || m.IsCompositionInput) }))
+           
+        { model with FilteredImages = Array.append [| model.NextId, newImage |] filteredImages
+                     NextId = model.NextId + 1 }, []
+      else
+        model, []
 
     | SelectDefaultImage ->
       { model with DefaultImageSelectModalIsVisible = true }, []
@@ -97,6 +119,11 @@ module Main =
       model, []
 
 
+  let private canComposeImages (model: Model) =
+    (model.FilteredImages
+     |> Array.filter (fun (_, image) -> not (FilteredImage.isCompositionInput image))).Length > 1
+
+
   let private separatorStyle =
     ViewProperties.Style
       [ Height (dip 1.5) ]
@@ -110,7 +137,7 @@ module Main =
     ScrollViewProperties.Style
       [ BackgroundColor "wheat" ]
 
-  let separator () =
+  let private separator () =
     RN.view [ separatorStyle ] []
         
   let view model (dispatch: Dispatch<Message>) =
@@ -132,7 +159,18 @@ module Main =
             [ ButtonProperties.Title "Add filtered image"
               ButtonProperties.Color "green"
               ButtonProperties.OnPress (fun () -> dispatch AddFilteredImage) ]
-            [] ]
+            []
+          (if (canComposeImages model) then
+             R.fragment
+               []
+               [ Spacer.view
+                 RN.button
+                   [ ButtonProperties.Title "Compose two first images"
+                     ButtonProperties.Color "green"
+                     ButtonProperties.OnPress (fun () -> dispatch ComposeTwoFirstImages) ]
+                   [] ]
+           else
+             R.fragment [] []) ]
 
     RNP.portalProvider
       [ RN.statusBar
@@ -146,6 +184,7 @@ module Main =
         RN.flatList model.FilteredImages
           [ listContentStyle
             listStyle
+            ExtraData (canComposeImages model)
             RenderItem (fun item -> lazyView renderFilteredImage item.item)
             ItemSeparatorComponent separator
             ListHeaderComponent listControls
