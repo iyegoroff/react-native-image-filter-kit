@@ -45,22 +45,31 @@ module Select =
   let private separator () =
     RN.view [ separatorStyle ] []
 
-  let private touchable =
+  let private touchable isEnabled =
     Platform.select
-      [ Platform.Ios (fun onPress -> RN.touchableOpacity [ OnPress onPress ])
-        Platform.Android (fun onPress -> RN.touchableNativeFeedback [ OnPress onPress ]) ]
+      [ Platform.Ios
+          (fun onPress ->
+             RN.touchableOpacity
+               [ OnPress onPress
+                 Disabled (not isEnabled) ])
+        Platform.Android
+          (fun onPress ->
+             RN.touchableNativeFeedback
+               [ OnPress onPress
+                 Disabled (not isEnabled) ]) ]
 
   let private sectionHeader section =
     RN.text
       [ sectionHeaderStyle ]
       (unbox<CustomSection> section).title
 
-  let view items selected itemKey equals (dispatch: Dispatch<Message<'a>>) =
+  let view items selected itemKey itemEnabled equals (dispatch: Dispatch<Message<'a>>) =
     let renderItem item =
       let style = match selected with
                   | Some sel when (equals item sel) -> [ selectedStyle ]
                   | _ -> []
       touchable
+        (itemEnabled item)
         (fun () -> dispatch (ItemSelected item))
         [ RN.view
             [ itemStyle ]

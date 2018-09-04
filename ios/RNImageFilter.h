@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSString *inputRadius;
 @property (nonatomic, strong) NSString *inputWidth;
 @property (nonatomic, strong) NSString *inputScale;
+@property (nonatomic, strong) NSString *inputEV;
 @property (nonatomic, strong) NSArray<NSString *> *inputCenter;
 @property (nonatomic, strong) NSArray<NSString *> *inputPoint0;
 @property (nonatomic, strong) NSArray<NSString *> *inputPoint1;
@@ -34,6 +35,12 @@
 @property (nonatomic, strong) NSArray<NSNumber *> *inputBVector;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputAVector;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputBiasVector;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputRedCoefficients;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputGreenCoefficients;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputBlueCoefficients;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputAlphaCoefficients;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputNeutral;
+@property (nonatomic, strong) NSArray<NSNumber *> *inputTargetNeutral;
 
 + (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options;
 - (CIContext *)context;

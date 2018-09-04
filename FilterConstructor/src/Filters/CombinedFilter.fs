@@ -13,25 +13,6 @@ module CFI = CombinedFilterInput
 
 module CombinedFilter =
 
-  type Category =
-    | Android
-    | ColorMatrix
-    | CICategoryBlur
-    | CICategoryColorAdjustment
-    | CICategoryColorEffect
-    | CICategoryCompositeOperation
-    | CICategoryDistortionEffect
-    | CICategoryGenerator
-    | CICategoryGeometryAdjustment
-    | CICategoryGradient
-    | CICategoryHalftoneEffect
-    | CICategoryReduction
-    | CICategorySharpen
-    | CICategoryStylize
-    | CICategoryTileEffect
-    | CICategoryTransition
-
-
   type Model =
     | Normal
     | Saturate
@@ -63,6 +44,7 @@ module CombinedFilter =
     | CIBoxBlur
     | CIDiscBlur
     | CIGaussianBlur
+    | CIMaskedVariableBlur
     | CIMedianFilter
     | CIMotionBlur
     | CINoiseReduction
@@ -70,8 +52,13 @@ module CombinedFilter =
     | CIColorClamp
     | CIColorControls
     | CIColorMatrix
+    | CIColorPolynomial
+    | CIExposureAdjust
     | CIGammaAdjust
     | CIHueAdjust
+    | CILinearToSRGBToneCurve
+    | CISRGBToneCurveToLinear
+    | CITemperatureAndTint
     | CIMaskToAlpha
     | CIMaximumComponent
     | CIMinimumComponent
@@ -84,6 +71,7 @@ module CombinedFilter =
     | CIPhotoEffectTonal
     | CIPhotoEffectTransfer
     | CIVignetteEffect
+    | CIAdditionCompositing
     | CIColorInvert
     | CIColorPosterize
     | CIVibrance
@@ -101,8 +89,6 @@ module CombinedFilter =
     | CIPixellate
     | CIPointillize
     | CIOpTile
-
-  type GroupedModel = Category * (Model array)
 
 
   let name =
@@ -204,6 +190,11 @@ module CombinedFilter =
         [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50. 10.
           Filter.ResizeOutput, CFI.initBoolean ]
 
+    | CIMaskedVariableBlur ->
+      Filter.init
+        [ Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 50. 10.
+          Filter.ResizeOutput, CFI.initBoolean ]
+
     | CIMedianFilter -> Filter.init []
 
     | CIMotionBlur ->
@@ -249,6 +240,21 @@ module CombinedFilter =
           (Filter.InputBiasVector,
            CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 0., 0., 0.)) ]
 
+    | CIColorPolynomial ->
+      Filter.init
+        [ (Filter.InputRedCoefficients,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 1., 0., 0.))
+          (Filter.InputGreenCoefficients,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 1., 0., 0.))
+          (Filter.InputBlueCoefficients,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 1., 0., 0.))
+          (Filter.InputAlphaCoefficients,
+           CFI.initRGBAVector (0., 0., 0., 0.) (1., 1., 1., 1.) (0., 1., 0., 0.)) ]
+
+    | CIExposureAdjust ->
+      Filter.init
+        [ Filter.InputEV, CFI.initScalar -5. 5. 0.5 ]
+
     | CIGammaAdjust ->
       Filter.init
         [ Filter.InputPower, CFI.initScalar 0. 10. 0.75 ]
@@ -256,6 +262,15 @@ module CombinedFilter =
     | CIHueAdjust ->
       Filter.init
         [ Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0. ]
+
+    | CILinearToSRGBToneCurve -> Filter.init []
+
+    | CISRGBToneCurveToLinear -> Filter.init []
+
+    | CITemperatureAndTint ->
+      Filter.init
+        [ Filter.InputNeutral, CFI.initOffset (-10000., -1000.) (10000., 1000.) (6500., 0.)
+          Filter.InputTargetNeutral, CFI.initOffset (-10000., -1000.) (10000., 1000.) (6500., 0.) ]
 
     | CIMaskToAlpha -> Filter.init []
 
@@ -284,6 +299,8 @@ module CombinedFilter =
         [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
           Filter.InputIntensity, CFI.initScalar 0. 1. 1.
           Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. 0. ]
+
+    | CIAdditionCompositing -> Filter.init []
 
     | CIColorInvert -> Filter.init []
 
@@ -535,6 +552,15 @@ module CombinedFilter =
          | ResizeOutput value -> Some (CIGaussianBlurProps.ResizeOutput value)
          | _ -> None)
          
+    | CIMaskedVariableBlur ->
+      Filter.view
+        RNF.CIMaskedVariableBlur
+        (function
+         | Filter.InputRadius, CFI.Distance input ->
+           Some (CIMaskedVariableBlurProps.InputRadius (input.Convert input.Value))
+         | ResizeOutput value -> Some (CIMaskedVariableBlurProps.ResizeOutput value)
+         | _ -> None)
+         
     | CIMedianFilter -> emptyView RNF.CIMedianFilter
          
     | CIMotionBlur ->
@@ -607,6 +633,28 @@ module CombinedFilter =
            Some (CIColorMatrixProps.InputBiasVector (input.Convert input.Value))
          | _ -> None)
 
+    | CIColorPolynomial ->
+      Filter.view
+        RNF.CIColorPolynomial
+        (function
+         | Filter.InputRedCoefficients, CFI.RGBAVector input ->
+           Some (CIColorPolynomialProps.InputRedCoefficients (input.Convert input.Value))
+         | Filter.InputGreenCoefficients, CFI.RGBAVector input ->
+           Some (CIColorPolynomialProps.InputGreenCoefficients (input.Convert input.Value))
+         | Filter.InputBlueCoefficients, CFI.RGBAVector input ->
+           Some (CIColorPolynomialProps.InputBlueCoefficients (input.Convert input.Value))
+         | Filter.InputAlphaCoefficients, CFI.RGBAVector input ->
+           Some (CIColorPolynomialProps.InputAlphaCoefficients (input.Convert input.Value))
+         | _ -> None)
+
+    | CIExposureAdjust ->
+      Filter.view
+        RNF.CIExposureAdjust
+        (function
+         | Filter.InputEV, CFI.Scalar input ->
+           Some (CIExposureAdjustProps.InputEV (input.Convert input.Value))
+         | _ -> None)
+
     | CIGammaAdjust ->
       Filter.view
         RNF.CIGammaAdjust
@@ -621,6 +669,20 @@ module CombinedFilter =
         (function
          | Filter.InputAngle, CFI.Scalar input ->
            Some (CIHueAdjustProps.InputAngle (input.Convert input.Value))
+         | _ -> None)
+         
+    | CILinearToSRGBToneCurve -> emptyView RNF.CIMaskToAlpha
+         
+    | CISRGBToneCurveToLinear -> emptyView RNF.CIMaskToAlpha
+
+    | CITemperatureAndTint ->
+      Filter.view
+        RNF.CITemperatureAndTint
+        (function
+         | Filter.InputNeutral, CFI.Offset input ->
+           Some (CITemperatureAndTintProps.InputNeutral (input.Convert input.Value))
+         | Filter.InputTargetNeutral, CFI.Offset input ->
+           Some (CITemperatureAndTintProps.InputTargetNeutral (input.Convert input.Value))
          | _ -> None)
          
     | CIMaskToAlpha -> emptyView RNF.CIMaskToAlpha
@@ -657,6 +719,8 @@ module CombinedFilter =
            Some (CIVignetteEffectProps.InputRadius (input.Convert input.Value))
          | _ -> None)
          
+    | CIAdditionCompositing -> emptyView RNF.CIAdditionCompositing
+
     | CIColorInvert -> emptyView RNF.CIColorInvert
          
     | CIColorPosterize ->
@@ -835,192 +899,91 @@ module CombinedFilter =
          | ResizeOutput value -> Some (CIOpTileProps.ResizeOutput value)
          | _ -> None)
 
-  let controls =
+
+  let requiredImagesAmount =
     function
-    | Normal -> Filter.controls (name Normal)
-    | Saturate -> Filter.controls (name Saturate)
-    | HueRotate -> Filter.controls (name HueRotate)
-    | LuminanceToAlpha -> Filter.controls (name LuminanceToAlpha)
-    | Invert -> Filter.controls (name Invert)
-    | Grayscale -> Filter.controls (name Grayscale)
-    | Sepia -> Filter.controls (name Sepia)
-    | Nightvision -> Filter.controls (name Nightvision)
-    | Warm -> Filter.controls (name Warm)
-    | Cool -> Filter.controls (name Cool)
-    | Brightness -> Filter.controls (name Brightness)
-    | Exposure -> Filter.controls (name Exposure)
-    | Contrast -> Filter.controls (name Contrast)
-    | Temperature -> Filter.controls (name Temperature)
-    | Tint -> Filter.controls (name Tint)
-    | Threshold -> Filter.controls (name Threshold)
-    | Protanomaly -> Filter.controls (name Protanomaly)
-    | Deuteranomaly -> Filter.controls (name Deuteranomaly)
-    | Tritanomaly -> Filter.controls (name Tritanomaly)
-    | Protanopia -> Filter.controls (name Protanopia)
-    | Deuteranopia -> Filter.controls (name Deuteranopia)
-    | Tritanopia -> Filter.controls (name Tritanopia)
-    | Achromatopsia -> Filter.controls (name Achromatopsia)
-    | Achromatomaly -> Filter.controls (name Achromatomaly)
-    | RoundAsCircle -> Filter.controls (name RoundAsCircle)
-    | IterativeBoxBlur -> Filter.controls (name IterativeBoxBlur)
-    | LightingColorFilter -> Filter.controls (name LightingColorFilter)
-    | CIBoxBlur -> Filter.controls (name CIBoxBlur)
-    | CIDiscBlur -> Filter.controls (name CIDiscBlur)
-    | CIGaussianBlur -> Filter.controls (name CIGaussianBlur)
-    | CIMedianFilter -> Filter.controls (name CIMedianFilter)
-    | CIMotionBlur -> Filter.controls (name CIMotionBlur)
-    | CINoiseReduction -> Filter.controls (name CINoiseReduction)
-    | CIZoomBlur -> Filter.controls (name CIZoomBlur)
-    | CIColorClamp -> Filter.controls (name CIColorClamp)
-    | CIColorControls -> Filter.controls (name CIColorControls)
-    | CIColorMatrix -> Filter.controls (name CIColorMatrix)
-    | CIGammaAdjust -> Filter.controls (name CIGammaAdjust)
-    | CIHueAdjust -> Filter.controls (name CIHueAdjust)
-    | CIMaskToAlpha -> Filter.controls (name CIMaskToAlpha)
-    | CIMaximumComponent -> Filter.controls (name CIMaximumComponent)
-    | CIMinimumComponent -> Filter.controls (name CIMinimumComponent)
-    | CIPhotoEffectChrome -> Filter.controls (name CIPhotoEffectChrome)
-    | CIPhotoEffectFade -> Filter.controls (name CIPhotoEffectFade)
-    | CIPhotoEffectInstant -> Filter.controls (name CIPhotoEffectInstant)
-    | CIPhotoEffectMono -> Filter.controls (name CIPhotoEffectMono)
-    | CIPhotoEffectNoir -> Filter.controls (name CIPhotoEffectNoir)
-    | CIPhotoEffectProcess -> Filter.controls (name CIPhotoEffectProcess)
-    | CIPhotoEffectTonal -> Filter.controls (name CIPhotoEffectTonal)
-    | CIPhotoEffectTransfer -> Filter.controls (name CIPhotoEffectTransfer)
-    | CIVignetteEffect -> Filter.controls (name CIVignetteEffect)
-    | CIColorInvert -> Filter.controls (name CIColorInvert)
-    | CIColorPosterize -> Filter.controls (name CIColorPosterize)
-    | CIVibrance -> Filter.controls (name CIVibrance)
-    | CICircularScreen -> Filter.controls (name CICircularScreen)
-    | CIDotScreen -> Filter.controls (name CIDotScreen)
-    | CIBumpDistortion -> Filter.controls (name CIBumpDistortion)
-    | CIBumpDistortionLinear -> Filter.controls (name CIBumpDistortionLinear)
-    | CICircleSplashDistortion -> Filter.controls (name CICircleSplashDistortion)
-    | CICircularWrap -> Filter.controls (name CICircularWrap)
-    | CIVortexDistortion -> Filter.controls (name CIVortexDistortion)
-    | CISharpenLuminance -> Filter.controls (name CISharpenLuminance)
-    | CIUnsharpMask -> Filter.controls (name CIUnsharpMask)
-    | CICrystallize -> Filter.controls (name CICrystallize)
-    | CIEdges -> Filter.controls (name CIEdges)
-    | CIPixellate -> Filter.controls (name CIPixellate)
-    | CIPointillize -> Filter.controls (name CIPointillize)
-    | CIOpTile -> Filter.controls (name CIOpTile)
+    | CIMaskedVariableBlur
+    | CIAdditionCompositing -> 2
+    | _ -> 1
 
-  let private availableCommonFilters: GroupedModel array =
-    [| ColorMatrix,
-       [| Normal
-          Saturate
-          HueRotate
-          LuminanceToAlpha
-          Invert
-          Grayscale
-          Sepia
-          Nightvision
-          Warm
-          Cool
-          Brightness
-          Exposure
-          Contrast
-          Temperature
-          Tint
-          Threshold
-          Protanomaly
-          Deuteranomaly
-          Tritanomaly
-          Protanopia
-          Deuteranopia
-          Tritanopia
-          Achromatopsia
-          Achromatomaly |] |]
 
-  let private availableAndroidFilters: GroupedModel array =
-    Array.concat
-      [ availableCommonFilters
-        [| Android,
-           [| RoundAsCircle
-              IterativeBoxBlur
-              LightingColorFilter |] |] ]
-
-  let private availableIosFilters =
-    Array.concat
-      [ availableCommonFilters
-
-        [| CICategoryBlur,
-           [| CIBoxBlur
-              CIDiscBlur
-              CIGaussianBlur
-              CIMedianFilter
-              CIMotionBlur
-              CINoiseReduction
-              CIZoomBlur |];
-
-            CICategoryColorAdjustment,
-            [| CIColorClamp
-               CIColorControls
-               CIColorMatrix
-               CIGammaAdjust
-               CIHueAdjust
-               CIVibrance |];
-                
-            CICategoryColorEffect,
-            [| CIColorInvert
-               CIColorPosterize
-               CIMaskToAlpha
-               CIMaximumComponent
-               CIMinimumComponent
-               CIPhotoEffectChrome
-               CIPhotoEffectFade
-               CIPhotoEffectInstant
-               CIPhotoEffectMono
-               CIPhotoEffectNoir
-               CIPhotoEffectProcess
-               CIPhotoEffectTonal
-               CIPhotoEffectTransfer
-               CIVignetteEffect |];
-               
-            CICategoryCompositeOperation,
-            [| |];
-            
-            CICategoryDistortionEffect,
-            [| CIBumpDistortion
-               CIBumpDistortionLinear
-               CICircleSplashDistortion
-               CICircularWrap
-               CIVortexDistortion |];
-            
-            CICategoryGenerator,
-            [| |];
-            
-            CICategoryGeometryAdjustment,
-            [| |];
-            
-            CICategoryGradient,
-            [| |];
-            
-            CICategoryHalftoneEffect,
-            [| CICircularScreen
-               CIDotScreen |];
-               
-            CICategoryReduction,
-            [| |];
-            
-            CICategorySharpen,
-            [| CISharpenLuminance
-               CIUnsharpMask |];
-               
-            CICategoryStylize,
-            [| CICrystallize
-               CIEdges
-               CIPixellate
-               CIPointillize |];
-            
-            CICategoryTileEffect,
-            [| CIOpTile |];
-            
-            CICategoryTransition,
-            [| |] |] ]
-
-  let availableFilters =
-    Platform.select
-      [ Platform.Ios availableIosFilters
-        Platform.Android availableAndroidFilters ]
+  let controls model =
+    let ctrl =
+      match model with
+      | Normal -> Filter.controls (name Normal)
+      | Saturate -> Filter.controls (name Saturate)
+      | HueRotate -> Filter.controls (name HueRotate)
+      | LuminanceToAlpha -> Filter.controls (name LuminanceToAlpha)
+      | Invert -> Filter.controls (name Invert)
+      | Grayscale -> Filter.controls (name Grayscale)
+      | Sepia -> Filter.controls (name Sepia)
+      | Nightvision -> Filter.controls (name Nightvision)
+      | Warm -> Filter.controls (name Warm)
+      | Cool -> Filter.controls (name Cool)
+      | Brightness -> Filter.controls (name Brightness)
+      | Exposure -> Filter.controls (name Exposure)
+      | Contrast -> Filter.controls (name Contrast)
+      | Temperature -> Filter.controls (name Temperature)
+      | Tint -> Filter.controls (name Tint)
+      | Threshold -> Filter.controls (name Threshold)
+      | Protanomaly -> Filter.controls (name Protanomaly)
+      | Deuteranomaly -> Filter.controls (name Deuteranomaly)
+      | Tritanomaly -> Filter.controls (name Tritanomaly)
+      | Protanopia -> Filter.controls (name Protanopia)
+      | Deuteranopia -> Filter.controls (name Deuteranopia)
+      | Tritanopia -> Filter.controls (name Tritanopia)
+      | Achromatopsia -> Filter.controls (name Achromatopsia)
+      | Achromatomaly -> Filter.controls (name Achromatomaly)
+      | RoundAsCircle -> Filter.controls (name RoundAsCircle)
+      | IterativeBoxBlur -> Filter.controls (name IterativeBoxBlur)
+      | LightingColorFilter -> Filter.controls (name LightingColorFilter)
+      | CIBoxBlur -> Filter.controls (name CIBoxBlur)
+      | CIDiscBlur -> Filter.controls (name CIDiscBlur)
+      | CIGaussianBlur -> Filter.controls (name CIGaussianBlur)
+      | CIMaskedVariableBlur -> Filter.controls (name CIMaskedVariableBlur)
+      | CIMedianFilter -> Filter.controls (name CIMedianFilter)
+      | CIMotionBlur -> Filter.controls (name CIMotionBlur)
+      | CINoiseReduction -> Filter.controls (name CINoiseReduction)
+      | CIZoomBlur -> Filter.controls (name CIZoomBlur)
+      | CIColorClamp -> Filter.controls (name CIColorClamp)
+      | CIColorControls -> Filter.controls (name CIColorControls)
+      | CIColorMatrix -> Filter.controls (name CIColorMatrix)
+      | CIColorPolynomial -> Filter.controls (name CIColorPolynomial)
+      | CIExposureAdjust -> Filter.controls (name CIExposureAdjust)
+      | CIGammaAdjust -> Filter.controls (name CIGammaAdjust)
+      | CIHueAdjust -> Filter.controls (name CIHueAdjust)
+      | CILinearToSRGBToneCurve -> Filter.controls (name CILinearToSRGBToneCurve)
+      | CISRGBToneCurveToLinear -> Filter.controls (name CISRGBToneCurveToLinear)
+      | CITemperatureAndTint -> Filter.controls (name CITemperatureAndTint)
+      | CIMaskToAlpha -> Filter.controls (name CIMaskToAlpha)
+      | CIMaximumComponent -> Filter.controls (name CIMaximumComponent)
+      | CIMinimumComponent -> Filter.controls (name CIMinimumComponent)
+      | CIPhotoEffectChrome -> Filter.controls (name CIPhotoEffectChrome)
+      | CIPhotoEffectFade -> Filter.controls (name CIPhotoEffectFade)
+      | CIPhotoEffectInstant -> Filter.controls (name CIPhotoEffectInstant)
+      | CIPhotoEffectMono -> Filter.controls (name CIPhotoEffectMono)
+      | CIPhotoEffectNoir -> Filter.controls (name CIPhotoEffectNoir)
+      | CIPhotoEffectProcess -> Filter.controls (name CIPhotoEffectProcess)
+      | CIPhotoEffectTonal -> Filter.controls (name CIPhotoEffectTonal)
+      | CIPhotoEffectTransfer -> Filter.controls (name CIPhotoEffectTransfer)
+      | CIVignetteEffect -> Filter.controls (name CIVignetteEffect)
+      | CIAdditionCompositing -> Filter.controls (name CIAdditionCompositing)
+      | CIColorInvert -> Filter.controls (name CIColorInvert)
+      | CIColorPosterize -> Filter.controls (name CIColorPosterize)
+      | CIVibrance -> Filter.controls (name CIVibrance)
+      | CICircularScreen -> Filter.controls (name CICircularScreen)
+      | CIDotScreen -> Filter.controls (name CIDotScreen)
+      | CIBumpDistortion -> Filter.controls (name CIBumpDistortion)
+      | CIBumpDistortionLinear -> Filter.controls (name CIBumpDistortionLinear)
+      | CICircleSplashDistortion -> Filter.controls (name CICircleSplashDistortion)
+      | CICircularWrap -> Filter.controls (name CICircularWrap)
+      | CIVortexDistortion -> Filter.controls (name CIVortexDistortion)
+      | CISharpenLuminance -> Filter.controls (name CISharpenLuminance)
+      | CIUnsharpMask -> Filter.controls (name CIUnsharpMask)
+      | CICrystallize -> Filter.controls (name CICrystallize)
+      | CIEdges -> Filter.controls (name CIEdges)
+      | CIPixellate -> Filter.controls (name CIPixellate)
+      | CIPointillize -> Filter.controls (name CIPointillize)
+      | CIOpTile -> Filter.controls (name CIOpTile)
+    
+    ctrl ((requiredImagesAmount model) > 1)

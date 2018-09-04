@@ -1,16 +1,27 @@
 import React from 'react';
+import Children from 'react-children-utilities';
 import { defaultStyle, checkStyle } from './style';
 import { View, processColor } from 'react-native';
 import {
   distance,
-  point,
+  position,
   scalar,
-  vector
+  vector,
+  offset
 } from './input-types';
 
 const id = x => x;
 const anyToString = n => `${n}`;
-const pointToArray = p => [`${p.x}`, `${p.y}`];
+const positionToArray = p => [`${p.x}`, `${p.y}`];
+const offsetToArray = p => [p.x, p.y];
+
+const imageStyle = {
+  position: 'absolute',
+  opacity: 0,
+  zIndex: Number.MIN_SAFE_INTEGER
+};
+
+const mapImageStyle = style => style ? [style, imageStyle] : imageStyle;
 
 const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) => {
   checkStyle(style);
@@ -21,8 +32,10 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
     restProps.paramNames.reduce(
       (acc, val, idx) => {
         const paramType = restProps.paramTypes[idx];
-        const convert = paramType === point
-          ? pointToArray
+        const convert = paramType === position
+          ? positionToArray
+          : paramType === offset
+          ? offsetToArray
           : paramType === distance || paramType === scalar
           ? anyToString
           : id;
@@ -61,12 +74,30 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
   //   ...restInputs
   // };
 
+  let keepImage = true;
+
   return (
     <ImageFilter
       style={[defaultStyle.container, style]}
       {...props}
     >
-      {children}
+      {Children.deepMap(children, (child) => {
+        if (child && child.type && child.type.displayName === "Image") {
+          if (keepImage) {
+            keepImage = false;
+            return child;
+
+          } else {
+            return React.cloneElement(
+              child,
+              { ...child.props, style: mapImageStyle(child.props.style) }
+            );
+          }
+
+        } else {
+          return child;
+        }
+      })}
     </ImageFilter>
   );
 };

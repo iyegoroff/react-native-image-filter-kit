@@ -25,7 +25,7 @@ module SingularFilteredImage =
     | SelectImage
     | SetImage of Image.Model
     | ImageSelectModalMessage of ImageSelectModal.Message
-    | FilteredImageMessage of FilteredImage.Message
+    | FilteredImageMessage of FilteredImage.Message<Model'>
 
   let init image =    
     FilteredImage.init
@@ -49,7 +49,8 @@ module SingularFilteredImage =
       []
 
     | SetImage image -> 
-      { model with Image = { model.Image with Image = image } }, []
+      let model' = { model with Image = { model.Image with Image = image } }
+      model', FilteredImage.updateDependentCmd model' FilteredImageMessage Cmd.none
 
     | SelectImage ->
       { model with ImageSelectModalIsVisible = true }, []
@@ -108,6 +109,7 @@ module SingularFilteredImage =
 
   let view (model: Model) (dispatch: Dispatch<Message>) =
     let dispatch' = FilteredImageMessage >> dispatch
+    let isDependency = model.Dependent.IsSome
 
     R.fragment
       []
@@ -119,6 +121,7 @@ module SingularFilteredImage =
               (ImageSelectModalMessage >> dispatch) ]
         FilteredImage.filterPortal model dispatch'
         (FilteredImage.view
+           isDependency
            model.Image.Filters
            dispatch'
            [ RN.view
@@ -126,4 +129,7 @@ module SingularFilteredImage =
                [ FilteredImage.spinner model
                  image model.Image dispatch' ]
              resizer model.Image dispatch
-             FilteredImage.imageControls (Some (fun _ -> dispatch SelectImage)) dispatch' ]) ]
+             FilteredImage.imageControls
+               isDependency
+               (Some (fun _ -> dispatch SelectImage))
+               dispatch' ]) ]

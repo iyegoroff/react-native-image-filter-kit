@@ -11,8 +11,9 @@
 
 @interface RNImageFilter ()
 
-@property (nonatomic, strong) NSArray<UIImage *> *originalImages;
-@property (nonatomic, strong) NSArray<RCTImageView *> *targets;
+@property (nonatomic, strong) NSDictionary<NSString *, UIImage *> *originalImages;
+@property (nonatomic, strong) NSDictionary<NSString *, RCTImageView *> *targets;
+@property (nonatomic, strong) NSHashTable<RCTImageView *> *targetSubscriptions;
 @property (nonatomic, strong) NSOperationQueue *filteringQueue;
 
 @end
@@ -22,8 +23,9 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
-    _originalImages = [NSArray array];
-    _targets = [NSArray array];
+    _originalImages = [NSDictionary dictionary];
+    _targets = [NSDictionary dictionary];
+    _targetSubscriptions = [NSHashTable weakObjectsHashTable];
     _imageNames = [NSArray array];
     _paramNames = [NSArray array];
     _paramTypes = [NSArray array];
@@ -45,6 +47,8 @@
   [super layoutSubviews];
   
   [self linkTargets];
+  
+//  RCTLog(@"filter: layout %@", [self filterStack]);
 }
 
 - (CIContext *)context
@@ -52,34 +56,73 @@
   MUST_BE_OVERRIDEN()
 }
 
+- (NSDictionary *)filterStack
+{
+  RNImageFilter *top = [self topFilter];
+  return [NSDictionary dictionaryWithObject:[RNImageFilter enumerateFilters:top] forKey:top.name];
+}
+
++ (NSDictionary *)enumerateFilters:(RNImageFilter*)filter
+{
+  return [filter.subviews reduce:^id(id acc, __kindof UIView *val, int idx) {
+    if ([val isKindOfClass:[RNImageFilter class]]) {
+      RNImageFilter *filt = (RNImageFilter *)val;
+      [acc setObject:[RNImageFilter enumerateFilters:filt] forKey:filt.name];
+    } else if ([val isKindOfClass:[RCTImageView class]]) {
+      [acc setObject:@"image" forKey:[NSNumber numberWithInteger:idx]];
+    }
+    
+    return acc;
+  } init:[NSMutableDictionary dictionary]];
+}
+
 - (void)linkTargets
 {
   [self unlinkTargets];
   
-  _targets = [self.subviews filter:^BOOL(__kindof UIView *val, int idx) {
-    return [val isKindOfClass:[RCTImageView class]];
-  }];
-  
-  if (_originalImages.count == 0) {
-    _originalImages = [_targets map:^id(RCTImageView *val, int idx) {
-      return [val.image copy] ?: [NSNull null];
-    }];
-  }
-  
-  for (RCTImageView *target in _targets) {
-    [target addObserver:self
-             forKeyPath:@"image"
-                options:NSKeyValueObservingOptionNew
-                context:NULL];
+  _targets = [_imageNames reduce:^id(id acc, NSString *val, int idx) {
+    UIView *target = [self.subviews count] > idx ? self.subviews[idx] : nil;
     
-    [self renderFilteredImage:YES];
+    if ([target isKindOfClass:[RCTImageView class]]) {
+      [acc setObject:target forKey:val];
+    }
+    
+    return acc;
+  } init:[NSMutableDictionary dictionary]];
+  
+  
+  _originalImages = [[_targets allKeys] reduce:^id(id acc, NSString *val, int idx) {
+    UIImage *image = [_originalImages objectForKey:val]
+      ?: [[_targets objectForKey:val].image copy]
+      ?: [NSNull null];
+    
+    if (image) {
+      [acc setObject:image forKey:val];
+    }
+    
+    return acc;
+  } init:[NSMutableDictionary dictionary]];
+  
+  for (RCTImageView *target in [_targets allValues]) {
+    if (![_targetSubscriptions containsObject:target]) {
+      [target addObserver:self
+               forKeyPath:@"image"
+                  options:NSKeyValueObservingOptionNew
+                  context:NULL];
+      [_targetSubscriptions addObject:target];
+    }
+    
+    [[self topFilter] renderFilteredImage:YES];
   }
 }
 
 - (void)unlinkTargets
 {
-  for (id target in _targets) {
-    [target removeObserver:self forKeyPath:@"image"];
+  for (RCTImageView *target in [_targets allValues]) {
+    if ([_targetSubscriptions containsObject:target]) {
+      [target removeObserver:self forKeyPath:@"image"];
+      [_targetSubscriptions removeObject:target];
+    }
   }
 }
 
@@ -98,15 +141,15 @@
 {
   if (_name != nil) {
     NSDictionary* filterings = [_imageNames reduce:^id(id acc, NSString *val, int idx) {
-      UIImage *image = [_originalImages at:idx];
-      RCTImageView *target = [_targets at:idx];
+      UIImage *image = [_originalImages objectForKey:val];
+      RCTImageView *target = [_targets objectForKey:val];
       
       Filtering filtering = image && (NSNull *)image != [NSNull null] && target
         ? (^RNFilteredImage *(void) {
-             return [RNFilteredImage createWithImage:image
-                                          resizeMode:target.resizeMode
-                                 accumulatedCacheKey:[RNImageFilter imageCacheKey:target]];
-           })
+            return [RNFilteredImage createWithImage:image
+                                         resizeMode:target.resizeMode
+                                accumulatedCacheKey:[RNImageFilter imageCacheKey:target]];
+          })
         : [[self.subviews at:idx] isKindOfClass:[RNImageFilter class]]
         ? [(RNImageFilter *)[self.subviews at:idx] filtering]
         : nil;
@@ -144,7 +187,7 @@
 
 - (void)renderFilteredImage:(BOOL)shouldInvalidate
 {
-  Filtering filtering = [[self topFilter] filtering];
+  Filtering filtering = [self filtering];
   
   if (filtering) {
     __weak RNImageFilter *weakSelf = self;
@@ -155,11 +198,11 @@
     
     [_filteringQueue cancelAllOperations];
     [_filteringQueue addOperationWithBlock:^{
-      RNFilteredImage* image = filtering();
-
+      RNFilteredImage *image = filtering();
+      
       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         RNImageFilter *strongSelf = weakSelf;
-
+        
         if (image != nil && strongSelf != nil) {
           [strongSelf updateImage:image.image];
         }
@@ -170,25 +213,33 @@
 
 - (void)updateImage:(nullable UIImage *)image
 {
-  for (int i = 0; i < self.subviews.count; i++) {
-    UIView *child = self.subviews[i];
+  if (self.subviews.count != 0) {
+    UIView *child = self.subviews[0];
     
     if ([child isKindOfClass:[RCTImageView class]]) {
-      [self updateTarget:(RCTImageView *)child image:(i == 0 ? image : nil)];
+      [self updateTarget:(RCTImageView *)child image:image];
     } else if ([child isKindOfClass:[RNImageFilter class]]) {
-      [(RNImageFilter *)child updateImage:(i == 0 ? image : nil)];
+      [(RNImageFilter *)child updateImage:image];
     }
   }
 }
 
 - (void)updateTarget:(nullable RCTImageView *)target image:(nullable UIImage *)image
 {
-  [target removeObserver:self forKeyPath:@"image"];
+  BOOL isObserved = [_targetSubscriptions containsObject:target];
+  
+  if (isObserved) {
+    [target removeObserver:self forKeyPath:@"image"];
+  }
+  
   [target setImage:image];
-  [target addObserver:self
-           forKeyPath:@"image"
-              options:NSKeyValueObservingOptionNew
-              context:NULL];
+  
+  if (isObserved) {
+    [target addObserver:self
+             forKeyPath:@"image"
+                options:NSKeyValueObservingOptionNew
+                context:NULL];
+  }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -196,11 +247,17 @@
                         change:(NSDictionary *)change
                        context:(void *)context {
   if ([keyPath isEqualToString:@"image"]) {
-    _originalImages = [_originalImages map:^id(UIImage *val, int idx) {
-      return object == [_targets at:idx] ? [object.image copy] : val;
-    }];
+    _originalImages = [[_originalImages allKeys] reduce:^id(id acc, NSString *val, int idx) {
+      UIImage *image = object == [_targets objectForKey:val]
+        ? [object.image copy]
+        : [_originalImages objectForKey:val];
+      
+      [acc setObject:image forKey:val];
+      
+      return acc;
+    } init:[NSMutableDictionary dictionary]];
     
-    [self renderFilteredImage:YES];
+    [[self topFilter] renderFilteredImage:YES];
   }
 }
 
@@ -208,7 +265,8 @@
 {
   for (NSString *paramName in _paramNames) {
     if ([changedProps containsObject:paramName] || [changedProps containsObject:@"resizeOutput"]) {
-      [self renderFilteredImage:NO];
+//      RCTLog(@"filter: set props %@", [self filterStack]);
+      [[self topFilter] renderFilteredImage:NO];
       break;
     }
   }

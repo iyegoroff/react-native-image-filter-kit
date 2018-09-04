@@ -19,6 +19,10 @@ module Props =
   type IRGBAVector =
     interface end
 
+
+  type IOffset =
+    interface end
+
   type ColorMatrixProps =
     | Style of IStyle list
     | Matrix of ResizeArray<float>
@@ -135,6 +139,11 @@ module Props =
     | ResizeOutput of bool
     | InputRadius of IDistance
 
+  type CIMaskedVariableBlurProps =
+    | Style of IStyle list
+    | ResizeOutput of bool
+    | InputRadius of IDistance
+
   type CIMedianFilterProps =
     | Style of IStyle list
 
@@ -169,6 +178,17 @@ module Props =
     | InputAVector of IRGBAVector
     | InputBiasVector of IRGBAVector
 
+  type CIColorPolynomialProps =
+    | Style of IStyle list
+    | InputRedCoefficients of IRGBAVector
+    | InputGreenCoefficients of IRGBAVector
+    | InputBlueCoefficients of IRGBAVector
+    | InputAlphaCoefficients of IRGBAVector
+
+  type CIExposureAdjustProps =
+    | Style of IStyle list
+    | InputEV of float
+
   type CIGammaAdjustProps =
     | Style of IStyle list
     | InputPower of float
@@ -176,6 +196,17 @@ module Props =
   type CIHueAdjustProps =
     | Style of IStyle list
     | InputAngle of float
+
+  type CILinearToSRGBToneCurveProps =
+    | Style of IStyle list
+
+  type CISRGBToneCurveToLinearProps =
+    | Style of IStyle list
+
+  type CITemperatureAndTintProps =
+    | Style of IStyle list
+    | InputNeutral of IOffset
+    | InputTargetNeutral of IOffset
 
   type CIColorClampProps =
     | Style of IStyle list
@@ -220,6 +251,9 @@ module Props =
     | InputCenter of IPoint
     | InputIntensity of float
     | InputRadius of IDistance
+
+  type CIAdditionCompositingProps =
+    | Style of IStyle list
 
   type CIColorInvertProps =
     | Style of IStyle list
@@ -342,6 +376,9 @@ let Point (_x: IDistance, _y: IDistance): IPoint = jsNative
 [<Emit("[$0, $1, $2, $3]")>]
 let RGBAVector (_r: float, _g: float, _b: float, _a: float): IRGBAVector = jsNative
 
+[<Emit("({ x:$0, y:$1 })")>]
+let Offset (_x: float, _y: float): IOffset = jsNative
+
 let inline private propsToObj (props: 'a list): obj = keyValueList CaseRules.LowerFirst props
 
 let inline ColorMatrix (props: ColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
@@ -440,6 +477,9 @@ let inline CIGaussianBlur (props: CIGaussianBlurProps list) (children: React.Rea
 let inline CIDiscBlur (props: CIDiscBlurProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIDiscBlur" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline CIMaskedVariableBlur (props: CIMaskedVariableBlurProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIMaskedVariableBlur" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CIMedianFilter (props: CIMedianFilterProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIMedianFilter" "react-native-image-filter-kit" (propsToObj props) children
 
@@ -458,11 +498,26 @@ let inline CIColorControls (props: CIColorControlsProps list) (children: React.R
 let inline CIColorMatrix (props: CIColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorMatrix" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline CIColorPolynomial (props: CIColorPolynomialProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorPolynomial" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIExposureAdjust (props: CIExposureAdjustProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIExposureAdjust" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CIGammaAdjust (props: CIGammaAdjustProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIGammaAdjust" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIHueAdjust (props: CIHueAdjustProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIHueAdjust" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CILinearToSRGBToneCurve (props: CILinearToSRGBToneCurveProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CILinearToSRGBToneCurve" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CISRGBToneCurveToLinear (props: CISRGBToneCurveToLinearProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CISRGBToneCurveToLinear" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CITemperatureAndTint (props: CITemperatureAndTintProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CITemperatureAndTint" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIColorClamp (props: CIColorClampProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorClamp" "react-native-image-filter-kit" (propsToObj props) children
@@ -502,6 +557,9 @@ let inline CIPhotoEffectTransfer (props: CIPhotoEffectTransferProps list) (child
 
 let inline CIVignetteEffect (props: CIVignetteEffectProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIVignetteEffect" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIAdditionCompositing (props: CIAdditionCompositingProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIAdditionCompositing" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIColorInvert (props: CIColorInvertProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorInvert" "react-native-image-filter-kit" (propsToObj props) children

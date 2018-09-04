@@ -5,12 +5,17 @@ import {
 } from './image-filter';
 import {
   distance,
-  point,
+  position,
   scalar,
-  vector
+  vector,
+  offset
 } from './input-types';
 
-const filter = (paramMap, imageNames = ['inputImage']) => ({
+const inputImage = 'inputImage';
+const inputMask = 'inputMask';
+const inputBackgroundImage = 'inputBackgroundImage';
+
+const filter = (paramMap, imageNames = [inputImage]) => ({
   paramNames: Object.keys(paramMap),
   paramTypes: Object.values(paramMap),
   imageNames
@@ -29,7 +34,13 @@ const filters = {
     inputRadius: distance
   }),
 
-  // CIMaskedVariableBlur: filter(['inputRadius', 'inputMask']),
+  CIMaskedVariableBlur: filter({
+    inputRadius: distance
+  }, [
+    inputImage,
+    inputMask
+  ]),
+
   CIMedianFilter: filter({}),
 
   CIMotionBlur: filter({
@@ -43,7 +54,7 @@ const filters = {
   }),
 
   CIZoomBlur: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputAmount: distance
   }),
 
@@ -66,8 +77,17 @@ const filters = {
     inputBiasVector: vector
   }),
 
-  // CIColorPolynomial,
-  // CIExposureAdjust,
+  CIColorPolynomial: filter({
+    inputRedCoefficients: vector,
+    inputGreenCoefficients: vector,
+    inputBlueCoefficients: vector,
+    inputAlphaCoefficients: vector
+  }),
+
+  CIExposureAdjust: filter({
+    inputEV: scalar
+  }),
+
   CIGammaAdjust: filter({
     inputPower: scalar
   }),
@@ -76,9 +96,15 @@ const filters = {
     inputAngle: scalar
   }),
 
-  // CILinearToSRGBToneCurve,
-  // CISRGBToneCurveToLinear,
-  // CITemperatureAndTint,
+  CILinearToSRGBToneCurve: filter({}),
+
+  CISRGBToneCurveToLinear: filter({}),
+
+  CITemperatureAndTint: filter({
+    inputNeutral: offset,
+    inputTargetNeutral: offset
+  }),
+
   // CIToneCurve,
   CIVibrance: filter({
     inputAmount: scalar
@@ -122,12 +148,16 @@ const filters = {
   // CISepiaTone,
   // CIVignette,
   CIVignetteEffect: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputIntensity: scalar,
     inputRadius: distance
   }),
 
-  // CIAdditionCompositing,
+  CIAdditionCompositing: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+  
   // CIColorBlendMode,
   // CIColorBurnBlendMode,
   // CIColorDodgeBlendMode,
@@ -156,25 +186,25 @@ const filters = {
   // CISourceOverCompositing,
   // CISubtractBlendMode,
   CIBumpDistortion: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputRadius: distance,
     inputScale: scalar
   }),
 
   CIBumpDistortionLinear: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputRadius: distance,
     inputScale: scalar,
     inputAngle: scalar
   }),
 
   CICircleSplashDistortion: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputRadius: distance
   }),
 
   CICircularWrap: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputRadius: distance,
     inputAngle: scalar
   }),
@@ -190,7 +220,7 @@ const filters = {
   // CITorusLensDistortion,
   // CITwirlDistortion,
   CIVortexDistortion: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputRadius: distance,
     inputAngle: scalar
   }),
@@ -218,14 +248,14 @@ const filters = {
   // CIRadialGradient,
   // CISmoothLinearGradient,
   CICircularScreen: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputWidth: distance, 
     inputSharpness: scalar
   }),
 
   // CICMYKHalftone,
   CIDotScreen: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputAngle: scalar,
     inputWidth: distance,
     inputSharpness: scalar
@@ -262,7 +292,7 @@ const filters = {
   // CIConvolution9Vertical,
   CICrystallize: filter({
     inputRadius: distance,
-    inputCenter: point
+    inputCenter: position
   }),
 
   // CIDepthOfField,
@@ -277,13 +307,13 @@ const filters = {
   // CIHighlightShadowAdjust,
   // CILineOverlay,
   CIPixellate: filter({
-    inputCenter: point,
+    inputCenter: position,
     inputScale: distance
   }),
 
   CIPointillize: filter({
     inputRadius: distance,
-    inputCenter: point
+    inputCenter: position
   }),
 
   // CIShadedMaterial,
@@ -300,7 +330,7 @@ const filters = {
   CIOpTile: filter({
     inputScale: scalar,
     inputAngle: scalar,
-    inputCenter: point,
+    inputCenter: position,
     inputWidth: distance
   }),
 
@@ -325,7 +355,11 @@ const filters = {
 };
 
 const nativeImageFilter = (name) => {
-  return name === 'CIColorMatrix' || name === 'CIColorInvert'
+  return [
+    'CIColorMatrix',
+    'CIColorInvert',
+    'CIColorPolynomial'
+  ].includes(name)
     ? ImageFilterWithoutColorManagement
     : ImageFilterWithColorManagement;
 };

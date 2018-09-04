@@ -19,8 +19,43 @@ module CombinedFilteredImage =
   let initSingular image =
     Singular (SingularFilteredImage.init image)
 
-  let initComposition images =
-    Composition (FilteredImageComposition.init images)
+  let initComposition filter images dependencies =
+    Composition (FilteredImageComposition.init filter images dependencies)
+
+  let withDependent (model: Model) id =
+    match model with
+    | Composition image -> Composition { image with Dependent = id }
+    | Singular image -> Singular { image with Dependent = id }
+
+  let imageNode (model: Model) =
+    match model with
+    | Composition image -> FilteredImageComposition.Composition image.Image
+    | Singular image -> FilteredImageComposition.Singular image.Image
+
+  let isDependent =
+    function
+    | Composition _ -> true
+    | _ -> false
+
+  let isDependency (model: Model) =
+    match model with
+    | Composition image -> image.Dependent.IsSome
+    | Singular image -> image.Dependent.IsSome
+
+  let isDependencyFor (model: Model) id =
+    match model with
+    | Composition image -> Option.exists ((=) id) image.Dependent
+    | Singular image -> Option.exists ((=) id) image.Dependent
+
+  let filters (model: Model) =
+    match model with
+    | Composition image -> image.Image.Filters
+    | Singular image -> image.Image.Filters
+
+  let dependencies (model: Model) =
+    match model with
+    | Composition image -> image.Dependencies
+    | Singular image -> image.Dependencies
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match (model, message) with

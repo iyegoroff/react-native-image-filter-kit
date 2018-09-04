@@ -43,4 +43,4 @@ module ImageSelectModal =
       | SelectModal.Hide ->
         dispatch Hide
 
-    SelectModal.view sections (Some image) Image.name (=) isVisible dispatch'
+    SelectModal.view sections (Some image) Image.name (fun _ -> true) (=) isVisible dispatch'

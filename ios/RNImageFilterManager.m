@@ -33,6 +33,7 @@ RCT_EXPORT_VIEW_PROPERTY(inputAmount, NSString);
 RCT_EXPORT_VIEW_PROPERTY(inputRadius, NSString);
 RCT_EXPORT_VIEW_PROPERTY(inputWidth, NSString);
 RCT_EXPORT_VIEW_PROPERTY(inputScale, NSString);
+RCT_EXPORT_VIEW_PROPERTY(inputEV, NSString);
 RCT_EXPORT_VIEW_PROPERTY(inputCenter, NSArray<NSString *>);
 RCT_EXPORT_VIEW_PROPERTY(inputPoint0, NSArray<NSString *>);
 RCT_EXPORT_VIEW_PROPERTY(inputPoint1, NSArray<NSString *>);
@@ -43,5 +44,11 @@ RCT_EXPORT_VIEW_PROPERTY(inputGVector, NSArray<NSNumber *>);
 RCT_EXPORT_VIEW_PROPERTY(inputBVector, NSArray<NSNumber *>);
 RCT_EXPORT_VIEW_PROPERTY(inputAVector, NSArray<NSNumber *>);
 RCT_EXPORT_VIEW_PROPERTY(inputBiasVector, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputRedCoefficients, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputGreenCoefficients, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputBlueCoefficients, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputAlphaCoefficients, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputNeutral, NSArray<NSNumber *>);
+RCT_EXPORT_VIEW_PROPERTY(inputTargetNeutral, NSArray<NSNumber *>);
 
 @end

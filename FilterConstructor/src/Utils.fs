@@ -19,7 +19,8 @@ module Utils =
   let moveUpAt index list = moveDownAt (index - 1) list
 
   let configureNextLayoutAnimation () =
-    Globals.LayoutAnimation.spring id
+    ()
+    // Globals.LayoutAnimation.spring id
 
   let delay ms = 
     promise {

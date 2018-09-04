@@ -20,15 +20,18 @@ module FilteredImage =
     | InProgress of int
     | Failed
 
-  type Model<'a> = 
-    { Image: 'a
+  type Model<'image> = 
+    { Image: 'image
       ImageSelectModalIsVisible: bool
       FilterSelectModalIsVisible: bool
+      Dependent: Id option
+      Dependencies: Id list
       LoadingStatus: Loading
       NextId: Id }
 
-  type Message =
+  type Message<'image> =
     | Delete
+    | UpdateDependent of Id * 'image
     | Error of System.Exception
     | SelectFilter
     | FilterSelectModalMessage of FilterSelectModal.Message
@@ -52,6 +55,8 @@ module FilteredImage =
     { Image = image
       ImageSelectModalIsVisible = false 
       FilterSelectModalIsVisible = false
+      Dependent = None
+      Dependencies = []
       LoadingStatus = InProgress 0
       NextId = 0 }
 
@@ -61,8 +66,19 @@ module FilteredImage =
     | ImageLoadingSucceed, InProgress x -> InProgress (x - 1)
     | _, _ -> Failed
 
-  let update (model: Model<'a>) (message: Message) filters updatedModel mapMessage =
+
+  let updateDependentCmd (model: Model<'image>) mapMessage rest =
+    model.Dependent
+    |> Option.fold
+         (fun cmd' depId ->
+            Cmd.batch [ cmd'; Cmd.ofMsg (mapMessage (UpdateDependent (depId, model.Image))) ])
+         rest
+
+  let update (model: Model<'image>) (message: Message<'image>) filters updatedModel mapMessage =
     match message with
+    | UpdateDependent _ ->
+      model, []
+
     | Delete ->
       model, []
 
@@ -77,7 +93,9 @@ module FilteredImage =
       | SelectModal.SelectMessage (Select.ItemSelected filter) -> 
         // Utils.configureNextLayoutAnimation ()
         let filters' = filters @ [model.NextId, filter, CombinedFilter.init filter]
-        { (updatedModel model filters') with NextId = model.NextId + 1 }, []
+        let model' = (updatedModel model filters')
+
+        { model' with NextId = model.NextId + 1 }, updateDependentCmd model' mapMessage Cmd.none
         // Cmd.ofPromise Utils.delay 0 UpdateUnanimatedFilters Error
       | SelectModal.Hide ->
         { model with FilterSelectModalIsVisible = false }, []
@@ -87,8 +105,7 @@ module FilteredImage =
       | None -> model, []
       | Some (_, _, filter) ->
         let filter', cmd = Filter.update msg filter
-        let filters =
-          List.map (fun (i, t, f) -> i, t, if i = id then filter' else f) filters
+        let filters = List.map (fun (i, t, f) -> i, t, if i = id then filter' else f) filters
         let filters' =
           match msg with
           | Filter.Message.Delete ->
@@ -102,9 +119,17 @@ module FilteredImage =
             Utils.moveDownAt (List.findIndex (fun (i, _, _) -> i = id) filters) filters
           | _ -> filters
 
-        updatedModel model filters',
-        Cmd.batch
-          [ Cmd.map (fun sub -> mapMessage (FilterMessage (id, sub))) cmd ]
+        let model' =
+          filters'
+          |> List.sortByDescending
+               (fun (_, filter, _) -> CombinedFilter.requiredImagesAmount filter)
+          |> updatedModel model
+
+        model',
+        updateDependentCmd
+          model'
+          mapMessage
+          (Cmd.map (fun sub -> mapMessage (FilterMessage (id, sub))) cmd)
             // Cmd.ofPromise Utils.delay 0 UpdateUnanimatedFilters Error ]
 
     | ImageLoadingStarted ->
@@ -125,13 +150,13 @@ module FilteredImage =
     //   Alert.alert ("Info", "JS code copied to clipboard", [])
     //   model, []
 
-  let private containerStyle =
+  let private containerStyle isDependency =
     ViewProperties.Style
       [ MarginTop (dip 5.)
         Padding (dip 5.)
         BorderWidth 2.
         BorderRadius 3.
-        BackgroundColor "white" ]
+        BackgroundColor (if isDependency then "lightgray" else "white") ]
 
   let private imageControlsStyle =
     ViewProperties.Style
@@ -151,7 +176,7 @@ module FilteredImage =
     ViewProperties.Style
       [ FlexDirection FlexDirection.ColumnReverse ]
 
-  let imageControls dispatchSelectImage dispatch = 
+  let imageControls isDependency dispatchSelectImage dispatch = 
     RN.view
       [ imageControlsStyle ]
       [ RN.button
@@ -159,21 +184,26 @@ module FilteredImage =
             ButtonProperties.OnPress (fun _ -> dispatch CopyCode) ]
           [] 
         RN.button
-          [ ButtonProperties.Title "Change image"
-            (match dispatchSelectImage with
-             | Some dispatchSelectImage' -> ButtonProperties.OnPress dispatchSelectImage'
-             | _ -> ButtonProperties.Disabled true) ]
+          (match dispatchSelectImage with
+           | Some dispatchSelectImage' ->
+             [ ButtonProperties.Title "Change image"
+               ButtonProperties.OnPress dispatchSelectImage' ]
+           | _ ->
+             [ ButtonProperties.Title "Change image"
+               ButtonProperties.OnPress ignore
+               ButtonProperties.Disabled true ])
           [] 
         RN.button
           [ ButtonProperties.Title "Delete"
             ButtonProperties.Color "red"
+            ButtonProperties.Disabled isDependency
             ButtonProperties.OnPress (fun _ -> dispatch Delete) ]
             [] ]
 
   let filterPortal model dispatch =
     RNP.enterPortal
       Constants.filterPortal
-      [ FilterSelectModal.view
+      [ FilterSelectModal.singularFiltersView
           model.FilterSelectModalIsVisible
           (FilterSelectModalMessage >> dispatch) ]
 
@@ -183,9 +213,9 @@ module FilteredImage =
     | InProgress _ -> RN.activityIndicator [ spinnerStyle ]
     | Failed -> RN.view [ spinnerStyle ] [ RN.text [] "🚫" ]
     
-  let view filters (dispatch: Dispatch<Message>) subviews =
+  let view isDependency filters (dispatch: Dispatch<Message<'image>>) subviews =
     RN.view
-      [ containerStyle
+      [ containerStyle isDependency
         ActivityIndicator.Size Size.Large ]
       [ R.fragment
           []

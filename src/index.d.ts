@@ -7,15 +7,27 @@ interface ResizingFilterProps extends FilterProps {
   readonly resizeOutput?: boolean;
 }
 
-type Distance = string | number;
+export type Distance = string | number;
 
-interface Point {
+export interface Position {
   readonly x: Distance;
   readonly y: Distance;
 }
 
+export interface Offset {
+  readonly x: number;
+  readonly y: number;
+}
+
+export type RGBAVector = [number, number, number, number];
+
+export type Matrix = [
+  number, number, number, number, number, number, number, number, number, number,
+  number, number, number, number, number, number, number, number, number, number
+];
+
 export interface ColorMatrixProps extends FilterProps {
-  readonly matrix: ReadonlyArray<number>;
+  readonly matrix: Readonly<Matrix>;
 }
 
 export class ColorMatrix extends React.Component<ColorMatrixProps> { }
@@ -158,7 +170,7 @@ export class Achromatomaly extends React.Component<AchromatomalyProps> { }
 
 
 export interface ColorMatrixColorFilterProps extends FilterProps {
-  readonly matrix: ReadonlyArray<number>;
+  readonly matrix: Readonly<Matrix>;
 }
 
 export class ColorMatrixColorFilter extends React.Component<ColorMatrixColorFilterProps> { }
@@ -169,8 +181,7 @@ export interface IterativeBoxBlurProps extends FilterProps {
   readonly iterations?: number;
 }
 
-export class IterativeBoxBlur
-  extends React.Component<IterativeBoxBlurProps> { }
+export class IterativeBoxBlur extends React.Component<IterativeBoxBlurProps> { }
 
 
 export interface LightingColorFilterProps extends FilterProps {
@@ -178,8 +189,7 @@ export interface LightingColorFilterProps extends FilterProps {
   readonly add?: string;
 }
 
-export class LightingColorFilter
-  extends React.Component<LightingColorFilterProps> { }
+export class LightingColorFilter extends React.Component<LightingColorFilterProps> { }
 
 
 export interface RoundAsCircleProps extends FilterProps { }
@@ -194,6 +204,13 @@ export interface CIBoxBlurProps extends ResizingFilterProps {
 export class CIBoxBlur extends React.Component<CIBoxBlurProps> { }
 
 
+export interface CIDiscBlurProps extends ResizingFilterProps {
+  readonly inputRadius?: Distance;
+}
+
+export class CIDiscBlur extends React.Component<CIDiscBlurProps> { }
+
+
 export interface CIGaussianBlurProps extends ResizingFilterProps {
   readonly inputRadius?: Distance;
 }
@@ -201,11 +218,11 @@ export interface CIGaussianBlurProps extends ResizingFilterProps {
 export class CIGaussianBlur extends React.Component<CIGaussianBlurProps> { }
 
 
-export interface CIDiscBlurProps extends ResizingFilterProps {
+export interface CIMaskedVariableBlurProps extends ResizingFilterProps {
   readonly inputRadius?: Distance;
 }
 
-export class CIDiscBlur extends React.Component<CIDiscBlurProps> { }
+export class CIMaskedVariableBlur extends React.Component<CIMaskedVariableBlurProps> { }
 
 
 export interface CIMedianFilterProps extends FilterProps { }
@@ -230,7 +247,7 @@ export class CINoiseReduction extends React.Component<CINoiseReductionProps> { }
 
 
 export interface CIZoomBlurProps extends ResizingFilterProps {
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
   readonly inputAmount?: Distance;
 }
 
@@ -247,14 +264,31 @@ export class CIColorControls extends React.Component<CIColorControlsProps> { }
 
 
 export interface CIColorMatrixProps extends FilterProps {
-  readonly inputRVector?: ReadonlyArray<number>;
-  readonly inputGVector?: ReadonlyArray<number>;
-  readonly inputBVector?: ReadonlyArray<number>;
-  readonly inputAVector?: ReadonlyArray<number>;
-  readonly inputBiasVector?: ReadonlyArray<number>;
+  readonly inputRVector?: Readonly<RGBAVector>;
+  readonly inputGVector?: Readonly<RGBAVector>;
+  readonly inputBVector?: Readonly<RGBAVector>;
+  readonly inputAVector?: Readonly<RGBAVector>;
+  readonly inputBiasVector?: Readonly<RGBAVector>;
 }
 
 export class CIColorMatrix extends React.Component<CIColorMatrixProps> { }
+
+
+export interface CIColorPolynomialProps extends FilterProps {
+  readonly inputRedCoefficients?: Readonly<RGBAVector>;
+  readonly inputGreenCoefficients?: Readonly<RGBAVector>;
+  readonly inputBlueCoefficients?: Readonly<RGBAVector>;
+  readonly inputAlphaCoefficients?: Readonly<RGBAVector>;
+}
+
+export class CIColorPolynomial extends React.Component<CIColorPolynomialProps> { }
+
+
+export interface CIExposureAdjustProps extends FilterProps {
+  readonly inputEV?: number;
+}
+
+export class CIExposureAdjust extends React.Component<CIExposureAdjustProps> { }
 
 
 export interface CIGammaAdjustProps extends FilterProps {
@@ -271,9 +305,27 @@ export interface CIHueAdjustProps extends FilterProps {
 export class CIHueAdjust extends React.Component<CIHueAdjustProps> { }
 
 
+export interface CILinearToSRGBToneCurveProps extends FilterProps { }
+
+export class CILinearToSRGBToneCurve extends React.Component<CILinearToSRGBToneCurveProps> { }
+
+
+export interface CISRGBToneCurveToLinearProps extends FilterProps { }
+
+export class CISRGBToneCurveToLinear extends React.Component<CISRGBToneCurveToLinearProps> { }
+
+
+export interface CITemperatureAndTintProps extends FilterProps {
+  readonly inputNeutral?: Readonly<Offset>;
+  readonly inputTargetNeutral?: ReadonlyArray<Offset>;
+}
+
+export class CITemperatureAndTint extends React.Component<CITemperatureAndTintProps> { }
+
+
 export interface CIColorClampProps extends FilterProps {
-  readonly inputMinComponents?: ReadonlyArray<number>;
-  readonly inputMaxComponents?: ReadonlyArray<number>;
+  readonly inputMinComponents?: Readonly<RGBAVector>;
+  readonly inputMaxComponents?: Readonly<RGBAVector>;
 }
 
 export class CIColorClamp extends React.Component<CIColorClampProps> { }
@@ -335,12 +387,17 @@ export class CIPhotoEffectTransfer extends React.Component<CIPhotoEffectTransfer
 
 
 export interface CIVignetteEffectProps extends FilterProps {
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
   readonly inputIntensity?: number;
   readonly inputRadius?: Distance;
 }
 
 export class CIVignetteEffect extends React.Component<CIVignetteEffectProps> { }
+
+
+export interface CIAdditionCompositingProps extends FilterProps { }
+
+export class CIAdditionCompositing extends React.Component<CIAdditionCompositingProps> { }
 
 
 export interface CIColorInvertProps extends FilterProps { }
@@ -363,7 +420,7 @@ export class CIVibrance extends React.Component<CIVibranceProps> { }
 
 
 export interface CICircularScreenProps extends FilterProps {
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
   readonly inputSharpness?: number;
   readonly inputWidth?: Distance;
 }
@@ -372,8 +429,8 @@ export class CICircularScreen extends React.Component<CICircularScreenProps> { }
 
 
 export interface CIDotScreenProps extends FilterProps {
-  readonly inputCenter?: Point;
-  readonly inputAngle?: Point;
+  readonly inputCenter?: Position;
+  readonly inputAngle?: Position;
   readonly inputSharpness?: number;
   readonly inputWidth?: Distance;
 }
@@ -382,7 +439,7 @@ export class CIDotScreen extends React.Component<CIDotScreenProps> { }
 
 
 export interface CIBumpDistortionProps extends ResizingFilterProps {
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
   readonly inputRadius?: Distance;
   readonly inputScale?: number;
 }
@@ -391,7 +448,7 @@ export class CIBumpDistortion extends React.Component<CIBumpDistortionProps> { }
 
 
 export interface CIBumpDistortionLinearProps extends FilterProps {
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
   readonly inputRadius?: Distance;
   readonly inputScale?: number;
   readonly inputAngle?: number;
@@ -401,7 +458,7 @@ export class CIBumpDistortionLinear extends React.Component<CIBumpDistortionLine
 
 
 export interface CICircleSplashDistortionProps extends FilterProps {
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
   readonly inputRadius?: Distance;
 }
 
@@ -409,7 +466,7 @@ export class CICircleSplashDistortion extends React.Component<CICircleSplashDist
 
 
 export interface CICircularWrapProps extends ResizingFilterProps {
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
   readonly inputRadius?: Distance;
   readonly inputAngle?: number;
 }
@@ -418,7 +475,7 @@ export class CIVortexDistortion extends React.Component<CIVortexDistortionProps>
 
 
 export interface CIVortexDistortionProps extends ResizingFilterProps {
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
   readonly inputRadius?: Distance;
   readonly inputAngle?: number;
 }
@@ -443,7 +500,7 @@ export class CIUnsharpMask extends React.Component<CIUnsharpMaskProps> { }
 
 export interface CICrystallizeProps extends FilterProps {
   readonly inputRadius?: Distance;
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
 }
 
 export class CICrystallize extends React.Component<CICrystallizeProps> { }
@@ -458,7 +515,7 @@ export class CIEdges extends React.Component<CIEdgesProps> { }
 
 export interface CIPixellateProps extends FilterProps {
   readonly inputScale?: Distance;
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
 }
 
 export class CIPixellate extends React.Component<CIPixellateProps> { }
@@ -466,7 +523,7 @@ export class CIPixellate extends React.Component<CIPixellateProps> { }
 
 export interface CIPointillizeProps extends FilterProps {
   readonly inputRadius?: Distance;
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
 }
 
 export class CIPointillize extends React.Component<CIPointillizeProps> { }
@@ -476,7 +533,7 @@ export interface CIOpTileProps extends FilterProps {
   readonly inputWidth?: Distance;
   readonly inputScale?: number;
   readonly inputAngle?: number;
-  readonly inputCenter?: Point;
+  readonly inputCenter?: Position;
 }
 
 export class CIOpTile extends React.Component<CIOpTileProps> { }

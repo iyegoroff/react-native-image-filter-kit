@@ -33,6 +33,13 @@ module Filter =
     | InputBVector
     | InputAVector
     | InputBiasVector
+    | InputRedCoefficients
+    | InputGreenCoefficients
+    | InputBlueCoefficients
+    | InputAlphaCoefficients
+    | InputEV
+    | InputNeutral
+    | InputTargetNeutral
     | Value
     | BlurRadius
     | Iterations
@@ -89,7 +96,7 @@ module Filter =
       (model |> List.map mapInput |> List.choose id)
       [ content ]
 
-  let controls name (model: Model) (dispatch: Dispatch<Message>) =
+  let controls name isPersistent (model: Model) (dispatch: Dispatch<Message>) =
     let dispatch' = FilterInputMessage >> dispatch
     let sliders = 
       List.map
@@ -101,18 +108,21 @@ module Filter =
       [ controlsContainer ]
       [ RN.text [ titleStyle ] name
         R.fragment [] sliders
-        RN.view
-          [ controlButtonsStyle ]
-          [ RN.button
-              [ ButtonProperties.Title "Move Up"
-                ButtonProperties.OnPress (fun () -> dispatch MoveUp) ]
-              []
-            RN.button
-              [ ButtonProperties.Title "Move Down"
-                ButtonProperties.OnPress (fun () -> dispatch MoveDown) ]
-              []
-            RN.button
-              [ ButtonProperties.Title "Delete"
-                ButtonProperties.Color "red"
-                ButtonProperties.OnPress (fun () -> dispatch Delete) ]
-              [] ] ]
+        (if isPersistent then
+           R.fragment [] []
+         else
+           RN.view
+             [ controlButtonsStyle ]
+             [ RN.button
+                 [ ButtonProperties.Title "Move Up"
+                   ButtonProperties.OnPress (fun () -> dispatch MoveUp) ]
+                 []
+               RN.button
+                 [ ButtonProperties.Title "Move Down"
+                   ButtonProperties.OnPress (fun () -> dispatch MoveDown) ]
+                 []
+               RN.button
+                 [ ButtonProperties.Title "Delete"
+                   ButtonProperties.Color "red"
+                   ButtonProperties.OnPress (fun () -> dispatch Delete) ]
+                 [] ]) ]

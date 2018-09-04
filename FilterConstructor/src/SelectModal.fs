@@ -26,6 +26,11 @@ module SelectModal =
     | Item x -> itemKey x
     | Close -> "❌"
 
+  let private itemEnabledWithClose itemEnabled =
+    function
+    | Item x -> itemEnabled x
+    | Close -> true
+
   let private equalsWithClose equals first second =
     match first, second with
     | Item x, Item y -> equals x y
@@ -46,7 +51,7 @@ module SelectModal =
         |> ignore
       | Close -> dispatch Hide
     
-  let view items selected itemKey equals isVisible (dispatch: Dispatch<Message<'a>>) =
+  let view items selected itemKey itemEnabled equals isVisible (dispatch: Dispatch<Message<'a>>) =
     let items =
       items
       |> Array.map
@@ -69,5 +74,6 @@ module SelectModal =
                Platform.Ios (Array.append items [| section [| Close |] [] { title = "" } |]) ])
           (Option.map Item selected)
           (itemKeyWithClose itemKey)
+          (itemEnabledWithClose itemEnabled)
           (equalsWithClose equals)
           (dispatchWithClose dispatch) ]

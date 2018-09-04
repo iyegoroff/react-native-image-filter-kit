@@ -48,6 +48,7 @@
   RCTResizeMode resizeMode = mainImage ? mainImage.resizeMode : RCTResizeModeContain;
   
   if (cachedImage != nil) {
+//  if (false) {
     return [RNFilteredImage createWithImage:cachedImage
                                  resizeMode:resizeMode
                         accumulatedCacheKey:accumulatedCacheKey];
@@ -76,10 +77,13 @@
       } else if ([@"distance" isEqualToString:input.second]) {
         convertedInput = [RNFilterPostProcessor convertDistance:input.first bounds:bounds];
         
-      } else if ([@"point" isEqualToString:input.second]) {
-        convertedInput = [RNFilterPostProcessor convertPoint:input.first bounds:bounds];
+      } else if ([@"position" isEqualToString:input.second]) {
+        convertedInput = [RNFilterPostProcessor convertPosition:input.first bounds:bounds];
         
       } else if ([@"vector" isEqualToString:input.second]) {
+        convertedInput = [RNFilterPostProcessor convertVector:input.first];
+        
+      } else if ([@"offset" isEqualToString:input.second]) {
         convertedInput = [RNFilterPostProcessor convertVector:input.first];
       }
       
@@ -175,7 +179,7 @@
   return [CIVector vectorWithValues:v count:vector.count];
 }
 
-+ (nonnull CIVector *)convertPoint:(NSArray<NSString *> *)relativePoint bounds:(CGSize)bounds
++ (nonnull CIVector *)convertPosition:(NSArray<NSString *> *)relativePoint bounds:(CGSize)bounds
 {
   return [CIVector vectorWithCGPoint:CGPointMake(
     [RNFilterPostProcessor convertRelative:relativePoint[0] bounds:bounds],

@@ -26,12 +26,14 @@ module FilteredImageComposition =
 
   type Message =
     | Update of ImageNode list
-    | FilteredImageMessage of FilteredImage.Message
+    | FilteredImageMessage of FilteredImage.Message<Model'>
 
-  let init images =    
-    FilteredImage.init
-      { Filters = []
+  let init (filter: CombinedFilter.Model) images dependencies = 
+    let model =
+      { Filters = [ 0, filter, CombinedFilter.init filter ]
         Images = images }
+    { FilteredImage.init model with Dependencies = dependencies
+                                    NextId = 1 }
 
   let private updatedModel (model: Model) filters =
     { model with Image = { model.Image with Filters = filters } }
@@ -39,8 +41,9 @@ module FilteredImageComposition =
   let update (message: Message) (model: Model) =
     match message with
     | Update images ->
-      { model with Image = { model.Image with Images = images }
-                   LoadingStatus = FilteredImage.InProgress 0 }, []
+      let model' = { model with Image = { model.Image with Images = images } }
+      { model' with LoadingStatus = FilteredImage.InProgress 0 }, 
+      FilteredImage.updateDependentCmd model' FilteredImageMessage Cmd.none
 
     | FilteredImageMessage msg ->
       FilteredImage.update model msg model.Image.Filters updatedModel FilteredImageMessage
@@ -58,15 +61,17 @@ module FilteredImageComposition =
     
   let view (model: Model) (dispatch: Dispatch<Message>) =
     let dispatch' = FilteredImageMessage >> dispatch
+    let isDependency = model.Dependent.IsSome
 
     R.fragment
       []
       [ FilteredImage.filterPortal model dispatch'
         (FilteredImage.view
+           isDependency
            model.Image.Filters
            dispatch'
            [ RN.view
                []
                [ FilteredImage.spinner model
                  image (Composition model.Image) dispatch' ]
-             FilteredImage.imageControls None dispatch' ]) ]
+             FilteredImage.imageControls isDependency None dispatch' ]) ]

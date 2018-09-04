@@ -6,27 +6,30 @@ open Fable.Import
 
 module CombinedFilterInput =
 
-  type Shape<'scalar, 'distance, 'point, 'rgbaVector, 'boolean, 'color> =
+  type Shape<'scalar, 'distance, 'point, 'rgbaVector, 'boolean, 'color, 'offset> =
     | Scalar of 'scalar
     | Distance of 'distance
     | Point of 'point
     | RGBAVector of 'rgbaVector
     | Boolean of 'boolean
     | Color of 'color
+    | Offset of 'offset
 
   type Model = Shape<FilterScalarInput.Model,
                      FilterDistanceInput.Model,
                      FilterPointInput.Model,
                      FilterRGBAVectorInput.Model,
                      FilterBooleanInput.Model,
-                     FilterColorInput.Model>
+                     FilterColorInput.Model,
+                     FilterOffsetInput.Model>
 
   type Message = Shape<FilterScalarInput.Message,
                        FilterDistanceInput.Message,
                        FilterPointInput.Message,
                        FilterRGBAVectorInput.Message,
                        FilterBooleanInput.Message,
-                       FilterColorInput.Message>
+                       FilterColorInput.Message,
+                       FilterOffsetInput.Message>
   
 
   let initScalar min max value name =
@@ -46,6 +49,9 @@ module CombinedFilterInput =
     
   let initColor name =
     Color (FilterColorInput.init name "#ffffff")
+
+  let initOffset min max value name =
+    Offset (FilterOffsetInput.init name min max value)
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match (model, message) with
@@ -79,6 +85,11 @@ module CombinedFilterInput =
       (Color m), Cmd.map Color cmd
     | Color _, _ -> model, []
 
+    | Offset model', Offset message' ->
+      let m, cmd = FilterOffsetInput.update message' model'
+      (Offset m), Cmd.map Offset cmd
+    | Offset _, _ -> model, []
+
   let view (model: Model) (dispatch: Dispatch<Message>) : React.ReactElement =
     match model with
     | Scalar model' -> FilterScalarInput.view model' (Scalar >> dispatch)
@@ -87,3 +98,4 @@ module CombinedFilterInput =
     | RGBAVector model' -> FilterRGBAVectorInput.view model' (RGBAVector >> dispatch)
     | Boolean model' -> FilterBooleanInput.view model' (Boolean >> dispatch)
     | Color model' -> FilterColorInput.view model' (Color >> dispatch)
+    | Offset model' -> FilterOffsetInput.view model' (Offset >> dispatch)
