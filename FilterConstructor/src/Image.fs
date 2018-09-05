@@ -4,6 +4,8 @@ open Fable.Helpers.ReactNative.Props
 open Fable.Helpers.ReactNative
 open Fable.Import
 
+module RNF = Fable.Import.ReactNativeImageFilterKit
+
 module Image =
 
   type Model' =
@@ -14,6 +16,7 @@ module Image =
     | Concrete of Model'
     | Random of Model'
     | FromPicker of Model'
+    | Generated of CombinedFilter.Model
 
   
   let defaultImage =
@@ -31,7 +34,7 @@ module Image =
     FromPicker { Name = "Pick image"
                  Source = source }
 
-  let availableImages =
+  let commonImages =
     [| defaultImage
        Concrete { Name = "React logo"
                   Source = Some (remoteImage [ Uri "https://tinyurl.com/y8xs3ehd" ]) }
@@ -77,9 +80,11 @@ module Image =
     | Concrete image
     | Random image
     | FromPicker image -> image.Source
+    | Generated _ -> Some RNF.imagePlaceholderSource
 
   let name =
     function
     | Concrete image
     | Random image
     | FromPicker image -> image.Name
+    | Generated image -> CombinedFilter.name image

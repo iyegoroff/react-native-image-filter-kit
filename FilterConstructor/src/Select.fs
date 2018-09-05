@@ -25,6 +25,10 @@ module Select =
       [ FontWeight FontWeight.Bold
         TextDecorationLine TextDecorationLine.Underline ]
 
+  let private disabledStyle =
+    TextProperties.Style
+      [ TextStyle.Color "lightgray" ]
+
   let private separatorStyle =
     ViewProperties.Style
       [ Height (dip 1.)
@@ -67,7 +71,7 @@ module Select =
     let renderItem item =
       let style = match selected with
                   | Some sel when (equals item sel) -> [ selectedStyle ]
-                  | _ -> []
+                  | _ -> if itemEnabled item then [] else [ disabledStyle ]
       touchable
         (itemEnabled item)
         (fun () -> dispatch (ItemSelected item))

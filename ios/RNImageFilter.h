@@ -25,9 +25,19 @@
 @property (nonatomic, strong) NSString *inputWidth;
 @property (nonatomic, strong) NSString *inputScale;
 @property (nonatomic, strong) NSString *inputEV;
+@property (nonatomic, strong) NSString *inputNRNoiseLevel;
+@property (nonatomic, strong) NSString *inputNRSharpness;
+@property (nonatomic, strong) NSString *inputEdgeIntensity;
+@property (nonatomic, strong) NSString *inputThreshold;
+@property (nonatomic, strong) UIColor *inputColor;
 @property (nonatomic, strong) NSArray<NSString *> *inputCenter;
 @property (nonatomic, strong) NSArray<NSString *> *inputPoint0;
 @property (nonatomic, strong) NSArray<NSString *> *inputPoint1;
+@property (nonatomic, strong) NSArray<NSString *> *inputPoint2;
+@property (nonatomic, strong) NSArray<NSString *> *inputPoint3;
+@property (nonatomic, strong) NSArray<NSString *> *inputPoint4;
+@property (nonatomic, strong) NSArray<NSString *> *inputNeutral;
+@property (nonatomic, strong) NSArray<NSString *> *inputTargetNeutral;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputMinComponents;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputMaxComponents;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputRVector;
@@ -39,8 +49,6 @@
 @property (nonatomic, strong) NSArray<NSNumber *> *inputGreenCoefficients;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputBlueCoefficients;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputAlphaCoefficients;
-@property (nonatomic, strong) NSArray<NSNumber *> *inputNeutral;
-@property (nonatomic, strong) NSArray<NSNumber *> *inputTargetNeutral;
 
 + (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options;
 - (CIContext *)context;

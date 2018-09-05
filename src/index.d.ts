@@ -7,6 +7,10 @@ interface ResizingFilterProps extends FilterProps {
   readonly resizeOutput?: boolean;
 }
 
+interface GeneratorProps extends FilterProps {
+  readonly imageStyle?: ReactNative.ImageStyle;
+}
+
 export type Distance = string | number;
 
 export interface Position {
@@ -386,6 +390,21 @@ export interface CIPhotoEffectTransferProps extends FilterProps { }
 export class CIPhotoEffectTransfer extends React.Component<CIPhotoEffectTransferProps> { }
 
 
+export interface CISepiaToneProps extends FilterProps {
+  readonly inputIntensity?: number;
+}
+
+export class CISepiaTone extends React.Component<CISepiaToneProps> { }
+
+
+export interface CIVignetteProps extends FilterProps {
+  readonly inputRadius?: Distance;
+  readonly inputIntensity?: number;
+}
+
+export class CIVignette extends React.Component<CIVignetteProps> { }
+
+
 export interface CIVignetteEffectProps extends FilterProps {
   readonly inputCenter?: Position;
   readonly inputIntensity?: number;
@@ -412,6 +431,17 @@ export interface CIColorPosterizeProps extends FilterProps {
 export class CIColorPosterize extends React.Component<CIColorPosterizeProps> { }
 
 
+export interface CIToneCurveProps extends FilterProps {
+  readonly inputPoint0?: Offset;
+  readonly inputPoint1?: Offset;
+  readonly inputPoint2?: Offset;
+  readonly inputPoint3?: Offset;
+  readonly inputPoint4?: Offset;
+}
+
+export class CIToneCurve extends React.Component<CIToneCurveProps> { }
+
+
 export interface CIVibranceProps extends FilterProps {
   readonly inputAmount?: number;
 }
@@ -436,6 +466,16 @@ export interface CIDotScreenProps extends FilterProps {
 }
 
 export class CIDotScreen extends React.Component<CIDotScreenProps> { }
+
+
+export interface CILineScreenProps extends FilterProps {
+  readonly inputCenter?: Position;
+  readonly inputAngle?: Position;
+  readonly inputSharpness?: number;
+  readonly inputWidth?: Distance;
+}
+
+export class CILineScreen extends React.Component<CILineScreenProps> { }
 
 
 export interface CIBumpDistortionProps extends ResizingFilterProps {
@@ -483,6 +523,18 @@ export interface CIVortexDistortionProps extends ResizingFilterProps {
 export class CIVortexDistortion extends React.Component<CIVortexDistortionProps> { }
 
 
+export interface CIConstantColorGeneratorProps extends GeneratorProps {
+  readonly inputColor?: string;
+}
+
+export class CIConstantColorGenerator extends React.Component<CIConstantColorGeneratorProps> { }
+
+
+export interface CIRandomGeneratorProps extends GeneratorProps { }
+
+export class CIRandomGenerator extends React.Component<CIRandomGeneratorProps> { }
+
+
 export interface CISharpenLuminanceProps extends FilterProps {
   readonly inputSharpness?: number;
 }
@@ -513,6 +565,17 @@ export interface CIEdgesProps extends FilterProps {
 export class CIEdges extends React.Component<CIEdgesProps> { }
 
 
+export interface CILineOverlayProps extends FilterProps {
+  readonly inputNRNoiseLevel?: number;
+  readonly inputNRSharpness?: number;
+  readonly inputEdgeIntensity?: number;
+  readonly inputThreshold?: number;
+  readonly inputContrast?: number;
+}
+
+export class CILineOverlay extends React.Component<CILineOverlayProps> { }
+
+
 export interface CIPixellateProps extends FilterProps {
   readonly inputScale?: Distance;
   readonly inputCenter?: Position;
@@ -537,3 +600,12 @@ export interface CIOpTileProps extends FilterProps {
 }
 
 export class CIOpTile extends React.Component<CIOpTileProps> { }
+
+export const imagePlaceholderSource: ReactNative.ImageURISource;
+
+export type ImagePlaceholderProps = Pick<
+  ReactNative.ImageProps,
+  Exclude<keyof ReactNative.ImageProps, 'source'>
+>;
+
+export class ImagePlaceholder extends React.Component<ImagePlaceholderProps> { }

@@ -32,8 +32,7 @@ module FilteredImageComposition =
     let model =
       { Filters = [ 0, filter, CombinedFilter.init filter ]
         Images = images }
-    { FilteredImage.init model with Dependencies = dependencies
-                                    NextId = 1 }
+    { FilteredImage.init model with Dependencies = dependencies }
 
   let private updatedModel (model: Model) filters =
     { model with Image = { model.Image with Filters = filters } }

@@ -2,18 +2,11 @@ import React from 'react';
 import Children from 'react-children-utilities';
 import { defaultStyle, checkStyle } from './style';
 import { View, processColor } from 'react-native';
-import {
-  distance,
-  position,
-  scalar,
-  vector,
-  offset
-} from './input-types';
+import { distance, position, scalar, vector, offset } from './input-types'; 
 
 const id = x => x;
 const anyToString = n => `${n}`;
-const positionToArray = p => [`${p.x}`, `${p.y}`];
-const offsetToArray = p => [p.x, p.y];
+const pointToArray = p => [`${p.x}`, `${p.y}`];
 
 const imageStyle = {
   position: 'absolute',
@@ -32,10 +25,8 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
     restProps.paramNames.reduce(
       (acc, val, idx) => {
         const paramType = restProps.paramTypes[idx];
-        const convert = paramType === position
-          ? positionToArray
-          : paramType === offset
-          ? offsetToArray
+        const convert = paramType === position || paramType === offset
+          ? pointToArray
           : paramType === distance || paramType === scalar
           ? anyToString
           : id;

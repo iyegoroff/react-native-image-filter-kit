@@ -35,7 +35,7 @@ module FilterSelectModal =
       combinationFilterSections
       None
       CombinedFilter.name
-      (fun filter -> (CombinedFilter.requiredImagesAmount filter) >= imagesAmount)
+      (fun filter -> imagesAmount >= CombinedFilter.requiredImagesAmount filter)
       (=)
       isVisible
       dispatch

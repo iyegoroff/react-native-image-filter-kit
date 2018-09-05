@@ -59,6 +59,8 @@ module CombinedFilter =
     | CILinearToSRGBToneCurve
     | CISRGBToneCurveToLinear
     | CITemperatureAndTint
+    | CIToneCurve
+    | CIVibrance
     | CIMaskToAlpha
     | CIMaximumComponent
     | CIMinimumComponent
@@ -70,22 +72,27 @@ module CombinedFilter =
     | CIPhotoEffectProcess
     | CIPhotoEffectTonal
     | CIPhotoEffectTransfer
+    | CISepiaTone
+    | CIVignette
     | CIVignetteEffect
     | CIAdditionCompositing
     | CIColorInvert
     | CIColorPosterize
-    | CIVibrance
     | CICircularScreen
     | CIDotScreen
+    | CILineScreen
     | CIBumpDistortion
     | CIBumpDistortionLinear
     | CICircleSplashDistortion
     | CICircularWrap
     | CIVortexDistortion
+    | CIConstantColorGenerator
+    | CIRandomGenerator
     | CISharpenLuminance
     | CIUnsharpMask
     | CICrystallize
     | CIEdges
+    | CILineOverlay
     | CIPixellate
     | CIPointillize
     | CIOpTile
@@ -272,6 +279,14 @@ module CombinedFilter =
         [ Filter.InputNeutral, CFI.initOffset (-10000., -1000.) (10000., 1000.) (6500., 0.)
           Filter.InputTargetNeutral, CFI.initOffset (-10000., -1000.) (10000., 1000.) (6500., 0.) ]
 
+    | CIToneCurve ->
+      Filter.init
+        [ Filter.InputPoint0, CFI.initOffset (0., 0.) (1., 1.) (0., 0.)
+          Filter.InputPoint1, CFI.initOffset (0., 0.) (1., 1.) (0.25, 0.25)
+          Filter.InputPoint2, CFI.initOffset (0., 0.) (1., 1.) (0.5, 0.5)
+          Filter.InputPoint3, CFI.initOffset (0., 0.) (1., 1.) (0.75, 0.75)
+          Filter.InputPoint4, CFI.initOffset (0., 0.) (1., 1.) (1., 1.) ]
+
     | CIMaskToAlpha -> Filter.init []
 
     | CIMaximumComponent -> Filter.init []
@@ -293,6 +308,15 @@ module CombinedFilter =
     | CIPhotoEffectTonal -> Filter.init []
 
     | CIPhotoEffectTransfer -> Filter.init []
+
+    | CISepiaTone ->
+      Filter.init
+        [ Filter.InputIntensity, CFI.initScalar -10. 10. 1. ]
+
+    | CIVignette ->
+      Filter.init
+        [ Filter.InputIntensity, CFI.initScalar 0. 1. 1.
+          Filter.InputRadius, CFI.initDistance RNF.Distance.MaxPct  0. 100. 0. ]
 
     | CIVignetteEffect ->
       Filter.init
@@ -316,9 +340,16 @@ module CombinedFilter =
       Filter.init
         [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
           Filter.InputSharpness, CFI.initScalar 0. 1. 0.7
-          Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 100. 6. ]
+          Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 100. 10. ]
 
     | CIDotScreen ->
+      Filter.init
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0.
+          Filter.InputSharpness, CFI.initScalar 0. 1. 0.7
+          Filter.InputWidth, CFI.initDistance RNF.Distance.MaxPct 0. 50. 10. ]
+
+    | CILineScreen ->
       Filter.init
         [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
           Filter.InputAngle, CFI.initScalar 0. (2. * Math.PI) 0.
@@ -358,6 +389,12 @@ module CombinedFilter =
           Filter.InputAngle, CFI.initScalar 0. 360. 56.55
           Filter.ResizeOutput, CFI.initBoolean ]
 
+    | CIConstantColorGenerator ->
+      Filter.init
+        [ Filter.InputColor, CFI.initColor ]
+
+    | CIRandomGenerator -> Filter.init []
+
     | CISharpenLuminance ->
       Filter.init
         [ Filter.InputSharpness, CFI.initScalar 0. 10. 0.4 ]
@@ -375,6 +412,14 @@ module CombinedFilter =
     | CIEdges ->
       Filter.init
         [ Filter.InputIntensity, CFI.initScalar 0. 30. 1. ]
+
+    | CILineOverlay ->
+      Filter.init
+        [ Filter.InputNRNoiseLevel, CFI.initScalar 0. 5. 0.07
+          Filter.InputNRSharpness, CFI.initScalar 0. 5. 0.71
+          Filter.InputEdgeIntensity, CFI.initScalar 0. 5. 1.
+          Filter.InputThreshold, CFI.initScalar 0. 1. 0.1
+          Filter.InputContrast, CFI.initScalar 0. 100. 50. ]
 
     | CIPixellate ->
       Filter.init
@@ -684,6 +729,22 @@ module CombinedFilter =
          | Filter.InputTargetNeutral, CFI.Offset input ->
            Some (CITemperatureAndTintProps.InputTargetNeutral (input.Convert input.Value))
          | _ -> None)
+
+    | CIToneCurve ->
+      Filter.view
+        RNF.CIToneCurve
+        (function
+         | Filter.InputPoint0, CFI.Offset input ->
+           Some (CIToneCurveProps.InputPoint0 (input.Convert input.Value))
+         | Filter.InputPoint1, CFI.Offset input ->
+           Some (CIToneCurveProps.InputPoint1 (input.Convert input.Value))
+         | Filter.InputPoint2, CFI.Offset input ->
+           Some (CIToneCurveProps.InputPoint2 (input.Convert input.Value))
+         | Filter.InputPoint3, CFI.Offset input ->
+           Some (CIToneCurveProps.InputPoint3 (input.Convert input.Value))
+         | Filter.InputPoint4, CFI.Offset input ->
+           Some (CIToneCurveProps.InputPoint4 (input.Convert input.Value))
+         | _ -> None)
          
     | CIMaskToAlpha -> emptyView RNF.CIMaskToAlpha
          
@@ -706,6 +767,24 @@ module CombinedFilter =
     | CIPhotoEffectTonal -> emptyView RNF.CIPhotoEffectTonal
          
     | CIPhotoEffectTransfer -> emptyView RNF.CIPhotoEffectTransfer
+
+    | CISepiaTone ->
+      Filter.view
+        RNF.CISepiaTone
+        (function
+         | Filter.InputIntensity, CFI.Scalar input ->
+           Some (CISepiaToneProps.InputIntensity (input.Convert input.Value))
+         | _ -> None)
+
+    | CIVignette ->
+      Filter.view
+        RNF.CIVignette
+        (function
+         | Filter.InputIntensity, CFI.Scalar input ->
+           Some (CIVignetteProps.InputIntensity (input.Convert input.Value))
+         | Filter.InputRadius, CFI.Distance input ->
+           Some (CIVignetteProps.InputRadius (input.Convert input.Value))
+         | _ -> None)
 
     | CIVignetteEffect ->
       Filter.view
@@ -763,6 +842,20 @@ module CombinedFilter =
            Some (CIDotScreenProps.InputSharpness (input.Convert input.Value))
          | Filter.InputWidth, CFI.Distance input ->
            Some (CIDotScreenProps.InputWidth (input.Convert input.Value))
+         | _ -> None)
+         
+    | CILineScreen ->
+      Filter.view
+        RNF.CILineScreen
+        (function
+         | Filter.InputCenter, CFI.Point input ->
+           Some (CILineScreenProps.InputCenter (input.Convert input.Value))
+         | Filter.InputAngle, CFI.Scalar input ->
+           Some (CILineScreenProps.InputAngle (input.Convert input.Value))
+         | Filter.InputSharpness, CFI.Scalar input ->
+           Some (CILineScreenProps.InputSharpness (input.Convert input.Value))
+         | Filter.InputWidth, CFI.Distance input ->
+           Some (CILineScreenProps.InputWidth (input.Convert input.Value))
          | _ -> None)
          
     | CIBumpDistortion ->
@@ -828,6 +921,16 @@ module CombinedFilter =
          | ResizeOutput value -> Some (CIVortexDistortionProps.ResizeOutput value)
          | _ -> None)
          
+    | CIConstantColorGenerator ->
+      Filter.view
+        RNF.CIConstantColorGenerator
+        (function
+         | Filter.InputColor, CFI.Color input ->
+           Some (CIConstantColorGeneratorProps.InputColor input.Value)
+         | _ -> None)
+
+    | CIRandomGenerator -> emptyView RNF.CIRandomGenerator
+         
     | CISharpenLuminance ->
       Filter.view
         RNF.CISharpenLuminance
@@ -862,6 +965,22 @@ module CombinedFilter =
         (function
          | Filter.InputIntensity, CFI.Scalar input ->
            Some (CIEdgesProps.InputIntensity (input.Convert input.Value))
+         | _ -> None)
+         
+    | CILineOverlay ->
+      Filter.view
+        RNF.CILineOverlay
+        (function
+         | Filter.InputNRNoiseLevel, CFI.Scalar input ->
+           Some (CILineOverlayProps.InputNRNoiseLevel (input.Convert input.Value))
+         | Filter.InputNRSharpness, CFI.Scalar input ->
+           Some (CILineOverlayProps.InputNRSharpness (input.Convert input.Value))
+         | Filter.InputEdgeIntensity, CFI.Scalar input ->
+           Some (CILineOverlayProps.InputEdgeIntensity (input.Convert input.Value))
+         | Filter.InputThreshold, CFI.Scalar input ->
+           Some (CILineOverlayProps.InputThreshold (input.Convert input.Value))
+         | Filter.InputContrast, CFI.Scalar input ->
+           Some (CILineOverlayProps.InputContrast (input.Convert input.Value))
          | _ -> None)
          
     | CIPixellate ->
@@ -904,7 +1023,12 @@ module CombinedFilter =
     function
     | CIMaskedVariableBlur
     | CIAdditionCompositing -> 2
+    | CIConstantColorGenerator
+    | CIRandomGenerator -> 0
     | _ -> 1
+
+  let isPersistent model =
+    requiredImagesAmount model <> 1
 
 
   let controls model =
@@ -955,6 +1079,7 @@ module CombinedFilter =
       | CILinearToSRGBToneCurve -> Filter.controls (name CILinearToSRGBToneCurve)
       | CISRGBToneCurveToLinear -> Filter.controls (name CISRGBToneCurveToLinear)
       | CITemperatureAndTint -> Filter.controls (name CITemperatureAndTint)
+      | CIToneCurve -> Filter.controls (name CIToneCurve)
       | CIMaskToAlpha -> Filter.controls (name CIMaskToAlpha)
       | CIMaximumComponent -> Filter.controls (name CIMaximumComponent)
       | CIMinimumComponent -> Filter.controls (name CIMinimumComponent)
@@ -966,6 +1091,8 @@ module CombinedFilter =
       | CIPhotoEffectProcess -> Filter.controls (name CIPhotoEffectProcess)
       | CIPhotoEffectTonal -> Filter.controls (name CIPhotoEffectTonal)
       | CIPhotoEffectTransfer -> Filter.controls (name CIPhotoEffectTransfer)
+      | CISepiaTone -> Filter.controls (name CISepiaTone)
+      | CIVignette -> Filter.controls (name CIVignette)
       | CIVignetteEffect -> Filter.controls (name CIVignetteEffect)
       | CIAdditionCompositing -> Filter.controls (name CIAdditionCompositing)
       | CIColorInvert -> Filter.controls (name CIColorInvert)
@@ -973,17 +1100,21 @@ module CombinedFilter =
       | CIVibrance -> Filter.controls (name CIVibrance)
       | CICircularScreen -> Filter.controls (name CICircularScreen)
       | CIDotScreen -> Filter.controls (name CIDotScreen)
+      | CILineScreen -> Filter.controls (name CILineScreen)
       | CIBumpDistortion -> Filter.controls (name CIBumpDistortion)
       | CIBumpDistortionLinear -> Filter.controls (name CIBumpDistortionLinear)
       | CICircleSplashDistortion -> Filter.controls (name CICircleSplashDistortion)
       | CICircularWrap -> Filter.controls (name CICircularWrap)
       | CIVortexDistortion -> Filter.controls (name CIVortexDistortion)
+      | CIConstantColorGenerator -> Filter.controls (name CIConstantColorGenerator)
+      | CIRandomGenerator -> Filter.controls (name CIRandomGenerator)
       | CISharpenLuminance -> Filter.controls (name CISharpenLuminance)
       | CIUnsharpMask -> Filter.controls (name CIUnsharpMask)
       | CICrystallize -> Filter.controls (name CICrystallize)
       | CIEdges -> Filter.controls (name CIEdges)
+      | CILineOverlay -> Filter.controls (name CILineOverlay)
       | CIPixellate -> Filter.controls (name CIPixellate)
       | CIPointillize -> Filter.controls (name CIPointillize)
       | CIOpTile -> Filter.controls (name CIOpTile)
     
-    ctrl ((requiredImagesAmount model) > 1)
+    ctrl (isPersistent model)

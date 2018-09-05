@@ -10,6 +10,7 @@ typedef RNFilteredImage * (^Filtering) (void);
                       inputs:(nonnull NSDictionary<NSString *, RNTuple<id, NSString *> *> *)inputs
                      context:(nonnull CIContext *)context
                   filterings:(nonnull NSDictionary<NSString *, Filtering> *)filterings
-                resizeOutput:(BOOL)resizeOutput;
+                resizeOutput:(BOOL)resizeOutput
+                   mainFrame:(CGRect)mainFrame;
 
 @end

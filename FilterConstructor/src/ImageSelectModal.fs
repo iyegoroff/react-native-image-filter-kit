@@ -18,11 +18,22 @@ module ImageSelectModal =
     | ImageSelectionCancelled
 
   let private sections = 
-    [| section Image.availableImages [] { title = "Images" } |]
+    let generators =
+      FilterGroups.generators
+      |> Array.map
+           (fun (cat, filters) ->
+              section (Array.map Image.Generated filters) [] { title = sprintf "%A" cat })
+
+    Array.concat
+      [ [| section Image.commonImages [] { title = "Images" } |]
+        generators ]
 
   let view image isVisible (dispatch: Dispatch<Message>) =
     let dispatch' =
       function
+      | (SelectModal.SelectMessage (Select.ItemSelected (Image.Generated image))) ->
+        dispatch (ImageSelectionSucceed (Image.Generated image))
+        
       | (SelectModal.SelectMessage (Select.ItemSelected (Image.Random _))) ->
         dispatch (ImageSelectionSucceed (Image.random ()))
 

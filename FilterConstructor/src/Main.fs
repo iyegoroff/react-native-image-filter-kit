@@ -5,8 +5,6 @@ open Elmish.React
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 open Fable.Import
-open Fable.Import.ReactNative
-open Fable.Import.ReactNative
 
 module RN = Fable.Helpers.ReactNative
 module R = Fable.Helpers.React

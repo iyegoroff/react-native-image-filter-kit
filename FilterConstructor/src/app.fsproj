@@ -6,10 +6,10 @@
     <Compile Include="Fable.Import.ReactNative.fs" />
     <Compile Include="Fable.Helpers.ReactNative.fs" />
     <Compile Include="Fable.Import.ReactNativeImageFilterKit.fs" />
+    <Compile Include="Fable.Import.ReactNativeFab.fs" />
     <Compile Include="Constants.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="Spacer.fs" />
-    <Compile Include="Image.fs" />
     <Compile Include="FilterInputs/FilterInputSlider.fs" />
     <Compile Include="FilterInputs/FilterRangeInput.fs" />
     <Compile Include="FilterInputs/FilterScalarInput.fs" />
@@ -23,6 +23,7 @@
     <Compile Include="Filters/Filter.fs" />
     <Compile Include="Filters/CombinedFilter.fs" />
     <Compile Include="Filters/FilterGroups.fs" />
+    <Compile Include="Image.fs" />
     <Compile Include="Select.fs" />
     <Compile Include="SelectModal.fs" />
     <Compile Include="FilterSelectModal.fs" />

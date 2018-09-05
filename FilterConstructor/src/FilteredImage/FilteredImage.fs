@@ -58,7 +58,7 @@ module FilteredImage =
       Dependent = None
       Dependencies = []
       LoadingStatus = InProgress 0
-      NextId = 0 }
+      NextId = 1 }
 
   let loadingStatus message status =
     match (message, status) with
@@ -122,7 +122,7 @@ module FilteredImage =
         let model' =
           filters'
           |> List.sortByDescending
-               (fun (_, filter, _) -> CombinedFilter.requiredImagesAmount filter)
+               (fun (_, filter, _) -> CombinedFilter.isPersistent filter)
           |> updatedModel model
 
         model',
@@ -136,7 +136,7 @@ module FilteredImage =
       { model with LoadingStatus = (loadingStatus ImageLoadingStarted model.LoadingStatus) }, []
       
     | ImageLoadingSucceed ->
-      { model with LoadingStatus = (loadingStatus ImageLoadingStarted model.LoadingStatus) }, []
+      { model with LoadingStatus = (loadingStatus ImageLoadingSucceed model.LoadingStatus) }, []
 
     | ImageLoadingFailed ->
       { model with LoadingStatus = Failed }, []

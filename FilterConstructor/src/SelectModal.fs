@@ -7,9 +7,11 @@ open Fable.Import.ReactNative
 open Fable.Core
 open Fable.Import
 open Select
+open Fable.Import.ReactNativeFab.Props
 
+module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
-
+module RNF = Fable.Import.ReactNativeFab
 
 module SelectModal =
 
@@ -17,49 +19,18 @@ module SelectModal =
     | Hide
     | SelectMessage of Select.Message<'a>
 
-  type WithClose<'a> =
-    | Item of 'a
-    | Close
-
-  let private itemKeyWithClose itemKey =
-    function
-    | Item x -> itemKey x
-    | Close -> "❌"
-
-  let private itemEnabledWithClose itemEnabled =
-    function
-    | Item x -> itemEnabled x
-    | Close -> true
-
-  let private equalsWithClose equals first second =
-    match first, second with
-    | Item x, Item y -> equals x y
-    | Close, Close -> true
-    | _ -> false
-
   let private dispatchWithClose dispatch =
     function
     | Select.Message.ItemSelected item ->
-      match item with
-      | Item x ->
-        dispatch Hide
-        (fun () ->
-           JS.setTimeout (fun () -> dispatch (SelectMessage (Select.Message.ItemSelected x))) 0
-           |> ignore
-           |> U2.Case1)
-        |> Globals.InteractionManager.runAfterInteractions
-        |> ignore
-      | Close -> dispatch Hide
+      dispatch Hide
+      (fun () ->
+         JS.setTimeout (fun () -> dispatch (SelectMessage (Select.Message.ItemSelected item))) 50
+         |> ignore
+         |> U2.Case1)
+      |> Globals.InteractionManager.runAfterInteractions
+      |> ignore
     
   let view items selected itemKey itemEnabled equals isVisible (dispatch: Dispatch<Message<'a>>) =
-    let items =
-      items
-      |> Array.map
-           (fun (s: SectionListData<'a>) ->
-              section
-                (Array.map Item (s.data.ToArray ()))
-                []
-                { title = (unbox<CustomSection> s).title })
       
     RN.modal
       [ AnimationType
@@ -69,11 +40,16 @@ module SelectModal =
         ModalProperties.Visible isVisible
         OnRequestClose (fun () -> dispatch Hide) ]
       [ Select.view
-          (Platform.select
-             [ Platform.Android items
-               Platform.Ios (Array.append items [| section [| Close |] [] { title = "" } |]) ])
-          (Option.map Item selected)
-          (itemKeyWithClose itemKey)
-          (itemEnabledWithClose itemEnabled)
-          (equalsWithClose equals)
-          (dispatchWithClose dispatch) ]
+          items
+          selected
+          itemKey
+          itemEnabled
+          equals
+          (dispatchWithClose dispatch)
+        Platform.select
+          [ Platform.Ios
+              (RNF.Fab
+                 [ IconTextComponent (RN.text [] "❌")
+                   ButtonColor "darkred"
+                   OnClickAction (fun _ -> dispatch Hide) ])
+            Platform.Android (R.fragment [] []) ] ]

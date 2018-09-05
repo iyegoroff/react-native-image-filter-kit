@@ -40,6 +40,16 @@ module Filter =
     | InputEV
     | InputNeutral
     | InputTargetNeutral
+    | InputPoint0
+    | InputPoint1
+    | InputPoint2
+    | InputPoint3
+    | InputPoint4
+    | InputColor
+    | InputNRNoiseLevel
+    | InputNRSharpness
+    | InputEdgeIntensity
+    | InputThreshold
     | Value
     | BlurRadius
     | Iterations

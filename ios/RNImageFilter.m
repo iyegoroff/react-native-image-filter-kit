@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSDictionary<NSString *, RCTImageView *> *targets;
 @property (nonatomic, strong) NSHashTable<RCTImageView *> *targetSubscriptions;
 @property (nonatomic, strong) NSOperationQueue *filteringQueue;
+@property (nonatomic, assign) CGRect mainFrame;
 
 @end
 
@@ -30,6 +31,7 @@
     _paramNames = [NSArray array];
     _paramTypes = [NSArray array];
     _filteringQueue = [[NSOperationQueue alloc] init];
+    _mainFrame = CGRectZero;
   }
   
   return self;
@@ -47,6 +49,8 @@
   [super layoutSubviews];
   
   [self linkTargets];
+  
+  RCTLog(@"filter: color %@", _name);
   
 //  RCTLog(@"filter: layout %@", [self filterStack]);
 }
@@ -97,6 +101,10 @@
       ?: [NSNull null];
     
     if (image) {
+      if ([val isEqualToString:_imageNames[0]]) {
+        _mainFrame = [_targets objectForKey:val].frame;
+      }
+      
       [acc setObject:image forKey:val];
     }
     
@@ -177,7 +185,8 @@
                                        inputs:inputs
                                       context:[self context]
                                    filterings:filterings
-                                 resizeOutput:self.resizeOutput];
+                                 resizeOutput:self.resizeOutput
+                                    mainFrame:self.mainFrame];
       };
     }
   }
@@ -248,11 +257,14 @@
                        context:(void *)context {
   if ([keyPath isEqualToString:@"image"]) {
     _originalImages = [[_originalImages allKeys] reduce:^id(id acc, NSString *val, int idx) {
-      UIImage *image = object == [_targets objectForKey:val]
-        ? [object.image copy]
-        : [_originalImages objectForKey:val];
+      BOOL isUpdated = object == [_targets objectForKey:val];
+      UIImage *image = isUpdated ? [object.image copy] : [_originalImages objectForKey:val];
       
       [acc setObject:image forKey:val];
+      
+      if (isUpdated && [val isEqualToString:_imageNames[0]]) {
+        _mainFrame = object.frame;
+      }
       
       return acc;
     } init:[NSMutableDictionary dictionary]];

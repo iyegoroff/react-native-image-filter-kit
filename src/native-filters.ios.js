@@ -1,25 +1,20 @@
 import React from 'react';
-import {
-  ImageFilterWithColorManagement,
-  ImageFilterWithoutColorManagement
-} from './image-filter';
-import {
-  distance,
-  position,
-  scalar,
-  vector,
-  offset
-} from './input-types';
+import { ImageFilterWithColorManagement, ImageFilterWithoutColorManagement } from './image-filter';
+import { distance, position, scalar, vector, offset, color } from './input-types';
+import { ImagePlaceholder } from './image-placeholder';
 
 const inputImage = 'inputImage';
 const inputMask = 'inputMask';
 const inputBackgroundImage = 'inputBackgroundImage';
+const generatedImage = 'generatedImage';
 
 const filter = (paramMap, imageNames = [inputImage]) => ({
   paramNames: Object.keys(paramMap),
   paramTypes: Object.values(paramMap),
   imageNames
 });
+
+const generator = (paramMap) => filter(paramMap, [generatedImage]);
 
 const filters = {
   CIBoxBlur: filter({
@@ -105,7 +100,14 @@ const filters = {
     inputTargetNeutral: offset
   }),
 
-  // CIToneCurve,
+  CIToneCurve: filter({
+    inputPoint0: offset,
+    inputPoint1: offset,
+    inputPoint2: offset,
+    inputPoint3: offset,
+    inputPoint4: offset
+  }),
+
   CIVibrance: filter({
     inputAmount: scalar
   }),
@@ -145,8 +147,15 @@ const filters = {
 
   CIPhotoEffectTransfer: filter({}),
 
-  // CISepiaTone,
-  // CIVignette,
+  CISepiaTone: filter({
+    inputIntensity: scalar
+  }),
+  
+  CIVignette: filter({
+    inputRadius: distance,
+    inputIntensity: scalar
+  }),
+
   CIVignetteEffect: filter({
     inputCenter: position,
     inputIntensity: scalar,
@@ -228,11 +237,15 @@ const filters = {
   // CIAztecCodeGenerator,
   // CICheckerboardGenerator,
   // CICode128BarcodeGenerator,
-  // CIConstantColorGenerator,
+  CIConstantColorGenerator: generator({
+    inputColor: color
+  }),
+  
   // CILenticularHaloGenerator,
   // CIPDF417BarcodeGenerator,
   // CIQRCodeGenerator,
-  // CIRandomGenerator,
+  CIRandomGenerator: generator({}),
+  
   // CIStarShineGenerator,
   // CIStripesGenerator,
   // CISunbeamsGenerator,
@@ -262,7 +275,13 @@ const filters = {
   }),
 
   // CIHatchedScreen,
-  // CILineScreen,
+  CILineScreen: filter({
+    inputCenter: position,
+    inputAngle: scalar,
+    inputWidth: distance,
+    inputSharpness: scalar
+  }),
+
   // CIAreaAverage,
   // CIAreaHistogram,
   // CIRowAverage,
@@ -305,7 +324,14 @@ const filters = {
   // CIHeightFieldFromMask,
   // CIHexagonalPixellate,
   // CIHighlightShadowAdjust,
-  // CILineOverlay,
+  CILineOverlay: filter({
+    inputNRNoiseLevel: scalar,
+    inputNRSharpness: scalar,
+    inputEdgeIntensity: scalar,
+    inputThreshold: scalar,
+    inputContrast: scalar
+  }),
+
   CIPixellate: filter({
     inputCenter: position,
     inputScale: distance
@@ -364,13 +390,19 @@ const nativeImageFilter = (name) => {
     : ImageFilterWithColorManagement;
 };
 
-const createImageNativeFilter = (name, config, ImageFilter) => ({ children, ...restProps }) => (
+const createImageNativeFilter = (name, config, ImageFilter) => ({
+  children,
+  imageStyle,
+  ...restProps
+}) => (
   <ImageFilter
     name={name}
     {...config}
     {...restProps}
   >
-    {children}
+    {config.imageNames.includes(generatedImage) && React.Children.count(children) === 0
+      ? <ImagePlaceholder style={imageStyle} />
+      : children}
   </ImageFilter>
 );
 

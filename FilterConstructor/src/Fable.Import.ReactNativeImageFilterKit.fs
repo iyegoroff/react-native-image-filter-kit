@@ -164,6 +164,11 @@ module Props =
     | InputCenter of IPoint
     | InputAmount of IDistance
 
+  type CIColorClampProps =
+    | Style of IStyle list
+    | InputMinComponents of IRGBAVector
+    | InputMaxComponents of IRGBAVector
+
   type CIColorControlsProps =
     | Style of IStyle list
     | InputSaturation of float
@@ -208,10 +213,17 @@ module Props =
     | InputNeutral of IOffset
     | InputTargetNeutral of IOffset
 
-  type CIColorClampProps =
+  type CIToneCurveProps =
     | Style of IStyle list
-    | InputMinComponents of IRGBAVector
-    | InputMaxComponents of IRGBAVector
+    | InputPoint0 of IOffset
+    | InputPoint1 of IOffset
+    | InputPoint2 of IOffset
+    | InputPoint3 of IOffset
+    | InputPoint4 of IOffset
+
+  type CIVibranceProps =
+    | Style of IStyle list
+    | InputAmount of float
 
   type CIMaskToAlphaProps =
     | Style of IStyle list
@@ -246,6 +258,15 @@ module Props =
   type CIPhotoEffectTransferProps =
     | Style of IStyle list
 
+  type CISepiaToneProps =
+    | Style of IStyle list
+    | InputIntensity of float
+
+  type CIVignetteProps =
+    | Style of IStyle list
+    | InputIntensity of float
+    | InputRadius of IDistance
+
   type CIVignetteEffectProps =
     | Style of IStyle list
     | InputCenter of IPoint
@@ -262,10 +283,6 @@ module Props =
     | Style of IStyle list
     | InputLevels of float
 
-  type CIVibranceProps =
-    | Style of IStyle list
-    | InputAmount of float
-
   type CICircularScreenProps =
     | Style of IStyle list
     | InputCenter of IPoint
@@ -273,6 +290,13 @@ module Props =
     | InputWidth of IDistance
 
   type CIDotScreenProps =
+    | Style of IStyle list
+    | InputCenter of IPoint
+    | InputAngle of float
+    | InputSharpness of float
+    | InputWidth of IDistance
+
+  type CILineScreenProps =
     | Style of IStyle list
     | InputCenter of IPoint
     | InputAngle of float
@@ -312,6 +336,15 @@ module Props =
     | InputRadius of IDistance
     | InputAngle of float
 
+  type CIConstantColorGeneratorProps =
+    | Style of IStyle list
+    | ImageStyle of IImageStyle list
+    | InputColor of string
+
+  type CIRandomGeneratorProps =
+    | Style of IStyle list
+    | ImageStyle of IImageStyle list
+
   type CISharpenLuminanceProps =
     | Style of IStyle list
     | InputSharpness of float
@@ -329,6 +362,14 @@ module Props =
   type CIEdgesProps =
     | Style of IStyle list
     | InputIntensity of float
+
+  type CILineOverlayProps =
+    | Style of IStyle list
+    | InputNRNoiseLevel of float
+    | InputNRSharpness of float
+    | InputEdgeIntensity of float
+    | InputThreshold of float
+    | InputContrast of float
 
   type CIPixellateProps =
     | Style of IStyle list
@@ -492,6 +533,9 @@ let inline CINoiseReduction (props: CINoiseReductionProps list) (children: React
 let inline CIZoomBlur (props: CIZoomBlurProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIZoomBlur" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline CIColorClamp (props: CIColorClampProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorClamp" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CIColorControls (props: CIColorControlsProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorControls" "react-native-image-filter-kit" (propsToObj props) children
 
@@ -519,8 +563,11 @@ let inline CISRGBToneCurveToLinear (props: CISRGBToneCurveToLinearProps list) (c
 let inline CITemperatureAndTint (props: CITemperatureAndTintProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CITemperatureAndTint" "react-native-image-filter-kit" (propsToObj props) children
 
-let inline CIColorClamp (props: CIColorClampProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorClamp" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIToneCurve (props: CIToneCurveProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIToneCurve" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIVibrance (props: CIVibranceProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIVibrance" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIMaskToAlpha (props: CIMaskToAlphaProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIMaskToAlpha" "react-native-image-filter-kit" (propsToObj props) children
@@ -555,6 +602,12 @@ let inline CIPhotoEffectTonal (props: CIPhotoEffectTonalProps list) (children: R
 let inline CIPhotoEffectTransfer (props: CIPhotoEffectTransferProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIPhotoEffectTransfer" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline CISepiaTone (props: CISepiaToneProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CISepiaTone" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIVignette (props: CIVignetteProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIVignette" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CIVignetteEffect (props: CIVignetteEffectProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIVignetteEffect" "react-native-image-filter-kit" (propsToObj props) children
 
@@ -567,14 +620,14 @@ let inline CIColorInvert (props: CIColorInvertProps list) (children: React.React
 let inline CIColorPosterize (props: CIColorPosterizeProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorPosterize" "react-native-image-filter-kit" (propsToObj props) children
 
-let inline CIVibrance (props: CIVibranceProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIVibrance" "react-native-image-filter-kit" (propsToObj props) children
-
 let inline CICircularScreen (props: CICircularScreenProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CICircularScreen" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIDotScreen (props: CIDotScreenProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIDotScreen" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CILineScreen (props: CILineScreenProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CILineScreen" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIBumpDistortion (props: CIBumpDistortionProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIBumpDistortion" "react-native-image-filter-kit" (propsToObj props) children
@@ -591,6 +644,12 @@ let inline CICircularWrap (props: CICircularWrapProps list) (children: React.Rea
 let inline CIVortexDistortion (props: CIVortexDistortionProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIVortexDistortion" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline CIConstantColorGenerator (props: CIConstantColorGeneratorProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIConstantColorGenerator" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIRandomGenerator (props: CIRandomGeneratorProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIRandomGenerator" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CISharpenLuminance (props: CISharpenLuminanceProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CISharpenLuminance" "react-native-image-filter-kit" (propsToObj props) children
 
@@ -603,6 +662,9 @@ let inline CICrystallize (props: CICrystallizeProps list) (children: React.React
 let inline CIEdges (props: CIEdgesProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIEdges" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline CILineOverlay (props: CILineOverlayProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CILineOverlay" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CIPixellate (props: CIPixellateProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIPixellate" "react-native-image-filter-kit" (propsToObj props) children
 
@@ -611,3 +673,8 @@ let inline CIPointillize (props: CIPointillizeProps list) (children: React.React
 
 let inline CIOpTile (props: CIOpTileProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIOpTile" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline ImagePlaceholder (props: ImageProperties list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "ImagePlaceholder" "react-native-image-filter-kit" (propsToObj props) children
+
+let imagePlaceholderSource: IImageSource = importMember "react-native-image-filter-kit"

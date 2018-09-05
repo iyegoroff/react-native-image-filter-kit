@@ -86,6 +86,7 @@ module FilterGroups =
                CF.CILinearToSRGBToneCurve
                CF.CISRGBToneCurveToLinear
                CF.CITemperatureAndTint
+               CF.CIToneCurve
                CF.CIVibrance |];
                 
             CICategoryColorEffect,
@@ -102,6 +103,8 @@ module FilterGroups =
                CF.CIPhotoEffectProcess
                CF.CIPhotoEffectTonal
                CF.CIPhotoEffectTransfer
+               CF.CISepiaTone
+               CF.CIVignette
                CF.CIVignetteEffect |];
             
             CICategoryDistortionEffect,
@@ -111,9 +114,6 @@ module FilterGroups =
                CF.CICircularWrap
                CF.CIVortexDistortion |];
             
-            CICategoryGenerator,
-            [| |];
-            
             CICategoryGeometryAdjustment,
             [| |];
             
@@ -122,7 +122,8 @@ module FilterGroups =
             
             CICategoryHalftoneEffect,
             [| CF.CICircularScreen
-               CF.CIDotScreen |];
+               CF.CIDotScreen
+               CF.CILineScreen |];
                
             CICategoryReduction,
             [| |];
@@ -134,6 +135,7 @@ module FilterGroups =
             CICategoryStylize,
             [| CF.CICrystallize
                CF.CIEdges
+               CF.CILineOverlay
                CF.CIPixellate
                CF.CIPointillize |];
             
@@ -169,4 +171,24 @@ module FilterGroups =
     Platform.select
       [ Platform.Ios iosCompositionFilters
         Platform.Android androidCompositionFilters ]
+
+  let private commonGenerators: GroupedModel array = [||]
+
+  let private androidGenerators =
+    Array.concat
+      [ commonGenerators
+        [||] ]
+
+  let private iosGenerators =
+    Array.concat
+      [ commonGenerators
+
+        [| CICategoryGenerator,
+           [| CF.CIConstantColorGenerator
+              CF.CIRandomGenerator |]; |] ]
+
+  let generators = 
+    Platform.select
+      [ Platform.Ios iosGenerators
+        Platform.Android androidGenerators ]
         

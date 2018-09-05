@@ -1716,14 +1716,14 @@ let inline listView<'a> (dataSource:ListViewDataSource<'a>) (props: IListViewPro
 let inline flatList<'a> (data:'a []) (props: IFlatListProperties<'a> list)  : React.ReactElement =
     // Some of FlatList properties are upper case:
     // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-native/index.d.ts#L3608-L3623
-    let pascalCaseProps, _ =
-      List.partition (function
-                      | ItemSeparatorComponent _ -> true
-                      | ListEmptyComponent _ -> true
-                      | ListFooterComponent _ -> true
-                      | ListHeaderComponent _ -> true
-                      | _ -> false)
-                      (unbox<FlatListProperties<'a> list> props)
+    let pascalCaseProps =
+      List.filter (function
+                   | ItemSeparatorComponent _ -> true
+                   | ListEmptyComponent _ -> true
+                   | ListFooterComponent _ -> true
+                   | ListHeaderComponent _ -> true
+                   | _ -> false)
+                   (unbox<FlatListProperties<'a> list> props)
 
     createElementWithObjProps(
       RN.FlatList,
@@ -1733,15 +1733,15 @@ let inline flatList<'a> (data:'a []) (props: IFlatListProperties<'a> list)  : Re
             keyValueList CaseRules.None pascalCaseProps), [])
 
 let inline sectionList<'a> (sections: SectionListData<'a> []) (props: ISectionListProperties<'a> list)  : React.ReactElement =
-    let pascalCaseProps, _ =
-      List.partition (function
-                      | SectionListProperties.ItemSeparatorComponent _ -> true
-                      | SectionListProperties.ListEmptyComponent _ -> true
-                      | SectionListProperties.ListFooterComponent _ -> true
-                      | SectionListProperties.ListHeaderComponent _ -> true
-                      | SectionSeparatorComponent _ -> true
-                      | _ -> false)
-                      (unbox<SectionListProperties<'a> list> props)
+    let pascalCaseProps =
+      List.filter (function
+                   | SectionListProperties.ItemSeparatorComponent _ -> true
+                   | SectionListProperties.ListEmptyComponent _ -> true
+                   | SectionListProperties.ListFooterComponent _ -> true
+                   | SectionListProperties.ListHeaderComponent _ -> true
+                   | SectionSeparatorComponent _ -> true
+                   | _ -> false)
+                   (unbox<SectionListProperties<'a> list> props)
 
     createElementWithObjProps(
       RN.SectionList,

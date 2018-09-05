@@ -44,12 +44,21 @@ module SingularFilteredImage =
   let update (message: Message) (model: Model) =
     match message with
     | ResizeModeChanged index ->
-      { model with Image =
-                     { model.Image with SelectedResizeMode = FilteredImage.resizeModes.[index] } },
-      []
+      let model' =
+        { model with Image =
+                       { model.Image with SelectedResizeMode = FilteredImage.resizeModes.[index] } }
+      model', FilteredImage.updateDependentCmd model' FilteredImageMessage Cmd.none
 
     | SetImage image -> 
-      let model' = { model with Image = { model.Image with Image = image } }
+      let filters =
+        match image with
+        | Image.Generated generator ->
+            (0, generator, CombinedFilter.init generator)::model.Image.Filters
+        | _ -> model.Image.Filters
+      let image' = { model.Image with Image = image
+                                      Filters = filters }
+      let model' = { model with Image = image' }
+
       model', FilteredImage.updateDependentCmd model' FilteredImageMessage Cmd.none
 
     | SelectImage ->
@@ -92,7 +101,7 @@ module SingularFilteredImage =
                     dispatch (ResizeModeChanged event.nativeEvent.selectedSegmentIndex))
                SelectedIndex (resizeControlIndex model) ]) ]
 
-  let image model dispatch =      
+  let image model dispatch =
     match (Image.source model.Image) with
     | None -> R.fragment [] []
     | Some source ->

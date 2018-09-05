@@ -20,6 +20,7 @@
                      context:(nonnull CIContext *)context
                   filterings:(nonnull NSDictionary<NSString *, Filtering> *)filterings
                 resizeOutput:(BOOL)resizeOutput
+                   mainFrame:(CGRect)mainFrame
 {
   CIFilter *filter = [CIFilter filterWithName:name];
   NSString *accumulatedCacheKey = @"";
@@ -44,7 +45,7 @@
   
   UIImage *cachedImage = [RNImageCache imageForKey:accumulatedCacheKey];
   
-  RNFilteredImage *mainImage = images[@"inputImage"];
+  RNFilteredImage *mainImage = images[@"inputImage"] ?: images[@"generatedImage"];
   RCTResizeMode resizeMode = mainImage ? mainImage.resizeMode : RCTResizeModeContain;
   
   if (cachedImage != nil) {
@@ -55,10 +56,15 @@
   } else {
     CGRect extent = CGRectZero;
     for (NSString *inputName in images) {
-      RNFilteredImage *image = images[inputName];
-      CIImage *tmp = [[CIImage alloc] initWithImage:image.image];
-      extent = CGRectUnion(extent, tmp.extent);
-      [filter setValue:tmp forKey:inputName];
+      if ([@"generatedImage" isEqualToString:inputName]) {
+        extent = mainFrame;
+        
+      } else {
+        RNFilteredImage *image = images[inputName];
+        CIImage *tmp = [[CIImage alloc] initWithImage:image.image];
+        extent = CGRectUnion(extent, tmp.extent);
+        [filter setValue:tmp forKey:inputName];
+      }
     }
     
     CGSize bounds = extent.size;
@@ -72,7 +78,7 @@
       id convertedInput;
       
       if ([@"scalar" isEqualToString:input.second]) {
-        convertedInput = input.first;
+        convertedInput = [RNFilterPostProcessor convertScalar:input.first];
         
       } else if ([@"distance" isEqualToString:input.second]) {
         convertedInput = [RNFilterPostProcessor convertDistance:input.first bounds:bounds];
@@ -84,13 +90,20 @@
         convertedInput = [RNFilterPostProcessor convertVector:input.first];
         
       } else if ([@"offset" isEqualToString:input.second]) {
-        convertedInput = [RNFilterPostProcessor convertVector:input.first];
+        convertedInput = [RNFilterPostProcessor convertOffset:input.first];
+        
+      } else if ([@"color" isEqualToString:input.second]) {
+        convertedInput = [RNFilterPostProcessor convertColor:input.first];
       }
       
       [filter setValue:convertedInput forKey:inputName];
     }
     
-    CGSize destSize = mainImage ? mainImage.image.size : CGSizeZero;
+    CGSize destSize = images[@"generatedImage"]
+      ? extent.size
+      : mainImage
+      ? mainImage.image.size
+      : CGSizeZero;
     CGFloat scale = mainImage ? mainImage.image.scale : 1.0f;
     
     //    CIImage *outputImage = CGRectEqualToRect(_filter.outputImage.extent, CGRectInfinite)
@@ -115,6 +128,7 @@
                                                                destSize:destSize
                                                                   scale:scale
                                                              resizeMode:resizeMode];
+    
     CGImageRelease(cgim);
     
     if (filteredImage != nil) {
@@ -162,6 +176,21 @@
   return image;
 }
 
++ (nonnull NSNumber *)convertScalar:(NSString *)scalar
+{
+  double num;
+  NSScanner *scanner = [NSScanner scannerWithString:scalar];
+  
+  [scanner scanDouble:&num];
+  
+  return [NSNumber numberWithDouble:num];
+}
+
++ (nonnull CIColor *)convertColor:(UIColor *)color
+{
+  return [CIColor colorWithCGColor:color.CGColor];
+}
+
 + (nonnull NSNumber *)convertDistance:(NSString *)relativeDistance bounds:(CGSize)bounds
 {
   return [NSNumber numberWithFloat:[RNFilterPostProcessor convertRelative:relativeDistance
@@ -177,6 +206,18 @@
   }
   
   return [CIVector vectorWithValues:v count:vector.count];
+}
+
++ (nonnull CIVector *)convertOffset:(NSArray<NSString *> *)offset
+{
+  double x, y;
+  NSScanner *scannerX = [NSScanner scannerWithString:offset[0]];
+  NSScanner *scannerY = [NSScanner scannerWithString:offset[1]];
+  
+  [scannerX scanDouble:&x];
+  [scannerY scanDouble:&y];
+  
+  return [CIVector vectorWithCGPoint:CGPointMake(x, y)];
 }
 
 + (nonnull CIVector *)convertPosition:(NSArray<NSString *> *)relativePoint bounds:(CGSize)bounds
