@@ -2,11 +2,14 @@ namespace FilterConstructor
 
 open Elmish
 open Elmish.React
+open Fable.Import
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
-open Fable.Import
+open Fable.Import.ReactNativeCollapsibleHeaderViews.Props
+open Fable.Core
 
 module RN = Fable.Helpers.ReactNative
+module RNCHV = Fable.Import.ReactNativeCollapsibleHeaderViews
 
 
 module Select =
@@ -44,7 +47,13 @@ module Select =
         FontSize 14.
         TextStyle.Color "darkblue"
         FontWeight FontWeight.Bold ]
-    
+  
+  let private listHeaderStyle =
+    ViewProperties.Style
+      [ Flex 1.
+        JustifyContent JustifyContent.Center
+        BackgroundColor "transparent"
+        Padding (dip 5.) ]
 
   let private separator () =
     RN.view [ separatorStyle ] []
@@ -68,20 +77,33 @@ module Select =
       (unbox<CustomSection> section).title
 
   let view items selected itemKey itemEnabled equals (dispatch: Dispatch<Message<'a>>) =
+    let mutable collapsibleRef: CollapsibleHeaderView option = None
+
+    let searchBarBlurred () =
+      collapsibleRef
+      |> Option.map (fun collapsible -> collapsible.animatedComponent () |> RNCHV.scrollView)
+      |> (Option.flatten >> Option.iter (fun scroll -> scroll.scrollTo (U2.Case1 0.)))
+
     let renderItem item =
-      let style = match selected with
-                  | Some sel when (equals item sel) -> [ selectedStyle ]
-                  | _ -> if itemEnabled item then [] else [ disabledStyle ]
       touchable
         (itemEnabled item)
         (fun () -> dispatch (ItemSelected item))
         [ RN.view
             [ itemStyle ]
             [ RN.text
-                style
+                (match selected with
+                 | Some sel when (equals item sel) -> [ selectedStyle ]
+                 | _ -> if itemEnabled item then [] else [ disabledStyle ])
                 (itemKey item) ] ]
 
-    RN.sectionList items
+    let header =
+      RN.view
+        [ listHeaderStyle ]
+        [ SearchBar.view searchBarBlurred ignore ]
+
+    RNCHV.collapsibleHeaderSectionList items (fun _ -> header) 60.
+      [ HeaderContainerBackgroundColor "transparent"
+        CollapsibleHeaderViewProps.Ref (fun ref -> collapsibleRef <- (Some ref)) ]
       [ RenderSectionHeader (fun info -> sectionHeader info.section)
         SectionListProperties.RenderItem (fun item -> lazyView renderItem item.item)
         SectionListProperties.ItemSeparatorComponent separator

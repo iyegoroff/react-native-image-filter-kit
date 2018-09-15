@@ -3,9 +3,11 @@ Fable.Elmish
 Fable.Elmish.HMR
 Fable.Elmish.React
 Fable.React
-Fable.Import.ReactNativePortal
-Fable.Import.ReactNativeSlider
-Fable.Import.ReactNativeSegmentedControlTab
+Fable.Import.ReactNativeCollapsibleHeaderViews
 Fable.Import.ReactNativeColorWheel
+Fable.Import.ReactNativeFab
+Fable.Import.ReactNativePortal
+Fable.Import.ReactNativeSegmentedControlTab
+Fable.Import.ReactNativeSlider
 Fable.Import.FastMemoize
 dotnet-fable

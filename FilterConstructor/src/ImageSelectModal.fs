@@ -6,7 +6,6 @@ open Fable.Helpers.ReactNative.Props
 open Fable.Helpers.ReactNativeImagePicker
 open Fable.Import
 open Fable.PowerPack
-open Select
 
 
 module ImageSelectModal =
@@ -22,10 +21,10 @@ module ImageSelectModal =
       FilterGroups.generators
       |> Array.map
            (fun (cat, filters) ->
-              section (Array.map Image.Generated filters) [] { title = sprintf "%A" cat })
+              section (Array.map Image.Generated filters) [] { Select.title = sprintf "%A" cat })
 
     Array.concat
-      [ [| section Image.commonImages [] { title = "Images" } |]
+      [ [| section Image.commonImages [] { Select.title = "Images" } |]
         generators ]
 
   let view image isVisible (dispatch: Dispatch<Message>) =

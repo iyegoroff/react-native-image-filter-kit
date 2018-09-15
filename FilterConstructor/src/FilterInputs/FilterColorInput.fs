@@ -5,6 +5,7 @@ open Fable.Import
 open Fable.Import.ReactNativeColorWheel
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
+open Elmish.React
 
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
@@ -45,19 +46,22 @@ module FilterColorInput =
 
   let private colorWheelStyle =
     RNC.Props.Style
-      []
-      // [ Width (dip 235.)
-      //   Height (dip 200.)
-      //   AlignSelf Alignment.Center
-      //   Flex 1. ]
+      [ Width (dip 235.)
+        Height (dip 200.)
+        AlignSelf Alignment.Center
+        Flex 1. ]
 
   let view (model: Model) (dispatch: Dispatch<Message>) : React.ReactElement =
+    let wheel =
+      (fun () ->
+         RNC.colorWheel
+           [ colorWheelStyle
+             RNC.Props.Ref (ColorWheelRefChanged >> dispatch)
+             RNC.Props.InitialColor model.Value
+             RNC.Props.Precision 10.
+             RNC.Props.OnHexColorChange (ValueChanged >> dispatch) ])
+
     RN.view
       [ containerStyle ]
       [ RN.text [] (sprintf "%s %s" model.Name model.Value)
-        RNC.colorWheel
-          [ colorWheelStyle
-            RNC.Props.Ref (ColorWheelRefChanged >> dispatch)
-            RNC.Props.InitialColor model.Value
-            RNC.Props.Precision 10.
-            RNC.Props.OnHexColorChange (ValueChanged >> dispatch) ] ]
+        lazyView wheel () ]

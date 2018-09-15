@@ -6,7 +6,6 @@ open Fable.Helpers.ReactNative
 open Fable.Import.ReactNative
 open Fable.Core
 open Fable.Import
-open Select
 open Fable.Import.ReactNativeFab.Props
 
 module R = Fable.Helpers.React
@@ -21,10 +20,10 @@ module SelectModal =
 
   let private dispatchWithClose dispatch =
     function
-    | Select.Message.ItemSelected item ->
+    | Select.ItemSelected item ->
       dispatch Hide
       (fun () ->
-         JS.setTimeout (fun () -> dispatch (SelectMessage (Select.Message.ItemSelected item))) 50
+         JS.setTimeout (fun () -> dispatch (SelectMessage (Select.ItemSelected item))) 50
          |> ignore
          |> U2.Case1)
       |> Globals.InteractionManager.runAfterInteractions
