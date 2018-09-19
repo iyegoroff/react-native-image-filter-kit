@@ -83,6 +83,42 @@ module Props =
     | Style of IStyle list
     | Value of float
 
+  type TechnicolorProps =
+    | Style of IStyle list
+
+  type PolaroidProps =
+    | Style of IStyle list
+
+  type ToBGRProps =
+    | Style of IStyle list
+
+  type KodachromeProps =
+    | Style of IStyle list
+
+  type BrowniProps =
+    | Style of IStyle list
+
+  type VintageProps =
+    | Style of IStyle list
+
+  type NightProps =
+    | Style of IStyle list
+    | Value of float
+
+  type PredatorProps =
+    | Style of IStyle list
+    | Value of float
+
+  type LsdProps =
+    | Style of IStyle list
+
+  type ColorToneProps =
+    | Style of IStyle list
+    | Desaturation of float
+    | Toned of float
+    | DarkColor of string
+    | LightColor of string
+
   type ProtanomalyProps =
     | Style of IStyle list
 
@@ -472,6 +508,36 @@ let inline Tint (props: TintProps list) (children: React.ReactElement list): Rea
 
 let inline Threshold (props: ThresholdProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "Threshold" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline Technicolor (props: TechnicolorProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Technicolor" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline Polaroid (props: PolaroidProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Polaroid" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline ToBGR (props: ToBGRProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "ToBGR" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline Kodachrome (props: KodachromeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Kodachrome" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline Browni (props: BrowniProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Browni" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline Vintage (props: VintageProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Vintage" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline Night (props: NightProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Night" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline Predator (props: PredatorProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Predator" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline Lsd (props: LsdProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Lsd" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline ColorTone (props: ColorToneProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "ColorTone" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline Protanomaly (props: ProtanomalyProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "Protanomaly" "react-native-image-filter-kit" (propsToObj props) children

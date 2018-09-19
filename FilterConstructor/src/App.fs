@@ -7,7 +7,7 @@ open Elmish.HMR
 
 module App =
 
-  Program.mkProgram Main.init Main.update Main.view
+  Program.mkProgram Main.init Main.update Main.pureView
   |> Program.withHMR
   |> Program.withReactNative "FilterConstructor"
   |> Program.run

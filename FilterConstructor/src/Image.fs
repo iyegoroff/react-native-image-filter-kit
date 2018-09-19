@@ -3,6 +3,9 @@ namespace FilterConstructor
 open Fable.Helpers.ReactNative.Props
 open Fable.Helpers.ReactNative
 open Fable.Import
+open Elmish
+open Fable.Helpers.ReactNativeImagePicker
+
 
 module RNF = Fable.Import.ReactNativeImageFilterKit
 
@@ -70,7 +73,7 @@ module Image =
                   Source = Some (localImage "${entryDir}/../img/white-star.png") } |]
 
   let equals first second =
-    function
+    match first, second with
     | (Random _), (Random _) -> true
     | (FromPicker _), (FromPicker _) -> true
     | _ -> first = second
@@ -88,3 +91,12 @@ module Image =
     | Random image
     | FromPicker image -> image.Name
     | Generated image -> CombinedFilter.name image
+
+  let pickerCmd success cancel fail =
+    Cmd.ofPromise
+      showImagePickerAsync
+      []
+      (Option.fold
+         (fun _ uri -> success (fromPicker (Some (remoteImage [ Uri uri ]))))
+         cancel)
+      (fun (e: System.Exception) -> fail e.Message)

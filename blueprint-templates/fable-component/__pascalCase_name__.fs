@@ -17,7 +17,7 @@ module {{pascalCase name}} =
   let init () : Model =
     ()
 
-  let update (message: Message) (model: Model) : Model * Sub<Message> list =
+  let update (message: Message) (model: Model) : Model * Cmd<Message> =
     match message with
     | None ->
       ()

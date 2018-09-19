@@ -48,5 +48,7 @@ module SearchBar =
         RN.textInput
           [ inputStyle
             OnBlur onBlur
+            AutoCorrect false
+            AutoCapitalize AutoCapitalize.None
             OnChangeText onChangeText
             TextInputProperties.Ref (fun ref -> inputRef <- (Some ref)) ] ]

@@ -22,8 +22,7 @@ module FilteredImage =
 
   type Model<'image> = 
     { Image: 'image
-      ImageSelectModalIsVisible: bool
-      FilterSelectModalIsVisible: bool
+      FilterSelectModal: FilterSelectModal.Model
       Dependent: Id option
       Dependencies: Id list
       LoadingStatus: Loading
@@ -33,7 +32,6 @@ module FilteredImage =
     | Delete
     | UpdateDependent of Id * 'image
     | Error of System.Exception
-    | SelectFilter
     | FilterSelectModalMessage of FilterSelectModal.Message
     | FilterMessage of Id * Filter.Message
     | CopyCode
@@ -51,10 +49,9 @@ module FilteredImage =
 
   let resizeControlValues = new ResizeArray<string> (Array.map unbox<string> resizeModes)
 
-  let init image =    
+  let init image filterSelectModal =
     { Image = image
-      ImageSelectModalIsVisible = false 
-      FilterSelectModalIsVisible = false
+      FilterSelectModal = filterSelectModal
       Dependent = None
       Dependencies = []
       LoadingStatus = InProgress 0
@@ -74,7 +71,13 @@ module FilteredImage =
             Cmd.batch [ cmd'; Cmd.ofMsg (mapMessage (UpdateDependent (depId, model.Image))) ])
          rest
 
-  let update (model: Model<'image>) (message: Message<'image>) filters updatedModel mapMessage =
+  let update
+    (message: Message<'image>)
+    (model: Model<'image>)
+    filters
+    updatedModel
+    mapMessage : Model<'image> * Cmd<Message<'image>> =
+
     match message with
     | UpdateDependent _ ->
       model, []
@@ -85,20 +88,24 @@ module FilteredImage =
     | Error _ ->
       model, []
 
-    | SelectFilter ->
-      { model with FilterSelectModalIsVisible = true }, []
-
     | FilterSelectModalMessage msg ->
+      let filterSelectModal, cmd = FilterSelectModal.update msg model.FilterSelectModal
+
       match msg with
       | SelectModal.SelectMessage (Select.ItemSelected filter) -> 
         // Utils.configureNextLayoutAnimation ()
         let filters' = filters @ [model.NextId, filter, CombinedFilter.init filter]
         let model' = (updatedModel model filters')
 
-        { model' with NextId = model.NextId + 1 }, updateDependentCmd model' mapMessage Cmd.none
+        { model' with NextId = model.NextId + 1
+                      FilterSelectModal = filterSelectModal },
+        Cmd.batch
+          [ updateDependentCmd model' mapMessage Cmd.none
+            Cmd.map FilterSelectModalMessage cmd ]
+
+      | _ ->
+        { model with FilterSelectModal = filterSelectModal }, Cmd.map FilterSelectModalMessage cmd
         // Cmd.ofPromise Utils.delay 0 UpdateUnanimatedFilters Error
-      | SelectModal.Hide ->
-        { model with FilterSelectModalIsVisible = false }, []
 
     | FilterMessage (id, msg) ->
       match List.tryFind (fun (i, _, _) -> i = id) filters with
@@ -141,7 +148,8 @@ module FilteredImage =
     | ImageLoadingFailed ->
       { model with LoadingStatus = Failed }, []
 
-        // | CopyCode ->
+    | CopyCode ->
+      model, []
     //   model.Filters
     //   |> List.map (fun (_, filter, value) -> (filter, value))
     //   |> JSGenerator.run
@@ -203,8 +211,8 @@ module FilteredImage =
   let filterPortal model dispatch =
     RNP.enterPortal
       Constants.filterPortal
-      [ FilterSelectModal.singularFiltersView
-          model.FilterSelectModalIsVisible
+      [ FilterSelectModal.view
+          model.FilterSelectModal
           (FilterSelectModalMessage >> dispatch) ]
 
   let spinner model =
@@ -221,7 +229,8 @@ module FilteredImage =
           []
           [ RN.button
               [ ButtonProperties.Title "Add filter"
-                ButtonProperties.OnPress (fun _ -> dispatch SelectFilter) ]
+                (ButtonProperties.OnPress
+                   (fun _ -> dispatch (FilterSelectModalMessage FilterSelectModal.showMsg))) ]
               []
             Spacer.view
             RN.view

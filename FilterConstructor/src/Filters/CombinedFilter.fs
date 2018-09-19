@@ -30,6 +30,16 @@ module CombinedFilter =
     | Temperature
     | Tint
     | Threshold
+    | Technicolor
+    | Polaroid
+    | ToBGR
+    | Kodachrome
+    | Browni
+    | Vintage
+    | Night
+    | Predator
+    | Lsd
+    | ColorTone
     | Protanomaly
     | Deuteranomaly
     | Tritanomaly
@@ -154,6 +164,31 @@ module CombinedFilter =
       Filter.init
         [ Filter.Value, CFI.initScalar -100. 100. 0. ]
 
+    | Technicolor -> Filter.init []
+
+    | Polaroid -> Filter.init []
+
+    | ToBGR -> Filter.init []
+
+    | Kodachrome -> Filter.init []
+
+    | Browni -> Filter.init []
+
+    | Vintage -> Filter.init []
+
+    | Night -> Filter.init [ Filter.Value, CFI.initScalar -10. 10. 0.1 ]
+
+    | Predator -> Filter.init [ Filter.Value, CFI.initScalar -10. 10. 1. ]
+
+    | Lsd -> Filter.init []
+
+    | ColorTone ->
+      Filter.init
+        [ Filter.Desaturation, CFI.initScalar -10. 10. 0.2
+          Filter.Toned, CFI.initScalar -10. 10. 1.5
+          Filter.LightColor, CFI.initColor "#ffe580"
+          Filter.DarkColor, CFI.initColor "#338000" ]
+
     | Protanomaly -> Filter.init []
 
     | Deuteranomaly -> Filter.init []
@@ -179,8 +214,8 @@ module CombinedFilter =
 
     | LightingColorFilter ->
       Filter.init
-        [ Filter.Mul, CFI.initColor
-          Filter.Add, CFI.initColor ]
+        [ Filter.Mul, CFI.initColor "#ffffff"
+          Filter.Add, CFI.initColor "#ffffff" ]
 
     | CIBoxBlur ->
       Filter.init
@@ -391,7 +426,7 @@ module CombinedFilter =
 
     | CIConstantColorGenerator ->
       Filter.init
-        [ Filter.InputColor, CFI.initColor ]
+        [ Filter.InputColor, CFI.initColor "#ffffff" ]
 
     | CIRandomGenerator -> Filter.init []
 
@@ -530,6 +565,50 @@ module CombinedFilter =
         (function
          | Filter.Value, CFI.Scalar input ->
            Some (ThresholdProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Technicolor -> emptyView RNF.Technicolor
+
+    | Polaroid -> emptyView RNF.Polaroid
+
+    | ToBGR -> emptyView RNF.ToBGR
+
+    | Kodachrome -> emptyView RNF.Kodachrome
+
+    | Browni -> emptyView RNF.Browni
+
+    | Vintage -> emptyView RNF.Vintage
+
+    | Night ->
+      Filter.view
+        RNF.Night
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (NightProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Predator ->
+      Filter.view
+        RNF.Predator
+        (function
+         | Filter.Value, CFI.Scalar input ->
+           Some (PredatorProps.Value (input.Convert input.Value))
+         | _ -> None)
+
+    | Lsd -> emptyView RNF.Lsd
+
+    | ColorTone ->
+      Filter.view
+        RNF.ColorTone
+        (function
+         | Filter.Desaturation, CFI.Scalar input ->
+           Some (ColorToneProps.Desaturation (input.Convert input.Value))
+         | Filter.Toned, CFI.Scalar input ->
+           Some (ColorToneProps.Toned (input.Convert input.Value))
+         | Filter.DarkColor, CFI.Color input ->
+           Some (ColorToneProps.DarkColor input.Value)
+         | Filter.LightColor, CFI.Color input ->
+           Some (ColorToneProps.LightColor input.Value)
          | _ -> None)
 
     | Protanomaly -> emptyView RNF.Protanomaly
@@ -1050,6 +1129,16 @@ module CombinedFilter =
       | Temperature -> Filter.controls (name Temperature)
       | Tint -> Filter.controls (name Tint)
       | Threshold -> Filter.controls (name Threshold)
+      | Technicolor -> Filter.controls (name Technicolor)
+      | Polaroid -> Filter.controls (name Polaroid)
+      | ToBGR -> Filter.controls (name ToBGR)
+      | Kodachrome -> Filter.controls (name Kodachrome)
+      | Browni -> Filter.controls (name Browni)
+      | Vintage -> Filter.controls (name Vintage)
+      | Night -> Filter.controls (name Night)
+      | Predator -> Filter.controls (name Predator)
+      | Lsd -> Filter.controls (name Lsd)
+      | ColorTone -> Filter.controls (name ColorTone)
       | Protanomaly -> Filter.controls (name Protanomaly)
       | Deuteranomaly -> Filter.controls (name Deuteranomaly)
       | Tritanomaly -> Filter.controls (name Tritanomaly)

@@ -63,5 +63,5 @@ module FilterColorInput =
 
     RN.view
       [ containerStyle ]
-      [ RN.text [] (sprintf "%s %s" model.Name model.Value)
+      [ RN.text [ ] (sprintf "%s %s" model.Name model.Value)
         lazyView wheel () ]

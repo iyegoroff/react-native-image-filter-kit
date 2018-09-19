@@ -47,8 +47,8 @@ module CombinedFilterInput =
   let initBoolean name =
     Boolean (FilterBooleanInput.init name false)
     
-  let initColor name =
-    Color (FilterColorInput.init name "#ffffff")
+  let initColor value name =
+    Color (FilterColorInput.init name value)
 
   let initOffset min max value name =
     Offset (FilterOffsetInput.init name min max value)

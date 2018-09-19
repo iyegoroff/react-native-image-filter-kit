@@ -19,8 +19,8 @@ module CombinedFilteredImage =
   let initSingular image =
     Singular (SingularFilteredImage.init image)
 
-  let initComposition filter images dependencies =
-    Composition (FilteredImageComposition.init filter images dependencies)
+  let initComposition filter images dependencies filterSelectModal =
+    Composition (FilteredImageComposition.init filter images dependencies filterSelectModal)
 
   let withDependent (model: Model) id =
     match model with

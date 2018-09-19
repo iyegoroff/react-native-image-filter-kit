@@ -1,6 +1,6 @@
 namespace FilterConstructor
 
-open Fable.Import.ReactNative
+open Elmish
 open Fable.PowerPack
 open Fable.Import
 
@@ -22,11 +22,8 @@ module Utils =
     ()
     // Globals.LayoutAnimation.spring id
 
-  let delay ms = 
-    promise {
-      do! Promise.sleep ms
-      return ()
-    }
+  let delayCmd ms message =
+    Cmd.ofPromise Promise.sleep ms (fun _ -> message) (fun _ -> message)
 
   let invariant x msg =
     if not x then

@@ -47,3 +47,5 @@ buck-out/
 *.keystore
       
 .vscode/
+
+blueprint-templates/

@@ -17,16 +17,14 @@ module Main =
 
   type Model =
     { FilteredImages: (Id * CombinedFilteredImage.Model) array
-      CompositionFilterSelectModalIsVisible: bool
-      DefaultImageSelectModalIsVisible: bool
+      CompositionFilterSelectModal: FilterSelectModal.Model
+      DefaultImageSelectModal: ImageSelectModal.Model
       DefaultImage: Image.Model
       NextId: Id }
 
   type Message =
     | AddSingularFilteredImage
-    | SelectDefaultImage
     | DefaultImageSelectModalMessage of ImageSelectModal.Message
-    | SelectCompositionFilter
     | CompositionFilterSelectModalMessage of FilterSelectModal.Message
     | CombinedFilteredImageMessage of Id * CombinedFilteredImage.Message
     | ContainerScrolled
@@ -34,8 +32,8 @@ module Main =
   let init () = 
     // Utils.enableExperimentalLayoutAnimationOnAndroid ()
     { FilteredImages = [||]
-      CompositionFilterSelectModalIsVisible = false
-      DefaultImageSelectModalIsVisible = false
+      CompositionFilterSelectModal = FilterSelectModal.initComposition 2 false
+      DefaultImageSelectModal = ImageSelectModal.init Image.defaultImage false
       DefaultImage = Image.defaultImage
       NextId = 0 },
     Cmd.none
@@ -50,16 +48,15 @@ module Main =
 
   let update (message: Message) model =
     match message with
-    | SelectCompositionFilter ->
-      { model with CompositionFilterSelectModalIsVisible = true }, []
-
     | AddSingularFilteredImage ->
       Utils.configureNextLayoutAnimation ()
-      let newImage = CombinedFilteredImage.initSingular Image.defaultImage
+      let newImage = CombinedFilteredImage.initSingular Image.defaultImage 
       { model with FilteredImages = Array.append [| (model.NextId, newImage) |] model.FilteredImages
                    NextId = model.NextId + 1 }, []
 
     | CompositionFilterSelectModalMessage msg ->      
+      let filterSelectModal, cmd = FilterSelectModal.update msg model.CompositionFilterSelectModal
+
       match msg with
       | SelectModal.SelectMessage (Select.ItemSelected filter) ->
         let imagesAmount = CombinedFilter.requiredImagesAmount filter
@@ -77,6 +74,7 @@ module Main =
               filter
               (List.map (snd >> CombinedFilteredImage.imageNode) dependencies)
               (List.map fst dependencies)
+              (FilterSelectModal.initComposition composableImages.Length false)
 
           let filteredImages =
             model.FilteredImages
@@ -93,11 +91,9 @@ module Main =
         else
           model, []
 
-      | SelectModal.Hide ->
-        { model with CompositionFilterSelectModalIsVisible = false }, []
-
-    | SelectDefaultImage ->
-      { model with DefaultImageSelectModalIsVisible = true }, []
+      | _ ->
+        { model with CompositionFilterSelectModal = filterSelectModal },
+        Cmd.map CompositionFilterSelectModalMessage cmd
 
     | DefaultImageSelectModalMessage msg ->
       match msg with
@@ -119,8 +115,11 @@ module Main =
         Alert.alert ("Error", message, [])
         model, []
 
-      | ImageSelectModal.Hide ->
-        { model with DefaultImageSelectModalIsVisible = false }, []
+      | _ ->
+        let imageSelectModal, cmd = ImageSelectModal.update msg model.DefaultImageSelectModal
+
+        { model with DefaultImageSelectModal = imageSelectModal },
+        Cmd.map DefaultImageSelectModalMessage cmd
 
     | CombinedFilteredImageMessage (id, msg) ->
       match Array.tryFind (fun (i, _) -> i = id) model.FilteredImages with
@@ -194,7 +193,7 @@ module Main =
       [ Height (dip 1.5) ]
 
   let private listContentStyle =
-    ScrollViewProperties.ContentContainerStyle
+    ContentContainerStyle
       [ Padding (pct 1.5)
         PaddingTop (dip 5.) ]
 
@@ -205,7 +204,7 @@ module Main =
   let private separator () =
     RN.view [ separatorStyle ] []
         
-  let view model (dispatch: Dispatch<Message>) =
+  let view (model: Model) (dispatch: Dispatch<Message>) =
     let filteredImageDispatch i msg = dispatch <| CombinedFilteredImageMessage (i, msg)
 
     let renderFilteredImage (id, image) =
@@ -217,7 +216,8 @@ module Main =
         [ RN.button
             [ ButtonProperties.Title "Change all images"
               ButtonProperties.Color "green"
-              ButtonProperties.OnPress (fun () -> dispatch SelectDefaultImage) ]
+              (ButtonProperties.OnPress
+                 (fun () -> dispatch (DefaultImageSelectModalMessage ImageSelectModal.showMsg))) ]
             []
           Spacer.view
           RN.button
@@ -230,22 +230,26 @@ module Main =
             [ ButtonProperties.Title "Compose last images"
               ButtonProperties.Color "green"
               ButtonProperties.Disabled (not (canComposeImages model))
-              ButtonProperties.OnPress (fun () -> dispatch SelectCompositionFilter) ]
+              (ButtonProperties.OnPress
+                (fun () ->
+                   dispatch (CompositionFilterSelectModalMessage FilterSelectModal.showMsg))) ]
             [] ]
 
     RNP.portalProvider
       [ RN.statusBar
           [ StatusBarProperties.Hidden true ]
         ImageSelectModal.view
-          model.DefaultImage
-          model.DefaultImageSelectModalIsVisible
+          model.DefaultImageSelectModal
           (DefaultImageSelectModalMessage >> dispatch)
-        FilterSelectModal.compositionFiltersView
-          model.CompositionFilterSelectModalIsVisible
-          (composableImages model).Length
+        FilterSelectModal.view
+          model.CompositionFilterSelectModal
           (CompositionFilterSelectModalMessage >> dispatch)
         RNP.exitPortal Constants.filterPortal []
         RNP.exitPortal Constants.imagePortal []
+        // RN.scrollView
+        //   [ ContentContainerStyle [ Padding (dip 1.) ]
+        //     ScrollViewProperties.Style[ BackgroundColor "wheat" ] ]
+        //   [ ] ]
         RN.flatList model.FilteredImages
           [ listContentStyle
             listStyle
@@ -256,3 +260,9 @@ module Main =
             OnMomentumScrollEnd (fun _ -> dispatch ContainerScrolled)
             OnScrollEndDrag (fun _ -> dispatch ContainerScrolled)
             KeyExtractor (fun (id, _) _ -> string id) ] ]
+
+  let pureView  =
+    // RN.scrollView
+    //   [ ContentContainerStyle [ Padding (dip 1.) ] ]
+    //   []
+    lazyView2 view

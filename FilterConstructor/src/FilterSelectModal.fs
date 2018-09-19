@@ -1,41 +1,42 @@
 namespace FilterConstructor
 
-open Elmish
-open Fable.Helpers.ReactNative
-open Select
 open Fable.Import
 
 
 module FilterSelectModal =
 
+  type Model = SelectModal.Model<CombinedFilter.Model>
+
   type Message = SelectModal.Message<CombinedFilter.Model>
+
+  let showMsg =
+    SelectModal.Show
 
   let private sections filters = 
     filters
-    |> Array.map (fun (group, models) -> section models [] { title = sprintf "%A" group })
+    |> Array.map
+         (fun (group, models) -> { Select.Items = models; Select.Title = sprintf "%A" group })
 
   let private singularFilterSections =
     sections FilterGroups.singularFilters
 
-  let private combinationFilterSections = 
+  let private compositionFilterSections = 
     sections FilterGroups.compositionFilters
 
-  let singularFiltersView isVisible (dispatch: Dispatch<Message>) =
-    SelectModal.view
-      singularFilterSections
-      None
-      CombinedFilter.name
-      (fun _ -> true)
-      (=)
-      isVisible
-      dispatch
+  let initSingular = 
+    SelectModal.init singularFilterSections None CombinedFilter.name (fun _ -> true) (=) false
 
-  let compositionFiltersView isVisible imagesAmount (dispatch: Dispatch<Message>) =
-    SelectModal.view
-      combinationFilterSections
+  let initComposition imagesAmount =
+    SelectModal.init
+      compositionFilterSections
       None
       CombinedFilter.name
       (fun filter -> imagesAmount >= CombinedFilter.requiredImagesAmount filter)
       (=)
-      isVisible
-      dispatch
+      false
+
+  let update =
+    SelectModal.update
+
+  let view =
+    SelectModal.view

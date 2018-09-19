@@ -1,22 +1,8 @@
-import React from 'react';
-import { ImageFilterWithColorManagement, ImageFilterWithoutColorManagement } from './image-filter';
-import { distance, position, scalar, vector, offset, color } from './input-types';
-import { ImagePlaceholder } from './image-placeholder';
+import { distance, position, scalar, vector, offset, color } from '../common/input-types';
+import { generatedImage, inputImage, inputBackgroundImage, inputMask } from '../common/image-names';
+import { filter, generator } from '../common/utils';
 
-const inputImage = 'inputImage';
-const inputMask = 'inputMask';
-const inputBackgroundImage = 'inputBackgroundImage';
-const generatedImage = 'generatedImage';
-
-const filter = (paramMap, imageNames = [inputImage]) => ({
-  paramNames: Object.keys(paramMap),
-  paramTypes: Object.values(paramMap),
-  imageNames
-});
-
-const generator = (paramMap) => filter(paramMap, [generatedImage]);
-
-const filters = {
+export default {
   CIBoxBlur: filter({
     inputRadius: distance
   }),
@@ -379,39 +365,3 @@ const filters = {
   // CIRippleTransition,
   // CISwipeTransition
 };
-
-const nativeImageFilter = (name) => {
-  return [
-    'CIColorMatrix',
-    'CIColorInvert',
-    'CIColorPolynomial'
-  ].includes(name)
-    ? ImageFilterWithoutColorManagement
-    : ImageFilterWithColorManagement;
-};
-
-const createImageNativeFilter = (name, config, ImageFilter) => ({
-  children,
-  imageStyle,
-  ...restProps
-}) => (
-  <ImageFilter
-    name={name}
-    {...config}
-    {...restProps}
-  >
-    {config.imageNames.includes(generatedImage) && React.Children.count(children) === 0
-      ? <ImagePlaceholder style={imageStyle} />
-      : children}
-  </ImageFilter>
-);
-
-export default Object.keys(filters).reduce(
-  (acc, name) => {
-    acc[name] = createImageNativeFilter(name, filters[name], nativeImageFilter(name));
-    acc[name].displayName = name;
-    return acc;
-  },
-  {}
-);
-

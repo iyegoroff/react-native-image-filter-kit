@@ -1,5 +1,6 @@
 source https://nuget.org/api/v2
 storage: none
+nuget Fable.Import.Debounce
 nuget Fable.Import.FastMemoize
 nuget Fable.Import.ReactNativeCollapsibleHeaderViews
 nuget Fable.Import.ReactNativeColorWheel

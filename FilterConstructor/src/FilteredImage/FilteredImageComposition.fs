@@ -28,11 +28,11 @@ module FilteredImageComposition =
     | Update of ImageNode list
     | FilteredImageMessage of FilteredImage.Message<Model'>
 
-  let init (filter: CombinedFilter.Model) images dependencies = 
+  let init (filter: CombinedFilter.Model) images dependencies filterSelectModal = 
     let model =
       { Filters = [ 0, filter, CombinedFilter.init filter ]
         Images = images }
-    { FilteredImage.init model with Dependencies = dependencies }
+    { FilteredImage.init model filterSelectModal with Dependencies = dependencies }
 
   let private updatedModel (model: Model) filters =
     { model with Image = { model.Image with Filters = filters } }
@@ -45,7 +45,8 @@ module FilteredImageComposition =
       FilteredImage.updateDependentCmd model' FilteredImageMessage Cmd.none
 
     | FilteredImageMessage msg ->
-      FilteredImage.update model msg model.Image.Filters updatedModel FilteredImageMessage
+      let model', cmd = FilteredImage.update msg model model.Image.Filters updatedModel id
+      model', Cmd.map FilteredImageMessage cmd
 
   let rec private image (model: ImageNode) dispatch =
     match model with

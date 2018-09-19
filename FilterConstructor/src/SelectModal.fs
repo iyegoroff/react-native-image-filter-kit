@@ -4,7 +4,6 @@ open Elmish
 open Fable.Helpers.ReactNative.Props
 open Fable.Helpers.ReactNative
 open Fable.Import.ReactNative
-open Fable.Core
 open Fable.Import
 open Fable.Import.ReactNativeFab.Props
 
@@ -14,37 +13,56 @@ module RNF = Fable.Import.ReactNativeFab
 
 module SelectModal =
 
-  type Message<'a> =
-    | Hide
-    | SelectMessage of Select.Message<'a>
+  type Model<'item when 'item : equality> =
+    { Select: Select.Model<'item>
+      RememberSelectedItem: bool
+      IsVisible: bool }
 
-  let private dispatchWithClose dispatch =
-    function
-    | Select.ItemSelected item ->
-      dispatch Hide
-      (fun () ->
-         JS.setTimeout (fun () -> dispatch (SelectMessage (Select.ItemSelected item))) 50
-         |> ignore
-         |> U2.Case1)
-      |> Globals.InteractionManager.runAfterInteractions
-      |> ignore
+  type Message<'item> =
+    | Hide
+    | Show
+    | SelectMessage of Select.Message<'item>
+
+  let init
+    items selectedItem extractItemKey isItemEnabled areItemsEqual rememberSelectedItem isVisible =
     
-  let view items selected itemKey itemEnabled equals isVisible (dispatch: Dispatch<Message<'a>>) =
-      
+    { Select = Select.init items selectedItem extractItemKey isItemEnabled areItemsEqual
+      RememberSelectedItem = rememberSelectedItem
+      IsVisible = isVisible }
+
+  let update (message: Message<'item>) (model: Model<'item>) : Model<'item> * Cmd<Message<'item>> =
+    match message with
+    | Hide ->
+      let clearSearchCmd = Cmd.ofMsg (SelectMessage Select.ClearSearch)
+        
+      { model with IsVisible = false },
+      if model.RememberSelectedItem then
+        clearSearchCmd
+      else
+        Cmd.batch [ clearSearchCmd; Cmd.ofMsg (SelectMessage Select.ClearSelection) ]
+
+    | Show ->
+      { model with IsVisible = true }, []
+    
+    | SelectMessage msg ->
+      let select, cmd = Select.update msg model.Select
+
+      match msg with
+      | Select.ItemSelected _ when model.IsVisible ->
+        { model with Select = select }, Cmd.batch [ Cmd.ofMsg Hide; Cmd.map SelectMessage cmd ]
+
+      | _ ->
+        { model with Select = select }, Cmd.map SelectMessage cmd
+    
+  let view (model: Model<'item>) (dispatch: Dispatch<Message<'item>>) =
     RN.modal
       [ AnimationType
           (Platform.select
              [ Platform.Ios AnimationType.Slide
                Platform.Android AnimationType.Fade ])
-        ModalProperties.Visible isVisible
+        ModalProperties.Visible model.IsVisible
         OnRequestClose (fun () -> dispatch Hide) ]
-      [ Select.view
-          items
-          selected
-          itemKey
-          itemEnabled
-          equals
-          (dispatchWithClose dispatch)
+      [ Select.view model.Select (SelectMessage >> dispatch)
         Platform.select
           [ Platform.Ios
               (RNF.Fab

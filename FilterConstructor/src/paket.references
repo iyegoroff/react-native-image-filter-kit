@@ -3,6 +3,7 @@ Fable.Elmish
 Fable.Elmish.HMR
 Fable.Elmish.React
 Fable.React
+Fable.Import.Debounce
 Fable.Import.ReactNativeCollapsibleHeaderViews
 Fable.Import.ReactNativeColorWheel
 Fable.Import.ReactNativeFab

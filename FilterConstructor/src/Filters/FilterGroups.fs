@@ -7,7 +7,8 @@ module CF = CombinedFilter
 module FilterGroups =
 
   type Category =
-    | Android
+    | Fresco
+    | LightingColorFilter
     | ColorMatrix
     | CICategoryBlur
     | CICategoryColorAdjustment
@@ -45,6 +46,16 @@ module FilterGroups =
           CF.Temperature
           CF.Tint
           CF.Threshold
+          CF.Technicolor
+          CF.Polaroid
+          CF.ToBGR
+          CF.Kodachrome
+          CF.Browni
+          CF.Vintage
+          CF.Night
+          CF.Predator
+          CF.Lsd
+          CF.ColorTone
           CF.Protanomaly
           CF.Deuteranomaly
           CF.Tritanomaly
@@ -57,10 +68,12 @@ module FilterGroups =
   let private androidSingularFilters =
     Array.concat
       [ commonSingularFilters
-        [| Android,
+        [| Fresco,
            [| CF.RoundAsCircle
-              CF.IterativeBoxBlur
-              CF.LightingColorFilter |] |] ]
+              CF.IterativeBoxBlur |]
+           
+           LightingColorFilter,
+           [| CF.LightingColorFilter |] |] ]
 
   let private iosSingularFilters =
     Array.concat

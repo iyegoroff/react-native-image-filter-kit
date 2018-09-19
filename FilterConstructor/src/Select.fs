@@ -1,5 +1,6 @@
 namespace FilterConstructor
 
+open Fable.Helpers
 open Elmish
 open Elmish.React
 open Fable.Import
@@ -14,10 +15,59 @@ module RNCHV = Fable.Import.ReactNativeCollapsibleHeaderViews
 
 module Select =
 
-  type Message<'a> =
-    | ItemSelected of 'a
+  type Section<'item> =
+    { Items: 'item array
+      Title: string }
 
-  type CustomSection = { title: string }
+  [<CustomEquality>]
+  [<NoComparison>]
+  type Model<'item when 'item : equality> =
+    { Sections: Section<'item> array
+      SelectedItem: 'item option
+      ExtractItemKey: ('item -> string)
+      IsItemEnabled: ('item -> bool)
+      AreItemsEqual: ('item -> 'item -> bool)
+      SearchedTerm: string }
+    override _x.GetHashCode() = 0
+    override x.Equals(yObj) =
+      match yObj with
+      | :? Model<'item> as y -> 
+        x.Sections = y.Sections &&
+        x.SelectedItem = y.SelectedItem &&
+        x.SearchedTerm = y.SearchedTerm
+      | _ -> false
+
+  type private CustomSection = { title: string }
+
+
+  type Message<'item> =
+    | ItemSelected of 'item
+    | ClearSelection
+    | ClearSearch
+    | Search of string
+
+  let init items selectedItem extractItemKey isItemEnabled areItemsEqual =
+    { Sections = items
+      SelectedItem = selectedItem
+      ExtractItemKey = extractItemKey
+      IsItemEnabled = isItemEnabled
+      AreItemsEqual = areItemsEqual
+      SearchedTerm = "" }
+
+  let update (message: Message<'item>) (model: Model<'item>) =
+    match message with
+    | ClearSelection ->
+      { model with SelectedItem = None }, []
+
+    | ClearSearch ->
+      { model with SearchedTerm = "" }, []
+
+    | ItemSelected item ->
+      { model with SelectedItem = Some item
+                   SearchedTerm = "" }, []
+
+    | Search term ->
+      { model with SearchedTerm = term }, []
 
   let private itemStyle =
     ViewProperties.Style
@@ -76,36 +126,66 @@ module Select =
       [ sectionHeaderStyle ]
       (unbox<CustomSection> section).title
 
-  let view items selected itemKey itemEnabled equals (dispatch: Dispatch<Message<'a>>) =
-    let mutable collapsibleRef: CollapsibleHeaderView option = None
+  type [<Pojo>] private SelectProps<'item when 'item : equality> =
+    { Model: Model<'item>
+      Dispatch: Dispatch<Message<'item>> }
 
-    let searchBarBlurred () =
-      collapsibleRef
-      |> Option.map (fun collapsible -> collapsible.animatedComponent () |> RNCHV.scrollView)
-      |> (Option.flatten >> Option.iter (fun scroll -> scroll.scrollTo (U2.Case1 0.)))
+  type private Select<'item when 'item : equality>(props: SelectProps<'item>) as this =
+    inherit React.Component<SelectProps<'item>, obj>(props)
 
-    let renderItem item =
-      touchable
-        (itemEnabled item)
-        (fun () -> dispatch (ItemSelected item))
-        [ RN.view
-            [ itemStyle ]
-            [ RN.text
-                (match selected with
-                 | Some sel when (equals item sel) -> [ selectedStyle ]
-                 | _ -> if itemEnabled item then [] else [ disabledStyle ])
-                (itemKey item) ] ]
+    let header = this.Header
 
-    let header =
+    member this.TextChanged =
+      Debounce.debounce (Search >> this.props.Dispatch) 200 false
+
+    member this.Header(_headerProps: CollapsibleHeaderProps) =
       RN.view
-        [ listHeaderStyle ]
-        [ SearchBar.view searchBarBlurred ignore ]
+       [ listHeaderStyle ]
+       [ SearchBar.view ignore (Debounce.unwrap this.TextChanged) ]
 
-    RNCHV.collapsibleHeaderSectionList items (fun _ -> header) 60.
-      [ HeaderContainerBackgroundColor "transparent"
-        CollapsibleHeaderViewProps.Ref (fun ref -> collapsibleRef <- (Some ref)) ]
-      [ RenderSectionHeader (fun info -> sectionHeader info.section)
-        SectionListProperties.RenderItem (fun item -> lazyView renderItem item.item)
-        SectionListProperties.ItemSeparatorComponent separator
-        SectionListProperties.ExtraData selected
-        SectionListProperties.KeyExtractor (fun item _ -> itemKey item) ]
+    override this.componentWillUnmount() =
+      Debounce.clear this.TextChanged
+
+    override this.render() =
+      let model = this.props.Model
+      let dispatch = this.props.Dispatch
+
+      let filteredSections =
+        model.Sections
+        |> Array.map
+            (fun s ->
+              (section
+                (Array.filter
+                  (fun item ->
+                    ((model.ExtractItemKey item).ToLower ()).Contains
+                       (model.SearchedTerm.ToLower ()))
+                  s.Items)
+                []
+                { title = s.Title }))
+
+      let renderItem item =
+        touchable
+          (model.IsItemEnabled item)
+          (fun () -> dispatch (ItemSelected item))
+          [ RN.view
+              [ itemStyle ]
+              [ RN.text
+                  (match model.SelectedItem with
+                   | Some sel when (model.AreItemsEqual item sel) -> [ selectedStyle ]
+                   | _ -> if model.IsItemEnabled item then [] else [ disabledStyle ])
+                  (model.ExtractItemKey item) ] ]
+
+      RNCHV.collapsibleHeaderSectionList filteredSections header 60.
+        [ HeaderContainerBackgroundColor "transparent" ]
+        [ RenderSectionHeader (fun info -> sectionHeader info.section)
+          SectionListProperties.RenderItem (fun item -> lazyView renderItem item.item)
+          SectionListProperties.ItemSeparatorComponent separator
+          SectionListProperties.KeyExtractor (fun item _ -> model.ExtractItemKey item)
+          KeyboardDismissMode "interactive"
+          KeyboardShouldPersistTaps KeyboardShouldPersistTapsProperties.Handled ]
+
+  let private select (props: SelectProps<'item>): React.ReactElement =
+    (React.ofType<Select<'item>, _, _> props [])
+
+  let view (model: Model<'item>) (dispatch: Dispatch<Message<'item>>) =
+    select { Model = model; Dispatch = dispatch }

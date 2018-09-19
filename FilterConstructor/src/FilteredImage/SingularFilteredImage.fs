@@ -16,22 +16,24 @@ module SingularFilteredImage =
   type Model' =
     { Filters: FilteredImage.FilterItem list
       SelectedResizeMode: ResizeMode
-      Image: Image.Model }
+      Image: Image.Model
+      ImageSelectModal: ImageSelectModal.Model }
 
   type Model = FilteredImage.Model<Model'>
 
   type Message =
     | ResizeModeChanged of int
-    | SelectImage
     | SetImage of Image.Model
     | ImageSelectModalMessage of ImageSelectModal.Message
     | FilteredImageMessage of FilteredImage.Message<Model'>
 
-  let init image =    
+  let init image =
     FilteredImage.init
       { Filters = []
         SelectedResizeMode = ResizeMode.Contain
-        Image = image }
+        Image = image
+        ImageSelectModal = ImageSelectModal.init image false }
+      (FilterSelectModal.initSingular false)
 
   let resizeControlIndex model =
     defaultArg
@@ -50,34 +52,43 @@ module SingularFilteredImage =
       model', FilteredImage.updateDependentCmd model' FilteredImageMessage Cmd.none
 
     | SetImage image -> 
+      let prevFilters =
+        match model.Image.Image with
+        | Image.Generated _ -> List.tail model.Image.Filters
+        | _ -> model.Image.Filters
+
       let filters =
         match image with
-        | Image.Generated generator ->
-            (0, generator, CombinedFilter.init generator)::model.Image.Filters
-        | _ -> model.Image.Filters
+        | Image.Generated generator -> (0, generator, CombinedFilter.init generator)::prevFilters
+        | _ -> prevFilters
+
       let image' = { model.Image with Image = image
                                       Filters = filters }
       let model' = { model with Image = image' }
 
       model', FilteredImage.updateDependentCmd model' FilteredImageMessage Cmd.none
 
-    | SelectImage ->
-      { model with ImageSelectModalIsVisible = true }, []
-
     | ImageSelectModalMessage msg ->
+      let imageSelectModal, cmd = ImageSelectModal.update msg model.Image.ImageSelectModal
+
       match msg with
       | ImageSelectModal.ImageSelectionSucceed image ->
         model, Cmd.ofMsg (SetImage image)
+
       | ImageSelectModal.ImageSelectionCancelled ->
         model, []
+
       | ImageSelectModal.ImageSelectionFailed message ->
         Alert.alert ("Error", message, [])
         model, []
-      | ImageSelectModal.Hide ->
-        { model with ImageSelectModalIsVisible = false }, []
+
+      | _ ->
+        { model with Image = { model.Image with ImageSelectModal = imageSelectModal } },
+        Cmd.map ImageSelectModalMessage cmd
 
     | FilteredImageMessage msg ->
-      FilteredImage.update model msg model.Image.Filters updatedModel FilteredImageMessage
+      let model', cmd = FilteredImage.update msg model model.Image.Filters updatedModel id
+      model', Cmd.map FilteredImageMessage cmd
 
 
   let private imageStyle =
@@ -125,8 +136,7 @@ module SingularFilteredImage =
       [ RNP.enterPortal
           Constants.imagePortal
           [ ImageSelectModal.view
-              model.Image.Image
-              model.ImageSelectModalIsVisible
+              model.Image.ImageSelectModal
               (ImageSelectModalMessage >> dispatch) ]
         FilteredImage.filterPortal model dispatch'
         (FilteredImage.view
@@ -140,5 +150,5 @@ module SingularFilteredImage =
              resizer model.Image dispatch
              FilteredImage.imageControls
                isDependency
-               (Some (fun _ -> dispatch SelectImage))
+               (Some (fun _ -> dispatch (ImageSelectModalMessage ImageSelectModal.showMsg)))
                dispatch' ]) ]

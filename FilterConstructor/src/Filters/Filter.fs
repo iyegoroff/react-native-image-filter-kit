@@ -51,6 +51,10 @@ module Filter =
     | InputEdgeIntensity
     | InputThreshold
     | Value
+    | Desaturation
+    | Toned
+    | LightColor
+    | DarkColor
     | BlurRadius
     | Iterations
     | Mul
