@@ -20,7 +20,7 @@ module Main =
     
   let pureView _model _dispatch =
     RN.flatList [||]
-      [ ContentContainerStyle [ Padding (dip 5.) ] ]
+      [ ContentContainerStyle [ Padding (dip 123.) ] ]
 
   // type Id = Constants.Id
 
