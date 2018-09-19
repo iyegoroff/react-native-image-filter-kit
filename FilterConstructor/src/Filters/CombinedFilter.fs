@@ -87,6 +87,7 @@ module CombinedFilter =
     | CIVignetteEffect
     | CIAdditionCompositing
     | CIColorInvert
+    | CIColorMonochrome
     | CIColorPosterize
     | CICircularScreen
     | CIDotScreen
@@ -362,6 +363,11 @@ module CombinedFilter =
     | CIAdditionCompositing -> Filter.init []
 
     | CIColorInvert -> Filter.init []
+
+    | CIColorMonochrome ->
+      Filter.init
+        [ Filter.InputColor, CFI.initColor "#ffffff"
+          Filter.InputIntensity, CFI.initScalar -1. 10. 1. ]
 
     | CIColorPosterize ->
       Filter.init
@@ -881,6 +887,16 @@ module CombinedFilter =
 
     | CIColorInvert -> emptyView RNF.CIColorInvert
          
+    | CIColorMonochrome ->
+      Filter.view
+        RNF.CIColorMonochrome
+        (function
+         | Filter.InputColor, CFI.Color input ->
+           Some (CIColorMonochromeProps.InputColor input.Value)
+         | Filter.InputIntensity, CFI.Scalar input ->
+           Some (CIColorMonochromeProps.InputIntensity (input.Convert input.Value))
+         | _ -> None)
+         
     | CIColorPosterize ->
       Filter.view
         RNF.CIColorPosterize
@@ -1185,6 +1201,7 @@ module CombinedFilter =
       | CIVignetteEffect -> Filter.controls (name CIVignetteEffect)
       | CIAdditionCompositing -> Filter.controls (name CIAdditionCompositing)
       | CIColorInvert -> Filter.controls (name CIColorInvert)
+      | CIColorMonochrome -> Filter.controls (name CIColorMonochrome)
       | CIColorPosterize -> Filter.controls (name CIColorPosterize)
       | CIVibrance -> Filter.controls (name CIVibrance)
       | CICircularScreen -> Filter.controls (name CICircularScreen)

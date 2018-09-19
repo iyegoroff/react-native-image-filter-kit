@@ -333,6 +333,14 @@ export interface CIColorInvertProps extends FilterProps { }
 export class CIColorInvert extends React.Component<CIColorInvertProps> { }
 
 
+export interface CIColorMonochromeProps extends FilterProps {
+  readonly inputColor?: string;
+  readonly inputIntensity?: number;
+}
+
+export class CIColorMonochrome extends React.Component<CIColorMonochromeProps> { }
+
+
 export interface CIColorPosterizeProps extends FilterProps {
   readonly inputLevels?: number;
 }

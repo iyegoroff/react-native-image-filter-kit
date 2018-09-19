@@ -105,7 +105,11 @@ export default {
   CIColorInvert: filter({}),
 
   // CIColorMap,
-  // CIColorMonochrome,
+  CIColorMonochrome: filter({
+    inputColor: color,
+    inputIntensity: scalar
+  }),
+
   CIColorPosterize: filter({
     inputLevels: scalar
   }),

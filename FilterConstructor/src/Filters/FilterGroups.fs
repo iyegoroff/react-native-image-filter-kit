@@ -104,6 +104,7 @@ module FilterGroups =
                 
             CICategoryColorEffect,
             [| CF.CIColorInvert
+               CF.CIColorMonochrome
                CF.CIColorPosterize
                CF.CIMaskToAlpha
                CF.CIMaximumComponent

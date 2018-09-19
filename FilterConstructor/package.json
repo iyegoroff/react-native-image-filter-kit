@@ -13,7 +13,8 @@
     "start": "rm -rf out && cd src && dotnet fable npm-run watch",
     "paket:add": "mono .paket/paket.exe add",
     "paket:remove": "mono .paket/paket.exe remove",
-    "paket:update": "mono .paket/paket.exe update"
+    "paket:update": "mono .paket/paket.exe update",
+    "paket:install": "mono .paket/paket.exe install"
   },
   "dependencies": {
     "buffer": "^5.1.0",
@@ -34,8 +35,9 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "metro-react-native-babel-preset": "^0.45.2",
     "fable-splitter": "^0.1.21",
-    "metro-with-symlinks": "github:treyp/metro-with-symlinks#rn-47"
+    "metro-react-native-babel-preset": "^0.45.2",
+    "metro-with-symlinks": "github:treyp/metro-with-symlinks#rn-47",
+    "schedule": "^0.4.0"
   }
 }

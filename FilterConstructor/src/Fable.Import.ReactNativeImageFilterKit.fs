@@ -315,6 +315,11 @@ module Props =
   type CIColorInvertProps =
     | Style of IStyle list
 
+  type CIColorMonochromeProps =
+    | Style of IStyle list
+    | InputColor of string
+    | InputIntensity of float
+
   type CIColorPosterizeProps =
     | Style of IStyle list
     | InputLevels of float
@@ -682,6 +687,9 @@ let inline CIAdditionCompositing (props: CIAdditionCompositingProps list) (child
 
 let inline CIColorInvert (props: CIColorInvertProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorInvert" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIColorMonochrome (props: CIColorMonochromeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorMonochrome" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIColorPosterize (props: CIColorPosterizeProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorPosterize" "react-native-image-filter-kit" (propsToObj props) children
