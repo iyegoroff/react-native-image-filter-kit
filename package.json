@@ -26,5 +26,14 @@
   },
   "dependencies": {
     "react-children-utilities": "^1.0.1"
-  }
+  },
+  "files": [
+    "android",
+    "img/*.png",
+    "ios",
+    "src",
+    "*.md",
+    "*.podspec",
+    "FilterConstructor"
+  ]
 }
