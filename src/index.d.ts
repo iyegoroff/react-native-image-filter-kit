@@ -526,3 +526,45 @@ export type ImagePlaceholderProps = Pick<
 >;
 
 export class ImagePlaceholder extends React.Component<ImagePlaceholderProps> { }
+
+export function concatColorMatrices(matrices: Matrix[]): Matrix;
+
+export function normal(): Matrix;
+export function saturate(value?: number): Matrix;
+export function hueRotate(value?: number): Matrix;
+export function luminanceToAlpha(): Matrix;
+export function invert(): Matrix;
+export function grayscale(): Matrix;
+export function sepia(): Matrix;
+export function nightvision(): Matrix;
+export function warm(): Matrix;
+export function cool(): Matrix;
+export function brightness(value?: number): Matrix;
+export function exposure(value?: number): Matrix;
+export function contrast(value?: number): Matrix;
+export function temperature(value?: number): Matrix;
+export function tint(value?: number): Matrix;
+export function threshold(value?: number): Matrix;
+export function technicolor(): Matrix;
+export function polaroid(): Matrix;
+export function toBGR(): Matrix;
+export function kodachrome(): Matrix;
+export function browni(): Matrix;
+export function vintage(): Matrix;
+export function night(value?: number): Matrix;
+export function predator(value?: number): Matrix;
+export function lsd(): Matrix;
+export function colorTone(
+  desaturation?: number,
+  toned?: number,
+  lightColor?: string,
+  darkColor?: string
+): Matrix;
+export function protanomaly(): Matrix;
+export function deuteranomaly(): Matrix;
+export function tritanomaly(): Matrix;
+export function protanopia(): Matrix;
+export function deuteranopia(): Matrix;
+export function tritanopia(): Matrix;
+export function achromatopsia(): Matrix;
+export function achromatomaly(): Matrix;

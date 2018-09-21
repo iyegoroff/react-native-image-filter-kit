@@ -2,7 +2,7 @@ import React, { cloneElement } from 'react';
 import { requireNativeComponent, View, Platform } from 'react-native';
 import { defaultStyle, checkStyle } from '../common/style';
 import nativeFilters from '../native-platform-filters';
-import filters from './color-matrices';
+import filters from 'rn-color-matrices';
 
 const filterName = ([first, ...rest]) => first.toUpperCase() + rest.join('');
 

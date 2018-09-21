@@ -10,6 +10,10 @@ open Fable.Import
 
 module Props =
 
+  type Matrix =
+    float * float * float * float * float * float * float * float * float * float *
+    float * float * float * float * float * float * float * float * float * float
+
   type IDistance =
     interface end
 
@@ -25,7 +29,7 @@ module Props =
 
   type ColorMatrixProps =
     | Style of IStyle list
-    | Matrix of ResizeArray<float>
+    | Matrix of Matrix
 
   type NormalProps =
     | Style of IStyle list
@@ -460,6 +464,44 @@ let RGBAVector (_r: float, _g: float, _b: float, _a: float): IRGBAVector = jsNat
 
 [<Emit("({ x:$0, y:$1 })")>]
 let Offset (_x: float, _y: float): IOffset = jsNative
+
+let concatColorMatrices (_matrices: Matrix array): Matrix =
+  importMember "react-native-color-matrix-image-filters"
+let normal (): Matrix = importMember "react-native-color-matrix-image-filters"
+let saturate (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let hueRotate (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let luminanceToAlpha (): Matrix = importMember "react-native-color-matrix-image-filters"
+let invert (): Matrix = importMember "react-native-color-matrix-image-filters"
+let grayscale (): Matrix = importMember "react-native-color-matrix-image-filters"
+let sepia (): Matrix = importMember "react-native-color-matrix-image-filters"
+let nightvision (): Matrix = importMember "react-native-color-matrix-image-filters"
+let warm (): Matrix = importMember "react-native-color-matrix-image-filters"
+let cool (): Matrix = importMember "react-native-color-matrix-image-filters"
+let brightness (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let exposure (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let contrast (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let temperature (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let tint (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let threshold (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let technicolor (): Matrix = importMember "react-native-color-matrix-image-filters"
+let polaroid (): Matrix = importMember "react-native-color-matrix-image-filters"
+let toBGR (): Matrix = importMember "react-native-color-matrix-image-filters"
+let kodachrome (): Matrix = importMember "react-native-color-matrix-image-filters"
+let browni (): Matrix = importMember "react-native-color-matrix-image-filters"
+let vintage (): Matrix = importMember "react-native-color-matrix-image-filters"
+let night (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let predator (_v: float): Matrix = importMember "react-native-color-matrix-image-filters"
+let lsd (): Matrix = importMember "react-native-color-matrix-image-filters"
+let colorTone (_desaturation: float) (_toned: float) (_lightColor: string) (_darkColor: string): Matrix =
+  importMember "react-native-color-matrix-image-filters"
+let protanomaly (): Matrix = importMember "react-native-color-matrix-image-filters"
+let deuteranomaly (): Matrix = importMember "react-native-color-matrix-image-filters"
+let tritanomaly (): Matrix = importMember "react-native-color-matrix-image-filters"
+let protanopia (): Matrix = importMember "react-native-color-matrix-image-filters"
+let deuteranopia (): Matrix = importMember "react-native-color-matrix-image-filters"
+let tritanopia (): Matrix = importMember "react-native-color-matrix-image-filters"
+let achromatopsia (): Matrix = importMember "react-native-color-matrix-image-filters"
+let achromatomaly (): Matrix = importMember "react-native-color-matrix-image-filters"
 
 let inline private propsToObj (props: 'a list): obj = keyValueList CaseRules.LowerFirst props
 

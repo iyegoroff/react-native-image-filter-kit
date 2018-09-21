@@ -25,7 +25,9 @@
     "fbjs": "*"
   },
   "dependencies": {
-    "react-children-utilities": "^1.0.1"
+    "concat-color-matrices": "^1.0.0",
+    "react-children-utilities": "^1.0.1",
+    "rn-color-matrices": "^1.0.0"
   },
   "files": [
     "android",
