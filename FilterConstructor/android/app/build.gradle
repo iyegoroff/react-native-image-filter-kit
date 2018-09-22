@@ -136,6 +136,12 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'org.webkit:android-jsc:r224109'
+    }
+}
+
 dependencies {
     compile project(':react-native-image-picker')
     compile project(':react-native-image-filter-kit')

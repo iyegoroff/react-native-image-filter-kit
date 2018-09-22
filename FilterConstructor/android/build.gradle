@@ -25,6 +25,9 @@ allprojects {
             url "$rootDir/../node_modules/react-native/android"
         }
         maven {
+            url "$rootDir/../node_modules/jsc-android/dist"
+        }
+        maven {
             url 'https://maven.google.com/'
             name 'Google'
         }
@@ -32,11 +35,11 @@ allprojects {
 }
 
 ext {
-    buildToolsVersion = "26.0.3"
-    minSdkVersion = 16
-    compileSdkVersion = 26
-    targetSdkVersion = 26
-    supportLibVersion = "26.1.0"
+    buildToolsVersion = "27.0.3"
+    minSdkVersion = 21
+    compileSdkVersion = 27
+    targetSdkVersion = 27
+    supportLibVersion = "27.1.1"
 }
 
 subprojects {

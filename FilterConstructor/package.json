@@ -22,6 +22,7 @@
     "core-js": "^2.5.7",
     "debounce": "^1.2.0",
     "fast-memoize": "^2.5.1",
+    "jsc-android": "^224109.1.0",
     "react": "^16.5.1",
     "react-native": "^0.57.0",
     "react-native-collapsible-header-views": "0.0.10",
