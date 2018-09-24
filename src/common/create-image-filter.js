@@ -1,20 +1,22 @@
 import React from 'react';
 import Children from 'react-children-utilities';
 import { defaultStyle, checkStyle } from './style';
-import { View, processColor } from 'react-native';
-import { distance, position, scalar, vector, offset } from './input-types'; 
+import { View, processColor, Platform } from 'react-native';
+import { distance, position, scalar, vector, offset, color } from './input-types'; 
 
+const isAndroid = Platform.OS === 'android';
 const id = x => x;
 const anyToString = n => `${n}`;
 const pointToArray = p => [`${p.x}`, `${p.y}`];
+const convertColor = c => isAndroid ? processColor(c) : c
 
-const imageStyle = {
+const hiddenImageStyle = {
   position: 'absolute',
   opacity: 0,
   zIndex: Number.MIN_SAFE_INTEGER
 };
 
-const mapImageStyle = style => style ? [style, imageStyle] : imageStyle;
+const mapHiddenImageStyle = style => style ? [style, hiddenImageStyle] : hiddenImageStyle;
 
 const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) => {
   checkStyle(style);
@@ -29,6 +31,8 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
           ? pointToArray
           : paramType === distance || paramType === scalar
           ? anyToString
+          : paramType === color
+          ? convertColor
           : id;
 
         acc[val] = convert(restProps[val]);
@@ -38,32 +42,6 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
       {}
     )
   );
-
-  // const {
-  //   inputRadius,
-  //   inputWidth,
-  //   inputAmount,
-  //   inputScale,
-  //   inputCenter,
-  //   inputPoint0,
-  //   inputPoint1,
-  //   mul,
-  //   add,
-  //   ...restInputs
-  // } = restProps;
-
-  // const props = {
-  //   ...(inputRadius ? { inputRadius: anyToString(inputRadius) } : {}),
-  //   ...(inputWidth ? { inputWidth: anyToString(inputWidth) } : {}),
-  //   ...(inputAmount ? { inputAmount: anyToString(inputAmount) } : {}),
-  //   ...(inputScale ? { inputScale: anyToString(inputScale) } : {}),
-  //   ...(inputCenter ? { inputCenter: pointToArray(inputCenter) } : {}),
-  //   ...(inputPoint0 ? { inputPoint0: pointToArray(inputPoint0) } : {}),
-  //   ...(inputPoint1 ? { inputPoint1: pointToArray(inputPoint1) } : {}),
-  //   ...(mul ? { mul: processColor(mul) } : {}),
-  //   ...(add ? { add: processColor(add) } : {}),
-  //   ...restInputs
-  // };
 
   let keepImage = true;
 
@@ -81,7 +59,7 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
           } else {
             return React.cloneElement(
               child,
-              { ...child.props, style: mapImageStyle(child.props.style) }
+              { ...child.props, style: mapHiddenImageStyle(child.props.style) }
             );
           }
 

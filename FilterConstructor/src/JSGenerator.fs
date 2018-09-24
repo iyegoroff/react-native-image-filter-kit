@@ -37,6 +37,7 @@ module JSGenerator =
     | CombinedFilterInput.Distance value -> (sprintf "'%A'" (value.Convert value.Value))
     | CombinedFilterInput.RGBAVector value -> (sprintf "%A" (value.Convert value.Value))
     | CombinedFilterInput.Point value -> (sprintf "%A" (value.Convert value.Value))
+    | CombinedFilterInput.Offset value -> (sprintf "%A" (value.Convert value.Value))
 
   let run (selectedFilters: (CombinedFilter.Model * Filter.Model) list): string =
     let selectedFilters =

@@ -17,8 +17,7 @@ module SearchBar =
     ViewProperties.Style
       [ BorderRadius 3.
         BorderWidth 1.
-        BackgroundColor "white"
-        Opacity 0.9
+        BackgroundColor "#ffffffc0"
         Flex 1.
         FlexDirection FlexDirection.Row
         Width (pct 100.)

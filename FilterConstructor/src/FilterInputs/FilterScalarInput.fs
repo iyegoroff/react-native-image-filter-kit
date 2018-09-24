@@ -12,6 +12,9 @@ module FilterScalarInput =
   let init =
     FilterRangeInput.init id<float>
 
+  let initStepper =
+    FilterRangeInput.initStepper id<float>
+
   let private updateScalar (model: Model) scalar =
     { model with Value = scalar }
 

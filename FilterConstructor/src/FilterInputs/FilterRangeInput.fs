@@ -17,12 +17,13 @@ module FilterRangeInput =
       Value: 'r
       Min: 'r
       Max: 'r
-      Convert: 'r -> 'v }
+      Convert: 'r -> 'v
+      Step: float }
     override _x.GetHashCode() = 0
     override x.Equals(yObj) =
       match yObj with
       | :? Model<'v, 'r> as y -> 
-        x.Name = y.Name && x.Value = y.Value && x.Min = y.Min && x.Max = y.Max
+        x.Name = y.Name && x.Value = y.Value && x.Min = y.Min && x.Max = y.Max && x.Step = y.Step
       | _ -> false
 
   type Message<'model> =
@@ -35,7 +36,11 @@ module FilterRangeInput =
       Min = min
       Max = max
       Value = value
-      Convert = convert }
+      Convert = convert
+      Step = 0. }
+
+  let initStepper convert name min max value step : Model<'a, 'b> =
+    { init convert name min max value with Step = step }
 
   let update (message: Message<Model<'v, 'r>>) (model: Model<'v, 'r>) =
     match message with
@@ -60,4 +65,5 @@ module FilterRangeInput =
         (extractValue model.Value)
         (extractValue model.Min)
         (extractValue model.Max)
+        model.Step
         (fun msg -> dispatch (FilterInputSliderMessage (updateValue model, msg)))

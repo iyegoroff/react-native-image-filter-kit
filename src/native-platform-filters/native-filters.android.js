@@ -13,8 +13,8 @@ export default {
   }),
 
   LightingColorFilter: filter({
-    mul: scalar,
-    add: scalar
+    mul: color,
+    add: color
   }),
 
   RoundAsCircle: filter({})

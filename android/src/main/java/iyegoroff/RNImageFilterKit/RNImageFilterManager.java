@@ -41,18 +41,18 @@ public class RNImageFilterManager extends ReactViewManager {
   }
 
   @ReactProp(name = PROP_RADIUS)
-  public void setRadius(RNImageFilter view, float radius) {
-    view.setRadius(radius);
+  public void setRadius(RNImageFilter view, @Nullable String radius) {
+    view.setRadius(Float.valueOf(radius));
   }
 
   @ReactProp(name = PROP_BLUR_RADIUS)
-  public void setBlurRadius(RNImageFilter view, float blurRadius) {
-    view.setBlurRadius((int) blurRadius);
+  public void setBlurRadius(RNImageFilter view, @Nullable String blurRadius) {
+    view.setBlurRadius((int) Float.parseFloat(blurRadius));
   }
 
   @ReactProp(name = PROP_ITERATIONS)
-  public void setIterations(RNImageFilter view, float iterations) {
-    view.setIterations((int) iterations);
+  public void setIterations(RNImageFilter view, @Nullable String iterations) {
+    view.setIterations((int) Float.parseFloat(iterations));
   }
 
   @ReactProp(name = PROP_MUL)

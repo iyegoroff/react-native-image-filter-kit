@@ -34,6 +34,13 @@ module Props =
   type NormalProps =
     | Style of IStyle list
 
+  type RGBAProps =
+    | Style of IStyle list
+    | Red of float
+    | Green of float
+    | Blue of float
+    | Alpha of float
+
   type SaturateProps =
     | Style of IStyle list
     | Value of float
@@ -468,6 +475,8 @@ let Offset (_x: float, _y: float): IOffset = jsNative
 let concatColorMatrices (_matrices: Matrix array): Matrix =
   importMember "react-native-image-filter-kit"
 let normal (): Matrix = importMember "react-native-image-filter-kit"
+let rgba (_red: float) (_green: float) (_blue: float) (_alpha: float): Matrix =
+  importMember "react-native-image-filter-kit"
 let saturate (_v: float): Matrix = importMember "react-native-image-filter-kit"
 let hueRotate (_v: float): Matrix = importMember "react-native-image-filter-kit"
 let luminanceToAlpha (): Matrix = importMember "react-native-image-filter-kit"
@@ -510,6 +519,9 @@ let inline ColorMatrix (props: ColorMatrixProps list) (children: React.ReactElem
 
 let inline Normal (props: NormalProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "Normal" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline RGBA (props: RGBAProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "RGBA" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline Saturate (props: SaturateProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "Saturate" "react-native-image-filter-kit" (propsToObj props) children

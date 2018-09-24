@@ -8,6 +8,7 @@ open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 open Fable.Import.ReactNativeCollapsibleHeaderViews.Props
 open Fable.Core
+open Fable.Import.ReactNative
 
 module RN = Fable.Helpers.ReactNative
 module RNCHV = Fable.Import.ReactNativeCollapsibleHeaderViews

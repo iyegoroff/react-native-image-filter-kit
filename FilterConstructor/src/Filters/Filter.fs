@@ -59,6 +59,10 @@ module Filter =
     | Iterations
     | Mul
     | Add
+    | Red
+    | Green
+    | Blue
+    | Alpha
     | ResizeOutput
 
   type Model = (Input * CombinedFilterInput.Model) list

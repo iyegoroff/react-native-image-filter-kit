@@ -4,7 +4,10 @@ import { defaultStyle, checkStyle } from '../common/style';
 import nativeFilters from '../native-platform-filters';
 import filters from 'rn-color-matrices';
 
-const filterName = ([first, ...rest]) => first.toUpperCase() + rest.join('');
+const filterName = (name) => {
+  const [first, ...rest] = name;
+  return name === 'rgba' ? 'RGBA' : first.toUpperCase() + rest.join('');
+};
 
 const { CIColorMatrix, ColorMatrixColorFilter } = nativeFilters;
 
@@ -52,12 +55,21 @@ const createColorToneImageFilter = (filter) => ({
   />
 );
 
+const createRGBAImageFilter = (filter) => ({ red, green, blue, alpha, ...restProps }) => (
+  <ColorMatrix
+    matrix={filter(red, green, blue, alpha)}
+    {...restProps}
+  />
+);
+
 export default Object.keys(filters).reduce(
   (acc, name) => {
     const key = filterName(name);
-    acc[key] = key === 'ColorTone'
-      ? createColorToneImageFilter(filters[name])
-      : createColorMatrixImageFilter(filters[name]);
+    const create = key === 'ColorTone'
+      ? createColorToneImageFilter
+      : key === 'RGBA' ? createRGBAImageFilter : createColorMatrixImageFilter;
+
+    acc[key] = create(filters[name]);
     acc[key].displayName = key;
     return acc;
   },

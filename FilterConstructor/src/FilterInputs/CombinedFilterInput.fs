@@ -35,6 +35,9 @@ module CombinedFilterInput =
   let initScalar min max value name =
     Scalar (FilterScalarInput.init name min max value)
 
+  let initScalarStepper min max value step name =
+    Scalar (FilterScalarInput.initStepper name min max value step)
+
   let initDistance toDistance min max value name =
     Distance (FilterDistanceInput.init name toDistance min max value)
 

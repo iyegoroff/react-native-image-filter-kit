@@ -238,12 +238,6 @@ module Main =
     RNP.portalProvider
       [ RN.statusBar
           [ StatusBarProperties.Hidden true ]
-        ImageSelectModal.view
-          model.DefaultImageSelectModal
-          (DefaultImageSelectModalMessage >> dispatch)
-        FilterSelectModal.view
-          model.CompositionFilterSelectModal
-          (CompositionFilterSelectModalMessage >> dispatch)
         RNP.exitPortal Constants.filterPortal []
         RNP.exitPortal Constants.imagePortal []
         RN.flatList model.FilteredImages
@@ -255,7 +249,13 @@ module Main =
             ListHeaderComponent listControls
             OnMomentumScrollEnd (fun _ -> dispatch ContainerScrolled)
             OnScrollEndDrag (fun _ -> dispatch ContainerScrolled)
-            KeyExtractor (fun (id, _) _ -> string id) ] ]
+            KeyExtractor (fun (id, _) _ -> string id) ]
+        ImageSelectModal.view
+          model.DefaultImageSelectModal
+          (DefaultImageSelectModalMessage >> dispatch)
+        FilterSelectModal.view
+          model.CompositionFilterSelectModal
+          (CompositionFilterSelectModalMessage >> dispatch)  ]
 
   let pureView  =
     lazyView2 view

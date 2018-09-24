@@ -31,6 +31,7 @@ module FilterGroups =
   let private commonSingularFilters: GroupedModel array =
     [| ColorMatrix,
        [| CF.Normal
+          CF.RGBA
           CF.Saturate
           CF.HueRotate
           CF.LuminanceToAlpha

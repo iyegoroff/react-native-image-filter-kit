@@ -15,6 +15,7 @@ module CombinedFilter =
 
   type Model =
     | Normal
+    | RGBA
     | Saturate
     | HueRotate
     | LuminanceToAlpha
@@ -119,6 +120,13 @@ module CombinedFilter =
     match model with
     | Normal -> Filter.init []
 
+    | RGBA ->
+      Filter.init
+        [ Filter.Red, CFI.initScalar 0. 5. 1.
+          Filter.Green, CFI.initScalar 0. 5. 1.
+          Filter.Blue, CFI.initScalar 0. 5. 1.
+          Filter.Alpha, CFI.initScalar 0. 5. 1. ]
+
     | Saturate ->
       Filter.init
         [ Filter.Value, CFI.initScalar -10. 10. 1.]
@@ -210,8 +218,8 @@ module CombinedFilter =
 
     | IterativeBoxBlur ->
       Filter.init
-        [ Filter.BlurRadius, CFI.initScalar 1. 50. 5.
-          Filter.Iterations, CFI.initScalar 1. 5. 3. ]
+        [ Filter.BlurRadius, CFI.initScalarStepper 1. 50. 5. 1.
+          Filter.Iterations, CFI.initScalarStepper 1. 5. 3. 1. ]
 
     | LightingColorFilter ->
       Filter.init
@@ -494,6 +502,20 @@ module CombinedFilter =
   let view =
     function
     | Normal -> emptyView RNF.Normal
+
+    | RGBA ->
+      Filter.view
+        RNF.RGBA
+        (function
+         | Filter.Red, CFI.Scalar input ->
+           Some (RGBAProps.Red (input.Convert input.Value))
+         | Filter.Green, CFI.Scalar input ->
+           Some (RGBAProps.Green (input.Convert input.Value))
+         | Filter.Blue, CFI.Scalar input ->
+           Some (RGBAProps.Blue (input.Convert input.Value))
+         | Filter.Alpha, CFI.Scalar input ->
+           Some (RGBAProps.Alpha (input.Convert input.Value))
+         | _ -> None)
 
     | Saturate ->
       Filter.view
@@ -1130,6 +1152,7 @@ module CombinedFilter =
     let ctrl =
       match model with
       | Normal -> Filter.controls (name Normal)
+      | RGBA -> Filter.controls (name RGBA)
       | Saturate -> Filter.controls (name Saturate)
       | HueRotate -> Filter.controls (name HueRotate)
       | LuminanceToAlpha -> Filter.controls (name LuminanceToAlpha)
