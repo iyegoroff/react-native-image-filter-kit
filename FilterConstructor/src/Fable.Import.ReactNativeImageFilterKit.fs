@@ -27,6 +27,12 @@ module Props =
   type IOffset =
     interface end
 
+  [<StringEnum>]
+  type TileMode =
+    | [<CompiledName("CLAMP")>] CLAMP
+    | [<CompiledName("MIRROR")>] MIRROR
+    | [<CompiledName("REPEAT")>] REPEAT
+
   type ColorMatrixProps =
     | Style of IStyle list
     | Matrix of Matrix
@@ -170,6 +176,20 @@ module Props =
 
   type RoundAsCircleProps =
     | Style of IStyle list
+
+  type ColorProps =
+    | Style of IStyle list
+    | Color of string
+
+  type LinearGradientProps =
+    | Style of IStyle list
+    | X0 of float
+    | Y0 of float
+    | X1 of float
+    | Y1 of float
+    | Colors of ResizeArray<float>
+    | Locations of ResizeArray<float>
+    | Tile of TileMode
 
   type CIBoxBlurProps =
     | Style of IStyle list
@@ -633,6 +653,12 @@ let inline LightingColorFilter (props: LightingColorFilterProps list) (children:
 
 let inline RoundAsCircle (props: RoundAsCircleProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "RoundAsCircle" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline Color (props: ColorProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "Color" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline LinearGradient (props: LinearGradientProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "LinearGradient" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIBoxBlur (props: CIBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIBoxBlur" "react-native-image-filter-kit" (propsToObj props) children

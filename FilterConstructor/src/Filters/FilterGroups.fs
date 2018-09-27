@@ -8,8 +8,9 @@ module FilterGroups =
 
   type Category =
     | Fresco
-    | LightingColorFilter
+    | ColorFilter
     | ColorMatrix
+    | Color
     | CICategoryBlur
     | CICategoryColorAdjustment
     | CICategoryColorEffect
@@ -73,7 +74,7 @@ module FilterGroups =
            [| CF.RoundAsCircle
               CF.IterativeBoxBlur |]
            
-           LightingColorFilter,
+           ColorFilter,
            [| CF.LightingColorFilter |] |] ]
 
   let private iosSingularFilters =
@@ -192,7 +193,9 @@ module FilterGroups =
   let private androidGenerators =
     Array.concat
       [ commonGenerators
-        [||] ]
+
+        [| Color,
+           [| CF.Color |] |] ]
 
   let private iosGenerators =
     Array.concat

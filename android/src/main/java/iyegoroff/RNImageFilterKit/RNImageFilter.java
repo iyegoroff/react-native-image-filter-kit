@@ -1,6 +1,7 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.content.Context;
+import android.graphics.Shader;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
@@ -16,6 +17,7 @@ import com.facebook.react.views.view.ReactViewGroup;
 import java.util.ArrayList;
 
 import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 public class RNImageFilter extends ReactViewGroup {
 
@@ -32,17 +34,21 @@ public class RNImageFilter extends ReactViewGroup {
   private int mIterations = 3;
   private int mMul = 0;
   private int mAdd = 0;
+  private int mColor = 0;
+  private int mX0 = 0;
+  private int mY0 = 0;
+  private int mX1 = 1;
+  private int mY1 = 0;
+  private int[] mColors = {};
+  private float[] mLocations = {};
+  private Shader.TileMode mTile = Shader.TileMode.CLAMP;
 
   public RNImageFilter(Context context) {
     super(context);
   }
 
-  public void setMatrix(ReadableArray matrix) {
-    mMatrix = new float[matrix.size()];
-
-    for (int i = 0; i < mMatrix.length; i++) {
-      mMatrix[i] = (float) matrix.getDouble(i);
-    }
+  public void setMatrix(float[] matrix) {
+    mMatrix = matrix;
 
     this.runFilterPipeline();
   }
@@ -83,6 +89,54 @@ public class RNImageFilter extends ReactViewGroup {
     this.runFilterPipeline();
   }
 
+  public void setColor(int color) {
+    mColor = color;
+
+    this.runFilterPipeline();
+  }
+
+  public void setX0(int x0) {
+    mX0 = x0;
+
+    this.runFilterPipeline();
+  }
+
+  public void setY0(int y0) {
+    mY0 = y0;
+
+    this.runFilterPipeline();
+  }
+
+  public void setX1(int x1) {
+    mX1 = x1;
+
+    this.runFilterPipeline();
+  }
+
+  public void setY1(int y1) {
+    mY1 = y1;
+
+    this.runFilterPipeline();
+  }
+
+  public void setColors(int[] colors) {
+    mColors = colors;
+
+    this.runFilterPipeline();
+  }
+
+  public void setLocations(float[] locations) {
+    mLocations = locations;
+
+    this.runFilterPipeline();
+  }
+
+  public void setTile(Shader.TileMode tile) {
+    mTile = tile;
+
+    this.runFilterPipeline();
+  }
+
   @Override
   protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
@@ -91,6 +145,8 @@ public class RNImageFilter extends ReactViewGroup {
   }
 
   private void runFilterPipeline() {
+    ReactImageView targetImage = RNImageFilter.targetImage(this.bottomFilter());
+
     if ("ColorMatrixColorFilter".equals(mName)) {
       mPostProcessor = new ColorMatrixColorFilterPostProcessor(mMatrix);
 
@@ -102,27 +158,73 @@ public class RNImageFilter extends ReactViewGroup {
 
     } else if ("LightingColorFilter".equals(mName)) {
       mPostProcessor = new LightingColorFilterPostProcessor(mMul, mAdd);
+
+    } else if ("Color".equals(mName)) {
+      if (targetImage != null) {
+        mPostProcessor = new ColorPostProcessor(
+                targetImage.getMeasuredWidth(),
+                targetImage.getMeasuredHeight(),
+                mColor);
+      }
+
+    } else if ("LinearGradient".equals(mName)) {
+      if (targetImage != null) {
+        mPostProcessor = new LinearGradientPostProcessor(
+                targetImage.getMeasuredWidth(),
+                targetImage.getMeasuredHeight(),
+                mX0,
+                mY0,
+                mX1,
+                mY1,
+                mColors,
+                mLocations,
+                mTile);
+      }
     }
 
     if (mPostProcessor != null) {
-      this.bottomFilter().renderFilteredImage();
+      RNImageFilter.renderFilteredImage(this.bottomFilter());
     }
   }
 
-  private void renderFilteredImage() {
+  private RNImageFilter bottomFilter() {
     for (int i = 0; i < this.getChildCount(); i++) {
       View child = this.getChildAt(i);
 
-      if (child instanceof ReactImageView) {
-        this.filterImage(
-                (ReactImageView) child,
-                new RNMultiPostProcessor(this.collectPostProcessors()));
-        return;
+      if (child instanceof RNImageFilter) {
+        return ((RNImageFilter) child).bottomFilter();
       }
+    }
+
+    return this;
+  }
+
+  private static @Nullable ReactImageView targetImage(@Nonnull RNImageFilter bottomFilter) {
+    for (int i = 0; i < bottomFilter.getChildCount(); i++) {
+      View child = bottomFilter.getChildAt(i);
+
+      if (child instanceof ReactImageView) {
+        return (ReactImageView) child;
+      }
+    }
+
+    return null;
+  }
+
+  private static void renderFilteredImage(RNImageFilter bottomFilter) {
+    ReactImageView image = RNImageFilter.targetImage(bottomFilter);
+
+    if (image != null) {
+      RNImageFilter.filterImage(
+              image,
+              new RNMultiPostProcessor(bottomFilter.collectPostProcessors()));
     }
   }
 
-  private void filterImage(ReactImageView image, IterativeBoxBlurPostProcessor postProcessor) {
+  private static void filterImage(
+          ReactImageView image,
+          IterativeBoxBlurPostProcessor postProcessor
+  ) {
     if (postProcessor != null) {
       IterativeBoxBlurPostProcessor processor = RNReflectUtils.getFieldValue(
               ReactImageView.class,
@@ -143,18 +245,6 @@ public class RNImageFilter extends ReactViewGroup {
         image.maybeUpdateView();
       }
     }
-  }
-
-  private RNImageFilter bottomFilter() {
-    for (int i = 0; i < this.getChildCount(); i++) {
-      View child = this.getChildAt(i);
-
-      if (child instanceof RNImageFilter) {
-        return ((RNImageFilter) child).bottomFilter();
-      }
-    }
-
-    return this;
   }
 
   private ArrayList<Postprocessor> collectPostProcessors(ArrayList<Postprocessor> list) {

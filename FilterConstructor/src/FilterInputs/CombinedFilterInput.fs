@@ -6,7 +6,7 @@ open Fable.Import
 
 module CombinedFilterInput =
 
-  type Shape<'scalar, 'distance, 'point, 'rgbaVector, 'boolean, 'color, 'offset> =
+  type Shape<'scalar, 'distance, 'point, 'rgbaVector, 'boolean, 'color, 'offset, 'array> =
     | Scalar of 'scalar
     | Distance of 'distance
     | Point of 'point
@@ -14,6 +14,7 @@ module CombinedFilterInput =
     | Boolean of 'boolean
     | Color of 'color
     | Offset of 'offset
+    | Array of 'array
 
   type Model = Shape<FilterScalarInput.Model,
                      FilterDistanceInput.Model,
@@ -21,7 +22,8 @@ module CombinedFilterInput =
                      FilterRGBAVectorInput.Model,
                      FilterBooleanInput.Model,
                      FilterColorInput.Model,
-                     FilterOffsetInput.Model>
+                     FilterOffsetInput.Model,
+                     CombinedFilterArrayInput.Model>
 
   type Message = Shape<FilterScalarInput.Message,
                        FilterDistanceInput.Message,
@@ -29,7 +31,8 @@ module CombinedFilterInput =
                        FilterRGBAVectorInput.Message,
                        FilterBooleanInput.Message,
                        FilterColorInput.Message,
-                       FilterOffsetInput.Message>
+                       FilterOffsetInput.Message,
+                       CombinedFilterArrayInput.Message>
   
 
   let initScalar min max value name =
@@ -55,6 +58,12 @@ module CombinedFilterInput =
 
   let initOffset min max value name =
     Offset (FilterOffsetInput.init name min max value)
+
+  let initScalarArray defaultMin defaultMax defaultValue inputs name =
+    Array (CombinedFilterArrayInput.initScalar defaultMin defaultMax defaultValue inputs name)
+
+  let initColorArray defaultValue inputs name =
+    Array (CombinedFilterArrayInput.initColor defaultValue inputs name)
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match (model, message) with
@@ -93,6 +102,11 @@ module CombinedFilterInput =
       (Offset m), Cmd.map Offset cmd
     | Offset _, _ -> model, []
 
+    | Array model', Array message' ->
+      let m, cmd = CombinedFilterArrayInput.update message' model'
+      (Array m), Cmd.map Array cmd
+    | Array _, _ -> model, []
+
   let view (model: Model) (dispatch: Dispatch<Message>) : React.ReactElement =
     match model with
     | Scalar model' -> FilterScalarInput.view model' (Scalar >> dispatch)
@@ -102,3 +116,4 @@ module CombinedFilterInput =
     | Boolean model' -> FilterBooleanInput.view model' (Boolean >> dispatch)
     | Color model' -> FilterColorInput.view model' (Color >> dispatch)
     | Offset model' -> FilterOffsetInput.view model' (Offset >> dispatch)
+    | Array model' -> CombinedFilterArrayInput.view model' (Array >> dispatch)

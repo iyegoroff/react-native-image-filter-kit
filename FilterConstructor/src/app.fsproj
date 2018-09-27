@@ -6,6 +6,7 @@
     <Compile Include="Fable.Import.ReactNative.fs" />
     <Compile Include="Fable.Helpers.ReactNative.fs" />
     <Compile Include="Fable.Import.ReactNativeImageFilterKit.fs" />
+    <Compile Include="StructurallyNull.fs" />
     <Compile Include="Constants.fs" />
     <Compile Include="Utils.fs" />
     <Compile Include="Spacer.fs" />
@@ -18,6 +19,10 @@
     <Compile Include="FilterInputs/FilterBooleanInput.fs" />
     <Compile Include="FilterInputs/FilterColorInput.fs" />
     <Compile Include="FilterInputs/FilterOffsetInput.fs" />
+    <Compile Include="FilterInputs/FilterArrayInputs/FilterArrayInput.fs" />
+    <Compile Include="FilterInputs/FilterArrayInputs/FilterColorArrayInput.fs" />
+    <Compile Include="FilterInputs/FilterArrayInputs/FilterScalarArrayInput.fs" />
+    <Compile Include="FilterInputs/FilterArrayInputs/CombinedFilterArrayInput.fs" />
     <Compile Include="FilterInputs/CombinedFilterInput.fs" />
     <Compile Include="SearchBar.fs" />
     <Compile Include="Filters/Filter.fs" />

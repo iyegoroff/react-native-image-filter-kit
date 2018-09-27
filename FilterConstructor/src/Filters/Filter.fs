@@ -63,6 +63,14 @@ module Filter =
     | Green
     | Blue
     | Alpha
+    | Color
+    | X0
+    | Y0
+    | X1
+    | Y1
+    | Colors
+    | Locations
+    | Tile
     | ResizeOutput
 
   type Model = (Input * CombinedFilterInput.Model) list

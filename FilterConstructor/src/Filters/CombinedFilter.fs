@@ -50,6 +50,8 @@ module CombinedFilter =
     | Achromatopsia
     | Achromatomaly
     | RoundAsCircle
+    | Color
+    | LinearGradient
     | IterativeBoxBlur
     | LightingColorFilter
     | CIBoxBlur
@@ -215,6 +217,19 @@ module CombinedFilter =
     | Achromatomaly -> Filter.init []
 
     | RoundAsCircle -> Filter.init []
+
+    | Color ->
+      Filter.init
+        [ Filter.Color, CFI.initColor "#ffffff" ]
+
+    | LinearGradient ->
+      Filter.init
+        [ Filter.X0, CFI.initScalar 0. 1. 0. 
+          Filter.Y0, CFI.initScalar 0. 1. 0.
+          Filter.X1, CFI.initScalar 0. 1. 1.
+          Filter.Y1, CFI.initScalar 0. 1. 0.
+          Filter.Colors, CFI.initColorArray "#ffffff" []
+          Filter.Locations, CFI.initScalarArray 0. 1. 0. [] ]
 
     | IterativeBoxBlur ->
       Filter.init
@@ -508,13 +523,13 @@ module CombinedFilter =
         RNF.RGBA
         (function
          | Filter.Red, CFI.Scalar input ->
-           Some (RGBAProps.Red (input.Convert input.Value))
+           Some (RGBAProps.Red (FilterRangeInput.convert input))
          | Filter.Green, CFI.Scalar input ->
-           Some (RGBAProps.Green (input.Convert input.Value))
+           Some (RGBAProps.Green (FilterRangeInput.convert input))
          | Filter.Blue, CFI.Scalar input ->
-           Some (RGBAProps.Blue (input.Convert input.Value))
+           Some (RGBAProps.Blue (FilterRangeInput.convert input))
          | Filter.Alpha, CFI.Scalar input ->
-           Some (RGBAProps.Alpha (input.Convert input.Value))
+           Some (RGBAProps.Alpha (FilterRangeInput.convert input))
          | _ -> None)
 
     | Saturate ->
@@ -522,7 +537,7 @@ module CombinedFilter =
         RNF.Saturate
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (SaturateProps.Value (input.Convert input.Value))
+           Some (SaturateProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | HueRotate ->
@@ -530,7 +545,7 @@ module CombinedFilter =
         RNF.HueRotate
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (HueRotateProps.Value (input.Convert input.Value))
+           Some (HueRotateProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | LuminanceToAlpha -> emptyView RNF.LuminanceToAlpha
@@ -552,7 +567,7 @@ module CombinedFilter =
         RNF.Brightness
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (BrightnessProps.Value (input.Convert input.Value))
+           Some (BrightnessProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | Exposure ->
@@ -560,7 +575,7 @@ module CombinedFilter =
         RNF.Exposure
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (ExposureProps.Value (input.Convert input.Value))
+           Some (ExposureProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | Contrast ->
@@ -568,7 +583,7 @@ module CombinedFilter =
         RNF.Contrast
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (ContrastProps.Value (input.Convert input.Value))
+           Some (ContrastProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | Temperature ->
@@ -576,7 +591,7 @@ module CombinedFilter =
         RNF.Temperature
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (TemperatureProps.Value (input.Convert input.Value))
+           Some (TemperatureProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | Tint ->
@@ -584,7 +599,7 @@ module CombinedFilter =
         RNF.Tint
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (TintProps.Value (input.Convert input.Value))
+           Some (TintProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | Threshold ->
@@ -592,7 +607,7 @@ module CombinedFilter =
         RNF.Threshold
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (ThresholdProps.Value (input.Convert input.Value))
+           Some (ThresholdProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | Technicolor -> emptyView RNF.Technicolor
@@ -612,7 +627,7 @@ module CombinedFilter =
         RNF.Night
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (NightProps.Value (input.Convert input.Value))
+           Some (NightProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | Predator ->
@@ -620,7 +635,7 @@ module CombinedFilter =
         RNF.Predator
         (function
          | Filter.Value, CFI.Scalar input ->
-           Some (PredatorProps.Value (input.Convert input.Value))
+           Some (PredatorProps.Value (FilterRangeInput.convert input))
          | _ -> None)
 
     | Lsd -> emptyView RNF.Lsd
@@ -630,9 +645,9 @@ module CombinedFilter =
         RNF.ColorTone
         (function
          | Filter.Desaturation, CFI.Scalar input ->
-           Some (ColorToneProps.Desaturation (input.Convert input.Value))
+           Some (ColorToneProps.Desaturation (FilterRangeInput.convert input))
          | Filter.Toned, CFI.Scalar input ->
-           Some (ColorToneProps.Toned (input.Convert input.Value))
+           Some (ColorToneProps.Toned (FilterRangeInput.convert input))
          | Filter.DarkColor, CFI.Color input ->
            Some (ColorToneProps.DarkColor input.Value)
          | Filter.LightColor, CFI.Color input ->
@@ -657,14 +672,22 @@ module CombinedFilter =
 
     | RoundAsCircle -> emptyView RNF.RoundAsCircle
 
+    | Color ->
+      Filter.view
+        RNF.Color
+        (function
+         | Filter.Color, CFI.Color input ->
+           Some (ColorProps.Color input.Value)
+         | _ -> None)
+
     | IterativeBoxBlur ->
       Filter.view
         RNF.IterativeBoxBlur
         (function
          | Filter.BlurRadius, CFI.Scalar input ->
-           Some (IterativeBoxBlurProps.BlurRadius (input.Convert input.Value))
+           Some (IterativeBoxBlurProps.BlurRadius (FilterRangeInput.convert input))
          | Filter.Iterations, CFI.Scalar input ->
-           Some (IterativeBoxBlurProps.Iterations (input.Convert input.Value))
+           Some (IterativeBoxBlurProps.Iterations (FilterRangeInput.convert input))
          | _ -> None)
 
     | LightingColorFilter ->
@@ -682,7 +705,7 @@ module CombinedFilter =
         RNF.CIBoxBlur
         (function
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIBoxBlurProps.InputRadius (input.Convert input.Value))
+           Some (CIBoxBlurProps.InputRadius (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CIBoxBlurProps.ResizeOutput value)
          | _ -> None)
          
@@ -691,7 +714,7 @@ module CombinedFilter =
         RNF.CIDiscBlur
         (function
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIDiscBlurProps.InputRadius (input.Convert input.Value))
+           Some (CIDiscBlurProps.InputRadius (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CIDiscBlurProps.ResizeOutput value)
          | _ -> None)
          
@@ -700,7 +723,7 @@ module CombinedFilter =
         RNF.CIGaussianBlur
         (function
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIGaussianBlurProps.InputRadius (input.Convert input.Value))
+           Some (CIGaussianBlurProps.InputRadius (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CIGaussianBlurProps.ResizeOutput value)
          | _ -> None)
          
@@ -709,7 +732,7 @@ module CombinedFilter =
         RNF.CIMaskedVariableBlur
         (function
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIMaskedVariableBlurProps.InputRadius (input.Convert input.Value))
+           Some (CIMaskedVariableBlurProps.InputRadius (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CIMaskedVariableBlurProps.ResizeOutput value)
          | _ -> None)
          
@@ -720,9 +743,9 @@ module CombinedFilter =
         RNF.CIMotionBlur
         (function
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIMotionBlurProps.InputRadius (input.Convert input.Value))
+           Some (CIMotionBlurProps.InputRadius (FilterRangeInput.convert input))
          | Filter.InputAngle, CFI.Scalar input ->
-           Some (CIMotionBlurProps.InputAngle (input.Convert input.Value))
+           Some (CIMotionBlurProps.InputAngle (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CIMotionBlurProps.ResizeOutput value)
          | _ -> None)
          
@@ -731,9 +754,9 @@ module CombinedFilter =
         RNF.CINoiseReduction
         (function
          | Filter.InputNoiseLevel, CFI.Scalar input ->
-           Some (CINoiseReductionProps.InputNoiseLevel (input.Convert input.Value))
+           Some (CINoiseReductionProps.InputNoiseLevel (FilterRangeInput.convert input))
          | Filter.InputSharpness, CFI.Scalar input ->
-           Some (CINoiseReductionProps.InputSharpness (input.Convert input.Value))
+           Some (CINoiseReductionProps.InputSharpness (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIZoomBlur ->
@@ -741,9 +764,9 @@ module CombinedFilter =
         RNF.CIZoomBlur
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CIZoomBlurProps.InputCenter (input.Convert input.Value))
+           Some (CIZoomBlurProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputAmount, CFI.Distance input ->
-           Some (CIZoomBlurProps.InputAmount (input.Convert input.Value))
+           Some (CIZoomBlurProps.InputAmount (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CIZoomBlurProps.ResizeOutput value)
          | _ -> None)
          
@@ -752,9 +775,9 @@ module CombinedFilter =
         RNF.CIColorClamp
         (function
          | Filter.InputMinComponents, CFI.RGBAVector input ->
-           Some (CIColorClampProps.InputMinComponents (input.Convert input.Value))
+           Some (CIColorClampProps.InputMinComponents (FilterRangeInput.convert input))
          | Filter.InputMaxComponents, CFI.RGBAVector input ->
-           Some (CIColorClampProps.InputMaxComponents (input.Convert input.Value))
+           Some (CIColorClampProps.InputMaxComponents (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIColorControls ->
@@ -762,11 +785,11 @@ module CombinedFilter =
         RNF.CIColorControls
         (function
          | Filter.InputSaturation, CFI.Scalar input ->
-           Some (CIColorControlsProps.InputSaturation (input.Convert input.Value))
+           Some (CIColorControlsProps.InputSaturation (FilterRangeInput.convert input))
          | Filter.InputBrightness, CFI.Scalar input ->
-           Some (CIColorControlsProps.InputBrightness (input.Convert input.Value))
+           Some (CIColorControlsProps.InputBrightness (FilterRangeInput.convert input))
          | Filter.InputContrast, CFI.Scalar input ->
-           Some (CIColorControlsProps.InputContrast (input.Convert input.Value))
+           Some (CIColorControlsProps.InputContrast (FilterRangeInput.convert input))
          | _ -> None)
 
     | CIColorMatrix ->
@@ -774,15 +797,15 @@ module CombinedFilter =
         RNF.CIColorMatrix
         (function
          | Filter.InputRVector, CFI.RGBAVector input ->
-           Some (CIColorMatrixProps.InputRVector (input.Convert input.Value))
+           Some (CIColorMatrixProps.InputRVector (FilterRangeInput.convert input))
          | Filter.InputGVector, CFI.RGBAVector input ->
-           Some (CIColorMatrixProps.InputGVector (input.Convert input.Value))
+           Some (CIColorMatrixProps.InputGVector (FilterRangeInput.convert input))
          | Filter.InputBVector, CFI.RGBAVector input ->
-           Some (CIColorMatrixProps.InputBVector (input.Convert input.Value))
+           Some (CIColorMatrixProps.InputBVector (FilterRangeInput.convert input))
          | Filter.InputAVector, CFI.RGBAVector input ->
-           Some (CIColorMatrixProps.InputAVector (input.Convert input.Value))
+           Some (CIColorMatrixProps.InputAVector (FilterRangeInput.convert input))
          | Filter.InputBiasVector, CFI.RGBAVector input ->
-           Some (CIColorMatrixProps.InputBiasVector (input.Convert input.Value))
+           Some (CIColorMatrixProps.InputBiasVector (FilterRangeInput.convert input))
          | _ -> None)
 
     | CIColorPolynomial ->
@@ -790,13 +813,13 @@ module CombinedFilter =
         RNF.CIColorPolynomial
         (function
          | Filter.InputRedCoefficients, CFI.RGBAVector input ->
-           Some (CIColorPolynomialProps.InputRedCoefficients (input.Convert input.Value))
+           Some (CIColorPolynomialProps.InputRedCoefficients (FilterRangeInput.convert input))
          | Filter.InputGreenCoefficients, CFI.RGBAVector input ->
-           Some (CIColorPolynomialProps.InputGreenCoefficients (input.Convert input.Value))
+           Some (CIColorPolynomialProps.InputGreenCoefficients (FilterRangeInput.convert input))
          | Filter.InputBlueCoefficients, CFI.RGBAVector input ->
-           Some (CIColorPolynomialProps.InputBlueCoefficients (input.Convert input.Value))
+           Some (CIColorPolynomialProps.InputBlueCoefficients (FilterRangeInput.convert input))
          | Filter.InputAlphaCoefficients, CFI.RGBAVector input ->
-           Some (CIColorPolynomialProps.InputAlphaCoefficients (input.Convert input.Value))
+           Some (CIColorPolynomialProps.InputAlphaCoefficients (FilterRangeInput.convert input))
          | _ -> None)
 
     | CIExposureAdjust ->
@@ -804,7 +827,7 @@ module CombinedFilter =
         RNF.CIExposureAdjust
         (function
          | Filter.InputEV, CFI.Scalar input ->
-           Some (CIExposureAdjustProps.InputEV (input.Convert input.Value))
+           Some (CIExposureAdjustProps.InputEV (FilterRangeInput.convert input))
          | _ -> None)
 
     | CIGammaAdjust ->
@@ -812,7 +835,7 @@ module CombinedFilter =
         RNF.CIGammaAdjust
         (function
          | Filter.InputPower, CFI.Scalar input ->
-           Some (CIGammaAdjustProps.InputPower (input.Convert input.Value))
+           Some (CIGammaAdjustProps.InputPower (FilterRangeInput.convert input))
          | _ -> None)
 
     | CIHueAdjust ->
@@ -820,7 +843,7 @@ module CombinedFilter =
         RNF.CIHueAdjust
         (function
          | Filter.InputAngle, CFI.Scalar input ->
-           Some (CIHueAdjustProps.InputAngle (input.Convert input.Value))
+           Some (CIHueAdjustProps.InputAngle (FilterRangeInput.convert input))
          | _ -> None)
          
     | CILinearToSRGBToneCurve -> emptyView RNF.CIMaskToAlpha
@@ -832,9 +855,9 @@ module CombinedFilter =
         RNF.CITemperatureAndTint
         (function
          | Filter.InputNeutral, CFI.Offset input ->
-           Some (CITemperatureAndTintProps.InputNeutral (input.Convert input.Value))
+           Some (CITemperatureAndTintProps.InputNeutral (FilterRangeInput.convert input))
          | Filter.InputTargetNeutral, CFI.Offset input ->
-           Some (CITemperatureAndTintProps.InputTargetNeutral (input.Convert input.Value))
+           Some (CITemperatureAndTintProps.InputTargetNeutral (FilterRangeInput.convert input))
          | _ -> None)
 
     | CIToneCurve ->
@@ -842,15 +865,15 @@ module CombinedFilter =
         RNF.CIToneCurve
         (function
          | Filter.InputPoint0, CFI.Offset input ->
-           Some (CIToneCurveProps.InputPoint0 (input.Convert input.Value))
+           Some (CIToneCurveProps.InputPoint0 (FilterRangeInput.convert input))
          | Filter.InputPoint1, CFI.Offset input ->
-           Some (CIToneCurveProps.InputPoint1 (input.Convert input.Value))
+           Some (CIToneCurveProps.InputPoint1 (FilterRangeInput.convert input))
          | Filter.InputPoint2, CFI.Offset input ->
-           Some (CIToneCurveProps.InputPoint2 (input.Convert input.Value))
+           Some (CIToneCurveProps.InputPoint2 (FilterRangeInput.convert input))
          | Filter.InputPoint3, CFI.Offset input ->
-           Some (CIToneCurveProps.InputPoint3 (input.Convert input.Value))
+           Some (CIToneCurveProps.InputPoint3 (FilterRangeInput.convert input))
          | Filter.InputPoint4, CFI.Offset input ->
-           Some (CIToneCurveProps.InputPoint4 (input.Convert input.Value))
+           Some (CIToneCurveProps.InputPoint4 (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIMaskToAlpha -> emptyView RNF.CIMaskToAlpha
@@ -880,7 +903,7 @@ module CombinedFilter =
         RNF.CISepiaTone
         (function
          | Filter.InputIntensity, CFI.Scalar input ->
-           Some (CISepiaToneProps.InputIntensity (input.Convert input.Value))
+           Some (CISepiaToneProps.InputIntensity (FilterRangeInput.convert input))
          | _ -> None)
 
     | CIVignette ->
@@ -888,9 +911,9 @@ module CombinedFilter =
         RNF.CIVignette
         (function
          | Filter.InputIntensity, CFI.Scalar input ->
-           Some (CIVignetteProps.InputIntensity (input.Convert input.Value))
+           Some (CIVignetteProps.InputIntensity (FilterRangeInput.convert input))
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIVignetteProps.InputRadius (input.Convert input.Value))
+           Some (CIVignetteProps.InputRadius (FilterRangeInput.convert input))
          | _ -> None)
 
     | CIVignetteEffect ->
@@ -898,11 +921,11 @@ module CombinedFilter =
         RNF.CIVignetteEffect
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CIVignetteEffectProps.InputCenter (input.Convert input.Value))
+           Some (CIVignetteEffectProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputIntensity, CFI.Scalar input ->
-           Some (CIVignetteEffectProps.InputIntensity (input.Convert input.Value))
+           Some (CIVignetteEffectProps.InputIntensity (FilterRangeInput.convert input))
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIVignetteEffectProps.InputRadius (input.Convert input.Value))
+           Some (CIVignetteEffectProps.InputRadius (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIAdditionCompositing -> emptyView RNF.CIAdditionCompositing
@@ -916,7 +939,7 @@ module CombinedFilter =
          | Filter.InputColor, CFI.Color input ->
            Some (CIColorMonochromeProps.InputColor input.Value)
          | Filter.InputIntensity, CFI.Scalar input ->
-           Some (CIColorMonochromeProps.InputIntensity (input.Convert input.Value))
+           Some (CIColorMonochromeProps.InputIntensity (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIColorPosterize ->
@@ -924,7 +947,7 @@ module CombinedFilter =
         RNF.CIColorPosterize
         (function
          | Filter.InputLevels, CFI.Scalar input ->
-           Some (CIColorPosterizeProps.InputLevels (input.Convert input.Value))
+           Some (CIColorPosterizeProps.InputLevels (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIVibrance ->
@@ -932,7 +955,7 @@ module CombinedFilter =
         RNF.CIVibrance
         (function
          | Filter.InputAmount, CFI.Scalar input ->
-           Some (CIVibranceProps.InputAmount (input.Convert input.Value))
+           Some (CIVibranceProps.InputAmount (FilterRangeInput.convert input))
          | _ -> None)
          
     | CICircularScreen ->
@@ -940,11 +963,11 @@ module CombinedFilter =
         RNF.CICircularScreen
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CICircularScreenProps.InputCenter (input.Convert input.Value))
+           Some (CICircularScreenProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputSharpness, CFI.Scalar input ->
-           Some (CICircularScreenProps.InputSharpness (input.Convert input.Value))
+           Some (CICircularScreenProps.InputSharpness (FilterRangeInput.convert input))
          | Filter.InputWidth, CFI.Distance input ->
-           Some (CICircularScreenProps.InputWidth (input.Convert input.Value))
+           Some (CICircularScreenProps.InputWidth (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIDotScreen ->
@@ -952,13 +975,13 @@ module CombinedFilter =
         RNF.CIDotScreen
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CIDotScreenProps.InputCenter (input.Convert input.Value))
+           Some (CIDotScreenProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputAngle, CFI.Scalar input ->
-           Some (CIDotScreenProps.InputAngle (input.Convert input.Value))
+           Some (CIDotScreenProps.InputAngle (FilterRangeInput.convert input))
          | Filter.InputSharpness, CFI.Scalar input ->
-           Some (CIDotScreenProps.InputSharpness (input.Convert input.Value))
+           Some (CIDotScreenProps.InputSharpness (FilterRangeInput.convert input))
          | Filter.InputWidth, CFI.Distance input ->
-           Some (CIDotScreenProps.InputWidth (input.Convert input.Value))
+           Some (CIDotScreenProps.InputWidth (FilterRangeInput.convert input))
          | _ -> None)
          
     | CILineScreen ->
@@ -966,13 +989,13 @@ module CombinedFilter =
         RNF.CILineScreen
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CILineScreenProps.InputCenter (input.Convert input.Value))
+           Some (CILineScreenProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputAngle, CFI.Scalar input ->
-           Some (CILineScreenProps.InputAngle (input.Convert input.Value))
+           Some (CILineScreenProps.InputAngle (FilterRangeInput.convert input))
          | Filter.InputSharpness, CFI.Scalar input ->
-           Some (CILineScreenProps.InputSharpness (input.Convert input.Value))
+           Some (CILineScreenProps.InputSharpness (FilterRangeInput.convert input))
          | Filter.InputWidth, CFI.Distance input ->
-           Some (CILineScreenProps.InputWidth (input.Convert input.Value))
+           Some (CILineScreenProps.InputWidth (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIBumpDistortion ->
@@ -980,11 +1003,11 @@ module CombinedFilter =
         RNF.CIBumpDistortion
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CIBumpDistortionProps.InputCenter (input.Convert input.Value))
+           Some (CIBumpDistortionProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIBumpDistortionProps.InputRadius (input.Convert input.Value))
+           Some (CIBumpDistortionProps.InputRadius (FilterRangeInput.convert input))
          | Filter.InputScale, CFI.Scalar input ->
-           Some (CIBumpDistortionProps.InputScale (input.Convert input.Value))
+           Some (CIBumpDistortionProps.InputScale (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CIBumpDistortionProps.ResizeOutput value)
          | _ -> None)
          
@@ -993,13 +1016,13 @@ module CombinedFilter =
         RNF.CIBumpDistortionLinear
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CIBumpDistortionLinearProps.InputCenter (input.Convert input.Value))
+           Some (CIBumpDistortionLinearProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIBumpDistortionLinearProps.InputRadius (input.Convert input.Value))
+           Some (CIBumpDistortionLinearProps.InputRadius (FilterRangeInput.convert input))
          | Filter.InputScale, CFI.Scalar input ->
-           Some (CIBumpDistortionLinearProps.InputScale (input.Convert input.Value))
+           Some (CIBumpDistortionLinearProps.InputScale (FilterRangeInput.convert input))
          | Filter.InputAngle, CFI.Scalar input ->
-           Some (CIBumpDistortionLinearProps.InputAngle (input.Convert input.Value))
+           Some (CIBumpDistortionLinearProps.InputAngle (FilterRangeInput.convert input))
          | _ -> None)
          
     | CICircleSplashDistortion ->
@@ -1007,9 +1030,9 @@ module CombinedFilter =
         RNF.CICircleSplashDistortion
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CICircleSplashDistortionProps.InputCenter (input.Convert input.Value))
+           Some (CICircleSplashDistortionProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CICircleSplashDistortionProps.InputRadius (input.Convert input.Value))
+           Some (CICircleSplashDistortionProps.InputRadius (FilterRangeInput.convert input))
          | _ -> None)
          
     | CICircularWrap ->
@@ -1017,11 +1040,11 @@ module CombinedFilter =
         RNF.CICircularWrap
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CICircularWrapProps.InputCenter (input.Convert input.Value))
+           Some (CICircularWrapProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CICircularWrapProps.InputRadius (input.Convert input.Value))
+           Some (CICircularWrapProps.InputRadius (FilterRangeInput.convert input))
          | Filter.InputAngle, CFI.Scalar input ->
-           Some (CICircularWrapProps.InputAngle (input.Convert input.Value))
+           Some (CICircularWrapProps.InputAngle (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CICircularWrapProps.ResizeOutput value)
          | _ -> None)
          
@@ -1030,11 +1053,11 @@ module CombinedFilter =
         RNF.CIVortexDistortion
         (function
          | Filter.InputCenter, CFI.Point input ->
-           Some (CIVortexDistortionProps.InputCenter (input.Convert input.Value))
+           Some (CIVortexDistortionProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIVortexDistortionProps.InputRadius (input.Convert input.Value))
+           Some (CIVortexDistortionProps.InputRadius (FilterRangeInput.convert input))
          | Filter.InputAngle, CFI.Scalar input ->
-           Some (CIVortexDistortionProps.InputAngle (input.Convert input.Value))
+           Some (CIVortexDistortionProps.InputAngle (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CIVortexDistortionProps.ResizeOutput value)
          | _ -> None)
          
@@ -1053,7 +1076,7 @@ module CombinedFilter =
         RNF.CISharpenLuminance
         (function
          | Filter.InputSharpness, CFI.Scalar input ->
-           Some (CISharpenLuminanceProps.InputSharpness (input.Convert input.Value))
+           Some (CISharpenLuminanceProps.InputSharpness (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIUnsharpMask ->
@@ -1061,9 +1084,9 @@ module CombinedFilter =
         RNF.CIUnsharpMask
         (function
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIUnsharpMaskProps.InputRadius (input.Convert input.Value))
+           Some (CIUnsharpMaskProps.InputRadius (FilterRangeInput.convert input))
          | Filter.InputIntensity, CFI.Scalar input ->
-           Some (CIUnsharpMaskProps.InputIntensity (input.Convert input.Value))
+           Some (CIUnsharpMaskProps.InputIntensity (FilterRangeInput.convert input))
          | _ -> None)
          
     | CICrystallize ->
@@ -1071,9 +1094,9 @@ module CombinedFilter =
         RNF.CICrystallize
         (function
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CICrystallizeProps.InputRadius (input.Convert input.Value))
+           Some (CICrystallizeProps.InputRadius (FilterRangeInput.convert input))
          | Filter.InputCenter, CFI.Point input ->
-           Some (CICrystallizeProps.InputCenter (input.Convert input.Value))
+           Some (CICrystallizeProps.InputCenter (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIEdges ->
@@ -1081,7 +1104,7 @@ module CombinedFilter =
         RNF.CIEdges
         (function
          | Filter.InputIntensity, CFI.Scalar input ->
-           Some (CIEdgesProps.InputIntensity (input.Convert input.Value))
+           Some (CIEdgesProps.InputIntensity (FilterRangeInput.convert input))
          | _ -> None)
          
     | CILineOverlay ->
@@ -1089,15 +1112,15 @@ module CombinedFilter =
         RNF.CILineOverlay
         (function
          | Filter.InputNRNoiseLevel, CFI.Scalar input ->
-           Some (CILineOverlayProps.InputNRNoiseLevel (input.Convert input.Value))
+           Some (CILineOverlayProps.InputNRNoiseLevel (FilterRangeInput.convert input))
          | Filter.InputNRSharpness, CFI.Scalar input ->
-           Some (CILineOverlayProps.InputNRSharpness (input.Convert input.Value))
+           Some (CILineOverlayProps.InputNRSharpness (FilterRangeInput.convert input))
          | Filter.InputEdgeIntensity, CFI.Scalar input ->
-           Some (CILineOverlayProps.InputEdgeIntensity (input.Convert input.Value))
+           Some (CILineOverlayProps.InputEdgeIntensity (FilterRangeInput.convert input))
          | Filter.InputThreshold, CFI.Scalar input ->
-           Some (CILineOverlayProps.InputThreshold (input.Convert input.Value))
+           Some (CILineOverlayProps.InputThreshold (FilterRangeInput.convert input))
          | Filter.InputContrast, CFI.Scalar input ->
-           Some (CILineOverlayProps.InputContrast (input.Convert input.Value))
+           Some (CILineOverlayProps.InputContrast (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIPixellate ->
@@ -1105,9 +1128,9 @@ module CombinedFilter =
         RNF.CIPixellate
         (function
          | Filter.InputScale, CFI.Distance input ->
-           Some (CIPixellateProps.InputScale (input.Convert input.Value))
+           Some (CIPixellateProps.InputScale (FilterRangeInput.convert input))
          | Filter.InputCenter, CFI.Point input ->
-           Some (CIPixellateProps.InputCenter (input.Convert input.Value))
+           Some (CIPixellateProps.InputCenter (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIPointillize ->
@@ -1115,9 +1138,9 @@ module CombinedFilter =
         RNF.CIPointillize
         (function
          | Filter.InputRadius, CFI.Distance input ->
-           Some (CIPointillizeProps.InputRadius (input.Convert input.Value))
+           Some (CIPointillizeProps.InputRadius (FilterRangeInput.convert input))
          | Filter.InputCenter, CFI.Point input ->
-           Some (CIPointillizeProps.InputCenter (input.Convert input.Value))
+           Some (CIPointillizeProps.InputCenter (FilterRangeInput.convert input))
          | _ -> None)
          
     | CIOpTile ->
@@ -1125,13 +1148,13 @@ module CombinedFilter =
         RNF.CIOpTile
         (function
          | Filter.InputWidth, CFI.Distance input ->
-           Some (CIOpTileProps.InputWidth (input.Convert input.Value))
+           Some (CIOpTileProps.InputWidth (FilterRangeInput.convert input))
          | Filter.InputCenter, CFI.Point input ->
-           Some (CIOpTileProps.InputCenter (input.Convert input.Value))
+           Some (CIOpTileProps.InputCenter (FilterRangeInput.convert input))
          | Filter.InputScale, CFI.Scalar input ->
-           Some (CIOpTileProps.InputScale (input.Convert input.Value))
+           Some (CIOpTileProps.InputScale (FilterRangeInput.convert input))
          | Filter.InputAngle, CFI.Scalar input ->
-           Some (CIOpTileProps.InputAngle (input.Convert input.Value))
+           Some (CIOpTileProps.InputAngle (FilterRangeInput.convert input))
          | ResizeOutput value -> Some (CIOpTileProps.ResizeOutput value)
          | _ -> None)
 
@@ -1140,6 +1163,7 @@ module CombinedFilter =
     function
     | CIMaskedVariableBlur
     | CIAdditionCompositing -> 2
+    | Color
     | CIConstantColorGenerator
     | CIRandomGenerator -> 0
     | _ -> 1
@@ -1187,6 +1211,7 @@ module CombinedFilter =
       | Achromatopsia -> Filter.controls (name Achromatopsia)
       | Achromatomaly -> Filter.controls (name Achromatomaly)
       | RoundAsCircle -> Filter.controls (name RoundAsCircle)
+      | Color -> Filter.controls (name Color)
       | IterativeBoxBlur -> Filter.controls (name IterativeBoxBlur)
       | LightingColorFilter -> Filter.controls (name LightingColorFilter)
       | CIBoxBlur -> Filter.controls (name CIBoxBlur)

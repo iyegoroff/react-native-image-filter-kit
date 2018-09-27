@@ -20,23 +20,13 @@ module Select =
     { Items: 'item array
       Title: string }
 
-  [<CustomEquality>]
-  [<NoComparison>]
   type Model<'item when 'item : equality> =
     { Sections: Section<'item> array
       SelectedItem: 'item option
-      ExtractItemKey: ('item -> string)
-      IsItemEnabled: ('item -> bool)
-      AreItemsEqual: ('item -> 'item -> bool)
+      ExtractItemKey: StructurallyNull<'item -> string>
+      IsItemEnabled: StructurallyNull<'item -> bool>
+      AreItemsEqual:  StructurallyNull<'item -> 'item -> bool>
       SearchedTerm: string }
-    override _x.GetHashCode() = 0
-    override x.Equals(yObj) =
-      match yObj with
-      | :? Model<'item> as y -> 
-        x.Sections = y.Sections &&
-        x.SelectedItem = y.SelectedItem &&
-        x.SearchedTerm = y.SearchedTerm
-      | _ -> false
 
   type private CustomSection = { title: string }
 
@@ -50,9 +40,9 @@ module Select =
   let init items selectedItem extractItemKey isItemEnabled areItemsEqual =
     { Sections = items
       SelectedItem = selectedItem
-      ExtractItemKey = extractItemKey
-      IsItemEnabled = isItemEnabled
-      AreItemsEqual = areItemsEqual
+      ExtractItemKey = { Value = extractItemKey }
+      IsItemEnabled = { Value = isItemEnabled }
+      AreItemsEqual = { Value = areItemsEqual }
       SearchedTerm = "" }
 
   let update (message: Message<'item>) (model: Model<'item>) =
@@ -158,7 +148,7 @@ module Select =
               (section
                 (Array.filter
                   (fun item ->
-                    ((model.ExtractItemKey item).ToLower ()).Contains
+                    ((model.ExtractItemKey.Value item).ToLower ()).Contains
                        (model.SearchedTerm.ToLower ()))
                   s.Items)
                 []
@@ -166,22 +156,22 @@ module Select =
 
       let renderItem item =
         touchable
-          (model.IsItemEnabled item)
+          (model.IsItemEnabled.Value item)
           (fun () -> dispatch (ItemSelected item))
           [ RN.view
               [ itemStyle ]
               [ RN.text
                   (match model.SelectedItem with
-                   | Some sel when (model.AreItemsEqual item sel) -> [ selectedStyle ]
-                   | _ -> if model.IsItemEnabled item then [] else [ disabledStyle ])
-                  (model.ExtractItemKey item) ] ]
+                   | Some sel when (model.AreItemsEqual.Value item sel) -> [ selectedStyle ]
+                   | _ -> if model.IsItemEnabled.Value item then [] else [ disabledStyle ])
+                  (model.ExtractItemKey.Value item) ] ]
 
       RNCHV.collapsibleHeaderSectionList filteredSections header 60.
         [ HeaderContainerBackgroundColor "transparent" ]
         [ RenderSectionHeader (fun info -> sectionHeader info.section)
           SectionListProperties.RenderItem (fun item -> lazyView renderItem item.item)
           SectionListProperties.ItemSeparatorComponent separator
-          SectionListProperties.KeyExtractor (fun item _ -> model.ExtractItemKey item)
+          SectionListProperties.KeyExtractor (fun item _ -> model.ExtractItemKey.Value item)
           KeyboardDismissMode "interactive"
           KeyboardShouldPersistTaps KeyboardShouldPersistTapsProperties.Handled ]
 

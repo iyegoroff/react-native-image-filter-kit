@@ -17,5 +17,19 @@ export default {
     add: color
   }),
 
-  RoundAsCircle: filter({})
+  RoundAsCircle: filter({}),
+
+  Color: generator({
+    color: color
+  }),
+
+  LinearGradient: generator({
+    x0: scalar,
+    y0: scalar,
+    x1: scalar,
+    y1: scalar,
+    colors: vector,
+    locations: vector,
+    tile: enum
+  })
 };

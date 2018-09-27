@@ -38,7 +38,7 @@ public class LightingColorFilterPostProcessor extends BasePostprocessor {
   @Override
   public CacheKey getPostprocessorCacheKey() {
     if (mCacheKey == null) {
-      final String key = String.format((Locale) null, "lcf%d%d", mMul, mAdd);
+      final String key = String.format((Locale) null, "lighting_color_filter_%d_%d", mMul, mAdd);
       mCacheKey = new SimpleCacheKey(key);
     }
     return mCacheKey;

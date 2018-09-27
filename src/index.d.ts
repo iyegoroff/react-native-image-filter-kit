@@ -118,6 +118,26 @@ export interface RoundAsCircleProps extends FilterProps { }
 export class RoundAsCircle extends React.Component<RoundAsCircleProps> { }
 
 
+export interface ColorProps extends FilterProps {
+  readonly color?: string;
+}
+
+export class Color extends React.Component<ColorProps> { }
+
+
+export interface LinearGradientProps extends FilterProps {
+  readonly x0?: number;
+  readonly y0?: number;
+  readonly x1?: number;
+  readonly y1?: number;
+  readonly colors?: ReadonlyArray<number>;
+  readonly locations?: ReadonlyArray<number>;
+  readonly tile?: 'CLAMP' | 'MIRROR' | 'REPEAT';
+}
+
+export class LinearGradient extends React.Component<LinearGradientProps> { }
+
+
 export interface CIBoxBlurProps extends ResizingFilterProps {
   readonly inputRadius?: Distance;
 }

@@ -34,10 +34,10 @@ module JSGenerator =
     | CombinedFilterInput.Boolean value -> (sprintf "%b" value.Value)
     | CombinedFilterInput.Scalar value -> (sprintf "%.2f" value.Value)
     | CombinedFilterInput.Color value -> (sprintf "'%s'" value.Value)
-    | CombinedFilterInput.Distance value -> (sprintf "'%A'" (value.Convert value.Value))
-    | CombinedFilterInput.RGBAVector value -> (sprintf "%A" (value.Convert value.Value))
-    | CombinedFilterInput.Point value -> (sprintf "%A" (value.Convert value.Value))
-    | CombinedFilterInput.Offset value -> (sprintf "%A" (value.Convert value.Value))
+    | CombinedFilterInput.Distance value -> (sprintf "'%A'" (FilterRangeInput.convert value))
+    | CombinedFilterInput.RGBAVector value -> (sprintf "%A" (FilterRangeInput.convert value))
+    | CombinedFilterInput.Point value -> (sprintf "%A" (FilterRangeInput.convert value))
+    | CombinedFilterInput.Offset value -> (sprintf "%A" (FilterRangeInput.convert value))
 
   let run (selectedFilters: (CombinedFilter.Model * Filter.Model) list): string =
     let selectedFilters =
