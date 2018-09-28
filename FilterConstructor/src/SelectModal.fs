@@ -6,23 +6,23 @@ open Fable.Helpers.ReactNative
 open Fable.Import.ReactNative
 open Fable.Import
 open Fable.Import.ReactNativeFab.Props
+open Fable.Helpers.ReactNative.Props
 
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
 module RNF = Fable.Import.ReactNativeFab
+module RNSM = Fable.Import.ReactNativeSimpleModal
 
 module SelectModal =
 
   type Model<'item when 'item : equality> =
     { Select: Select.Model<'item>
       RememberSelectedItem: bool
-      IsVisible: bool
-      MarginBottom: float }
+      IsVisible: bool }
 
   type Message<'item> =
     | Hide
     | Show
-    | AdjustMarginBottom of float
     | SelectMessage of Select.Message<'item>
 
   let init
@@ -30,8 +30,7 @@ module SelectModal =
     
     { Select = Select.init items selectedItem extractItemKey isItemEnabled areItemsEqual
       RememberSelectedItem = rememberSelectedItem
-      IsVisible = isVisible
-      MarginBottom = 0. }
+      IsVisible = isVisible }
 
   let update (message: Message<'item>) (model: Model<'item>) : Model<'item> * Cmd<Message<'item>> =
     match message with
@@ -57,21 +56,29 @@ module SelectModal =
       | _ ->
         { model with Select = select }, Cmd.map SelectMessage cmd
 
-    | AdjustMarginBottom marginBottom ->
-      { model with MarginBottom = marginBottom }, []
-
   let private containerStyle =
     ViewProperties.Style
       [ Flex 1. ]
 
   let private contentStyle =
-    FastMemoize.memoize
-      (fun marginBottom ->
-         ViewProperties.Style
-           [ Flex 1.
-             MarginBottom (dip marginBottom)
-             BackgroundColor "white" ])
-    
+    ViewProperties.Style
+      [ Flex 1.
+        BackgroundColor "white" ]
+
+  let private content (model: Model<'item>) (dispatch: Dispatch<Message<'item>>) =
+    RN.view
+      [ containerStyle ]
+      [ RN.view
+          [ contentStyle ]
+          [ Select.view model.Select (SelectMessage >> dispatch)
+            Platform.select
+              [ Platform.Ios
+                  (RNF.Fab
+                     [ IconTextComponent (RN.text [] "❌")
+                       ButtonColor "darkred"
+                       OnClickAction (fun _ -> dispatch Hide) ])
+                Platform.Android (R.fragment [] []) ] ] ]
+
   let view (model: Model<'item>) (dispatch: Dispatch<Message<'item>>) =
     RN.modal
       [ AnimationType
@@ -80,20 +87,4 @@ module SelectModal =
                Platform.Android AnimationType.Fade ])
         ModalProperties.Visible model.IsVisible
         OnRequestClose (fun () -> dispatch Hide) ]
-      [ RN.view
-          [ containerStyle
-            ViewProperties.OnLayout
-              (fun event ->
-                let marginBottom =
-                  event.nativeEvent.layout.height - (Constants.screenSize ()).height
-                dispatch (AdjustMarginBottom marginBottom)) ]
-          [ RN.view
-              [ (contentStyle model.MarginBottom) ]
-              [ Select.view model.Select (SelectMessage >> dispatch)
-                Platform.select
-                  [ Platform.Ios
-                      (RNF.Fab
-                         [ IconTextComponent (RN.text [] "❌")
-                           ButtonColor "darkred"
-                           OnClickAction (fun _ -> dispatch Hide) ])
-                    Platform.Android (R.fragment [] []) ] ] ] ]
+      [ (content model dispatch) ]

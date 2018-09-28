@@ -2,6 +2,7 @@ namespace FilterConstructor
 
 open Elmish
 open Fable.Import
+open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 
 module R = Fable.Helpers.React
@@ -27,13 +28,16 @@ module FilterArrayInput =
     | MoveInputDown of Id
     | InputMessage of Id * 'message
 
+  let private inputName name id =
+    sprintf "%s.%i" name id
+
   let init inputInit inputUpdate inputView name inputs =
     { Name = name
-      Inputs = inputs
+      Inputs = inputs |> List.mapi (fun idx input -> idx, input (inputName name idx))
       InputInit = { Value = inputInit }
       InputUpdate = { Value = inputUpdate }
       InputView = { Value = inputView }
-      NextId = 0 }
+      NextId = inputs.Length }
 
   let private updateInput model id update =
     match List.tryFind (fun (i, _) -> i = id) model.Inputs with
@@ -46,7 +50,7 @@ module FilterArrayInput =
 
     match message with
     | AddInput ->
-      let newInput = model.NextId, (model.InputInit.Value (sprintf "%s.%i" model.Name model.NextId))
+      let newInput = model.NextId, (model.InputInit.Value (inputName model.Name model.NextId))
       { model with Inputs = model.Inputs @ [ newInput ]
                    NextId = model.NextId + 1 },
       []
@@ -63,7 +67,7 @@ module FilterArrayInput =
 
     | MoveInputUp id ->
       (fun _ ->
-         { model with Inputs = Utils.moveDownAt
+         { model with Inputs = Utils.moveUpAt
                                  (List.findIndex (fun (i, _) -> i = id) model.Inputs)
                                  model.Inputs },
          []) |> updateInput model id
@@ -71,7 +75,7 @@ module FilterArrayInput =
 
     | MoveInputDown id ->
       (fun _ ->
-         { model with Inputs = Utils.moveUpAt
+         { model with Inputs = Utils.moveDownAt
                                  (List.findIndex (fun (i, _) -> i = id) model.Inputs)
                                  model.Inputs },
          []) |> updateInput model id
@@ -79,15 +83,24 @@ module FilterArrayInput =
    
   let private containerStyle =
     ViewProperties.Style
-      []
+      [ BorderWidth 1.
+        BorderRadius 3.
+        Padding (dip 3.)
+        MarginBottom (dip 3.)
+        BackgroundColor "white" ]
 
   let private inputStyle =
     ViewProperties.Style
-      []
+      [ BorderWidth 1.
+        BorderRadius 3.
+        Padding (dip 3.)
+        MarginBottom (dip 3.)
+        BackgroundColor "lightgray" ]
 
   let private inputControls =
     ViewProperties.Style
-      [ FlexDirection FlexDirection.Row ]
+      [ FlexDirection FlexDirection.Row
+        JustifyContent JustifyContent.SpaceBetween ]
 
   let view<'item, 'message when 'item : equality>
     (model: Model<'item, 'message>)
@@ -116,4 +129,9 @@ module FilterArrayInput =
 
     RN.view
       [ containerStyle ]
-      (model.Inputs |> List.map renderInput)
+      [ RN.text [] (sprintf "%s" model.Name)
+        (model.Inputs |> List.map renderInput |> R.fragment [])
+        RN.button
+          [ ButtonProperties.Title "Add Input"
+            ButtonProperties.OnPress (fun _ -> dispatch AddInput) ]
+          [] ]

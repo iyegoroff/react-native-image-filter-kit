@@ -185,6 +185,10 @@ module Main =
            (function
             | (_, CombinedFilterInput.Model.Color
                     { FilterColorInput.Model.ColorWheelRef = Some wheel }) -> wheel.measureOffset ()
+            | (_, CombinedFilterInput.Model.Array (CombinedFilterArrayInput.Model.Color array)) ->
+              array.Inputs
+              |> List.map (fun (_, color) -> color.ColorWheelRef)
+              |> List.iter (Option.fold (fun _ wheel -> wheel.measureOffset ()) ())
             | _ -> ())
       model, []
 
@@ -238,8 +242,6 @@ module Main =
     RNP.portalProvider
       [ RN.statusBar
           [ StatusBarProperties.Hidden true ]
-        RNP.exitPortal Constants.filterPortal []
-        RNP.exitPortal Constants.imagePortal []
         RN.flatList model.FilteredImages
           [ listContentStyle
             listStyle
@@ -250,6 +252,8 @@ module Main =
             OnMomentumScrollEnd (fun _ -> dispatch ContainerScrolled)
             OnScrollEndDrag (fun _ -> dispatch ContainerScrolled)
             KeyExtractor (fun (id, _) _ -> string id) ]
+        RNP.exitPortal Constants.filterPortal []
+        RNP.exitPortal Constants.imagePortal []
         ImageSelectModal.view
           model.DefaultImageSelectModal
           (DefaultImageSelectModalMessage >> dispatch)

@@ -10,6 +10,7 @@ module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
 module RNF = Fable.Import.ReactNativeImageFilterKit
 module CFI = CombinedFilterInput
+module CFAI = CombinedFilterArrayInput
 
 module CombinedFilter =
 
@@ -228,8 +229,16 @@ module CombinedFilter =
           Filter.Y0, CFI.initScalar 0. 1. 0.
           Filter.X1, CFI.initScalar 0. 1. 1.
           Filter.Y1, CFI.initScalar 0. 1. 0.
-          Filter.Colors, CFI.initColorArray "#ffffff" []
-          Filter.Locations, CFI.initScalarArray 0. 1. 0. [] ]
+          Filter.Colors,
+          CFI.initColorArray "#ffffff"
+            [ (fun name -> FilterColorInput.init name "#ff0000")
+              (fun name -> FilterColorInput.init name "#0000ff") ]
+          Filter.Locations,
+          CFI.initScalarArray 0. 1. 0.
+            [ (fun name -> FilterScalarInput.init name 0. 1. 0.)
+              (fun name -> FilterScalarInput.init name 0. 1. 1.) ]
+          Filter.Tile,
+          CFI.initEnum (sprintf "%A" CLAMP) ([ CLAMP; REPEAT; MIRROR ] |> List.map (sprintf "%A")) ]
 
     | IterativeBoxBlur ->
       Filter.init
@@ -678,6 +687,26 @@ module CombinedFilter =
         (function
          | Filter.Color, CFI.Color input ->
            Some (ColorProps.Color input.Value)
+         | _ -> None)
+
+    | LinearGradient ->
+      Filter.view
+        RNF.LinearGradient
+        (function
+         | Filter.X0, CFI.Scalar input ->
+           Some (LinearGradientProps.X0 (FilterRangeInput.convert input))
+         | Filter.Y0, CFI.Scalar input ->
+           Some (LinearGradientProps.Y0 (FilterRangeInput.convert input))
+         | Filter.X1, CFI.Scalar input ->
+           Some (LinearGradientProps.X1 (FilterRangeInput.convert input))
+         | Filter.Y1, CFI.Scalar input ->
+           Some (LinearGradientProps.Y1 (FilterRangeInput.convert input))
+         | Filter.Colors, CFI.Array (CFAI.Color input) ->
+           Some (LinearGradientProps.Colors (FilterColorArrayInput.convert input))
+         | Filter.Locations, CFI.Array (CFAI.Scalar input) ->
+           Some (LinearGradientProps.Locations (FilterScalarArrayInput.convert input))
+         | Filter.Tile, CFI.Enum input ->
+           Some (LinearGradientProps.Tile (EnumConverters.tileMode input.Value))
          | _ -> None)
 
     | IterativeBoxBlur ->
@@ -1164,6 +1193,7 @@ module CombinedFilter =
     | CIMaskedVariableBlur
     | CIAdditionCompositing -> 2
     | Color
+    | LinearGradient
     | CIConstantColorGenerator
     | CIRandomGenerator -> 0
     | _ -> 1
@@ -1212,6 +1242,7 @@ module CombinedFilter =
       | Achromatomaly -> Filter.controls (name Achromatomaly)
       | RoundAsCircle -> Filter.controls (name RoundAsCircle)
       | Color -> Filter.controls (name Color)
+      | LinearGradient -> Filter.controls (name LinearGradient)
       | IterativeBoxBlur -> Filter.controls (name IterativeBoxBlur)
       | LightingColorFilter -> Filter.controls (name LightingColorFilter)
       | CIBoxBlur -> Filter.controls (name CIBoxBlur)

@@ -34,9 +34,9 @@ public abstract class GeneratorPostProcessor extends BasePostprocessor {
       final Canvas canvas = new Canvas(destBitmap);
       Paint paint = new Paint();
 
-      canvas.drawBitmap(sourceBitmap, null, new Rect(0, 0, mWidth, mHeight), paint);
-
       processGenerated(paint, destBitmap);
+
+      canvas.drawRect(new Rect(0, 0, mWidth, mHeight), paint);
 
       return CloseableReference.cloneOrNull(bitmapRef);
     } finally {

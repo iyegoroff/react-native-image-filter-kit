@@ -24,7 +24,7 @@ public class ColorPostProcessor extends GeneratorPostProcessor {
 
   @Override
   public void processGenerated(@Nonnull Paint paint, @Nonnull Bitmap bitmap) {
-    bitmap.eraseColor(mColor);
+    paint.setColor(mColor);
   }
 
   @Nullable

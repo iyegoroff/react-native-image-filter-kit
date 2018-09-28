@@ -11,6 +11,7 @@ module FilterGroups =
     | ColorFilter
     | ColorMatrix
     | Color
+    | Shader
     | CICategoryBlur
     | CICategoryColorAdjustment
     | CICategoryColorEffect
@@ -90,76 +91,76 @@ module FilterGroups =
               CF.CINoiseReduction
               CF.CIZoomBlur |];
 
-            CICategoryColorAdjustment,
-            [| CF.CIColorClamp
-               CF.CIColorControls
-               CF.CIColorMatrix
-               CF.CIColorPolynomial
-               CF.CIExposureAdjust
-               CF.CIGammaAdjust
-               CF.CIHueAdjust
-               CF.CILinearToSRGBToneCurve
-               CF.CISRGBToneCurveToLinear
-               CF.CITemperatureAndTint
-               CF.CIToneCurve
-               CF.CIVibrance |];
+           CICategoryColorAdjustment,
+           [| CF.CIColorClamp
+              CF.CIColorControls
+              CF.CIColorMatrix
+              CF.CIColorPolynomial
+              CF.CIExposureAdjust
+              CF.CIGammaAdjust
+              CF.CIHueAdjust
+              CF.CILinearToSRGBToneCurve
+              CF.CISRGBToneCurveToLinear
+              CF.CITemperatureAndTint
+              CF.CIToneCurve
+              CF.CIVibrance |];
                 
-            CICategoryColorEffect,
-            [| CF.CIColorInvert
-               CF.CIColorMonochrome
-               CF.CIColorPosterize
-               CF.CIMaskToAlpha
-               CF.CIMaximumComponent
-               CF.CIMinimumComponent
-               CF.CIPhotoEffectChrome
-               CF.CIPhotoEffectFade
-               CF.CIPhotoEffectInstant
-               CF.CIPhotoEffectMono
-               CF.CIPhotoEffectNoir
-               CF.CIPhotoEffectProcess
-               CF.CIPhotoEffectTonal
-               CF.CIPhotoEffectTransfer
-               CF.CISepiaTone
-               CF.CIVignette
-               CF.CIVignetteEffect |];
+           CICategoryColorEffect,
+           [| CF.CIColorInvert
+              CF.CIColorMonochrome
+              CF.CIColorPosterize
+              CF.CIMaskToAlpha
+              CF.CIMaximumComponent
+              CF.CIMinimumComponent
+              CF.CIPhotoEffectChrome
+              CF.CIPhotoEffectFade
+              CF.CIPhotoEffectInstant
+              CF.CIPhotoEffectMono
+              CF.CIPhotoEffectNoir
+              CF.CIPhotoEffectProcess
+              CF.CIPhotoEffectTonal
+              CF.CIPhotoEffectTransfer
+              CF.CISepiaTone
+              CF.CIVignette
+              CF.CIVignetteEffect |];
             
-            CICategoryDistortionEffect,
-            [| CF.CIBumpDistortion
-               CF.CIBumpDistortionLinear
-               CF.CICircleSplashDistortion
-               CF.CICircularWrap
-               CF.CIVortexDistortion |];
+           CICategoryDistortionEffect,
+           [| CF.CIBumpDistortion
+              CF.CIBumpDistortionLinear
+              CF.CICircleSplashDistortion
+              CF.CICircularWrap
+              CF.CIVortexDistortion |];
             
-            CICategoryGeometryAdjustment,
-            [| |];
-            
-            CICategoryGradient,
-            [| |];
-            
-            CICategoryHalftoneEffect,
-            [| CF.CICircularScreen
-               CF.CIDotScreen
-               CF.CILineScreen |];
-               
-            CICategoryReduction,
-            [| |];
-            
-            CICategorySharpen,
-            [| CF.CISharpenLuminance
-               CF.CIUnsharpMask |];
-               
-            CICategoryStylize,
-            [| CF.CICrystallize
-               CF.CIEdges
-               CF.CILineOverlay
-               CF.CIPixellate
-               CF.CIPointillize |];
-            
-            CICategoryTileEffect,
-            [| CF.CIOpTile |];
-            
-            CICategoryTransition,
-            [| |] |] ]
+           CICategoryGeometryAdjustment,
+           [| |];
+           
+           CICategoryGradient,
+           [| |];
+           
+           CICategoryHalftoneEffect,
+           [| CF.CICircularScreen
+              CF.CIDotScreen
+              CF.CILineScreen |];
+              
+           CICategoryReduction,
+           [| |];
+           
+           CICategorySharpen,
+           [| CF.CISharpenLuminance
+              CF.CIUnsharpMask |];
+              
+           CICategoryStylize,
+           [| CF.CICrystallize
+              CF.CIEdges
+              CF.CILineOverlay
+              CF.CIPixellate
+              CF.CIPointillize |];
+           
+           CICategoryTileEffect,
+           [| CF.CIOpTile |];
+           
+           CICategoryTransition,
+           [| |] |] ]
 
   let singularFilters =
     Platform.select
@@ -180,8 +181,8 @@ module FilterGroups =
         [| CICategoryBlur,
            [| CF.CIMaskedVariableBlur |];
            
-            CICategoryCompositeOperation,
-            [| CF.CIAdditionCompositing |]; |] ]
+           CICategoryCompositeOperation,
+           [| CF.CIAdditionCompositing |]; |] ]
 
   let compositionFilters =
     Platform.select
@@ -195,7 +196,10 @@ module FilterGroups =
       [ commonGenerators
 
         [| Color,
-           [| CF.Color |] |] ]
+           [| CF.Color |]
+           
+           Shader,
+           [| CF.LinearGradient |] |] ]
 
   let private iosGenerators =
     Array.concat

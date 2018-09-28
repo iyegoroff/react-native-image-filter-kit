@@ -1,17 +1,12 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.Shader;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
-import com.facebook.common.references.CloseableReference;
-import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
-import com.facebook.imagepipeline.request.BasePostprocessor;
 
 import java.util.Arrays;
 import java.util.Locale;

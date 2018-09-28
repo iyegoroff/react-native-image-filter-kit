@@ -187,7 +187,7 @@ module Props =
     | Y0 of float
     | X1 of float
     | Y1 of float
-    | Colors of ResizeArray<float>
+    | Colors of ResizeArray<string>
     | Locations of ResizeArray<float>
     | Tile of TileMode
 

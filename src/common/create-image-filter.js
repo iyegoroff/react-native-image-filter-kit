@@ -2,13 +2,14 @@ import React from 'react';
 import Children from 'react-children-utilities';
 import { defaultStyle, checkStyle } from './style';
 import { View, processColor, Platform } from 'react-native';
-import { distance, position, scalar, vector, offset, color } from './input-types'; 
+import { distance, position, scalar, vector, offset, color, colors } from './input-types'; 
 
 const isAndroid = Platform.OS === 'android';
 const id = x => x;
 const anyToString = n => `${n}`;
 const pointToArray = p => [`${p.x}`, `${p.y}`];
-const convertColor = c => isAndroid ? processColor(c) : c
+const convertColor = c => isAndroid ? processColor(c) : c;
+const convertColors = cs => cs.map(convertColor);
 
 const hiddenImageStyle = {
   position: 'absolute',
@@ -33,6 +34,8 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
           ? anyToString
           : paramType === color
           ? convertColor
+          : paramType === colors
+          ? convertColors
           : id;
 
         acc[val] = convert(restProps[val]);

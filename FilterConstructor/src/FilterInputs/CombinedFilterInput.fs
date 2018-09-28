@@ -6,7 +6,7 @@ open Fable.Import
 
 module CombinedFilterInput =
 
-  type Shape<'scalar, 'distance, 'point, 'rgbaVector, 'boolean, 'color, 'offset, 'array> =
+  type Shape<'scalar, 'distance, 'point, 'rgbaVector, 'boolean, 'color, 'offset, 'array, 'enum> =
     | Scalar of 'scalar
     | Distance of 'distance
     | Point of 'point
@@ -15,6 +15,7 @@ module CombinedFilterInput =
     | Color of 'color
     | Offset of 'offset
     | Array of 'array
+    | Enum of 'enum
 
   type Model = Shape<FilterScalarInput.Model,
                      FilterDistanceInput.Model,
@@ -23,7 +24,8 @@ module CombinedFilterInput =
                      FilterBooleanInput.Model,
                      FilterColorInput.Model,
                      FilterOffsetInput.Model,
-                     CombinedFilterArrayInput.Model>
+                     CombinedFilterArrayInput.Model,
+                     FilterEnumInput.Model>
 
   type Message = Shape<FilterScalarInput.Message,
                        FilterDistanceInput.Message,
@@ -32,7 +34,8 @@ module CombinedFilterInput =
                        FilterBooleanInput.Message,
                        FilterColorInput.Message,
                        FilterOffsetInput.Message,
-                       CombinedFilterArrayInput.Message>
+                       CombinedFilterArrayInput.Message,
+                       FilterEnumInput.Message>
   
 
   let initScalar min max value name =
@@ -54,7 +57,7 @@ module CombinedFilterInput =
     Boolean (FilterBooleanInput.init name false)
     
   let initColor value name =
-    Color (FilterColorInput.init name value)
+    Color (FilterColorInput.init value name)
 
   let initOffset min max value name =
     Offset (FilterOffsetInput.init name min max value)
@@ -64,6 +67,9 @@ module CombinedFilterInput =
 
   let initColorArray defaultValue inputs name =
     Array (CombinedFilterArrayInput.initColor defaultValue inputs name)
+
+  let initEnum value availableValues name =
+    Enum (FilterEnumInput.init name value availableValues)
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match (model, message) with
@@ -107,6 +113,11 @@ module CombinedFilterInput =
       (Array m), Cmd.map Array cmd
     | Array _, _ -> model, []
 
+    | Enum model', Enum message' ->
+      let m, cmd = FilterEnumInput.update message' model'
+      (Enum m), Cmd.map Enum cmd
+    | Enum _, _ -> model, []
+
   let view (model: Model) (dispatch: Dispatch<Message>) : React.ReactElement =
     match model with
     | Scalar model' -> FilterScalarInput.view model' (Scalar >> dispatch)
@@ -117,3 +128,4 @@ module CombinedFilterInput =
     | Color model' -> FilterColorInput.view model' (Color >> dispatch)
     | Offset model' -> FilterOffsetInput.view model' (Offset >> dispatch)
     | Array model' -> CombinedFilterArrayInput.view model' (Array >> dispatch)
+    | Enum model' -> FilterEnumInput.view model' (Enum >> dispatch)
