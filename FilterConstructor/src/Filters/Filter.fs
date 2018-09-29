@@ -135,15 +135,17 @@ module Filter =
       [ FlexDirection FlexDirection.Row
         JustifyContent JustifyContent.SpaceBetween ]
 
+  let private iconStyle: IStyle list =
+    [ Height (pct 100.)
+      Width (dip 15.) ]
+
   let private expandIconStyle =
-    ImageProperties.Style
-      [ Height (pct 100.)
-        Width (dip 15.) ]
+    let transform: IStyle list = [ Transform [| { rotate = deg 180. } |] ]
+    let style: IStyle list = transform.Head::iconStyle
+    ImageProperties.Style style
 
   let private collapseIconStyle =
-    ImageProperties.Style
-      [ Height (pct 100.)
-        Width (dip 15.) ]
+    ImageProperties.Style iconStyle
 
   let private headerStyle =
     ViewProperties.Style
@@ -162,19 +164,24 @@ module Filter =
         (fun (input, inputModel) ->
            CombinedFilterInput.view inputModel (fun msg -> dispatch' (input, msg)))
         model.Inputs
-        
-    RN.view
-      [ controlsContainer ]
-      [ RN.touchableOpacity
+
+    let title = RN.text [ titleStyle ] name
+
+    let collapsibleTitle =
+      RN.touchableOpacity
           [ OnPress (fun _ -> dispatch ToggleInputsCollapse) ]
           [ RN.view
               [ headerStyle ]
-              [ RN.text [ titleStyle ] name
+              [ title
                 RN.image
                   [ Source (localImage "${entryDir}/../img/expand.png")
-                    expandIconStyle
+                    (if model.InputsAreCollapsed then expandIconStyle else collapseIconStyle)
                     ResizeMode ResizeMode.Contain ] ] ]
-        R.fragment [] sliders
+        
+    RN.view
+      [ controlsContainer ]
+      [ (if sliders.Length > 0 then collapsibleTitle else title)
+        R.fragment [] (if model.InputsAreCollapsed then [] else sliders)
         (if isPersistent then
            R.fragment [] []
          else
