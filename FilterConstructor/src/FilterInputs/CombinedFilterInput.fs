@@ -39,28 +39,28 @@ module CombinedFilterInput =
   
 
   let initScalar min max value name =
-    Scalar (FilterScalarInput.init name min max value)
+    Scalar (FilterScalarInput.init min max value name)
 
   let initScalarStepper min max value step name =
-    Scalar (FilterScalarInput.initStepper name min max value step)
+    Scalar (FilterScalarInput.initStepper min max value step name)
 
   let initDistance toDistance min max value name =
-    Distance (FilterDistanceInput.init name toDistance min max value)
+    Distance (FilterDistanceInput.init toDistance min max value name)
 
   let initPoint toPoint min max value name =
-    Point (FilterPointInput.init name toPoint min max value)
+    Point (FilterPointInput.init toPoint min max value name)
 
   let initRGBAVector min max value name =
-    RGBAVector (FilterRGBAVectorInput.init name min max value)
+    RGBAVector (FilterRGBAVectorInput.init min max value name)
 
   let initBoolean name =
-    Boolean (FilterBooleanInput.init name false)
+    Boolean (FilterBooleanInput.init false name)
     
   let initColor value name =
     Color (FilterColorInput.init value name)
 
   let initOffset min max value name =
-    Offset (FilterOffsetInput.init name min max value)
+    Offset (FilterOffsetInput.init min max value name)
 
   let initScalarArray defaultMin defaultMax defaultValue inputs name =
     Array (CombinedFilterArrayInput.initScalar defaultMin defaultMax defaultValue inputs name)
@@ -69,7 +69,7 @@ module CombinedFilterInput =
     Array (CombinedFilterArrayInput.initColor defaultValue inputs name)
 
   let initEnum value availableValues name =
-    Enum (FilterEnumInput.init name value availableValues)
+    Enum (FilterEnumInput.init value availableValues name)
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match (model, message) with

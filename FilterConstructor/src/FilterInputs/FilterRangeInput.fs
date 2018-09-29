@@ -22,7 +22,7 @@ module FilterRangeInput =
     | ValueChanged of 'model
     | FilterInputSliderMessage of (float -> 'model) * FilterInputSlider.Message
 
-  let init convert name min max value : Model<'a, 'b> =
+  let init convert min max value (Name name) : Model<'a, 'b> =
     Utils.invariant (value >= min && value <= max) "FilterRangeInput.init: value"
     { Name = name
       Min = min
@@ -31,8 +31,8 @@ module FilterRangeInput =
       Convert = { Value = convert }
       Step = 0. }
 
-  let initStepper convert name min max value step : Model<'a, 'b> =
-    { init convert name min max value with Step = step }
+  let initStepper convert min max value step name : Model<'a, 'b> =
+    { init convert min max value name with Step = step }
 
   let convert model =
     model.Convert.Value model.Value

@@ -12,8 +12,6 @@ module RNP = Fable.Import.ReactNativePortal
 
 module FilteredImage =
 
-  type Id = Constants.Id
-
   type FilterItem = (Id * CombinedFilter.Model * Filter.Model)
 
   type Loading =

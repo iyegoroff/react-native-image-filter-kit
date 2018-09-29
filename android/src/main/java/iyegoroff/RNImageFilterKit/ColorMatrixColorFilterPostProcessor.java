@@ -40,9 +40,11 @@ public class ColorMatrixColorFilterPostProcessor extends BasePostprocessor {
   public CacheKey getPostprocessorCacheKey() {
     if (mCacheKey == null) {
       final String key = String.format(
-              (Locale) null,
-              "color_matrix_color_filter_%s",
-              Arrays.toString(mMatrix));
+        (Locale) null,
+        "color_matrix_color_filter_%s",
+        Arrays.toString(mMatrix)
+      );
+
       mCacheKey = new SimpleCacheKey(key);
     }
     return mCacheKey;

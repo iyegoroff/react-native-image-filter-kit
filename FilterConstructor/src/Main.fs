@@ -13,8 +13,6 @@ module RNP = Fable.Import.ReactNativePortal
 
 module Main =
 
-  type Id = Constants.Id
-
   type Model =
     { FilteredImages: (Id * CombinedFilteredImage.Model) array
       CompositionFilterSelectModal: FilterSelectModal.Model
@@ -23,7 +21,7 @@ module Main =
       NextId: Id }
 
   type Message =
-    | CombinedFilteredImageMessage of Constants.Id * CombinedFilteredImage.Message
+    | CombinedFilteredImageMessage of Id * CombinedFilteredImage.Message
     | AddSingularFilteredImage
     | DefaultImageSelectModalMessage of ImageSelectModal.Message
     | CompositionFilterSelectModalMessage of FilterSelectModal.Message

@@ -18,7 +18,7 @@ module FilterBooleanInput =
   type Message =
     | ValueChanged of bool
 
-  let init name value : Model =
+  let init value (Name name) : Model =
     { Name = name
       Value = value }
 

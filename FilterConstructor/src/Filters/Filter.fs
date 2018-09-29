@@ -71,6 +71,14 @@ module Filter =
     | Colors
     | Locations
     | Tile
+    | CenterX
+    | CenterY
+    | Radius
+    | TileMode
+    | Stops
+    | Cx
+    | Cy
+    | Positions
     | ResizeOutput
 
   type Model = (Input * CombinedFilterInput.Model) list
@@ -83,7 +91,7 @@ module Filter =
 
   let init inputs : Model =
     List.map
-      (fun (input, toModel) -> input, toModel (sprintf "%A" input))
+      (fun (input, toModel) -> input, toModel (Name (sprintf "%A" input)))
       inputs
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =

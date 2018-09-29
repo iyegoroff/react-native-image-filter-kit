@@ -1,4 +1,4 @@
-import { distance, position, scalar, vector, offset, color } from '../common/input-types';
+import { distance, position, scalar, scalarVector, offset, color } from '../common/input-types';
 import { generatedImage, inputImage, inputBackgroundImage, inputMask } from '../common/image-names';
 import { filter, generator } from '../common/utils';
 
@@ -40,8 +40,8 @@ export default {
   }),
 
   CIColorClamp: filter({
-    inputMinComponents: vector,
-    inputMaxComponents: vector
+    inputMinComponents: scalarVector,
+    inputMaxComponents: scalarVector
   }),
 
   CIColorControls: filter({
@@ -51,18 +51,18 @@ export default {
   }),
 
   CIColorMatrix: filter({
-    inputRVector: vector,
-    inputGVector: vector,
-    inputBVector: vector,
-    inputAVector: vector,
-    inputBiasVector: vector
+    inputRVector: scalarVector,
+    inputGVector: scalarVector,
+    inputBVector: scalarVector,
+    inputAVector: scalarVector,
+    inputBiasVector: scalarVector
   }),
 
   CIColorPolynomial: filter({
-    inputRedCoefficients: vector,
-    inputGreenCoefficients: vector,
-    inputBlueCoefficients: vector,
-    inputAlphaCoefficients: vector
+    inputRedCoefficients: scalarVector,
+    inputGreenCoefficients: scalarVector,
+    inputBlueCoefficients: scalarVector,
+    inputAlphaCoefficients: scalarVector
   }),
 
   CIExposureAdjust: filter({

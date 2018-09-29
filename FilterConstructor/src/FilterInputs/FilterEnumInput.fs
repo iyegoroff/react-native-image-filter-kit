@@ -21,7 +21,7 @@ module FilterEnumInput =
   type Message =
     | ValueChanged of string
 
-  let init name (value: string) (availableValues: string list) =
+  let init (value: string) (availableValues: string list) (Name name) =
     { Name = name
       Value = value.Trim [| '"' |]
       AvailableValues = availableValues |> List.map (fun v -> v.Trim [| '"' |]) }

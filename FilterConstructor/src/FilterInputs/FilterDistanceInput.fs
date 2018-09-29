@@ -9,8 +9,8 @@ module FilterDistanceInput =
 
   type Message = FilterRangeInput.Message<Model>
 
-  let init name (toDistance: float -> IDistance) =
-    FilterRangeInput.init toDistance name
+  let init (toDistance: float -> IDistance) =
+    FilterRangeInput.init toDistance
 
   let private updateDistance (model: Model) distance =
     { model with Value = distance }

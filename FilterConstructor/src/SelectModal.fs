@@ -11,7 +11,6 @@ open Fable.Helpers.ReactNative.Props
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
 module RNF = Fable.Import.ReactNativeFab
-module RNSM = Fable.Import.ReactNativeSimpleModal
 
 module SelectModal =
 

@@ -1,11 +1,8 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.graphics.Color;
-import android.graphics.Shader;
-import android.util.Log;
 
 import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.common.ReactConstants;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.views.view.ReactViewManager;
@@ -18,6 +15,8 @@ public class RNImageFilterManager extends ReactViewManager {
 
   protected static final String REACT_CLASS = "RNImageFilter";
   protected static final String PROP_NAME = "name";
+  protected static final String PROP_PARAM_NAMES = "paramNames";
+  protected static final String PROP_PARAM_TYPES = "paramTypes";
   protected static final String PROP_MATRIX = "matrix";
   protected static final String PROP_RADIUS = "radius";
   protected static final String PROP_BLUR_RADIUS = "blurRadius";
@@ -32,6 +31,13 @@ public class RNImageFilterManager extends ReactViewManager {
   protected static final String PROP_COLORS = "colors";
   protected static final String PROP_LOCATIONS = "locations";
   protected static final String PROP_TILE = "tile";
+  protected static final String PROP_CENTER_X = "centerX";
+  protected static final String PROP_CENTER_Y = "centerY";
+  protected static final String PROP_STOPS = "stops";
+  protected static final String PROP_TILE_MODE = "tileMode";
+  protected static final String PROP_CX = "cx";
+  protected static final String PROP_CY = "cy";
+  protected static final String PROP_POSITIONS = "positions";
 
   @Override
   public String getName() {
@@ -43,6 +49,16 @@ public class RNImageFilterManager extends ReactViewManager {
     return new RNImageFilter(reactContext);
   }
 
+  @ReactProp(name = PROP_PARAM_NAMES)
+  public void setParamNames(RNImageFilter view, @Nullable ReadableArray paramNames) {
+    view.setParamNames(paramNames);
+  }
+
+  @ReactProp(name = PROP_PARAM_TYPES)
+  public void setParamTypes(RNImageFilter view, @Nullable ReadableArray paramTypes) {
+    view.setParamTypes(paramTypes);
+  }
+
   @ReactProp(name = PROP_NAME)
   public void setName(RNImageFilter view, @Nullable String name) {
     view.setName(name);
@@ -50,94 +66,106 @@ public class RNImageFilterManager extends ReactViewManager {
 
   @ReactProp(name = PROP_MATRIX)
   public void setMatrix(RNImageFilter view, ReadableArray matrix) {
-    float[] m = new float[matrix.size()];
-
-    for (int i = 0; i < m.length; i++) {
-      m[i] = (float) matrix.getDouble(i);
-    }
-
-    view.setMatrix(m);
+    view.setMatrix(matrix);
   }
 
   @ReactProp(name = PROP_RADIUS)
   public void setRadius(RNImageFilter view, @Nullable String radius) {
-    view.setRadius(radius == null ? 0 : Float.valueOf(radius));
+    view.setRadius(radius);
   }
 
   @ReactProp(name = PROP_BLUR_RADIUS)
   public void setBlurRadius(RNImageFilter view, @Nullable String blurRadius) {
-    view.setBlurRadius(blurRadius == null ? 1 : (int) Float.parseFloat(blurRadius));
+    view.setBlurRadius(blurRadius);
   }
 
   @ReactProp(name = PROP_ITERATIONS)
   public void setIterations(RNImageFilter view, @Nullable String iterations) {
-    view.setIterations(iterations == null ? 3 : (int) Float.parseFloat(iterations));
+    view.setIterations(iterations);
   }
 
   @ReactProp(name = PROP_MUL, defaultFloat = Color.TRANSPARENT)
   public void setMul(RNImageFilter view, float mul) {
-    view.setMul((int) mul);
+    view.setMul(mul);
   }
 
   @ReactProp(name = PROP_ADD, defaultFloat = Color.TRANSPARENT)
   public void setAdd(RNImageFilter view, float add) {
-    view.setAdd((int) add);
+    view.setAdd(add);
   }
 
   @ReactProp(name = PROP_COLOR, defaultFloat = Color.TRANSPARENT)
   public void setColor(RNImageFilter view, float color) {
-    view.setColor((int) color);
+    view.setColor(color);
   }
 
   @ReactProp(name = PROP_X0)
   public void setX0(RNImageFilter view, @Nullable String x0) {
-    view.setX0(x0 == null ? 0 : (int) Float.parseFloat(x0));
+    view.setX0(x0);
   }
 
   @ReactProp(name = PROP_Y0)
   public void setY0(RNImageFilter view, @Nullable String y0) {
-    view.setY0(y0 == null ? 0 : (int) Float.parseFloat(y0));
+    view.setY0(y0);
   }
 
   @ReactProp(name = PROP_X1)
   public void setX1(RNImageFilter view, @Nullable String x1) {
-    view.setX1(x1 == null ? 1 : (int) Float.parseFloat(x1));
+    view.setX1(x1);
   }
 
   @ReactProp(name = PROP_Y1)
   public void setY1(RNImageFilter view, @Nullable String y1) {
-    view.setY1(y1 == null ? 0 : (int) Float.parseFloat(y1));
+    view.setY1(y1);
   }
 
   @ReactProp(name = PROP_COLORS)
   public void setColors(RNImageFilter view, ReadableArray colors) {
-    int[] c = new int[colors.size()];
-
-    for (int i = 0; i < c.length; i++) {
-      c[i] = colors.getInt(i);
-    }
-
-    view.setColors(c);
+    view.setColors(colors);
   }
 
   @ReactProp(name = PROP_LOCATIONS)
   public void setLocations(RNImageFilter view, ReadableArray locations) {
-    float[] l = new float[locations.size()];
-
-    for (int i = 0; i < l.length; i++) {
-      l[i] = (float) locations.getDouble(i);
-    }
-
-    view.setLocations(l);
+    view.setLocations(locations);
   }
 
   @ReactProp(name = PROP_TILE)
   public void setTile(RNImageFilter view, @Nullable String tile) {
-    view.setTile(
-            "MIRROR".equals(tile)
-                    ? Shader.TileMode.MIRROR
-                    : "REPEAT".equals(tile)
-                    ? Shader.TileMode.REPEAT
-                    : Shader.TileMode.CLAMP);
+    view.setTileMode(tile);
+  }
+
+  @ReactProp(name = PROP_TILE_MODE)
+  public void setTileMode(RNImageFilter view, @Nullable String tileMode) {
+    view.setTileMode(tileMode);
+  }
+
+  @ReactProp(name = PROP_CENTER_X)
+  public void setCenterX(RNImageFilter view, @Nullable String centerX) {
+    view.setCenterX(centerX);
+  }
+
+  @ReactProp(name = PROP_CENTER_Y)
+  public void setCenterY(RNImageFilter view, @Nullable String centerY) {
+    view.setCenterY(centerY);
+  }
+
+  @ReactProp(name = PROP_STOPS)
+  public void setStops(RNImageFilter view, @Nullable ReadableArray stops) {
+    view.setStops(stops);
+  }
+
+  @ReactProp(name = PROP_POSITIONS)
+  public void setPositions(RNImageFilter view, @Nullable ReadableArray positions) {
+    view.setLocations(positions);
+  }
+
+  @ReactProp(name = PROP_CX)
+  public void setCx(RNImageFilter view, @Nullable String cx) {
+    view.setCenterX(cx);
+  }
+
+  @ReactProp(name = PROP_CY)
+  public void setCy(RNImageFilter view, @Nullable String cy) {
+    view.setCenterY(cy);
   }
 }

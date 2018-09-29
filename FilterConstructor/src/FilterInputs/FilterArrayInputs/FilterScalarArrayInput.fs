@@ -12,10 +12,10 @@ module FilterScalarArrayInput =
   let convert (model: Model) =
     ResizeArray (model.Inputs |> List.map (snd >> FilterRangeInput.convert))
 
-  let init name inputs defaultMin defaultMax defaultValue =
+  let init inputs defaultMin defaultMax defaultValue name =
     FilterArrayInput.init
-      (fun inputName -> FilterScalarInput.init inputName defaultMin defaultMax defaultValue)
+      (fun inputName -> FilterScalarInput.init defaultMin defaultMax defaultValue inputName)
       FilterScalarInput.update
       FilterScalarInput.view
-      name
       inputs
+      name

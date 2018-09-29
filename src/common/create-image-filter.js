@@ -2,7 +2,7 @@ import React from 'react';
 import Children from 'react-children-utilities';
 import { defaultStyle, checkStyle } from './style';
 import { View, processColor, Platform } from 'react-native';
-import { distance, position, scalar, vector, offset, color, colors } from './input-types'; 
+import { distance, position, scalar, scalarVector, offset, color, colorVector } from './input-types'; 
 
 const isAndroid = Platform.OS === 'android';
 const id = x => x;
@@ -34,7 +34,7 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
           ? anyToString
           : paramType === color
           ? convertColor
-          : paramType === colors
+          : paramType === colorVector
           ? convertColors
           : id;
 

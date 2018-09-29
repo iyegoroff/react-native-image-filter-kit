@@ -1,12 +1,14 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.graphics.Bitmap;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.Shader;
+import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
+import com.facebook.react.common.ReactConstants;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -14,43 +16,40 @@ import java.util.Locale;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class LinearGradientPostProcessor extends GeneratorPostProcessor {
+public class RadialGradientPostProcessor extends GeneratorPostProcessor {
 
   private CacheKey mCacheKey;
-  private int mX0;
-  private int mY0;
-  private int mX1;
-  private int mY1;
+  private int mCenterX;
+  private int mCenterY;
+  private int mRadius;
   private int[] mColors;
-  private float[] mLocations;
+  private float[] mStops;
   private Shader.TileMode mTileMode;
 
-  public LinearGradientPostProcessor(
+  public RadialGradientPostProcessor(
     int width,
     int height,
-    int x0,
-    int y0,
-    int x1,
-    int y1,
+    int centerX,
+    int centerY,
+    int radius,
     int[] colors,
-    float[] locations,
+    float[] stops,
     Shader.TileMode tileMode
   ) {
     super(width, height);
 
-    mX0 = x0;
-    mY0 = y0;
-    mX1 = x1;
-    mY1 = y1;
+    mCenterX = centerX;
+    mCenterY = centerY;
+    mRadius = radius;
     mColors = colors;
-    mLocations = locations;
+    mStops = stops;
     mTileMode = tileMode;
   }
 
   @Override
   public void processGenerated(@Nonnull Paint paint, @Nonnull Bitmap bitmap) {
     paint.setStyle(Paint.Style.FILL);
-    paint.setShader(new LinearGradient(mX0, mY0, mX1, mY1, mColors, mLocations, mTileMode));
+    paint.setShader(new RadialGradient(mCenterX, mCenterY, mRadius, mColors, mStops, mTileMode));
   }
 
   @Nullable
@@ -59,15 +58,14 @@ public class LinearGradientPostProcessor extends GeneratorPostProcessor {
     if (mCacheKey == null) {
       final String key = String.format(
         (Locale) null,
-        "linear_gradient_%d_%d_%d_%d_%d_%d_%s_%s_%s",
+        "radial_gradient_%d_%d_%d_%d_%d_%s_%s_%s",
         mWidth,
         mHeight,
-        mX0,
-        mY0,
-        mX1,
-        mY1,
+        mCenterX,
+        mCenterY,
+        mRadius,
         Arrays.toString(mColors),
-        Arrays.toString(mLocations),
+        Arrays.toString(mStops),
         mTileMode.toString()
       );
 

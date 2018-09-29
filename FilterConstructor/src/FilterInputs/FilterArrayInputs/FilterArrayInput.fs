@@ -11,12 +11,10 @@ module RN = Fable.Helpers.ReactNative
 
 module FilterArrayInput =
 
-  type Id = Constants.Id
-
   type Model<'item, 'message when 'item : equality> =
     { Name: string 
       Inputs: (Id * 'item) list
-      InputInit: StructurallyNull<string -> 'item>
+      InputInit: StructurallyNull<Name -> 'item>
       InputUpdate: StructurallyNull<'message -> 'item -> 'item * Cmd<'message>>
       InputView: StructurallyNull<'item -> Dispatch<'message> -> React.ReactElement>
       NextId: Id }
@@ -29,9 +27,9 @@ module FilterArrayInput =
     | InputMessage of Id * 'message
 
   let private inputName name id =
-    sprintf "%s.%i" name id
+    Name (sprintf "%s.%i" name id)
 
-  let init inputInit inputUpdate inputView name inputs =
+  let init inputInit inputUpdate inputView inputs (Name name) =
     { Name = name
       Inputs = inputs |> List.mapi (fun idx input -> idx, input (inputName name idx))
       InputInit = { Value = inputInit }
@@ -56,7 +54,7 @@ module FilterArrayInput =
       []
 
     | RemoveInput id ->
-      { model with Inputs = List.filter (fun (i, _) -> i = id) model.Inputs }, []
+      { model with Inputs = List.filter (fun (i, _) -> i <> id) model.Inputs }, []
 
     | InputMessage (id, msg) ->
       (fun input ->

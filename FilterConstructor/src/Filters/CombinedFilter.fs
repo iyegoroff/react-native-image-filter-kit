@@ -53,6 +53,8 @@ module CombinedFilter =
     | RoundAsCircle
     | Color
     | LinearGradient
+    | RadialGradient
+    | SweepGradient
     | IterativeBoxBlur
     | LightingColorFilter
     | CIBoxBlur
@@ -225,20 +227,49 @@ module CombinedFilter =
 
     | LinearGradient ->
       Filter.init
-        [ Filter.X0, CFI.initScalar 0. 1. 0. 
-          Filter.Y0, CFI.initScalar 0. 1. 0.
-          Filter.X1, CFI.initScalar 0. 1. 1.
-          Filter.Y1, CFI.initScalar 0. 1. 0.
+        [ Filter.X0, CFI.initDistance RNF.Distance.WPct 0. 100. 0. 
+          Filter.Y0, CFI.initDistance RNF.Distance.HPct 0. 100. 0.
+          Filter.X1, CFI.initDistance RNF.Distance.WPct 0. 100. 100.
+          Filter.Y1, CFI.initDistance RNF.Distance.HPct 0. 100. 0.
           Filter.Colors,
           CFI.initColorArray "#ffffff"
-            [ (fun name -> FilterColorInput.init name "#ff0000")
-              (fun name -> FilterColorInput.init name "#0000ff") ]
+            [ FilterColorInput.init "#ff0000"
+              FilterColorInput.init "#0000ff" ]
           Filter.Locations,
           CFI.initScalarArray 0. 1. 0.
-            [ (fun name -> FilterScalarInput.init name 0. 1. 0.)
-              (fun name -> FilterScalarInput.init name 0. 1. 1.) ]
+            [ FilterScalarInput.init 0. 1. 0.
+              FilterScalarInput.init 0. 1. 1. ]
           Filter.Tile,
           CFI.initEnum (sprintf "%A" CLAMP) ([ CLAMP; REPEAT; MIRROR ] |> List.map (sprintf "%A")) ]
+
+    | RadialGradient ->
+      Filter.init
+        [ Filter.CenterX, CFI.initDistance RNF.Distance.WPct 0. 100. 50. 
+          Filter.CenterY, CFI.initDistance RNF.Distance.HPct 0. 100. 50.
+          Filter.Radius, CFI.initDistance RNF.Distance.MinPct 0. 100. 50.
+          Filter.Colors,
+          CFI.initColorArray "#ffffff"
+            [ FilterColorInput.init "#ff0000"
+              FilterColorInput.init "#0000ff" ]
+          Filter.Stops,
+          CFI.initScalarArray 0. 1. 0.
+            [ FilterScalarInput.init 0. 1. 0.
+              FilterScalarInput.init 0. 1. 1. ]
+          Filter.TileMode,
+          CFI.initEnum (sprintf "%A" CLAMP) ([ CLAMP; REPEAT; MIRROR ] |> List.map (sprintf "%A")) ]
+
+    | SweepGradient ->
+      Filter.init
+        [ Filter.Cx, CFI.initDistance RNF.Distance.WPct 0. 100. 50. 
+          Filter.Cy, CFI.initDistance RNF.Distance.HPct 0. 100. 50.
+          Filter.Colors,
+          CFI.initColorArray "#ffffff"
+            [ FilterColorInput.init "#ff0000"
+              FilterColorInput.init "#0000ff" ]
+          Filter.Positions,
+          CFI.initScalarArray 0. 1. 0.
+            [ FilterScalarInput.init 0. 1. 0.
+              FilterScalarInput.init 0. 1. 1. ] ]
 
     | IterativeBoxBlur ->
       Filter.init
@@ -693,13 +724,13 @@ module CombinedFilter =
       Filter.view
         RNF.LinearGradient
         (function
-         | Filter.X0, CFI.Scalar input ->
+         | Filter.X0, CFI.Distance input ->
            Some (LinearGradientProps.X0 (FilterRangeInput.convert input))
-         | Filter.Y0, CFI.Scalar input ->
+         | Filter.Y0, CFI.Distance input ->
            Some (LinearGradientProps.Y0 (FilterRangeInput.convert input))
-         | Filter.X1, CFI.Scalar input ->
+         | Filter.X1, CFI.Distance input ->
            Some (LinearGradientProps.X1 (FilterRangeInput.convert input))
-         | Filter.Y1, CFI.Scalar input ->
+         | Filter.Y1, CFI.Distance input ->
            Some (LinearGradientProps.Y1 (FilterRangeInput.convert input))
          | Filter.Colors, CFI.Array (CFAI.Color input) ->
            Some (LinearGradientProps.Colors (FilterColorArrayInput.convert input))
@@ -707,6 +738,38 @@ module CombinedFilter =
            Some (LinearGradientProps.Locations (FilterScalarArrayInput.convert input))
          | Filter.Tile, CFI.Enum input ->
            Some (LinearGradientProps.Tile (EnumConverters.tileMode input.Value))
+         | _ -> None)
+
+    | RadialGradient ->
+      Filter.view
+        RNF.RadialGradient
+        (function
+         | Filter.CenterX, CFI.Distance input ->
+           Some (RadialGradientProps.CenterX (FilterRangeInput.convert input))
+         | Filter.CenterY, CFI.Distance input ->
+           Some (RadialGradientProps.CenterY (FilterRangeInput.convert input))
+         | Filter.Radius, CFI.Distance input ->
+           Some (RadialGradientProps.Radius (FilterRangeInput.convert input))
+         | Filter.Colors, CFI.Array (CFAI.Color input) ->
+           Some (RadialGradientProps.Colors (FilterColorArrayInput.convert input))
+         | Filter.Stops, CFI.Array (CFAI.Scalar input) ->
+           Some (RadialGradientProps.Stops (FilterScalarArrayInput.convert input))
+         | Filter.TileMode, CFI.Enum input ->
+           Some (RadialGradientProps.TileMode (EnumConverters.tileMode input.Value))
+         | _ -> None)
+
+    | SweepGradient ->
+      Filter.view
+        RNF.SweepGradient
+        (function
+         | Filter.Cx, CFI.Distance input ->
+           Some (SweepGradientProps.Cx (FilterRangeInput.convert input))
+         | Filter.Cy, CFI.Distance input ->
+           Some (SweepGradientProps.Cy (FilterRangeInput.convert input))
+         | Filter.Colors, CFI.Array (CFAI.Color input) ->
+           Some (SweepGradientProps.Colors (FilterColorArrayInput.convert input))
+         | Filter.Positions, CFI.Array (CFAI.Scalar input) ->
+           Some (SweepGradientProps.Positions (FilterScalarArrayInput.convert input))
          | _ -> None)
 
     | IterativeBoxBlur ->
@@ -1194,6 +1257,8 @@ module CombinedFilter =
     | CIAdditionCompositing -> 2
     | Color
     | LinearGradient
+    | RadialGradient
+    | SweepGradient
     | CIConstantColorGenerator
     | CIRandomGenerator -> 0
     | _ -> 1
@@ -1243,6 +1308,8 @@ module CombinedFilter =
       | RoundAsCircle -> Filter.controls (name RoundAsCircle)
       | Color -> Filter.controls (name Color)
       | LinearGradient -> Filter.controls (name LinearGradient)
+      | RadialGradient -> Filter.controls (name RadialGradient)
+      | SweepGradient -> Filter.controls (name SweepGradient)
       | IterativeBoxBlur -> Filter.controls (name IterativeBoxBlur)
       | LightingColorFilter -> Filter.controls (name LightingColorFilter)
       | CIBoxBlur -> Filter.controls (name CIBoxBlur)

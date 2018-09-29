@@ -1,10 +1,18 @@
-import { scalar, vector, offset, color, colors, enumeration } from '../common/input-types';
+import {
+  scalar,
+  scalarVector,
+  offset,
+  color,
+  colorVector,
+  enumeration,
+  distance
+} from '../common/input-types';
 import { generatedImage, inputImage, inputBackgroundImage, inputMask } from '../common/image-names';
 import { filter, generator } from '../common/utils';
 
 export default {
   ColorMatrixColorFilter: filter({
-    matrix: vector
+    matrix: scalarVector
   }),
 
   IterativeBoxBlur: filter({
@@ -24,12 +32,28 @@ export default {
   }),
 
   LinearGradient: generator({
-    x0: scalar,
-    y0: scalar,
-    x1: scalar,
-    y1: scalar,
-    colors: colors,
-    locations: vector,
+    x0: distance,
+    y0: distance,
+    x1: distance,
+    y1: distance,
+    colors: colorVector,
+    locations: scalarVector,
     tile: enumeration
+  }),
+
+  RadialGradient: generator({
+    centerX: distance,
+    centerY: distance,
+    radius: distance,
+    colors: colorVector,
+    stops: scalarVector,
+    tileMode: enumeration
+  }),
+
+  SweepGradient: generator({
+    cx: distance,
+    cy: distance,
+    colors: colorVector,
+    positions: scalarVector
   })
 };

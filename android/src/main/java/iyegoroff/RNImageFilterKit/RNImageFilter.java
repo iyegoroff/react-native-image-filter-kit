@@ -2,139 +2,26 @@ package iyegoroff.RNImageFilterKit;
 
 import android.content.Context;
 import android.graphics.Shader;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.postprocessors.RoundAsCirclePostprocessor;
 import com.facebook.imagepipeline.request.Postprocessor;
-import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.common.ReactConstants;
+import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.react.views.image.ReactImageView;
-import com.facebook.react.views.view.ReactViewGroup;
 
 import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 import javax.annotation.Nonnull;
 
-public class RNImageFilter extends ReactViewGroup {
+public class RNImageFilter extends RNImageFilterBase {
 
   private @Nullable Postprocessor mPostProcessor = null;
-  private @Nullable String mName = null;
-  private float[] mMatrix = {
-          1, 0, 0, 0, 0,
-          0, 1, 0, 0, 0,
-          0, 0, 1, 0, 0,
-          0, 0, 0, 1, 0,
-  };
-  private float mRadius = 0;
-  private int mBlurRadius = 1;
-  private int mIterations = 3;
-  private int mMul = 0;
-  private int mAdd = 0;
-  private int mColor = 0;
-  private int mX0 = 0;
-  private int mY0 = 0;
-  private int mX1 = 1;
-  private int mY1 = 0;
-  private int[] mColors = {};
-  private float[] mLocations = {};
-  private Shader.TileMode mTile = Shader.TileMode.CLAMP;
 
   public RNImageFilter(Context context) {
     super(context);
-  }
-
-  public void setMatrix(float[] matrix) {
-    mMatrix = matrix;
-
-    this.runFilterPipeline();
-  }
-
-  public void setName(String name) {
-    mName = name;
-
-    this.runFilterPipeline();
-  }
-
-  public void setRadius(float radius) {
-    mRadius = radius;
-
-    this.runFilterPipeline();
-  }
-
-  public void setBlurRadius(int blurRadius) {
-    mBlurRadius = blurRadius;
-
-    this.runFilterPipeline();
-  }
-
-  public void setIterations(int iterations) {
-    mIterations = iterations;
-
-    this.runFilterPipeline();
-  }
-
-  public void setMul(int mul) {
-    mMul = mul;
-
-    this.runFilterPipeline();
-  }
-
-  public void setAdd(int add) {
-    mAdd = add;
-
-    this.runFilterPipeline();
-  }
-
-  public void setColor(int color) {
-    mColor = color;
-
-    this.runFilterPipeline();
-  }
-
-  public void setX0(int x0) {
-    mX0 = x0;
-
-    this.runFilterPipeline();
-  }
-
-  public void setY0(int y0) {
-    mY0 = y0;
-
-    this.runFilterPipeline();
-  }
-
-  public void setX1(int x1) {
-    mX1 = x1;
-
-    this.runFilterPipeline();
-  }
-
-  public void setY1(int y1) {
-    mY1 = y1;
-
-    this.runFilterPipeline();
-  }
-
-  public void setColors(int[] colors) {
-    mColors = colors;
-
-    this.runFilterPipeline();
-  }
-
-  public void setLocations(float[] locations) {
-    mLocations = locations;
-
-    this.runFilterPipeline();
-  }
-
-  public void setTile(Shader.TileMode tile) {
-    mTile = tile;
-
-    this.runFilterPipeline();
   }
 
   @Override
@@ -144,41 +31,87 @@ public class RNImageFilter extends ReactViewGroup {
     this.runFilterPipeline();
   }
 
-  private void runFilterPipeline() {
+  protected void runFilterPipeline() {
     ReactImageView targetImage = RNImageFilter.targetImage(this.bottomFilter());
+    int boundsWidth = targetImage == null ? 0 : targetImage.getMeasuredWidth();
+    int boundsHeight = targetImage == null ? 0 : targetImage.getMeasuredHeight();
 
     if ("ColorMatrixColorFilter".equals(mName)) {
-      mPostProcessor = new ColorMatrixColorFilterPostProcessor(mMatrix);
+      float[] defaultMatrix = { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0 };
+      float[] matrix = RNPropConverter.convertScalarVector(mMatrix, defaultMatrix);
+
+      mPostProcessor = new ColorMatrixColorFilterPostProcessor(matrix);
 
     } else if ("IterativeBoxBlur".equals(mName)) {
-      mPostProcessor = new IterativeBoxBlurPostProcessor(mIterations, mBlurRadius);
+      int iterations = (int) RNPropConverter.convertScalar(mIterations, 3);
+      int blurRadius = (int) RNPropConverter.convertScalar(mBlurRadius, 1);
+
+      mPostProcessor = new IterativeBoxBlurPostProcessor(iterations, blurRadius);
 
     } else if ("RoundAsCircle".equals(mName)) {
       mPostProcessor = new RoundAsCirclePostprocessor();
 
     } else if ("LightingColorFilter".equals(mName)) {
-      mPostProcessor = new LightingColorFilterPostProcessor(mMul, mAdd);
+      int mul = RNPropConverter.convertColor(mMul);
+      int add = RNPropConverter.convertColor(mAdd);
+
+      mPostProcessor = new LightingColorFilterPostProcessor(mul, add);
 
     } else if ("Color".equals(mName)) {
       if (targetImage != null) {
-        mPostProcessor = new ColorPostProcessor(
-                targetImage.getMeasuredWidth(),
-                targetImage.getMeasuredHeight(),
-                mColor);
+        int color = RNPropConverter.convertColor(mColor);
+
+        mPostProcessor = new ColorPostProcessor(boundsWidth, boundsHeight, color);
       }
 
     } else if ("LinearGradient".equals(mName)) {
       if (targetImage != null) {
+        int[] defaultColors = {};
+        float[] defaultLocations = {};
+
         mPostProcessor = new LinearGradientPostProcessor(
-                targetImage.getMeasuredWidth(),
-                targetImage.getMeasuredHeight(),
-                mX0,
-                mY0,
-                mX1,
-                mY1,
-                mColors,
-                mLocations,
-                mTile);
+          boundsWidth,
+          boundsHeight,
+          (int) RNPropConverter.convertDistance(mX0, "0", boundsWidth, boundsHeight),
+          (int) RNPropConverter.convertDistance(mY0, "0", boundsWidth, boundsHeight),
+          (int) RNPropConverter.convertDistance(mX1, "100w", boundsWidth, boundsHeight),
+          (int) RNPropConverter.convertDistance(mY1, "0", boundsWidth, boundsHeight),
+          RNPropConverter.convertColorVector(mColors, defaultColors),
+          RNPropConverter.convertScalarVector(mLocations, defaultLocations),
+          RNPropConverter.convertEnumeration(mTileMode, Shader.TileMode.CLAMP, Shader.TileMode.class)
+        );
+      }
+
+    } else if ("RadialGradient".equals(mName)) {
+      if (targetImage != null) {
+        int[] defaultColors = {};
+        float[] defaultStops = {};
+
+        mPostProcessor = new RadialGradientPostProcessor(
+          boundsWidth,
+          boundsHeight,
+          (int) RNPropConverter.convertDistance(mCenterX, "50w", boundsWidth, boundsHeight),
+          (int) RNPropConverter.convertDistance(mCenterY, "50h", boundsWidth, boundsHeight),
+          (int) RNPropConverter.convertDistance(mRadius, "50min", boundsWidth, boundsHeight),
+          RNPropConverter.convertColorVector(mColors, defaultColors),
+          RNPropConverter.convertScalarVector(mStops, defaultStops),
+          RNPropConverter.convertEnumeration(mTileMode, Shader.TileMode.CLAMP, Shader.TileMode.class)
+        );
+      }
+
+    } else if ("SweepGradient".equals(mName)) {
+      if (targetImage != null) {
+        int[] defaultColors = {};
+        float[] defaultPositions = {};
+
+        mPostProcessor = new SweepGradientPostProcessor(
+          boundsWidth,
+          boundsHeight,
+          (int) RNPropConverter.convertDistance(mCenterX, "50w", boundsWidth, boundsHeight),
+          (int) RNPropConverter.convertDistance(mCenterY, "50h", boundsWidth, boundsHeight),
+          RNPropConverter.convertColorVector(mColors, defaultColors),
+          RNPropConverter.convertScalarVector(mLocations, defaultPositions)
+        );
       }
     }
 
@@ -216,29 +149,33 @@ public class RNImageFilter extends ReactViewGroup {
 
     if (image != null) {
       RNImageFilter.filterImage(
-              image,
-              new RNMultiPostProcessor(bottomFilter.collectPostProcessors()));
+        image,
+        new RNMultiPostProcessor(bottomFilter.collectPostProcessors())
+      );
     }
   }
 
   private static void filterImage(
-          ReactImageView image,
-          IterativeBoxBlurPostProcessor postProcessor
+    ReactImageView image,
+    IterativeBoxBlurPostProcessor postProcessor
   ) {
     if (postProcessor != null) {
       IterativeBoxBlurPostProcessor processor = RNReflectUtils.getFieldValue(
-              ReactImageView.class,
-              image,
-              "mIterativeBoxBlurPostProcessor");
+        ReactImageView.class,
+        image,
+        "mIterativeBoxBlurPostProcessor"
+      );
 
-      if (processor == null ||
-              processor.getPostprocessorCacheKey() != postProcessor.getPostprocessorCacheKey()) {
+      if (processor == null
+        || processor.getPostprocessorCacheKey() != postProcessor.getPostprocessorCacheKey()
+      ) {
 
         RNReflectUtils.setFieldValue(
-                ReactImageView.class,
-                image,
-                "mIterativeBoxBlurPostProcessor",
-                postProcessor);
+          ReactImageView.class,
+          image,
+          "mIterativeBoxBlurPostProcessor",
+          postProcessor
+        );
 
         RNReflectUtils.setFieldValue(ReactImageView.class, image, "mIsDirty", true);
 
@@ -255,8 +192,8 @@ public class RNImageFilter extends ReactViewGroup {
     ViewParent parent = this.getParent();
 
     return parent instanceof RNImageFilter
-            ? ((RNImageFilter) parent).collectPostProcessors(list)
-            : list;
+      ? ((RNImageFilter) parent).collectPostProcessors(list)
+      : list;
   }
 
   private ArrayList<Postprocessor> collectPostProcessors() {

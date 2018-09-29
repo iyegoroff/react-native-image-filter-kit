@@ -23,7 +23,7 @@ module FilterColorInput =
     | ValueChanged of string
     | ColorWheelRefChanged of ColorWheel
 
-  let init name value : Model =
+  let init value (Name name) : Model =
     { Name = name
       Value = value
       ColorWheelRef = None }

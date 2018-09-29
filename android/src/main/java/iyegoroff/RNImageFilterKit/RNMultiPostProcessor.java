@@ -44,7 +44,10 @@ public class RNMultiPostProcessor extends IterativeBoxBlurPostProcessor {
   }
 
   @Override
-  public CloseableReference<Bitmap> process(Bitmap sourceBitmap, PlatformBitmapFactory bitmapFactory) {
+  public CloseableReference<Bitmap> process(
+    Bitmap sourceBitmap,
+    PlatformBitmapFactory bitmapFactory
+  ) {
     CloseableReference<Bitmap> prevBitmap = null, nextBitmap = null;
 
     try {

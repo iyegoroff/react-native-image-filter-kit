@@ -183,13 +183,29 @@ module Props =
 
   type LinearGradientProps =
     | Style of IStyle list
-    | X0 of float
-    | Y0 of float
-    | X1 of float
-    | Y1 of float
+    | X0 of IDistance
+    | Y0 of IDistance
+    | X1 of IDistance
+    | Y1 of IDistance
     | Colors of ResizeArray<string>
     | Locations of ResizeArray<float>
     | Tile of TileMode
+
+  type RadialGradientProps =
+    | Style of IStyle list
+    | CenterX of IDistance
+    | CenterY of IDistance
+    | Radius of IDistance
+    | Colors of ResizeArray<string>
+    | Stops of ResizeArray<float>
+    | TileMode of TileMode
+
+  type SweepGradientProps =
+    | Style of IStyle list
+    | Cx of IDistance
+    | Cy of IDistance
+    | Colors of ResizeArray<string>
+    | Positions of ResizeArray<float>
 
   type CIBoxBlurProps =
     | Style of IStyle list
@@ -659,6 +675,12 @@ let inline Color (props: ColorProps list) (children: React.ReactElement list): R
 
 let inline LinearGradient (props: LinearGradientProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "LinearGradient" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline RadialGradient (props: RadialGradientProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "RadialGradient" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline SweepGradient (props: SweepGradientProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "SweepGradient" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIBoxBlur (props: CIBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIBoxBlur" "react-native-image-filter-kit" (propsToObj props) children

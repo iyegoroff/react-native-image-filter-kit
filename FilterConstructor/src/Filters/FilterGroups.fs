@@ -199,7 +199,9 @@ module FilterGroups =
            [| CF.Color |]
            
            Shader,
-           [| CF.LinearGradient |] |] ]
+           [| CF.LinearGradient
+              CF.RadialGradient
+              CF.SweepGradient |] |] ]
 
   let private iosGenerators =
     Array.concat

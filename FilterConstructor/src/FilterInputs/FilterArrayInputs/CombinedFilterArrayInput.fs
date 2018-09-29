@@ -18,10 +18,10 @@ module CombinedFilterArrayInput =
   
 
   let initScalar defaultMin defaultMax defaultValue inputs name =
-    Scalar (FilterScalarArrayInput.init name inputs defaultMin defaultMax defaultValue)
+    Scalar (FilterScalarArrayInput.init inputs defaultMin defaultMax defaultValue name)
   
   let initColor defaultValue inputs name =
-    Color (FilterColorArrayInput.init name inputs defaultValue)
+    Color (FilterColorArrayInput.init inputs defaultValue name)
 
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =

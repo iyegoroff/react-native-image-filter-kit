@@ -86,7 +86,7 @@
       } else if ([@"position" isEqualToString:input.second]) {
         convertedInput = [RNFilterPostProcessor convertPosition:input.first bounds:bounds];
         
-      } else if ([@"vector" isEqualToString:input.second]) {
+      } else if ([@"scalarVector" isEqualToString:input.second]) {
         convertedInput = [RNFilterPostProcessor convertVector:input.first];
         
       } else if ([@"offset" isEqualToString:input.second]) {

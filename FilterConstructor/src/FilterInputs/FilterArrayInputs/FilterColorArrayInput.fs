@@ -10,10 +10,10 @@ module FilterColorArrayInput =
   let convert (model: Model) =
     ResizeArray (model.Inputs |> List.map (fun (_, color) -> color.Value))
 
-  let init name inputs defaultValue =
+  let init inputs defaultValue name =
     FilterArrayInput.init
-      (fun inputName -> FilterColorInput.init inputName defaultValue)
+      (fun inputName -> FilterColorInput.init defaultValue inputName)
       FilterColorInput.update
       FilterColorInput.view
-      name
       inputs
+      name

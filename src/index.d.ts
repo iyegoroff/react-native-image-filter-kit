@@ -30,6 +30,8 @@ export type Matrix = [
   number, number, number, number, number, number, number, number, number, number
 ];
 
+export type TileMode = 'CLAMP' | 'MIRROR' | 'REPEAT';
+
 export interface ValueFilterProps extends FilterProps {
   readonly value?: number;
 }
@@ -126,16 +128,38 @@ export class Color extends React.Component<ColorProps> { }
 
 
 export interface LinearGradientProps extends FilterProps {
-  readonly x0?: number;
-  readonly y0?: number;
-  readonly x1?: number;
-  readonly y1?: number;
-  readonly colors?: ReadonlyArray<number>;
+  readonly x0?: string;
+  readonly y0?: string;
+  readonly x1?: string;
+  readonly y1?: string;
+  readonly colors?: ReadonlyArray<string>;
   readonly locations?: ReadonlyArray<number>;
-  readonly tile?: 'CLAMP' | 'MIRROR' | 'REPEAT';
+  readonly tile?: TileMode;
 }
 
 export class LinearGradient extends React.Component<LinearGradientProps> { }
+
+
+export interface RadialGradientProps extends FilterProps {
+  readonly centerX?: string;
+  readonly centerY?: string;
+  readonly radius?: string;
+  readonly colors?: ReadonlyArray<string>;
+  readonly stops?: ReadonlyArray<number>;
+  readonly tileMode?: TileMode;
+}
+
+export class RadialGradient extends React.Component<RadialGradientProps> { }
+
+
+export interface SweepGradientProps extends FilterProps {
+  readonly cx?: string;
+  readonly cy?: string;
+  readonly colors?: ReadonlyArray<string>;
+  readonly positions?: ReadonlyArray<number>;
+}
+
+export class SweepGradient extends React.Component<SweepGradientProps> { }
 
 
 export interface CIBoxBlurProps extends ResizingFilterProps {

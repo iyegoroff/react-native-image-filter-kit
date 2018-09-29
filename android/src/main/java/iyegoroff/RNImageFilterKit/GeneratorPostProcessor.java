@@ -25,8 +25,9 @@ public abstract class GeneratorPostProcessor extends BasePostprocessor {
 
   @Override
   public CloseableReference<Bitmap> process(
-          Bitmap sourceBitmap,
-          PlatformBitmapFactory bitmapFactory) {
+    Bitmap sourceBitmap,
+    PlatformBitmapFactory bitmapFactory
+  ) {
     final CloseableReference<Bitmap> bitmapRef = bitmapFactory.createBitmap(mWidth, mHeight);
 
     try {
