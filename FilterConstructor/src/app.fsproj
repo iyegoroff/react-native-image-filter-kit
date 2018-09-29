@@ -5,6 +5,7 @@
   <ItemGroup>
     <Compile Include="Fable.Import.ReactNative.fs" />
     <Compile Include="Fable.Helpers.ReactNative.fs" />
+    <Compile Include="Fable.Import.ReactNativeCollapsible.fs" />
     <Compile Include="Fable.Import.ReactNativeImageFilterKit.fs" />
     <Compile Include="StructurallyNull.fs" />
     <Compile Include="Types.fs" />

@@ -25,6 +25,7 @@
     "jsc-android": "^224109.1.0",
     "react": "^16.5.1",
     "react-native": "^0.57.0",
+    "react-native-collapsible": "^1.0.1",
     "react-native-collapsible-header-views": "0.0.10",
     "react-native-color-wheel": "^0.1.5",
     "react-native-fab": "^1.0.7",

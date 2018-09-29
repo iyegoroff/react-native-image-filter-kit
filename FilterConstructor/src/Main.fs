@@ -178,7 +178,7 @@ module Main =
       model.FilteredImages
       |> Array.toList
       |> List.collect (fun (_, image) -> CombinedFilteredImage.filters image)
-      |> List.collect (fun (_, _, filter) -> filter)
+      |> List.collect (fun (_, _, filter) -> filter.Inputs)
       |> List.iter
            (function
             | (_, CombinedFilterInput.Model.Color

@@ -3,11 +3,14 @@ namespace FilterConstructor
 open Elmish
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
+open Fable.Import
+open Fable.Import.ReactNative
+open Fable.Helpers.ReactNative.Props
+open Fable.Import.ReactNative
 
 module R = Fable.Helpers.React
 module RN = Fable.Helpers.ReactNative
 module RNF = Fable.Import.ReactNativeImageFilterKit
-
 
 module Filter =
 
@@ -81,32 +84,39 @@ module Filter =
     | Positions
     | ResizeOutput
 
-  type Model = (Input * CombinedFilterInput.Model) list
+  type Model =
+    { Inputs: (Input * CombinedFilterInput.Model) list
+      InputsAreCollapsed: bool }
 
   type Message =
     | FilterInputMessage of Input * CombinedFilterInput.Message
     | MoveUp
     | MoveDown
     | Delete
+    | ToggleInputsCollapse
 
   let init inputs : Model =
-    List.map
-      (fun (input, toModel) -> input, toModel (Name (sprintf "%A" input)))
-      inputs
+    { Inputs = List.map (fun (input, toModel) -> input, toModel (Name (sprintf "%A" input))) inputs
+      InputsAreCollapsed = false }
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match message with
     | FilterInputMessage (input, msg) ->
-      match List.tryFind (fun (id, _) -> input = id) model with
+      match List.tryFind (fun (id, _) -> input = id) model.Inputs with
       | Some (_, inputModel) ->
         let inputModel', cmd = CombinedFilterInput.update msg inputModel
-        List.map (fun (id, m) -> id, if input = id then inputModel' else m) model,
+        { model with Inputs = List.map
+                                (fun (id, m) -> id, if input = id then inputModel' else m)
+                                model.Inputs },
         Cmd.map (fun sub -> FilterInputMessage (input, sub)) cmd
       | None -> model, []
 
     | MoveUp
     | MoveDown
     | Delete -> model, []
+
+    | ToggleInputsCollapse ->
+      { model with InputsAreCollapsed = not model.InputsAreCollapsed }, []
 
   let private controlsContainer =
     ViewProperties.Style
@@ -125,9 +135,24 @@ module Filter =
       [ FlexDirection FlexDirection.Row
         JustifyContent JustifyContent.SpaceBetween ]
 
+  let private expandIconStyle =
+    ImageProperties.Style
+      [ Height (pct 100.)
+        Width (dip 15.) ]
+
+  let private collapseIconStyle =
+    ImageProperties.Style
+      [ Height (pct 100.)
+        Width (dip 15.) ]
+
+  let private headerStyle =
+    ViewProperties.Style
+      [ FlexDirection FlexDirection.Row
+        JustifyContent JustifyContent.SpaceBetween ]
+
   let view filterComponent mapInput (model: Model) content =
     filterComponent
-      (model |> List.map mapInput |> List.choose id)
+      (model.Inputs |> List.map mapInput |> List.choose id)
       [ content ]
 
   let controls name isPersistent (model: Model) (dispatch: Dispatch<Message>) =
@@ -136,11 +161,19 @@ module Filter =
       List.map
         (fun (input, inputModel) ->
            CombinedFilterInput.view inputModel (fun msg -> dispatch' (input, msg)))
-        model
+        model.Inputs
         
     RN.view
       [ controlsContainer ]
-      [ RN.text [ titleStyle ] name
+      [ RN.touchableOpacity
+          [ OnPress (fun _ -> dispatch ToggleInputsCollapse) ]
+          [ RN.view
+              [ headerStyle ]
+              [ RN.text [ titleStyle ] name
+                RN.image
+                  [ Source (localImage "${entryDir}/../img/expand.png")
+                    expandIconStyle
+                    ResizeMode ResizeMode.Contain ] ] ]
         R.fragment [] sliders
         (if isPersistent then
            R.fragment [] []
