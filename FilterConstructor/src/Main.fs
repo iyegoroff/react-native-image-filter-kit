@@ -54,6 +54,7 @@ module Main =
 
     | CompositionFilterSelectModalMessage msg ->      
       let filterSelectModal, cmd = FilterSelectModal.update msg model.CompositionFilterSelectModal
+      let cmd' = Cmd.map CompositionFilterSelectModalMessage cmd
 
       match msg with
       | SelectModal.SelectMessage (Select.ItemSelected filter) ->
@@ -85,13 +86,13 @@ module Main =
                       (id, image))
              
           { model with FilteredImages = filteredImages
-                       NextId = model.NextId + 1 }, []
+                       NextId = model.NextId + 1 },
+          cmd'
         else
-          model, []
+          model, cmd'
 
       | _ ->
-        { model with CompositionFilterSelectModal = filterSelectModal },
-        Cmd.map CompositionFilterSelectModalMessage cmd
+        { model with CompositionFilterSelectModal = filterSelectModal }, cmd'
 
     | DefaultImageSelectModalMessage msg ->
       match msg with

@@ -61,8 +61,12 @@ module Props =
   type InvertProps =
     | Style of IStyle list
 
+  type BlackAndWhiteProps =
+    | Style of IStyle list
+
   type GrayscaleProps =
     | Style of IStyle list
+    | Value of float
 
   type SepiaProps =
     | Style of IStyle list
@@ -135,6 +139,11 @@ module Props =
     | Toned of float
     | DarkColor of string
     | LightColor of string
+
+  type DuoToneProps =
+    | Style of IStyle list
+    | FirstColor of string
+    | SecondColor of string
 
   type ProtanomalyProps =
     | Style of IStyle list
@@ -359,6 +368,9 @@ module Props =
   type CIAdditionCompositingProps =
     | Style of IStyle list
 
+  type CILightenBlendModeProps =
+    | Style of IStyle list
+
   type CIColorInvertProps =
     | Style of IStyle list
 
@@ -517,7 +529,8 @@ let saturate (_v: float): Matrix = importMember "react-native-image-filter-kit"
 let hueRotate (_v: float): Matrix = importMember "react-native-image-filter-kit"
 let luminanceToAlpha (): Matrix = importMember "react-native-image-filter-kit"
 let invert (): Matrix = importMember "react-native-image-filter-kit"
-let grayscale (): Matrix = importMember "react-native-image-filter-kit"
+let blackAndWhite (): Matrix = importMember "react-native-image-filter-kit"
+let grayscale (_v: float): Matrix = importMember "react-native-image-filter-kit"
 let sepia (): Matrix = importMember "react-native-image-filter-kit"
 let nightvision (): Matrix = importMember "react-native-image-filter-kit"
 let warm (): Matrix = importMember "react-native-image-filter-kit"
@@ -538,6 +551,8 @@ let night (_v: float): Matrix = importMember "react-native-image-filter-kit"
 let predator (_v: float): Matrix = importMember "react-native-image-filter-kit"
 let lsd (): Matrix = importMember "react-native-image-filter-kit"
 let colorTone (_desaturation: float) (_toned: float) (_lightColor: string) (_darkColor: string): Matrix =
+  importMember "react-native-image-filter-kit"
+let duoTone (_firstColor: string) (_secondColor: string): Matrix =
   importMember "react-native-image-filter-kit"
 let protanomaly (): Matrix = importMember "react-native-image-filter-kit"
 let deuteranomaly (): Matrix = importMember "react-native-image-filter-kit"
@@ -570,6 +585,9 @@ let inline LuminanceToAlpha (props: LuminanceToAlphaProps list) (children: React
 
 let inline Invert (props: InvertProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "Invert" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline BlackAndWhite (props: BlackAndWhiteProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "BlackAndWhite" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline Grayscale (props: GrayscaleProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "Grayscale" "react-native-image-filter-kit" (propsToObj props) children
@@ -633,6 +651,9 @@ let inline Lsd (props: LsdProps list) (children: React.ReactElement list): React
 
 let inline ColorTone (props: ColorToneProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "ColorTone" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline DuoTone (props: DuoToneProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "DuoTone" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline Protanomaly (props: ProtanomalyProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "Protanomaly" "react-native-image-filter-kit" (propsToObj props) children
@@ -786,6 +807,9 @@ let inline CIVignetteEffect (props: CIVignetteEffectProps list) (children: React
 
 let inline CIAdditionCompositing (props: CIAdditionCompositingProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIAdditionCompositing" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CILightenBlendMode (props: CILightenBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CILightenBlendMode" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIColorInvert (props: CIColorInvertProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorInvert" "react-native-image-filter-kit" (propsToObj props) children

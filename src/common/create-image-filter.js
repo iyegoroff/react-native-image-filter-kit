@@ -11,6 +11,15 @@ const pointToArray = p => [`${p.x}`, `${p.y}`];
 const convertColor = c => isAndroid ? processColor(c) : c;
 const convertColors = cs => cs.map(convertColor);
 
+const paramConvertMap = {
+  [position]: pointToArray,
+  [offset]: pointToArray,
+  [distance]: anyToString,
+  [scalar]: anyToString,
+  [color]: convertColor,
+  [colorVector]: convertColors
+};
+
 const hiddenImageStyle = {
   position: 'absolute',
   opacity: 0,
@@ -18,6 +27,14 @@ const hiddenImageStyle = {
 };
 
 const mapHiddenImageStyle = style => style ? [style, hiddenImageStyle] : hiddenImageStyle;
+
+const isImage = (element) => (
+  element &&
+  element.type &&
+  typeof element.type.getSize === 'function' &&
+  typeof element.type.prefetch === 'function' &&
+  typeof element.type.resolveAssetSource === 'function'
+);
 
 const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) => {
   checkStyle(style);
@@ -28,15 +45,7 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
     restProps.paramNames.reduce(
       (acc, val, idx) => {
         const paramType = restProps.paramTypes[idx];
-        const convert = paramType === position || paramType === offset
-          ? pointToArray
-          : paramType === distance || paramType === scalar
-          ? anyToString
-          : paramType === color
-          ? convertColor
-          : paramType === colorVector
-          ? convertColors
-          : id;
+        const convert = paramConvertMap[paramType] || id;
 
         acc[val] = convert(restProps[val]);
 
@@ -54,7 +63,7 @@ const createImageFilter = (ImageFilter) => ({ style, children, ...restProps }) =
       {...props}
     >
       {Children.deepMap(children, (child) => {
-        if (child && child.type && child.type.displayName === "Image") {
+        if (isImage(child)) {
           if (keepImage) {
             keepImage = false;
             return child;

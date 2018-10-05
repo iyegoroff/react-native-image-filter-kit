@@ -166,7 +166,11 @@ export default {
   // CIExclusionBlendMode,
   // CIHardLightBlendMode,
   // CIHueBlendMode,
-  // CILightenBlendMode,
+  CILightenBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+  
   // CILinearBurnBlendMode,
   // CILinearDodgeBlendMode,
   // CILuminosityBlendMode,

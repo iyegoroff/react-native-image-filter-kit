@@ -82,6 +82,8 @@ module Filter =
     | Cx
     | Cy
     | Positions
+    | FirstColor
+    | SecondColor
     | ResizeOutput
 
   type Model =

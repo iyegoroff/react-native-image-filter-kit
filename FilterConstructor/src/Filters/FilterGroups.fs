@@ -38,6 +38,7 @@ module FilterGroups =
           CF.HueRotate
           CF.LuminanceToAlpha
           CF.Invert
+          CF.BlackAndWhite
           CF.Grayscale
           CF.Sepia
           CF.Nightvision
@@ -59,6 +60,7 @@ module FilterGroups =
           CF.Predator
           CF.Lsd
           CF.ColorTone
+          CF.DuoTone
           CF.Protanomaly
           CF.Deuteranomaly
           CF.Tritanomaly
@@ -182,7 +184,8 @@ module FilterGroups =
            [| CF.CIMaskedVariableBlur |];
            
            CICategoryCompositeOperation,
-           [| CF.CIAdditionCompositing |]; |] ]
+           [| CF.CIAdditionCompositing
+              CF.CILightenBlendMode |]; |] ]
 
   let compositionFilters =
     Platform.select
