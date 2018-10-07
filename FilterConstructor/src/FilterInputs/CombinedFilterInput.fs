@@ -25,7 +25,7 @@ module CombinedFilterInput =
                      FilterColorInput.Model,
                      FilterOffsetInput.Model,
                      CombinedFilterArrayInput.Model,
-                     FilterEnumInput.Model>
+                     CombinedFilterEnumInput.Model>
 
   type Message = Shape<FilterScalarInput.Message,
                        FilterDistanceInput.Message,
@@ -35,7 +35,7 @@ module CombinedFilterInput =
                        FilterColorInput.Message,
                        FilterOffsetInput.Message,
                        CombinedFilterArrayInput.Message,
-                       FilterEnumInput.Message>
+                       CombinedFilterEnumInput.Message>
   
 
   let initScalar min max value name =
@@ -68,8 +68,11 @@ module CombinedFilterInput =
   let initColorArray defaultValue inputs name =
     Array (CombinedFilterArrayInput.initColor defaultValue inputs name)
 
-  let initEnum value availableValues name =
-    Enum (FilterEnumInput.init value availableValues name)
+  let initTileModeEnum value name =
+    Enum (CombinedFilterEnumInput.initTileMode value name)
+
+  let initPorterDuffModeEnum value name =
+    Enum (CombinedFilterEnumInput.initPorterDuffMode value name)
 
   let update (message: Message) (model: Model) : Model * Sub<Message> list =
     match (model, message) with
@@ -114,7 +117,7 @@ module CombinedFilterInput =
     | Array _, _ -> model, []
 
     | Enum model', Enum message' ->
-      let m, cmd = FilterEnumInput.update message' model'
+      let m, cmd = CombinedFilterEnumInput.update message' model'
       (Enum m), Cmd.map Enum cmd
     | Enum _, _ -> model, []
 
@@ -128,4 +131,4 @@ module CombinedFilterInput =
     | Color model' -> FilterColorInput.view model' (Color >> dispatch)
     | Offset model' -> FilterOffsetInput.view model' (Offset >> dispatch)
     | Array model' -> CombinedFilterArrayInput.view model' (Array >> dispatch)
-    | Enum model' -> FilterEnumInput.view model' (Enum >> dispatch)
+    | Enum model' -> CombinedFilterEnumInput.view model' (Enum >> dispatch)

@@ -11,6 +11,7 @@ module RN = Fable.Helpers.ReactNative
 module RNF = Fable.Import.ReactNativeImageFilterKit
 module CFI = CombinedFilterInput
 module CFAI = CombinedFilterArrayInput
+module CFEI = CombinedFilterEnumInput
 
 module CombinedFilter =
 
@@ -57,6 +58,7 @@ module CombinedFilter =
     | LinearGradient
     | RadialGradient
     | SweepGradient
+    | PorterDuffColorFilter
     | IterativeBoxBlur
     | LightingColorFilter
     | CIBoxBlur
@@ -94,7 +96,17 @@ module CombinedFilter =
     | CIVignette
     | CIVignetteEffect
     | CIAdditionCompositing
+    | CIColorBlendMode
+    | CIColorBurnBlendMode
+    | CIColorDodgeBlendMode
+    | CIDarkenBlendMode
+    | CIExclusionBlendMode
+    | CIHueBlendMode
     | CILightenBlendMode
+    | CIMultiplyBlendMode
+    | CIOverlayBlendMode
+    | CIScreenBlendMode
+    | CISoftLightBlendMode
     | CIColorInvert
     | CIColorMonochrome
     | CIColorPosterize
@@ -108,6 +120,8 @@ module CombinedFilter =
     | CIVortexDistortion
     | CIConstantColorGenerator
     | CIRandomGenerator
+    | CILinearGradient
+    | CIRadialGradient
     | CISharpenLuminance
     | CIUnsharpMask
     | CICrystallize
@@ -251,8 +265,7 @@ module CombinedFilter =
           CFI.initScalarArray 0. 1. 0.
             [ FilterScalarInput.init 0. 1. 0.
               FilterScalarInput.init 0. 1. 1. ]
-          Filter.Tile,
-          CFI.initEnum (sprintf "%A" CLAMP) ([ CLAMP; REPEAT; MIRROR ] |> List.map (sprintf "%A")) ]
+          Filter.Tile, CFI.initTileModeEnum TileMode.CLAMP ]
 
     | RadialGradient ->
       Filter.init
@@ -267,8 +280,7 @@ module CombinedFilter =
           CFI.initScalarArray 0. 1. 0.
             [ FilterScalarInput.init 0. 1. 0.
               FilterScalarInput.init 0. 1. 1. ]
-          Filter.TileMode,
-          CFI.initEnum (sprintf "%A" CLAMP) ([ CLAMP; REPEAT; MIRROR ] |> List.map (sprintf "%A")) ]
+          Filter.TileMode, CFI.initTileModeEnum TileMode.CLAMP ]
 
     | SweepGradient ->
       Filter.init
@@ -282,6 +294,11 @@ module CombinedFilter =
           CFI.initScalarArray 0. 1. 0.
             [ FilterScalarInput.init 0. 1. 0.
               FilterScalarInput.init 0. 1. 1. ] ]
+
+    | PorterDuffColorFilter ->
+      Filter.init
+        [ Filter.Color, CFI.initColor "#ff0000"
+          Filter.Mode, CFI.initPorterDuffModeEnum PorterDuffMode.ADD ]
 
     | IterativeBoxBlur ->
       Filter.init
@@ -437,7 +454,27 @@ module CombinedFilter =
 
     | CIAdditionCompositing -> Filter.init []
 
+    | CIColorBlendMode -> Filter.init []
+
+    | CIColorBurnBlendMode -> Filter.init []
+
+    | CIColorDodgeBlendMode -> Filter.init []
+
+    | CIDarkenBlendMode -> Filter.init []
+
+    | CIExclusionBlendMode -> Filter.init []
+
+    | CIHueBlendMode -> Filter.init []
+
     | CILightenBlendMode -> Filter.init []
+
+    | CIMultiplyBlendMode -> Filter.init []
+
+    | CIOverlayBlendMode -> Filter.init []
+
+    | CIScreenBlendMode -> Filter.init []
+
+    | CISoftLightBlendMode -> Filter.init []
 
     | CIColorInvert -> Filter.init []
 
@@ -512,6 +549,21 @@ module CombinedFilter =
         [ Filter.InputColor, CFI.initColor "#ffffff" ]
 
     | CIRandomGenerator -> Filter.init []
+
+    | CILinearGradient ->
+      Filter.init
+        [ Filter.InputPoint0, CFI.initPoint toPoint (0., 0.) (100., 100.) (0., 0.)
+          Filter.InputPoint1, CFI.initPoint toPoint (0., 0.) (100., 100.) (100., 100.)
+          Filter.InputColor0, CFI.initColor "#ff0000"
+          Filter.InputColor1, CFI.initColor "#00ff00" ]
+
+    | CIRadialGradient ->
+      Filter.init
+        [ Filter.InputCenter, CFI.initPoint toPoint (0., 0.) (100., 100.) (50., 50.)
+          Filter.InputRadius0, CFI.initDistance RNF.Distance.MaxPct  0. 100. 33.
+          Filter.InputRadius1, CFI.initDistance RNF.Distance.MaxPct  0. 100. 66.
+          Filter.InputColor0, CFI.initColor "#ff0000"
+          Filter.InputColor1, CFI.initColor "#00ff00" ]
 
     | CISharpenLuminance ->
       Filter.init
@@ -768,8 +820,8 @@ module CombinedFilter =
            Some (LinearGradientProps.Colors (FilterColorArrayInput.convert input))
          | Filter.Locations, CFI.Array (CFAI.Scalar input) ->
            Some (LinearGradientProps.Locations (FilterScalarArrayInput.convert input))
-         | Filter.Tile, CFI.Enum input ->
-           Some (LinearGradientProps.Tile (EnumConverters.tileMode input.Value))
+         | Filter.Tile, CFI.Enum (CFEI.TileMode input) ->
+           Some (LinearGradientProps.Tile input.Value)
          | _ -> None)
 
     | RadialGradient ->
@@ -786,8 +838,8 @@ module CombinedFilter =
            Some (RadialGradientProps.Colors (FilterColorArrayInput.convert input))
          | Filter.Stops, CFI.Array (CFAI.Scalar input) ->
            Some (RadialGradientProps.Stops (FilterScalarArrayInput.convert input))
-         | Filter.TileMode, CFI.Enum input ->
-           Some (RadialGradientProps.TileMode (EnumConverters.tileMode input.Value))
+         | Filter.TileMode, CFI.Enum (CFEI.TileMode input) ->
+           Some (RadialGradientProps.TileMode input.Value)
          | _ -> None)
 
     | SweepGradient ->
@@ -802,6 +854,16 @@ module CombinedFilter =
            Some (SweepGradientProps.Colors (FilterColorArrayInput.convert input))
          | Filter.Positions, CFI.Array (CFAI.Scalar input) ->
            Some (SweepGradientProps.Positions (FilterScalarArrayInput.convert input))
+         | _ -> None)
+
+    | PorterDuffColorFilter ->
+      Filter.view
+        RNF.PorterDuffColorFilter
+        (function
+         | Filter.Color, CFI.Color input ->
+           Some (PorterDuffColorFilterProps.Color input.Value)
+         | Filter.Mode, CFI.Enum (CFEI.PorterDuffMode input) ->
+           Some (PorterDuffColorFilterProps.Mode input.Value)
          | _ -> None)
 
     | IterativeBoxBlur ->
@@ -1054,7 +1116,27 @@ module CombinedFilter =
          
     | CIAdditionCompositing -> emptyView RNF.CIAdditionCompositing
 
+    | CIColorBlendMode -> emptyView RNF.CIColorBlendMode
+    
+    | CIColorBurnBlendMode -> emptyView RNF.CIColorBurnBlendMode
+
+    | CIColorDodgeBlendMode -> emptyView RNF.CIColorDodgeBlendMode
+
+    | CIDarkenBlendMode -> emptyView RNF.CIDarkenBlendMode
+
+    | CIExclusionBlendMode -> emptyView RNF.CIExclusionBlendMode
+
+    | CIHueBlendMode -> emptyView RNF.CIHueBlendMode
+
     | CILightenBlendMode -> emptyView RNF.CILightenBlendMode
+
+    | CIMultiplyBlendMode -> emptyView RNF.CIMultiplyBlendMode
+
+    | CIOverlayBlendMode -> emptyView RNF.CIOverlayBlendMode
+
+    | CIScreenBlendMode -> emptyView RNF.CIScreenBlendMode
+
+    | CISoftLightBlendMode -> emptyView RNF.CISoftLightBlendMode
 
     | CIColorInvert -> emptyView RNF.CIColorInvert
          
@@ -1196,6 +1278,36 @@ module CombinedFilter =
          | _ -> None)
 
     | CIRandomGenerator -> emptyView RNF.CIRandomGenerator
+
+    | CILinearGradient ->
+      Filter.view
+        RNF.CILinearGradient
+        (function
+         | Filter.InputPoint0, CFI.Point input ->
+           Some (CILinearGradientProps.InputPoint0 (FilterRangeInput.convert input))
+         | Filter.InputPoint1, CFI.Point input ->
+           Some (CILinearGradientProps.InputPoint1 (FilterRangeInput.convert input))
+         | Filter.InputColor0, CFI.Color input ->
+           Some (CILinearGradientProps.InputColor0 input.Value)
+         | Filter.InputColor1, CFI.Color input ->
+           Some (CILinearGradientProps.InputColor1 input.Value)
+         | _ -> None)
+
+    | CIRadialGradient ->
+      Filter.view
+        RNF.CIRadialGradient
+        (function
+         | Filter.InputCenter, CFI.Point input ->
+           Some (CIRadialGradientProps.InputCenter (FilterRangeInput.convert input))
+         | Filter.InputRadius0, CFI.Distance input ->
+           Some (CIRadialGradientProps.InputRadius0 (FilterRangeInput.convert input))
+         | Filter.InputRadius1, CFI.Distance input ->
+           Some (CIRadialGradientProps.InputRadius1 (FilterRangeInput.convert input))
+         | Filter.InputColor0, CFI.Color input ->
+           Some (CIRadialGradientProps.InputColor0 input.Value)
+         | Filter.InputColor1, CFI.Color input ->
+           Some (CIRadialGradientProps.InputColor1 input.Value)
+         | _ -> None)
          
     | CISharpenLuminance ->
       Filter.view
@@ -1289,13 +1401,25 @@ module CombinedFilter =
     function
     | CIMaskedVariableBlur
     | CIAdditionCompositing 
-    | CILightenBlendMode -> 2
+    | CIColorBlendMode
+    | CIColorBurnBlendMode
+    | CIColorDodgeBlendMode
+    | CIDarkenBlendMode
+    | CIExclusionBlendMode
+    | CIHueBlendMode
+    | CILightenBlendMode 
+    | CIMultiplyBlendMode 
+    | CIOverlayBlendMode 
+    | CIScreenBlendMode
+    | CISoftLightBlendMode -> 2
     | Color
     | LinearGradient
     | RadialGradient
     | SweepGradient
     | CIConstantColorGenerator
-    | CIRandomGenerator -> 0
+    | CIRandomGenerator
+    | CILinearGradient
+    | CIRadialGradient -> 0
     | _ -> 1
 
   let isPersistent model =

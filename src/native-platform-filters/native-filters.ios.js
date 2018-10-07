@@ -157,15 +157,39 @@ export default {
     inputBackgroundImage
   ]),
   
-  // CIColorBlendMode,
-  // CIColorBurnBlendMode,
-  // CIColorDodgeBlendMode,
-  // CIDarkenBlendMode,
+  CIColorBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
+  CIColorBurnBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
+  CIColorDodgeBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
+  CIDarkenBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
   // CIDifferenceBlendMode,
   // CIDivideBlendMode,
-  // CIExclusionBlendMode,
+  CIExclusionBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
   // CIHardLightBlendMode,
-  // CIHueBlendMode,
+  CIHueBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
   CILightenBlendMode: filter({}, [
     inputImage,
     inputBackgroundImage
@@ -176,13 +200,29 @@ export default {
   // CILuminosityBlendMode,
   // CIMaximumCompositing,
   // CIMinimumCompositing,
-  // CIMultiplyBlendMode,
+  CIMultiplyBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
   // CIMultiplyCompositing,
-  // CIOverlayBlendMode,
+  CIOverlayBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
   // CIPinLightBlendMode,
   // CISaturationBlendMode,
-  // CIScreenBlendMode,
-  // CISoftLightBlendMode,
+  CIScreenBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
+  CISoftLightBlendMode: filter({}, [
+    inputImage,
+    inputBackgroundImage
+  ]),
+
   // CISourceAtopCompositing,
   // CISourceInCompositing,
   // CISourceOutCompositing,
@@ -251,8 +291,21 @@ export default {
   // CIPerspectiveTransformWithExtent,
   // CIStraightenFilter,
   // CIGaussianGradient,
-  // CILinearGradient,
-  // CIRadialGradient,
+  CILinearGradient: generator({
+    inputPoint0: position,
+    inputPoint1: position,
+    inputColor0: color,
+    inputColor1: color
+  }),
+
+  CIRadialGradient: generator({
+    inputCenter: position,
+    inputRadius0: distance,
+    inputRadius1: distance,
+    inputColor0: color,
+    inputColor1: color
+  }),
+
   // CISmoothLinearGradient,
   CICircularScreen: filter({
     inputCenter: position,

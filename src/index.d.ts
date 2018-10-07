@@ -32,6 +32,27 @@ export type Matrix = [
 
 export type TileMode = 'CLAMP' | 'MIRROR' | 'REPEAT';
 
+export type PorterDuffMode =
+    'ADD'
+  | 'CLEAR'
+  | 'DARKEN'
+  | 'DST'
+  | 'DST_ATOP'
+  | 'DST_IN'
+  | 'DST_OUT'
+  | 'DST_OVER'
+  | 'LIGHTEN'
+  | 'MULTIPLY'
+  | 'OVERLAY'
+  | 'SCREEN'
+  | 'SRC'
+  | 'SRC_ATOP'
+  | 'SRC_IN'
+  | 'SRC_OUT'
+  | 'SRC_OVER'
+  | 'XOR'
+
+
 export interface ValueFilterProps extends FilterProps {
   readonly value?: number;
 }
@@ -168,6 +189,14 @@ export interface SweepGradientProps extends FilterProps {
 }
 
 export class SweepGradient extends React.Component<SweepGradientProps> { }
+
+
+export interface PorterDuffColorFilterProps extends FilterProps {
+  readonly color?: string
+  readonly mode?: PorterDuffMode;
+}
+
+export class PorterDuffColorFilter extends React.Component<PorterDuffColorFilterProps> { }
 
 
 export interface CIBoxBlurProps extends ResizingFilterProps {
@@ -388,9 +417,59 @@ export interface CIAdditionCompositingProps extends FilterProps { }
 export class CIAdditionCompositing extends React.Component<CIAdditionCompositingProps> { }
 
 
-export interface CILightenBlendProps extends FilterProps { }
+export interface CIColorBlendModeProps extends FilterProps { }
 
-export class CILightenBlend extends React.Component<CILightenBlendProps> { }
+export class CIColorBlendMode extends React.Component<CIColorBlendModeProps> { }
+
+
+export interface CIColorBurnBlendModeProps extends FilterProps { }
+
+export class CIColorBurnBlendMode extends React.Component<CIColorBurnBlendModeProps> { }
+
+
+export interface CIColorDodgeBlendModeProps extends FilterProps { }
+
+export class CIColorDodgeBlendMode extends React.Component<CIColorDodgeBlendModeProps> { }
+
+
+export interface CIDarkenBlendModeProps extends FilterProps { }
+
+export class CIDarkenBlendMode extends React.Component<CIDarkenBlendModeProps> { }
+
+
+export interface CIExclusionBlendModeProps extends FilterProps { }
+
+export class CIExclusionBlendMode extends React.Component<CIExclusionBlendModeProps> { }
+
+
+export interface CIHueBlendModeProps extends FilterProps { }
+
+export class CIHueBlendMode extends React.Component<CIHueBlendModeProps> { }
+
+
+export interface CILightenBlendModeProps extends FilterProps { }
+
+export class CILightenBlendMode extends React.Component<CILightenBlendModeProps> { }
+
+
+export interface CIMultiplyBlendModeProps extends FilterProps { }
+
+export class CIMultiplyBlendMode extends React.Component<CIMultiplyBlendModeProps> { }
+
+
+export interface CIOverlayBlendModeProps extends FilterProps { }
+
+export class CIOverlayBlendMode extends React.Component<CIOverlayBlendModeProps> { }
+
+
+export interface CIScreenBlendModeProps extends FilterProps { }
+
+export class CIScreenBlendMode extends React.Component<CIScreenBlendModeProps> { }
+
+
+export interface CISoftLightBlendModeProps extends FilterProps { }
+
+export class CISoftLightBlendMode extends React.Component<CISoftLightBlendModeProps> { }
 
 
 export interface CIColorInvertProps extends FilterProps { }
@@ -493,7 +572,7 @@ export interface CICircularWrapProps extends ResizingFilterProps {
   readonly inputAngle?: number;
 }
 
-export class CIVortexDistortion extends React.Component<CIVortexDistortionProps> { }
+export class CICircularWrap extends React.Component<CICircularWrapProps> { }
 
 
 export interface CIVortexDistortionProps extends ResizingFilterProps {
@@ -515,6 +594,27 @@ export class CIConstantColorGenerator extends React.Component<CIConstantColorGen
 export interface CIRandomGeneratorProps extends GeneratorProps { }
 
 export class CIRandomGenerator extends React.Component<CIRandomGeneratorProps> { }
+
+
+export interface CILinearGradientProps extends GeneratorProps { }
+
+export class CILinearGradient extends React.Component<CILinearGradientProps> {
+  readonly inputPoint0?: Position;
+  readonly inputPoint1?: Position;
+  readonly inputColor0?: string;
+  readonly inputColor1?: string;
+}
+
+
+export interface CIRadialGradientProps extends GeneratorProps {
+  readonly inputCenter?: Position;
+  readonly inputRadius0?: Distance;
+  readonly inputRadius1?: Distance;
+  readonly inputColor0?: Distance;
+  readonly inputColor1?: Distance;
+}
+
+export class CIRadialGradient extends React.Component<CIRadialGradientProps> { }
 
 
 export interface CISharpenLuminanceProps extends FilterProps {

@@ -13,6 +13,7 @@ public abstract class RNImageFilterBase extends ReactViewGroup {
   protected @Nullable String mName = null;
   protected @Nonnull String[] mParamTypes = {};
   protected @Nonnull String[] mParamNames = {};
+  protected @Nonnull String[] mImageNames = {};
 
   protected @Nullable ReadableArray mMatrix;
   protected @Nullable String mRadius;
@@ -31,6 +32,7 @@ public abstract class RNImageFilterBase extends ReactViewGroup {
   protected @Nullable String mCenterY;
   protected @Nullable ReadableArray mStops;
   protected @Nullable String mTileMode;
+  protected @Nullable String mMode;
 
   public RNImageFilterBase(Context context) {
     super(context);
@@ -48,7 +50,17 @@ public abstract class RNImageFilterBase extends ReactViewGroup {
     }
   }
 
-  public void setParamNames(@Nullable ReadableArray paramNames) {
+  public void setParamNames(@Nullable ReadableArray imageNames) {
+    if (imageNames != null) {
+      mImageNames = new String[imageNames.size()];
+
+      for (int i = 0; i < mImageNames.length; i++) {
+        mImageNames[i] = imageNames.getString(i);
+      }
+    }
+  }
+
+  public void setImageNames(@Nullable ReadableArray paramNames) {
     if (paramNames != null) {
       mParamNames = new String[paramNames.size()];
 
@@ -162,6 +174,12 @@ public abstract class RNImageFilterBase extends ReactViewGroup {
 
   public void setTileMode(@Nullable String tileMode) {
     mTileMode = tileMode;
+
+    this.runFilterPipeline();
+  }
+
+  public void setMode(@Nullable String mode) {
+    mMode = mode;
 
     this.runFilterPipeline();
   }

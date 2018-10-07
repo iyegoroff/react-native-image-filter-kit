@@ -17,6 +17,7 @@ public class RNImageFilterManager extends ReactViewManager {
   protected static final String PROP_NAME = "name";
   protected static final String PROP_PARAM_NAMES = "paramNames";
   protected static final String PROP_PARAM_TYPES = "paramTypes";
+  protected static final String PROP_IMAGE_NAMES = "imageNames";
   protected static final String PROP_MATRIX = "matrix";
   protected static final String PROP_RADIUS = "radius";
   protected static final String PROP_BLUR_RADIUS = "blurRadius";
@@ -38,6 +39,7 @@ public class RNImageFilterManager extends ReactViewManager {
   protected static final String PROP_CX = "cx";
   protected static final String PROP_CY = "cy";
   protected static final String PROP_POSITIONS = "positions";
+  protected static final String PROP_MODE = "mode";
 
   @Override
   public String getName() {
@@ -57,6 +59,11 @@ public class RNImageFilterManager extends ReactViewManager {
   @ReactProp(name = PROP_PARAM_TYPES)
   public void setParamTypes(RNImageFilter view, @Nullable ReadableArray paramTypes) {
     view.setParamTypes(paramTypes);
+  }
+
+  @ReactProp(name = PROP_IMAGE_NAMES)
+  public void setImageNames(RNImageFilter view, @Nullable ReadableArray imageNames) {
+    view.setImageNames(imageNames);
   }
 
   @ReactProp(name = PROP_NAME)
@@ -167,5 +174,10 @@ public class RNImageFilterManager extends ReactViewManager {
   @ReactProp(name = PROP_CY)
   public void setCy(RNImageFilter view, @Nullable String cy) {
     view.setCenterY(cy);
+  }
+
+  @ReactProp(name = PROP_MODE)
+  public void setMode(RNImageFilter view, @Nullable String mode) {
+    view.setMode(mode);
   }
 }

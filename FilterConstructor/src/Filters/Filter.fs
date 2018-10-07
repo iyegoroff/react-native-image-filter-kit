@@ -27,6 +27,8 @@ module Filter =
     | InputNoiseLevel
     | InputPower
     | InputRadius
+    | InputRadius0
+    | InputRadius1
     | InputSaturation
     | InputScale
     | InputSharpness
@@ -49,6 +51,8 @@ module Filter =
     | InputPoint3
     | InputPoint4
     | InputColor
+    | InputColor0
+    | InputColor1
     | InputNRNoiseLevel
     | InputNRSharpness
     | InputEdgeIntensity
@@ -84,6 +88,7 @@ module Filter =
     | Positions
     | FirstColor
     | SecondColor
+    | Mode
     | ResizeOutput
 
   type Model =

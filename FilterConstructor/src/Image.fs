@@ -45,6 +45,8 @@ module Image =
                   Source = Some (remoteImage [ Uri "https://tinyurl.com/ycedtewy" ]) }
        random ()
        fromPicker None
+       Concrete { Name = "CSSGram test"
+                  Source = Some (localImage "${entryDir}/../img/atx.jpg") }
        Concrete { Name = "Text"
                   Source = Some (localImage "${entryDir}/../img/text.png") }
        Concrete { Name = "Black circle"

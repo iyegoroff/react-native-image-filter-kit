@@ -73,7 +73,7 @@ module Main =
               filter
               (List.map (snd >> CombinedFilteredImage.imageNode) dependencies)
               (List.map fst dependencies)
-              (FilterSelectModal.initComposition composableImages.Length false)
+              (FilterSelectModal.initSingular false)
 
           let filteredImages =
             model.FilteredImages
@@ -167,6 +167,10 @@ module Main =
                       (depId, depImage))
             |> Array.filter (fun (i, _) -> i <> id)
           { model with FilteredImages = filteredImages }, []
+
+        // | CombinedFilteredImage.Singular (SingularFilteredImage.FilteredImageMessage (FilteredImage.FilterSelectModalMessage (FilterSelectModal.Message.SelectMessage (Select.ItemSelected i)))), _ ->
+        //   Browser.console.warn(i)
+        //   model, []
 
         | _, _ ->
           let image', cmd = CombinedFilteredImage.update msg image

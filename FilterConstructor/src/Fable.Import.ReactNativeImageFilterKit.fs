@@ -27,11 +27,32 @@ module Props =
   type IOffset =
     interface end
 
-  [<StringEnum>]
+  [<StringEnum>] [<RequireQualifiedAccess>] 
   type TileMode =
     | [<CompiledName("CLAMP")>] CLAMP
     | [<CompiledName("MIRROR")>] MIRROR
     | [<CompiledName("REPEAT")>] REPEAT
+
+  [<StringEnum>] [<RequireQualifiedAccess>] 
+  type PorterDuffMode =
+    | [<CompiledName "ADD">] ADD
+    | [<CompiledName "CLEAR">] CLEAR
+    | [<CompiledName "DARKEN">] DARKEN
+    | [<CompiledName "DST">] DST
+    | [<CompiledName "DST_ATOP">] DST_ATOP
+    | [<CompiledName "DST_IN">] DST_IN
+    | [<CompiledName "DST_OUT">] DST_OUT
+    | [<CompiledName "DST_OVER">] DST_OVER
+    | [<CompiledName "LIGHTEN">] LIGHTEN
+    | [<CompiledName "MULTIPLY">] MULTIPLY
+    | [<CompiledName "OVERLAY">] OVERLAY
+    | [<CompiledName "SCREEN">] SCREEN
+    | [<CompiledName "SRC">] SRC
+    | [<CompiledName "SRC_ATOP">] SRC_ATOP
+    | [<CompiledName "SRC_IN">] SRC_IN
+    | [<CompiledName "SRC_OUT">] SRC_OUT
+    | [<CompiledName "SRC_OVER">] SRC_OVER
+    | [<CompiledName "XOR">] XOR
 
   type ColorMatrixProps =
     | Style of IStyle list
@@ -216,6 +237,11 @@ module Props =
     | Colors of ResizeArray<string>
     | Positions of ResizeArray<float>
 
+  type PorterDuffColorFilterProps =
+    | Style of IStyle list
+    | Color of string
+    | Mode of PorterDuffMode
+
   type CIBoxBlurProps =
     | Style of IStyle list
     | ResizeOutput of bool
@@ -368,7 +394,37 @@ module Props =
   type CIAdditionCompositingProps =
     | Style of IStyle list
 
+  type CIColorBlendModeProps =
+    | Style of IStyle list
+
+  type CIColorBurnBlendModeProps =
+    | Style of IStyle list
+
+  type CIColorDodgeBlendModeProps =
+    | Style of IStyle list
+
+  type CIDarkenBlendModeProps =
+    | Style of IStyle list
+
+  type CIExclusionBlendModeProps =
+    | Style of IStyle list
+
+  type CIHueBlendModeProps =
+    | Style of IStyle list
+
   type CILightenBlendModeProps =
+    | Style of IStyle list
+
+  type CIMultiplyBlendModeProps =
+    | Style of IStyle list
+
+  type CIOverlayBlendModeProps =
+    | Style of IStyle list
+
+  type CIScreenBlendModeProps =
+    | Style of IStyle list
+
+  type CISoftLightBlendModeProps =
     | Style of IStyle list
 
   type CIColorInvertProps =
@@ -444,6 +500,24 @@ module Props =
   type CIRandomGeneratorProps =
     | Style of IStyle list
     | ImageStyle of IImageStyle list
+
+  type CILinearGradientProps =
+    | Style of IStyle list
+    | ImageStyle of IImageStyle list
+    | InputPoint0 of IPoint
+    | InputPoint1 of IPoint
+    | InputColor0 of string
+    | InputColor1 of string
+
+  type CIRadialGradientProps =
+    | Style of IStyle list
+    | ImageStyle of IImageStyle list
+    | InputCenter of IPoint
+    | InputRadius0 of IDistance
+    | InputRadius1 of IDistance
+    | InputColor0 of string
+    | InputColor1 of string
+
 
   type CISharpenLuminanceProps =
     | Style of IStyle list
@@ -703,6 +777,9 @@ let inline RadialGradient (props: RadialGradientProps list) (children: React.Rea
 let inline SweepGradient (props: SweepGradientProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "SweepGradient" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline PorterDuffColorFilter (props: PorterDuffColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "PorterDuffColorFilter" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CIBoxBlur (props: CIBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIBoxBlur" "react-native-image-filter-kit" (propsToObj props) children
 
@@ -808,8 +885,38 @@ let inline CIVignetteEffect (props: CIVignetteEffectProps list) (children: React
 let inline CIAdditionCompositing (props: CIAdditionCompositingProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIAdditionCompositing" "react-native-image-filter-kit" (propsToObj props) children
 
+let inline CIColorBlendMode (props: CIColorBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIColorBurnBlendMode (props: CIColorBurnBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorBurnBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIColorDodgeBlendMode (props: CIColorDodgeBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIColorDodgeBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIDarkenBlendMode (props: CIDarkenBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIDarkenBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIExclusionBlendMode (props: CIExclusionBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIExclusionBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIHueBlendMode (props: CIHueBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIHueBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
 let inline CILightenBlendMode (props: CILightenBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CILightenBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIMultiplyBlendMode (props: CIMultiplyBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIMultiplyBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIOverlayBlendMode (props: CIOverlayBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIOverlayBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIScreenBlendMode (props: CIScreenBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIScreenBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CISoftLightBlendMode (props: CISoftLightBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CISoftLightBlendMode" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIColorInvert (props: CIColorInvertProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIColorInvert" "react-native-image-filter-kit" (propsToObj props) children
@@ -849,6 +956,12 @@ let inline CIConstantColorGenerator (props: CIConstantColorGeneratorProps list) 
 
 let inline CIRandomGenerator (props: CIRandomGeneratorProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIRandomGenerator" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CILinearGradient (props: CILinearGradientProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CILinearGradient" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline CIRadialGradient (props: CIRadialGradientProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "CIRadialGradient" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CISharpenLuminance (props: CISharpenLuminanceProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CISharpenLuminance" "react-native-image-filter-kit" (propsToObj props) children

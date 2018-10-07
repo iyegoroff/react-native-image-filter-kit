@@ -57,6 +57,31 @@ module FilterInputSlider =
         MarginHorizontal (dip -0.5)
         BorderColor "black" ]
 
+  let slider value min max step dispatch =
+    (Platform.select
+       [ Platform.Android
+           (RN.slider
+              [ MaximumValue max
+                MinimumValue min
+                SliderProperties.Step step
+                SliderProperties.Value value
+                SliderProperties.OnSlidingComplete (ValueChanged >> dispatch) ])
+         Platform.Ios
+           (RS.slider
+              [ thumbStyle
+                RS.Props.Step step
+                RS.Props.MaximumValue max
+                RS.Props.MinimumValue min
+                RS.Props.Value value
+                RS.Props.MinimumTrackTintColor "#007aff"
+                RS.Props.OnSlidingComplete (ValueChanged >> dispatch) ]) ])
+
+  let legend min max suffix =
+    RN.view
+      [ rangeLegendStyle ]
+      [ RN.text [] (sprintf "%.2f%s" min suffix)
+        RN.text [] (sprintf "%.2f%s" max suffix) ]
+
   let view name suffix value min max (step: float) (dispatch: Dispatch<Message>) =
     let marksAmount = (int ((max - min) / step)) + 1
 
@@ -71,24 +96,5 @@ module FilterInputSlider =
                RN.view
                 [ stepperStyle ]
                 (Array.create marksAmount (RN.view [ markStyle ] []) |> Array.toList))
-            (Platform.select
-              [ Platform.Android
-                  (RN.slider
-                    [ MaximumValue max
-                      MinimumValue min
-                      SliderProperties.Step step
-                      SliderProperties.Value value
-                      SliderProperties.OnSlidingComplete (ValueChanged >> dispatch) ])
-                Platform.Ios
-                  (RS.slider
-                    [ thumbStyle
-                      RS.Props.Step step
-                      RS.Props.MaximumValue max
-                      RS.Props.MinimumValue min
-                      RS.Props.Value value
-                      RS.Props.MinimumTrackTintColor "#007aff"
-                      RS.Props.OnSlidingComplete (ValueChanged >> dispatch) ]) ]) ]
-        RN.view
-          [ rangeLegendStyle ]
-          [ RN.text [] (sprintf "%.2f%s" min suffix)
-            RN.text [] (sprintf "%.2f%s" max suffix) ] ]
+            (slider value min max step dispatch) ]
+        (legend min max suffix) ]

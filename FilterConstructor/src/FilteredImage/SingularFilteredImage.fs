@@ -97,21 +97,6 @@ module SingularFilteredImage =
         Width (pct 100.)
         Height (dip Constants.imageHeight) ]
 
-  let private resizer model dispatch =
-    Platform.select
-      [ Platform.Android
-          (RNS.segmentedControlTab
-            [ RNS.Props.Values FilteredImage.resizeControlValues
-              RNS.Props.OnTabPress (ResizeModeChanged >> dispatch)
-              RNS.Props.SelectedIndex (resizeControlIndex model) ])
-        Platform.Ios
-          (RN.segmentedControlIOS
-             [ Values FilteredImage.resizeControlValues
-               SegmentedControlIOSProperties.OnChange
-                 (fun event ->
-                    dispatch (ResizeModeChanged event.nativeEvent.selectedSegmentIndex))
-               SelectedIndex (resizeControlIndex model) ]) ]
-
   let image model dispatch =
     match (Image.source model.Image) with
     | None -> R.fragment [] []
@@ -147,7 +132,10 @@ module SingularFilteredImage =
                []
                [ FilteredImage.spinner model
                  image model.Image dispatch' ]
-             resizer model.Image dispatch
+             SegmentedControl.view
+               FilteredImage.resizeControlValues
+               (resizeControlIndex model.Image)
+               (ResizeModeChanged >> dispatch)
              FilteredImage.imageControls
                isDependency
                (Some (fun _ -> dispatch (ImageSelectModalMessage ImageSelectModal.showMsg)))

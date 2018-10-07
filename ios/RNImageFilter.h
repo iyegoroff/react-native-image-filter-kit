@@ -22,6 +22,8 @@
 @property (nonatomic, strong) NSString *inputPower;
 @property (nonatomic, strong) NSString *inputAmount;
 @property (nonatomic, strong) NSString *inputRadius;
+@property (nonatomic, strong) NSString *inputRadius0;
+@property (nonatomic, strong) NSString *inputRadius1;
 @property (nonatomic, strong) NSString *inputWidth;
 @property (nonatomic, strong) NSString *inputScale;
 @property (nonatomic, strong) NSString *inputEV;
@@ -30,6 +32,8 @@
 @property (nonatomic, strong) NSString *inputEdgeIntensity;
 @property (nonatomic, strong) NSString *inputThreshold;
 @property (nonatomic, strong) UIColor *inputColor;
+@property (nonatomic, strong) UIColor *inputColor0;
+@property (nonatomic, strong) UIColor *inputColor1;
 @property (nonatomic, strong) NSArray<NSString *> *inputCenter;
 @property (nonatomic, strong) NSArray<NSString *> *inputPoint0;
 @property (nonatomic, strong) NSArray<NSString *> *inputPoint1;

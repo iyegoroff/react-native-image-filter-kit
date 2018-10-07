@@ -78,7 +78,8 @@ module FilterGroups =
               CF.IterativeBoxBlur |]
            
            ColorFilter,
-           [| CF.LightingColorFilter |] |] ]
+           [| CF.LightingColorFilter
+              CF.PorterDuffColorFilter |] |] ]
 
   let private iosSingularFilters =
     Array.concat
@@ -185,7 +186,17 @@ module FilterGroups =
            
            CICategoryCompositeOperation,
            [| CF.CIAdditionCompositing
-              CF.CILightenBlendMode |]; |] ]
+              CF.CIColorBlendMode
+              CF.CIColorBurnBlendMode
+              CF.CIColorDodgeBlendMode
+              CF.CIDarkenBlendMode
+              CF.CIExclusionBlendMode
+              CF.CIHueBlendMode
+              CF.CILightenBlendMode
+              CF.CIMultiplyBlendMode
+              CF.CIOverlayBlendMode
+              CF.CIScreenBlendMode
+              CF.CISoftLightBlendMode |]; |] ]
 
   let compositionFilters =
     Platform.select
@@ -212,7 +223,9 @@ module FilterGroups =
 
         [| CICategoryGenerator,
            [| CF.CIConstantColorGenerator
-              CF.CIRandomGenerator |]; |] ]
+              CF.CIRandomGenerator
+              CF.CILinearGradient
+              CF.CIRadialGradient |]; |] ]
 
   let generators = 
     Platform.select

@@ -15,6 +15,17 @@
 
 @implementation RNFilterPostProcessor
 
++ (NSString *)resize:(RCTResizeMode)mode
+{
+  switch (mode) {
+    case RCTResizeModeCover: return @"cover";
+    case RCTResizeModeCenter: return @"center";
+    case RCTResizeModeRepeat: return @"repeat";
+    case RCTResizeModeContain: return @"contain";
+    case RCTResizeModeStretch: return @"stretch";
+  }
+}
+
 + (RNFilteredImage *)process:(nonnull NSString *)name
                       inputs:(nonnull NSDictionary<NSString *, RNTuple<id, NSString *> *> *)inputs
                      context:(nonnull CIContext *)context
@@ -29,6 +40,30 @@
   for (NSString *imageName in filterings) {
     [images setObject:filterings[imageName]() forKey:imageName];
   }
+  
+//  for (NSString *inputName in images) {
+//    RNFilteredImage *image = images[inputName];
+//    RCTLog(@"filter: name %@ resizemode %@ size %@ mainFrame %@",
+//           inputName,
+//           [RNFilterPostProcessor resize:[image resizeMode]],
+//           [NSValue valueWithCGSize:image.image.size],
+//           [NSValue valueWithCGRect:mainFrame]);
+//    CGRect extent = [[CIImage alloc] initWithImage:image.image].extent;
+//    CGImageRef cgim = [context createCGImage:filter.outputImage fromRect:extent];
+//    CGSize destSize = [@"generatedImage" isEqualToString:inputName]
+//      ? extent.size
+//      : image
+//      ? image.image.size
+//      : CGSizeZero;
+//    UIImage *resized = [RNFilterPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
+//                                                          srcSize:extent.size
+//                                                         destSize:destSize
+//                                                            scale:image.image.scale
+//                                                       resizeMode:[image resizeMode]];
+//    RCTLog(@"filter: RESIZED name %@ size %@",
+//           inputName,
+//           [NSValue valueWithCGSize:resized.size]);
+//  }
   
   for (NSString *inputName in images) {
     RNFilteredImage *image = images[inputName];
@@ -122,7 +157,7 @@
     CGSize outputSize = outputRect.size;
     RCTAssert(maxOutputSize.width >= outputSize.width && maxOutputSize.height >= outputSize.height,
               @"%@: Output image is too big - %@", name, [NSValue valueWithCGSize:outputSize]);
-
+    
     UIImage *filteredImage = [RNFilterPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
                                                                 srcSize:outputRect.size
                                                                destSize:destSize
@@ -168,8 +203,12 @@
   }
   
   CAKeyframeAnimation *animation = image.reactKeyframeAnimation;
-  CGRect targetSize = RCTTargetRect(srcSize, destSize, scale, resizeMode);
-  CGAffineTransform transform = RCTTransformFromTargetRect(srcSize, targetSize);
+  CGRect targetRect = RCTTargetRect(srcSize, destSize, scale, resizeMode);
+//  RCTLog(@"filer: srcSize %@", [NSValue valueWithCGSize:srcSize]);
+//  RCTLog(@"filer: destSize %@", [NSValue valueWithCGSize:destSize]);
+//  RCTLog(@"filer: resizeMode %@", [RNFilterPostProcessor resize:resizeMode]);
+//  RCTLog(@"filer: targetRect %@", [NSValue valueWithCGRect:targetRect]);
+  CGAffineTransform transform = RCTTransformFromTargetRect(srcSize, targetRect);
   image = RCTTransformImage(image, destSize, scale, transform);
   image.reactKeyframeAnimation = animation;
   

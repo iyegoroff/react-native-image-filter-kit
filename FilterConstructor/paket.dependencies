@@ -8,7 +8,7 @@ nuget Fable.Import.ReactNativeFab
 nuget Fable.Import.ReactNativePortal
 nuget Fable.Import.ReactNativeSegmentedControlTab
 nuget Fable.Import.ReactNativeSlider
-nuget Fable.React.Native 2.0.0-alpha-012 alpha
+nuget Fable.React.Native 2.0.0-alpha-014 alpha
 nuget FSharp.Core  redirects:force, content:none
 nuget Fable.Core ~> 1.3
 nuget Fable.Elmish

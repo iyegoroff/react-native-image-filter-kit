@@ -55,5 +55,10 @@ export default {
     cy: distance,
     colors: colorVector,
     positions: scalarVector
+  }),
+
+  PorterDuffColorFilter: filter({
+    color: color,
+    mode: enumeration
   })
 };
