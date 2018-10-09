@@ -59,6 +59,7 @@ module CombinedFilter =
     | RadialGradient
     | SweepGradient
     | PorterDuffColorFilter
+    | PorterDuffXfermode
     | IterativeBoxBlur
     | LightingColorFilter
     | CIBoxBlur
@@ -299,6 +300,10 @@ module CombinedFilter =
       Filter.init
         [ Filter.Color, CFI.initColor "#ff0000"
           Filter.Mode, CFI.initPorterDuffModeEnum PorterDuffMode.ADD ]
+
+    | PorterDuffXfermode ->
+      Filter.init
+        [ Filter.Mode, CFI.initPorterDuffModeEnum PorterDuffMode.ADD ]
 
     | IterativeBoxBlur ->
       Filter.init
@@ -866,6 +871,14 @@ module CombinedFilter =
            Some (PorterDuffColorFilterProps.Mode input.Value)
          | _ -> None)
 
+    | PorterDuffXfermode ->
+      Filter.view
+        RNF.PorterDuffXfermode
+        (function
+         | Filter.Mode, CFI.Enum (CFEI.PorterDuffMode input) ->
+           Some (PorterDuffXfermodeProps.Mode input.Value)
+         | _ -> None)
+
     | IterativeBoxBlur ->
       Filter.view
         RNF.IterativeBoxBlur
@@ -1399,6 +1412,7 @@ module CombinedFilter =
 
   let requiredImagesAmount =
     function
+    | PorterDuffXfermode
     | CIMaskedVariableBlur
     | CIAdditionCompositing 
     | CIColorBlendMode

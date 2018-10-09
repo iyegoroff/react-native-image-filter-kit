@@ -56,6 +56,7 @@ public class RNMultiPostProcessor extends IterativeBoxBlurPostProcessor {
         CloseableReference.closeSafely(prevBitmap);
         prevBitmap = nextBitmap.clone();
       }
+
       return nextBitmap.clone();
     } finally {
       CloseableReference.closeSafely(nextBitmap);

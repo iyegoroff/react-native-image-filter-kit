@@ -2,7 +2,15 @@ import React from 'react';
 import Children from 'react-children-utilities';
 import { defaultStyle, checkStyle } from './style';
 import { View, processColor, Platform } from 'react-native';
-import { distance, position, scalar, scalarVector, offset, color, colorVector } from './input-types'; 
+import {
+  distance,
+  position,
+  scalar,
+  scalarVector,
+  offset,
+  color,
+  colorVector
+} from './input-types'; 
 
 const isAndroid = Platform.OS === 'android';
 const id = x => x;

@@ -12,6 +12,7 @@ module FilterGroups =
     | ColorMatrix
     | Color
     | Shader
+    | Xfermode
     | CICategoryBlur
     | CICategoryColorAdjustment
     | CICategoryColorEffect
@@ -175,7 +176,9 @@ module FilterGroups =
   let private androidCompositionFilters =
     Array.concat
       [ commonCompositionFilters
-        [||] ]
+
+        [| Xfermode,
+           [| CF.PorterDuffXfermode |] |] ]
 
   let private iosCompositionFilters =
     Array.concat

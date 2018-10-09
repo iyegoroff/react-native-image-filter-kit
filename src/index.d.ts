@@ -199,6 +199,13 @@ export interface PorterDuffColorFilterProps extends FilterProps {
 export class PorterDuffColorFilter extends React.Component<PorterDuffColorFilterProps> { }
 
 
+export interface PorterDuffXfermodeProps extends FilterProps {
+  readonly mode?: PorterDuffMode;
+}
+
+export class PorterDuffXfermode extends React.Component<PorterDuffXfermodeProps> { }
+
+
 export interface CIBoxBlurProps extends ResizingFilterProps {
   readonly inputRadius?: Distance;
 }

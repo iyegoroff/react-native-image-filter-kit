@@ -242,6 +242,10 @@ module Props =
     | Color of string
     | Mode of PorterDuffMode
 
+  type PorterDuffXfermodeProps =
+    | Style of IStyle list
+    | Mode of PorterDuffMode
+
   type CIBoxBlurProps =
     | Style of IStyle list
     | ResizeOutput of bool
@@ -779,6 +783,9 @@ let inline SweepGradient (props: SweepGradientProps list) (children: React.React
 
 let inline PorterDuffColorFilter (props: PorterDuffColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "PorterDuffColorFilter" "react-native-image-filter-kit" (propsToObj props) children
+
+let inline PorterDuffXfermode (props: PorterDuffXfermodeProps list) (children: React.ReactElement list): React.ReactElement =
+  ofImport "PorterDuffXfermode" "react-native-image-filter-kit" (propsToObj props) children
 
 let inline CIBoxBlur (props: CIBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
   ofImport "CIBoxBlur" "react-native-image-filter-kit" (propsToObj props) children

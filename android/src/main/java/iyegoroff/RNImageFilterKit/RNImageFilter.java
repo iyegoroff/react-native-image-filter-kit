@@ -1,23 +1,40 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewParent;
 
+import com.facebook.cache.common.CacheKey;
+import com.facebook.common.executors.CallerThreadExecutor;
+import com.facebook.common.internal.Supplier;
+import com.facebook.common.references.CloseableReference;
+import com.facebook.datasource.BaseDataSubscriber;
+import com.facebook.datasource.DataSource;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.imagepipeline.core.ImagePipelineFactory;
+import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
+import com.facebook.imagepipeline.image.CloseableBitmap;
+import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.postprocessors.RoundAsCirclePostprocessor;
 import com.facebook.imagepipeline.request.Postprocessor;
+import com.facebook.react.common.ReactConstants;
 import com.facebook.react.views.image.ReactImageView;
 
 import java.util.ArrayList;
 
 import javax.annotation.Nullable;
-import javax.annotation.Nonnull;
 
 public class RNImageFilter extends RNImageFilterBase {
 
@@ -35,7 +52,7 @@ public class RNImageFilter extends RNImageFilterBase {
   }
 
   protected void runFilterPipeline() {
-    ReactImageView targetImage = RNImageFilter.targetImage(this.bottomFilter());
+    ReactImageView targetImage = this.targetImage();
     int boundsWidth = targetImage == null ? 0 : targetImage.getMeasuredWidth();
     int boundsHeight = targetImage == null ? 0 : targetImage.getMeasuredHeight();
 
@@ -125,15 +142,76 @@ public class RNImageFilter extends RNImageFilterBase {
         RNPropConverter.convertColor(mColor),
         RNPropConverter.convertEnumeration(mMode, PorterDuff.Mode.ADD, PorterDuff.Mode.class)
       );
+
+    } else if ("PorterDuffXfermode".equals(mName)) {
+      ReactImageView destination = this.targetImage(1);
+      final CacheKey bitmapKey = destination != null && destination.getController() != null
+        ? RNReflectUtils.<CacheKey>getFieldValue(destination.getController(), "mCacheKey")
+        : null;
+
+
+      if (destination != null && destination.getController() != null) {
+        Supplier<DataSource<CloseableReference<CloseableImage>>> ds = RNReflectUtils
+          .invokeMethod(destination.getController(), "getDataSourceSupplier");
+        if (ds != null) {
+          final RNImageFilter self = this;
+
+          ds.get().subscribe(new BaseDataSubscriber<CloseableReference<CloseableImage>>() {
+
+            @Override
+            protected void onNewResultImpl(
+              DataSource<CloseableReference<CloseableImage>> dataSource
+            ) {
+              if (dataSource.isFinished()) {
+                Log.d(ReactConstants.TAG, "PORTER " + String.valueOf(dataSource.getResult() != null) + " " + String.valueOf(bitmapKey != null));
+                if (dataSource.getResult() != null && bitmapKey != null) {
+                  self.mPostProcessor = new PorterDuffXfermodePostProcessor(
+                    RNPropConverter.convertEnumeration(
+                      mMode,
+                      PorterDuff.Mode.ADD,
+                      PorterDuff.Mode.class
+                    ),
+                    dataSource.getResult(),
+                    bitmapKey
+                  );
+
+                  self.renderFilteredImage();
+                }
+              }
+            }
+
+            @Override
+            protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+//              Throwable t = dataSource.getFailureCause();
+              // handle failure
+            }
+          }, CallerThreadExecutor.getInstance());
+
+//          ds.get().subscribe(new BaseBitmapDataSubscriber() {
+//
+//            @Override
+//            public void onNewResultImpl(@Nullable Bitmap bitmap) {
+//              Log.d(ReactConstants.TAG, "PORTER " + String.valueOf(bitmap != null) + " " + String.valueOf(bitmapKey != null));
+
+//            }
+//
+//            @Override
+//            public void onFailureImpl(DataSource dataSource) {
+//              // No cleanup required here.
+//            }
+//
+//          }, CallerThreadExecutor.getInstance());
+        }
+      }
     }
 
     if (mPostProcessor != null) {
-      RNImageFilter.renderFilteredImage(this.bottomFilter());
+      this.renderFilteredImage();
     }
   }
 
-  private RNImageFilter bottomFilter() {
-    for (int i = 0; i < this.getChildCount(); i++) {
+  private RNImageFilter bottomFilter(int start) {
+    for (int i = start; i < this.getChildCount(); i++) {
       View child = this.getChildAt(i);
 
       if (child instanceof RNImageFilter) {
@@ -144,8 +222,16 @@ public class RNImageFilter extends RNImageFilterBase {
     return this;
   }
 
-  private static @Nullable ReactImageView targetImage(@Nonnull RNImageFilter bottomFilter) {
-    for (int i = 0; i < bottomFilter.getChildCount(); i++) {
+  private RNImageFilter bottomFilter() {
+    return this.bottomFilter(0);
+  }
+
+  private @Nullable ReactImageView targetImage(int start) {
+    RNImageFilter bottomFilter = this.bottomFilter(start);
+
+    Log.d(ReactConstants.TAG, "PORTER " + String.valueOf((bottomFilter == this ? start : 0)));
+
+    for (int i = (bottomFilter == this ? start : 0); i < bottomFilter.getChildCount(); i++) {
       View child = bottomFilter.getChildAt(i);
 
       if (child instanceof ReactImageView) {
@@ -153,11 +239,20 @@ public class RNImageFilter extends RNImageFilterBase {
       }
     }
 
+    Log.d(ReactConstants.TAG, "PORTER SHIT");
+
     return null;
   }
 
-  private static void renderFilteredImage(RNImageFilter bottomFilter) {
-    ReactImageView image = RNImageFilter.targetImage(bottomFilter);
+  private @Nullable ReactImageView targetImage() {
+    return this.targetImage(0);
+  }
+
+  private void renderFilteredImage() {
+    RNImageFilter bottomFilter = this.bottomFilter();
+    ReactImageView image = this.targetImage();
+
+    Log.d(ReactConstants.TAG, "PORTER " + String.valueOf(mPostProcessor));
 
     if (image != null) {
       Pair<ArrayList<Postprocessor>, ViewParent> pair = bottomFilter.collectPostProcessors();
@@ -170,6 +265,10 @@ public class RNImageFilter extends RNImageFilterBase {
     }
   }
 
+//  private static Pair<Bitmap, CacheKey> extractBitmap(ReactImageView image) {
+//
+//  }
+
   private static void filterImage(
     ReactImageView image,
     final ViewParent topParent,
@@ -177,7 +276,6 @@ public class RNImageFilter extends RNImageFilterBase {
   ) {
     if (postProcessor != null) {
       IterativeBoxBlurPostProcessor processor = RNReflectUtils.getFieldValue(
-        ReactImageView.class,
         image,
         "mIterativeBoxBlurPostProcessor"
       );
@@ -186,38 +284,35 @@ public class RNImageFilter extends RNImageFilterBase {
         || processor.getPostprocessorCacheKey() != postProcessor.getPostprocessorCacheKey()
       ) {
 
-        RNReflectUtils.setFieldValue(
-          ReactImageView.class,
-          image,
-          "mIterativeBoxBlurPostProcessor",
-          postProcessor
-        );
+        RNReflectUtils.setFieldValue(image, "mIterativeBoxBlurPostProcessor", postProcessor);
 
-        final ControllerListener<ImageInfo> listener = RNReflectUtils.getFieldValue(
-          ReactImageView.class,
-          image,
-          "mControllerListener"
-        );
+//        final ControllerListener<ImageInfo> listener = RNReflectUtils.getFieldValue(
+//          image,
+//          "mControllerListener"
+//        );
+//
+//        if (!(listener instanceof RNFrescoControllerListener)) {
+//          RNReflectUtils.setFieldValue(
+//            image,
+//            "mControllerListener",
+//            new RNFrescoControllerListener(
+//              listener,
+//              new RNImageUpdatedFunctor() {
+//                public void call() {
+//                  Log.d(ReactConstants.TAG, "PORTER upd image");
+//                  if (topParent instanceof RNImageFilter) {
+//                    Log.d(ReactConstants.TAG, "PORTER udpate image");
+//                    ((RNImageFilter) topParent).runFilterPipeline();
+//                  }
+//                }
+//              }
+//            )
+//          );
+//        }
 
-        if (!(listener instanceof RNFrescoControllerListener)) {
-          RNReflectUtils.setFieldValue(
-            ReactImageView.class,
-            image,
-            "mControllerListener",
-            new RNFrescoControllerListener(
-              listener,
-              new RNImageUpdatedFunctor() {
-                public void call() {
-                  if (topParent instanceof RNImageFilter) {
-                    ((RNImageFilter) topParent).runFilterPipeline();
-                  }
-                }
-              }
-            )
-          );
-        }
+        RNReflectUtils.setFieldValue(image, "mIsDirty", true);
 
-        RNReflectUtils.setFieldValue(ReactImageView.class, image, "mIsDirty", true);
+        Log.d(ReactConstants.TAG, "PORTER udpate");
 
         image.maybeUpdateView();
       }

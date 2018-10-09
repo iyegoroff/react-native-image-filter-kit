@@ -6,7 +6,7 @@ import {
 } from '../common/image-filter';
 import { ImagePlaceholder } from '../common/image-placeholder';
 import { Platform } from 'react-native';
-import filters from './native-filters';
+import filters from './native-platform-filters';
 import { generatedImage } from '../common/image-names';
 
 const nativeImageFilter = (name) => (

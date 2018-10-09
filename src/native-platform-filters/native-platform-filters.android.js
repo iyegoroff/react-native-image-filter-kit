@@ -7,7 +7,14 @@ import {
   enumeration,
   distance
 } from '../common/input-types';
-import { generatedImage, inputImage, inputBackgroundImage, inputMask } from '../common/image-names';
+import {
+  generatedImage,
+  inputImage,
+  inputBackgroundImage,
+  inputMask,
+  sourceImage,
+  destinationImage
+} from '../common/image-names';
 import { filter, generator } from '../common/utils';
 
 export default {
@@ -60,5 +67,12 @@ export default {
   PorterDuffColorFilter: filter({
     color: color,
     mode: enumeration
-  })
+  }),
+
+  PorterDuffXfermode: filter({
+    mode: enumeration
+  }, [
+    sourceImage,
+    destinationImage
+  ])
 };
