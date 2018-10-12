@@ -16,10 +16,5 @@ export default Platform.select({
     />
   ),
 
-  android: ({ matrix, ...restProps }) => (
-    <ColorMatrixColorFilter
-      matrix={matrix}
-      {...restProps}
-    />
-  )
+  android: ({ matrix, ...restProps }) => <ColorMatrixColorFilter matrix={matrix} {...restProps} />
 });

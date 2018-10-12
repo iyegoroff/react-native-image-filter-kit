@@ -6,8 +6,5 @@ export const imagePlaceholderSource = {
 };
 
 export const ImagePlaceholder = (props) => (
-  <Image
-    {...props}
-    source={imagePlaceholderSource}
-  />
+  <Image {...props} source={imagePlaceholderSource} />
 );

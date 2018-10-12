@@ -1,41 +1,64 @@
 {
-  "description": "Various color filters for React Native Image component",
-  "keywords": [
-    "react-native",
-    "color-filter",
-    "image"
-  ],
-  "license": "MIT",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
-  "name": "react-native-image-filter-kit",
-  "author": "iyegoroff <iegoroff@gmail.com>",
-  "bugs": {
-    "url": "https://github.com/iyegoroff/react-native-image-filter-kit/issues"
-  },
-  "homepage": "https://github.com/iyegoroff/react-native-image-filter-kit#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iyegoroff/react-native-image-filter-kit.git"
-  },
-  "version": "0.0.0",
-  "peerDependencies": {
-    "react": "*",
-    "react-native": "*",
-    "fbjs": "*"
-  },
-  "dependencies": {
-    "concat-color-matrices": "^1.0.0",
-    "react-children-utilities": "^1.0.1",
-    "rn-color-matrices": "^2.0.0"
-  },
-  "files": [
-    "android",
-    "img/*.png",
-    "ios",
-    "src",
-    "*.md",
-    "*.podspec",
-    "FilterConstructor"
-  ]
+	"description": "Various color filters for React Native Image component",
+	"keywords": [
+		"react-native",
+		"color-filter",
+		"image"
+	],
+	"license": "MIT",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"name": "react-native-image-filter-kit",
+	"author": "iyegoroff <iegoroff@gmail.com>",
+	"bugs": {
+		"url": "https://github.com/iyegoroff/react-native-image-filter-kit/issues"
+	},
+	"homepage": "https://github.com/iyegoroff/react-native-image-filter-kit#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/iyegoroff/react-native-image-filter-kit.git"
+	},
+	"version": "0.0.0",
+	"peerDependencies": {
+		"react": "*",
+		"react-native": "*",
+		"fbjs": "*"
+	},
+	"dependencies": {
+		"concat-color-matrices": "^1.0.0",
+		"rn-color-matrices": "^2.0.0"
+	},
+	"devDependencies": {
+		"husky": "^1.1.1",
+		"lint-staged": "^7.3.0",
+		"semistandard": "^12.0.1"
+	},
+	"semistandard": {
+		"globals": [
+			"__DEV__"
+		],
+		"ignore": [
+			"fable-typed",
+			"FilterConstructor"
+		]
+	},
+	"scripts": {
+		"precommit": "lint-staged"
+	},
+	"lint-staged": {
+		"*.js": [
+			"semistandard --fix",
+			"git add"
+		]
+	},
+	"files": [
+		"android",
+		"img/*.png",
+		"ios",
+		"src",
+		"dist",
+		"*.md",
+		"*.podspec",
+		"FilterConstructor"
+	]
 }

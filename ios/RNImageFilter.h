@@ -54,7 +54,4 @@
 @property (nonatomic, strong) NSArray<NSNumber *> *inputBlueCoefficients;
 @property (nonatomic, strong) NSArray<NSNumber *> *inputAlphaCoefficients;
 
-+ (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options;
-- (CIContext *)context;
-
 @end

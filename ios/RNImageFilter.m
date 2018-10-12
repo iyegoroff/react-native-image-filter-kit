@@ -1,4 +1,3 @@
-#import "MustBeOverriden.h"
 #import "Image/RCTImageView.h"
 #import "Image/RCTImageUtils.h"
 #import "RNImageFilter.h"
@@ -8,6 +7,10 @@
 #import "NSArray+FilterMapReduce.h"
 #import "RNTuple.h"
 #import <React/RCTLog.h>
+
+static CIContext *context;
+static CIContext *contextWithColorManagement;
+static NSArray<NSString *> *filtersWithColorManagement;
 
 @interface RNImageFilter ()
 
@@ -32,6 +35,24 @@
     _paramTypes = [NSArray array];
     _filteringQueue = [[NSOperationQueue alloc] init];
     _mainFrame = CGRectZero;
+    
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+      filtersWithColorManagement = @[@"CIColorMatrix", @"CIColorInvert", @"CIColorPolynomial"];
+
+      // CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+      EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+      eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+      
+      context = [CIContext contextWithEAGLContext:eaglContext
+                                          options:@{kCIImageColorSpace: [NSNull null],
+                                                    kCIImageProperties: [NSNull null],
+                                                    kCIContextWorkingColorSpace: [NSNull null]}];
+
+      contextWithColorManagement = [CIContext contextWithEAGLContext:eaglContext options:nil];
+      // NSLog(@"filter: context %f", CFAbsoluteTimeGetCurrent() - start);
+    });
   }
   
   return self;
@@ -53,11 +74,6 @@
   RCTLog(@"filter: color %@", _name);
   
 //  RCTLog(@"filter: layout %@", [self filterStack]);
-}
-
-- (CIContext *)context
-{
-  MUST_BE_OVERRIDEN()
 }
 
 - (NSDictionary *)filterStack
@@ -183,7 +199,7 @@
       return ^RNFilteredImage *(void) {
         return [RNFilterPostProcessor process:self.name
                                        inputs:inputs
-                                      context:[self context]
+                                      context:[RNImageFilter context:self.name]
                                    filterings:filterings
                                  resizeOutput:self.resizeOutput
                                     mainFrame:self.mainFrame];
@@ -284,16 +300,23 @@
   }
 }
 
-+ (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options
+//+ (CIContext *)createContextWithOptions:(nullable NSDictionary<NSString *, id> *)options
+//{
+//  // CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+//  EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+//  eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+//  
+//  CIContext *context = [CIContext contextWithEAGLContext:eaglContext options:options];
+//  // NSLog(@"filter: context %f", CFAbsoluteTimeGetCurrent() - start);
+//  
+//  return context;
+//}
+
++ (CIContext *)context:(NSString*)name
 {
-  // CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-  EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-  eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-  
-  CIContext *context = [CIContext contextWithEAGLContext:eaglContext options:options];
-  // NSLog(@"filter: context %f", CFAbsoluteTimeGetCurrent() - start);
-  
-  return context;
+  return [filtersWithColorManagement some:^BOOL(id val, int idx) {
+    return [val isEqualToString:name];
+  }] ? context : contextWithColorManagement;
 }
 
 + (nonnull NSString *)imageCacheKey:(RCTImageView *)image

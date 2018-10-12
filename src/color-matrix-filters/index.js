@@ -9,33 +9,22 @@ const filterName = (name) => {
 
 const filterMap = {
   ColorTone: (filter) => ({ desaturation, toned, lightColor, darkColor, ...restProps }) => (
-    <ColorMatrix
-      matrix={filter(desaturation, toned, lightColor, darkColor)}
-      {...restProps}
-    />
+    <ColorMatrix matrix={filter(desaturation, toned, lightColor, darkColor)} {...restProps} />
   ),
 
   RGBA: (filter) => ({ red, green, blue, alpha, ...restProps }) => (
-    <ColorMatrix
-      matrix={filter(red, green, blue, alpha)}
-      {...restProps}
-    />
+    <ColorMatrix matrix={filter(red, green, blue, alpha)} {...restProps} />
   ),
 
   DuoTone: (filter) => ({ firstColor, secondColor, ...restProps }) => (
-    <ColorMatrix
-      matrix={filter(firstColor, secondColor)}
-      {...restProps}
-    />
+    <ColorMatrix matrix={filter(firstColor, secondColor)} {...restProps} />
   )
 };
 
-const createFilter = (key) => filterMap[key] || ((filter) => ({ value, ...restProps }) => (
-  <ColorMatrix
-    matrix={filter(value)}
-    {...restProps}
-  />
-));
+const createFilter = (key) => (
+  filterMap[key] ||
+    ((filter) => ({ value, ...restProps }) => <ColorMatrix matrix={filter(value)} {...restProps} />)
+);
 
 export default Object.keys(filters).reduce(
   (acc, name) => {

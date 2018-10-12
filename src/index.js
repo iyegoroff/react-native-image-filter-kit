@@ -1,12 +1,12 @@
 import colorMatrixFilters from './color-matrix-filters';
-import nativePlatformFilters from './native-platform-filters';
-import { ImagePlaceholder, imagePlaceholderSource } from './common/image-placeholder';
+import nativeFilters from './native-filters';
+import { ImagePlaceholder, imagePlaceholderSource } from './native-filters/image-placeholder';
 import colorMatrices from 'rn-color-matrices';
 import { concatColorMatrices } from 'concat-color-matrices';
 
 module.exports = {
   ...colorMatrixFilters,
-  ...nativePlatformFilters,
+  ...nativeFilters,
   ...colorMatrices,
   concatColorMatrices,
   ImagePlaceholder,

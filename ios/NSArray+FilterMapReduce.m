@@ -37,6 +37,28 @@
   return acc;
 }
 
+- (BOOL)every:(BOOL (^)(id val, int idx))block
+{
+  for (int i = 0; i < self.count; i++) {
+    if (!block([self objectAtIndex:i], i)) {
+      return NO;
+    }
+  }
+  
+  return YES;
+}
+
+- (BOOL)some:(BOOL (^)(id val, int idx))block
+{
+  for (int i = 0; i < self.count; i++) {
+    if (block([self objectAtIndex:i], i)) {
+      return YES;
+    }
+  }
+  
+  return NO;
+}
+
 - (id)at:(int)idx
 {
   return self.count > idx ? [self objectAtIndex:idx] : nil;
