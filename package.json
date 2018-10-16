@@ -6,8 +6,8 @@
 		"image"
 	],
 	"license": "MIT",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"main": "src/index.js",
+	"types": "src/index.d.ts",
 	"name": "react-native-image-filter-kit",
 	"author": "iyegoroff <iegoroff@gmail.com>",
 	"bugs": {
@@ -26,6 +26,7 @@
 	},
 	"dependencies": {
 		"concat-color-matrices": "^1.0.0",
+		"react-is": "^16.5.2",
 		"rn-color-matrices": "^2.0.0"
 	},
 	"devDependencies": {

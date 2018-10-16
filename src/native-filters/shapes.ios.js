@@ -6,10 +6,15 @@ import {
   offset,
   color,
   image,
-  generatedImageStyle
+  imageStyle,
+  config
 } from './inputs';
 
 export default {
+  ImageFilter: {
+    config: config
+  },
+
   CIBoxBlur: {
     inputRadius: distance,
     inputImage: image
@@ -335,14 +340,14 @@ export default {
   // CICode128BarcodeGenerator,
   CIConstantColorGenerator: {
     inputColor: color,
-    imageStyle: generatedImageStyle
+    imageStyle: imageStyle
   },
 
   // CILenticularHaloGenerator,
   // CIPDF417BarcodeGenerator,
   // CIQRCodeGenerator,
   CIRandomGenerator: {
-    imageStyle: generatedImageStyle
+    imageStyle: imageStyle
   },
 
   // CIStarShineGenerator,
@@ -361,7 +366,7 @@ export default {
     inputPoint1: position,
     inputColor0: color,
     inputColor1: color,
-    imageStyle: generatedImageStyle
+    imageStyle: imageStyle
   },
 
   CIRadialGradient: {
@@ -370,7 +375,7 @@ export default {
     inputRadius1: distance,
     inputColor0: color,
     inputColor1: color,
-    imageStyle: generatedImageStyle
+    imageStyle: imageStyle
   },
 
   // CISmoothLinearGradient,

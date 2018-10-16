@@ -73,7 +73,7 @@ module FilterGroups =
 
   let private androidSingularFilters =
     Array.concat
-      [ commonSingularFilters
+      [ // commonSingularFilters
         [| Fresco,
            [| CF.RoundAsCircle
               CF.IterativeBoxBlur |]

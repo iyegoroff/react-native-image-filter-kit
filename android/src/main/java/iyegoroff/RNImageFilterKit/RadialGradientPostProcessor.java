@@ -19,12 +19,12 @@ import javax.annotation.Nullable;
 public class RadialGradientPostProcessor extends GeneratorPostProcessor {
 
   private CacheKey mCacheKey;
-  private int mCenterX;
-  private int mCenterY;
-  private int mRadius;
-  private int[] mColors;
-  private float[] mStops;
-  private Shader.TileMode mTileMode;
+  private final int mCenterX;
+  private final int mCenterY;
+  private final int mRadius;
+  private final int[] mColors;
+  private final float[] mStops;
+  private final Shader.TileMode mTileMode;
 
   public RadialGradientPostProcessor(
     int width,

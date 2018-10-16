@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 public class ColorMatrixColorFilterPostProcessor extends BasePostprocessor {
 
   private CacheKey mCacheKey;
-  private float[] mMatrix;
+  private final float[] mMatrix;
 
   public ColorMatrixColorFilterPostProcessor(float[] matrix) {
     mMatrix = matrix;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NativeImageFilter } from './native-image-filter';
+import { ImageFilter } from './image-filter';
 import shapes from './shapes';
 import { extractConfigAndImages } from './config';
 
@@ -15,29 +15,29 @@ const propsByKeys = (props, keys) => (
   )
 );
 
-const createImageNativeFilter = (name) => (props) => {
-  const shapePropKeys = ['config', ...Object.keys(shapes[name])];
+const createNativeImageFilter = (name) => (props) => {
+  const shapePropKeys = Object.keys(shapes[name]);
   const restPropKeys = Object.keys(props).filter(key => !shapePropKeys.includes(key));
 
   const { config, images } = extractConfigAndImages({
     type: { isImageFilter: true },
     name,
-    ...propsByKeys(props, shapePropKeys)
+    ...(props.config || propsByKeys(props, shapePropKeys))
   });
 
   return (
-    <NativeImageFilter
+    <ImageFilter
       config={config}
       {...propsByKeys(props, restPropKeys)}
     >
       {images}
-    </NativeImageFilter>
+    </ImageFilter>
   );
 };
 
 export default Object.keys(shapes).reduce(
   (acc, name) => {
-    acc[name] = createImageNativeFilter(name);
+    acc[name] = createNativeImageFilter(name);
     acc[name].displayName = name;
     acc[name].isImageFilter = true;
 

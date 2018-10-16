@@ -1,3 +1,4 @@
+export const config = 'config';
 export const distance = 'distance';
 export const scalar = 'scalar';
 export const position = 'position';
@@ -8,5 +9,4 @@ export const tileMode = 'tileMode';
 export const porterDuffMode = 'porterDuffMode';
 export const colorVector = 'colorVector';
 export const image = 'image';
-export const generatedImageStyle = 'generatedImageStyle';
-export const generatedImage = 'generatedImage';
+export const imageStyle = 'imageStyle';

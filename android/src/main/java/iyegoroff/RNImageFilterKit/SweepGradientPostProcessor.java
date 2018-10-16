@@ -20,10 +20,10 @@ import javax.annotation.Nullable;
 public class SweepGradientPostProcessor extends GeneratorPostProcessor {
 
   private CacheKey mCacheKey;
-  private int mCx;
-  private int mCy;
-  private int[] mColors;
-  private float[] mPositions;
+  private final int mCx;
+  private final int mCy;
+  private final int[] mColors;
+  private final float[] mPositions;
 
   public SweepGradientPostProcessor(
     int width,

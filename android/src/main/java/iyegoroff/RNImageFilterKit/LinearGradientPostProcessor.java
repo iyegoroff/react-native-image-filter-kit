@@ -17,13 +17,13 @@ import javax.annotation.Nullable;
 public class LinearGradientPostProcessor extends GeneratorPostProcessor {
 
   private CacheKey mCacheKey;
-  private int mX0;
-  private int mY0;
-  private int mX1;
-  private int mY1;
-  private int[] mColors;
-  private float[] mLocations;
-  private Shader.TileMode mTileMode;
+  private final int mX0;
+  private final int mY0;
+  private final int mX1;
+  private final int mY1;
+  private final int[] mColors;
+  private final float[] mLocations;
+  private final Shader.TileMode mTileMode;
 
   public LinearGradientPostProcessor(
     int width,

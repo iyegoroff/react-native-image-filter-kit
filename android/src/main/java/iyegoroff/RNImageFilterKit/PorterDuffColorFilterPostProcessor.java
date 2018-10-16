@@ -17,8 +17,8 @@ import javax.annotation.Nullable;
 public class PorterDuffColorFilterPostProcessor extends BasePostprocessor {
 
   private CacheKey mCacheKey;
-  private int mColor;
-  private PorterDuff.Mode mMode;
+  private final int mColor;
+  private final PorterDuff.Mode mMode;
 
   public PorterDuffColorFilterPostProcessor(int color, PorterDuff.Mode mode) {
     mColor = color;

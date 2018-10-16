@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import filters from '../native-platform-filters';
+import filters from '../native-filters';
 
 const { CIColorMatrix, ColorMatrixColorFilter } = filters;
 

@@ -643,358 +643,358 @@ let achromatomaly (): Matrix = importMember "react-native-image-filter-kit"
 
 let inline private propsToObj (props: 'a list): obj = keyValueList CaseRules.LowerFirst props
 
-let inline ColorMatrix (props: ColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "ColorMatrix" "react-native-image-filter-kit" (propsToObj props) children
+let inline ColorMatrix (props: ColorMatrixProps list) : React.ReactElement =
+  ofImport "ColorMatrix" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Normal (props: NormalProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Normal" "react-native-image-filter-kit" (propsToObj props) children
+let inline Normal (props: NormalProps list) : React.ReactElement =
+  ofImport "Normal" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline RGBA (props: RGBAProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "RGBA" "react-native-image-filter-kit" (propsToObj props) children
+let inline RGBA (props: RGBAProps list) : React.ReactElement =
+  ofImport "RGBA" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Saturate (props: SaturateProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Saturate" "react-native-image-filter-kit" (propsToObj props) children
+let inline Saturate (props: SaturateProps list) : React.ReactElement =
+  ofImport "Saturate" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline HueRotate (props: HueRotateProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "HueRotate" "react-native-image-filter-kit" (propsToObj props) children
+let inline HueRotate (props: HueRotateProps list) : React.ReactElement =
+  ofImport "HueRotate" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline LuminanceToAlpha (props: LuminanceToAlphaProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "LuminanceToAlpha" "react-native-image-filter-kit" (propsToObj props) children
+let inline LuminanceToAlpha (props: LuminanceToAlphaProps list) : React.ReactElement =
+  ofImport "LuminanceToAlpha" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Invert (props: InvertProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Invert" "react-native-image-filter-kit" (propsToObj props) children
+let inline Invert (props: InvertProps list) : React.ReactElement =
+  ofImport "Invert" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline BlackAndWhite (props: BlackAndWhiteProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "BlackAndWhite" "react-native-image-filter-kit" (propsToObj props) children
+let inline BlackAndWhite (props: BlackAndWhiteProps list) : React.ReactElement =
+  ofImport "BlackAndWhite" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Grayscale (props: GrayscaleProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Grayscale" "react-native-image-filter-kit" (propsToObj props) children
+let inline Grayscale (props: GrayscaleProps list) : React.ReactElement =
+  ofImport "Grayscale" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Sepia (props: SepiaProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Sepia" "react-native-image-filter-kit" (propsToObj props) children
+let inline Sepia (props: SepiaProps list) : React.ReactElement =
+  ofImport "Sepia" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Nightvision (props: NightvisionProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Nightvision" "react-native-image-filter-kit" (propsToObj props) children
+let inline Nightvision (props: NightvisionProps list) : React.ReactElement =
+  ofImport "Nightvision" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Warm (props: WarmProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Warm" "react-native-image-filter-kit" (propsToObj props) children
+let inline Warm (props: WarmProps list) : React.ReactElement =
+  ofImport "Warm" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Cool (props: CoolProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Cool" "react-native-image-filter-kit" (propsToObj props) children
+let inline Cool (props: CoolProps list) : React.ReactElement =
+  ofImport "Cool" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Brightness (props: BrightnessProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Brightness" "react-native-image-filter-kit" (propsToObj props) children
+let inline Brightness (props: BrightnessProps list) : React.ReactElement =
+  ofImport "Brightness" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Exposure (props: ExposureProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Exposure" "react-native-image-filter-kit" (propsToObj props) children
+let inline Exposure (props: ExposureProps list) : React.ReactElement =
+  ofImport "Exposure" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Contrast (props: ContrastProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Contrast" "react-native-image-filter-kit" (propsToObj props) children
+let inline Contrast (props: ContrastProps list) : React.ReactElement =
+  ofImport "Contrast" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Temperature (props: TemperatureProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Temperature" "react-native-image-filter-kit" (propsToObj props) children
+let inline Temperature (props: TemperatureProps list) : React.ReactElement =
+  ofImport "Temperature" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Tint (props: TintProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Tint" "react-native-image-filter-kit" (propsToObj props) children
+let inline Tint (props: TintProps list) : React.ReactElement =
+  ofImport "Tint" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Threshold (props: ThresholdProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Threshold" "react-native-image-filter-kit" (propsToObj props) children
+let inline Threshold (props: ThresholdProps list) : React.ReactElement =
+  ofImport "Threshold" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Technicolor (props: TechnicolorProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Technicolor" "react-native-image-filter-kit" (propsToObj props) children
+let inline Technicolor (props: TechnicolorProps list) : React.ReactElement =
+  ofImport "Technicolor" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Polaroid (props: PolaroidProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Polaroid" "react-native-image-filter-kit" (propsToObj props) children
+let inline Polaroid (props: PolaroidProps list) : React.ReactElement =
+  ofImport "Polaroid" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline ToBGR (props: ToBGRProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "ToBGR" "react-native-image-filter-kit" (propsToObj props) children
+let inline ToBGR (props: ToBGRProps list) : React.ReactElement =
+  ofImport "ToBGR" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Kodachrome (props: KodachromeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Kodachrome" "react-native-image-filter-kit" (propsToObj props) children
+let inline Kodachrome (props: KodachromeProps list) : React.ReactElement =
+  ofImport "Kodachrome" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Browni (props: BrowniProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Browni" "react-native-image-filter-kit" (propsToObj props) children
+let inline Browni (props: BrowniProps list) : React.ReactElement =
+  ofImport "Browni" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Vintage (props: VintageProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Vintage" "react-native-image-filter-kit" (propsToObj props) children
+let inline Vintage (props: VintageProps list) : React.ReactElement =
+  ofImport "Vintage" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Night (props: NightProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Night" "react-native-image-filter-kit" (propsToObj props) children
+let inline Night (props: NightProps list) : React.ReactElement =
+  ofImport "Night" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Predator (props: PredatorProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Predator" "react-native-image-filter-kit" (propsToObj props) children
+let inline Predator (props: PredatorProps list) : React.ReactElement =
+  ofImport "Predator" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Lsd (props: LsdProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Lsd" "react-native-image-filter-kit" (propsToObj props) children
+let inline Lsd (props: LsdProps list) : React.ReactElement =
+  ofImport "Lsd" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline ColorTone (props: ColorToneProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "ColorTone" "react-native-image-filter-kit" (propsToObj props) children
+let inline ColorTone (props: ColorToneProps list) : React.ReactElement =
+  ofImport "ColorTone" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline DuoTone (props: DuoToneProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "DuoTone" "react-native-image-filter-kit" (propsToObj props) children
+let inline DuoTone (props: DuoToneProps list) : React.ReactElement =
+  ofImport "DuoTone" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Protanomaly (props: ProtanomalyProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Protanomaly" "react-native-image-filter-kit" (propsToObj props) children
+let inline Protanomaly (props: ProtanomalyProps list) : React.ReactElement =
+  ofImport "Protanomaly" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Deuteranomaly (props: DeuteranomalyProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Deuteranomaly" "react-native-image-filter-kit" (propsToObj props) children
+let inline Deuteranomaly (props: DeuteranomalyProps list) : React.ReactElement =
+  ofImport "Deuteranomaly" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Tritanomaly (props: TritanomalyProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Tritanomaly" "react-native-image-filter-kit" (propsToObj props) children
+let inline Tritanomaly (props: TritanomalyProps list) : React.ReactElement =
+  ofImport "Tritanomaly" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Protanopia (props: ProtanopiaProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Protanopia" "react-native-image-filter-kit" (propsToObj props) children
+let inline Protanopia (props: ProtanopiaProps list) : React.ReactElement =
+  ofImport "Protanopia" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Deuteranopia (props: DeuteranopiaProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Deuteranopia" "react-native-image-filter-kit" (propsToObj props) children
+let inline Deuteranopia (props: DeuteranopiaProps list) : React.ReactElement =
+  ofImport "Deuteranopia" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Tritanopia (props: TritanopiaProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Tritanopia" "react-native-image-filter-kit" (propsToObj props) children
+let inline Tritanopia (props: TritanopiaProps list) : React.ReactElement =
+  ofImport "Tritanopia" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Achromatopsia (props: AchromatopsiaProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Achromatopsia" "react-native-image-filter-kit" (propsToObj props) children
+let inline Achromatopsia (props: AchromatopsiaProps list) : React.ReactElement =
+  ofImport "Achromatopsia" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Achromatomaly (props: AchromatomalyProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Achromatomaly" "react-native-image-filter-kit" (propsToObj props) children
+let inline Achromatomaly (props: AchromatomalyProps list) : React.ReactElement =
+  ofImport "Achromatomaly" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline ColorMatrixColorFilter (props: ColorMatrixColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "ColorMatrixColorFilter" "react-native-image-filter-kit" (propsToObj props) children
+let inline ColorMatrixColorFilter (props: ColorMatrixColorFilterProps list) : React.ReactElement =
+  ofImport "ColorMatrixColorFilter" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline IterativeBoxBlur (props: IterativeBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "IterativeBoxBlur" "react-native-image-filter-kit" (propsToObj props) children
+let inline IterativeBoxBlur (props: IterativeBoxBlurProps list) : React.ReactElement =
+  ofImport "IterativeBoxBlur" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline LightingColorFilter (props: LightingColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "LightingColorFilter" "react-native-image-filter-kit" (propsToObj props) children
+let inline LightingColorFilter (props: LightingColorFilterProps list) : React.ReactElement =
+  ofImport "LightingColorFilter" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline RoundAsCircle (props: RoundAsCircleProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "RoundAsCircle" "react-native-image-filter-kit" (propsToObj props) children
+let inline RoundAsCircle (props: RoundAsCircleProps list) : React.ReactElement =
+  ofImport "RoundAsCircle" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline Color (props: ColorProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "Color" "react-native-image-filter-kit" (propsToObj props) children
+let inline Color (props: ColorProps list) : React.ReactElement =
+  ofImport "Color" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline LinearGradient (props: LinearGradientProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "LinearGradient" "react-native-image-filter-kit" (propsToObj props) children
+let inline LinearGradient (props: LinearGradientProps list) : React.ReactElement =
+  ofImport "LinearGradient" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline RadialGradient (props: RadialGradientProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "RadialGradient" "react-native-image-filter-kit" (propsToObj props) children
+let inline RadialGradient (props: RadialGradientProps list) : React.ReactElement =
+  ofImport "RadialGradient" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline SweepGradient (props: SweepGradientProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "SweepGradient" "react-native-image-filter-kit" (propsToObj props) children
+let inline SweepGradient (props: SweepGradientProps list) : React.ReactElement =
+  ofImport "SweepGradient" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline PorterDuffColorFilter (props: PorterDuffColorFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "PorterDuffColorFilter" "react-native-image-filter-kit" (propsToObj props) children
+let inline PorterDuffColorFilter (props: PorterDuffColorFilterProps list) : React.ReactElement =
+  ofImport "PorterDuffColorFilter" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline PorterDuffXfermode (props: PorterDuffXfermodeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "PorterDuffXfermode" "react-native-image-filter-kit" (propsToObj props) children
+let inline PorterDuffXfermode (props: PorterDuffXfermodeProps list) : React.ReactElement =
+  ofImport "PorterDuffXfermode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIBoxBlur (props: CIBoxBlurProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIBoxBlur" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIBoxBlur (props: CIBoxBlurProps list) : React.ReactElement =
+  ofImport "CIBoxBlur" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIGaussianBlur (props: CIGaussianBlurProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIGaussianBlur" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIGaussianBlur (props: CIGaussianBlurProps list) : React.ReactElement =
+  ofImport "CIGaussianBlur" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIDiscBlur (props: CIDiscBlurProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIDiscBlur" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIDiscBlur (props: CIDiscBlurProps list) : React.ReactElement =
+  ofImport "CIDiscBlur" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIMaskedVariableBlur (props: CIMaskedVariableBlurProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIMaskedVariableBlur" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIMaskedVariableBlur (props: CIMaskedVariableBlurProps list) : React.ReactElement =
+  ofImport "CIMaskedVariableBlur" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIMedianFilter (props: CIMedianFilterProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIMedianFilter" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIMedianFilter (props: CIMedianFilterProps list) : React.ReactElement =
+  ofImport "CIMedianFilter" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIMotionBlur (props: CIMotionBlurProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIMotionBlur" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIMotionBlur (props: CIMotionBlurProps list) : React.ReactElement =
+  ofImport "CIMotionBlur" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CINoiseReduction (props: CINoiseReductionProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CINoiseReduction" "react-native-image-filter-kit" (propsToObj props) children
+let inline CINoiseReduction (props: CINoiseReductionProps list) : React.ReactElement =
+  ofImport "CINoiseReduction" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIZoomBlur (props: CIZoomBlurProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIZoomBlur" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIZoomBlur (props: CIZoomBlurProps list) : React.ReactElement =
+  ofImport "CIZoomBlur" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorClamp (props: CIColorClampProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorClamp" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorClamp (props: CIColorClampProps list) : React.ReactElement =
+  ofImport "CIColorClamp" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorControls (props: CIColorControlsProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorControls" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorControls (props: CIColorControlsProps list) : React.ReactElement =
+  ofImport "CIColorControls" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorMatrix (props: CIColorMatrixProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorMatrix" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorMatrix (props: CIColorMatrixProps list) : React.ReactElement =
+  ofImport "CIColorMatrix" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorPolynomial (props: CIColorPolynomialProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorPolynomial" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorPolynomial (props: CIColorPolynomialProps list) : React.ReactElement =
+  ofImport "CIColorPolynomial" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIExposureAdjust (props: CIExposureAdjustProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIExposureAdjust" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIExposureAdjust (props: CIExposureAdjustProps list) : React.ReactElement =
+  ofImport "CIExposureAdjust" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIGammaAdjust (props: CIGammaAdjustProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIGammaAdjust" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIGammaAdjust (props: CIGammaAdjustProps list) : React.ReactElement =
+  ofImport "CIGammaAdjust" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIHueAdjust (props: CIHueAdjustProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIHueAdjust" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIHueAdjust (props: CIHueAdjustProps list) : React.ReactElement =
+  ofImport "CIHueAdjust" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CILinearToSRGBToneCurve (props: CILinearToSRGBToneCurveProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CILinearToSRGBToneCurve" "react-native-image-filter-kit" (propsToObj props) children
+let inline CILinearToSRGBToneCurve (props: CILinearToSRGBToneCurveProps list) : React.ReactElement =
+  ofImport "CILinearToSRGBToneCurve" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CISRGBToneCurveToLinear (props: CISRGBToneCurveToLinearProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CISRGBToneCurveToLinear" "react-native-image-filter-kit" (propsToObj props) children
+let inline CISRGBToneCurveToLinear (props: CISRGBToneCurveToLinearProps list) : React.ReactElement =
+  ofImport "CISRGBToneCurveToLinear" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CITemperatureAndTint (props: CITemperatureAndTintProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CITemperatureAndTint" "react-native-image-filter-kit" (propsToObj props) children
+let inline CITemperatureAndTint (props: CITemperatureAndTintProps list) : React.ReactElement =
+  ofImport "CITemperatureAndTint" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIToneCurve (props: CIToneCurveProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIToneCurve" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIToneCurve (props: CIToneCurveProps list) : React.ReactElement =
+  ofImport "CIToneCurve" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIVibrance (props: CIVibranceProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIVibrance" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIVibrance (props: CIVibranceProps list) : React.ReactElement =
+  ofImport "CIVibrance" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIMaskToAlpha (props: CIMaskToAlphaProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIMaskToAlpha" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIMaskToAlpha (props: CIMaskToAlphaProps list) : React.ReactElement =
+  ofImport "CIMaskToAlpha" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIMaximumComponent (props: CIMaximumComponentProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIMaximumComponent" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIMaximumComponent (props: CIMaximumComponentProps list) : React.ReactElement =
+  ofImport "CIMaximumComponent" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIMinimumComponent (props: CIMinimumComponentProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIMinimumComponent" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIMinimumComponent (props: CIMinimumComponentProps list) : React.ReactElement =
+  ofImport "CIMinimumComponent" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPhotoEffectChrome (props: CIPhotoEffectChromeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPhotoEffectChrome" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPhotoEffectChrome (props: CIPhotoEffectChromeProps list) : React.ReactElement =
+  ofImport "CIPhotoEffectChrome" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPhotoEffectFade (props: CIPhotoEffectFadeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPhotoEffectFade" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPhotoEffectFade (props: CIPhotoEffectFadeProps list) : React.ReactElement =
+  ofImport "CIPhotoEffectFade" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPhotoEffectInstant (props: CIPhotoEffectInstantProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPhotoEffectInstant" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPhotoEffectInstant (props: CIPhotoEffectInstantProps list) : React.ReactElement =
+  ofImport "CIPhotoEffectInstant" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPhotoEffectMono (props: CIPhotoEffectMonoProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPhotoEffectMono" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPhotoEffectMono (props: CIPhotoEffectMonoProps list) : React.ReactElement =
+  ofImport "CIPhotoEffectMono" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPhotoEffectNoir (props: CIPhotoEffectNoirProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPhotoEffectNoir" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPhotoEffectNoir (props: CIPhotoEffectNoirProps list) : React.ReactElement =
+  ofImport "CIPhotoEffectNoir" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPhotoEffectProcess (props: CIPhotoEffectProcessProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPhotoEffectProcess" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPhotoEffectProcess (props: CIPhotoEffectProcessProps list) : React.ReactElement =
+  ofImport "CIPhotoEffectProcess" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPhotoEffectTonal (props: CIPhotoEffectTonalProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPhotoEffectTonal" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPhotoEffectTonal (props: CIPhotoEffectTonalProps list) : React.ReactElement =
+  ofImport "CIPhotoEffectTonal" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPhotoEffectTransfer (props: CIPhotoEffectTransferProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPhotoEffectTransfer" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPhotoEffectTransfer (props: CIPhotoEffectTransferProps list) : React.ReactElement =
+  ofImport "CIPhotoEffectTransfer" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CISepiaTone (props: CISepiaToneProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CISepiaTone" "react-native-image-filter-kit" (propsToObj props) children
+let inline CISepiaTone (props: CISepiaToneProps list) : React.ReactElement =
+  ofImport "CISepiaTone" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIVignette (props: CIVignetteProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIVignette" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIVignette (props: CIVignetteProps list) : React.ReactElement =
+  ofImport "CIVignette" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIVignetteEffect (props: CIVignetteEffectProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIVignetteEffect" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIVignetteEffect (props: CIVignetteEffectProps list) : React.ReactElement =
+  ofImport "CIVignetteEffect" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIAdditionCompositing (props: CIAdditionCompositingProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIAdditionCompositing" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIAdditionCompositing (props: CIAdditionCompositingProps list) : React.ReactElement =
+  ofImport "CIAdditionCompositing" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorBlendMode (props: CIColorBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorBlendMode (props: CIColorBlendModeProps list) : React.ReactElement =
+  ofImport "CIColorBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorBurnBlendMode (props: CIColorBurnBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorBurnBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorBurnBlendMode (props: CIColorBurnBlendModeProps list) : React.ReactElement =
+  ofImport "CIColorBurnBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorDodgeBlendMode (props: CIColorDodgeBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorDodgeBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorDodgeBlendMode (props: CIColorDodgeBlendModeProps list) : React.ReactElement =
+  ofImport "CIColorDodgeBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIDarkenBlendMode (props: CIDarkenBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIDarkenBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIDarkenBlendMode (props: CIDarkenBlendModeProps list) : React.ReactElement =
+  ofImport "CIDarkenBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIExclusionBlendMode (props: CIExclusionBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIExclusionBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIExclusionBlendMode (props: CIExclusionBlendModeProps list) : React.ReactElement =
+  ofImport "CIExclusionBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIHueBlendMode (props: CIHueBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIHueBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIHueBlendMode (props: CIHueBlendModeProps list) : React.ReactElement =
+  ofImport "CIHueBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CILightenBlendMode (props: CILightenBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CILightenBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CILightenBlendMode (props: CILightenBlendModeProps list) : React.ReactElement =
+  ofImport "CILightenBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIMultiplyBlendMode (props: CIMultiplyBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIMultiplyBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIMultiplyBlendMode (props: CIMultiplyBlendModeProps list) : React.ReactElement =
+  ofImport "CIMultiplyBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIOverlayBlendMode (props: CIOverlayBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIOverlayBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIOverlayBlendMode (props: CIOverlayBlendModeProps list) : React.ReactElement =
+  ofImport "CIOverlayBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIScreenBlendMode (props: CIScreenBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIScreenBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIScreenBlendMode (props: CIScreenBlendModeProps list) : React.ReactElement =
+  ofImport "CIScreenBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CISoftLightBlendMode (props: CISoftLightBlendModeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CISoftLightBlendMode" "react-native-image-filter-kit" (propsToObj props) children
+let inline CISoftLightBlendMode (props: CISoftLightBlendModeProps list) : React.ReactElement =
+  ofImport "CISoftLightBlendMode" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorInvert (props: CIColorInvertProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorInvert" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorInvert (props: CIColorInvertProps list) : React.ReactElement =
+  ofImport "CIColorInvert" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorMonochrome (props: CIColorMonochromeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorMonochrome" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorMonochrome (props: CIColorMonochromeProps list) : React.ReactElement =
+  ofImport "CIColorMonochrome" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIColorPosterize (props: CIColorPosterizeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIColorPosterize" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIColorPosterize (props: CIColorPosterizeProps list) : React.ReactElement =
+  ofImport "CIColorPosterize" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CICircularScreen (props: CICircularScreenProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CICircularScreen" "react-native-image-filter-kit" (propsToObj props) children
+let inline CICircularScreen (props: CICircularScreenProps list) : React.ReactElement =
+  ofImport "CICircularScreen" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIDotScreen (props: CIDotScreenProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIDotScreen" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIDotScreen (props: CIDotScreenProps list) : React.ReactElement =
+  ofImport "CIDotScreen" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CILineScreen (props: CILineScreenProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CILineScreen" "react-native-image-filter-kit" (propsToObj props) children
+let inline CILineScreen (props: CILineScreenProps list) : React.ReactElement =
+  ofImport "CILineScreen" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIBumpDistortion (props: CIBumpDistortionProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIBumpDistortion" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIBumpDistortion (props: CIBumpDistortionProps list) : React.ReactElement =
+  ofImport "CIBumpDistortion" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIBumpDistortionLinear (props: CIBumpDistortionLinearProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIBumpDistortionLinear" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIBumpDistortionLinear (props: CIBumpDistortionLinearProps list) : React.ReactElement =
+  ofImport "CIBumpDistortionLinear" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CICircleSplashDistortion (props: CICircleSplashDistortionProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CICircleSplashDistortion" "react-native-image-filter-kit" (propsToObj props) children
+let inline CICircleSplashDistortion (props: CICircleSplashDistortionProps list) : React.ReactElement =
+  ofImport "CICircleSplashDistortion" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CICircularWrap (props: CICircularWrapProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CICircularWrap" "react-native-image-filter-kit" (propsToObj props) children
+let inline CICircularWrap (props: CICircularWrapProps list) : React.ReactElement =
+  ofImport "CICircularWrap" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIVortexDistortion (props: CIVortexDistortionProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIVortexDistortion" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIVortexDistortion (props: CIVortexDistortionProps list) : React.ReactElement =
+  ofImport "CIVortexDistortion" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIConstantColorGenerator (props: CIConstantColorGeneratorProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIConstantColorGenerator" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIConstantColorGenerator (props: CIConstantColorGeneratorProps list) : React.ReactElement =
+  ofImport "CIConstantColorGenerator" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIRandomGenerator (props: CIRandomGeneratorProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIRandomGenerator" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIRandomGenerator (props: CIRandomGeneratorProps list) : React.ReactElement =
+  ofImport "CIRandomGenerator" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CILinearGradient (props: CILinearGradientProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CILinearGradient" "react-native-image-filter-kit" (propsToObj props) children
+let inline CILinearGradient (props: CILinearGradientProps list) : React.ReactElement =
+  ofImport "CILinearGradient" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIRadialGradient (props: CIRadialGradientProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIRadialGradient" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIRadialGradient (props: CIRadialGradientProps list) : React.ReactElement =
+  ofImport "CIRadialGradient" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CISharpenLuminance (props: CISharpenLuminanceProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CISharpenLuminance" "react-native-image-filter-kit" (propsToObj props) children
+let inline CISharpenLuminance (props: CISharpenLuminanceProps list) : React.ReactElement =
+  ofImport "CISharpenLuminance" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIUnsharpMask (props: CIUnsharpMaskProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIUnsharpMask" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIUnsharpMask (props: CIUnsharpMaskProps list) : React.ReactElement =
+  ofImport "CIUnsharpMask" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CICrystallize (props: CICrystallizeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CICrystallize" "react-native-image-filter-kit" (propsToObj props) children
+let inline CICrystallize (props: CICrystallizeProps list) : React.ReactElement =
+  ofImport "CICrystallize" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIEdges (props: CIEdgesProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIEdges" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIEdges (props: CIEdgesProps list) : React.ReactElement =
+  ofImport "CIEdges" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CILineOverlay (props: CILineOverlayProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CILineOverlay" "react-native-image-filter-kit" (propsToObj props) children
+let inline CILineOverlay (props: CILineOverlayProps list) : React.ReactElement =
+  ofImport "CILineOverlay" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPixellate (props: CIPixellateProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPixellate" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPixellate (props: CIPixellateProps list) : React.ReactElement =
+  ofImport "CIPixellate" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIPointillize (props: CIPointillizeProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIPointillize" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIPointillize (props: CIPointillizeProps list) : React.ReactElement =
+  ofImport "CIPointillize" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline CIOpTile (props: CIOpTileProps list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "CIOpTile" "react-native-image-filter-kit" (propsToObj props) children
+let inline CIOpTile (props: CIOpTileProps list) : React.ReactElement =
+  ofImport "CIOpTile" "react-native-image-filter-kit" (propsToObj props) []
 
-let inline ImagePlaceholder (props: ImageProperties list) (children: React.ReactElement list): React.ReactElement =
-  ofImport "ImagePlaceholder" "react-native-image-filter-kit" (propsToObj props) children
+let inline ImagePlaceholder (props: ImageProperties list) : React.ReactElement =
+  ofImport "ImagePlaceholder" "react-native-image-filter-kit" (propsToObj props) []
 
 let imagePlaceholderSource: IImageSource = importMember "react-native-image-filter-kit"

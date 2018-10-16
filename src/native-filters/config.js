@@ -1,3 +1,4 @@
+import React from 'react';
 import { processColor, Platform } from 'react-native';
 import invariant from 'fbjs/lib/invariant';
 import {
@@ -8,8 +9,7 @@ import {
   color,
   colorVector,
   image,
-  generatedImageStyle,
-  generatedImage
+  imageStyle
 } from './inputs';
 import shapes from './shapes';
 import { ImagePlaceholder } from './image-placeholder';
@@ -30,20 +30,33 @@ const paramConvertMap = {
   [colorVector]: convertColors
 };
 
+const requiredValueInvariant = (filterName, value, key) => {
+  invariant(
+    value !== undefined,
+    `ImageFilter: ${filterName} filter should specify '${key}' value.`
+  );
+};
+
+const validFilterInvariant = (filterName, shape) => {
+  invariant(shape, `ImageFilter: ${filterName} filter doesn't exist on ${Platform.OS}.`);
+};
+
 export const finalizeConfig = ({ name, ...values }) => {
   const shape = shapes[name];
 
-  invariant(shape, `ImageFilter: ${name} filter doesn't exist on ${Platform.OS}.`);
+  validFilterInvariant(name, shape);
 
-  return {
+  const config = {
     name,
     ...(Object.keys(shape).reduce(
       (acc, key) => {
-        const value = values[key];
+        const inputType = shape[key] === imageStyle ? image : shape[key];
+        key = shape[key] === imageStyle ? 'image' : key;
+        const inputValue = values[key];
 
-        if (value !== undefined) {
-          const inputType = shape[key];
-          const convert = paramConvertMap[inputType] || (inputType === image ? finalizeConfig : id);
+        if (inputValue !== undefined && inputType !== undefined) {
+          const convert = paramConvertMap[inputType] ||
+            (inputType === image && typeof inputValue !== 'number' ? finalizeConfig : id);
 
           acc[key] = { [inputType]: convert(values[key]) };
         }
@@ -53,6 +66,8 @@ export const finalizeConfig = ({ name, ...values }) => {
       {}
     ))
   };
+
+  return config;
 };
 
 export const extractConfigAndImages = (filter) => {
@@ -60,8 +75,14 @@ export const extractConfigAndImages = (filter) => {
 
   const parseFilter = (filter) => {
     if (filter.type && !filter.type.isImageFilter) {
-      images.push(filter);
-      return images.length - 1;
+      const idx = images.length;
+      images.push(
+        filter.props.key !== undefined
+          ? filter
+          : <React.Fragment key={`image_#${idx}`}>{filter}</React.Fragment>
+      );
+
+      return idx;
     }
 
     const {
@@ -71,19 +92,33 @@ export const extractConfigAndImages = (filter) => {
 
     const shape = shapes[name];
 
+    validFilterInvariant(name, shape);
+
     return ({
       name,
-      ...(Object.keys(rest).reduce(
+      ...(Object.keys(shape).reduce(
         (acc, key) => {
           const inputType = shape[key];
+          const inputValue = rest[key];
 
           if (inputType === image) {
-            acc[key] = parseFilter(rest[key]);
-          } else if (inputType === generatedImageStyle) {
-            images.push(<ImagePlaceholder style={rest[key]} />);
-            acc[generatedImage] = images.length - 1;
-          } else {
-            acc[key] = rest[key];
+            requiredValueInvariant(name, inputValue, key);
+
+            acc[key] = parseFilter(inputValue);
+          } else if (inputType === imageStyle) {
+            requiredValueInvariant(name, inputValue, key);
+
+            const idx = images.length;
+            images.push(
+              <ImagePlaceholder
+                style={inputValue}
+                key={`image_placeholder_#${idx}`}
+              />
+            );
+
+            acc.image = idx;
+          } else if (inputType !== undefined && inputValue !== undefined) {
+            acc[key] = inputValue;
           }
 
           return acc;

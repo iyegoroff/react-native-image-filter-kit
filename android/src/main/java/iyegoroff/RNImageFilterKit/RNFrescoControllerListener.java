@@ -1,23 +1,22 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.graphics.drawable.Animatable;
-import android.util.Log;
 
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.imagepipeline.image.ImageInfo;
-import com.facebook.react.common.ReactConstants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class RNFrescoControllerListener extends BaseControllerListener<ImageInfo> {
   private @Nullable ControllerListener<ImageInfo> mOriginalListener;
-  private @Nonnull RNImageUpdatedFunctor mImageUpdated;
+  private @Nonnull RNFunctor<RNFrescoControllerListener> mImageUpdated;
+  private boolean mIsEnabled = true;
 
   RNFrescoControllerListener(
     @Nullable ControllerListener<ImageInfo> originalListener,
-    @Nonnull RNImageUpdatedFunctor imageUpdated
+    @Nonnull RNFunctor<RNFrescoControllerListener> imageUpdated
   ) {
     super();
 
@@ -37,7 +36,11 @@ public class RNFrescoControllerListener extends BaseControllerListener<ImageInfo
     }
 
     if (imageInfo != null) {
-      mImageUpdated.call();
+      if (mIsEnabled) {
+        mImageUpdated.call(this);
+      } else {
+        mIsEnabled = true;
+      }
     }
   }
 
@@ -45,5 +48,14 @@ public class RNFrescoControllerListener extends BaseControllerListener<ImageInfo
     if (mOriginalListener != null) {
       mOriginalListener.onFailure(id, throwable);
     }
+  }
+
+  public void setEnabled(boolean isEnabled) {
+    this.mIsEnabled = isEnabled;
+  }
+
+  @Nullable
+  public ControllerListener<ImageInfo> getOriginalListener() {
+    return mOriginalListener;
   }
 }

@@ -23,9 +23,9 @@ import javax.annotation.Nullable;
 public class PorterDuffXfermodePostProcessor extends BasePostprocessor {
 
   private CacheKey mCacheKey;
-  private PorterDuff.Mode mMode;
+  private final PorterDuff.Mode mMode;
   private @Nonnull CloseableReference<CloseableImage> mDest;
-  private @Nonnull CacheKey mDestCacheKey;
+  private final @Nonnull CacheKey mDestCacheKey;
 
   public PorterDuffXfermodePostProcessor(
     PorterDuff.Mode mode,
@@ -33,8 +33,13 @@ public class PorterDuffXfermodePostProcessor extends BasePostprocessor {
     @Nonnull CacheKey destCacheKey
   ) {
     mMode = mode;
-    mDest = dest;
+    mDest = dest.clone();
     mDestCacheKey = destCacheKey;
+  }
+
+  @Override
+  protected void finalize() {
+    CloseableReference.closeSafely(mDest);
   }
 
   @Override
@@ -44,8 +49,6 @@ public class PorterDuffXfermodePostProcessor extends BasePostprocessor {
     Bitmap dest = ((CloseableBitmap) mDest.get()).getUnderlyingBitmap();
 
     if (dest != null) {
-      Log.d(ReactConstants.TAG, "PORTER " + String.valueOf(mMode) + " " + String.valueOf(dest));
-
       Canvas canvas = new Canvas(destBitmap);
       Paint paint = new Paint();
 

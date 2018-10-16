@@ -6,6 +6,7 @@ import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
+import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.Postprocessor;
 

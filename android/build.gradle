@@ -35,5 +35,6 @@ android {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    provided "com.facebook.react:react-native:${_reactNativeVersion}"
+    compileOnly "com.facebook.react:react-native:${_reactNativeVersion}"
+    implementation "org.jdeferred.v2:jdeferred-android-aar:2.0.0-beta1"
 }

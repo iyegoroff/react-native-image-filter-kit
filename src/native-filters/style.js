@@ -1,4 +1,5 @@
 import React from 'react';
+import * as ReactIs from 'react-is';
 import { processColor } from 'react-native';
 import invariant from 'fbjs/lib/invariant';
 
@@ -27,8 +28,21 @@ export const checkStyle = (style) => {
 };
 
 export const hidden = (item) => (
-  React.cloneElement(item, {
-    ...item.props,
-    style: item.props.style ? [item.props.style, hiddenStyle] : hiddenStyle
-  })
+  ReactIs.isFragment(item)
+    ? React.cloneElement(item, {
+      ...item.props,
+      children: {
+        ...item.props.children,
+        props: {
+          ...item.props.children.props,
+          style: item.props.children.props.style
+            ? [item.props.children.props.style, hiddenStyle]
+            : hiddenStyle
+        }
+      }
+    })
+    : React.cloneElement(item, {
+      ...item.props,
+      style: item.props.style ? [item.props.style, hiddenStyle] : hiddenStyle
+    })
 );

@@ -16,8 +16,8 @@ import javax.annotation.Nullable;
 public class LightingColorFilterPostProcessor extends BasePostprocessor {
 
   private CacheKey mCacheKey;
-  private int mMul;
-  private int mAdd;
+  private final int mMul;
+  private final int mAdd;
 
   public LightingColorFilterPostProcessor(int mul, int add) {
     mMul = mul;

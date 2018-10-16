@@ -7,10 +7,15 @@ import {
   image,
   tileMode,
   porterDuffMode,
-  generatedImageStyle
+  imageStyle,
+  config
 } from './inputs';
 
 export default {
+  ImageFilter: {
+    config: config
+  },
+
   ColorMatrixColorFilter: {
     matrix: scalarVector,
     image: image
@@ -34,7 +39,7 @@ export default {
 
   Color: {
     color: color,
-    imageStyle: generatedImageStyle
+    imageStyle: imageStyle
   },
 
   LinearGradient: {
@@ -45,7 +50,7 @@ export default {
     colors: colorVector,
     locations: scalarVector,
     tile: tileMode,
-    imageStyle: generatedImageStyle
+    imageStyle: imageStyle
   },
 
   RadialGradient: {
@@ -55,7 +60,7 @@ export default {
     colors: colorVector,
     stops: scalarVector,
     tileMode: tileMode,
-    imageStyle: generatedImageStyle
+    imageStyle: imageStyle
   },
 
   SweepGradient: {
@@ -63,7 +68,7 @@ export default {
     cy: distance,
     colors: colorVector,
     positions: scalarVector,
-    imageStyle: generatedImageStyle
+    imageStyle: imageStyle
   },
 
   PorterDuffColorFilter: {

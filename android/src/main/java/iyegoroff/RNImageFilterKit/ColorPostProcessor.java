@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 public class ColorPostProcessor extends GeneratorPostProcessor {
 
   private CacheKey mCacheKey;
-  private int mColor;
+  private final int mColor;
 
   public ColorPostProcessor(int width, int height, int color) {
     super(width, height);

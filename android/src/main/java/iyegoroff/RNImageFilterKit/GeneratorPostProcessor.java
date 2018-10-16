@@ -13,8 +13,8 @@ import javax.annotation.Nonnull;
 
 public abstract class GeneratorPostProcessor extends BasePostprocessor {
 
-  protected int mWidth;
-  protected int mHeight;
+  protected final int mWidth;
+  protected final int mHeight;
 
   public GeneratorPostProcessor(int width, int height) {
     mWidth = width;
