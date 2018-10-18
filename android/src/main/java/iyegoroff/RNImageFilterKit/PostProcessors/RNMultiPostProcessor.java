@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit;
+package iyegoroff.RNImageFilterKit.PostProcessors;
 
 import android.graphics.Bitmap;
 
@@ -6,7 +6,6 @@ import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
-import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.Postprocessor;
 
@@ -58,7 +57,7 @@ public class RNMultiPostProcessor extends IterativeBoxBlurPostProcessor {
         prevBitmap = nextBitmap.clone();
       }
 
-      return nextBitmap.clone();
+      return nextBitmap == null ? super.process(sourceBitmap, bitmapFactory) : nextBitmap.clone();
     } finally {
       CloseableReference.closeSafely(nextBitmap);
     }

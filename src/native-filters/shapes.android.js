@@ -8,7 +8,9 @@ import {
   tileMode,
   porterDuffMode,
   imageStyle,
-  config
+  config,
+  resizeMode,
+  offset
 } from './inputs';
 
 export default {
@@ -79,7 +81,9 @@ export default {
 
   PorterDuffXfermode: {
     mode: porterDuffMode,
+    dstImage: image,
     srcImage: image,
-    dstImage: image
+    srcGravityAxis: offset,
+    srcResizeMode: resizeMode
   }
 };

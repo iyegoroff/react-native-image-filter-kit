@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit;
+package iyegoroff.RNImageFilterKit.PostProcessors;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,14 +9,17 @@ import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 
-import javax.annotation.Nonnull;
+import org.json.JSONObject;
 
-public abstract class GeneratorPostProcessor extends BasePostprocessor {
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+public abstract class RNGeneratorPostProcessor extends BasePostprocessor {
 
   protected final int mWidth;
   protected final int mHeight;
 
-  public GeneratorPostProcessor(int width, int height) {
+  public RNGeneratorPostProcessor(int width, int height) {
     mWidth = width;
     mHeight = height;
   }

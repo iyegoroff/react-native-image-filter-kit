@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit;
+package iyegoroff.RNImageFilterKit.PostProcessors;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,19 +9,27 @@ import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 
+import org.json.JSONObject;
+
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class LightingColorFilterPostProcessor extends BasePostprocessor {
+import iyegoroff.RNImageFilterKit.RNInputConverter;
+
+public class RNLightingColorFilterPostProcessor extends BasePostprocessor {
 
   private CacheKey mCacheKey;
   private final int mMul;
   private final int mAdd;
 
-  public LightingColorFilterPostProcessor(int mul, int add) {
-    mMul = mul;
-    mAdd = add;
+  public RNLightingColorFilterPostProcessor(
+    @Nullable JSONObject config,
+    @Nonnull RNInputConverter converter
+  ) {
+    mMul = converter.convertColor(config != null ? config.optJSONObject("mul") : null, 0);
+    mAdd = converter.convertColor(config != null ? config.optJSONObject("add") : null, 0);
   }
 
   @Override

@@ -1,14 +1,14 @@
-package iyegoroff.RNImageFilterKit;
+package iyegoroff.RNImageFilterKit.PostProcessors;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 
-public class DummyPostProcessor extends BasePostprocessor {
+public class RNDummyPostProcessor extends BasePostprocessor {
 
   private CacheKey mCacheKey = new SimpleCacheKey("dummy");
 
-  public DummyPostProcessor() {
+  public RNDummyPostProcessor() {
   }
 
   @Override

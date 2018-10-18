@@ -44,6 +44,12 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import iyegoroff.RNImageFilterKit.PostProcessors.RNColorPostProcessor;
+import iyegoroff.RNImageFilterKit.PostProcessors.RNDummyPostProcessor;
+import iyegoroff.RNImageFilterKit.PostProcessors.RNIterativeBoxBlurPostProcessor;
+import iyegoroff.RNImageFilterKit.PostProcessors.RNPorterDuffXfermodePostProcessor;
+import iyegoroff.RNImageFilterKit.PostProcessors.RNMultiPostProcessor;
+
 public class RNImageFilter extends ReactViewGroup {
 
   private @Nullable JSONObject mConfig = null;
@@ -78,9 +84,10 @@ public class RNImageFilter extends ReactViewGroup {
     this.runFilterPipeline();
   }
 
-  private Promise<RNFilterableImage, ?, ?> parseConfig(
+  private static Promise<RNFilterableImage, ?, ?> parseConfig(
     final @Nonnull Object config,
-    final @Nonnull ArrayList<ReactImageView> images
+    final @Nonnull ArrayList<ReactImageView> images,
+    final @Nonnull Map<ReactImageView, RNFrescoControllerListener> imageListeners
   ) throws JSONException {
     if (config instanceof Integer) {
       return new DeferredObject<RNFilterableImage, Object, Object>()
@@ -96,7 +103,7 @@ public class RNImageFilter extends ReactViewGroup {
     final String name = jsonConfig.getString("name");
 
     if ("RoundAsCircle".equals(name)) {
-      return this.parseConfig(jsonConfig.getJSONObject("image").get("image"), images)
+      return RNImageFilter.parseConfig(jsonConfig.getJSONObject("image").get("image"), images, imageListeners)
         .then(new DoneFilter<RNFilterableImage, RNFilterableImage>() {
           @Override
           public RNFilterableImage filterDone(RNFilterableImage result) {
@@ -108,39 +115,37 @@ public class RNImageFilter extends ReactViewGroup {
         });
 
     } else if ("IterativeBoxBlur".equals(name)) {
-      return this.parseConfig(jsonConfig.getJSONObject("image").get("image"), images)
+      return RNImageFilter.parseConfig(jsonConfig.getJSONObject("image").get("image"), images, imageListeners)
         .then(new DoneFilter<RNFilterableImage, RNFilterableImage>() {
           @Override
           public RNFilterableImage filterDone(RNFilterableImage result) {
-            int iterations = jsonConfig.has("iterations")
-              ? jsonConfig.optJSONObject("iterations").optInt("scalar")
-              : 3;
-            int blurRadius = jsonConfig.has("blurRadius")
-              ? jsonConfig.optJSONObject("blurRadius").optInt("scalar")
-              : 1;
+            int width = result.getImage().getMeasuredWidth();
+            int height = result.getImage().getMeasuredHeight();
 
             ArrayList<Postprocessor> postProcessors = new ArrayList<>(result.getPostProcessors());
-            postProcessors.add(new IterativeBoxBlurPostProcessor(iterations, blurRadius));
+            postProcessors.add(new RNIterativeBoxBlurPostProcessor(
+              jsonConfig,
+              new RNInputConverter(width, height)
+            ));
 
             return new RNFilterableImage(result.getImage(), postProcessors);
           }
         });
 
     } else if ("Color".equals(name)) {
-      return this.parseConfig(jsonConfig.getJSONObject("image").get("image"), images)
+      return RNImageFilter.parseConfig(jsonConfig.getJSONObject("image").get("image"), images, imageListeners)
         .then(new DoneFilter<RNFilterableImage, RNFilterableImage>() {
           @Override
           public RNFilterableImage filterDone(RNFilterableImage result) {
-            int color = jsonConfig.has("color")
-              ? jsonConfig.optJSONObject("color").optInt("color")
-              : 0;
-
             ArrayList<Postprocessor> postProcessors = new ArrayList<>(result.getPostProcessors());
+            int width = result.getImage().getMeasuredWidth();
+            int height = result.getImage().getMeasuredHeight();
 
-            postProcessors.add(new ColorPostProcessor(
-              result.getImage().getMeasuredWidth(),
-              result.getImage().getMeasuredHeight(),
-              color
+            postProcessors.add(new RNColorPostProcessor(
+              width,
+              height,
+              jsonConfig,
+              new RNInputConverter(width, height)
             ));
 
             return new RNFilterableImage(result.getImage(), postProcessors);
@@ -149,8 +154,8 @@ public class RNImageFilter extends ReactViewGroup {
 
     } else if ("PorterDuffXfermode".equals(name)) {
       return (new AndroidDeferredManager()).when(
-        this.parseConfig(jsonConfig.getJSONObject("srcImage").get("image"), images),
-        this.parseConfig(jsonConfig.getJSONObject("dstImage").get("image"), images)
+        RNImageFilter.parseConfig(jsonConfig.getJSONObject("dstImage").get("image"), images, imageListeners),
+        RNImageFilter.parseConfig(jsonConfig.getJSONObject("srcImage").get("image"), images, imageListeners)
       ).then(
         new DonePipe<
           MultipleResults2<RNFilterableImage, RNFilterableImage>,
@@ -164,14 +169,16 @@ public class RNImageFilter extends ReactViewGroup {
           ) {
             final Deferred<RNFilterableImage, OneReject<Object>, MasterProgress> deferred =
               new DeferredObject<>();
-            final RNFilterableImage src = result.getFirst().getValue();
-            RNFilterableImage dst = result.getSecond().getValue();
+            final RNFilterableImage dst = result.getFirst().getValue();
+            RNFilterableImage src = result.getSecond().getValue();
 
-            RNImageFilter.filterImage(dst, mImageListeners.get(dst.getImage()))
+            RNImageFilter.filterImage(src, imageListeners.get(src.getImage()))
               .then(new DoneCallback<ReactImageView>() {
                 @Override
                 public void onDone(ReactImageView result) {
                   if (result != null && result.getController() != null) {
+                    final int width = result.getMeasuredWidth();
+                    final int height = result.getMeasuredHeight();
                     final CacheKey bitmapKey = RNReflectUtils
                       .getFieldValue(result.getController(), "mCacheKey");
                     Supplier<DataSource<CloseableReference<CloseableImage>>> ds = RNReflectUtils
@@ -187,27 +194,18 @@ public class RNImageFilter extends ReactViewGroup {
                             CloseableReference<CloseableImage> ref = dataSource.getResult();
                             if (ref != null) {
 
-                              String mode = jsonConfig.has("mode")
-                                ? jsonConfig.optJSONObject("mode").optString("porterDuffMode", "ADD")
-                                : "ADD";
-
                               ArrayList<Postprocessor> postProcessors =
-                                new ArrayList<>(src.getPostProcessors());
+                                new ArrayList<>(dst.getPostProcessors());
 
-                              postProcessors.add(new PorterDuffXfermodePostProcessor(
-                                RNPropConverter.convertEnumeration(
-                                  mode,
-                                  PorterDuff.Mode.ADD,
-                                  PorterDuff.Mode.class
-                                ),
+                              postProcessors.add(new RNPorterDuffXfermodePostProcessor(
+                                jsonConfig,
+                                new RNInputConverter(width, height),
                                 ref,
                                 bitmapKey
                               ));
 
-                              Log.d(ReactConstants.TAG, "ImageFilter: porter");
-
                               deferred.resolve(
-                                new RNFilterableImage(src.getImage(), postProcessors /*, tempImages */)
+                                new RNFilterableImage(dst.getImage(), postProcessors)
                               );
 
                             } else {
@@ -277,6 +275,7 @@ public class RNImageFilter extends ReactViewGroup {
     final RNImageFilter self = this;
 
     for (ReactImageView image : this.images()) {
+//      Log.d(ReactConstants.TAG, "ImageFilter: " + String.valueOf(image.getMeasuredWidth()) + " " + String.valueOf(image.getMeasuredWidth()));
       final ControllerListener<ImageInfo> prevListener = RNReflectUtils.getFieldValue(
         image,
         "mControllerListener"
@@ -306,7 +305,7 @@ public class RNImageFilter extends ReactViewGroup {
 
     if (mConfig != null && images.size() > 0) {
       try {
-        this.parseConfig(mConfig, images)
+        RNImageFilter.parseConfig(mConfig, images, mImageListeners)
           .then(new DoneCallback<RNFilterableImage>() {
             @Override
             public void onDone(RNFilterableImage result) {
@@ -331,31 +330,31 @@ public class RNImageFilter extends ReactViewGroup {
 //    if ("ColorMatrixColorFilter".equals(mName)) {
 //      float[] defaultMatrix = { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0 };
 //
-//      mPostProcessor = new ColorMatrixColorFilterPostProcessor(
-//        RNPropConverter.convertScalarVector(mMatrix, defaultMatrix)
+//      mPostProcessor = new RNColorMatrixColorFilterPostProcessor(
+//        RNInputConverter.convertScalarVector(mMatrix, defaultMatrix)
 //      );
 //
 //    } else if ("IterativeBoxBlur".equals(mName)) {
 //      mPostProcessor = new IterativeBoxBlurPostProcessor(
-//        (int) RNPropConverter.convertScalar(mIterations, 3),
-//        (int) RNPropConverter.convertScalar(mBlurRadius, 1)
+//        (int) RNInputConverter.convertScalar(mIterations, 3),
+//        (int) RNInputConverter.convertScalar(mBlurRadius, 1)
 //      );
 //
 //    } else if ("RoundAsCircle".equals(mName)) {
 //      mPostProcessor = new RoundAsCirclePostprocessor();
 //
 //    } else if ("LightingColorFilter".equals(mName)) {
-//      mPostProcessor = new LightingColorFilterPostProcessor(
-//        RNPropConverter.convertColor(mMul),
-//        RNPropConverter.convertColor(mAdd)
+//      mPostProcessor = new RNLightingColorFilterPostProcessor(
+//        RNInputConverter.convertColor(mMul),
+//        RNInputConverter.convertColor(mAdd)
 //      );
 //
 //    } else if ("Color".equals(mName)) {
 //      if (targetImage != null) {
-//        mPostProcessor = new ColorPostProcessor(
+//        mPostProcessor = new RNColorPostProcessor(
 //          boundsWidth,
 //          boundsHeight,
-//          RNPropConverter.convertColor(mColor)
+//          RNInputConverter.convertColor(mColor)
 //        );
 //      }
 //
@@ -364,16 +363,16 @@ public class RNImageFilter extends ReactViewGroup {
 //        int[] defaultColors = {};
 //        float[] defaultLocations = {};
 //
-//        mPostProcessor = new LinearGradientPostProcessor(
+//        mPostProcessor = new RNLinearGradientPostProcessor(
 //          boundsWidth,
 //          boundsHeight,
-//          (int) RNPropConverter.convertDistance(mX0, "0", boundsWidth, boundsHeight),
-//          (int) RNPropConverter.convertDistance(mY0, "0", boundsWidth, boundsHeight),
-//          (int) RNPropConverter.convertDistance(mX1, "100w", boundsWidth, boundsHeight),
-//          (int) RNPropConverter.convertDistance(mY1, "0", boundsWidth, boundsHeight),
-//          RNPropConverter.convertColorVector(mColors, defaultColors),
-//          RNPropConverter.convertScalarVector(mLocations, defaultLocations),
-//          RNPropConverter.convertEnumeration(mTileMode, Shader.TileMode.CLAMP, Shader.TileMode.class)
+//          (int) RNInputConverter.convertDistance(mX0, "0", boundsWidth, boundsHeight),
+//          (int) RNInputConverter.convertDistance(mY0, "0", boundsWidth, boundsHeight),
+//          (int) RNInputConverter.convertDistance(mX1, "100w", boundsWidth, boundsHeight),
+//          (int) RNInputConverter.convertDistance(mY1, "0", boundsWidth, boundsHeight),
+//          RNInputConverter.convertColorVector(mColors, defaultColors),
+//          RNInputConverter.convertScalarVector(mLocations, defaultLocations),
+//          RNInputConverter.convertEnumeration(mTileMode, Shader.TileMode.CLAMP, Shader.TileMode.class)
 //        );
 //      }
 //
@@ -382,15 +381,15 @@ public class RNImageFilter extends ReactViewGroup {
 //        int[] defaultColors = {};
 //        float[] defaultStops = {};
 //
-//        mPostProcessor = new RadialGradientPostProcessor(
+//        mPostProcessor = new RNRadialGradientPostProcessor(
 //          boundsWidth,
 //          boundsHeight,
-//          (int) RNPropConverter.convertDistance(mCenterX, "50w", boundsWidth, boundsHeight),
-//          (int) RNPropConverter.convertDistance(mCenterY, "50h", boundsWidth, boundsHeight),
-//          (int) RNPropConverter.convertDistance(mRadius, "50min", boundsWidth, boundsHeight),
-//          RNPropConverter.convertColorVector(mColors, defaultColors),
-//          RNPropConverter.convertScalarVector(mStops, defaultStops),
-//          RNPropConverter.convertEnumeration(mTileMode, Shader.TileMode.CLAMP, Shader.TileMode.class)
+//          (int) RNInputConverter.convertDistance(mCenterX, "50w", boundsWidth, boundsHeight),
+//          (int) RNInputConverter.convertDistance(mCenterY, "50h", boundsWidth, boundsHeight),
+//          (int) RNInputConverter.convertDistance(mRadius, "50min", boundsWidth, boundsHeight),
+//          RNInputConverter.convertColorVector(mColors, defaultColors),
+//          RNInputConverter.convertScalarVector(mStops, defaultStops),
+//          RNInputConverter.convertEnumeration(mTileMode, Shader.TileMode.CLAMP, Shader.TileMode.class)
 //        );
 //      }
 //
@@ -399,20 +398,20 @@ public class RNImageFilter extends ReactViewGroup {
 //        int[] defaultColors = {};
 //        float[] defaultPositions = {};
 //
-//        mPostProcessor = new SweepGradientPostProcessor(
+//        mPostProcessor = new RNSweepGradientPostProcessor(
 //          boundsWidth,
 //          boundsHeight,
-//          (int) RNPropConverter.convertDistance(mCenterX, "50w", boundsWidth, boundsHeight),
-//          (int) RNPropConverter.convertDistance(mCenterY, "50h", boundsWidth, boundsHeight),
-//          RNPropConverter.convertColorVector(mColors, defaultColors),
-//          RNPropConverter.convertScalarVector(mLocations, defaultPositions)
+//          (int) RNInputConverter.convertDistance(mCenterX, "50w", boundsWidth, boundsHeight),
+//          (int) RNInputConverter.convertDistance(mCenterY, "50h", boundsWidth, boundsHeight),
+//          RNInputConverter.convertColorVector(mColors, defaultColors),
+//          RNInputConverter.convertScalarVector(mLocations, defaultPositions)
 //        );
 //      }
 //
 //    } else if ("PorterDuffColorFilter".equals(mName)) {
-//      mPostProcessor = new PorterDuffColorFilterPostProcessor(
-//        RNPropConverter.convertColor(mColor),
-//        RNPropConverter.convertEnumeration(mMode, PorterDuff.Mode.ADD, PorterDuff.Mode.class)
+//      mPostProcessor = new RNPorterDuffColorFilterPostProcessor(
+//        RNInputConverter.convertColor(mColor),
+//        RNInputConverter.convertEnumeration(mMode, PorterDuff.Mode.ADD, PorterDuff.Mode.class)
 //      );
 //
 //    } else if ("PorterDuffXfermode".equals(mName)) {
@@ -437,8 +436,8 @@ public class RNImageFilter extends ReactViewGroup {
 //              if (dataSource.isFinished()) {
 //                Log.d(ReactConstants.TAG, "PORTER " + String.valueOf(dataSource.getResult() != null) + " " + String.valueOf(bitmapKey != null));
 //                if (dataSource.getResult() != null && bitmapKey != null) {
-//                  self.mPostProcessor = new PorterDuffXfermodePostProcessor(
-//                    RNPropConverter.convertEnumeration(
+//                  self.mPostProcessor = new RNPorterDuffXfermodePostProcessor(
+//                    RNInputConverter.convertEnumeration(
 //                      mMode,
 //                      PorterDuff.Mode.ADD,
 //                      PorterDuff.Mode.class
@@ -483,7 +482,7 @@ public class RNImageFilter extends ReactViewGroup {
     ArrayList<Postprocessor> postProcessors = new ArrayList<>(filterableImage.getPostProcessors());
 
     if (postProcessors.size() == 0) {
-      postProcessors.add(new DummyPostProcessor());
+      postProcessors.add(new RNDummyPostProcessor());
     }
 
     IterativeBoxBlurPostProcessor next = new RNMultiPostProcessor(postProcessors);

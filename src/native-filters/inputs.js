@@ -10,3 +10,4 @@ export const porterDuffMode = 'porterDuffMode';
 export const colorVector = 'colorVector';
 export const image = 'image';
 export const imageStyle = 'imageStyle';
+export const resizeMode = 'resizeMode';

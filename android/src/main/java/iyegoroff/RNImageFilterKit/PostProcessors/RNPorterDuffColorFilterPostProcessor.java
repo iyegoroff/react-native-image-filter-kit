@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit;
+package iyegoroff.RNImageFilterKit.PostProcessors;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,19 +10,27 @@ import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 
+import org.json.JSONObject;
+
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PorterDuffColorFilterPostProcessor extends BasePostprocessor {
+import iyegoroff.RNImageFilterKit.RNInputConverter;
+
+public class RNPorterDuffColorFilterPostProcessor extends BasePostprocessor {
 
   private CacheKey mCacheKey;
   private final int mColor;
-  private final PorterDuff.Mode mMode;
+  private @Nonnull final PorterDuff.Mode mMode;
 
-  public PorterDuffColorFilterPostProcessor(int color, PorterDuff.Mode mode) {
-    mColor = color;
-    mMode = mode;
+  public RNPorterDuffColorFilterPostProcessor(
+    @Nullable JSONObject config,
+    @Nonnull RNInputConverter converter
+  ) {
+    mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, 0);
+    mMode = converter.convertPorterDuffMode(config != null ? config.optJSONObject("porterDuffMode") : null, PorterDuff.Mode.ADD);
   }
 
   @Override

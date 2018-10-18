@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit;
+package iyegoroff.RNImageFilterKit.PostProcessors;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,18 +10,36 @@ import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.Locale;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ColorMatrixColorFilterPostProcessor extends BasePostprocessor {
+import iyegoroff.RNImageFilterKit.RNInputConverter;
+
+public class RNColorMatrixColorFilterPostProcessor extends BasePostprocessor {
 
   private CacheKey mCacheKey;
-  private final float[] mMatrix;
+  private @Nonnull final float[] mMatrix;
 
-  public ColorMatrixColorFilterPostProcessor(float[] matrix) {
-    mMatrix = matrix;
+  private static final float[] mNormalMatrix =
+    { 1, 0, 0, 0, 0,
+      0, 1, 0, 0, 0,
+      0, 0, 1, 0, 0,
+      0, 0, 0, 1, 0 };
+
+  public RNColorMatrixColorFilterPostProcessor(
+    @Nullable JSONObject config,
+    @Nonnull RNInputConverter converter
+  ) {
+    mMatrix = converter.convertScalarVector(
+      config != null ? config.optJSONObject("matrix") : null,
+      mNormalMatrix
+    );
   }
 
   @Override
@@ -35,7 +53,7 @@ public class ColorMatrixColorFilterPostProcessor extends BasePostprocessor {
     canvas.drawBitmap(sourceBitmap, 0, 0, paint);
   }
 
-  @Nullable
+  @Nonnull
   @Override
   public CacheKey getPostprocessorCacheKey() {
     if (mCacheKey == null) {
