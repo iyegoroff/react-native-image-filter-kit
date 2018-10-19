@@ -9,10 +9,7 @@ import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 
-import org.json.JSONObject;
-
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public abstract class RNGeneratorPostProcessor extends BasePostprocessor {
 

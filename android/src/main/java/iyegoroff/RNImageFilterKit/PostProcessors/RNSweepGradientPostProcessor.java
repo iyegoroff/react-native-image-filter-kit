@@ -25,16 +25,13 @@ public class RNSweepGradientPostProcessor extends RNGeneratorPostProcessor {
   private @Nonnull final int[] mColors;
   private @Nonnull final float[] mPositions;
 
-  public RNSweepGradientPostProcessor(
-    int width,
-    int height,
-    @Nullable JSONObject config,
-    @Nonnull RNInputConverter converter
-  ) {
+  public RNSweepGradientPostProcessor(int width, int height, @Nullable JSONObject config) {
     super(width, height);
 
     int[] defaultColors = {};
     float[] defaultPositions = {};
+
+    RNInputConverter converter = new RNInputConverter(width, height);
 
     mCx = converter.convertDistance(config != null ? config.optJSONObject("cx") : null, "50w");
     mCy = converter.convertDistance(config != null ? config.optJSONObject("cy") : null, "50h");

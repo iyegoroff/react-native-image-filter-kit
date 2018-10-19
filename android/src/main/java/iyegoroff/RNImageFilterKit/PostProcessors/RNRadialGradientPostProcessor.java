@@ -28,16 +28,13 @@ public class RNRadialGradientPostProcessor extends RNGeneratorPostProcessor {
   private final @Nonnull float[] mStops;
   private final @Nonnull Shader.TileMode mTileMode;
 
-  public RNRadialGradientPostProcessor(
-    int width,
-    int height,
-    @Nullable JSONObject config,
-    @Nonnull RNInputConverter converter
-  ) {
+  public RNRadialGradientPostProcessor(int width, int height, @Nullable JSONObject config) {
     super(width, height);
 
     int[] defaultColors = {};
     float[] defaultStops = {};
+
+    RNInputConverter converter = new RNInputConverter(width, height);
 
     mCenterX = converter.convertDistance(config != null ? config.optJSONObject("centerX") : null, "50w");
     mCenterY = converter.convertDistance(config != null ? config.optJSONObject("centerY") : null, "50h");

@@ -10,7 +10,6 @@ import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.imagepipeline.request.BasePostprocessor;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -32,10 +31,9 @@ public class RNColorMatrixColorFilterPostProcessor extends BasePostprocessor {
       0, 0, 1, 0, 0,
       0, 0, 0, 1, 0 };
 
-  public RNColorMatrixColorFilterPostProcessor(
-    @Nullable JSONObject config,
-    @Nonnull RNInputConverter converter
-  ) {
+  public RNColorMatrixColorFilterPostProcessor(int width, int height, @Nullable JSONObject config) {
+    RNInputConverter converter = new RNInputConverter(width, height);
+
     mMatrix = converter.convertScalarVector(
       config != null ? config.optJSONObject("matrix") : null,
       mNormalMatrix

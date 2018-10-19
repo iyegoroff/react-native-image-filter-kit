@@ -29,16 +29,13 @@ public class RNLinearGradientPostProcessor extends RNGeneratorPostProcessor {
   private final @Nonnull float[] mLocations;
   private final @Nonnull Shader.TileMode mTileMode;
 
-  public RNLinearGradientPostProcessor(
-    int width,
-    int height,
-    @Nullable JSONObject config,
-    @Nonnull RNInputConverter converter
-    ) {
+  public RNLinearGradientPostProcessor(int width, int height, @Nullable JSONObject config) {
     super(width, height);
 
     int[] defaultColors = {};
     float[] defaultLocations = {};
+
+    RNInputConverter converter = new RNInputConverter(width, height);
 
     mX0 = converter.convertDistance(config != null ? config.optJSONObject("x0") : null, "0");
     mY0 = converter.convertDistance(config != null ? config.optJSONObject("y0") : null, "0");

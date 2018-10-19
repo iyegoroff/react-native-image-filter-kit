@@ -11,12 +11,12 @@ import javax.annotation.Nullable;
 
 public class RNFrescoControllerListener extends BaseControllerListener<ImageInfo> {
   private @Nullable ControllerListener<ImageInfo> mOriginalListener;
-  private @Nonnull RNFunctor<RNFrescoControllerListener> mImageUpdated;
+  private @Nonnull RNFunctor mImageUpdated;
   private boolean mIsEnabled = true;
 
   RNFrescoControllerListener(
     @Nullable ControllerListener<ImageInfo> originalListener,
-    @Nonnull RNFunctor<RNFrescoControllerListener> imageUpdated
+    @Nonnull RNFunctor imageUpdated
   ) {
     super();
 
@@ -37,7 +37,7 @@ public class RNFrescoControllerListener extends BaseControllerListener<ImageInfo
 
     if (imageInfo != null) {
       if (mIsEnabled) {
-        mImageUpdated.call(this);
+        mImageUpdated.call();
       } else {
         mIsEnabled = true;
       }
@@ -52,10 +52,5 @@ public class RNFrescoControllerListener extends BaseControllerListener<ImageInfo
 
   public void setEnabled(boolean isEnabled) {
     this.mIsEnabled = isEnabled;
-  }
-
-  @Nullable
-  public ControllerListener<ImageInfo> getOriginalListener() {
-    return mOriginalListener;
   }
 }

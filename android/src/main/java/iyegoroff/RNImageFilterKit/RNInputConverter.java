@@ -3,7 +3,6 @@ package iyegoroff.RNImageFilterKit;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
-import android.util.SizeF;
 
 import com.facebook.react.common.build.ReactBuildConfig;
 
@@ -110,7 +109,7 @@ public class RNInputConverter {
     return defaultValue;
   }
 
-  public <T extends Enum<T>> T convertEnumeration(
+  private <T extends Enum<T>> T convertEnumeration(
     @Nullable String value,
     T defaultValue,
     Class<T> type
@@ -126,6 +125,28 @@ public class RNInputConverter {
       porterDuffMode != null ? porterDuffMode.optString("porterDuffMode") : null,
       defaultValue,
       PorterDuff.Mode.class
+    );
+  }
+
+  public RNScaleMode convertScaleMode(
+    @Nullable JSONObject scaleMode,
+    RNScaleMode defaultValue
+  ) {
+    return convertEnumeration(
+      scaleMode != null ? scaleMode.optString("scaleMode") : null,
+      defaultValue,
+      RNScaleMode.class
+    );
+  }
+
+  public RNGravityAxis convertGravityAxis(
+    @Nullable JSONObject gravityAxis,
+    RNGravityAxis defaultValue
+  ) {
+    return convertEnumeration(
+      gravityAxis != null ? gravityAxis.optString("gravityAxis") : null,
+      defaultValue,
+      RNGravityAxis.class
     );
   }
 

@@ -25,12 +25,11 @@ public class RNPorterDuffColorFilterPostProcessor extends BasePostprocessor {
   private final int mColor;
   private @Nonnull final PorterDuff.Mode mMode;
 
-  public RNPorterDuffColorFilterPostProcessor(
-    @Nullable JSONObject config,
-    @Nonnull RNInputConverter converter
-  ) {
+  public RNPorterDuffColorFilterPostProcessor(int width, int height, @Nullable JSONObject config) {
+    RNInputConverter converter = new RNInputConverter(width, height);
+
     mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, 0);
-    mMode = converter.convertPorterDuffMode(config != null ? config.optJSONObject("porterDuffMode") : null, PorterDuff.Mode.ADD);
+    mMode = converter.convertPorterDuffMode(config != null ? config.optJSONObject("mode") : null, PorterDuff.Mode.ADD);
   }
 
   @Override

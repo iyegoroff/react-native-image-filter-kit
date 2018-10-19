@@ -25,13 +25,10 @@ public class RNIterativeBoxBlurPostProcessor extends IterativeBoxBlurPostProcess
     return (int) converter.convertScalar(config != null ? config.optJSONObject("blurRadius") : null, 3);
   }
 
-  public RNIterativeBoxBlurPostProcessor(
-    @Nullable JSONObject config,
-    @Nonnull RNInputConverter converter
-  ) {
+  public RNIterativeBoxBlurPostProcessor(int width, int height, @Nullable JSONObject config) {
     super(
-      RNIterativeBoxBlurPostProcessor.iterations(config, converter),
-      RNIterativeBoxBlurPostProcessor.blurRadius(config, converter)
+      RNIterativeBoxBlurPostProcessor.iterations(config, new RNInputConverter(width, height)),
+      RNIterativeBoxBlurPostProcessor.blurRadius(config, new RNInputConverter(width, height))
     );
   }
 }

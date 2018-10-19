@@ -1,8 +1,5 @@
 package iyegoroff.RNImageFilterKit;
 
-import android.graphics.Color;
-
-import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.views.view.ReactViewManager;
@@ -13,8 +10,8 @@ import javax.annotation.Nullable;
 @ReactModule(name = RNImageFilterManager.REACT_CLASS)
 public class RNImageFilterManager extends ReactViewManager {
 
-  protected static final String REACT_CLASS = "RNImageFilter";
-  protected static final String PROP_CONFIG = "config";
+  static final String REACT_CLASS = "RNImageFilter";
+  private static final String PROP_CONFIG = "config";
 
   @Override
   public String getName() {

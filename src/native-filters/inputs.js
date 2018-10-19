@@ -11,3 +11,5 @@ export const colorVector = 'colorVector';
 export const image = 'image';
 export const imageStyle = 'imageStyle';
 export const resizeMode = 'resizeMode';
+export const scaleMode = 'scaleMode';
+export const gravityAxis = 'gravityAxis';

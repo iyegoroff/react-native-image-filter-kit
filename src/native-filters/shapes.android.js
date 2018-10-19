@@ -10,7 +10,8 @@ import {
   imageStyle,
   config,
   resizeMode,
-  offset
+  scaleMode,
+  gravityAxis
 } from './inputs';
 
 export default {
@@ -81,9 +82,12 @@ export default {
 
   PorterDuffXfermode: {
     mode: porterDuffMode,
+    scaleMode: scaleMode,
     dstImage: image,
+    dstGravityAxis: gravityAxis,
+    dstResizeMode: resizeMode,
     srcImage: image,
-    srcGravityAxis: offset,
+    srcGravityAxis: gravityAxis,
     srcResizeMode: resizeMode
   }
 };

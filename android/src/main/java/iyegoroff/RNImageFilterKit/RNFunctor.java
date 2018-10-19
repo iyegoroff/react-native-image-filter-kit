@@ -1,6 +1,8 @@
 package iyegoroff.RNImageFilterKit;
 
-public class RNFunctor<T> {
+public class RNFunctor {
 
-  public void call(final T owner) {}
+  public void call() {
+    throw new RuntimeException("Stub!");
+  }
 }

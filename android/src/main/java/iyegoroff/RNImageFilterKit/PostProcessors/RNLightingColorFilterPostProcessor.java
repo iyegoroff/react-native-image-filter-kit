@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.RNImageFilterKit.RNInputConverter;
@@ -24,10 +23,9 @@ public class RNLightingColorFilterPostProcessor extends BasePostprocessor {
   private final int mMul;
   private final int mAdd;
 
-  public RNLightingColorFilterPostProcessor(
-    @Nullable JSONObject config,
-    @Nonnull RNInputConverter converter
-  ) {
+  public RNLightingColorFilterPostProcessor(int width, int height, @Nullable JSONObject config) {
+    RNInputConverter converter = new RNInputConverter(width, height);
+
     mMul = converter.convertColor(config != null ? config.optJSONObject("mul") : null, 0);
     mAdd = converter.convertColor(config != null ? config.optJSONObject("add") : null, 0);
   }

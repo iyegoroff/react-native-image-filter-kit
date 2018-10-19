@@ -3,9 +3,7 @@ import { processColor, Platform } from 'react-native';
 import invariant from 'fbjs/lib/invariant';
 import {
   distance,
-  position,
   scalar,
-  offset,
   color,
   colorVector,
   image,
@@ -17,18 +15,17 @@ import { ImagePlaceholder } from './image-placeholder';
 const isAndroid = Platform.OS === 'android';
 const id = x => x;
 const anyToString = n => `${n}`;
-const pointToArray = p => [`${p.x}`, `${p.y}`];
 const convertColor = c => (isAndroid ? processColor(c) : c);
 const convertColors = cs => cs.map(convertColor);
 
 const paramConvertMap = {
-  [position]: pointToArray,
-  [offset]: pointToArray,
   [distance]: anyToString,
   [scalar]: anyToString,
   [color]: convertColor,
   [colorVector]: convertColors
 };
+
+const defaultImageStyle = { width: '100%', height: '100%' };
 
 const requiredValueInvariant = (filterName, value, key) => {
   invariant(
@@ -106,12 +103,11 @@ export const extractConfigAndImages = (filter) => {
 
             acc[key] = parseFilter(inputValue);
           } else if (inputType === imageStyle) {
-            requiredValueInvariant(name, inputValue, key);
-
             const idx = images.length;
+
             images.push(
               <ImagePlaceholder
-                style={inputValue}
+                style={inputValue || defaultImageStyle}
                 key={`image_placeholder_#${idx}`}
               />
             );

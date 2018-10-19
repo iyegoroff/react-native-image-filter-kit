@@ -15,9 +15,9 @@ import java.util.List;
 public class RNMultiPostProcessor extends IterativeBoxBlurPostProcessor {
   private final List<Postprocessor> mPostProcessors;
 
-  public RNMultiPostProcessor(List<Postprocessor> postprocessors) {
+  public RNMultiPostProcessor(List<Postprocessor> postProcessors) {
     super(1);
-    mPostProcessors = new LinkedList<>(postprocessors);
+    mPostProcessors = new LinkedList<>(postProcessors);
   }
 
   @Override

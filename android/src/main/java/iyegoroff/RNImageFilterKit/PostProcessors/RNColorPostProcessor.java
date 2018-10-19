@@ -20,13 +20,10 @@ public class RNColorPostProcessor extends RNGeneratorPostProcessor {
   private CacheKey mCacheKey;
   private final int mColor;
 
-  public RNColorPostProcessor(
-    int width,
-    int height,
-    @Nullable JSONObject config,
-    @Nonnull RNInputConverter converter
-  ) {
+  public RNColorPostProcessor(int width, int height, @Nullable JSONObject config) {
     super(width, height);
+
+    RNInputConverter converter = new RNInputConverter(width, height);
 
     mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, 0);
   }
