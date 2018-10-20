@@ -9,7 +9,7 @@ import {
   image,
   imageStyle
 } from './inputs';
-import shapes from './shapes';
+import ShapeRegistry from './shape-registry';
 import { ImagePlaceholder } from './image-placeholder';
 
 const isAndroid = Platform.OS === 'android';
@@ -30,20 +30,15 @@ const defaultImageStyle = { width: '100%', height: '100%' };
 const requiredValueInvariant = (filterName, value, key) => {
   invariant(
     value !== undefined,
-    `ImageFilter: ${filterName} filter should specify '${key}' value.`
+    `ImageFilterKit: ${filterName} filter should specify '${key}' value.`
   );
 };
 
-const validFilterInvariant = (filterName, shape) => {
-  invariant(shape, `ImageFilter: ${filterName} filter doesn't exist on ${Platform.OS}.`);
-};
+export const finalizeConfig = (config) => {
+  const { name, ...values } = ShapeRegistry.transform(config.name)(config);
+  const shape = ShapeRegistry.shape(name);
 
-export const finalizeConfig = ({ name, ...values }) => {
-  const shape = shapes[name];
-
-  validFilterInvariant(name, shape);
-
-  const config = {
+  return {
     name,
     ...(Object.keys(shape).reduce(
       (acc, key) => {
@@ -63,8 +58,6 @@ export const finalizeConfig = ({ name, ...values }) => {
       {}
     ))
   };
-
-  return config;
 };
 
 export const extractConfigAndImages = (filter) => {
@@ -87,9 +80,7 @@ export const extractConfigAndImages = (filter) => {
       ...rest
     } = filter.props ? (filter.props.config || filter.props) : filter;
 
-    const shape = shapes[name];
-
-    validFilterInvariant(name, shape);
+    const shape = ShapeRegistry.shape(name);
 
     return ({
       name,

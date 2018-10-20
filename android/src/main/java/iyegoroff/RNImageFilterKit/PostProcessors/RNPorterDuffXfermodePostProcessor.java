@@ -224,7 +224,7 @@ public class RNPorterDuffXfermodePostProcessor extends BasePostprocessor {
     height += y;
 //
 //    Log.d(ReactConstants.TAG,
-//      "ImageFilter: " +
+//      "ImageFilterKit: " +
 //        String.valueOf(canvasWidth) + " " +
 //        String.valueOf(canvasHeight) + " " +
 //        String.valueOf(bitmapWidth) + " " +

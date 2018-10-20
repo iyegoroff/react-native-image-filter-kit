@@ -8,7 +8,7 @@ import {
   image,
   imageStyle,
   config
-} from './inputs';
+} from '../common/inputs';
 
 export default {
   ImageFilter: {

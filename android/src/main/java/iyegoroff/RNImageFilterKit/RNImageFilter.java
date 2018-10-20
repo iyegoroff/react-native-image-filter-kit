@@ -1,8 +1,11 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.executors.UiThreadImmediateExecutorService;
@@ -16,6 +19,7 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.Postprocessor;
 import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.common.ReactConstants;
 import com.facebook.react.views.image.ReactImageView;
 import com.facebook.react.views.view.ReactViewGroup;
 
@@ -46,6 +50,7 @@ import iyegoroff.RNImageFilterKit.PostProcessors.RNMultiPostProcessor;
 public class RNImageFilter extends ReactViewGroup {
 
   private @Nullable JSONObject mConfig = null;
+  private boolean mIsReady = false;
   private final @Nonnull Map<ReactImageView, RNFrescoControllerListener> mImageListeners =
     new HashMap<>();
 
@@ -55,7 +60,7 @@ public class RNImageFilter extends ReactViewGroup {
     } catch (JSONException exc) {
       Assertions.assertCondition(
         false,
-        "ImageFilter: Bad config - " + exc.getMessage()
+        "ImageFilterKit: Bad config - " + exc.getMessage()
       );
     }
 
@@ -170,7 +175,7 @@ public class RNImageFilter extends ReactViewGroup {
                               public void onFail(OneReject<Object> result) {
                                 Assertions.assertCondition(
                                   false,
-                                  "ImageFilter: " + result.toString()
+                                  "ImageFilterKit: " + result.toString()
                                 );
                               }
                             });
@@ -189,7 +194,7 @@ public class RNImageFilter extends ReactViewGroup {
                         if (t != null) {
                           Assertions.assertCondition(
                             false,
-                            "ImageFilter: " + t.getMessage()
+                            "ImageFilterKit: " + t.getMessage()
                           );
                         }
                       }
@@ -290,12 +295,22 @@ public class RNImageFilter extends ReactViewGroup {
   private void runFilterPipeline() {
     ArrayList<ReactImageView> images = this.images();
 
+    if (!mIsReady && getChildCount() > 0) {
+      getChildAt(0).setVisibility(View.INVISIBLE);
+    }
+
     if (mConfig != null && images.size() > 0) {
       try {
+        final RNImageFilter self = this;
+
         RNImageFilter.parseConfig(mConfig, images, mImageListeners)
           .then(new DoneCallback<RNFilterableImage>() {
             @Override
             public void onDone(RNFilterableImage result) {
+              if (!self.mIsReady && self.getChildCount() > 0) {
+                self.getChildAt(0).setVisibility(View.VISIBLE);
+                self.mIsReady = true;
+              }
               RNImageFilter.filterImage(result, mImageListeners.get(result.getImage()));
             }
           });
@@ -303,7 +318,7 @@ public class RNImageFilter extends ReactViewGroup {
       } catch (JSONException exc) {
         Assertions.assertCondition(
           false,
-          "ImageFilter: Unable to parse config - " + exc.getMessage()
+          "ImageFilterKit: Unable to parse config - " + exc.getMessage()
         );
       }
     }

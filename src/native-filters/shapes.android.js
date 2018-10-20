@@ -12,7 +12,7 @@ import {
   resizeMode,
   scaleMode,
   gravityAxis
-} from './inputs';
+} from '../common/inputs';
 
 export default {
   ImageFilter: {

@@ -1,38 +1,18 @@
-import React from 'react';
-import filters from 'rn-color-matrices';
-import ColorMatrix from './color-matrix';
+import { createImageFilter } from '../common/image-filter';
+import shapes from './shapes';
+import shapeTransforms from './shape-transforms';
+import ShapeRegistry from '../common/shape-registry';
 
-const filterName = (name) => {
-  const [first, ...rest] = name.split('');
-  return name === 'rgba' ? 'RGBA' : first.toUpperCase() + rest.join('');
-};
+ShapeRegistry.addShapes(shapes);
+ShapeRegistry.addTransforms(shapeTransforms);
 
-const filterMap = {
-  ColorTone: (filter) => ({ desaturation, toned, lightColor, darkColor, ...restProps }) => (
-    <ColorMatrix matrix={filter(desaturation, toned, lightColor, darkColor)} {...restProps} />
-  ),
-
-  RGBA: (filter) => ({ red, green, blue, alpha, ...restProps }) => (
-    <ColorMatrix matrix={filter(red, green, blue, alpha)} {...restProps} />
-  ),
-
-  DuoTone: (filter) => ({ firstColor, secondColor, ...restProps }) => (
-    <ColorMatrix matrix={filter(firstColor, secondColor)} {...restProps} />
-  )
-};
-
-const createFilter = (key) => (
-  filterMap[key] ||
-    ((filter) => ({ value, ...restProps }) => <ColorMatrix matrix={filter(value)} {...restProps} />)
-);
-
-export default Object.keys(filters).reduce(
+export default Object.keys(shapes).reduce(
   (acc, name) => {
-    const key = filterName(name);
+    acc[name] = createImageFilter(name, shapes[name]);
+    acc[name].displayName = name;
+    acc[name].isImageFilter = true;
 
-    acc[key] = createFilter(key)(filters[name]);
-    acc[key].displayName = key;
     return acc;
   },
-  { ColorMatrix }
+  {}
 );

@@ -152,7 +152,7 @@ public class RNPostProcessorRegistry {
 
     Assertions.assertCondition(
       filter != null,
-      "ImageFilter: Can't find '" + name + "' filter in registry."
+      "ImageFilterKit: Can't find '" + name + "' filter in registry."
     );
 
     return filter != null ? filter.create(width, height, config) : null;
@@ -170,7 +170,7 @@ public class RNPostProcessorRegistry {
 
     Assertions.assertCondition(
       filter != null,
-      "ImageFilter: Can't find '" + name + "' filter in registry."
+      "ImageFilterKit: Can't find '" + name + "' filter in registry."
     );
 
     return filter != null ? filter.create(width, height, config, imageRef, imageKey) : null;

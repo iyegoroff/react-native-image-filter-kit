@@ -44,7 +44,7 @@ public class RNResize {
       return String.format("RNResize.WithSize(%a, %a)", ((WithSize) this).width, ((WithSize) this).height);
     }
 
-    Assertions.assertCondition(false, "ImageFilter: unknown RNResize subclass");
+    Assertions.assertCondition(false, "ImageFilterKit: unknown RNResize subclass");
 
     return "";
   }
