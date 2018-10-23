@@ -14,16 +14,16 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.RNImageFilterKit.PostProcessors.RNColorMatrixColorFilterPostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNColorPostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNIterativeBoxBlurPostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNLightingColorFilterPostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNLinearGradientPostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNPorterDuffColorFilterPostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNPorterDuffXfermodePostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNRadialGradientPostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNRoundAsCirclePostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNSweepGradientPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNColorMatrixColorFilterPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNColorPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNIterativeBoxBlurPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNLightingColorFilterPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNLinearGradientPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNPorterDuffColorFilterPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNPorterDuffXfermodePostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNRadialGradientPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNRoundAsCirclePostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNSweepGradientPostProcessor;
 
 public class RNPostProcessorRegistry {
 

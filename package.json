@@ -27,7 +27,7 @@
 	"dependencies": {
 		"concat-color-matrices": "^1.0.0",
 		"react-is": "^16.5.2",
-		"rn-color-matrices": "^2.0.0"
+		"rn-color-matrices": "^4.0.0"
 	},
 	"devDependencies": {
 		"husky": "^1.1.1",

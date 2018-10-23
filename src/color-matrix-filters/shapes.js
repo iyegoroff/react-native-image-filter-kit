@@ -11,20 +11,20 @@ export default {
   },
 
   RGBA: {
-    r: scalar,
-    g: scalar,
-    b: scalar,
-    a: scalar,
+    red: scalar,
+    green: scalar,
+    blue: scalar,
+    alpha: scalar,
     image: image
   },
 
   Saturate: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 
   HueRotate: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 
@@ -36,16 +36,13 @@ export default {
     image: image
   },
 
-  BlackAndWhite: {
-    image: image
-  },
-
   Grayscale: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 
   Sepia: {
+    amount: scalar,
     image: image
   },
 
@@ -62,32 +59,27 @@ export default {
   },
 
   Brightness: {
-    value: scalar,
-    image: image
-  },
-
-  Exposure: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 
   Contrast: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 
   Temperature: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 
   Tint: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 
   Threshold: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 
@@ -116,12 +108,12 @@ export default {
   },
 
   Night: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 
   Predator: {
-    value: scalar,
+    amount: scalar,
     image: image
   },
 

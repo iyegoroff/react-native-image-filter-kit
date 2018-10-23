@@ -1,11 +1,8 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.executors.UiThreadImmediateExecutorService;
@@ -19,7 +16,6 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.Postprocessor;
 import com.facebook.infer.annotation.Assertions;
-import com.facebook.react.common.ReactConstants;
 import com.facebook.react.views.image.ReactImageView;
 import com.facebook.react.views.view.ReactViewGroup;
 
@@ -44,8 +40,8 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.RNImageFilterKit.PostProcessors.RNDummyPostProcessor;
-import iyegoroff.RNImageFilterKit.PostProcessors.RNMultiPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNDummyPostProcessor;
+import iyegoroff.RNImageFilterKit.Native.RNMultiPostProcessor;
 
 public class RNImageFilter extends ReactViewGroup {
 

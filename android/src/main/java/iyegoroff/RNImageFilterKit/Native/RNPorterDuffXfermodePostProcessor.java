@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit.PostProcessors;
+package iyegoroff.RNImageFilterKit.Native;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

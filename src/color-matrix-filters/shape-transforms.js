@@ -19,6 +19,18 @@ const asNativeFilterConfig = Platform.select({
   })
 });
 
+const luminanceToAlphaAndroidFix = [
+  -0.299, -0.587, -0.114, 0, 255,
+  -0.299, -0.587, -0.114, 0, 255,
+  -0.299, -0.587, -0.114, 0, 255,
+  0, 0, 0, 1, 255
+];
+
+export const luminanceToAlpha = Platform.select({
+  ios: matrices.luminanceToAlpha,
+  android: () => luminanceToAlphaAndroidFix
+});
+
 export default {
   ColorMatrix: asNativeFilterConfig,
 
@@ -36,23 +48,23 @@ export default {
     })
   ),
 
-  Saturate: ({ value, image }) => (
+  Saturate: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.saturate(value),
+      matrix: matrices.saturate(amount),
       image
     })
   ),
 
-  HueRotate: ({ value, image }) => (
+  HueRotate: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.hueRotate(value),
+      matrix: matrices.hueRotate(amount),
       image
     })
   ),
 
   LuminanceToAlpha: ({ image }) => (
     asNativeFilterConfig({
-      matrix: matrices.luminanceToAlpha(),
+      matrix: luminanceToAlpha(),
       image
     })
   ),
@@ -64,23 +76,16 @@ export default {
     })
   ),
 
-  BlackAndWhite: ({ image }) => (
+  Grayscale: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.blackAndWhite(),
+      matrix: matrices.grayscale(amount),
       image
     })
   ),
 
-  Grayscale: ({ value, image }) => (
+  Sepia: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.grayscale(value),
-      image
-    })
-  ),
-
-  Sepia: ({ image }) => (
-    asNativeFilterConfig({
-      matrix: matrices.sepia(),
+      matrix: matrices.sepia(amount),
       image
     })
   ),
@@ -106,44 +111,37 @@ export default {
     })
   ),
 
-  Brightness: ({ value, image }) => (
+  Brightness: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.brightness(value),
+      matrix: matrices.brightness(amount),
       image
     })
   ),
 
-  Exposure: ({ value, image }) => (
+  Contrast: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.exposure(value),
+      matrix: matrices.contrast(amount),
       image
     })
   ),
 
-  Contrast: ({ value, image }) => (
+  Temperature: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.contrast(value),
+      matrix: matrices.temperature(amount),
       image
     })
   ),
 
-  Temperature: ({ value, image }) => (
+  Tint: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.temperature(value),
+      matrix: matrices.tint(amount),
       image
     })
   ),
 
-  Tint: ({ value, image }) => (
+  Threshold: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.tint(value),
-      image
-    })
-  ),
-
-  Threshold: ({ value, image }) => (
-    asNativeFilterConfig({
-      matrix: matrices.threshold(value),
+      matrix: matrices.threshold(amount),
       image
     })
   ),
@@ -190,16 +188,16 @@ export default {
     })
   ),
 
-  Night: ({ value, image }) => (
+  Night: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.night(value),
+      matrix: matrices.night(amount),
       image
     })
   ),
 
-  Predator: ({ value, image }) => (
+  Predator: ({ amount, image }) => (
     asNativeFilterConfig({
-      matrix: matrices.predator(value),
+      matrix: matrices.predator(amount),
       image
     })
   ),

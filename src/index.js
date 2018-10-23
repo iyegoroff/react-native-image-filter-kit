@@ -1,13 +1,19 @@
 import colorMatrixFilters from './color-matrix-filters';
-import nativeFilters from './native-filters';
+import nativePlatformFilters from './native-platform-filters';
+import cssgramFilters from './cssgram-filters';
 import { ImagePlaceholder, imagePlaceholderSource } from './common/image-placeholder';
 import colorMatrices from 'rn-color-matrices';
 import { concatColorMatrices } from 'concat-color-matrices';
+import { luminanceToAlpha } from './color-matrix-filters/shape-transforms';
+import rgbaToRgb from './common/rgba-to-rgb';
 
 module.exports = {
   ...colorMatrixFilters,
-  ...nativeFilters,
+  ...nativePlatformFilters,
+  ...cssgramFilters,
   ...colorMatrices,
+  luminanceToAlpha,
+  rgbaToRgb,
   concatColorMatrices,
   ImagePlaceholder,
   imagePlaceholderSource

@@ -1,8 +1,8 @@
-package iyegoroff.RNImageFilterKit.PostProcessors;
+package iyegoroff.RNImageFilterKit.Native;
 
 import android.graphics.Bitmap;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.RadialGradient;
 import android.graphics.Shader;
 
 import com.facebook.cache.common.CacheKey;
@@ -18,36 +18,38 @@ import javax.annotation.Nullable;
 
 import iyegoroff.RNImageFilterKit.RNInputConverter;
 
-public class RNRadialGradientPostProcessor extends RNGeneratorPostProcessor {
+public class RNLinearGradientPostProcessor extends RNGeneratorPostProcessor {
 
   private CacheKey mCacheKey;
-  private final float mCenterX;
-  private final float mCenterY;
-  private final float mRadius;
+  private final float mX0;
+  private final float mY0;
+  private final float mX1;
+  private final float mY1;
   private final @Nonnull int[] mColors;
-  private final @Nonnull float[] mStops;
+  private final @Nonnull float[] mLocations;
   private final @Nonnull Shader.TileMode mTileMode;
 
-  public RNRadialGradientPostProcessor(int width, int height, @Nullable JSONObject config) {
+  public RNLinearGradientPostProcessor(int width, int height, @Nullable JSONObject config) {
     super(width, height);
 
-    int[] defaultColors = {};
-    float[] defaultStops = {};
+    int[] defaultColors = { 0, 255 };
+    float[] defaultLocations = { 0, 1 };
 
     RNInputConverter converter = new RNInputConverter(width, height);
 
-    mCenterX = converter.convertDistance(config != null ? config.optJSONObject("centerX") : null, "50w");
-    mCenterY = converter.convertDistance(config != null ? config.optJSONObject("centerY") : null, "50h");
-    mRadius = converter.convertDistance(config != null ? config.optJSONObject("radius") : null, "50min");
+    mX0 = converter.convertDistance(config != null ? config.optJSONObject("x0") : null, "0");
+    mY0 = converter.convertDistance(config != null ? config.optJSONObject("y0") : null, "0");
+    mX1 = converter.convertDistance(config != null ? config.optJSONObject("x1") : null, "100w");
+    mY1 = converter.convertDistance(config != null ? config.optJSONObject("y1") : null, "0");
     mColors = converter.convertColorVector(config != null ? config.optJSONObject("colors") : null, defaultColors);
-    mStops = converter.convertScalarVector(config != null ? config.optJSONObject("stops") : null, defaultStops);
+    mLocations = converter.convertScalarVector(config != null ? config.optJSONObject("locations") : null, defaultLocations);
     mTileMode = converter.convertTileMode(config != null ? config.optJSONObject("tileMode"): null, Shader.TileMode.CLAMP);
   }
 
   @Override
   public void processGenerated(@Nonnull Paint paint, @Nonnull Bitmap bitmap) {
     paint.setStyle(Paint.Style.FILL);
-    paint.setShader(new RadialGradient(mCenterX, mCenterY, mRadius, mColors, mStops, mTileMode));
+    paint.setShader(new LinearGradient(mX0, mY0, mX1, mY1, mColors, mLocations, mTileMode));
   }
 
   @Nullable
@@ -56,14 +58,15 @@ public class RNRadialGradientPostProcessor extends RNGeneratorPostProcessor {
     if (mCacheKey == null) {
       final String key = String.format(
         (Locale) null,
-        "radial_gradient_%d_%d_%f_%f_%f_%s_%s_%s",
+        "linear_gradient_%d_%d_%f_%f_%f_%f_%s_%s_%s",
         mWidth,
         mHeight,
-        mCenterX,
-        mCenterY,
-        mRadius,
+        mX0,
+        mY0,
+        mX1,
+        mY1,
         Arrays.toString(mColors),
-        Arrays.toString(mStops),
+        Arrays.toString(mLocations),
         mTileMode.toString()
       );
 

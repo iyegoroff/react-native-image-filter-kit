@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit.PostProcessors;
+package iyegoroff.RNImageFilterKit.Native;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
@@ -28,8 +28,8 @@ public class RNSweepGradientPostProcessor extends RNGeneratorPostProcessor {
   public RNSweepGradientPostProcessor(int width, int height, @Nullable JSONObject config) {
     super(width, height);
 
-    int[] defaultColors = {};
-    float[] defaultPositions = {};
+    int[] defaultColors = { 0, 255 };
+    float[] defaultPositions = { 0, 1 };
 
     RNInputConverter converter = new RNInputConverter(width, height);
 

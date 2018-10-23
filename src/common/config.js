@@ -34,8 +34,7 @@ const requiredValueInvariant = (filterName, value, key) => {
   );
 };
 
-export const finalizeConfig = (config) => {
-  const { name, ...values } = ShapeRegistry.transform(config.name)(config);
+export const finalizeConfig = ({ name, ...values }) => {
   const shape = ShapeRegistry.shape(name);
 
   return {
@@ -76,10 +75,18 @@ export const extractConfigAndImages = (filter) => {
     }
 
     const {
-      name = (filter.type && filter.type.displayName),
-      ...rest
+      name: n = (filter.type && filter.type.displayName),
+      ...values
     } = filter.props ? (filter.props.config || filter.props) : filter;
 
+    let prevConfig;
+    let nextConfig = { name: n, ...values };
+    do {
+      prevConfig = nextConfig;
+      nextConfig = ShapeRegistry.transform(prevConfig.name)(prevConfig);
+    } while (nextConfig.name !== prevConfig.name);
+
+    const { name, ...rest } = nextConfig;
     const shape = ShapeRegistry.shape(name);
 
     return ({
