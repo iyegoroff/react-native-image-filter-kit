@@ -22,4 +22,7 @@ import RNImageColorFilter from 'react-native-image-filter-kit';
 // TODO: What to do with the module?
 RNImageColorFilter;
 ```
-  
+
+## FAQ
+#### How to configure image cache on Android?
+- [Configure Fresco in React Native](https://medium.com/in-the-hudl/configure-fresco-in-react-native-28c2bc7dcc4d) article by Brent Kelly

@@ -1,6 +1,7 @@
 package iyegoroff.RNImageFilterKit;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +17,7 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.Postprocessor;
 import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.common.ReactConstants;
 import com.facebook.react.views.image.ReactImageView;
 import com.facebook.react.views.view.ReactViewGroup;
 
@@ -40,8 +42,8 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.RNImageFilterKit.Native.RNDummyPostProcessor;
-import iyegoroff.RNImageFilterKit.Native.RNMultiPostProcessor;
+import iyegoroff.RNImageFilterKit.NativePlatform.RNDummyPostProcessor;
+import iyegoroff.RNImageFilterKit.NativePlatform.RNMultiPostProcessor;
 
 public class RNImageFilter extends ReactViewGroup {
 
@@ -129,12 +131,12 @@ public class RNImageFilter extends ReactViewGroup {
           RNImageFilter.filterImage(src, imageListeners.get(src.getImage()))
             .then(new DoneCallback<ReactImageView>() {
               @Override
-              public void onDone(ReactImageView result) {
+              public void onDone(final ReactImageView result) {
                 if (result != null && result.getController() != null) {
                   final int width = result.getMeasuredWidth();
                   final int height = result.getMeasuredHeight();
                   final CacheKey bitmapKey = RNReflectUtils
-                    .getFieldValue(result.getController(), "mCacheKey");
+                    .invokeMethod(result.getController(), "getCacheKey");
                   Supplier<DataSource<CloseableReference<CloseableImage>>> ds = RNReflectUtils
                     .invokeMethod(result.getController(), "getDataSourceSupplier");
 
@@ -188,10 +190,11 @@ public class RNImageFilter extends ReactViewGroup {
                         Throwable t = dataSource.getFailureCause();
 
                         if (t != null) {
-                          Assertions.assertCondition(
-                            false,
-                            "ImageFilterKit: " + t.getMessage()
-                          );
+                          Log.w(ReactConstants.TAG, "ImageFilterKit: " + t.getMessage());
+//                          Assertions.assertCondition(
+//                            false,
+//                            "ImageFilterKit: " + t.getMessage()
+//                          );
                         }
                       }
                     }, UiThreadImmediateExecutorService.getInstance());

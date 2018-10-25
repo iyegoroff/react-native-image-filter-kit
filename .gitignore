@@ -35,3 +35,5 @@ blueprint-templates/
 .vscode/
 
 Simple/
+
+dist/

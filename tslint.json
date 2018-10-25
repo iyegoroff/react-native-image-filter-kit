@@ -1,0 +1,16 @@
+{
+  "extends": "tslint-config-standard",
+  "rulesDirectory": ["node_modules/vrsource-tslint-rules/rules"],
+  "rules": {
+    "no-param-reassign": true,
+    "no-shadowed-variable": true,
+    "max-line-length": [true, 100],
+    "max-file-line-count": [true, 300],
+    "ter-indent": [true, 2],
+    "space-before-function-paren": [true, {
+      "anonymous": "always",
+      "named": "never",
+      "asyncArrow": "always"
+    }]
+  }
+}
