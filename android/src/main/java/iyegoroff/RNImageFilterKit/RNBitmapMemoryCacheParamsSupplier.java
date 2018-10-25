@@ -2,7 +2,6 @@ package iyegoroff.RNImageFilterKit;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.os.Build;
 
 import com.facebook.common.internal.Supplier;
 import com.facebook.common.util.ByteConstants;

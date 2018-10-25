@@ -17,7 +17,7 @@ export class ShapeRegistry {
     const intersection = Object.keys(shapes).filter(k => keys.includes(k))
     invariant(
       intersection.length === 0,
-      `ImageFilterKit: Attempt to add already registered filter(s) - ${intersection.join()}.`
+      `ImageFilterKit: Attempt to add already registered shape(s) - ${intersection.join()}.`
     )
 
     ShapeRegistry.shapes = {
