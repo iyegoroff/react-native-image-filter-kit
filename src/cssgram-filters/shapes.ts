@@ -1,111 +1,138 @@
-import { image } from '../common/inputs'
+import { image, bool } from '../common/inputs'
 
 export const shapes = {
   _1977: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Aden: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Brannan: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Brooklyn: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Clarendon: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Cssgram: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Earlybird: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Gingham: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Hudson: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Inkwell: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Kelvin: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Lark: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Lofi: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Maven: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Mayfair: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Moon: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Nashville: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Perpetua: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Reyes: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Rise: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Slumber: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Stinson: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Toaster: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Valencia: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Walden: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Willow: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Xpro2: {
-    image: image
+    image: image,
+    disableCache: bool
   }
 }

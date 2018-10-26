@@ -13,6 +13,7 @@ export const imageStyle = 'imageStyle'
 export const resizeMode = 'resizeMode'
 export const scaleMode = 'scaleMode'
 export const gravityAxis = 'gravityAxis'
+export const bool = 'bool'
 
 export type Input =
   | typeof config
@@ -30,3 +31,4 @@ export type Input =
   | typeof resizeMode
   | typeof scaleMode
   | typeof gravityAxis
+  | typeof bool

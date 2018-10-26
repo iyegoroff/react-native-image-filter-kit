@@ -1,5 +1,6 @@
 package iyegoroff.RNImageFilterKit.NativePlatform;
 
+import com.facebook.cache.common.CacheKey;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 
 import org.json.JSONObject;
@@ -8,8 +9,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.RNImageFilterKit.RNInputConverter;
+import iyegoroff.RNImageFilterKit.Utility.RNCachedPostProcessor;
 
 public class RNIterativeBoxBlurPostProcessor extends IterativeBoxBlurPostProcessor {
+
+  private final boolean mCacheDisabled;
 
   private static int iterations(
     @Nullable JSONObject config,
@@ -30,10 +34,18 @@ public class RNIterativeBoxBlurPostProcessor extends IterativeBoxBlurPostProcess
       RNIterativeBoxBlurPostProcessor.iterations(config, new RNInputConverter(width, height)),
       RNIterativeBoxBlurPostProcessor.blurRadius(config, new RNInputConverter(width, height))
     );
+
+    mCacheDisabled = RNCachedPostProcessor.cacheDisabled(config);
   }
 
   @Override
   public String getName () {
     return "RNIterativeBoxBlurPostProcessor";
+  }
+
+  @Nullable
+  @Override
+  public CacheKey getPostprocessorCacheKey() {
+    return mCacheDisabled ? null : super.getPostprocessorCacheKey();
   }
 }

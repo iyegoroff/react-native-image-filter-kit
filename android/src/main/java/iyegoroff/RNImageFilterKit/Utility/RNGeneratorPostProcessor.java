@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit.NativePlatform;
+package iyegoroff.RNImageFilterKit.Utility;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,16 +7,22 @@ import android.graphics.Rect;
 
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
-import com.facebook.imagepipeline.request.BasePostprocessor;
+
+import org.json.JSONObject;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public abstract class RNGeneratorPostProcessor extends BasePostprocessor {
+import iyegoroff.RNImageFilterKit.Utility.RNCachedPostProcessor;
+
+public abstract class RNGeneratorPostProcessor extends RNCachedPostProcessor {
 
   protected final int mWidth;
   protected final int mHeight;
 
-  public RNGeneratorPostProcessor(int width, int height) {
+  public RNGeneratorPostProcessor(int width, int height, @Nullable JSONObject config) {
+    super(config);
+
     mWidth = width;
     mHeight = height;
   }

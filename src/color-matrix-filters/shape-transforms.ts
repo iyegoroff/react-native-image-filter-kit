@@ -1,58 +1,61 @@
 // tslint:disable:max-file-line-count
 
-import { Platform, Image, Shape } from 'react-native'
+import { Platform, Image } from 'react-native'
 import matrices, { Matrix } from 'rn-color-matrices'
 
-export interface FilterProps {
-  readonly image: Image
+export interface Config {
+  readonly name: string
 }
 
-export interface AmountFilterProps extends FilterProps {
+export interface FilterConfig {
+  readonly image: Image
+  readonly disableCache?: boolean
+}
+
+export interface AmountFilterConfig extends FilterConfig {
   readonly amount?: number
 }
 
-export interface MatrixFilterProps extends FilterProps {
+export interface MatrixFilterConfig extends FilterConfig {
   readonly matrix: Matrix
 }
 
-export interface RGBAFilterProps extends FilterProps {
+export interface RGBAFilterConfig extends FilterConfig {
   readonly red?: number
   readonly green?: number
   readonly blue?: number
   readonly alpha?: number
 }
 
-export interface ColorToneProps extends FilterProps {
+export interface ColorToneConfig extends FilterConfig {
   readonly desaturation?: number
   readonly toned?: number
   readonly darkColor?: string
   readonly lightColor?: string
 }
 
-export interface DuoToneProps extends FilterProps {
+export interface DuoToneConfig extends FilterConfig {
   readonly firstColor?: string
   readonly secondColor?: string
 }
 
-export interface Config {
-  readonly name: string
-}
-
 const asNativeFilterConfig = Platform.select({
-  ios: ({ matrix, image }: MatrixFilterProps) => ({
+  ios: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
     name: 'CIColorMatrix',
     inputRVector: matrix.slice(0, 4),
     inputGVector: matrix.slice(5, 9),
     inputBVector: matrix.slice(10, 14),
     inputAVector: matrix.slice(15, 19),
     inputBiasVector: [matrix[4], matrix[9], matrix[14], matrix[19]],
-    image
+    image,
+    disableCache
   } as Config),
 
-  android: ({ matrix, image }: MatrixFilterProps) => ({
+  android: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
     name: 'ColorMatrixColorFilter',
     matrix,
-    image
+    image,
+    disableCache
   } as Config)
 })
 
@@ -71,248 +74,248 @@ export const luminanceToAlpha = Platform.select({
 export const shapeTransforms = {
   ColorMatrix: asNativeFilterConfig,
 
-  Normal: ({ image }: FilterProps) => (
+  Normal: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.normal(),
-      image
+      ...config
     })
   ),
 
-  RGBA: ({ red, green, blue, alpha, image }: RGBAFilterProps) => (
+  RGBA: ({ red, green, blue, alpha, ...config }: RGBAFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.rgba(red, green, blue, alpha),
-      image
+      ...config
     })
   ),
 
-  Saturate: ({ amount, image }: AmountFilterProps) => (
+  Saturate: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.saturate(amount),
-      image
+      ...config
     })
   ),
 
-  HueRotate: ({ amount, image }: AmountFilterProps) => (
+  HueRotate: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.hueRotate(amount),
-      image
+      ...config
     })
   ),
 
-  LuminanceToAlpha: ({ image }: FilterProps) => (
+  LuminanceToAlpha: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: luminanceToAlpha(),
-      image
+      ...config
     })
   ),
 
-  Invert: ({ image }: FilterProps) => (
+  Invert: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.invert(),
-      image
+      ...config
     })
   ),
 
-  Grayscale: ({ amount, image }: AmountFilterProps) => (
+  Grayscale: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.grayscale(amount),
-      image
+      ...config
     })
   ),
 
-  Sepia: ({ amount, image }: AmountFilterProps) => (
+  Sepia: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.sepia(amount),
-      image
+      ...config
     })
   ),
 
-  Nightvision: ({ image }: FilterProps) => (
+  Nightvision: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.nightvision(),
-      image
+      ...config
     })
   ),
 
-  Warm: ({ image }: FilterProps) => (
+  Warm: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.warm(),
-      image
+      ...config
     })
   ),
 
-  Cool: ({ image }: FilterProps) => (
+  Cool: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.cool(),
-      image
+      ...config
     })
   ),
 
-  Brightness: ({ amount, image }: AmountFilterProps) => (
+  Brightness: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.brightness(amount),
-      image
+      ...config
     })
   ),
 
-  Contrast: ({ amount, image }: AmountFilterProps) => (
+  Contrast: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.contrast(amount),
-      image
+      ...config
     })
   ),
 
-  Temperature: ({ amount, image }: AmountFilterProps) => (
+  Temperature: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.temperature(amount),
-      image
+      ...config
     })
   ),
 
-  Tint: ({ amount, image }: AmountFilterProps) => (
+  Tint: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.tint(amount),
-      image
+      ...config
     })
   ),
 
-  Threshold: ({ amount, image }: AmountFilterProps) => (
+  Threshold: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.threshold(amount),
-      image
+      ...config
     })
   ),
 
-  Technicolor: ({ image }: FilterProps) => (
+  Technicolor: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.technicolor(),
-      image
+      ...config
     })
   ),
 
-  Polaroid: ({ image }: FilterProps) => (
+  Polaroid: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.polaroid(),
-      image
+      ...config
     })
   ),
 
-  ToBGR: ({ image }: FilterProps) => (
+  ToBGR: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.toBGR(),
-      image
+      ...config
     })
   ),
 
-  Kodachrome: ({ image }: FilterProps) => (
+  Kodachrome: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.kodachrome(),
-      image
+      ...config
     })
   ),
 
-  Browni: ({ image }: FilterProps) => (
+  Browni: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.browni(),
-      image
+      ...config
     })
   ),
 
-  Vintage: ({ image }: FilterProps) => (
+  Vintage: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.vintage(),
-      image
+      ...config
     })
   ),
 
-  Night: ({ amount, image }: AmountFilterProps) => (
+  Night: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.night(amount),
-      image
+      ...config
     })
   ),
 
-  Predator: ({ amount, image }: AmountFilterProps) => (
+  Predator: ({ amount, ...config }: AmountFilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.predator(amount),
-      image
+      ...config
     })
   ),
 
-  Lsd: ({ image }: FilterProps) => (
+  Lsd: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.lsd(),
-      image
+      ...config
     })
   ),
 
-  ColorTone: ({ desaturation, toned, lightColor, darkColor, image }: ColorToneProps) => (
+  ColorTone: ({ desaturation, toned, lightColor, darkColor, ...config }: ColorToneConfig) => (
     asNativeFilterConfig({
       matrix: matrices.colorTone(desaturation, toned, lightColor, darkColor),
-      image
+      ...config
     })
   ),
 
-  DuoTone: ({ firstColor, secondColor, image }: DuoToneProps) => (
+  DuoTone: ({ firstColor, secondColor, ...config }: DuoToneConfig) => (
     asNativeFilterConfig({
       matrix: matrices.duoTone(firstColor, secondColor),
-      image
+      ...config
     })
   ),
 
-  Protanomaly: ({ image }: FilterProps) => (
+  Protanomaly: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.protanomaly(),
-      image
+      ...config
     })
   ),
 
-  Deuteranomaly: ({ image }: FilterProps) => (
+  Deuteranomaly: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.deuteranomaly(),
-      image
+      ...config
     })
   ),
 
-  Tritanomaly: ({ image }: FilterProps) => (
+  Tritanomaly: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.tritanomaly(),
-      image
+      ...config
     })
   ),
 
-  Protanopia: ({ image }: FilterProps) => (
+  Protanopia: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.protanopia(),
-      image
+      ...config
     })
   ),
 
-  Deuteranopia: ({ image }: FilterProps) => (
+  Deuteranopia: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.deuteranopia(),
-      image
+      ...config
     })
   ),
 
-  Tritanopia: ({ image }: FilterProps) => (
+  Tritanopia: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.tritanopia(),
-      image
+      ...config
     })
   ),
 
-  Achromatopsia: ({ image }: FilterProps) => (
+  Achromatopsia: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.achromatopsia(),
-      image
+      ...config
     })
   ),
 
-  Achromatomaly: ({ image }: FilterProps) => (
+  Achromatomaly: (config: FilterConfig) => (
     asNativeFilterConfig({
       matrix: matrices.achromatomaly(),
-      image
+      ...config
     })
   )
 }

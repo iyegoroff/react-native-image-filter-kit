@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit.NativePlatform;
+package iyegoroff.RNImageFilterKit.Utility;
 
 import android.graphics.Bitmap;
 
@@ -12,14 +12,19 @@ import com.facebook.imagepipeline.request.Postprocessor;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class RNMultiPostProcessor extends IterativeBoxBlurPostProcessor {
+
+  private CacheKey mCacheKey = null;
+  private final boolean mCacheDisabled;
   private final List<Postprocessor> mPostProcessors;
 
-  public RNMultiPostProcessor(List<Postprocessor> postProcessors) {
+  public RNMultiPostProcessor(List<Postprocessor> postProcessors, boolean cacheDisabled) {
     super(1);
+
     mPostProcessors = new LinkedList<>(postProcessors);
+    mCacheDisabled = cacheDisabled;
   }
 
   @Override
@@ -36,14 +41,19 @@ public class RNMultiPostProcessor extends IterativeBoxBlurPostProcessor {
     return name.toString();
   }
 
-  @Nonnull
+  @Nullable
   @Override
   public CacheKey getPostprocessorCacheKey () {
-    LinkedList<CacheKey> keys = new LinkedList<>();
-    for (Postprocessor p: mPostProcessors) {
-      keys.push(p.getPostprocessorCacheKey());
+    if (mCacheKey == null && !mCacheDisabled) {
+      LinkedList<CacheKey> keys = new LinkedList<>();
+      for (Postprocessor p: mPostProcessors) {
+        keys.push(p.getPostprocessorCacheKey());
+      }
+
+      mCacheKey = new MultiCacheKey(keys);
     }
-    return new MultiCacheKey(keys);
+
+    return mCacheKey;
   }
 
   @Override

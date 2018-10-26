@@ -18,14 +18,16 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.RNImageFilterKit.RNInputConverter;
+import iyegoroff.RNImageFilterKit.Utility.RNCachedPostProcessor;
 
-public class RNPorterDuffColorFilterPostProcessor extends BasePostprocessor {
+public class RNPorterDuffColorFilterPostProcessor extends RNCachedPostProcessor {
 
-  private CacheKey mCacheKey;
   private final int mColor;
   private @Nonnull final PorterDuff.Mode mMode;
 
   public RNPorterDuffColorFilterPostProcessor(int width, int height, @Nullable JSONObject config) {
+    super(config);
+
     RNInputConverter converter = new RNInputConverter(width, height);
 
     mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, 0);
@@ -47,19 +49,14 @@ public class RNPorterDuffColorFilterPostProcessor extends BasePostprocessor {
     canvas.drawBitmap(sourceBitmap, 0, 0, paint);
   }
 
-  @Nullable
+  @Nonnull
   @Override
-  public CacheKey getPostprocessorCacheKey() {
-    if (mCacheKey == null) {
-      final String key = String.format(
-        (Locale) null,
-        "porter_duff_color_filter_%d_%s",
-        mColor,
-        mMode.toString()
-      );
-
-      mCacheKey = new SimpleCacheKey(key);
-    }
-    return mCacheKey;
+  protected CacheKey generateCacheKey() {
+    return new SimpleCacheKey(String.format(
+      (Locale) null,
+      "porter_duff_color_filter_%d_%s",
+      mColor,
+      mMode.toString()
+    ));
   }
 }

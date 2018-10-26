@@ -14,14 +14,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.RNImageFilterKit.RNInputConverter;
+import iyegoroff.RNImageFilterKit.Utility.RNGeneratorPostProcessor;
 
 public class RNColorPostProcessor extends RNGeneratorPostProcessor {
 
-  private CacheKey mCacheKey;
   private final int mColor;
 
   public RNColorPostProcessor(int width, int height, @Nullable JSONObject config) {
-    super(width, height);
+    super(width, height, config);
 
     RNInputConverter converter = new RNInputConverter(width, height);
 
@@ -38,13 +38,9 @@ public class RNColorPostProcessor extends RNGeneratorPostProcessor {
     paint.setColor(mColor);
   }
 
-  @Nullable
+  @Nonnull
   @Override
-  public CacheKey getPostprocessorCacheKey() {
-    if (mCacheKey == null) {
-      final String key = String.format((Locale) null, "color_%d_%d_%d", mColor, mWidth, mHeight);
-      mCacheKey = new SimpleCacheKey(key);
-    }
-    return mCacheKey;
+  protected CacheKey generateCacheKey() {
+    return new SimpleCacheKey(String.format((Locale) null, "color_%d_%d_%d", mColor, mWidth, mHeight));
   }
 }

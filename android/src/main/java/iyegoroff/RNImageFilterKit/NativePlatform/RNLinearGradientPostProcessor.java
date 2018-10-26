@@ -17,10 +17,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.RNImageFilterKit.RNInputConverter;
+import iyegoroff.RNImageFilterKit.Utility.RNGeneratorPostProcessor;
 
 public class RNLinearGradientPostProcessor extends RNGeneratorPostProcessor {
 
-  private CacheKey mCacheKey;
   private final float mX0;
   private final float mY0;
   private final float mX1;
@@ -30,7 +30,7 @@ public class RNLinearGradientPostProcessor extends RNGeneratorPostProcessor {
   private final @Nonnull Shader.TileMode mTileMode;
 
   public RNLinearGradientPostProcessor(int width, int height, @Nullable JSONObject config) {
-    super(width, height);
+    super(width, height, config);
 
     int[] defaultColors = { 0, 255 };
     float[] defaultLocations = { 0, 1 };
@@ -57,26 +57,21 @@ public class RNLinearGradientPostProcessor extends RNGeneratorPostProcessor {
     paint.setShader(new LinearGradient(mX0, mY0, mX1, mY1, mColors, mLocations, mTileMode));
   }
 
-  @Nullable
+  @Nonnull
   @Override
-  public CacheKey getPostprocessorCacheKey() {
-    if (mCacheKey == null) {
-      final String key = String.format(
-        (Locale) null,
-        "linear_gradient_%d_%d_%f_%f_%f_%f_%s_%s_%s",
-        mWidth,
-        mHeight,
-        mX0,
-        mY0,
-        mX1,
-        mY1,
-        Arrays.toString(mColors),
-        Arrays.toString(mLocations),
-        mTileMode.toString()
-      );
-
-      mCacheKey = new SimpleCacheKey(key);
-    }
-    return mCacheKey;
+  protected CacheKey generateCacheKey() {
+    return new SimpleCacheKey(String.format(
+      (Locale) null,
+      "linear_gradient_%d_%d_%f_%f_%f_%f_%s_%s_%s",
+      mWidth,
+      mHeight,
+      mX0,
+      mY0,
+      mX1,
+      mY1,
+      Arrays.toString(mColors),
+      Arrays.toString(mLocations),
+      mTileMode.toString()
+    ));
   }
 }

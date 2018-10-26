@@ -5,12 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
-import com.facebook.imagepipeline.request.BasePostprocessor;
-import com.facebook.react.common.ReactConstants;
 
 import org.json.JSONObject;
 
@@ -20,11 +17,11 @@ import java.util.Locale;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import iyegoroff.RNImageFilterKit.Utility.RNCachedPostProcessor;
 import iyegoroff.RNImageFilterKit.RNInputConverter;
 
-public class RNColorMatrixColorFilterPostProcessor extends BasePostprocessor {
+public class RNColorMatrixColorFilterPostProcessor extends RNCachedPostProcessor {
 
-  private CacheKey mCacheKey;
   private @Nonnull final float[] mMatrix;
 
   private static final float[] mNormalMatrix =
@@ -34,6 +31,8 @@ public class RNColorMatrixColorFilterPostProcessor extends BasePostprocessor {
       0, 0, 0, 1, 0 };
 
   public RNColorMatrixColorFilterPostProcessor(int width, int height, @Nullable JSONObject config) {
+    super(config);
+
     RNInputConverter converter = new RNInputConverter(width, height);
 
     mMatrix = converter.convertScalarVector(
@@ -60,16 +59,11 @@ public class RNColorMatrixColorFilterPostProcessor extends BasePostprocessor {
 
   @Nonnull
   @Override
-  public CacheKey getPostprocessorCacheKey() {
-    if (mCacheKey == null) {
-      final String key = String.format(
-        (Locale) null,
-        "color_matrix_color_filter_%s",
-        Arrays.toString(mMatrix)
-      );
-
-      mCacheKey = new SimpleCacheKey(key);
-    }
-    return mCacheKey;
+  protected CacheKey generateCacheKey() {
+    return new SimpleCacheKey(String.format(
+      (Locale) null,
+      "color_matrix_color_filter_%s",
+      Arrays.toString(mMatrix)
+    ));
   }
 }

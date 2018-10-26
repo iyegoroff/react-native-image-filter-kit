@@ -16,17 +16,17 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.RNImageFilterKit.RNInputConverter;
+import iyegoroff.RNImageFilterKit.Utility.RNGeneratorPostProcessor;
 
 public class RNSweepGradientPostProcessor extends RNGeneratorPostProcessor {
 
-  private CacheKey mCacheKey;
   private final float mCx;
   private final float mCy;
   private @Nonnull final int[] mColors;
   private @Nonnull final float[] mPositions;
 
   public RNSweepGradientPostProcessor(int width, int height, @Nullable JSONObject config) {
-    super(width, height);
+    super(width, height, config);
 
     int[] defaultColors = { 0, 255 };
     float[] defaultPositions = { 0, 1 };
@@ -50,23 +50,18 @@ public class RNSweepGradientPostProcessor extends RNGeneratorPostProcessor {
     paint.setShader(new SweepGradient(mCx, mCy, mColors, mPositions));
   }
 
-  @Nullable
+  @Nonnull
   @Override
-  public CacheKey getPostprocessorCacheKey() {
-    if (mCacheKey == null) {
-      final String key = String.format(
-        (Locale) null,
-        "sweep_gradient_%d_%d_%f_%f_%s_%s",
-        mWidth,
-        mHeight,
-        mCx,
-        mCy,
-        Arrays.toString(mColors),
-        Arrays.toString(mPositions)
-      );
-
-      mCacheKey = new SimpleCacheKey(key);
-    }
-    return mCacheKey;
+  protected CacheKey generateCacheKey() {
+    return new SimpleCacheKey(String.format(
+      (Locale) null,
+      "sweep_gradient_%d_%d_%f_%f_%s_%s",
+      mWidth,
+      mHeight,
+      mCx,
+      mCy,
+      Arrays.toString(mColors),
+      Arrays.toString(mPositions)
+    ));
   }
 }

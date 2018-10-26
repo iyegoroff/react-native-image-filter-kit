@@ -28,10 +28,10 @@ import iyegoroff.RNImageFilterKit.RNGravityAxis;
 import iyegoroff.RNImageFilterKit.RNInputConverter;
 import iyegoroff.RNImageFilterKit.RNResize;
 import iyegoroff.RNImageFilterKit.RNScaleMode;
+import iyegoroff.RNImageFilterKit.Utility.RNCachedPostProcessor;
 
-public class RNPorterDuffXfermodePostProcessor extends BasePostprocessor {
+public class RNPorterDuffXfermodePostProcessor extends RNCachedPostProcessor {
 
-  private CacheKey mCacheKey;
   private final @Nonnull PorterDuff.Mode mMode;
   private final @Nonnull RNScaleMode mScaleMode;
   private final @Nonnull CloseableReference<CloseableImage> mSrc;
@@ -48,6 +48,8 @@ public class RNPorterDuffXfermodePostProcessor extends BasePostprocessor {
     @Nonnull CloseableReference<CloseableImage> src,
     @Nonnull CacheKey srcCacheKey
   ) {
+    super(config);
+
     RNInputConverter converter = new RNInputConverter(width, height);
 
     mMode = converter.convertPorterDuffMode(config != null ? config.optJSONObject("mode") : null, PorterDuff.Mode.ADD);
@@ -241,11 +243,11 @@ public class RNPorterDuffXfermodePostProcessor extends BasePostprocessor {
     return new RectF(x, y, width, height);
   }
 
-  @Nullable
+  @Nonnull
   @Override
-  public CacheKey getPostprocessorCacheKey() {
-    if (mCacheKey == null) {
-      final String key = String.format(
+  protected CacheKey generateCacheKey() {
+    return new MultiCacheKey(Arrays.asList(
+      new SimpleCacheKey(String.format(
         (Locale) null,
         "porter_duff_xfermode_%s_%s_%s_%s_%s_%s",
         mMode.toString(),
@@ -254,11 +256,8 @@ public class RNPorterDuffXfermodePostProcessor extends BasePostprocessor {
         mSrcGravityAxis.toString(),
         mDstResizeMode.toString(),
         mDstGravityAxis.toString()
-      );
-
-      mCacheKey = new MultiCacheKey(Arrays.asList(new SimpleCacheKey(key), mSrcCacheKey));
-    }
-
-    return mCacheKey;
+      )),
+      mSrcCacheKey
+    ));
   }
 }

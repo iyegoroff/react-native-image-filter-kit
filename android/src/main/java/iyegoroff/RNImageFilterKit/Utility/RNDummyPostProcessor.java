@@ -1,4 +1,4 @@
-package iyegoroff.RNImageFilterKit.NativePlatform;
+package iyegoroff.RNImageFilterKit.Utility;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;

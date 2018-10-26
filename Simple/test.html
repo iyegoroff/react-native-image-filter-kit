@@ -1,0 +1,25 @@
+<svg width="100%" height="100%" viewBox="0 0 1000 1000"
+    preserveAspectRatio="xMidYMid meet"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <filter id="colorMeLTA">
+    <feColorMatrix in="SourceGraphic"
+        type="luminanceToAlpha" />
+  </filter>
+
+    <filter id="colorMeLTA_2">
+      <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0
+                    0 0 0 0 0
+                    0 0 0 0 0
+                    0.2125 0.7154 0.0721 0 0" />
+    </filter>
+
+  <g filter="url(#colorMeLTA)">
+    <image xlink:href="https://una.im/CSSgram/img/atx.jpg" x="0" y="0" height="300px" width="300px" />
+  </g>
+
+  <g filter="url(#colorMeLTA_2)">
+    <image xlink:href="https://una.im/CSSgram/img/atx.jpg" x="300px" y="0" height="300px" width="300px" />
+  </g>
+</svg>

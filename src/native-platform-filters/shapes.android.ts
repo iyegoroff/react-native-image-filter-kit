@@ -11,7 +11,8 @@ import {
   config,
   resizeMode,
   scaleMode,
-  gravityAxis
+  gravityAxis,
+  bool
 } from '../common/inputs'
 
 export const shapes = {
@@ -21,28 +22,33 @@ export const shapes = {
 
   ColorMatrixColorFilter: {
     matrix: scalarVector,
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   IterativeBoxBlur: {
     blurRadius: scalar,
     iterations: scalar,
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   LightingColorFilter: {
     mul: color,
     add: color,
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   RoundAsCircle: {
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   Color: {
     color: color,
-    imageStyle: imageStyle
+    imageStyle: imageStyle,
+    disableCache: bool
   },
 
   LinearGradient: {
@@ -53,7 +59,8 @@ export const shapes = {
     colors: colorVector,
     locations: scalarVector,
     tile: tileMode,
-    imageStyle: imageStyle
+    imageStyle: imageStyle,
+    disableCache: bool
   },
 
   RadialGradient: {
@@ -63,7 +70,8 @@ export const shapes = {
     colors: colorVector,
     stops: scalarVector,
     tileMode: tileMode,
-    imageStyle: imageStyle
+    imageStyle: imageStyle,
+    disableCache: bool
   },
 
   SweepGradient: {
@@ -71,13 +79,15 @@ export const shapes = {
     cy: distance,
     colors: colorVector,
     positions: scalarVector,
-    imageStyle: imageStyle
+    imageStyle: imageStyle,
+    disableCache: bool
   },
 
   PorterDuffColorFilter: {
     color: color,
     mode: porterDuffMode,
-    image: image
+    image: image,
+    disableCache: bool
   },
 
   PorterDuffXfermode: {
@@ -88,6 +98,7 @@ export const shapes = {
     dstResizeMode: resizeMode,
     srcImage: image,
     srcGravityAxis: gravityAxis,
-    srcResizeMode: resizeMode
+    srcResizeMode: resizeMode,
+    disableCache: bool
   }
 }
