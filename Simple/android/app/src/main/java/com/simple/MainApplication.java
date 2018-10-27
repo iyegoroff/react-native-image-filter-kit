@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import iyegoroff.RNColorMatrixImageFilters.RNColorMatrixImageFiltersPackage;
-import iyegoroff.RNImageFilterKit.RNImageFilterKitPackage;
-import iyegoroff.RNImageFilterKit.RNMainReactPackageWithFrescoCache;
+import iyegoroff.imagefilterkit.ImageFilterKitPackage;
+import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
 
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -25,12 +25,12 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-        new RNMainReactPackageWithFrescoCache(
+        new MainReactPackageWithFrescoCache(
           null,
           (int) (Runtime.getRuntime().maxMemory() / 4)
         ),
         new RNColorMatrixImageFiltersPackage(),
-        new RNImageFilterKitPackage()
+        new ImageFilterKitPackage()
       );
     }
 
