@@ -27,7 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new MainReactPackageWithFrescoCache(
           null,
-          (int) (Runtime.getRuntime().maxMemory() / 4)
+          (int) (Runtime.getRuntime().maxMemory() / 2)
         ),
         new RNColorMatrixImageFiltersPackage(),
         new ImageFilterKitPackage()

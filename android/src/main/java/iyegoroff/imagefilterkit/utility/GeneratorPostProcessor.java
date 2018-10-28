@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public abstract class GeneratorPostProcessor extends CachedPostProcessor {
+public abstract class GeneratorPostProcessor extends CacheablePostProcessor {
 
   protected final int mWidth;
   protected final int mHeight;

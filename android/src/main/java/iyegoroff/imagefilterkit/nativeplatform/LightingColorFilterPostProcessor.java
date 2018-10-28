@@ -16,9 +16,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.imagefilterkit.InputConverter;
-import iyegoroff.imagefilterkit.utility.CachedPostProcessor;
+import iyegoroff.imagefilterkit.utility.CacheablePostProcessor;
 
-public class LightingColorFilterPostProcessor extends CachedPostProcessor {
+public class LightingColorFilterPostProcessor extends CacheablePostProcessor {
 
   private final int mMul;
   private final int mAdd;

@@ -134,15 +134,16 @@ public class PostProcessorRegistry {
     });
   }
 
-  public void addSingular(@Nonnull String name, @Nonnull CreateSingular functor) {
+  private void addSingular(@Nonnull String name, @Nonnull CreateSingular functor) {
     singulars.put(name, functor);
   }
 
-  public void addComposition(@Nonnull String name, @Nonnull CreateComposition functor) {
+  private void addComposition(@Nonnull String name, @Nonnull CreateComposition functor) {
     compositions.put(name, functor);
   }
 
-  public @Nullable Postprocessor createSingular(
+  @Nullable
+  Postprocessor createSingular(
     @Nullable String name,
     int width,
     int height,
@@ -158,7 +159,8 @@ public class PostProcessorRegistry {
     return filter != null ? filter.create(width, height, config) : null;
   }
 
-  public @Nullable Postprocessor createComposition(
+  @Nullable
+  Postprocessor createComposition(
     @Nullable String name,
     int width,
     int height,

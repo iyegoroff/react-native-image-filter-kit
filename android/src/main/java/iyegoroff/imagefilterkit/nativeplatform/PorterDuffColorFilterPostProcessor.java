@@ -17,9 +17,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.imagefilterkit.InputConverter;
-import iyegoroff.imagefilterkit.utility.CachedPostProcessor;
+import iyegoroff.imagefilterkit.utility.CacheablePostProcessor;
 
-public class PorterDuffColorFilterPostProcessor extends CachedPostProcessor {
+public class PorterDuffColorFilterPostProcessor extends CacheablePostProcessor {
 
   private final int mColor;
   private @Nonnull final PorterDuff.Mode mMode;

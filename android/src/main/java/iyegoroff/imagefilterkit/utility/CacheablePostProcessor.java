@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import javax.annotation.Nullable;
 
-public abstract class CachedPostProcessor extends BasePostprocessor {
+public abstract class CacheablePostProcessor extends BasePostprocessor {
 
   private CacheKey mCacheKey = null;
   private final boolean mCacheDisabled;
@@ -17,7 +17,7 @@ public abstract class CachedPostProcessor extends BasePostprocessor {
       config.optJSONObject("disableCache").optBoolean("bool", false);
   }
 
-  public CachedPostProcessor(@Nullable JSONObject config) {
+  public CacheablePostProcessor(@Nullable JSONObject config) {
     mCacheDisabled = cacheDisabled(config);
   }
 

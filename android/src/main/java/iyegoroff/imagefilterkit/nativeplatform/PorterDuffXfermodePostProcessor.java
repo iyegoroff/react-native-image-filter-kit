@@ -27,9 +27,9 @@ import iyegoroff.imagefilterkit.GravityAxis;
 import iyegoroff.imagefilterkit.InputConverter;
 import iyegoroff.imagefilterkit.Resize;
 import iyegoroff.imagefilterkit.ScaleMode;
-import iyegoroff.imagefilterkit.utility.CachedPostProcessor;
+import iyegoroff.imagefilterkit.utility.CacheablePostProcessor;
 
-public class PorterDuffXfermodePostProcessor extends CachedPostProcessor {
+public class PorterDuffXfermodePostProcessor extends CacheablePostProcessor {
 
   private final @Nonnull PorterDuff.Mode mMode;
   private final @Nonnull

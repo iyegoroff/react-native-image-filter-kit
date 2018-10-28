@@ -1,10 +1,12 @@
 package iyegoroff.imagefilterkit;
 
 import android.graphics.drawable.Animatable;
+import android.util.Log;
 
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.react.common.ReactConstants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

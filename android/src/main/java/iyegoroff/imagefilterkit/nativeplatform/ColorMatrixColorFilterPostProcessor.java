@@ -18,9 +18,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.imagefilterkit.InputConverter;
-import iyegoroff.imagefilterkit.utility.CachedPostProcessor;
+import iyegoroff.imagefilterkit.utility.CacheablePostProcessor;
 
-public class ColorMatrixColorFilterPostProcessor extends CachedPostProcessor {
+public class ColorMatrixColorFilterPostProcessor extends CacheablePostProcessor {
 
   private @Nonnull final float[] mMatrix;
 

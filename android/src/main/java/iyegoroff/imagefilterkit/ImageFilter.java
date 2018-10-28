@@ -1,7 +1,6 @@
 package iyegoroff.imagefilterkit;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.BaseDataSubscriber;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.controller.ControllerListener;
-import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
@@ -38,15 +36,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import iyegoroff.imagefilterkit.utility.CacheablePostProcessor;
 import iyegoroff.imagefilterkit.utility.DummyPostProcessor;
 import iyegoroff.imagefilterkit.utility.MultiPostProcessor;
-import iyegoroff.imagefilterkit.utility.CachedPostProcessor;
+import iyegoroff.imagefilterkit.utility.ReplacingPostProcessor;
 
 public class ImageFilter extends ReactViewGroup {
 
@@ -102,11 +102,9 @@ public class ImageFilter extends ReactViewGroup {
 
           Log.d(ReactConstants.TAG, "ImageFilterKit: sing start->parse " + name + " " + String.valueOf(System.currentTimeMillis() - start));
 
-          return new FilterableImage(
-            result.getImage(),
-            postProcessors,
-            CachedPostProcessor.cacheDisabled(config)
-          );
+          boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
+
+          return new FilterableImage(result.getImage(), postProcessors, cacheDisabled);
         }
       });
   }
@@ -120,7 +118,6 @@ public class ImageFilter extends ReactViewGroup {
     > prevImage,
     final @Nonnull Map<ReactImageView, FrescoControllerListener> imageListeners
   ) throws JSONException {
-    final long start = System.currentTimeMillis();
     final String name = config.getString("name");
 
     return prevImage
@@ -134,131 +131,85 @@ public class ImageFilter extends ReactViewGroup {
         public Promise<FilterableImage, OneReject<Object>, MasterProgress> pipeDone(
           final MultipleResults2<FilterableImage, FilterableImage> result
         ) {
-          Log.d(ReactConstants.TAG, "ImageFilterKit: comp start->parse 1 " + name + " " + String.valueOf(System.currentTimeMillis() - start));
           final Deferred<FilterableImage, OneReject<Object>, MasterProgress> deferred =
             new DeferredObject<>();
           final FilterableImage dst = result.getFirst().getValue();
           final FilterableImage src = result.getSecond().getValue();
-          final boolean cacheDisabled = CachedPostProcessor.cacheDisabled(config);
-          Log.d(ReactConstants.TAG, "ImageFilterKit: comp start->parse 2 " + name + " " + String.valueOf(System.currentTimeMillis() - start));
+          final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
 
-          CacheKey auxKey = src.getPreparedAuxCacheKey();
-          CloseableReference<CloseableImage> cachedSrcRef = AuxCache.getImage(auxKey);
-          CacheKey srcFrescoKey = AuxCache.getFrescoKey(auxKey);
+          ImageFilter.filterImage(src, imageListeners.get(src.getImage()))
+            .then(new DoneCallback<ReactImageView>() {
+              @Override
+              public void onDone(final ReactImageView result) {
+                if (result != null && result.getController() != null) {
+                  final int width = result.getMeasuredWidth();
+                  final int height = result.getMeasuredHeight();
+                  final CacheKey bitmapKey = ReflectUtils
+                    .invokeMethod(result.getController(), "getCacheKey");
+                  Supplier<DataSource<CloseableReference<CloseableImage>>> ds = ReflectUtils
+                    .invokeMethod(result.getController(), "getDataSourceSupplier");
 
-          Log.d(ReactConstants.TAG, "ImageFilterKit: comp start->parse 3 " + name + " " + String.valueOf(System.currentTimeMillis() - start));
+                  if (ds != null && bitmapKey != null) {
+                    ds.get().subscribe(new BaseDataSubscriber<CloseableReference<CloseableImage>>() {
+                      @Override
+                      protected void onNewResultImpl(
+                        DataSource<CloseableReference<CloseableImage>> dataSource
+                      ) {
+                        if (dataSource.isFinished()) {
+                          CloseableReference<CloseableImage> ref = dataSource.getResult();
+                          if (ref != null) {
+                            ArrayList<Postprocessor> postProcessors =
+                              new ArrayList<>(dst.getPostProcessors());
 
-          if (cachedSrcRef != null && srcFrescoKey != null) {
-            ArrayList<Postprocessor> postProcessors =
-              new ArrayList<>(dst.getPostProcessors());
-
-            Log.d(ReactConstants.TAG, "ImageFilterKit: comp start->parse 4 " + name + " " + String.valueOf(System.currentTimeMillis() - start));
-
-            try {
-              Bitmap bitmap = ((CloseableBitmap) cachedSrcRef.get()).getUnderlyingBitmap();
-
-              Log.d(ReactConstants.TAG, "ImageFilterKit: comp start->parse 5 " + name + " " + String.valueOf(System.currentTimeMillis() - start));
-
-              postProcessors.add(
-                PostProcessorRegistry.getInstance().createComposition(
-                  name,
-                  bitmap.getWidth(),
-                  bitmap.getHeight(),
-                  config,
-                  cachedSrcRef,
-                  srcFrescoKey
-                )
-              );
-
-              Log.d(ReactConstants.TAG, "ImageFilterKit: comp start->parse 6 " + name + " " + String.valueOf(System.currentTimeMillis() - start));
-            } finally {
-              CloseableReference.closeSafely(cachedSrcRef);
-            }
-
-            deferred.resolve(new FilterableImage(dst.getImage(), postProcessors, cacheDisabled));
-
-            Log.d(ReactConstants.TAG, "ImageFilterKit: comp start->parse 7 " + name + " " + String.valueOf(System.currentTimeMillis() - start));
-
-          } else {
-            ImageFilter.filterImage(src, imageListeners.get(src.getImage()))
-              .then(new DoneCallback<ReactImageView>() {
-                @Override
-                public void onDone(final ReactImageView result) {
-                  if (result != null && result.getController() != null) {
-                    final int width = result.getMeasuredWidth();
-                    final int height = result.getMeasuredHeight();
-                    final CacheKey bitmapKey = ReflectUtils
-                      .invokeMethod(result.getController(), "getCacheKey");
-                    Supplier<DataSource<CloseableReference<CloseableImage>>> ds = ReflectUtils
-                      .invokeMethod(result.getController(), "getDataSourceSupplier");
-
-                    if (ds != null && bitmapKey != null) {
-                      ds.get().subscribe(new BaseDataSubscriber<CloseableReference<CloseableImage>>() {
-                        @Override
-                        protected void onNewResultImpl(
-                          DataSource<CloseableReference<CloseableImage>> dataSource
-                        ) {
-                          if (dataSource.isFinished()) {
-                            CloseableReference<CloseableImage> ref = dataSource.getResult();
-                            if (ref != null) {
-                              ArrayList<Postprocessor> postProcessors =
-                                new ArrayList<>(dst.getPostProcessors());
-
-                              try {
-                                if (!cacheDisabled) {
-                                  AuxCache.put(src.getPreparedAuxCacheKey(), bitmapKey);
-                                }
-
-                                postProcessors.add(
-                                  PostProcessorRegistry.getInstance().createComposition(
-                                    name,
-                                    width,
-                                    height,
-                                    config,
-                                    ref,
-                                    bitmapKey
-                                  )
-                                );
-
-                              } finally {
-                                CloseableReference.closeSafely(ref);
-                              }
-
-                              Log.d(ReactConstants.TAG, "ImageFilterKit: comp start->parse " + name + " " + String.valueOf(System.currentTimeMillis() - start));
-                              deferred.resolve(
-                                new FilterableImage(dst.getImage(), postProcessors, cacheDisabled)
+                            try {
+                              postProcessors.add(
+                                PostProcessorRegistry.getInstance().createComposition(
+                                  name,
+                                  width,
+                                  height,
+                                  config,
+                                  ref,
+                                  bitmapKey
+                                )
                               );
 
-                            } else {
-                              deferred.fail(new FailCallback<OneReject<Object>>() {
-                                @Override
-                                public void onFail(OneReject<Object> result) {
-                                  Assertions.assertCondition(
-                                    false,
-                                    "ImageFilterKit: " + result.toString()
-                                  );
-                                }
-                              });
+                            } finally {
+                              CloseableReference.closeSafely(ref);
                             }
+
+                            deferred.resolve(
+                              new FilterableImage(dst.getImage(), postProcessors, cacheDisabled)
+                            );
+
+                          } else {
+                            deferred.fail(new FailCallback<OneReject<Object>>() {
+                              @Override
+                              public void onFail(OneReject<Object> result) {
+                                Assertions.assertCondition(
+                                  false,
+                                  "ImageFilterKit: " + result.toString()
+                                );
+                              }
+                            });
                           }
                         }
+                      }
 
-                        @Override
-                        protected void onFailureImpl(
-                          DataSource<CloseableReference<CloseableImage>> dataSource
-                        ) {
-                          Throwable t = dataSource.getFailureCause();
+                      @Override
+                      protected void onFailureImpl(
+                        DataSource<CloseableReference<CloseableImage>> dataSource
+                      ) {
+                        Throwable t = dataSource.getFailureCause();
 
-                          if (t != null) {
-                            Log.w(ReactConstants.TAG, "ImageFilterKit: " + t.getMessage());
-                          }
+                        if (t != null) {
+                          Log.w(ReactConstants.TAG, "ImageFilterKit: " + t.getMessage());
                         }
-                      }, UiThreadImmediateExecutorService.getInstance());
-                    }
+                      }
+                    }, UiThreadImmediateExecutorService.getInstance());
                   }
                 }
-              });
-          }
+              }
+            });
 
           return deferred.promise();
         }
@@ -351,7 +302,7 @@ public class ImageFilter extends ReactViewGroup {
 
   private void runFilterPipeline() {
     final long start = System.currentTimeMillis();
-    ArrayList<ReactImageView> images = this.images();
+    final ArrayList<ReactImageView> images = this.images();
 
     if (!mIsReady && getChildCount() > 0) {
       getChildAt(0).setVisibility(View.INVISIBLE);
@@ -361,25 +312,57 @@ public class ImageFilter extends ReactViewGroup {
       try {
         final ImageFilter self = this;
         final String name = mConfig.getString("name");
+        final CacheKey auxKey = AuxCache.auxKey(mConfig, images);
 
-        ImageFilter.parseConfig(mConfig, images, mImageListeners)
-          .then(new DoneCallback<FilterableImage>() {
-            @Override
-            public void onDone(FilterableImage result) {
-              Log.d(ReactConstants.TAG, "ImageFilterKit: start->parse " + name + " " + String.valueOf(System.currentTimeMillis() - start));
-              if (!self.mIsReady && self.getChildCount() > 0) {
-                self.getChildAt(0).setVisibility(View.VISIBLE);
-                self.mIsReady = true;
+        if (AuxCache.hasInFrescoCache(auxKey) &&
+          self.getChildCount() > 0 &&
+          self.getChildAt(0) instanceof ReactImageView
+        ) {
+          final ReactImageView target = (ReactImageView) self.getChildAt(0);
+          if (!self.mIsReady) {
+            self.getChildAt(0).setVisibility(View.VISIBLE);
+            self.mIsReady = true;
+          }
+
+          ImageFilter.filterImage(
+            new FilterableImage(
+              target,
+              new ArrayList<Postprocessor>(
+                Collections.singletonList(new ReplacingPostProcessor(auxKey))
+              ),
+              false
+            ),
+            mImageListeners.get(target)
+          );
+
+        } else {
+          ImageFilter.parseConfig(mConfig, images, mImageListeners)
+            .then(new DoneCallback<FilterableImage>() {
+              @Override
+              public void onDone(final FilterableImage result) {
+                Log.d(ReactConstants.TAG, "ImageFilterKit: start->parse " + name + " " + String.valueOf(System.currentTimeMillis() - start));
+                if (!self.mIsReady && self.getChildCount() > 0) {
+                  self.getChildAt(0).setVisibility(View.VISIBLE);
+                  self.mIsReady = true;
+                }
+
+                ImageFilter.filterImage(result, mImageListeners.get(result.getImage()))
+                  .then(new DoneCallback<ReactImageView>() {
+                    @Override
+                    public void onDone(ReactImageView image) {
+                      CacheKey key = image.getController() != null
+                        ? ReflectUtils.<CacheKey>invokeMethod(image.getController(), "getCacheKey")
+                        : null;
+
+                      if (!result.isCacheDisabled() && key != null) {
+                        AuxCache.put(auxKey, key);
+                      }
+                      Log.d(ReactConstants.TAG, "ImageFilterKit: start->filter " + name + " " + String.valueOf(System.currentTimeMillis() - start));
+                    }
+                  });
               }
-              ImageFilter.filterImage(result, mImageListeners.get(result.getImage()))
-                .then(new DoneCallback<ReactImageView>() {
-                  @Override
-                  public void onDone(ReactImageView result) {
-                    Log.d(ReactConstants.TAG, "ImageFilterKit: start->filter " + name + " " + String.valueOf(System.currentTimeMillis() - start));
-                  }
-                });
-            }
-          });
+            });
+        }
 
       } catch (JSONException exc) {
         Assertions.assertCondition(
@@ -408,10 +391,9 @@ public class ImageFilter extends ReactViewGroup {
       postProcessors.add(new DummyPostProcessor());
     }
 
-    IterativeBoxBlurPostProcessor next = new MultiPostProcessor(
-      postProcessors,
-      filterableImage.isCacheDisabled()
-    );
+    IterativeBoxBlurPostProcessor next = postProcessors.size() == 1 && postProcessors.get(0) instanceof ReplacingPostProcessor
+      ? (ReplacingPostProcessor) postProcessors.get(0)
+      : new MultiPostProcessor(postProcessors, filterableImage.isCacheDisabled());
 
     if (prev == null || prev.getPostprocessorCacheKey() != next.getPostprocessorCacheKey()) {
       if (listener != null) {
@@ -428,6 +410,11 @@ public class ImageFilter extends ReactViewGroup {
         new Functor() {
           public void call() {
             ReflectUtils.setFieldValue(image, "mControllerListener", prevListener);
+
+            if (image.getController() != null) {
+              Log.d(ReactConstants.TAG, "ImageFilterKit: key " + String.valueOf(ReflectUtils
+                .invokeMethod(image.getController(), "getCacheKey")));
+            }
             d.resolve(image);
           }
         }
@@ -440,6 +427,10 @@ public class ImageFilter extends ReactViewGroup {
 
       image.maybeUpdateView();
     } else {
+      if (image.getController() != null) {
+        Log.d(ReactConstants.TAG, "ImageFilterKit: key " + String.valueOf(ReflectUtils
+          .invokeMethod(image.getController(), "getCacheKey")));
+      }
       d.resolve(image);
     }
 

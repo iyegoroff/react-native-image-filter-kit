@@ -15,7 +15,6 @@ public class FilterableImage {
   private final @Nonnull ReactImageView mImage;
   private final @Nonnull ArrayList<Postprocessor> mPostProcessors;
   private final boolean mCacheDisabled;
-  private final @Nonnull CacheKey mPreparedAuxCacheKey;
 
   FilterableImage(
     @Nonnull ReactImageView image,
@@ -25,19 +24,6 @@ public class FilterableImage {
     mImage = image;
     mPostProcessors = postProcessors;
     mCacheDisabled = cacheDisabled;
-
-    CacheKey imageKey = image.getController() != null
-      ? ReflectUtils.<CacheKey>invokeMethod(image.getController(), "getCacheKey")
-      : null;
-
-    LinkedList<CacheKey> keys = new LinkedList<>();
-    for (Postprocessor p: mPostProcessors) {
-      keys.push(p.getPostprocessorCacheKey());
-    }
-
-    keys.push(imageKey);
-
-    mPreparedAuxCacheKey = new MultiCacheKey(keys);
   }
 
   public ReactImageView getImage() {
@@ -50,9 +36,5 @@ public class FilterableImage {
 
   public boolean isCacheDisabled() {
     return mCacheDisabled;
-  }
-
-  public CacheKey getPreparedAuxCacheKey() {
-    return mPreparedAuxCacheKey;
   }
 }

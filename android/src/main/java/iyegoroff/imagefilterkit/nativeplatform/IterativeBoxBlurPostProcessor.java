@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.imagefilterkit.InputConverter;
-import iyegoroff.imagefilterkit.utility.CachedPostProcessor;
+import iyegoroff.imagefilterkit.utility.CacheablePostProcessor;
 
 public class IterativeBoxBlurPostProcessor extends com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor {
 
@@ -34,7 +34,7 @@ public class IterativeBoxBlurPostProcessor extends com.facebook.imagepipeline.po
       IterativeBoxBlurPostProcessor.blurRadius(config, new InputConverter(width, height))
     );
 
-    mCacheDisabled = CachedPostProcessor.cacheDisabled(config);
+    mCacheDisabled = CacheablePostProcessor.cacheDisabled(config);
   }
 
   @Override
