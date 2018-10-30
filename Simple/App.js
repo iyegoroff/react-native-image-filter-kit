@@ -60,7 +60,7 @@ const instructions = Platform.select({
 class CSSGramItem extends PureComponent {
   static defaultProps = {
     filter: 'Normal',
-    image: 'https://una.im/CSSgram/img/atx.jpg'
+    image: require('./atx.jpg')
   }
 
   state = { isFiltered: true };
@@ -79,13 +79,13 @@ class CSSGramItem extends PureComponent {
   }
 
   image() {
-    const { uri } = this.props;
+    const { image } = this.props;
     return (
       <Image
         style={{ width: 360, height: 360, backgroundColor: 'transparent' }}
-        source={typeof uri === 'number' ? uri : { uri }}
+        source={typeof image === 'number' ? image : { uri: image }}
         // source={{ uri: 'http://travellingmoods.com/wp-content/uploads/2015/05/New-York-City.jpg' }}
-        resizeMode={'cover'}
+        resizeMode={'contain'}
       />
     );
   }
@@ -96,7 +96,7 @@ class CSSGramItem extends PureComponent {
         config={{
           name: this.props.filter,
           image: this.image(),
-          disableCache: false
+          disableCache: true
         }}
       />
     );
@@ -119,7 +119,9 @@ export default class App extends Component<Props> {
       { name: 'Bike', uri: 'https://una.im/CSSgram/img/bike.jpg' },
       { name: 'Tahoe', uri: 'https://una.im/CSSgram/img/tahoe.jpg' },
       { name: 'Cacti', uri: 'https://una.im/CSSgram/img/cacti.jpg' },
-      { name: 'LakeGeneva', uri: 'https://una.im/CSSgram/img/lakegeneva.jpg' }
+      { name: 'LakeGeneva', uri: 'https://una.im/CSSgram/img/lakegeneva.jpg' },
+      { name: 'Atx_local', uri: require('./atx.jpg') },
+      { name: 'Tahoe_local', uri: require('./tahoe.jpg') },
     ],
     filters: [].concat.apply([], Array.from(Array(1)).map((x, i) => [
       // { name: 'Normal', key: `Normal1_${i}` },
@@ -152,20 +154,20 @@ export default class App extends Component<Props> {
       // { uri: 'http://www.hdwallpapery.com/static/images/Sv4BC_ltdPPcT.png', key: `Sv4BC_ltdPPcT_${i}` },
       // { uri: 'http://img.talkandroid.com/uploads/2015/03/square_cash_app_icon-450x450.png', key: `square_cash_app_icon-450x450_${i}` },
       { name: 'Normal', key: `Normal_${i}` },
-      { name: '_1977', key: `_1977_${i}` },
-      { name: 'Aden', key: `Aden_${i}` },
-      { name: 'Brannan', key: `Brannan_${i}` },
-      { name: 'Brooklyn', key: `Brooklyn_${i}` },
-      { name: 'Clarendon', key: `Clarendon_${i}` },
-      { name: 'Earlybird', key: `Earlybird_${i}` },
-      { name: 'Hudson', key: `Hudson_${i}` },
-      { name: 'Inkwell', key: `Inkwell_${i}` },
-      { name: 'Lofi', key: `Lofi_${i}` },
-      { name: 'Mayfair', key: `Mayfair_${i}` },
-      { name: 'Nashville', key: `Nashville_${i}` },
-      { name: 'Rise', key: `Rise_${i}` },
-      { name: 'Toaster', key: `Toaster_${i}` },
-      { name: 'Walden', key: `Walden_${i}` }
+      // { name: '_1977', key: `_1977_${i}` },
+      // { name: 'Aden', key: `Aden_${i}` },
+      // { name: 'Brannan', key: `Brannan_${i}` },
+      // { name: 'Brooklyn', key: `Brooklyn_${i}` },
+      // { name: 'Clarendon', key: `Clarendon_${i}` },
+      // { name: 'Earlybird', key: `Earlybird_${i}` },
+      // { name: 'Hudson', key: `Hudson_${i}` },
+      { name: 'Sepia', key: `Inkwell_${i}` },
+      // { name: 'Lofi', key: `Lofi_${i}` },
+      // { name: 'Mayfair', key: `Mayfair_${i}` },
+      // { name: 'Nashville', key: `Nashville_${i}` },
+      // { name: 'Rise', key: `Rise_${i}` },
+      // { name: 'Toaster', key: `Toaster_${i}` },
+      // { name: 'Walden', key: `Walden_${i}` }
     ]))
   };
 

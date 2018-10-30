@@ -51,7 +51,11 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
   }
 
   public void onFailure(String id, Throwable throwable) {
-    Log.d(ReactConstants.TAG, "ImageFilterKit: onFailure " + throwable.getMessage());
+    Log.w(
+      ReactConstants.TAG,
+      "ImageFilterKit: FrescoControllerListener onFailure '" + throwable.getMessage() + "'"
+    );
+
     if (mWrappedListener != null) {
       mWrappedListener.onFailure(id, throwable);
     }
