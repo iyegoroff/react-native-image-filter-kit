@@ -15,7 +15,8 @@ import {
   Image,
   ScrollView,
   TouchableWithoutFeedback,
-  FlatList
+  FlatList,
+  Picker
 } from 'react-native';
 import {
   ImageFilter,
@@ -56,6 +57,11 @@ const instructions = Platform.select({
 });
 
 class CSSGramItem extends PureComponent {
+  static defaultProps = {
+    filter: 'Normal',
+    image: 'https://una.im/CSSgram/img/atx.jpg'
+  }
+
   state = { isFiltered: true };
 
   render() {
@@ -66,7 +72,7 @@ class CSSGramItem extends PureComponent {
         <TouchableWithoutFeedback onPress={this.pressed}>
           {isFiltered ? this.filteredImage() : this.image()}
         </TouchableWithoutFeedback>
-        <Text style={styles.text}>{isFiltered ? this.props.name : ''}</Text>
+        {isFiltered ? <Text style={styles.text}>{this.props.filter}</Text> : null}
       </View>
     );
   }
@@ -75,7 +81,7 @@ class CSSGramItem extends PureComponent {
     return (
       <Image
         style={{ width: 360, height: 360, backgroundColor: 'transparent' }}
-        source={{ uri: 'https://una.im/CSSgram/img/atx.jpg' }}
+        source={{ uri: this.props.image }}
         // source={{ uri: 'http://travellingmoods.com/wp-content/uploads/2015/05/New-York-City.jpg' }}
         resizeMode={'cover'}
       />
@@ -86,7 +92,7 @@ class CSSGramItem extends PureComponent {
     return (
       <ImageFilter
         config={{
-          name: this.props.name,
+          name: this.props.filter,
           image: this.image(),
           disableCache: false
         }}
@@ -99,108 +105,19 @@ class CSSGramItem extends PureComponent {
   }
 };
 
-class CSSGramItem2 extends CSSGramItem {
-  filteredImage() {
-    return (
-      <ImageFilter
-        config={{
-          name: 'PorterDuffXfermode',
-          mode: 'SRC_OVER',
-          srcImage: {
-            name: 'RadialGradient',
-            colors: ['rgba(168, 223, 193, .4)', 'rgb(196, 183, 200)'],
-            stops: [0.7, 1],
-            radius: '30min'
-          },
-          dstImage: bike
-        }}
-      />
-    );
-  }
-}
-
-class CSSGramItem3 extends CSSGramItem {
-  filteredImage() {
-    return (
-      <ImageFilter
-        config={{
-          name: 'PorterDuffXfermode',
-          mode: 'SCREEN',
-          srcImage: bike,
-          dstImage: atx
-        }}
-      />
-    );
-  }
-}
-
-class CSSGramItem4 extends CSSGramItem {
-  filteredImage() {
-    return (
-      <ImageFilter
-        config={{
-          name: 'Sepia',
-          amount: 0.5,
-          image: {
-            name: 'Saturate',
-            amount: 0.5,
-            image: {
-              name: 'HueRotate',
-              amount: 0.5,
-              image: {
-                name: 'Tint',
-                amount: 0.5,
-                image: {
-                  name: 'Predator',
-                  amount: 0.5,
-                  image: {
-                    name: 'Grayscale',
-                    amount: 0.5,
-                    image:{
-          name: 'Sepia',
-          amount: 0.5,
-          image: {
-            name: 'Saturate',
-            amount: 0.5,
-            image: {
-              name: 'HueRotate',
-              amount: 0.5,
-              image: {
-                name: 'Tint',
-                amount: 0.5,
-                image: {
-                  name: 'Predator',
-                  amount: 0.5,
-                  image: {
-                    name: 'Grayscale',
-                    amount: 0.5,
-                    image: {
-                      name: 'PorterDuffColorFilter',
-                      color: 'rgb(123, 45, 33)',
-                      image: {
-                        name: 'RadialGradient',
-                        colors: ['rgba(169, 223, 193, .4)', 'rgb(196, 183, 200)', 'rgba(12, 194, 231, .2)', 'rgb(34, 54, 3)'],
-                        stops: [0.1, 0.5, 0.7, 1],
-                        radius: '70min',
-                        imageStyle: { width: 360, height: 360 }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        }}}}}}}
-      />
-    );
-  }
-}
-
 type Props = {};
 export default class App extends Component<Props> {
   state = {
     t: Date.now(),
+    selectedFilter: '_1977_0',
+    selectedImage: 'Atx',
+    images: [
+      { name: 'Atx', uri: 'https://una.im/CSSgram/img/atx.jpg' },
+      { name: 'Bike', uri: 'https://una.im/CSSgram/img/bike.jpg' },
+      { name: 'Tahoe', uri: 'https://una.im/CSSgram/img/tahoe.jpg' },
+      { name: 'Cacti', uri: 'https://una.im/CSSgram/img/cacti.jpg' },
+      { name: 'LakeGeneva', uri: 'https://una.im/CSSgram/img/lakegeneva.jpg' },
+    ],
     filters: [].concat.apply([], Array.from(Array(1)).map((x, i) => [
       // { name: 'Normal', key: `Normal1_${i}` },
       // { name: 'Sepia', key: `Sepia_${i}` },
@@ -258,19 +175,45 @@ export default class App extends Component<Props> {
     // clearInterval(this.interval);
   }
 
-  render() {
+  renderList() {
     return (
-      // <ScrollView contentContainerStyle={styles.container}>
-      //   <CSSGramItem4 name={'4'} />
-      //   <CSSGramItem2 name={'2'} />
-      //   <CSSGramItem3 name={'3'} />
-      // </ScrollView>
       <FlatList
         contentContainerStyle={styles.container}
         data={this.state.filters}
         renderItem={this.renderFilter}
       />
     );
+  }
+
+  renderSelect() {
+    const { selectedFilter, selectedImage, filters, images } = this.state;
+  
+    return (
+      <View style={styles.container}>
+        <Picker
+          style={styles.picker}
+          selectedValue={selectedFilter}
+          onValueChange={(item) => this.setState({ selectedFilter: item })}
+        >
+          {filters.map(({ name, key }) => <Picker.Item value={key} label={name} key={key} />)}
+        </Picker>
+        <Picker
+          style={styles.picker}
+          selectedValue={selectedImage}
+          onValueChange={(item) => this.setState({ selectedImage: item })}
+        >
+          {images.map(({ name }) => <Picker.Item value={name} label={name} key={name} />)}
+        </Picker>
+        <CSSGramItem
+          filter={filters.find(({ key }) => key === selectedFilter).name}
+          image={images.find(({ name }) => name === selectedImage).uri}
+        />
+      </View>
+    );
+  }
+
+  render() {
+    return this.renderSelect();
   }
 
   renderFilter = ({ item }) => (
@@ -281,7 +224,7 @@ export default class App extends Component<Props> {
           blurRadius={5}
           resizeMode={'contain'}
         />
-      : <CSSGramItem {...item} />
+      : <CSSGramItem filter={item.name} />
   )
 }
 
@@ -295,12 +238,15 @@ const styles = StyleSheet.create({
     color: 'white',
     position: 'absolute',
     right: 10,
-    bottom: 10
+    bottom: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 3,
+    borderRadius: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0.35)'
   },
   container: {
     width: '100%',
-    alignItems: 'center',
-    backgroundColor: 'gray'
+    alignItems: 'center'
   },
   welcome: {
     fontSize: 20,
@@ -312,4 +258,7 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  picker: {
+    alignSelf: 'stretch'
+  }
 });

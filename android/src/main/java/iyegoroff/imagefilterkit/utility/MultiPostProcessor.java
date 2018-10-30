@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
+import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
@@ -12,6 +13,7 @@ import com.facebook.imagepipeline.request.Postprocessor;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class MultiPostProcessor extends IterativeBoxBlurPostProcessor {
@@ -41,16 +43,27 @@ public class MultiPostProcessor extends IterativeBoxBlurPostProcessor {
     return name.toString();
   }
 
+  @Nonnull
+  public static CacheKey cacheKey(@Nonnull IterativeBoxBlurPostProcessor target) {
+    if (target instanceof MultiPostProcessor) {
+      LinkedList<CacheKey> keys = new LinkedList<>();
+      for (Postprocessor p : ((MultiPostProcessor) target).mPostProcessors) {
+        keys.push(p.getPostprocessorCacheKey());
+      }
+
+      return new MultiCacheKey(keys);
+
+    } else {
+      CacheKey key = target.getPostprocessorCacheKey();
+      return key != null ? key : new SimpleCacheKey("empty");
+    }
+  }
+
   @Nullable
   @Override
   public CacheKey getPostprocessorCacheKey () {
     if (mCacheKey == null && !mCacheDisabled) {
-      LinkedList<CacheKey> keys = new LinkedList<>();
-      for (Postprocessor p: mPostProcessors) {
-        keys.push(p.getPostprocessorCacheKey());
-      }
-
-      mCacheKey = new MultiCacheKey(keys);
+      mCacheKey = cacheKey(this);
     }
 
     return mCacheKey;

@@ -5,9 +5,8 @@ import android.util.LruCache;
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
-import com.facebook.common.internal.Predicate;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.react.views.image.ReactImageView;
+import com.facebook.react.views.imagehelper.ImageSource;
 
 import org.json.JSONObject;
 
@@ -20,25 +19,14 @@ import javax.annotation.Nullable;
 
 public class AuxCache {
 
-  private static final @Nonnull LruCache<CacheKey, CacheKey> sImpl = new LruCache<>(256);
+  private static final @Nonnull LruCache<CacheKey, FilterableImage> sImpl = new LruCache<>(256);
 
-  static boolean hasInFrescoCache(@Nonnull CacheKey auxKey) {
-    final CacheKey key = sImpl.get(auxKey);
-
-    return Fresco.getImagePipeline().getBitmapMemoryCache().contains(new Predicate<CacheKey>() {
-      @Override
-      public boolean apply(CacheKey cacheKey) {
-        return cacheKey.equals(key);
-      }
-    });
-  }
-
-  static void put(@Nonnull CacheKey auxKey, @Nonnull CacheKey key) {
-    sImpl.put(auxKey, key);
+  static void put(@Nonnull CacheKey auxKey, @Nonnull FilterableImage image) {
+    sImpl.put(auxKey, image);
   }
 
   @Nullable
-  public static CacheKey getFrescoKey(@Nonnull CacheKey auxKey) {
+  public static FilterableImage get(@Nonnull CacheKey auxKey) {
     return sImpl.get(auxKey);
   }
 
@@ -50,12 +38,9 @@ public class AuxCache {
     keys.add(new SimpleCacheKey(config.toString()));
 
     for (Integer index : imageIndexes) {
-      ReactImageView image = images.get(index);
-      keys.add(
-        image.getController() != null
-          ? ReflectUtils.<CacheKey>invokeMethod(image.getController(), "getCacheKey")
-          : null
-      );
+      ImageSource source = ReactImageViewUtils.getImageSource(images.get(index));
+
+      keys.add(new SimpleCacheKey(source != null ? source.getSource() : "null"));
     }
 
     return new MultiCacheKey(keys);

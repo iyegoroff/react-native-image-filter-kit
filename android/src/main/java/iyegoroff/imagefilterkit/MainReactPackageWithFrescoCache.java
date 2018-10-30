@@ -1,5 +1,6 @@
 package iyegoroff.imagefilterkit;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.facebook.react.bridge.ModuleSpec;
@@ -12,6 +13,7 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Provider;
 
@@ -19,15 +21,26 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
 
   private @Nullable final Integer mMaxCacheEntries;
   private @Nullable final Integer mMaxCacheSizeInBytes;
+  private @Nonnull final Bitmap.Config mBitmapsConfig;
+  private static @Nonnull Bitmap.Config sBitmapsConfig = Bitmap.Config.ARGB_8888;
 
   public MainReactPackageWithFrescoCache(
     @Nullable Integer maxCacheEntries,
-    @Nullable Integer maxCacheSizeInBytes
+    @Nullable Integer maxCacheSizeInBytes,
+    @Nullable Bitmap.Config bitmapsConfig
   ) {
     super();
 
     mMaxCacheEntries = maxCacheEntries;
     mMaxCacheSizeInBytes = maxCacheSizeInBytes;
+
+    Bitmap.Config config = bitmapsConfig == null ? sBitmapsConfig : bitmapsConfig;
+    mBitmapsConfig = config;
+    sBitmapsConfig = config;
+  }
+
+  public static Bitmap.Config bitmapsConfig() {
+    return sBitmapsConfig;
   }
 
   @Override
@@ -60,6 +73,7 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
                 true,
                 FrescoModule.getDefaultConfigBuilder(context)
                   .setBitmapMemoryCacheParamsSupplier(cacheParamsSupplier)
+                  .setBitmapsConfig(mBitmapsConfig)
                   .build()
               );
             }

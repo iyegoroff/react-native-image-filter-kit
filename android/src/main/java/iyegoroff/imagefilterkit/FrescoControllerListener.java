@@ -12,9 +12,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class FrescoControllerListener extends BaseControllerListener<ImageInfo> {
-  private @Nullable ControllerListener<ImageInfo> mOriginalListener;
-  private @Nonnull
-  Functor mImageUpdated;
+  private @Nullable ControllerListener<ImageInfo> mWrappedListener;
+  private @Nonnull Functor mImageUpdated;
   private boolean mIsEnabled = true;
 
   FrescoControllerListener(
@@ -23,19 +22,23 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
   ) {
     super();
 
-    mOriginalListener = originalListener;
+    mWrappedListener = originalListener;
     mImageUpdated = imageUpdated;
   }
 
   public void onSubmit(String id, Object callerContext) {
-    if (mOriginalListener != null) {
-      mOriginalListener.onSubmit(id, callerContext);
+    if (mWrappedListener != null) {
+      mWrappedListener.onSubmit(id, callerContext);
     }
   }
 
-  public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable animatable) {
-    if (mOriginalListener != null) {
-      mOriginalListener.onFinalImageSet(id, imageInfo, animatable);
+  public void onFinalImageSet(
+    String id,
+    @Nullable ImageInfo imageInfo,
+    @Nullable Animatable animatable
+  ) {
+    if (mWrappedListener != null) {
+      mWrappedListener.onFinalImageSet(id, imageInfo, animatable);
     }
 
     if (imageInfo != null) {
@@ -48,12 +51,26 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
   }
 
   public void onFailure(String id, Throwable throwable) {
-    if (mOriginalListener != null) {
-      mOriginalListener.onFailure(id, throwable);
+    Log.d(ReactConstants.TAG, "ImageFilterKit: onFailure " + throwable.getMessage());
+    if (mWrappedListener != null) {
+      mWrappedListener.onFailure(id, throwable);
     }
   }
 
   public void setEnabled(boolean isEnabled) {
     this.mIsEnabled = isEnabled;
+  }
+
+  public boolean isEnabled() {
+    return mIsEnabled;
+  }
+
+  @Nullable
+  public static ControllerListener<ImageInfo> originalListener(
+    ControllerListener<ImageInfo> listener
+  ) {
+    return listener instanceof FrescoControllerListener
+      ? originalListener(((FrescoControllerListener) listener).mWrappedListener)
+      : listener;
   }
 }

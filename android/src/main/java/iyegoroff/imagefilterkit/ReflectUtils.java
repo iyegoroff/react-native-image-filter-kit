@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class ReflectUtils {
-  public static <T> T getFieldValue(Object target, String name) {
+  static <T> T getFieldValue(Object target, String name) {
     Class<?> type = target.getClass();
 
     try {
@@ -26,7 +26,7 @@ public class ReflectUtils {
   }
 
 
-  public static <T> void setFieldValue(Object target, String name, T value) {
+  static <T> void setFieldValue(Object target, String name, T value) {
     Class<?> type = target.getClass();
 
     try {
@@ -40,7 +40,7 @@ public class ReflectUtils {
     }
   }
 
-  public static <T> T invokeMethod(Object target, String name) {
+  static <T> T invokeMethod(Object target, String name) {
     Class<?> type = target.getClass();
 
     try {

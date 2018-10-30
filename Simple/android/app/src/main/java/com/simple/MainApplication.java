@@ -1,6 +1,7 @@
 package com.simple;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
 import com.facebook.react.ReactApplication;
 import iyegoroff.RNColorMatrixImageFilters.RNColorMatrixImageFiltersPackage;
@@ -27,7 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new MainReactPackageWithFrescoCache(
           null,
-          (int) (Runtime.getRuntime().maxMemory() / 2)
+          (int) (Runtime.getRuntime().maxMemory() / 4),
+          null
         ),
         new RNColorMatrixImageFiltersPackage(),
         new ImageFilterKitPackage()

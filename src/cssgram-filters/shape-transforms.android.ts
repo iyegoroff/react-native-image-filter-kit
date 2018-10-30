@@ -17,6 +17,7 @@ const {
 export interface FilterConfig {
   readonly image: Image
   readonly disableCache?: boolean
+  readonly disableIntermediateCaches?: boolean
 }
 
 const degToRad = (deg: number) => Math.PI * deg / 180
@@ -106,7 +107,7 @@ const colorMatrices = {
 const background = 'rgb(255, 255, 255)'
 
 export const shapeTransforms = {
-  _1977: ({ image, disableCache }: FilterConfig) => ({
+  _1977: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices._1977,
@@ -117,13 +118,13 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'Color',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         color: 'rgba(243, 106, 188, .3)'
       }
     }
   }),
 
-  Aden: ({ image, disableCache }: FilterConfig) => ({
+  Aden: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Aden,
@@ -134,13 +135,13 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'LinearGradient',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         colors: ['rgba(66, 10, 14, .2)', 'transparent']
       }
     }
   }),
 
-  Brannan: ({ image, disableCache }: FilterConfig) => ({
+  Brannan: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Brannan,
@@ -151,13 +152,13 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'Color',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         color: 'rgba(161, 44, 199, .31)'
       }
     }
   }),
 
-  Brooklyn: ({ image, disableCache }: FilterConfig) => ({
+  Brooklyn: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Brooklyn,
@@ -168,7 +169,7 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'RadialGradient',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         colors: ['rgba(168, 223, 193, .4)', 'rgb(196, 183, 200)'],
         stops: [0.7, 1],
         radius: '70min'
@@ -176,7 +177,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Clarendon: ({ image, disableCache }: FilterConfig) => ({
+  Clarendon: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Clarendon,
@@ -187,13 +188,13 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'Color',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         color: 'rgba(127, 187, 227, .2)'
       }
     }
   }),
 
-  Earlybird: ({ image, disableCache }: FilterConfig) => ({
+  Earlybird: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Earlybird,
@@ -204,7 +205,7 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'RadialGradient',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         colors: ['rgb(208, 186, 142)', 'rgb(54, 3, 9)', 'rgb(29, 2, 16)'],
         stops: [0.2, 0.85, 1],
         radius: '70min'
@@ -212,13 +213,13 @@ export const shapeTransforms = {
     }
   }),
 
-  Gingham: ({ image, disableCache }: FilterConfig) => ({
+  Gingham: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Gingham - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Hudson: ({ image, disableCache }: FilterConfig) => ({
+  Hudson: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Hudson,
@@ -229,7 +230,7 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'RadialGradient',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         colors: [
           rgbaToRgb(background, `rgba(166, 177, 255, 0.5)`),
           rgbaToRgb(background, `rgba(52, 33, 52, 0.5)`)
@@ -240,26 +241,26 @@ export const shapeTransforms = {
     }
   }),
 
-  Inkwell: ({ image, disableCache }: FilterConfig) => ({
+  Inkwell: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Inkwell,
     image
   }),
 
-  Kelvin: ({ image, disableCache }: FilterConfig) => ({
+  Kelvin: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Kelvin - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Lark: ({ image, disableCache }: FilterConfig) => ({
+  Lark: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Lark - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Lofi: ({ image, disableCache }: FilterConfig) => ({
+  Lofi: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Lofi,
@@ -270,7 +271,7 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'RadialGradient',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         colors: [rgbaToRgb(background, 'rgba(255, 255, 255, 0)'), 'rgb(125, 125, 125)'],
         stops: [0.7, 1],
         radius: '70min'
@@ -278,13 +279,13 @@ export const shapeTransforms = {
     }
   }),
 
-  Maven: ({ image, disableCache }: FilterConfig) => ({
+  Maven: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Maven - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Mayfair: ({ image, disableCache }: FilterConfig) => ({
+  Mayfair: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Mayfair,
@@ -295,7 +296,7 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'RadialGradient',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         colors: [
           `rgba(255, 255, 255, ${0.8 * 0.4})`,
           `rgba(255, 200, 200, ${0.6 * 0.4})`,
@@ -309,13 +310,13 @@ export const shapeTransforms = {
     }
   }),
 
-  Moon: ({ image, disableCache }: FilterConfig) => ({
+  Moon: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Moon - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Nashville: ({ image, disableCache }: FilterConfig) => ({
+  Nashville: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Nashville,
@@ -330,31 +331,31 @@ export const shapeTransforms = {
         dstImage: image,
         srcImage: {
           name: 'Color',
-          disableCache,
+          disableCache: disableIntermediateCaches,
           color: 'rgba(247, 176, 153, 0.56)'
         }
       },
       srcImage: {
         name: 'Color',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         color: 'rgba(0, 70, 150, 0.4)'
       }
     }
   }),
 
-  Perpetua: ({ image, disableCache }: FilterConfig) => ({
+  Perpetua: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Perpetua - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Reyes: ({ image, disableCache }: FilterConfig) => ({
+  Reyes: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Reyes - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Rise: ({ image, disableCache }: FilterConfig) => ({
+  Rise: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Rise,
@@ -369,7 +370,7 @@ export const shapeTransforms = {
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
-          disableCache,
+          disableCache: disableIntermediateCaches,
           colors: [
             rgbaToRgb(background, 'rgba(236, 205, 169, 0.15)'),
             rgbaToRgb(background, 'rgba(50, 30, 7, 0.4)')
@@ -380,7 +381,7 @@ export const shapeTransforms = {
       },
       srcImage: {
         name: 'RadialGradient',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         colors: [`rgba(232, 197, 152, ${0.8 * 0.6})`, 'rgba(255, 255, 255, 0)'],
         stops: [0, 0.9],
         radius: '70min'
@@ -388,19 +389,19 @@ export const shapeTransforms = {
     }
   }),
 
-  Slumber: ({ image, disableCache }: FilterConfig) => ({
+  Slumber: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Slumber - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Stinson: ({ image, disableCache }: FilterConfig) => ({
+  Stinson: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Stinson - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Toaster: ({ image, disableCache }: FilterConfig) => ({
+  Toaster: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Toaster,
@@ -411,7 +412,7 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'RadialGradient',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         colors: [`rgb(128, 78, 15)`, `rgb(59, 0, 59)`],
         stops: [0, 1],
         radius: '70min'
@@ -419,13 +420,13 @@ export const shapeTransforms = {
     }
   }),
 
-  Valencia: ({ image, disableCache }: FilterConfig) => ({
+  Valencia: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Valencia - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Walden: ({ image, disableCache }: FilterConfig) => ({
+  Walden: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
     matrix: colorMatrices.Walden,
@@ -436,19 +437,19 @@ export const shapeTransforms = {
       dstImage: image,
       srcImage: {
         name: 'Color',
-        disableCache,
+        disableCache: disableIntermediateCaches,
         color: 'rgba(0, 68, 204, 0.3)'
       }
     }
   }),
 
-  Willow: ({ image, disableCache }: FilterConfig) => ({
+  Willow: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Willow - not implemented!',
     disableCache,
     image: ''
   }),
 
-  Xpro2: ({ image, disableCache }: FilterConfig) => ({
+  Xpro2: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'Xpro2 - not implemented!',
     disableCache,
     image: ''

@@ -1,12 +1,9 @@
 package iyegoroff.imagefilterkit;
 
-import com.facebook.cache.common.CacheKey;
-import com.facebook.cache.common.MultiCacheKey;
 import com.facebook.imagepipeline.request.Postprocessor;
 import com.facebook.react.views.image.ReactImageView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import javax.annotation.Nonnull;
 
