@@ -23,6 +23,10 @@ import RNImageColorFilter from 'react-native-image-filter-kit';
 RNImageColorFilter;
 ```
 
+## Caveats
+- blurRadius
+- disableCache = true + resizeMode != 'cover'
+
 ## FAQ
 #### How to configure image cache on Android?
 - [Configure Fresco in React Native](https://medium.com/in-the-hudl/configure-fresco-in-react-native-28c2bc7dcc4d) article by Brent Kelly
