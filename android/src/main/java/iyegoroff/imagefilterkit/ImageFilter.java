@@ -42,6 +42,9 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import bolts.Continuation;
+import bolts.Task;
+import bolts.TaskCompletionSource;
 import iyegoroff.imagefilterkit.utility.CacheablePostProcessor;
 import iyegoroff.imagefilterkit.utility.DummyPostProcessor;
 import iyegoroff.imagefilterkit.utility.MultiPostProcessor;
@@ -83,9 +86,9 @@ public class ImageFilter extends ReactViewGroup {
     this.runFilterPipeline();
   }
 
-  private static Promise<FilterableImage, ?, ?> createSingularImage(
+  private static Task<FilterableImage> createSingularImage(
     final @Nonnull JSONObject config,
-    final @Nonnull Promise<FilterableImage, ?, ?> prevImage,
+    final @Nonnull Task<FilterableImage> prevImage,
     final int defaultWidth,
     final int defaultHeight
   ) throws JSONException {
@@ -93,9 +96,10 @@ public class ImageFilter extends ReactViewGroup {
     final String name = config.getString("name");
 
     return prevImage
-      .then(new DoneFilter<FilterableImage, FilterableImage>() {
+      .onSuccess(new Continuation<FilterableImage, FilterableImage>() {
         @Override
-        public FilterableImage filterDone(FilterableImage result) {
+        public FilterableImage then(Task<FilterableImage> task) throws Exception {
+          FilterableImage result = task.getResult();
           int measuredWidth = result.getImage().getMeasuredWidth();
           int measuredHeight = result.getImage().getMeasuredHeight();
           int width = measuredWidth == 0 ? defaultWidth : measuredWidth;
@@ -115,13 +119,9 @@ public class ImageFilter extends ReactViewGroup {
       });
   }
 
-  private static Promise<FilterableImage, ?, ?> createImageComposition(
+  private static Task<FilterableImage> createImageComposition(
     final @Nonnull JSONObject config,
-    final @Nonnull Promise<
-      MultipleResults2<FilterableImage, FilterableImage>,
-      OneReject<Object>,
-      MasterProgress
-    > prevImage,
+    final @Nonnull Task<List<FilterableImage>> prevImage,
     final @Nonnull Map<ReactImageView, FrescoControllerListener> imageListeners,
     final int defaultWidth,
     final int defaultHeight
@@ -227,7 +227,7 @@ public class ImageFilter extends ReactViewGroup {
   }
 
 
-  private static Promise<FilterableImage, ?, ?> parseConfig(
+  private static Task<FilterableImage> parseConfig(
     final @Nonnull Object config,
     final @Nonnull ArrayList<ReactImageView> images,
     final @Nonnull Map<ReactImageView, FrescoControllerListener> imageListeners,
@@ -235,14 +235,13 @@ public class ImageFilter extends ReactViewGroup {
     final int defaultHeight
   ) throws JSONException {
     if (config instanceof Integer) {
-      return new DeferredObject<FilterableImage, Object, Object>()
-        .resolve(
-          new FilterableImage(
-            images.get((int) config),
-            new ArrayList<Postprocessor>(),
-            false
-          )
-        );
+      return Task.forResult(
+        new FilterableImage(
+          images.get((int) config),
+          new ArrayList<Postprocessor>(),
+          false
+        )
+      );
     }
 
     final JSONObject jsonConfig = JSONObject.class.cast(config);
@@ -381,13 +380,14 @@ public class ImageFilter extends ReactViewGroup {
                 }
 
                 ImageFilter.filterImage(result, mImageListeners.get(result.getImage()))
-                  .then(new DoneCallback<ReactImageView>() {
+                  .onSuccess(new Continuation<ReactImageView, Void>() {
                     @Override
-                    public void onDone(ReactImageView image) {
+                    public Void then(Task<ReactImageView> task) throws Exception {
                       if (!result.isCacheDisabled()) {
                         AuxCache.put(auxKey, result);
                       }
 //                      Log.d(ReactConstants.TAG, "ImageFilterKit: start->filter " + name + " " + String.valueOf(System.currentTimeMillis() - start));
+                      return null;
                     }
                   });
               }
@@ -403,12 +403,12 @@ public class ImageFilter extends ReactViewGroup {
     }
   }
 
-  private static Promise<ReactImageView, ?, ?> filterImage(
+  private static Task<ReactImageView> filterImage(
     final FilterableImage filterableImage,
     final @Nullable FrescoControllerListener listener
   ) {
     final ReactImageView image = filterableImage.getImage();
-    final Deferred<ReactImageView, Object, Object> d = new DeferredObject<>();
+    final TaskCompletionSource<ReactImageView> deferred = new TaskCompletionSource<>();
 
     ArrayList<Postprocessor> postProcessors = new ArrayList<>(filterableImage.getPostProcessors());
 
@@ -433,7 +433,7 @@ public class ImageFilter extends ReactViewGroup {
       new Functor() {
         public void call() {
           ReactImageViewUtils.setControllerListener(image, prevListener);
-          d.resolve(image);
+          deferred.setResult(image);
         }
       }
     );
@@ -445,6 +445,6 @@ public class ImageFilter extends ReactViewGroup {
 
     image.maybeUpdateView();
 
-    return d.promise();
+    return deferred.getTask();
   }
 }
