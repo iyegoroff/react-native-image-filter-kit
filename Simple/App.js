@@ -16,7 +16,8 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   FlatList,
-  Picker
+  Picker,
+  Switch
 } from 'react-native';
 import {
   ImageFilter,
@@ -78,10 +79,11 @@ class CSSGramItem extends PureComponent {
   }
 
   image() {
+    const { uri } = this.props;
     return (
       <Image
         style={{ width: 360, height: 360, backgroundColor: 'transparent' }}
-        source={{ uri: this.props.image }}
+        source={typeof uri === 'number' ? uri : { uri }}
         // source={{ uri: 'http://travellingmoods.com/wp-content/uploads/2015/05/New-York-City.jpg' }}
         resizeMode={'cover'}
       />
@@ -109,6 +111,7 @@ type Props = {};
 export default class App extends Component<Props> {
   state = {
     t: Date.now(),
+    showList: true,
     selectedFilter: '_1977_0',
     selectedImage: 'Atx',
     images: [
@@ -116,7 +119,7 @@ export default class App extends Component<Props> {
       { name: 'Bike', uri: 'https://una.im/CSSgram/img/bike.jpg' },
       { name: 'Tahoe', uri: 'https://una.im/CSSgram/img/tahoe.jpg' },
       { name: 'Cacti', uri: 'https://una.im/CSSgram/img/cacti.jpg' },
-      { name: 'LakeGeneva', uri: 'https://una.im/CSSgram/img/lakegeneva.jpg' },
+      { name: 'LakeGeneva', uri: 'https://una.im/CSSgram/img/lakegeneva.jpg' }
     ],
     filters: [].concat.apply([], Array.from(Array(1)).map((x, i) => [
       // { name: 'Normal', key: `Normal1_${i}` },
@@ -213,7 +216,15 @@ export default class App extends Component<Props> {
   }
 
   render() {
-    return this.renderSelect();
+    return (
+      <View style={{flex: 1}}>
+        <Switch
+          value={this.state.showList}
+          onValueChange={(showList) => this.setState({ showList })}
+        />
+        {this.state.showList ? this.renderList() : this.renderSelect()}
+      </View>
+    )
   }
 
   renderFilter = ({ item }) => (

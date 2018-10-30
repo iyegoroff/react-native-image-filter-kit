@@ -41,10 +41,12 @@ public class Resize {
     }
 
     if (this instanceof WithSize) {
-      return String.format("Resize.WithSize(%a, %a)", ((WithSize) this).width, ((WithSize) this).height);
+      return String
+        .format("Resize.WithSize(%a, %a)", ((WithSize) this).width, ((WithSize) this).height);
     }
 
-    Assertions.assertCondition(false, "ImageFilterKit: unknown Resize subclass");
+    Assertions
+      .assertCondition(false, "ImageFilterKit: unknown Resize subclass");
 
     return "";
   }
