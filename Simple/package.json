@@ -6,6 +6,7 @@
     "preinstall": "cd .. && npm i && npm run lint && npm run build",
     "postinstall": "metro-with-symlinks",
     "run:android": "cd android && ./gradlew clean && cd .. && react-native run-android",
+    "run:debug": "cd android && ./gradlew clean && ./gradlew assembleDebug",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
     "start:packager": "react-native start",
     "build:release": ":",
@@ -16,8 +17,11 @@
   "dependencies": {
     "react": "16.5.1",
     "react-native": "0.57.1",
+    "react-native-color-matrix-image-filters": "4.0.0",
+    "react-native-fs": "^2.12.1",
     "react-native-image-filter-kit": "file:../",
-    "react-native-color-matrix-image-filters": "4.0.0"
+    "react-native-view-shot": "^2.5.0",
+    "rn-fetch-blob": "^0.10.13"
   },
   "devDependencies": {
     "metro-react-native-babel-preset": "0.45.2",

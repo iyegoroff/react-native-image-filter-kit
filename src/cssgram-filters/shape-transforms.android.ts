@@ -57,9 +57,7 @@ const colorMatrices = {
     [sepia(0.3), contrast(1.1), brightness(1.1), grayscale(1)]
   ),
 
-  Kelvin: [], // color-dodge
-
-  Lark: [], // color-dodge
+  Lark: contrast(0.9), // color-dodge
 
   Lofi: concatColorMatrices(
     [saturate(1.1), contrast(1.5)]
@@ -89,11 +87,20 @@ const colorMatrices = {
 
   Stinson: [], // soft-light
 
-  Toaster: concatColorMatrices(
-    [contrast(1.5), brightness(0.9)]
-  ),
+  // Toaster: concatColorMatrices(
+  //   [contrast(1.5), brightness(0.9)]
+  // ),
 
-  Valencia: [], // exclusion
+  // Toaster: [
+  //   1.35, 0, 0, 0, -57,
+  //   0, 1.35, 0, 0, -57,
+  //   0, 0, 1.35, 0, -57,
+  //   0, 0, 0, 1, -255
+  // ],
+
+  Valencia: concatColorMatrices(
+    [contrast(1.08), brightness(1.08), sepia(0.08)]
+  ),
 
   Walden: concatColorMatrices(
     [brightness(1.1), hueRotate(degToRad(-10)), sepia(0.3), saturate(1.6)]
@@ -101,7 +108,7 @@ const colorMatrices = {
 
   Willow: [], // color
 
-  Xpro2: [] // color-burn
+  Xpro2: sepia(0.3) // color-burn
 }
 
 const background = 'rgb(255, 255, 255)'
@@ -236,7 +243,7 @@ export const shapeTransforms = {
           rgbaToRgb(background, `rgba(52, 33, 52, 0.5)`)
         ],
         stops: [0.5, 1],
-        radius: '72.5min'
+        radius: '70min'
       }
     }
   }),
@@ -249,15 +256,50 @@ export const shapeTransforms = {
   }),
 
   Kelvin: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
-    name: 'Kelvin - not implemented!',
+    name: 'PorterDuffXfermode',
     disableCache,
-    image: ''
+    mode: 'OVERLAY',
+    dstImage: {
+      name: 'ColorDodgeBlend',
+      disableCache,
+      dstImage: image,
+      srcImage: {
+        name: 'Color',
+        disableCache: disableIntermediateCaches,
+        color: 'rgb(56, 44, 52)'
+      }
+    },
+    srcImage: {
+      name: 'Color',
+      disableCache: disableIntermediateCaches,
+      color: 'rgb(183, 125, 33)'
+    }
   }),
 
   Lark: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
-    name: 'Lark - not implemented!',
+    name: 'ColorMatrix',
     disableCache,
-    image: ''
+    matrix: colorMatrices.Lark,
+    image: {
+      name: 'PorterDuffXfermode',
+      disableCache,
+      mode: 'DARKEN',
+      dstImage: {
+        name: 'ColorDodgeBlend',
+        disableCache,
+        dstImage: image,
+        srcImage: {
+          name: 'Color',
+          disableCache: disableIntermediateCaches,
+          color: 'rgb(34, 37, 63)'
+        }
+      },
+      srcImage: {
+        name: 'Color',
+        disableCache: disableIntermediateCaches,
+        color: 'rgba(242, 242, 242, 0.8)'
+      }
+    }
   }),
 
   Lofi: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
@@ -272,7 +314,7 @@ export const shapeTransforms = {
       srcImage: {
         name: 'RadialGradient',
         disableCache: disableIntermediateCaches,
-        colors: [rgbaToRgb(background, 'rgba(255, 255, 255, 0)'), 'rgb(125, 125, 125)'],
+        colors: [rgbaToRgb(background, 'rgba(255, 255, 255, 0)'), 'rgb(172, 172, 172)'],
         stops: [0.7, 1],
         radius: '70min'
       }
@@ -303,7 +345,7 @@ export const shapeTransforms = {
           `rgba(17, 17, 17, ${0.4})`
         ],
         stops: [0, 0.3, 0.6],
-        radius: '82.5min',
+        radius: '84min',
         centerX: '40w',
         centerY: '40h'
       }
@@ -404,26 +446,41 @@ export const shapeTransforms = {
   Toaster: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'ColorMatrix',
     disableCache,
-    matrix: colorMatrices.Toaster,
+    matrix: brightness(0.9),
     image: {
-      name: 'PorterDuffXfermode',
+      name: 'ColorMatrix',
       disableCache,
-      mode: 'SCREEN',
-      dstImage: image,
-      srcImage: {
-        name: 'RadialGradient',
-        disableCache: disableIntermediateCaches,
-        colors: [`rgb(128, 78, 15)`, `rgb(59, 0, 59)`],
-        stops: [0, 1],
-        radius: '70min'
+      matrix: contrast(1.5),
+      image: {
+        name: 'PorterDuffXfermode',
+        disableCache,
+        mode: 'SCREEN',
+        dstImage: image,
+        srcImage: {
+          name: 'RadialGradient',
+          disableCache: disableIntermediateCaches,
+          colors: [`rgb(128, 78, 15)`, `rgb(59, 0, 59)`],
+          stops: [0, 1],
+          radius: '70min'
+        }
       }
     }
   }),
 
   Valencia: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
-    name: 'Valencia - not implemented!',
+    name: 'ColorMatrix',
     disableCache,
-    image: ''
+    matrix: colorMatrices.Valencia,
+    image: {
+      name: 'ExclusionBlend',
+      disableCache,
+      dstImage: image,
+      srcImage: {
+        name: 'Color',
+        disableCache: disableIntermediateCaches,
+        color: 'rgba(58, 3, 57, 0.5)'
+      }
+    }
   }),
 
   Walden: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
@@ -450,8 +507,20 @@ export const shapeTransforms = {
   }),
 
   Xpro2: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
-    name: 'Xpro2 - not implemented!',
+    name: 'ColorMatrix',
     disableCache,
-    image: ''
+    matrix: colorMatrices.Xpro2,
+    image: {
+      name: 'ColorBurnBlend',
+      disableCache,
+      dstImage: image,
+      srcImage: {
+        name: 'RadialGradient',
+        disableCache: disableIntermediateCaches,
+        colors: ['rgb(230, 231, 224)', 'rgba(70, 69, 170, 0.66)'],
+        stops: [0.4, 1],
+        radius: '73.5min'
+      }
+    }
   })
 }

@@ -50,7 +50,7 @@ public class PorterDuffColorFilterPostProcessor extends CacheablePostProcessor {
 
   @Nonnull
   @Override
-  protected CacheKey generateCacheKey() {
+  public CacheKey generateCacheKey() {
     return new SimpleCacheKey(String.format(
       (Locale) null,
       "porter_duff_color_filter_%d_%s",

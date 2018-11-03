@@ -59,7 +59,7 @@ public class ColorMatrixColorFilterPostProcessor extends CacheablePostProcessor 
 
   @Nonnull
   @Override
-  protected CacheKey generateCacheKey() {
+  public CacheKey generateCacheKey() {
     return new SimpleCacheKey(String.format(
       (Locale) null,
       "color_matrix_color_filter_%s",

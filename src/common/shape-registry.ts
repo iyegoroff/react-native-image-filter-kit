@@ -17,7 +17,7 @@ export class ShapeRegistry {
     const intersection = Object.keys(shapes).filter(k => keys.includes(k))
     invariant(
       intersection.length === 0,
-      `ImageFilterKit: Attempt to add already registered shape(s) - ${intersection.join()}.`
+      `ImageFilterKit: Attempt to add already registered filter(s) - ${intersection.join()}.`
     )
 
     ShapeRegistry.shapes = {
@@ -43,7 +43,7 @@ export class ShapeRegistry {
   public static shape = (name: string) => {
     const shape = ShapeRegistry.shapes[name]
 
-    invariant(shape, `ImageFilterKit: '${name}' shape doesn't exist on ${Platform.OS}.`)
+    invariant(shape, `ImageFilterKit: '${name}' filter doesn't exist on ${Platform.OS}.`)
 
     return shape
   }

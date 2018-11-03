@@ -39,6 +39,9 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		A3D81F3B1F464499BC65B658 /* libRNImageFilterKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10BB8C46C8024D289F44CBF9 /* libRNImageFilterKit.a */; };
 		1BC7A194E13D4BE49A023BE4 /* libRNColorMatrixImageFilters.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2E88387B631499998C53CD4 /* libRNColorMatrixImageFilters.a */; };
+		437BB22E319C4B4091E2D11C /* libRNViewShot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE4F2D87D75A4D12986D4FD9 /* libRNViewShot.a */; };
+		A090EA4F1FB64C728AC4368F /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 352BFD57AD00425D81B34268 /* libRNFS.a */; };
+		74313CA2A44649088608CD04 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE8F7FF87B784760B22B2063 /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,6 +351,12 @@
 		10BB8C46C8024D289F44CBF9 /* libRNImageFilterKit.a */ = {isa = PBXFileReference; name = "libRNImageFilterKit.a"; path = "libRNImageFilterKit.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		3CBE898730704330B81C9C0B /* RNColorMatrixImageFilters.xcodeproj */ = {isa = PBXFileReference; name = "RNColorMatrixImageFilters.xcodeproj"; path = "../node_modules/react-native-color-matrix-image-filters/ios/RNColorMatrixImageFilters.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		D2E88387B631499998C53CD4 /* libRNColorMatrixImageFilters.a */ = {isa = PBXFileReference; name = "libRNColorMatrixImageFilters.a"; path = "libRNColorMatrixImageFilters.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		5A7DAB1599FB49ABA09AF593 /* RNViewShot.xcodeproj */ = {isa = PBXFileReference; name = "RNViewShot.xcodeproj"; path = "../node_modules/react-native-view-shot/ios/RNViewShot.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		DE4F2D87D75A4D12986D4FD9 /* libRNViewShot.a */ = {isa = PBXFileReference; name = "libRNViewShot.a"; path = "libRNViewShot.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		A2012B6349B34C77A31F72A8 /* RNFS.xcodeproj */ = {isa = PBXFileReference; name = "RNFS.xcodeproj"; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		352BFD57AD00425D81B34268 /* libRNFS.a */ = {isa = PBXFileReference; name = "libRNFS.a"; path = "libRNFS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		FC2A4CBD8A004493A0C664BD /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CE8F7FF87B784760B22B2063 /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,6 +386,9 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				A3D81F3B1F464499BC65B658 /* libRNImageFilterKit.a in Frameworks */,
 				1BC7A194E13D4BE49A023BE4 /* libRNColorMatrixImageFilters.a in Frameworks */,
+				437BB22E319C4B4091E2D11C /* libRNViewShot.a in Frameworks */,
+				A090EA4F1FB64C728AC4368F /* libRNFS.a in Frameworks */,
+				74313CA2A44649088608CD04 /* libRNFetchBlob.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +577,9 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				E7C8A6A7DABC41B59AA7FA76 /* RNImageFilterKit.xcodeproj */,
 				3CBE898730704330B81C9C0B /* RNColorMatrixImageFilters.xcodeproj */,
+				5A7DAB1599FB49ABA09AF593 /* RNViewShot.xcodeproj */,
+				A2012B6349B34C77A31F72A8 /* RNFS.xcodeproj */,
+				FC2A4CBD8A004493A0C664BD /* RNFetchBlob.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1194,11 +1209,17 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-color-matrix-image-filters/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-view-shot/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 			};
 			name = Debug;
@@ -1222,11 +1243,17 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-color-matrix-image-filters/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-view-shot/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 			};
 			name = Release;
@@ -1251,6 +1278,9 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-color-matrix-image-filters/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-view-shot/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 			};
 			name = Debug;
@@ -1274,6 +1304,9 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-color-matrix-image-filters/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-view-shot/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 			};
 			name = Release;
@@ -1305,11 +1338,17 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-color-matrix-image-filters/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-view-shot/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 			};
 			name = Debug;
@@ -1341,11 +1380,17 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-color-matrix-image-filters/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-view-shot/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 			};
 			name = Release;
@@ -1376,11 +1421,17 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-color-matrix-image-filters/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-view-shot/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 			};
 			name = Debug;
@@ -1411,11 +1462,17 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-color-matrix-image-filters/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-view-shot/ios",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 			};
 			name = Release;

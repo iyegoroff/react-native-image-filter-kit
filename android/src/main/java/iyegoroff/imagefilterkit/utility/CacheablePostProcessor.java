@@ -31,5 +31,5 @@ public abstract class CacheablePostProcessor extends BasePostprocessor {
     return mCacheKey;
   }
 
-  protected abstract CacheKey generateCacheKey();
+  public abstract CacheKey generateCacheKey();
 }

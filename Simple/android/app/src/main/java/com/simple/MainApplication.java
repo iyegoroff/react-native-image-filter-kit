@@ -4,6 +4,9 @@ import android.app.Application;
 import android.graphics.Bitmap;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.rnfs.RNFSPackage;
+import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import iyegoroff.RNColorMatrixImageFilters.RNColorMatrixImageFiltersPackage;
 import iyegoroff.imagefilterkit.ImageFilterKitPackage;
 import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
@@ -32,7 +35,10 @@ public class MainApplication extends Application implements ReactApplication {
           null
         ),
         new RNColorMatrixImageFiltersPackage(),
-        new ImageFilterKitPackage()
+        new ImageFilterKitPackage(),
+        new RNViewShotPackage(),
+        new RNFSPackage(),
+        new RNFetchBlobPackage()
       );
     }
 

@@ -100,5 +100,38 @@ export const shapes = {
     srcGravityAxis: gravityAxis,
     srcResizeMode: resizeMode,
     disableCache: bool
+  },
+
+  ColorDodgeBlend: {
+    scaleMode: scaleMode,
+    dstImage: image,
+    dstGravityAxis: gravityAxis,
+    dstResizeMode: resizeMode,
+    srcImage: image,
+    srcGravityAxis: gravityAxis,
+    srcResizeMode: resizeMode,
+    disableCache: bool
+  },
+
+  ExclusionBlend: {
+    scaleMode: scaleMode,
+    dstImage: image,
+    dstGravityAxis: gravityAxis,
+    dstResizeMode: resizeMode,
+    srcImage: image,
+    srcGravityAxis: gravityAxis,
+    srcResizeMode: resizeMode,
+    disableCache: bool
+  },
+
+  ColorBurnBlend: {
+    scaleMode: scaleMode,
+    dstImage: image,
+    dstGravityAxis: gravityAxis,
+    dstResizeMode: resizeMode,
+    srcImage: image,
+    srcGravityAxis: gravityAxis,
+    srcResizeMode: resizeMode,
+    disableCache: bool
   }
 }

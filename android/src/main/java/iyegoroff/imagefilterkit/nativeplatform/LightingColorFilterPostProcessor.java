@@ -49,7 +49,7 @@ public class LightingColorFilterPostProcessor extends CacheablePostProcessor {
 
   @Nonnull
   @Override
-  protected CacheKey generateCacheKey() {
+  public CacheKey generateCacheKey() {
     return new SimpleCacheKey(String.format((Locale) null, "lighting_color_filter_%d_%d", mMul, mAdd));
   }
 }

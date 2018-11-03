@@ -40,7 +40,9 @@ public class ColorPostProcessor extends GeneratorPostProcessor {
 
   @Nonnull
   @Override
-  protected CacheKey generateCacheKey() {
-    return new SimpleCacheKey(String.format((Locale) null, "color_%d_%d_%d", mColor, mWidth, mHeight));
+  public CacheKey generateCacheKey() {
+    return new SimpleCacheKey(
+      String.format((Locale) null,"color_%d_%d_%d", mColor, mWidth, mHeight)
+    );
   }
 }

@@ -52,7 +52,7 @@ public class SweepGradientPostProcessor extends GeneratorPostProcessor {
 
   @Nonnull
   @Override
-  protected CacheKey generateCacheKey() {
+  public CacheKey generateCacheKey() {
     return new SimpleCacheKey(String.format(
       (Locale) null,
       "sweep_gradient_%d_%d_%f_%f_%s_%s",

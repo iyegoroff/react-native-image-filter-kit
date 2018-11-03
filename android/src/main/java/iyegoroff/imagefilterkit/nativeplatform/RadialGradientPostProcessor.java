@@ -58,7 +58,7 @@ public class RadialGradientPostProcessor extends GeneratorPostProcessor {
 
   @Nonnull
   @Override
-  protected CacheKey generateCacheKey() {
+  public CacheKey generateCacheKey() {
     return new SimpleCacheKey(String.format(
       (Locale) null,
       "radial_gradient_%d_%d_%f_%f_%f_%s_%s_%s",

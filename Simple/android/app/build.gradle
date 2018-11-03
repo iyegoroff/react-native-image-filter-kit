@@ -108,6 +108,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        renderscriptTargetApi _ext.renderscriptTargetApi
+        renderscriptSupportModeEnabled true
     }
 
 
@@ -161,10 +163,13 @@ android {
 }
 
 dependencies {
+    compile project(':rn-fetch-blob')
+    compile project(':react-native-fs')
+    compile project(':react-native-view-shot')
     compile project(':react-native-color-matrix-image-filters')
     compile project(':react-native-image-filter-kit')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:appcompat-v7:${_ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
 }
 

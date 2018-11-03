@@ -14,6 +14,8 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import iyegoroff.imagefilterkit.blend.ColorBurnBlendPostProcessor;
+import iyegoroff.imagefilterkit.blend.ExclusionBlendPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.ColorMatrixColorFilterPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.ColorPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.LightingColorFilterPostProcessor;
@@ -24,6 +26,7 @@ import iyegoroff.imagefilterkit.nativeplatform.PorterDuffXfermodePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.RadialGradientPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.RoundAsCirclePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.SweepGradientPostProcessor;
+import iyegoroff.imagefilterkit.blend.ColorDodgeBlendPostProcessor;
 
 public class PostProcessorRegistry {
 
@@ -47,13 +50,13 @@ public class PostProcessorRegistry {
     }
   }
 
-  private final Map<String, CreateSingular> singulars = new HashMap<>();
-  private final Map<String, CreateComposition> compositions = new HashMap<>();
+  private final Map<String, CreateSingular> mSingulars = new HashMap<>();
+  private final Map<String, CreateComposition> mCompositions = new HashMap<>();
 
-  private static final PostProcessorRegistry ourInstance = new PostProcessorRegistry();
+  private static final PostProcessorRegistry sInstance = new PostProcessorRegistry();
 
   public static PostProcessorRegistry getInstance() {
-    return ourInstance;
+    return sInstance;
   }
 
   private PostProcessorRegistry() {
@@ -132,14 +135,61 @@ public class PostProcessorRegistry {
         return new PorterDuffXfermodePostProcessor(width, height, config, imageRef, imageKey);
       }
     });
+
+    addComposition("ColorDodgeBlend", new CreateComposition() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull CloseableReference<CloseableImage> imageRef,
+        @Nonnull CacheKey imageKey
+      ) {
+        return new ColorDodgeBlendPostProcessor(width, height, config, imageRef, imageKey);
+      }
+    });
+
+    addComposition("ExclusionBlend", new CreateComposition() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull CloseableReference<CloseableImage> imageRef,
+        @Nonnull CacheKey imageKey
+      ) {
+        return new ExclusionBlendPostProcessor(width, height, config, imageRef, imageKey);
+      }
+    });
+
+    addComposition("ColorBurnBlend", new CreateComposition() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull CloseableReference<CloseableImage> imageRef,
+        @Nonnull CacheKey imageKey
+      ) {
+        return new ColorBurnBlendPostProcessor(width, height, config, imageRef, imageKey);
+      }
+    });
   }
 
   private void addSingular(@Nonnull String name, @Nonnull CreateSingular functor) {
-    singulars.put(name, functor);
+    mSingulars.put(name, functor);
   }
 
   private void addComposition(@Nonnull String name, @Nonnull CreateComposition functor) {
-    compositions.put(name, functor);
+    mCompositions.put(name, functor);
+  }
+
+  public boolean isSingular(@Nonnull String name) {
+    return mSingulars.containsKey(name);
+  }
+
+  public boolean isComposition(@Nonnull String name) {
+    return mCompositions.containsKey(name);
   }
 
   @Nullable
@@ -149,7 +199,7 @@ public class PostProcessorRegistry {
     int height,
     @Nullable JSONObject config
   ) {
-    @Nullable CreateSingular filter = singulars.get(name);
+    @Nullable CreateSingular filter = mSingulars.get(name);
 
     Assertions.assertCondition(
       filter != null,
@@ -168,7 +218,7 @@ public class PostProcessorRegistry {
     @Nonnull CloseableReference<CloseableImage> imageRef,
     @Nonnull CacheKey imageKey
   ) {
-    @Nullable CreateComposition filter = compositions.get(name);
+    @Nullable CreateComposition filter = mCompositions.get(name);
 
     Assertions.assertCondition(
       filter != null,

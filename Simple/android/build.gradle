@@ -7,11 +7,15 @@ buildscript {
         compileSdkVersion = 28
         targetSdkVersion = 28
         supportLibVersion = "28.0.0"
+        renderscriptTargetApi = 20
     }
 
     repositories {
         jcenter()
         google()
+        maven {                                                                                                             
+           url "https://jitpack.io"                                                                                       
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'

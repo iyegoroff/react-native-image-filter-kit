@@ -17,7 +17,8 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   Picker,
-  Switch
+  Switch,
+  Button
 } from 'react-native';
 import {
   ImageFilter,
@@ -31,6 +32,9 @@ import {
 } from 'react-native-image-filter-kit';
 import matrices from 'rn-color-matrices';
 import { LuminanceToAlpha, ColorMatrix } from 'react-native-color-matrix-image-filters';
+import ViewShot from 'react-native-view-shot'
+import RNFS from 'react-native-fs'
+import RNFetchBlob from 'rn-fetch-blob'
 
 const degToRad = (deg) => Math.PI * deg / 180;
 const background = 'rgb(255, 255, 255)';
@@ -63,7 +67,15 @@ class CSSGramItem extends PureComponent {
     image: 'https://una.im/CSSgram/img/atx.jpg'
   }
 
-  state = { isFiltered: true };
+  halfTimer = null;
+  timer = null;
+
+  state = { isFiltered: true, isHalf: false };
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+    clearTimeout(this.halfTimer);
+  }
 
   render() {
     const { isFiltered } = this.state;
@@ -82,7 +94,7 @@ class CSSGramItem extends PureComponent {
     const { image: uri } = this.props;
     return (
       <Image
-        style={{ width: 360, height: 360, backgroundColor: 'transparent' }}
+        style={this.state.isHalf ? styles.halfImage : styles.image}
         source={typeof uri === 'number' ? uri : { uri }}
         // source={{ uri: 'http://travellingmoods.com/wp-content/uploads/2015/05/New-York-City.jpg' }}
         resizeMode={'cover'}
@@ -103,7 +115,13 @@ class CSSGramItem extends PureComponent {
   }
 
   pressed = () => {
-    this.setState({ isFiltered: !this.state.isFiltered });
+    const { isFiltered } = this.state;
+
+    // if (!isFiltered) {
+    //   this.halfTimer = setTimeout(() => this.setState({ isHalf: true }), 1000);
+    //   this.timer = setTimeout(() => this.setState({ isHalf: false }), 2000);
+    // }
+    this.setState({ isFiltered: !isFiltered });
   }
 };
 
@@ -111,10 +129,11 @@ type Props = {};
 export default class App extends Component<Props> {
   state = {
     t: Date.now(),
-    showList: true,
-    selectedFilter: '_1977_0',
-    selectedImage: 'Atx',
+    showList: false,
+    selectedFilter: 'Toaster_0',
+    selectedImage: 'Flowers',
     images: [
+      { name: 'Flowers', uri: 'https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg' },
       { name: 'Atx', uri: 'https://una.im/CSSgram/img/atx.jpg' },
       { name: 'Bike', uri: 'https://una.im/CSSgram/img/bike.jpg' },
       { name: 'Tahoe', uri: 'https://una.im/CSSgram/img/tahoe.jpg' },
@@ -159,13 +178,17 @@ export default class App extends Component<Props> {
       { name: 'Clarendon', key: `Clarendon_${i}` },
       { name: 'Earlybird', key: `Earlybird_${i}` },
       { name: 'Hudson', key: `Hudson_${i}` },
+      { name: 'Kelvin', key: `Kelvin_${i}` },
+      { name: 'Lark', key: `Lark_${i}` },
       { name: 'Inkwell', key: `dInkwell_${i}` },
       { name: 'Lofi', key: `Lofi_${i}` },
       { name: 'Mayfair', key: `Mayfair_${i}` },
       { name: 'Nashville', key: `Nashville_${i}` },
       { name: 'Rise', key: `Rise_${i}` },
       { name: 'Toaster', key: `Toaster_${i}` },
-      { name: 'Walden', key: `Walden_${i}` }
+      { name: 'Valencia', key: `Valencia_${i}` },
+      { name: 'Walden', key: `Walden_${i}` },
+      { name: 'Xpro2', key: `Xpro2_${i}` }
     ]))
   };
 
@@ -207,12 +230,46 @@ export default class App extends Component<Props> {
         >
           {images.map(({ name }) => <Picker.Item value={name} label={name} key={name} />)}
         </Picker>
-        <CSSGramItem
-          filter={filters.find(({ key }) => key === selectedFilter).name}
-          image={images.find(({ name }) => name === selectedImage).uri}
-        />
+        <ViewShot ref="viewShot">
+          <CSSGramItem
+            filter={filters.find(({ key }) => key === selectedFilter).name}
+            image={images.find(({ name }) => name === selectedImage).uri}
+          />
+        </ViewShot>
+        {/* <Button
+          title={'screenshot'}
+          onPress={this.screenshot}
+        /> */}
       </View>
     );
+  }
+
+  screenshot = () => {
+    this.refs.viewShot.capture()
+      .then(uri => { 
+        // RNFetchBlob
+        //   .config({
+        //     path: dirs.DocumentDir + '/screenshot.jpg'
+        //   })
+        //   .fetch('GET', uri, {})
+        //   .then((res) => {
+        //     console.warn('The file saved to ', res.path())
+        //   })
+        var path = RNFS.DocumentDirectoryPath + '/ASAS.txt';
+
+        // write the file
+        RNFS.writeFile(path, 'Lorem ipsum dolor sit amet', 'utf8')
+          .then((success) => {
+            RNFS.readFile(path, 'utf8').then(x => console.warn(x))
+            console.warn('FILE WRITTEN!');
+          })
+          .catch((err) => {
+            console.warn(err.message);
+          });
+        console.warn(`${RNFS.DocumentDirectoryPath}/screenshot.jpg`);
+        return RNFS.copyFile(uri, `${RNFS.DocumentDirectoryPath}/screenshot.jpg`);
+      })
+      .catch(error => { console.warn(error); });
   }
 
   render() {
@@ -271,5 +328,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     alignSelf: 'stretch'
-  }
+  },
+  image: { width: 360, height: 360 },
+  halfImage: { width: 180, height: 180 }
 });
