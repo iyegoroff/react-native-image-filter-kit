@@ -1,165 +1,63 @@
-import { image, bool } from '../common/inputs'
+import { bool } from '../common/inputs'
+import { Common } from '../common/shapes'
+
+const CSSGram = {
+  disableIntermediateCaches: bool,
+  ...Common
+}
 
 export const shapes = {
-  _1977: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  _1977: CSSGram,
 
-  Aden: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Aden: CSSGram,
 
-  Brannan: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Brannan: CSSGram,
 
-  Brooklyn: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Brooklyn: CSSGram,
 
-  Clarendon: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Clarendon: CSSGram,
 
-  Cssgram: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Cssgram: CSSGram,
 
-  Earlybird: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Earlybird: CSSGram,
 
-  Gingham: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Gingham: CSSGram,
 
-  Hudson: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Hudson: CSSGram,
 
-  Inkwell: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Inkwell: CSSGram,
 
-  Kelvin: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Kelvin: CSSGram,
 
-  Lark: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Lark: CSSGram,
 
-  Lofi: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Lofi: CSSGram,
 
-  Maven: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Maven: CSSGram,
 
-  Mayfair: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Mayfair: CSSGram,
 
-  Moon: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Moon: CSSGram,
 
-  Nashville: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Nashville: CSSGram,
 
-  Perpetua: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Perpetua: CSSGram,
 
-  Reyes: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Reyes: CSSGram,
 
-  Rise: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Rise: CSSGram,
 
-  Slumber: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Slumber: CSSGram,
 
-  Stinson: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Stinson: CSSGram,
 
-  Toaster: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Toaster: CSSGram,
 
-  Valencia: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Valencia: CSSGram,
 
-  Walden: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Walden: CSSGram,
 
-  Willow: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  },
+  Willow: CSSGram,
 
-  Xpro2: {
-    image: image,
-    disableCache: bool,
-    disableIntermediateCaches: bool
-  }
+  Xpro2: CSSGram
 }

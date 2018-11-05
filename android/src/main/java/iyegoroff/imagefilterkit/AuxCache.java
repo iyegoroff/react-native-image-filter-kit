@@ -21,24 +21,27 @@ public class AuxCache {
 
   private static final @Nonnull LruCache<CacheKey, FilterableImage> sImpl = new LruCache<>(256);
 
-  static void put(@Nonnull CacheKey auxKey, @Nonnull FilterableImage image) {
+  static void put(final @Nonnull CacheKey auxKey, final @Nonnull FilterableImage image) {
     sImpl.put(auxKey, image);
   }
 
   @Nullable
-  public static FilterableImage get(@Nonnull CacheKey auxKey) {
+  public static FilterableImage get(final @Nonnull CacheKey auxKey) {
     return sImpl.get(auxKey);
   }
 
   @Nonnull
-  static CacheKey auxKey(@Nonnull JSONObject config, @Nonnull List<ReactImageView> images) {
-    List<Integer> imageIndexes = imageIndexes(config);
-    ArrayList<CacheKey> keys = new ArrayList<>();
+  static CacheKey auxKey(
+    final @Nonnull JSONObject config,
+    final @Nonnull List<ReactImageView> images
+  ) {
+    final List<Integer> imageIndexes = imageIndexes(config);
+    final ArrayList<CacheKey> keys = new ArrayList<>();
 
     keys.add(new SimpleCacheKey(config.toString()));
 
     for (Integer index : imageIndexes) {
-      ImageSource source = ReactImageViewUtils.getImageSource(images.get(index));
+      final ImageSource source = ReactImageViewUtils.getImageSource(images.get(index));
 
       keys.add(new SimpleCacheKey(source != null ? source.getSource() : "null"));
     }
@@ -47,14 +50,14 @@ public class AuxCache {
   }
 
   @Nonnull
-  private static List<Integer> imageIndexes(@Nonnull JSONObject config) {
-    ArrayList<Integer> indexes = new ArrayList<>();
+  private static List<Integer> imageIndexes(final @Nonnull JSONObject config) {
+    final ArrayList<Integer> indexes = new ArrayList<>();
 
     for (Iterator<String> iterator = config.keys(); iterator.hasNext();) {
-      JSONObject item = config.optJSONObject(iterator.next());
+      final JSONObject item = config.optJSONObject(iterator.next());
 
       if (item != null) {
-        Object image = item.opt("image");
+        final Object image = item.opt("image");
 
         if (image instanceof Integer) {
           indexes.add((Integer) image);

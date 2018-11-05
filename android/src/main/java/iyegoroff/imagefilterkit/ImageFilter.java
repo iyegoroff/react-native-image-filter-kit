@@ -90,18 +90,20 @@ public class ImageFilter extends ReactViewGroup {
       .onSuccess(new Continuation<FilterableImage, FilterableImage>() {
         @Override
         public FilterableImage then(Task<FilterableImage> task) {
-          FilterableImage result = task.getResult();
-          int measuredWidth = result.getImage().getMeasuredWidth();
-          int measuredHeight = result.getImage().getMeasuredHeight();
-          int width = measuredWidth == 0 ? mDefaultWidth : measuredWidth;
-          int height = measuredHeight == 0 ? mDefaultHeight : measuredHeight;
+          final FilterableImage result = task.getResult();
+          final int measuredWidth = result.getImage().getMeasuredWidth();
+          final int measuredHeight = result.getImage().getMeasuredHeight();
+          final int width = measuredWidth == 0 ? mDefaultWidth : measuredWidth;
+          final int height = measuredHeight == 0 ? mDefaultHeight : measuredHeight;
 
-          ArrayList<Postprocessor> postProcessors = new ArrayList<>(result.getPostProcessors());
+          final ArrayList<Postprocessor> postProcessors =
+            new ArrayList<>(result.getPostProcessors());
+
           postProcessors.add(
             PostProcessorRegistry.getInstance().createSingular(name, width, height, config)
           );
 
-          boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
+          final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
 
           return new FilterableImage(result.getImage(), postProcessors, cacheDisabled);
         }
@@ -119,7 +121,7 @@ public class ImageFilter extends ReactViewGroup {
         @Override
         public Task<FilterableImage> then(Task<List<FilterableImage>> task) {
           final TaskCompletionSource<FilterableImage> deferred = new TaskCompletionSource<>();
-          List<FilterableImage> result = task.getResult();
+          final List<FilterableImage> result = task.getResult();
           final FilterableImage dst = result.get(0);
           final FilterableImage src = result.get(1);
           final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
@@ -128,15 +130,15 @@ public class ImageFilter extends ReactViewGroup {
             .onSuccess(new Continuation<ReactImageView, Void>() {
               @Override
               public Void then(Task<ReactImageView> task) {
-                ReactImageView result = task.getResult();
+                final ReactImageView result = task.getResult();
 
                 if (result != null && result.getController() != null) {
-                  int measuredWidth = result.getMeasuredWidth();
-                  int measuredHeight = result.getMeasuredHeight();
+                  final int measuredWidth = result.getMeasuredWidth();
+                  final int measuredHeight = result.getMeasuredHeight();
                   final int width = measuredWidth == 0 ? mDefaultWidth : measuredWidth;
                   final int height = measuredHeight == 0 ? mDefaultHeight : measuredHeight;
 
-                  DataSource<CloseableReference<CloseableImage>> ds = ReactImageViewUtils
+                  final DataSource<CloseableReference<CloseableImage>> ds = ReactImageViewUtils
                     .getDataSource(result);
 
                   if (ds != null) {
@@ -406,7 +408,7 @@ public class ImageFilter extends ReactViewGroup {
     ReactImageViewUtils.setControllerListener(image, nextListener);
 
     ReactImageViewUtils.setPostProcessor(image, next);
-    ReactImageViewUtils.setDirty(image, true);
+    ReactImageViewUtils.setDirty(image);
 
     image.maybeUpdateView();
 

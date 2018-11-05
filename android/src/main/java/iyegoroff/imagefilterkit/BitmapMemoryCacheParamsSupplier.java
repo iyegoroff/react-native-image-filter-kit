@@ -20,10 +20,10 @@ public class BitmapMemoryCacheParamsSupplier implements Supplier<MemoryCachePara
 
   private final ActivityManager mActivityManager;
 
-  public BitmapMemoryCacheParamsSupplier(
-    Context context,
-    @Nullable Integer maxCacheEntries,
-    @Nullable Integer maxCacheSizeInBytes
+  BitmapMemoryCacheParamsSupplier(
+    final Context context,
+    final @Nullable Integer maxCacheEntries,
+    final @Nullable Integer maxCacheSizeInBytes
   ) {
     mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     mMaxCacheEntries = maxCacheEntries == null ? MAX_CACHE_ENTRIES : maxCacheEntries;

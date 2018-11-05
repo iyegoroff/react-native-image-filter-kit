@@ -1,6 +1,7 @@
 import colorMatrixFilters from './color-matrix-filters'
-import nativePlatformFilters from './native-platform-filters'
 import cssgramFilters from './cssgram-filters'
+import blendFilters from './blend-filters'
+import nativePlatformFilters from './native-platform-filters'
 import { ImagePlaceholder, imagePlaceholderSource } from './common/image-placeholder'
 import colorMatrices from 'rn-color-matrices'
 import { concatColorMatrices } from 'concat-color-matrices'
@@ -12,6 +13,7 @@ const exports = {
   ...nativePlatformFilters,
   ...cssgramFilters,
   ...colorMatrices,
+  ...blendFilters,
   luminanceToAlpha,
   rgbaToRgb,
   concatColorMatrices,

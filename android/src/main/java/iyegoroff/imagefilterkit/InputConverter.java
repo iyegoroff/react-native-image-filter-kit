@@ -1,6 +1,5 @@
 package iyegoroff.imagefilterkit;
 
-import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
 
@@ -36,31 +35,31 @@ public class InputConverter {
     );
   }
 
-  public PointF convertPosition(
-    @Nullable JSONObject position,
-    @Nonnull String defaultX,
-    @Nonnull String defaultY
-  ) {
-    JSONObject pos = position != null ? position.optJSONObject("position") : null;
-
-    return new PointF(
-      this.convertRelative(pos != null ? pos.optString("x", defaultX) : defaultX),
-      this.convertRelative(pos != null ? pos.optString("y", defaultY) : defaultY)
-    );
-  }
-
-  public PointF convertOffset(
-    @Nullable JSONObject position,
-    float defaultX,
-    float defaultY
-  ) {
-    JSONObject pos = position != null ? position.optJSONObject("position") : null;
-
-    return new PointF(
-      pos != null ? (float) pos.optDouble("x", defaultX) : defaultX,
-      pos != null ? (float) pos.optDouble("y", defaultY) : defaultY
-    );
-  }
+//  public PointF convertPosition(
+//    @Nullable JSONObject position,
+//    @Nonnull String defaultX,
+//    @Nonnull String defaultY
+//  ) {
+//    JSONObject pos = position != null ? position.optJSONObject("position") : null;
+//
+//    return new PointF(
+//      this.convertRelative(pos != null ? pos.optString("x", defaultX) : defaultX),
+//      this.convertRelative(pos != null ? pos.optString("y", defaultY) : defaultY)
+//    );
+//  }
+//
+//  public PointF convertOffset(
+//    @Nullable JSONObject position,
+//    float defaultX,
+//    float defaultY
+//  ) {
+//    JSONObject pos = position != null ? position.optJSONObject("position") : null;
+//
+//    return new PointF(
+//      pos != null ? (float) pos.optDouble("x", defaultX) : defaultX,
+//      pos != null ? (float) pos.optDouble("y", defaultY) : defaultY
+//    );
+//  }
 
   public Resize convertResizeMode(
     @Nullable JSONObject resizeMode,

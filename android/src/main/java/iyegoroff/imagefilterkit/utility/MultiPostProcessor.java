@@ -1,7 +1,6 @@
 package iyegoroff.imagefilterkit.utility;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
@@ -9,12 +8,10 @@ import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.Postprocessor;
-import com.facebook.react.common.ReactConstants;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class MultiPostProcessor extends IterativeBoxBlurPostProcessor {

@@ -18,9 +18,9 @@ import iyegoroff.imagefilterkit.ContextProvider;
 import iyegoroff.imagefilterkit.R;
 import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 
-public class ExclusionBlendPostProcessor extends RenderscriptCompositionPostProcessor {
+public class HardLightBlendPostProcessor extends RenderscriptCompositionPostProcessor {
 
-  public ExclusionBlendPostProcessor(
+  public HardLightBlendPostProcessor(
     final int width,
     final int height,
     final @Nullable JSONObject config,
@@ -32,7 +32,7 @@ public class ExclusionBlendPostProcessor extends RenderscriptCompositionPostProc
 
   @Override
   public String getName () {
-    return "ExclusionBlendPostProcessor";
+    return "HardLightBlendPostProcessor";
   }
 
   @Override
@@ -48,8 +48,8 @@ public class ExclusionBlendPostProcessor extends RenderscriptCompositionPostProc
     final Allocation dstAlloc = Allocation.createFromBitmap(rs, dst, mips, usage);
     final Allocation srcAlloc = Allocation.createFromBitmap(rs, src, mips, usage);
     final Allocation outAlloc = Allocation.createFromBitmap(rs, out, mips, usage);
-    final ScriptC_ExclusionBlend script =
-      new ScriptC_ExclusionBlend(rs, context.getResources(), R.raw.exclusionblend);
+    final ScriptC_HardLightBlend script =
+      new ScriptC_HardLightBlend(rs, context.getResources(), R.raw.hardlightblend);
 
     script.set_src(srcAlloc);
     script.forEach_root(dstAlloc, outAlloc);
@@ -65,6 +65,6 @@ public class ExclusionBlendPostProcessor extends RenderscriptCompositionPostProc
   @Nonnull
   @Override
   public CacheKey generateCacheKey() {
-    return compositionCacheKey("exclusion_blend");
+    return compositionCacheKey("hard_light_blend");
   }
 }

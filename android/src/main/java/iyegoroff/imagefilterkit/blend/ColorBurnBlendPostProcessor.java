@@ -21,11 +21,11 @@ import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 public class ColorBurnBlendPostProcessor extends RenderscriptCompositionPostProcessor {
 
   public ColorBurnBlendPostProcessor(
-    int width,
-    int height,
-    @Nullable JSONObject config,
-    @Nonnull CloseableReference<CloseableImage> src,
-    @Nonnull CacheKey srcCacheKey
+    final int width,
+    final int height,
+    final @Nullable JSONObject config,
+    final @Nonnull CloseableReference<CloseableImage> src,
+    final @Nonnull CacheKey srcCacheKey
   ) {
     super(width, height, config, src, srcCacheKey);
   }
@@ -36,16 +36,22 @@ public class ColorBurnBlendPostProcessor extends RenderscriptCompositionPostProc
   }
 
   @Override
-  protected void processRenderscriptComposition(Bitmap dst, Bitmap src, Bitmap out) {
+  protected void processRenderscriptComposition(
+    final Bitmap dst,
+    final Bitmap src,
+    final Bitmap out
+  ) {
     final Context context = ContextProvider.getContext();
     final RenderScript rs = RenderScript.create(context);
-    final Allocation dstAlloc = Allocation.createFromBitmap(rs, dst, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-    final Allocation srcAlloc = Allocation.createFromBitmap(rs, src, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-    final Allocation outAlloc = Allocation.createFromBitmap(rs, out, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+    final Allocation.MipmapControl mips = Allocation.MipmapControl.MIPMAP_NONE;
+    final int usage = Allocation.USAGE_SCRIPT;
+    final Allocation dstAlloc = Allocation.createFromBitmap(rs, dst, mips, usage);
+    final Allocation srcAlloc = Allocation.createFromBitmap(rs, src, mips, usage);
+    final Allocation outAlloc = Allocation.createFromBitmap(rs, out, mips, usage);
     final ScriptC_ColorBurnBlend script =
       new ScriptC_ColorBurnBlend(rs, context.getResources(), R.raw.colorburnblend);
 
-    script.set_gSrc(srcAlloc);
+    script.set_src(srcAlloc);
     script.forEach_root(dstAlloc, outAlloc);
 
     outAlloc.copyTo(out);

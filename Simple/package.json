@@ -17,11 +17,7 @@
   "dependencies": {
     "react": "16.5.1",
     "react-native": "0.57.1",
-    "react-native-color-matrix-image-filters": "4.0.0",
-    "react-native-fs": "^2.12.1",
-    "react-native-image-filter-kit": "file:../",
-    "react-native-view-shot": "^2.5.0",
-    "rn-fetch-blob": "^0.10.13"
+    "react-native-image-filter-kit": "file:../"
   },
   "devDependencies": {
     "metro-react-native-babel-preset": "0.45.2",

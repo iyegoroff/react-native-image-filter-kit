@@ -1,205 +1,100 @@
-import { image, scalar, color, scalarVector, bool } from '../common/inputs'
+import { scalar, color, scalarVector } from '../common/inputs'
+import { Common } from '../common/shapes'
+
+const WithAmount = {
+  amount: scalar,
+  ...Common
+}
 
 export const shapes = {
   ColorMatrix: {
     matrix: scalarVector,
-    image: image,
-    disableCache: bool
+    ...Common
   },
 
-  Normal: {
-    image: image,
-    disableCache: bool
-  },
+  Normal: Common,
 
   RGBA: {
     red: scalar,
     green: scalar,
     blue: scalar,
     alpha: scalar,
-    image: image,
-    disableCache: bool
+    ...Common
   },
 
-  Saturate: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Saturate: WithAmount,
 
-  HueRotate: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  HueRotate: WithAmount,
 
-  LuminanceToAlpha: {
-    image: image,
-    disableCache: bool
-  },
+  LuminanceToAlpha: Common,
 
-  Invert: {
-    image: image,
-    disableCache: bool
-  },
+  Invert: Common,
 
-  Grayscale: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Grayscale: WithAmount,
 
-  Sepia: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Sepia: WithAmount,
 
-  Nightvision: {
-    image: image,
-    disableCache: bool
-  },
+  Nightvision: Common,
 
-  Warm: {
-    image: image,
-    disableCache: bool
-  },
+  Warm: Common,
 
-  Cool: {
-    image: image,
-    disableCache: bool
-  },
+  Cool: Common,
 
-  Brightness: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Brightness: WithAmount,
 
-  Contrast: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Contrast: WithAmount,
 
-  Temperature: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Temperature: WithAmount,
 
-  Tint: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Tint: WithAmount,
 
-  Threshold: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Threshold: WithAmount,
 
-  Technicolor: {
-    image: image,
-    disableCache: bool
-  },
+  Technicolor: Common,
 
-  Polaroid: {
-    image: image,
-    disableCache: bool
-  },
+  Polaroid: Common,
 
-  ToBGR: {
-    image: image,
-    disableCache: bool
-  },
+  ToBGR: Common,
 
-  Kodachrome: {
-    image: image,
-    disableCache: bool
-  },
+  Kodachrome: Common,
 
-  Browni: {
-    image: image,
-    disableCache: bool
-  },
+  Browni: Common,
 
-  Vintage: {
-    image: image,
-    disableCache: bool
-  },
+  Vintage: Common,
 
-  Night: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Night: WithAmount,
 
-  Predator: {
-    amount: scalar,
-    image: image,
-    disableCache: bool
-  },
+  Predator: WithAmount,
 
-  Lsd: {
-    image: image,
-    disableCache: bool
-  },
+  Lsd: Common,
 
   ColorTone: {
     desaturation: scalar,
     toned: scalar,
     lightColor: color,
     darkColor: color,
-    image: image,
-    disableCache: bool
+    ...Common
   },
 
   DuoTone: {
     firstColor: color,
     secondColor: color,
-    image: image,
-    disableCache: bool
+    ...Common
   },
 
-  Protanomaly: {
-    image: image,
-    disableCache: bool
-  },
+  Protanomaly: Common,
 
-  Deuteranomaly: {
-    image: image,
-    disableCache: bool
-  },
+  Deuteranomaly: Common,
 
-  Tritanomaly: {
-    image: image,
-    disableCache: bool
-  },
+  Tritanomaly: Common,
 
-  Protanopia: {
-    image: image,
-    disableCache: bool
-  },
+  Protanopia: Common,
 
-  Deuteranopia: {
-    image: image,
-    disableCache: bool
-  },
+  Deuteranopia: Common,
 
-  Tritanopia: {
-    image: image,
-    disableCache: bool
-  },
+  Tritanopia: Common,
 
-  Achromatopsia: {
-    image: image,
-    disableCache: bool
-  },
+  Achromatopsia: Common,
 
-  Achromatomaly: {
-    image: image,
-    disableCache: bool
-  }
+  Achromatomaly: Common
 }

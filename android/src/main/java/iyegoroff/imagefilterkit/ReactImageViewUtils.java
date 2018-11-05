@@ -12,7 +12,7 @@ import com.facebook.react.views.imagehelper.ImageSource;
 
 import javax.annotation.Nullable;
 
-public class ReactImageViewUtils {
+class ReactImageViewUtils {
 
   @Nullable
   static ControllerListener<ImageInfo> getControllerListener(@Nullable ReactImageView target) {
@@ -39,9 +39,9 @@ public class ReactImageViewUtils {
     }
   }
 
-  static void setDirty(@Nullable ReactImageView target, boolean isDirty) {
+  static void setDirty(@Nullable ReactImageView target) {
     if (target != null) {
-      ReflectUtils.setFieldValue(target, "mIsDirty", isDirty);
+      ReflectUtils.setFieldValue(target, "mIsDirty", true);
     }
   }
 

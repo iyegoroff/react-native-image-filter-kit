@@ -26,6 +26,8 @@ RNImageColorFilter;
 ## Caveats
 - blurRadius
 - disableCache = true + resizeMode != 'cover'
+- MainReactPackage - makePackagePatch.js issue
+- Android: add renderscript support to build.gradle
 
 ## FAQ
 #### How to configure image cache on Android?

@@ -4,16 +4,18 @@ import {
   color,
   colorVector,
   distance,
-  image,
   tileMode,
   porterDuffMode,
   imageStyle,
   config,
-  resizeMode,
-  scaleMode,
-  gravityAxis,
   bool
 } from '../common/inputs'
+import { Common, Blend } from '../common/shapes'
+
+const Generator = {
+  imageStyle: imageStyle,
+  disableCache: bool
+}
 
 export const shapes = {
   ImageFilter: {
@@ -22,33 +24,26 @@ export const shapes = {
 
   ColorMatrixColorFilter: {
     matrix: scalarVector,
-    image: image,
-    disableCache: bool
+    ...Common
   },
 
   IterativeBoxBlur: {
     blurRadius: scalar,
     iterations: scalar,
-    image: image,
-    disableCache: bool
+    ...Common
   },
 
   LightingColorFilter: {
     mul: color,
     add: color,
-    image: image,
-    disableCache: bool
+    ...Common
   },
 
-  RoundAsCircle: {
-    image: image,
-    disableCache: bool
-  },
+  RoundAsCircle: Common,
 
   Color: {
     color: color,
-    imageStyle: imageStyle,
-    disableCache: bool
+    ...Generator
   },
 
   LinearGradient: {
@@ -59,8 +54,7 @@ export const shapes = {
     colors: colorVector,
     locations: scalarVector,
     tile: tileMode,
-    imageStyle: imageStyle,
-    disableCache: bool
+    ...Generator
   },
 
   RadialGradient: {
@@ -70,8 +64,7 @@ export const shapes = {
     colors: colorVector,
     stops: scalarVector,
     tileMode: tileMode,
-    imageStyle: imageStyle,
-    disableCache: bool
+    ...Generator
   },
 
   SweepGradient: {
@@ -79,59 +72,39 @@ export const shapes = {
     cy: distance,
     colors: colorVector,
     positions: scalarVector,
-    imageStyle: imageStyle,
-    disableCache: bool
+    ...Generator
   },
 
   PorterDuffColorFilter: {
     color: color,
     mode: porterDuffMode,
-    image: image,
-    disableCache: bool
+    ...Common
   },
 
   PorterDuffXfermode: {
     mode: porterDuffMode,
-    scaleMode: scaleMode,
-    dstImage: image,
-    dstGravityAxis: gravityAxis,
-    dstResizeMode: resizeMode,
-    srcImage: image,
-    srcGravityAxis: gravityAxis,
-    srcResizeMode: resizeMode,
-    disableCache: bool
+    ...Blend
   },
 
-  ColorDodgeBlend: {
-    scaleMode: scaleMode,
-    dstImage: image,
-    dstGravityAxis: gravityAxis,
-    dstResizeMode: resizeMode,
-    srcImage: image,
-    srcGravityAxis: gravityAxis,
-    srcResizeMode: resizeMode,
-    disableCache: bool
-  },
+  ColorDodgeBlend: Blend,
 
-  ExclusionBlend: {
-    scaleMode: scaleMode,
-    dstImage: image,
-    dstGravityAxis: gravityAxis,
-    dstResizeMode: resizeMode,
-    srcImage: image,
-    srcGravityAxis: gravityAxis,
-    srcResizeMode: resizeMode,
-    disableCache: bool
-  },
+  ExclusionBlend: Blend,
 
-  ColorBurnBlend: {
-    scaleMode: scaleMode,
-    dstImage: image,
-    dstGravityAxis: gravityAxis,
-    dstResizeMode: resizeMode,
-    srcImage: image,
-    srcGravityAxis: gravityAxis,
-    srcResizeMode: resizeMode,
-    disableCache: bool
-  }
+  ColorBurnBlend: Blend,
+
+  SoftLightBlend: Blend,
+
+  HueBlend: Blend,
+
+  ColorBlend: Blend,
+
+  SaturationBlend: Blend,
+
+  LuminosityBlend: Blend,
+
+  DifferenceBlend: Blend,
+
+  HardLightBlend: Blend,
+
+  MultiplyBlend: Blend
 }

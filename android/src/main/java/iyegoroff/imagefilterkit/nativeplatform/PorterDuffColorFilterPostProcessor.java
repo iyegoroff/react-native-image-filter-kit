@@ -30,7 +30,9 @@ public class PorterDuffColorFilterPostProcessor extends CacheablePostProcessor {
     InputConverter converter = new InputConverter(width, height);
 
     mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, 0);
-    mMode = converter.convertPorterDuffMode(config != null ? config.optJSONObject("mode") : null, PorterDuff.Mode.ADD);
+    mMode = converter.convertPorterDuffMode(
+      config != null ? config.optJSONObject("mode") : null, PorterDuff.Mode.ADD
+    );
   }
 
   @Override

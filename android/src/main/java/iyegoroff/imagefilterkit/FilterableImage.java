@@ -19,17 +19,17 @@ public class FilterableImage {
   private final boolean mCacheDisabled;
 
   FilterableImage(
-    @Nonnull ReactImageView image,
-    @Nonnull ArrayList<Postprocessor> postProcessors,
-    boolean cacheDisabled
+    final @Nonnull ReactImageView image,
+    final @Nonnull ArrayList<Postprocessor> postProcessors,
+    final boolean cacheDisabled
   ) {
     mImage = image;
     mPostProcessors = postProcessors;
     mCacheDisabled = cacheDisabled;
   }
 
-  public CacheKey generatedCacheKey() {
-    ArrayList<CacheKey> keys = new ArrayList<>(
+  CacheKey generatedCacheKey() {
+    final ArrayList<CacheKey> keys = new ArrayList<>(
       Collections.singletonList(ReactImageViewUtils.getCacheKey(mImage))
     );
 
@@ -48,7 +48,7 @@ public class FilterableImage {
     return mImage;
   }
 
-  public ArrayList<Postprocessor> getPostProcessors() {
+  ArrayList<Postprocessor> getPostProcessors() {
     return mPostProcessors;
   }
 

@@ -1,13 +1,8 @@
 package com.simple;
 
 import android.app.Application;
-import android.graphics.Bitmap;
 
 import com.facebook.react.ReactApplication;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.rnfs.RNFSPackage;
-import fr.greweb.reactnativeviewshot.RNViewShotPackage;
-import iyegoroff.RNColorMatrixImageFilters.RNColorMatrixImageFiltersPackage;
 import iyegoroff.imagefilterkit.ImageFilterKitPackage;
 import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
 
@@ -20,6 +15,16 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
+  private class MainReactPackage extends MainReactPackageWithFrescoCache {
+    MainReactPackage() {
+      super(
+        null,
+        (int) (Runtime.getRuntime().maxMemory() / 4),
+        null
+      );
+    }
+  }
+
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
@@ -29,16 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-        new MainReactPackageWithFrescoCache(
-          null,
-          (int) (Runtime.getRuntime().maxMemory() / 4),
-          null
-        ),
-        new RNColorMatrixImageFiltersPackage(),
-        new ImageFilterKitPackage(),
-        new RNViewShotPackage(),
-        new RNFSPackage(),
-        new RNFetchBlobPackage()
+        new MainReactPackage(),
+        new ImageFilterKitPackage()
       );
     }
 

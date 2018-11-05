@@ -12,13 +12,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class FrescoControllerListener extends BaseControllerListener<ImageInfo> {
-  private @Nullable ControllerListener<ImageInfo> mWrappedListener;
-  private @Nonnull Functor mImageUpdated;
+  private final @Nullable ControllerListener<ImageInfo> mWrappedListener;
+  private final @Nonnull Functor mImageUpdated;
   private boolean mIsEnabled = true;
 
   FrescoControllerListener(
-    @Nullable ControllerListener<ImageInfo> originalListener,
-    @Nonnull Functor imageUpdated
+    final @Nullable ControllerListener<ImageInfo> originalListener,
+    final @Nonnull Functor imageUpdated
   ) {
     super();
 
@@ -26,16 +26,16 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
     mImageUpdated = imageUpdated;
   }
 
-  public void onSubmit(String id, Object callerContext) {
+  public void onSubmit(final String id, final Object callerContext) {
     if (mWrappedListener != null) {
       mWrappedListener.onSubmit(id, callerContext);
     }
   }
 
   public void onFinalImageSet(
-    String id,
-    @Nullable ImageInfo imageInfo,
-    @Nullable Animatable animatable
+    final String id,
+    final @Nullable ImageInfo imageInfo,
+    final @Nullable Animatable animatable
   ) {
     if (mWrappedListener != null) {
       mWrappedListener.onFinalImageSet(id, imageInfo, animatable);
@@ -50,7 +50,7 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
     }
   }
 
-  public void onFailure(String id, Throwable throwable) {
+  public void onFailure(final String id, final Throwable throwable) {
     Log.w(
       ReactConstants.TAG,
       "ImageFilterKit: FrescoControllerListener error: " + throwable.getMessage()
@@ -61,7 +61,7 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
     }
   }
 
-  public void setEnabled(boolean isEnabled) {
+  public void setEnabled(final boolean isEnabled) {
     this.mIsEnabled = isEnabled;
   }
 
@@ -70,8 +70,8 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
   }
 
   @Nullable
-  public static ControllerListener<ImageInfo> originalListener(
-    ControllerListener<ImageInfo> listener
+  static ControllerListener<ImageInfo> originalListener(
+    final ControllerListener<ImageInfo> listener
   ) {
     return listener instanceof FrescoControllerListener
       ? originalListener(((FrescoControllerListener) listener).mWrappedListener)
