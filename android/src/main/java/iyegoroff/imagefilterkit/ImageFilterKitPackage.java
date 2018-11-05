@@ -12,8 +12,6 @@ import com.facebook.react.bridge.JavaScriptModule;
 public class ImageFilterKitPackage implements ReactPackage {
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-    ContextProvider.setContext(reactContext);
-
     return Collections.<ViewManager>singletonList(new ImageFilterManager());
   }
 

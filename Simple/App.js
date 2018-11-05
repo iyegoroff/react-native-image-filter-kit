@@ -55,7 +55,7 @@ const tahoe = (
   <Image
     style={{ width: 360, height: 360 }}
     source={{ uri: 'https://una.im/CSSgram/img/tahoe.jpg' }}
-    resizeMode={'contain'}
+    resizeMode={'cover'}
   />
 );
 
@@ -63,7 +63,7 @@ const dest = (
   <Image
     style={{ width: 128, height: 128 }}
     source={require('./dest.png')}
-    resizeMode={'contain'}
+    resizeMode={'cover'}
   />
 );
 
@@ -71,7 +71,15 @@ const src = (
   <Image
     style={{ width: 128, height: 128 }}
     source={require('./src.png')}
-    resizeMode={'contain'}
+    resizeMode={'cover'}
+  />
+);
+
+const flowers = (
+  <Image
+    style={{ width: 360, height: 360 }}
+    source={{ uri: 'https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg' }}
+    resizeMode={'cover'}
   />
 );
 
@@ -244,7 +252,7 @@ export default class App extends Component<Props> {
     const { selectedFilter, selectedImage, filters, images } = this.state;
   
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Picker
           style={styles.picker}
           selectedValue={selectedFilter}
@@ -263,7 +271,7 @@ export default class App extends Component<Props> {
           filter={filters.find(({ key }) => key === selectedFilter).name}
           image={images.find(({ name }) => name === selectedImage).uri}
         />
-      </View>
+      </ScrollView>
     );
   }
 

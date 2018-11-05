@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.imagefilterkit.ContextProvider;
 import iyegoroff.imagefilterkit.R;
 import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 
@@ -25,9 +24,10 @@ public class SaturationBlendPostProcessor extends RenderscriptCompositionPostPro
     final int height,
     final @Nullable JSONObject config,
     final @Nonnull CloseableReference<CloseableImage> src,
-    final @Nonnull CacheKey srcCacheKey
+    final @Nonnull CacheKey srcCacheKey,
+    final @Nonnull Context context
   ) {
-    super(width, height, config, src, srcCacheKey);
+    super(width, height, config, src, srcCacheKey, context);
   }
 
   @Override
@@ -41,7 +41,7 @@ public class SaturationBlendPostProcessor extends RenderscriptCompositionPostPro
     final Bitmap src,
     final Bitmap out
   ) {
-    final Context context = ContextProvider.getContext();
+    final Context context = getContext();
     final RenderScript rs = RenderScript.create(context);
     final Allocation.MipmapControl mips = Allocation.MipmapControl.MIPMAP_NONE;
     final int usage = Allocation.USAGE_SCRIPT;

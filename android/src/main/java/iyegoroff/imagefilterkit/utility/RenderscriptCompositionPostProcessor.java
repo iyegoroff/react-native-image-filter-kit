@@ -1,5 +1,6 @@
 package iyegoroff.imagefilterkit.utility;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -16,14 +17,23 @@ import javax.annotation.Nullable;
 
 public abstract class RenderscriptCompositionPostProcessor extends CompositionPostProcessor {
 
+  private final @Nonnull Context mContext;
+
   public RenderscriptCompositionPostProcessor(
     int width,
     int height,
     @Nullable JSONObject config,
     @Nonnull CloseableReference<CloseableImage> src,
-    @Nonnull CacheKey srcCacheKey
+    @Nonnull CacheKey srcCacheKey,
+    @Nonnull Context context
   ) {
     super(width, height, config, src, srcCacheKey);
+
+    mContext = context;
+  }
+
+  protected Context getContext() {
+    return mContext;
   }
 
   protected abstract void processRenderscriptComposition(Bitmap dst, Bitmap src, Bitmap out);

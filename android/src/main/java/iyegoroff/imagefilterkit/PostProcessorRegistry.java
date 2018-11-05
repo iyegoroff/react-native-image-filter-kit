@@ -1,5 +1,7 @@
 package iyegoroff.imagefilterkit;
 
+import android.content.Context;
+
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.image.CloseableImage;
@@ -40,7 +42,11 @@ public class PostProcessorRegistry {
 
   public class CreateSingular {
 
-    public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+    public Postprocessor create(
+      int width,
+      int height,
+      @Nullable JSONObject config
+    ) {
       throw new RuntimeException("Stub!");
     }
   }
@@ -52,7 +58,8 @@ public class PostProcessorRegistry {
       int height,
       @Nullable JSONObject config,
       @Nonnull CloseableReference<CloseableImage> imageRef,
-      @Nonnull CacheKey imageKey
+      @Nonnull CacheKey imageKey,
+      @Nonnull Context context
     ) {
       throw new RuntimeException("Stub!");
     }
@@ -138,7 +145,8 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
         return new PorterDuffXfermodePostProcessor(width, height, config, imageRef, imageKey);
       }
@@ -151,9 +159,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new ColorDodgeBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new ColorDodgeBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -164,9 +173,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new ExclusionBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new ExclusionBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -177,9 +187,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new ColorBurnBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new ColorBurnBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -190,9 +201,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new SoftLightBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new SoftLightBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -203,9 +215,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new HueBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new HueBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -216,9 +229,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new ColorBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new ColorBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -229,9 +243,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new SaturationBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new SaturationBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -242,9 +257,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new LuminosityBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new LuminosityBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -255,9 +271,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new DifferenceBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new DifferenceBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -268,9 +285,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new HardLightBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new HardLightBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
 
@@ -281,9 +299,10 @@ public class PostProcessorRegistry {
         int height,
         @Nullable JSONObject config,
         @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
       ) {
-        return new MultiplyBlendPostProcessor(width, height, config, imageRef, imageKey);
+        return new MultiplyBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
   }
@@ -328,7 +347,8 @@ public class PostProcessorRegistry {
     int height,
     @Nullable JSONObject config,
     @Nonnull CloseableReference<CloseableImage> imageRef,
-    @Nonnull CacheKey imageKey
+    @Nonnull CacheKey imageKey,
+    @Nonnull Context context
   ) {
     @Nullable CreateComposition filter = mCompositions.get(name);
 
@@ -337,6 +357,8 @@ public class PostProcessorRegistry {
       "ImageFilterKit: Can't find '" + name + "' filter in registry."
     );
 
-    return filter != null ? filter.create(width, height, config, imageRef, imageKey) : null;
+    return filter != null
+      ? filter.create(width, height, config, imageRef, imageKey, context)
+      : null;
   }
 }

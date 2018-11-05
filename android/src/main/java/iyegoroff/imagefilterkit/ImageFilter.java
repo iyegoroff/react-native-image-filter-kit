@@ -161,7 +161,8 @@ public class ImageFilter extends ReactViewGroup {
                                   height,
                                   config,
                                   ref,
-                                  src.generatedCacheKey()
+                                  src.generatedCacheKey(),
+                                  getContext()
                                 )
                               );
 
