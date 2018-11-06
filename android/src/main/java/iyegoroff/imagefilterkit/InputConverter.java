@@ -127,15 +127,18 @@ public class InputConverter {
     );
   }
 
-  public ScaleMode convertScaleMode(
+  public Scale convertScaleMode(
     @Nullable JSONObject scaleMode,
-    ScaleMode defaultValue
+    @Nonnull Scale.Mode defaultMode
   ) {
-    return convertEnumeration(
-      scaleMode != null ? scaleMode.optString("scaleMode") : null,
-      defaultValue,
-      ScaleMode.class
-    );
+    JSONObject scale = scaleMode != null ? scaleMode.optJSONObject("scaleMode") : null;
+    String mode = scaleMode != null ? scaleMode.optString("scaleMode") : null;
+
+    if (scale != null) {
+      return new Scale.WithMatch(scale.has("match") ? scale.optString("match") : null);
+    }
+
+    return new Scale.WithMode(convertEnumeration(mode, defaultMode, Scale.Mode.class));
   }
 
   public GravityAxis convertGravityAxis(

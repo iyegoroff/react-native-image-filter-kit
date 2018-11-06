@@ -44,8 +44,8 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
     Bitmap src,
     PlatformBitmapFactory bitmapFactory
   ) {
-    final int outWidth = outBitmapWidth(dst.getWidth(), src.getWidth());
-    final int outHeight = outBitmapHeight(dst.getHeight(), src.getHeight());
+    final int outWidth = outBitmapExtent(dst.getWidth(), src.getWidth());
+    final int outHeight = outBitmapExtent(dst.getHeight(), src.getHeight());
 
     final CloseableReference<Bitmap> tmpDstRef = bitmapFactory.createBitmap(outWidth, outHeight);
     final CloseableReference<Bitmap> tmpSrcRef = bitmapFactory.createBitmap(outWidth, outHeight);

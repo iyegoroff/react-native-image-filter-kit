@@ -45,9 +45,6 @@ public class Resize {
         .format("Resize.WithSize(%a, %a)", ((WithSize) this).width, ((WithSize) this).height);
     }
 
-    Assertions
-      .assertCondition(false, "ImageFilterKit: unknown Resize subclass");
-
-    return "";
+    throw Assertions.assertUnreachable("ImageFilterKit: unknown Resize subclass");
   }
 }

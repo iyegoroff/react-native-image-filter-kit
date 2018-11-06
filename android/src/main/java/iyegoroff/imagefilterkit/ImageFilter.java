@@ -11,8 +11,11 @@ import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.BaseDataSubscriber;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.imagepipeline.common.TooManyBitmapsException;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.memory.BitmapCounter;
+import com.facebook.imagepipeline.memory.BitmapCounterProvider;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.Postprocessor;
 import com.facebook.infer.annotation.Assertions;
@@ -27,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -188,12 +192,13 @@ public class ImageFilter extends ReactViewGroup {
                       protected void onFailureImpl(
                         DataSource<CloseableReference<CloseableImage>> dataSource
                       ) {
-                        Throwable t = dataSource.getFailureCause();
+                        Throwable throwable = dataSource.getFailureCause();
 
-                        if (t != null) {
-                          Log.w(
-                            ReactConstants.TAG,
-                            "ImageFilterKit: ImageFilter error: " + t.getMessage()
+                        if (throwable != null) {
+                          deferred.setError(
+                            throwable instanceof Exception
+                              ? (Exception) throwable
+                              : new Exception(throwable)
                           );
                         }
                       }
@@ -295,6 +300,11 @@ public class ImageFilter extends ReactViewGroup {
           public void call() {
             self.runFilterPipeline();
           }
+        },
+        new Functor() {
+          public void call() {
+            self.runFilterPipeline();
+          }
         }
       );
 
@@ -305,6 +315,7 @@ public class ImageFilter extends ReactViewGroup {
   }
 
   private void runFilterPipeline() {
+    ImageFilter.info("before");
     final ArrayList<ReactImageView> images = this.images();
 
     if (!mIsReady && getChildCount() > 0) {
@@ -353,13 +364,34 @@ public class ImageFilter extends ReactViewGroup {
                         AuxCache.put(auxKey, result);
                       }
 
+                      ImageFilter.info("after");
+
                       return null;
                     }
                   }, mCancelFiltering.getToken());
 
                 return null;
               }
-            }, mCancelFiltering.getToken());
+            }, mCancelFiltering.getToken())
+            .continueWith(new Continuation<Void, Void>() {
+              @Override
+              public Void then(Task<Void> task) {
+                if (task.isFaulted()) {
+                  Exception exc = task.getError();
+                  Log.w(
+                    ReactConstants.TAG,
+                    "ImageFilterKit: ImageFilter error: " + exc.getMessage()
+                  );
+
+//                  if (exc instanceof TooManyBitmapsException) {
+//                    System.gc();
+//                    self.runFilterPipeline();
+//                  }
+                }
+
+                return null;
+              }
+          });
         }
 
       } catch (JSONException exc) {
@@ -400,8 +432,16 @@ public class ImageFilter extends ReactViewGroup {
       prevListener,
       new Functor() {
         public void call() {
-          ReactImageViewUtils.setControllerListener(image, prevListener);
-          deferred.setResult(image);
+          if (!deferred.getTask().isCompleted()) {
+            ReactImageViewUtils.setControllerListener(image, prevListener);
+            deferred.setResult(image);
+          }
+        }
+      },
+      new Functor() {
+        @Override
+        public void call() {
+          ImageFilter.filterImage(filterableImage, listener);
         }
       }
     );
@@ -414,5 +454,21 @@ public class ImageFilter extends ReactViewGroup {
     image.maybeUpdateView();
 
     return deferred.getTask();
+  }
+
+  private static void info(@Nonnull String prefix) {
+    BitmapCounter counter = BitmapCounterProvider.get();
+    Log.d(
+      ReactConstants.TAG,
+      String.format(
+        Locale.US,
+        "ImageFilterKit: %s %d/%d %d/%d MB",
+        prefix,
+        counter.getCount(),
+        counter.getMaxCount(),
+        counter.getSize() / 1024 / 1024,
+        counter.getMaxSize() / 1024 / 1024
+      )
+    );
   }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.imagepipeline.common.TooManyBitmapsException;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.react.common.ReactConstants;
 
@@ -14,16 +15,19 @@ import javax.annotation.Nullable;
 public class FrescoControllerListener extends BaseControllerListener<ImageInfo> {
   private final @Nullable ControllerListener<ImageInfo> mWrappedListener;
   private final @Nonnull Functor mImageUpdated;
+  private final @Nonnull Functor mRetry;
   private boolean mIsEnabled = true;
 
   FrescoControllerListener(
     final @Nullable ControllerListener<ImageInfo> originalListener,
-    final @Nonnull Functor imageUpdated
+    final @Nonnull Functor imageUpdated,
+    final @Nonnull Functor retry
   ) {
     super();
 
     mWrappedListener = originalListener;
     mImageUpdated = imageUpdated;
+    mRetry = retry;
   }
 
   public void onSubmit(final String id, final Object callerContext) {
@@ -55,6 +59,11 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
       ReactConstants.TAG,
       "ImageFilterKit: FrescoControllerListener error: " + throwable.getMessage()
     );
+
+//    if (throwable instanceof TooManyBitmapsException) {
+//      System.gc();
+//      mRetry.call();
+//    }
 
     if (mWrappedListener != null) {
       mWrappedListener.onFailure(id, throwable);

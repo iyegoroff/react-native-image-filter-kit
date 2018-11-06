@@ -93,7 +93,7 @@ const instructions = Platform.select({
 class CSSGramItem extends PureComponent {
   static defaultProps = {
     filter: 'Normal',
-    image: 'https://una.im/CSSgram/img/atx.jpg'
+    image: require('./parrot.png')
   }
 
   halfTimer = null;
@@ -126,7 +126,7 @@ class CSSGramItem extends PureComponent {
         style={this.state.isHalf ? styles.halfImage : styles.image}
         source={typeof uri === 'number' ? uri : { uri }}
         // source={{ uri: 'http://travellingmoods.com/wp-content/uploads/2015/05/New-York-City.jpg' }}
-        resizeMode={'cover'}
+        resizeMode={'contain'}
       />
     );
   }
@@ -137,7 +137,7 @@ class CSSGramItem extends PureComponent {
         config={{
           name: this.props.filter,
           image: this.image(),
-          disableCache: false
+          disableCache: false,
         }}
       />
     );
@@ -159,9 +159,11 @@ export default class App extends Component<Props> {
   state = {
     t: Date.now(),
     showList: false,
-    selectedFilter: '_1977_0',
-    selectedImage: 'Flowers',
+    selectedFilter: 'Normal_0',
+    selectedImage: 'Parrot',
     images: [
+      { name: 'Parrot', uri: require('./shmarrot.png') },
+      { name: 'Pizza', uri: 'http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg' },
       { name: 'Flowers', uri: 'https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg' },
       { name: 'Atx', uri: 'https://una.im/CSSgram/img/atx.jpg' },
       { name: 'Bike', uri: 'https://una.im/CSSgram/img/bike.jpg' },
@@ -170,19 +172,19 @@ export default class App extends Component<Props> {
       { name: 'LakeGeneva', uri: 'https://una.im/CSSgram/img/lakegeneva.jpg' }
     ],
     filters: [].concat.apply([], Array.from(Array(1)).map((x, i) => [
-      // { name: 'Normal', key: `Normal1_${i}` },
-      // { name: 'Sepia', key: `Sepia_${i}` },
-      // { name: 'Saturate', key: `Saturate_${i}` },
-      // { name: 'HueRotate', key: `HueRotate_${i}` },
-      // { name: 'LuminanceToAlpha', key: `LuminanceToAlpha_${i}` },
-      // { name: 'Invert', key: `Invert_${i}` },
-      // { name: 'Grayscale', key: `Grayscale_${i}` },
-      // { name: 'Warm', key: `Warm_${i}` },
-      // { name: 'Cool', key: `Cool_${i}` },
-      // { name: 'Tint', key: `Tint_${i}` },
-      // { name: 'Night', key: `Night_${i}` },
-      // { name: 'Lsd', key: `Lsd_${i}` },
-      // { name: 'Browni', key: `Browni_${i}` },
+      { name: 'Normal', key: `Normal_${i}` },
+      { name: 'Sepia', key: `Sepia_${i}` },
+      { name: 'Saturate', key: `Saturate_${i}` },
+      { name: 'HueRotate', key: `HueRotate_${i}` },
+      { name: 'LuminanceToAlpha', key: `LuminanceToAlpha_${i}` },
+      { name: 'Invert', key: `Invert_${i}` },
+      { name: 'Grayscale', key: `Grayscale_${i}` },
+      { name: 'Warm', key: `Warm_${i}` },
+      { name: 'Cool', key: `Cool_${i}` },
+      { name: 'Tint', key: `Tint_${i}` },
+      { name: 'Night', key: `Night_${i}` },
+      { name: 'Lsd', key: `Lsd_${i}` },
+      { name: 'Browni', key: `Browni_${i}` },
       // { uri: 'https://una.im/CSSgram/img/bike.jpg', key: `bike_${i}` },
       // { uri: 'http://travellingmoods.com/wp-content/uploads/2015/05/New-York-City.jpg', key: `ny_${i}` },
       // { uri: 'https://wallpapercave.com/wp/ZXkSCiR.jpg', key: `paper_${i}` },
@@ -199,7 +201,7 @@ export default class App extends Component<Props> {
       // { uri: 'https://una.im/CSSgram/img/lakegeneva.jpg', key: `lakegeneva_${i}` },
       // { uri: 'http://www.hdwallpapery.com/static/images/Sv4BC_ltdPPcT.png', key: `Sv4BC_ltdPPcT_${i}` },
       // { uri: 'http://img.talkandroid.com/uploads/2015/03/square_cash_app_icon-450x450.png', key: `square_cash_app_icon-450x450_${i}` },
-      { name: 'Normal', key: `Normal_${i}` },
+      // { name: 'Normal', key: `Normal_${i}` },
       { name: '_1977', key: `_1977_${i}` },
       { name: 'Aden', key: `Aden_${i}` },
       { name: 'Brannan', key: `Brannan_${i}` },
@@ -229,6 +231,10 @@ export default class App extends Component<Props> {
     ]))
   };
 
+  selectedFilter = null;
+  selectedImage = null;
+  changeTimer = null;
+
 
   componentDidMount() {
     // this.interval = setInterval(() => this.setState({ t: Date.now() }), 7000);
@@ -256,14 +262,14 @@ export default class App extends Component<Props> {
         <Picker
           style={styles.picker}
           selectedValue={selectedFilter}
-          onValueChange={(item) => this.setState({ selectedFilter: item })}
+          onValueChange={this.filterChanged}
         >
           {filters.map(({ name, key }) => <Picker.Item value={key} label={name} key={key} />)}
         </Picker>
         <Picker
           style={styles.picker}
           selectedValue={selectedImage}
-          onValueChange={(item) => this.setState({ selectedImage: item })}
+          onValueChange={this.valueChanged}
         >
           {images.map(({ name }) => <Picker.Item value={name} label={name} key={name} />)}
         </Picker>
@@ -273,6 +279,14 @@ export default class App extends Component<Props> {
         />
       </ScrollView>
     );
+  }
+
+  filterChanged = (item) => {
+    this.setState({ selectedFilter: item })
+  }
+
+  valueChanged = (item) => {
+    this.setState({ selectedImage: item })
   }
 
   render() {
@@ -301,7 +315,6 @@ export default class App extends Component<Props> {
 
 const styles = StyleSheet.create({
   filter: {
-
   },
   text: {
     fontSize: 20,
@@ -332,6 +345,6 @@ const styles = StyleSheet.create({
   picker: {
     alignSelf: 'stretch'
   },
-  image: { width: 360, height: 360 },
+  image: { width: 260, height: 260 },
   halfImage: { width: 180, height: 180 }
 });

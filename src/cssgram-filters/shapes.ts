@@ -1,8 +1,9 @@
-import { bool } from '../common/inputs'
+import { bool, scaleMode } from '../common/inputs'
 import { Common } from '../common/shapes'
 
 const CSSGram = {
   disableIntermediateCaches: bool,
+  concatMatrices: bool,
   ...Common
 }
 

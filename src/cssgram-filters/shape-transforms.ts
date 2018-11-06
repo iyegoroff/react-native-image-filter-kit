@@ -7,6 +7,7 @@ export interface FilterConfig {
   readonly image: Image
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean
+  readonly concatMatrices?: boolean
 }
 
 const degToRad = (deg: number) => Math.PI * deg / 180
@@ -28,6 +29,7 @@ export const shapeTransforms = {
         image: {
           name: 'ScreenBlend',
           disableCache,
+          scaleMode: { match: 'dstImage' },
           dstImage: image,
           srcImage: {
             name: 'Color',
@@ -58,6 +60,7 @@ export const shapeTransforms = {
           image: {
             name: 'DarkenBlend',
             disableCache,
+            scaleMode: { match: 'dstImage' },
             dstImage: image,
             srcImage: {
               name: 'LinearGradient',
@@ -70,7 +73,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Brannan: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Brannan: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Contrast',
     disableCache,
     amount: 1.4,
@@ -81,6 +86,7 @@ export const shapeTransforms = {
       image: {
         name: 'LightenBlend',
         disableCache,
+        scaleMode: { match: 'dstImage' },
         dstImage: image,
         srcImage: {
           name: 'Color',
@@ -91,7 +97,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Brooklyn: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Brooklyn: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Brightness',
     disableCache,
     amount: 1.1,
@@ -102,6 +110,7 @@ export const shapeTransforms = {
       image: {
         name: 'OverlayBlend',
         disableCache,
+        scaleMode: { match: 'dstImage' },
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -114,7 +123,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Clarendon: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Clarendon: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.35,
@@ -126,6 +137,7 @@ export const shapeTransforms = {
         name: 'OverlayBlend',
         disableCache,
         mode: 'OVERLAY',
+        scaleMode: { match: 'dstImage' },
         dstImage: image,
         srcImage: {
           name: 'Color',
@@ -136,7 +148,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Earlybird: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Earlybird: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Sepia',
     disableCache,
     amount: 0.2,
@@ -147,6 +161,7 @@ export const shapeTransforms = {
       image: {
         name: 'OverlayBlend',
         disableCache,
+        scaleMode: { match: 'dstImage' },
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -159,7 +174,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Gingham: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Gingham: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'HueRotate',
     disableCache,
     amount: degToRad(-10),
@@ -170,6 +187,7 @@ export const shapeTransforms = {
       image: {
         name: 'SoftLightBlend',
         disableCache,
+        scaleMode: { match: 'dstImage' },
         dstImage: image,
         srcImage: {
           name: 'Color',
@@ -195,6 +213,7 @@ export const shapeTransforms = {
         image: {
           name: 'ModulateBlend',
           disableCache,
+          scaleMode: { match: 'dstImage' },
           dstImage: image,
           srcImage: {
             name: 'RadialGradient',
@@ -211,7 +230,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Inkwell: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Inkwell: ({ image, disableCache }: FilterConfig) => ({
     name: 'Grayscale',
     disableCache,
     amount: 1,
@@ -236,9 +255,11 @@ export const shapeTransforms = {
   Kelvin: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
     name: 'OverlayBlend',
     disableCache,
+    scaleMode: { match: 'dstImage' },
     dstImage: {
       name: 'ColorDodgeBlend',
       disableCache,
+      scaleMode: { match: 'dstImage' },
       dstImage: image,
       srcImage: {
         name: 'Color',
@@ -260,9 +281,11 @@ export const shapeTransforms = {
     image: {
       name: 'DarkenBlend',
       disableCache,
+      scaleMode: { match: 'dstImage' },
       dstImage: {
         name: 'ColorDodgeBlend',
         disableCache,
+        scaleMode: { match: 'dstImage' },
         dstImage: image,
         srcImage: {
           name: 'Color',
@@ -289,6 +312,7 @@ export const shapeTransforms = {
       image: {
         name: 'ModulateBlend',
         disableCache,
+        scaleMode: { match: 'dstImage' },
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -320,6 +344,7 @@ export const shapeTransforms = {
           image: {
             name: 'HueBlend',
             disableCache,
+            scaleMode: { match: 'dstImage' },
             dstImage: image,
             srcImage: {
               name: 'Color',
@@ -332,7 +357,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Mayfair: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Mayfair: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.1,
@@ -343,6 +370,7 @@ export const shapeTransforms = {
       image: {
         name: 'OverlayBlend',
         disableCache,
+        scaleMode: { match: 'dstImage' },
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -376,9 +404,11 @@ export const shapeTransforms = {
         image: {
           name: 'LightenBlend',
           disableCache,
+          scaleMode: { match: 'dstImage' },
           dstImage: {
             name: 'SoftLightBlend',
             disableCache,
+            scaleMode: { match: 'dstImage' },
             dstImage: image,
             srcImage: {
               name: 'Color',
@@ -396,7 +426,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Nashville: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Nashville: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.2,
@@ -415,9 +447,11 @@ export const shapeTransforms = {
           image: {
             name: 'LightenBlend',
             disableCache,
+            scaleMode: { match: 'dstImage' },
             dstImage: {
               name: 'DarkenBlend',
               disableCache,
+              scaleMode: { match: 'dstImage' },
               dstImage: image,
               srcImage: {
                 name: 'Color',
@@ -436,9 +470,12 @@ export const shapeTransforms = {
     }
   }),
 
-  Perpetua: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Perpetua: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'SoftLightBlend',
     disableCache,
+    scaleMode: { match: 'dstImage' },
     dstImage: image,
     srcImage: {
       name: 'LinearGradient',
@@ -468,6 +505,7 @@ export const shapeTransforms = {
           image: {
             name: 'SoftLightBlend',
             disableCache,
+            scaleMode: { match: 'dstImage' },
             dstImage: image,
             srcImage: {
               name: 'Color',
@@ -499,9 +537,11 @@ export const shapeTransforms = {
           image: {
             name: 'OverlayBlend',
             disableCache,
+            scaleMode: { match: 'dstImage' },
             dstImage: {
               name: 'ModulateBlend',
               disableCache,
+              scaleMode: { match: 'dstImage' },
               dstImage: image,
               srcImage: {
                 name: 'RadialGradient',
@@ -527,7 +567,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Slumber: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Slumber: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Brightness',
     disableCache,
     amount: 1.05,
@@ -538,9 +580,11 @@ export const shapeTransforms = {
       image: {
         name: 'SoftLightBlend',
         disableCache,
+        scaleMode: { match: 'dstImage' },
         dstImage: {
           name: 'LightenBlend',
           disableCache,
+          scaleMode: { match: 'dstImage' },
           dstImage: image,
           srcImage: {
             name: 'Color',
@@ -557,7 +601,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Stinson: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Stinson: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Brightness',
     disableCache,
     amount: 1.15,
@@ -572,6 +618,7 @@ export const shapeTransforms = {
         image: {
           name: 'SoftLightBlend',
           disableCache,
+          scaleMode: { match: 'dstImage' },
           dstImage: image,
           srcImage: {
             name: 'Color',
@@ -583,7 +630,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Toaster: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Toaster: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Brightness',
     disableCache,
     amount: 0.9,
@@ -594,6 +643,7 @@ export const shapeTransforms = {
       image: {
         name: 'ScreenBlend',
         disableCache,
+        scaleMode: { match: 'dstImage' },
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -606,7 +656,9 @@ export const shapeTransforms = {
     }
   }),
 
-  Valencia: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Valencia: (
+    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+  ) => ({
     name: 'Sepia',
     disableCache,
     amount: 0.08,
@@ -621,6 +673,7 @@ export const shapeTransforms = {
         image: {
           name: 'ExclusionBlend',
           disableCache,
+          scaleMode: { match: 'dstImage' },
           dstImage: image,
           srcImage: {
             name: 'Color',
@@ -651,6 +704,7 @@ export const shapeTransforms = {
           image: {
             name: 'ScreenBlend',
             disableCache,
+            scaleMode: { match: 'dstImage' },
             dstImage: image,
             srcImage: {
               name: 'Color',
@@ -678,9 +732,11 @@ export const shapeTransforms = {
         image: {
           name: 'ColorBlend',
           disableCache,
+          scaleMode: { match: 'dstImage' },
           dstImage: {
             name: 'OverlayBlend',
             disableCache,
+            scaleMode: { match: 'dstImage' },
             dstImage: image,
             srcImage: {
               name: 'RadialGradient',
@@ -707,6 +763,7 @@ export const shapeTransforms = {
     image: {
       name: 'ColorBurnBlend',
       disableCache,
+      scaleMode: { match: 'dstImage' },
       dstImage: image,
       srcImage: {
         name: 'RadialGradient',

@@ -32,7 +32,6 @@ export const createImageFilter = (
         config={JSON.stringify(finalizeConfig(config))}
         {...pick(props, restPropKeys) as object}
       >
-        {/* {images} */}
         {React.Children.map(images, hideEveryTailChild)}
       </RNImageFilter>
     )

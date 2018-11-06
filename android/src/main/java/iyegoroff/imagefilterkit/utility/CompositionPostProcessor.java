@@ -2,6 +2,7 @@ package iyegoroff.imagefilterkit.utility;
 
 import android.graphics.Bitmap;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
@@ -10,6 +11,8 @@ import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.common.ReactConstants;
 
 import org.json.JSONObject;
 
@@ -22,11 +25,11 @@ import javax.annotation.Nullable;
 import iyegoroff.imagefilterkit.GravityAxis;
 import iyegoroff.imagefilterkit.InputConverter;
 import iyegoroff.imagefilterkit.Resize;
-import iyegoroff.imagefilterkit.ScaleMode;
+import iyegoroff.imagefilterkit.Scale;
 
 public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
-  private final @Nonnull ScaleMode mScaleMode;
+  private final @Nonnull Scale mScaleMode;
   private final @Nonnull CloseableReference<CloseableImage> mSrc;
   private final @Nonnull CacheKey mSrcCacheKey;
   protected final @Nonnull Resize mSrcResizeMode;
@@ -45,12 +48,12 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mScaleMode = converter.convertScaleMode(config != null ? config.optJSONObject("scaleMode") : null, ScaleMode.UP);
+    mScaleMode = converter.convertScaleMode(config != null ? config.optJSONObject("scaleMode") : null, Scale.Mode.UP);
     mSrc = src.clone();
     mSrcCacheKey = srcCacheKey;
-    mSrcResizeMode = converter.convertResizeMode(config != null ? config.optJSONObject("srcResizeMode") : null, Resize.Mode.CONTAIN);
+    mSrcResizeMode = converter.convertResizeMode(config != null ? config.optJSONObject("srcResizeMode") : null, Resize.Mode.COVER);
     mSrcGravityAxis = converter.convertGravityAxis(config != null ? config.optJSONObject("srcGravityAxis") : null, GravityAxis.CENTER);
-    mDstResizeMode = converter.convertResizeMode(config != null ? config.optJSONObject("dstResizeMode") : null, Resize.Mode.CONTAIN);
+    mDstResizeMode = converter.convertResizeMode(config != null ? config.optJSONObject("dstResizeMode") : null, Resize.Mode.COVER);
     mDstGravityAxis = converter.convertGravityAxis(config != null ? config.optJSONObject("dstGravityAxis") : null, GravityAxis.CENTER);
   }
 
@@ -65,16 +68,26 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     PlatformBitmapFactory bitmapFactory
   );
 
-  protected int outBitmapWidth(int dstWidth, int srcWidth) {
-    return mScaleMode == ScaleMode.UP
-      ? Math.max(dstWidth, srcWidth)
-      : Math.min(dstWidth, srcWidth);
-  }
+  protected int outBitmapExtent(int dstExtent, int srcExtent) {
+    if (mScaleMode instanceof Scale.WithMode) {
+      return ((Scale.WithMode) mScaleMode).mode == Scale.Mode.UP
+        ? Math.max(dstExtent, srcExtent)
+        : Math.min(dstExtent, srcExtent);
 
-  protected int outBitmapHeight(int dstHeight, int srcHeight) {
-    return mScaleMode == ScaleMode.UP
-      ? Math.max(dstHeight, srcHeight)
-      : Math.min(dstHeight, srcHeight);
+    } else if (mScaleMode instanceof Scale.WithMatch) {
+      String name = ((Scale.WithMatch) mScaleMode).name;
+
+      if ("dstImage".equals(name)) {
+        return dstExtent;
+
+      } else if ("srcImage".equals(name)) {
+        return dstExtent;
+      }
+    }
+
+    throw Assertions.assertUnreachable(
+      "ImageFilterKit: invalid scaleMode - " + String.valueOf(mScaleMode)
+    );
   }
 
   @Override
@@ -84,7 +97,11 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   ) {
     Bitmap src = ((CloseableBitmap) mSrc.get()).getUnderlyingBitmap();
 
-    return processComposition(dst, src, bitmapFactory);
+//    try {
+      return processComposition(dst, src, bitmapFactory);
+//    } finally {
+//      CloseableReference.closeSafely(mSrc);
+//    }
   }
 
   protected static RectF bitmapFrame(

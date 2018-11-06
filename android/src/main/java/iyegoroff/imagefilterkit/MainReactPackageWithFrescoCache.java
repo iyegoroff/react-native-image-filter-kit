@@ -3,6 +3,8 @@ package iyegoroff.imagefilterkit;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.facebook.imagepipeline.cache.BitmapMemoryCacheTrimStrategy;
+import com.facebook.imagepipeline.cache.NativeMemoryCacheTrimStrategy;
 import com.facebook.react.bridge.ModuleSpec;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;

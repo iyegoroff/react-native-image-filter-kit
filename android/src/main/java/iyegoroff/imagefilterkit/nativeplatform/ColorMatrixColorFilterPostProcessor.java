@@ -5,9 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
+import com.facebook.react.common.ReactConstants;
 
 import org.json.JSONObject;
 
@@ -49,6 +51,9 @@ public class ColorMatrixColorFilterPostProcessor extends CacheablePostProcessor 
   @Override
   public void process(Bitmap destBitmap, Bitmap sourceBitmap) {
     super.process(destBitmap, sourceBitmap);
+
+    Log.d(ReactConstants.TAG, "ImageFilterKit: size d " + String.valueOf(destBitmap.getByteCount()));
+    Log.d(ReactConstants.TAG, "ImageFilterKit: size s " + String.valueOf(sourceBitmap.getByteCount()));
 
     Canvas canvas = new Canvas(destBitmap);
     ColorMatrix matrix = new ColorMatrix(mMatrix);
