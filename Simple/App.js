@@ -345,6 +345,6 @@ const styles = StyleSheet.create({
   picker: {
     alignSelf: 'stretch'
   },
-  image: { width: 260, height: 260 },
+  image: { width: 360, height: 360 },
   halfImage: { width: 180, height: 180 }
 });

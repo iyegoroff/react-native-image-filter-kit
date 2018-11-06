@@ -1,4 +1,4 @@
-import { bool, scaleMode, image, resizeMode, gravityAxis } from './inputs'
+import { bool, scaleMode, image, resizeMode, gravityAxis, color } from './inputs'
 
 export const Blend = {
   scaleMode: scaleMode,
@@ -13,5 +13,11 @@ export const Blend = {
 
 export const Common = {
   image: image,
+  disableCache: bool
+}
+
+export const BlendColor = {
+  dstImage: image,
+  srcColor: color,
   disableCache: bool
 }

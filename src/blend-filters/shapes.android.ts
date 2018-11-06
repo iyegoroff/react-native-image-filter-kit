@@ -1,4 +1,4 @@
-import { Blend } from '../common/shapes'
+import { Blend, BlendColor } from '../common/shapes'
 
 export const shapes = {
   PlusBlend: Blend,
@@ -35,5 +35,41 @@ export const shapes = {
 
   SrcOverBlend: Blend,
 
-  XorBlend: Blend
+  XorBlend: Blend,
+
+  PlusBlendColor: BlendColor,
+
+  ClearBlendColor: BlendColor,
+
+  DarkenBlendColor: BlendColor,
+
+  DstBlendColor: BlendColor,
+
+  DstATopBlendColor: BlendColor,
+
+  DstInBlendColor: BlendColor,
+
+  DstOutBlendColor: BlendColor,
+
+  DstOverBlendColor: BlendColor,
+
+  LightenBlendColor: BlendColor,
+
+  ModulateBlendColor: BlendColor,
+
+  OverlayBlendColor: BlendColor,
+
+  ScreenBlendColor: BlendColor,
+
+  SrcBlendColor: BlendColor,
+
+  SrcATopBlendColor: BlendColor,
+
+  SrcInBlendColor: BlendColor,
+
+  SrcOutBlendColor: BlendColor,
+
+  SrcOverBlendColor: BlendColor,
+
+  XorBlendColor: BlendColor
 }
