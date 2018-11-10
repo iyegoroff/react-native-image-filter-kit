@@ -108,8 +108,6 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        renderscriptTargetApi _ext.renderscriptTargetApi
-        renderscriptSupportModeEnabled true
     }
 
 

@@ -2,8 +2,8 @@ package iyegoroff.imagefilterkit.blend;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v8.renderscript.Allocation;
-import android.support.v8.renderscript.RenderScript;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
@@ -51,8 +51,8 @@ public class ExclusionBlendPostProcessor extends RenderscriptCompositionPostProc
     final ScriptC_ExclusionBlend script =
       new ScriptC_ExclusionBlend(rs, context.getResources(), R.raw.exclusionblend);
 
-    script.set_src(srcAlloc);
-    script.forEach_root(dstAlloc, outAlloc);
+    script.set_srcImage(srcAlloc);
+    script.forEach_blendImage(dstAlloc, outAlloc);
 
     outAlloc.copyTo(out);
     script.destroy();

@@ -37,6 +37,28 @@ export const shapes = {
 
   XorBlend: Blend,
 
+  ColorDodgeBlend: Blend,
+
+  ExclusionBlend: Blend,
+
+  ColorBurnBlend: Blend,
+
+  SoftLightBlend: Blend,
+
+  HueBlend: Blend,
+
+  ColorBlend: Blend,
+
+  SaturationBlend: Blend,
+
+  LuminosityBlend: Blend,
+
+  DifferenceBlend: Blend,
+
+  HardLightBlend: Blend,
+
+  MultiplyBlend: Blend,
+
   PlusBlendColor: BlendColor,
 
   ClearBlendColor: BlendColor,
@@ -71,5 +93,27 @@ export const shapes = {
 
   SrcOverBlendColor: BlendColor,
 
-  XorBlendColor: BlendColor
+  XorBlendColor: BlendColor,
+
+  ColorDodgeBlendColor: BlendColor,
+
+  ExclusionBlendColor: BlendColor,
+
+  ColorBurnBlendColor: BlendColor,
+
+  SoftLightBlendColor: BlendColor,
+
+  HueBlendColor: BlendColor,
+
+  ColorBlendColor: BlendColor,
+
+  SaturationBlendColor: BlendColor,
+
+  LuminosityBlendColor: BlendColor,
+
+  DifferenceBlendColor: BlendColor,
+
+  HardLightBlendColor: BlendColor,
+
+  MultiplyBlendColor: BlendColor
 }

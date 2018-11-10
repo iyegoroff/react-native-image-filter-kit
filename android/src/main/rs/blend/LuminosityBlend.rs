@@ -4,7 +4,8 @@
 
 #include "BlendUtils.rsh"
 
-rs_allocation src;
+rs_allocation srcImage;
+float4 srcColor;
 
 static inline float4 luminosity(const float4 dst, const float4 src) {
   float4 srcDstAlpha = src * dst.a;
@@ -17,10 +18,13 @@ static inline float4 luminosity(const float4 dst, const float4 src) {
   return out;
 }
 
-uchar4 RS_KERNEL root(uchar4 dst, uint32_t x, uint32_t y) {
-  float4 dstColor = rsUnpackColor8888(dst);
-  float4 srcColor = rsUnpackColor8888(*(const uchar4*)rsGetElementAt(src, x, y));
-  float4 outColor = luminosity(dstColor, srcColor);
+uchar4 RS_KERNEL blendImage(uchar4 dst, uint32_t x, uint32_t y) {
+  return rsPackColorTo8888(luminosity(
+    rsUnpackColor8888(dst),
+    rsUnpackColor8888(*(const uchar4*)rsGetElementAt(srcImage, x, y))
+  ));
+}
 
-  return rsPackColorTo8888(outColor);
+uchar4 RS_KERNEL blendColor(uchar4 dst, uint32_t x, uint32_t y) {
+  return rsPackColorTo8888(luminosity(rsUnpackColor8888(dst), srcColor));
 }

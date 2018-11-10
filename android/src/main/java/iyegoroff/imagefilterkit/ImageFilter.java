@@ -11,7 +11,6 @@ import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.BaseDataSubscriber;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.controller.ControllerListener;
-import com.facebook.imagepipeline.common.TooManyBitmapsException;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.memory.BitmapCounter;
@@ -104,7 +103,8 @@ public class ImageFilter extends ReactViewGroup {
             new ArrayList<>(result.getPostProcessors());
 
           postProcessors.add(
-            PostProcessorRegistry.getInstance().createSingular(name, width, height, config)
+            PostProcessorRegistry.getInstance()
+              .createSingular(name, width, height, config, getContext())
           );
 
           final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
@@ -245,10 +245,11 @@ public class ImageFilter extends ReactViewGroup {
       );
 
     } else if (PostProcessorRegistry.getInstance().isSingular(name)) {
-      return createSingularImage(
-        jsonConfig,
-        parseConfig(jsonConfig.getJSONObject("image").get("image"), images)
-      );
+      JSONObject image = jsonConfig.has("image")
+        ? jsonConfig.getJSONObject("image")
+        : jsonConfig.getJSONObject("dstImage");
+
+      return createSingularImage(jsonConfig, parseConfig(image.get("image"), images));
     } else {
       throw new JSONException(
         "ImageFilterKit: ImageFilter error: Can't find '" + name + "' post processor."

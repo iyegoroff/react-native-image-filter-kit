@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 
 import iyegoroff.imagefilterkit.blend.ColorBlendPostProcessor;
 import iyegoroff.imagefilterkit.blend.ColorBurnBlendPostProcessor;
+import iyegoroff.imagefilterkit.blend.ColorDodgeBlendPostProcessor;
 import iyegoroff.imagefilterkit.blend.DifferenceBlendPostProcessor;
 import iyegoroff.imagefilterkit.blend.ExclusionBlendPostProcessor;
 import iyegoroff.imagefilterkit.blend.HardLightBlendPostProcessor;
@@ -36,7 +37,6 @@ import iyegoroff.imagefilterkit.nativeplatform.PorterDuffXfermodePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.RadialGradientPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.RoundAsCirclePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.SweepGradientPostProcessor;
-import iyegoroff.imagefilterkit.blend.ColorDodgeBlendPostProcessor;
 
 public class PostProcessorRegistry {
 
@@ -45,7 +45,8 @@ public class PostProcessorRegistry {
     public Postprocessor create(
       int width,
       int height,
-      @Nullable JSONObject config
+      @Nullable JSONObject config,
+      @Nonnull Context context
     ) {
       throw new RuntimeException("Stub!");
     }
@@ -77,63 +78,108 @@ public class PostProcessorRegistry {
   private PostProcessorRegistry() {
     addSingular("ColorMatrixColorFilter", new CreateSingular() {
       @Override
-      public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
         return new ColorMatrixColorFilterPostProcessor(width, height, config);
       }
     });
 
     addSingular("Color", new CreateSingular() {
       @Override
-      public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
         return new ColorPostProcessor(width, height, config);
       }
     });
 
     addSingular("IterativeBoxBlur", new CreateSingular() {
       @Override
-      public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
         return new IterativeBoxBlurPostProcessor(width, height, config);
       }
     });
 
     addSingular("LightingColorFilter", new CreateSingular() {
       @Override
-      public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
         return new LightingColorFilterPostProcessor(width, height, config);
       }
     });
 
     addSingular("LinearGradient", new CreateSingular() {
       @Override
-      public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
         return new LinearGradientPostProcessor(width, height, config);
       }
     });
 
     addSingular("PorterDuffColorFilter", new CreateSingular() {
       @Override
-      public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
         return new PorterDuffColorFilterPostProcessor(width, height, config);
       }
     });
 
     addSingular("RadialGradient", new CreateSingular() {
       @Override
-      public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
         return new RadialGradientPostProcessor(width, height, config);
       }
     });
 
     addSingular("RoundAsCircle", new CreateSingular() {
       @Override
-      public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
         return new RoundAsCirclePostProcessor(width, height, config);
       }
     });
 
     addSingular("SweepGradient", new CreateSingular() {
       @Override
-      public Postprocessor create(int width, int height, @Nullable JSONObject config) {
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
         return new SweepGradientPostProcessor(width, height, config);
       }
     });
@@ -328,7 +374,8 @@ public class PostProcessorRegistry {
     @Nullable String name,
     int width,
     int height,
-    @Nullable JSONObject config
+    @Nullable JSONObject config,
+    @Nonnull Context context
   ) {
     @Nullable CreateSingular filter = mSingulars.get(name);
 
@@ -337,7 +384,7 @@ public class PostProcessorRegistry {
       "ImageFilterKit: Can't find '" + name + "' filter in registry."
     );
 
-    return filter != null ? filter.create(width, height, config) : null;
+    return filter != null ? filter.create(width, height, config, context) : null;
   }
 
   @Nullable

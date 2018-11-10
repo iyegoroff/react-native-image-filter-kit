@@ -84,27 +84,5 @@ export const shapes = {
   PorterDuffXfermode: {
     mode: porterDuffMode,
     ...Blend
-  },
-
-  ColorDodgeBlend: Blend,
-
-  ExclusionBlend: Blend,
-
-  ColorBurnBlend: Blend,
-
-  SoftLightBlend: Blend,
-
-  HueBlend: Blend,
-
-  ColorBlend: Blend,
-
-  SaturationBlend: Blend,
-
-  LuminosityBlend: Blend,
-
-  DifferenceBlend: Blend,
-
-  HardLightBlend: Blend,
-
-  MultiplyBlend: Blend
+  }
 }

@@ -4,6 +4,7 @@ export interface ColorBlendConfig {
   readonly dstImage: Image
   readonly srcColor: string
   readonly disableCache?: boolean
+  readonly disableIntermediateCaches?: boolean
 }
 
 const asNativeBlendConfig = (config: Object) => ({
@@ -16,6 +17,18 @@ const asNativeBlendColorConfig = ({ disableCache, dstImage, srcColor }: ColorBle
   image: dstImage,
   color: srcColor,
   disableCache
+})
+
+const asRenderscriptBlendColorConfig = (
+  { srcColor, disableIntermediateCaches = true, ...config }: ColorBlendConfig
+) => ({
+  ...config,
+  scaleMode: { match: 'dstImage' },
+  srcImage: {
+    name: 'Color',
+    color: srcColor,
+    disableCache: disableIntermediateCaches
+  }
 })
 
 export const shapeTransforms = {
@@ -197,5 +210,60 @@ export const shapeTransforms = {
   XorBlendColor: (config: ColorBlendConfig) => ({
     ...asNativeBlendColorConfig(config),
     mode: 'XOR'
+  }),
+
+  ColorDodgeBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'ColorDodgeBlend'
+  }),
+
+  ExclusionBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'ExclusionBlend'
+  }),
+
+  ColorBurnBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'ColorBurnBlend'
+  }),
+
+  SoftLightBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'SoftLightBlend'
+  }),
+
+  HueBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'HueBlend'
+  }),
+
+  ColorBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'ColorBlend'
+  }),
+
+  SaturationBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'SaturationBlend'
+  }),
+
+  LuminosityBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'LuminosityBlend'
+  }),
+
+  DifferenceBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'DifferenceBlend'
+  }),
+
+  HardLightBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'HardLightBlend'
+  }),
+
+  MultiplyBlendColor: (config: ColorBlendConfig) => ({
+    ...asRenderscriptBlendColorConfig(config),
+    name: 'MultiplyBlend'
   })
 }
