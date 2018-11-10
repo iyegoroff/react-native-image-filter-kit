@@ -245,11 +245,11 @@ public class ImageFilter extends ReactViewGroup {
       );
 
     } else if (PostProcessorRegistry.getInstance().isSingular(name)) {
-      JSONObject image = jsonConfig.has("image")
-        ? jsonConfig.getJSONObject("image")
-        : jsonConfig.getJSONObject("dstImage");
+      return createSingularImage(
+        jsonConfig,
+        parseConfig(jsonConfig.getJSONObject("image").get("image"), images)
+      );
 
-      return createSingularImage(jsonConfig, parseConfig(image.get("image"), images));
     } else {
       throw new JSONException(
         "ImageFilterKit: ImageFilter error: Can't find '" + name + "' post processor."

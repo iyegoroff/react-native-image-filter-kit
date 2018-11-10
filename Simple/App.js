@@ -75,6 +75,14 @@ const src = (
   />
 );
 
+const parrot = (
+  <Image
+    style={{ width: 360, height: 360 }}
+    source={require('./parrot.png')}
+    resizeMode={'contain'}
+  />
+);
+
 const flowers = (
   <Image
     style={{ width: 360, height: 360 }}
@@ -202,6 +210,10 @@ export default class App extends Component<Props> {
       // { uri: 'http://www.hdwallpapery.com/static/images/Sv4BC_ltdPPcT.png', key: `Sv4BC_ltdPPcT_${i}` },
       // { uri: 'http://img.talkandroid.com/uploads/2015/03/square_cash_app_icon-450x450.png', key: `square_cash_app_icon-450x450_${i}` },
       // { name: 'Normal', key: `Normal_${i}` },
+      { name: 'Sharpen', key: `Sharpen_${i}` },
+      { name: 'Emboss', key: `Emboss_${i}` },
+      { name: 'EdgeDetection', key: `EdgeDetection_${i}` },
+      { name: 'FuzzyGlass', key: `FuzzyGlass_${i}` },
       { name: '_1977', key: `_1977_${i}` },
       { name: 'Aden', key: `Aden_${i}` },
       { name: 'Brannan', key: `Brannan_${i}` },

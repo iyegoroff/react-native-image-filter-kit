@@ -2,8 +2,6 @@ package iyegoroff.imagefilterkit.blend;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
@@ -41,25 +39,18 @@ public class SaturationBlendPostProcessor extends RenderscriptCompositionPostPro
     final Bitmap src,
     final Bitmap out
   ) {
-    final Context context = getContext();
-    final RenderScript rs = RenderScript.create(context);
-    final Allocation.MipmapControl mips = Allocation.MipmapControl.MIPMAP_NONE;
-    final int usage = Allocation.USAGE_SCRIPT;
-    final Allocation dstAlloc = Allocation.createFromBitmap(rs, dst, mips, usage);
-    final Allocation srcAlloc = Allocation.createFromBitmap(rs, src, mips, usage);
-    final Allocation outAlloc = Allocation.createFromBitmap(rs, out, mips, usage);
+    RenderscriptContext ctx = new RenderscriptContext(dst, src, out, getContext());
+
     final ScriptC_SaturationBlend script =
-      new ScriptC_SaturationBlend(rs, context.getResources(), R.raw.saturationblend);
+      new ScriptC_SaturationBlend(ctx.getScript(), getContext().getResources(), R.raw.saturationblend);
 
-    script.set_srcImage(srcAlloc);
-    script.forEach_blendImage(dstAlloc, outAlloc);
+    script.set_srcImage(ctx.getSrcAlloc());
+    script.forEach_blendImage(ctx.getDstAlloc(), ctx.getOutAlloc());
 
-    outAlloc.copyTo(out);
+    ctx.copyTo(out);
+
     script.destroy();
-    dstAlloc.destroy();
-    srcAlloc.destroy();
-    outAlloc.destroy();
-    rs.destroy();
+    ctx.destroy();
   }
 
   @Nonnull

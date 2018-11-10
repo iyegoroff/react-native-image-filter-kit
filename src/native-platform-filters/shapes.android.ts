@@ -84,5 +84,20 @@ export const shapes = {
   PorterDuffXfermode: {
     mode: porterDuffMode,
     ...Blend
+  },
+
+  ScriptIntrinsicBlur: {
+    radius: scalar,
+    ...Common
+  },
+
+  ScriptIntrinsicConvolve3x3: {
+    coefficients: scalarVector,
+    ...Common
+  },
+
+  ScriptIntrinsicConvolve5x5: {
+    coefficients: scalarVector,
+    ...Common
   }
 }

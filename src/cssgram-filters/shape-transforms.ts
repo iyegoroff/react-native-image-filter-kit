@@ -3,7 +3,7 @@
 import rgbaToRgb from 'rgba-to-rgb'
 import { Image } from 'react-native'
 
-export interface FilterConfig {
+export interface CSSGramConfig {
   readonly image: Image
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean
@@ -14,7 +14,7 @@ const degToRad = (deg: number) => Math.PI * deg / 180
 const background = 'rgb(255, 255, 255)'
 
 export const shapeTransforms = {
-  _1977: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  _1977: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.3,
@@ -37,7 +37,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Aden: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Aden: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Brightness',
     disableCache,
     amount: 1.2,
@@ -69,7 +69,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Brannan: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Brannan: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Contrast',
     disableCache,
     amount: 1.4,
@@ -88,7 +88,7 @@ export const shapeTransforms = {
   }),
 
   Brooklyn: (
-    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+    { image, disableCache, disableIntermediateCaches = true }: CSSGramConfig
   ) => ({
     name: 'Brightness',
     disableCache,
@@ -113,7 +113,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Clarendon: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Clarendon: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.35,
@@ -132,7 +132,7 @@ export const shapeTransforms = {
   }),
 
   Earlybird: (
-    { image, disableCache, disableIntermediateCaches = true }: FilterConfig
+    { image, disableCache, disableIntermediateCaches = true }: CSSGramConfig
   ) => ({
     name: 'Sepia',
     disableCache,
@@ -157,7 +157,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Gingham: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Gingham: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'HueRotate',
     disableCache,
     amount: degToRad(-10),
@@ -175,7 +175,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Hudson: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Hudson: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.1,
@@ -207,7 +207,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Inkwell: ({ image, disableCache }: FilterConfig) => ({
+  Inkwell: ({ image, disableCache }: CSSGramConfig) => ({
     name: 'Grayscale',
     disableCache,
     amount: 1,
@@ -229,7 +229,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Kelvin: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Kelvin: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'OverlayBlendColor',
     disableCache,
     disableIntermediateCaches,
@@ -243,7 +243,7 @@ export const shapeTransforms = {
     srcColor: 'rgb(183, 125, 33)'
   }),
 
-  Lark: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Lark: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Contrast',
     disableCache,
     amount: 0.9,
@@ -262,7 +262,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Lofi: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Lofi: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Contrast',
     disableCache,
     amount: 1.5,
@@ -286,7 +286,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Maven: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Maven: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.5,
@@ -314,7 +314,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Mayfair: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Mayfair: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.1,
@@ -344,7 +344,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Moon: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Moon: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Brightness',
     disableCache,
     amount: 1.1,
@@ -373,7 +373,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Nashville: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Nashville: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.2,
@@ -407,7 +407,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Perpetua: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Perpetua: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'SoftLightBlend',
     disableCache,
     scaleMode: { match: 'dstImage' },
@@ -421,7 +421,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Reyes: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Reyes: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,
     amount: 0.75,
@@ -449,7 +449,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Rise: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Rise: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,
     amount: 0.9,
@@ -498,7 +498,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Slumber: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Slumber: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Brightness',
     disableCache,
     amount: 1.05,
@@ -522,7 +522,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Stinson: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Stinson: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Brightness',
     disableCache,
     amount: 1.15,
@@ -545,7 +545,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Toaster: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Toaster: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Brightness',
     disableCache,
     amount: 0.9,
@@ -569,7 +569,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Valencia: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Valencia: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Sepia',
     disableCache,
     amount: 0.08,
@@ -592,7 +592,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Walden: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Walden: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.6,
@@ -620,7 +620,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Willow: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Willow: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Brightness',
     disableCache,
     amount: 0.9,
@@ -655,7 +655,7 @@ export const shapeTransforms = {
     }
   }),
 
-  Xpro2: ({ image, disableCache, disableIntermediateCaches = true }: FilterConfig) => ({
+  Xpro2: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Sepia',
     disableCache,
     amount: 0.3,

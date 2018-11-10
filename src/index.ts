@@ -7,9 +7,11 @@ import colorMatrices from 'rn-color-matrices'
 import { concatColorMatrices } from 'concat-color-matrices'
 import { luminanceToAlpha } from './color-matrix-filters/shape-transforms'
 import rgbaToRgb from 'rgba-to-rgb'
+import convolveMatrixFilters from './convolve-matrix-filters'
 
 const exports = {
   ...colorMatrixFilters,
+  ...convolveMatrixFilters,
   ...nativePlatformFilters,
   ...cssgramFilters,
   ...colorMatrices,

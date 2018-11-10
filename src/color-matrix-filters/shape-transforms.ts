@@ -1,24 +1,8 @@
 // tslint:disable:max-file-line-count
 
-import { Platform, Image } from 'react-native'
+import { Platform } from 'react-native'
 import matrices, { Matrix } from 'rn-color-matrices'
-
-export interface Config {
-  readonly name: string
-}
-
-export interface FilterConfig {
-  readonly image: Image
-  readonly disableCache?: boolean
-}
-
-export interface AmountFilterConfig extends FilterConfig {
-  readonly amount?: number
-}
-
-export interface MatrixFilterConfig extends FilterConfig {
-  readonly matrix: Matrix
-}
+import { FilterConfig, MatrixFilterConfig, Config, AmountFilterConfig } from '../common/configs'
 
 export interface RGBAFilterConfig extends FilterConfig {
   readonly red?: number

@@ -35,7 +35,7 @@ const requiredValueInvariant = (filterName: string, value: any, key: string) => 
   )
 }
 
-export interface Config {
+interface Config {
   readonly name: string
   [key: string]: any
 }
