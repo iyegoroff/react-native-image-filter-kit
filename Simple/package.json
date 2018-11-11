@@ -12,7 +12,7 @@
     "build:release": ":",
     "generate:android:signing-key": "keytool -genkey -v -keystore simple.keystore -alias simple -keyalg RSA -keysize 2048 -validity 10000 && mv simple.keystore android/app",
     "generate:android:apk": "npm run generate:android:bundle && cd android && ./gradlew assembleRelease",
-    "generate:android:bundle": "npm run build:release && react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res/"
+    "generate:android:bundle": "npm run build:release && react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle"
   },
   "dependencies": {
     "react": "16.5.1",
