@@ -48,12 +48,12 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mScaleMode = converter.convertScaleMode(config != null ? config.optJSONObject("scaleMode") : null, Scale.Mode.UP);
+    mScaleMode = converter.convertScale(config != null ? config.optJSONObject("scaleMode") : null, Scale.Mode.UP);
     mSrc = src.clone();
     mSrcCacheKey = srcCacheKey;
-    mSrcResizeMode = converter.convertResizeMode(config != null ? config.optJSONObject("srcResizeMode") : null, Resize.Mode.COVER);
+    mSrcResizeMode = converter.convertResize(config != null ? config.optJSONObject("srcResizeMode") : null, Resize.Mode.COVER);
     mSrcGravityAxis = converter.convertGravityAxis(config != null ? config.optJSONObject("srcGravityAxis") : null, GravityAxis.CENTER);
-    mDstResizeMode = converter.convertResizeMode(config != null ? config.optJSONObject("dstResizeMode") : null, Resize.Mode.COVER);
+    mDstResizeMode = converter.convertResize(config != null ? config.optJSONObject("dstResizeMode") : null, Resize.Mode.COVER);
     mDstGravityAxis = converter.convertGravityAxis(config != null ? config.optJSONObject("dstGravityAxis") : null, GravityAxis.CENTER);
   }
 

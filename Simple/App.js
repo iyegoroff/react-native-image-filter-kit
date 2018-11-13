@@ -304,6 +304,19 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View style={{flex: 1}}>
+        <ImageFilter
+          config={{
+            name: 'CIColorMonochrome',
+            inputColor: 'red',
+            inputImage: {
+              name: 'Grayscale',
+              image: {
+                name: 'Sepia',
+                image: parrot
+              }
+            }
+          }}
+        />
         <Switch
           value={this.state.showList}
           onValueChange={(showList) => this.setState({ showList })}

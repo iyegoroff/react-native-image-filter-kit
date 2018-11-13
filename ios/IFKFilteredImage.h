@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 #import <React/RCTResizeMode.h>
 
-@interface RNFilteredImage : NSObject
+@interface IFKFilteredImage : NSObject
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) RCTResizeMode resizeMode;

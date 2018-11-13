@@ -1,9 +1,9 @@
-#import "RNFilterPostProcessor.h"
+#import "IFKFilterPostProcessor.h"
 #import "Image/RCTImageView.h"
 #import "Image/RCTImageUtils.h"
 #import "NSArray+FilterMapReduce.h"
-#import "RNImageCache.h"
-#import "RNOutputExtentHandler.h"
+#import "IFKImageCache.h"
+#import "IFKOutputExtentHandler.h"
 #import <React/RCTLog.h>
 
 @interface UIImage (React)
@@ -13,7 +13,7 @@
 @end
 
 
-@implementation RNFilterPostProcessor
+@implementation IFKFilterPostProcessor
 
 + (NSString *)resize:(RCTResizeMode)mode
 {
@@ -26,8 +26,8 @@
   }
 }
 
-+ (RNFilteredImage *)process:(nonnull NSString *)name
-                      inputs:(nonnull NSDictionary<NSString *, RNTuple<id, NSString *> *> *)inputs
++ (IFKFilteredImage *)process:(nonnull NSString *)name
+                      inputs:(nonnull NSDictionary<NSString *, IFKTuple<id, NSString *> *> *)inputs
                      context:(nonnull CIContext *)context
                   filterings:(nonnull NSDictionary<NSString *, Filtering> *)filterings
                 resizeOutput:(BOOL)resizeOutput
@@ -66,11 +66,11 @@
 //  }
   
   for (NSString *inputName in images) {
-    RNFilteredImage *image = images[inputName];
+    IFKFilteredImage *image = images[inputName];
     NSString *cacheKey = [NSString stringWithFormat:@"%i:%@:%@",
                           resizeOutput,
                           name,
-                          [RNFilterPostProcessor inputValues:inputs]];
+                          [IFKFilterPostProcessor inputValues:inputs]];
     accumulatedCacheKey = [NSString stringWithFormat:@"%@[%@:%@:%li]",
                            accumulatedCacheKey,
                            image.accumulatedCacheKey,
@@ -78,14 +78,14 @@
                            (long)image.resizeMode];
   }
   
-  UIImage *cachedImage = [RNImageCache imageForKey:accumulatedCacheKey];
+  UIImage *cachedImage = [IFKImageCache imageForKey:accumulatedCacheKey];
   
-  RNFilteredImage *mainImage = images[@"inputImage"] ?: images[@"generatedImage"];
+  IFKFilteredImage *mainImage = images[@"inputImage"] ?: images[@"generatedImage"];
   RCTResizeMode resizeMode = mainImage ? mainImage.resizeMode : RCTResizeModeContain;
   
   if (cachedImage != nil) {
 //  if (false) {
-    return [RNFilteredImage createWithImage:cachedImage
+    return [IFKFilteredImage createWithImage:cachedImage
                                  resizeMode:resizeMode
                         accumulatedCacheKey:accumulatedCacheKey];
   } else {
@@ -95,7 +95,7 @@
         extent = mainFrame;
         
       } else {
-        RNFilteredImage *image = images[inputName];
+        IFKFilteredImage *image = images[inputName];
         CIImage *tmp = [[CIImage alloc] initWithImage:image.image];
         extent = CGRectUnion(extent, tmp.extent);
         [filter setValue:tmp forKey:inputName];
@@ -109,26 +109,26 @@
               @"%@: Input images are too big - %@", name, [NSValue valueWithCGSize:bounds]);
     
     for (NSString *inputName in inputs) {
-      RNTuple* input = inputs[inputName];
+      IFKTuple* input = inputs[inputName];
       id convertedInput;
       
       if ([@"scalar" isEqualToString:input.second]) {
-        convertedInput = [RNFilterPostProcessor convertScalar:input.first];
+        convertedInput = [IFKFilterPostProcessor convertScalar:input.first];
         
       } else if ([@"distance" isEqualToString:input.second]) {
-        convertedInput = [RNFilterPostProcessor convertDistance:input.first bounds:bounds];
+        convertedInput = [IFKFilterPostProcessor convertDistance:input.first bounds:bounds];
         
       } else if ([@"position" isEqualToString:input.second]) {
-        convertedInput = [RNFilterPostProcessor convertPosition:input.first bounds:bounds];
+        convertedInput = [IFKFilterPostProcessor convertPosition:input.first bounds:bounds];
         
       } else if ([@"scalarVector" isEqualToString:input.second]) {
-        convertedInput = [RNFilterPostProcessor convertVector:input.first];
+        convertedInput = [IFKFilterPostProcessor convertVector:input.first];
         
       } else if ([@"offset" isEqualToString:input.second]) {
-        convertedInput = [RNFilterPostProcessor convertOffset:input.first];
+        convertedInput = [IFKFilterPostProcessor convertOffset:input.first];
         
       } else if ([@"color" isEqualToString:input.second]) {
-        convertedInput = [RNFilterPostProcessor convertColor:input.first];
+        convertedInput = [IFKFilterPostProcessor convertColor:input.first];
       }
       
       [filter setValue:convertedInput forKey:inputName];
@@ -146,7 +146,7 @@
     //      : _filter.outputImage;
     
     CGRect outputRect = resizeOutput
-      ? [RNOutputExtentHandler resizedRect:filter inputExtent:extent destSize:destSize]
+      ? [IFKOutputExtentHandler resizedRect:filter inputExtent:extent destSize:destSize]
       : extent;
     
 //    RCTLog(@"filter: output rect %@", [NSValue valueWithCGRect:outputRect]);
@@ -158,7 +158,7 @@
     RCTAssert(maxOutputSize.width >= outputSize.width && maxOutputSize.height >= outputSize.height,
               @"%@: Output image is too big - %@", name, [NSValue valueWithCGSize:outputSize]);
     
-    UIImage *filteredImage = [RNFilterPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
+    UIImage *filteredImage = [IFKFilterPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
                                                                 srcSize:outputRect.size
                                                                destSize:destSize
                                                                   scale:scale
@@ -167,18 +167,18 @@
     CGImageRelease(cgim);
     
     if (filteredImage != nil) {
-      [RNImageCache setImage:filteredImage forKey:accumulatedCacheKey];
+      [IFKImageCache setImage:filteredImage forKey:accumulatedCacheKey];
     }
     
 //    RCTLog(@"filter: key = %@", accumulatedCacheKey);
     
-    return [RNFilteredImage createWithImage:filteredImage
+    return [IFKFilteredImage createWithImage:filteredImage
                                  resizeMode:resizeMode
                         accumulatedCacheKey:accumulatedCacheKey];
   }
 }
 
-+ (NSArray *)inputValues:(nonnull NSDictionary<NSString *, RNTuple<id, NSString *> *> *)inputs
++ (NSArray *)inputValues:(nonnull NSDictionary<NSString *, IFKTuple<id, NSString *> *> *)inputs
 {
   NSArray *sortedKeys = [[inputs allKeys] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
     return [obj1 compare:obj2 options:NSCaseInsensitiveSearch];
@@ -232,7 +232,7 @@
 
 + (nonnull NSNumber *)convertDistance:(NSString *)relativeDistance bounds:(CGSize)bounds
 {
-  return [NSNumber numberWithFloat:[RNFilterPostProcessor convertRelative:relativeDistance
+  return [NSNumber numberWithFloat:[IFKFilterPostProcessor convertRelative:relativeDistance
                                                                    bounds:bounds]];
 }
 
@@ -262,8 +262,8 @@
 + (nonnull CIVector *)convertPosition:(NSArray<NSString *> *)relativePoint bounds:(CGSize)bounds
 {
   return [CIVector vectorWithCGPoint:CGPointMake(
-    [RNFilterPostProcessor convertRelative:relativePoint[0] bounds:bounds],
-    [RNFilterPostProcessor convertRelative:relativePoint[1] bounds:bounds])];
+    [IFKFilterPostProcessor convertRelative:relativePoint[0] bounds:bounds],
+    [IFKFilterPostProcessor convertRelative:relativePoint[1] bounds:bounds])];
 }
 
 + (CGFloat)convertRelative:(NSString *)relative bounds:(CGSize)bounds

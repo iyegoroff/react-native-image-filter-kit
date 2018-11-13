@@ -1,4 +1,4 @@
-#import "RNImageCache.h"
+#import "IFKImageCache.h"
 
 static NSCache *imageCache(void) {
   static NSCache *cache;
@@ -17,7 +17,7 @@ static NSCache *imageCache(void) {
   return cache;
 }
 
-@implementation RNImageCache
+@implementation IFKImageCache
 
 + (unsigned long)costFor:(nonnull UIImage *)image
 {
@@ -39,7 +39,7 @@ static NSCache *imageCache(void) {
 
 + (void)setImage:(nonnull UIImage *)image forKey:(nonnull NSString *)key
 {
-  [imageCache() setObject:image forKey:key cost:[RNImageCache costFor:image]];
+  [imageCache() setObject:image forKey:key cost:[IFKImageCache costFor:image]];
 }
 
 @end

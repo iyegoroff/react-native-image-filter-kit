@@ -1,6 +1,6 @@
-#import "RNFilteredImage.h"
+#import "IFKFilteredImage.h"
 
-@implementation RNFilteredImage
+@implementation IFKFilteredImage
 
 - (nonnull instancetype)initWithImage:(nonnull UIImage *)image
                            resizeMode:(RCTResizeMode)resizeMode
@@ -20,7 +20,7 @@
                              resizeMode:(RCTResizeMode)resizeMode
                     accumulatedCacheKey:(nonnull NSString *)accumulatedCacheKey
 {
-  return [[RNFilteredImage alloc] initWithImage:image
+  return [[IFKFilteredImage alloc] initWithImage:image
                                      resizeMode:resizeMode
                             accumulatedCacheKey:accumulatedCacheKey];
 }

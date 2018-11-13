@@ -61,10 +61,7 @@ public class InputConverter {
 //    );
 //  }
 
-  public Resize convertResizeMode(
-    @Nullable JSONObject resizeMode,
-    @Nonnull Resize.Mode defaultMode
-  ) {
+  public Resize convertResize(@Nullable JSONObject resizeMode, @Nonnull Resize.Mode defaultMode) {
     JSONObject size = resizeMode != null ? resizeMode.optJSONObject("resizeMode") : null;
     String mode = resizeMode != null ? resizeMode.optString("resizeMode") : null;
 
@@ -127,10 +124,7 @@ public class InputConverter {
     );
   }
 
-  public Scale convertScaleMode(
-    @Nullable JSONObject scaleMode,
-    @Nonnull Scale.Mode defaultMode
-  ) {
+  public Scale convertScale(@Nullable JSONObject scaleMode, @Nonnull Scale.Mode defaultMode) {
     JSONObject scale = scaleMode != null ? scaleMode.optJSONObject("scaleMode") : null;
     String mode = scaleMode != null ? scaleMode.optString("scaleMode") : null;
 

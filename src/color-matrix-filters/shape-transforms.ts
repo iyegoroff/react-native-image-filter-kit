@@ -31,7 +31,7 @@ const asNativeFilterConfig = Platform.select({
     inputBVector: matrix.slice(10, 14),
     inputAVector: matrix.slice(15, 19),
     inputBiasVector: [matrix[4], matrix[9], matrix[14], matrix[19]],
-    image,
+    inputImage: image,
     disableCache
   } as Config),
 

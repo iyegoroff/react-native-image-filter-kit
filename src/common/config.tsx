@@ -14,9 +14,9 @@ import { ShapeRegistry } from './shape-registry'
 import { ImagePlaceholder } from './image-placeholder'
 import { id } from './util'
 
-const isAndroid = Platform.OS === 'android'
+// const isAndroid = Platform.OS === 'android'
 const anyToString = (n: any) => `${n}`
-const convertColor = (c: any) => (isAndroid ? processColor(c) : c)
+const convertColor = processColor // (c: any) => (isAndroid ? processColor(c) : c)
 const convertColors = (cs: any[]) => cs.map(convertColor)
 
 const paramConvertMap: { [key: string]: Function } = {

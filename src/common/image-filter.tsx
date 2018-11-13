@@ -4,7 +4,7 @@ import { defaultStyle, checkStyle, hidden } from './style'
 import { finalizeConfig, extractConfigAndImages } from './config'
 import pick from 'lodash.pick'
 
-const RNImageFilter = requireNativeComponent<ViewProps & { config: string }>('RNImageFilter')
+const IFKImageFilter = requireNativeComponent<ViewProps & { config: string }>('IFKImageFilter')
 
 const hideEveryTailChild = (child: React.ReactChild, index: number) => (
   index === 0 ? child : hidden(child as React.ReactElement<ViewProps>)
@@ -27,13 +27,13 @@ export const createImageFilter = (
     checkStyle(style)
 
     return (
-      <RNImageFilter
+      <IFKImageFilter
         style={[defaultStyle, style]}
         config={JSON.stringify(finalizeConfig(config))}
         {...pick(props, restPropKeys) as object}
       >
         {React.Children.map(images, hideEveryTailChild)}
-      </RNImageFilter>
+      </IFKImageFilter>
     )
   }
 )

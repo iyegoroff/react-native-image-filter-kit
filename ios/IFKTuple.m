@@ -1,6 +1,6 @@
-#import "RNTuple.h"
+#import "IFKTuple.h"
 
-@implementation RNTuple
+@implementation IFKTuple
 
 - (instancetype)initWith:(id)first and:(id)second
 {
@@ -14,7 +14,7 @@
 
 + (instancetype)createWith:(id)first and:(id)second
 {
-  return [[RNTuple alloc] initWith:first and:second];
+  return [[IFKTuple alloc] initWith:first and:second];
 }
 
 @end

@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
 @ReactModule(name = ImageFilterManager.REACT_CLASS)
 public class ImageFilterManager extends ReactViewManager {
 
-  static final String REACT_CLASS = "RNImageFilter";
+  static final String REACT_CLASS = "IFKImageFilter";
   private static final String PROP_CONFIG = "config";
 
   @Override

@@ -1,4 +1,4 @@
-#import "RNOutputExtentHandler.h"
+#import "IFKOutputExtentHandler.h"
 #import <React/RCTLog.h>
 
 #define rotatedSize(size, angle) ( \
@@ -10,7 +10,7 @@
               center.y + (point.x - center.x) * (sinf(angle)) + (point.y - center.y) * (cosf(angle))))
 
 
-@implementation RNOutputExtentHandler
+@implementation IFKOutputExtentHandler
 
 + (CGRect)resizedRect:(nonnull CIFilter *)filter
           inputExtent:(CGRect)inputExtent

@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
-#import "RNTuple.h"
+#import "IFKTuple.h"
 
-@interface RNOutputExtentHandler : NSObject
+@interface IFKOutputExtentHandler : NSObject
 
 + (CGRect)resizedRect:(nonnull CIFilter *)filter
           inputExtent:(CGRect)inputExtent

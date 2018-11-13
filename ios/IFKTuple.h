@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@interface RNTuple<__covariant First, __covariant Second> : NSObject
+@interface IFKTuple<__covariant First, __covariant Second> : NSObject
 
 @property (nonatomic, strong) First first;
 @property (nonatomic, strong) Second second;
