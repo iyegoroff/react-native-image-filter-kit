@@ -7,7 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74076F4E219B549A0015E836 /* IFKCancellationToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 74076F40219B549A0015E836 /* IFKCancellationToken.m */; };
+		74076F4F219B549A0015E836 /* IFKCancellationTokenRegistration.m in Sources */ = {isa = PBXBuildFile; fileRef = 74076F42219B549A0015E836 /* IFKCancellationTokenRegistration.m */; };
+		74076F50219B549A0015E836 /* IFKCancellationTokenSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 74076F44219B549A0015E836 /* IFKCancellationTokenSource.m */; };
+		74076F51219B549A0015E836 /* IFKExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = 74076F46219B549A0015E836 /* IFKExecutor.m */; };
+		74076F52219B549A0015E836 /* IFKTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 74076F49219B549A0015E836 /* IFKTask.m */; };
+		74076F53219B549A0015E836 /* IFKTaskCompletionSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 74076F4B219B549A0015E836 /* IFKTaskCompletionSource.m */; };
+		74076F54219B549A0015E836 /* Bolts.m in Sources */ = {isa = PBXBuildFile; fileRef = 74076F4D219B549A0015E836 /* Bolts.m */; };
 		7412B1132123FCF500FB00FF /* NSArray+FilterMapReduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 7412B1122123FCF500FB00FF /* NSArray+FilterMapReduce.m */; };
+		7425EBFD219C5C9400E93C3A /* IFKFilterableImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7425EBFC219C5C9400E93C3A /* IFKFilterableImage.m */; };
+		7425EC00219C62B200E93C3A /* IFKPostProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7425EBFF219C62B200E93C3A /* IFKPostProcessor.m */; };
 		744B74CF211F758F009CBCAE /* IFKFilteredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 744B74CE211F758F009CBCAE /* IFKFilteredImage.m */; };
 		74538BDE213406AF00F1FDD0 /* IFKOutputExtentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 74538BDD213406AF00F1FDD0 /* IFKOutputExtentHandler.m */; };
 		74AEAD0B21999E7000DC563B /* IFKScale.m in Sources */ = {isa = PBXBuildFile; fileRef = 74AEAD0A21999E7000DC563B /* IFKScale.m */; };
@@ -34,8 +43,27 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNImageFilterKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNImageFilterKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		74076F3F219B549A0015E836 /* IFKCancellationToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKCancellationToken.h; sourceTree = "<group>"; };
+		74076F40219B549A0015E836 /* IFKCancellationToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKCancellationToken.m; sourceTree = "<group>"; };
+		74076F41219B549A0015E836 /* IFKCancellationTokenRegistration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKCancellationTokenRegistration.h; sourceTree = "<group>"; };
+		74076F42219B549A0015E836 /* IFKCancellationTokenRegistration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKCancellationTokenRegistration.m; sourceTree = "<group>"; };
+		74076F43219B549A0015E836 /* IFKCancellationTokenSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKCancellationTokenSource.h; sourceTree = "<group>"; };
+		74076F44219B549A0015E836 /* IFKCancellationTokenSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKCancellationTokenSource.m; sourceTree = "<group>"; };
+		74076F45219B549A0015E836 /* IFKExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKExecutor.h; sourceTree = "<group>"; };
+		74076F46219B549A0015E836 /* IFKExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKExecutor.m; sourceTree = "<group>"; };
+		74076F47219B549A0015E836 /* IFKGeneric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKGeneric.h; sourceTree = "<group>"; };
+		74076F48219B549A0015E836 /* IFKTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKTask.h; sourceTree = "<group>"; };
+		74076F49219B549A0015E836 /* IFKTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKTask.m; sourceTree = "<group>"; };
+		74076F4A219B549A0015E836 /* IFKTaskCompletionSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKTaskCompletionSource.h; sourceTree = "<group>"; };
+		74076F4B219B549A0015E836 /* IFKTaskCompletionSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKTaskCompletionSource.m; sourceTree = "<group>"; };
+		74076F4C219B549A0015E836 /* Bolts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bolts.h; sourceTree = "<group>"; };
+		74076F4D219B549A0015E836 /* Bolts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bolts.m; sourceTree = "<group>"; };
 		7412B1112123FCF400FB00FF /* NSArray+FilterMapReduce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+FilterMapReduce.h"; sourceTree = "<group>"; };
 		7412B1122123FCF500FB00FF /* NSArray+FilterMapReduce.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+FilterMapReduce.m"; sourceTree = "<group>"; };
+		7425EBFB219C5C9400E93C3A /* IFKFilterableImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKFilterableImage.h; sourceTree = "<group>"; };
+		7425EBFC219C5C9400E93C3A /* IFKFilterableImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKFilterableImage.m; sourceTree = "<group>"; };
+		7425EBFE219C62B200E93C3A /* IFKPostProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKPostProcessor.h; sourceTree = "<group>"; };
+		7425EBFF219C62B200E93C3A /* IFKPostProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKPostProcessor.m; sourceTree = "<group>"; };
 		744B74CD211F758F009CBCAE /* IFKFilteredImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKFilteredImage.h; sourceTree = "<group>"; };
 		744B74CE211F758F009CBCAE /* IFKFilteredImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKFilteredImage.m; sourceTree = "<group>"; };
 		74538BDC213406AF00F1FDD0 /* IFKOutputExtentHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKOutputExtentHandler.h; sourceTree = "<group>"; };
@@ -81,9 +109,32 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				74076F3E219B549A0015E836 /* Bolts */,
 				744193A720D58B8400E7725F /* RNImageFilter */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		74076F3E219B549A0015E836 /* Bolts */ = {
+			isa = PBXGroup;
+			children = (
+				74076F3F219B549A0015E836 /* IFKCancellationToken.h */,
+				74076F40219B549A0015E836 /* IFKCancellationToken.m */,
+				74076F41219B549A0015E836 /* IFKCancellationTokenRegistration.h */,
+				74076F42219B549A0015E836 /* IFKCancellationTokenRegistration.m */,
+				74076F43219B549A0015E836 /* IFKCancellationTokenSource.h */,
+				74076F44219B549A0015E836 /* IFKCancellationTokenSource.m */,
+				74076F45219B549A0015E836 /* IFKExecutor.h */,
+				74076F46219B549A0015E836 /* IFKExecutor.m */,
+				74076F47219B549A0015E836 /* IFKGeneric.h */,
+				74076F48219B549A0015E836 /* IFKTask.h */,
+				74076F49219B549A0015E836 /* IFKTask.m */,
+				74076F4A219B549A0015E836 /* IFKTaskCompletionSource.h */,
+				74076F4B219B549A0015E836 /* IFKTaskCompletionSource.m */,
+				74076F4C219B549A0015E836 /* Bolts.h */,
+				74076F4D219B549A0015E836 /* Bolts.m */,
+			);
+			path = Bolts;
 			sourceTree = "<group>";
 		};
 		744193A720D58B8400E7725F /* RNImageFilter */ = {
@@ -112,6 +163,10 @@
 				74AEAD0A21999E7000DC563B /* IFKScale.m */,
 				74AEAD0C2199A44800DC563B /* IFKInputConverter.h */,
 				74AEAD0D2199A44800DC563B /* IFKInputConverter.m */,
+				7425EBFB219C5C9400E93C3A /* IFKFilterableImage.h */,
+				7425EBFC219C5C9400E93C3A /* IFKFilterableImage.m */,
+				7425EBFE219C62B200E93C3A /* IFKPostProcessor.h */,
+				7425EBFF219C62B200E93C3A /* IFKPostProcessor.m */,
 			);
 			name = RNImageFilter;
 			sourceTree = "<group>";
@@ -174,14 +229,23 @@
 			files = (
 				74AEEEBA21989B8300DAA02F /* IFKResize.m in Sources */,
 				74538BDE213406AF00F1FDD0 /* IFKOutputExtentHandler.m in Sources */,
+				7425EBFD219C5C9400E93C3A /* IFKFilterableImage.m in Sources */,
+				74076F4E219B549A0015E836 /* IFKCancellationToken.m in Sources */,
 				74F6B5F9211E40D2005A9DB1 /* IFKImageCache.m in Sources */,
+				7425EC00219C62B200E93C3A /* IFKPostProcessor.m in Sources */,
+				74076F51219B549A0015E836 /* IFKExecutor.m in Sources */,
 				744B74CF211F758F009CBCAE /* IFKFilteredImage.m in Sources */,
+				74076F54219B549A0015E836 /* Bolts.m in Sources */,
 				74AEAD0E2199A44800DC563B /* IFKInputConverter.m in Sources */,
 				74B3B3B62131EF0B00589ED5 /* IFKTuple.m in Sources */,
 				74BF08B320B258E300D93AFC /* IFKImageFilterManager.m in Sources */,
 				74B3B39D2131780200589ED5 /* IFKFilterPostProcessor.m in Sources */,
+				74076F4F219B549A0015E836 /* IFKCancellationTokenRegistration.m in Sources */,
+				74076F53219B549A0015E836 /* IFKTaskCompletionSource.m in Sources */,
 				74AEAD0B21999E7000DC563B /* IFKScale.m in Sources */,
+				74076F50219B549A0015E836 /* IFKCancellationTokenSource.m in Sources */,
 				7412B1132123FCF500FB00FF /* NSArray+FilterMapReduce.m in Sources */,
+				74076F52219B549A0015E836 /* IFKTask.m in Sources */,
 				74BF08B420B258E300D93AFC /* IFKImageFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

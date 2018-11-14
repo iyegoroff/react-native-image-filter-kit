@@ -3,14 +3,14 @@
 
 @interface IFKInputConverter ()
 
-@property (nonatomic, assign) int boundsWidth;
-@property (nonatomic, assign) int boundsHeight;
+@property (nonatomic, assign) CGFloat boundsWidth;
+@property (nonatomic, assign) CGFloat boundsHeight;
 
 @end
 
 @implementation IFKInputConverter
 
-- (nonnull instancetype)initWithWidth:(int)boundsWidth height:(int)boundsHeight
+- (nonnull instancetype)initWithWidth:(CGFloat)boundsWidth height:(CGFloat)boundsHeight
 {
   if ((self = [super init])) {
     _boundsWidth = boundsWidth;
@@ -18,6 +18,16 @@
   }
 
   return self;
+}
+
+- (nullable NSObject *)convertAny:(nullable NSDictionary *)any
+{
+  return [self convertScalar:any defaultValue:(id)[
+          self convertColor:any defaultValue:(id)[
+          self convertDistance:any defaultValue:(id)[
+          self convertScalarVector:any defaultValue:(id)[
+          self convertOffset:any defaultValue:(id)[
+          self convertPosition:any defaultValue:nil]]]]]];
 }
 
 - (nullable NSNumber *)convertScalar:(nullable NSDictionary *)scalar

@@ -6,11 +6,12 @@
 #import "React/RCTImageSource.h"
 #import "NSArray+FilterMapReduce.h"
 #import "IFKTuple.h"
+#import "IFKPostProcessor.h"
+#import "IFKFilterableImage.h"
 #import <React/RCTLog.h>
+#import "Bolts.h"
 
-static CIContext *context;
-static CIContext *contextWithColorManagement;
-static NSArray<NSString *> *filtersWithColorManagement;
+typedef IFKTask<IFKFilterableImage *> DeferredImage;
 
 @interface IFKImageFilter ()
 
@@ -18,7 +19,6 @@ static NSArray<NSString *> *filtersWithColorManagement;
 
 @property (nonatomic, strong) NSArray<UIImage *> *originalImages;
 @property (nonatomic, strong) NSArray<RCTImageView *> *targets;
-@property (nonatomic, strong) NSOperationQueue *filteringQueue;
 
 @end
 
@@ -29,25 +29,6 @@ static NSArray<NSString *> *filtersWithColorManagement;
   if ((self = [super initWithFrame:frame])) {
     _originalImages = [NSArray array];
     _targets = [NSArray array];
-    _filteringQueue = [[NSOperationQueue alloc] init];
-    
-    static dispatch_once_t onceToken;
-    
-    dispatch_once(&onceToken, ^{
-      filtersWithColorManagement = @[@"CIColorMatrix", @"CIColorInvert", @"CIColorPolynomial"];
-    
-      // CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
-      EAGLContext *eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-      eaglContext = eaglContext ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    
-      context = [CIContext contextWithEAGLContext:eaglContext
-                                          options:@{kCIImageColorSpace: [NSNull null],
-                                                    kCIImageProperties: [NSNull null],
-                                                    kCIContextWorkingColorSpace: [NSNull null]}];
-    
-      contextWithColorManagement = [CIContext contextWithEAGLContext:eaglContext options:nil];
-      // NSLog(@"filter: context %f", CFAbsoluteTimeGetCurrent() - start);
-    });
   }
   
   return self;
@@ -56,7 +37,7 @@ static NSArray<NSString *> *filtersWithColorManagement;
 - (void)dealloc
 {
   [self unlinkTargets];
-  [_filteringQueue cancelAllOperations];
+//  [_filteringQueue cancelAllOperations];
 }
 
 - (void)setConfig:(NSString *)config
@@ -120,12 +101,48 @@ static NSArray<NSString *> *filtersWithColorManagement;
   [self linkTargets];
 }
 
-- (nonnull NSOperation *)parseConfig:(nonnull id)config
-                              images:(nonnull NSArray<UIImage *> *)images
+- (nonnull DeferredImage *)createSingularImage:(nonnull NSDictionary *)config
+                                     prevImage:(nonnull DeferredImage *)prevImage
+{
+  NSString *name = [config objectForKey:@"name"];
+  
+  return [prevImage continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
+    IFKFilterableImage *result = [task result];
+    
+    CGFloat width = [[result image] frame].size.width;
+    CGFloat height = [[result image] frame].size.height;
+    NSMutableArray<IFKPostProcessor *> *postProcessors =
+      [NSMutableArray arrayWithArray:[result postProcessors]];
+    
+    [postProcessors addObject:[[IFKPostProcessor alloc] initWithName:name
+                                                               width:width
+                                                              height:height
+                                                              inputs:config]];
+    
+    BOOL cacheDisabled = [IFKPostProcessor cacheDisabled:config];
+    
+    return [[IFKFilterableImage alloc] initWithImage:[result image]
+                                      postProcessors:postProcessors
+                                       cacheDisabled:cacheDisabled];
+  }];
+}
+
+- (nonnull DeferredImage *)parseConfig:(nonnull NSObject *)config
+                                images:(nonnull NSArray<UIImage *> *)images
 {
   if ([config isKindOfClass:[NSNumber class]]) {
-    
+    RCTImageView *image = _targets[[(NSNumber *)config intValue]];
+    return [IFKTask taskWithResult:[[IFKFilterableImage alloc] initWithImage:image
+                                                              postProcessors:@[]
+                                                               cacheDisabled:NO]];
   }
+  
+  // TODO: add composite image
+  NSDictionary *jsonConfig = (NSDictionary *)config;
+  NSObject *prevImageConfig = [[jsonConfig objectForKey:@"image"] objectForKey:@"image"];
+  
+  return [self createSingularImage:jsonConfig
+                         prevImage:[self parseConfig:prevImageConfig images:images]];
 }
 
 - (void)runFilterPipeline:(BOOL)shouldInvalidate
@@ -136,60 +153,43 @@ static NSArray<NSString *> *filtersWithColorManagement;
     }
     
     if (_jsonConfig != nil && _originalImages.count > 0) {
-      
+      [[self parseConfig:_jsonConfig images:_originalImages] continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
+        IFKFilterableImage *result = [task result];
+        
+        [self filterImage:result originalImage:_originalImages[0]];
+        
+        return nil;
+      }];
     }
   }
 }
 
-//- (nullable Filtering)filtering
-//{
-//  if (_name != nil) {
-//    NSDictionary* filterings = [_imageNames reduce:^id(id acc, NSString *val, int idx) {
-//      UIImage *image = [_originalImages objectForKey:val];
-//      RCTImageView *target = [_targets objectForKey:val];
-//
-//      Filtering filtering = image && (NSNull *)image != [NSNull null] && target
-//        ? (^RNFilteredImage *(void) {
-//            return [RNFilteredImage createWithImage:image
-//                                         resizeMode:target.resizeMode
-//                                accumulatedCacheKey:[RNImageFilter imageCacheKey:target]];
-//          })
-//        : [[self.subviews at:idx] isKindOfClass:[RNImageFilter class]]
-//        ? [(RNImageFilter *)[self.subviews at:idx] filtering]
-//        : nil;
-//
-//      if (filtering) {
-//        [acc setObject:filtering forKey:val];
-//      }
-//
-//      return acc;
-//    } init:[NSMutableDictionary dictionary]];
-//
-//    Filtering main = [filterings objectForKey:[_imageNames at:0]];
-//
-//    if (main) {
-//      NSDictionary *inputs = [_paramNames
-//                              reduce:^id(id acc, NSString *val, int idx) {
-//                                RNTuple *tuple = [RNTuple createWith:[self valueForKey:val]
-//                                                                 and:_paramTypes[idx]];
-//                                [acc setObject:tuple forKey:val];
-//                                return acc;
-//                              } init:[NSMutableDictionary dictionary]];
-//
-//      return ^RNFilteredImage *(void) {
-//        return [RNFilterPostProcessor process:self.name
-//                                       inputs:inputs
-//                                      context:[RNImageFilter context:self.name]
-//                                   filterings:filterings
-//                                 resizeOutput:self.resizeOutput
-//                                    mainFrame:self.mainFrame];
-//      };
-//    }
-//  }
-//
-//  return nil;
-//}
-//
+- (IFKTask<RCTImageView *> *)filterImage:(IFKFilterableImage *)filterableImage
+                           originalImage:(UIImage *)originalImage
+{
+  RCTImageView *target = [filterableImage image];
+  IFKTaskCompletionSource<RCTImageView *> *deferred = [IFKTaskCompletionSource taskCompletionSource];
+  __weak IFKImageFilter *weakSelf = self;
+  
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    IFKImageFilter *innerSelf = weakSelf;
+    
+    if (innerSelf != nil) {
+      // TODO: cancellation
+      UIImage *image = [[filterableImage postProcessors] reduce:^id(UIImage *acc, IFKPostProcessor *val, int idx) {
+        return [val process:acc resizeMode:[target resizeMode]];
+      } init:originalImage];
+      
+      dispatch_async(dispatch_get_main_queue(), ^{
+        // TODO: cancellation
+        [innerSelf updateTarget:target image:image];
+      });
+    }
+  });
+  
+  return [deferred task];
+}
+
 //- (void)renderFilteredImage:(BOOL)shouldInvalidate
 //{
 //  Filtering filtering = [self filtering];
@@ -250,28 +250,6 @@ static NSArray<NSString *> *filtersWithColorManagement;
 
     [self runFilterPipeline:YES];
   }
-}
-
-
-+ (CIContext *)context:(NSString*)name
-{
-  return [filtersWithColorManagement some:^BOOL(id val, int idx) {
-    return [val isEqualToString:name];
-  }] ? context : contextWithColorManagement;
-}
-
-+ (nonnull NSString *)imageCacheKey:(RCTImageView *)image
-{
-  NSString *key = @"";
-  for (RCTImageSource *source in image.imageSources) {
-    key = [NSString stringWithFormat:@"%@,%@:%f:%@",
-           key,
-           [NSValue valueWithCGSize:source.size],
-           source.scale,
-           source.request.URL.absoluteString];
-  }
-
-  return [NSString stringWithFormat:@"{%@}", key];
 }
 
 @end

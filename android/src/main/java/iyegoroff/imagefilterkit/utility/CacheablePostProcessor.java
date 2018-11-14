@@ -13,8 +13,8 @@ public abstract class CacheablePostProcessor extends BasePostprocessor {
   private final boolean mCacheDisabled;
 
   public static boolean cacheDisabled(@Nullable JSONObject config) {
-    return (config != null && config.optJSONObject("disableCache") != null) &&
-      config.optJSONObject("disableCache").optBoolean("bool", false);
+    return (config != null && config.optJSONObject("disableCache") != null)
+      && config.optJSONObject("disableCache").optBoolean("bool", false);
   }
 
   public CacheablePostProcessor(@Nullable JSONObject config) {

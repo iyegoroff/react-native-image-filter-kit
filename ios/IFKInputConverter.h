@@ -5,7 +5,9 @@
 
 @interface IFKInputConverter : NSObject
 
-- (nonnull instancetype)initWithWidth:(int)boundsWidth height:(int)boundsHeight;
+- (nonnull instancetype)initWithWidth:(CGFloat)boundsWidth height:(CGFloat)boundsHeight;
+
+- (nullable NSObject *)convertAny:(nullable NSDictionary *)any;
 
 - (nullable NSNumber *)convertScalar:(nullable NSDictionary *)scalar
                         defaultValue:(nullable NSNumber *)defaultValue;
