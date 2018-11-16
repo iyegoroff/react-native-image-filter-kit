@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) CIFilter *filter;
 @property (nonatomic, strong) NSString *postProcessorCacheKey;
+@property (nonatomic, strong) NSString *mainImageName;
 
 @end
 
@@ -21,15 +22,27 @@
 - (nonnull instancetype)initWithName:(nonnull NSString *)name
                                width:(CGFloat)width
                               height:(CGFloat)height
-                              inputs:(nonnull NSDictionary *)inputs
+                       mainImageName:(NSString *)mainImageName
+                              inputs:(nonnull NSDictionary *)inputs;
 {
+  static NSArray<NSString *> *skippedInputs;
+
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    skippedInputs = @[@"disableCache", @"name"];
+  });
+  
   if ((self = [super init])) {
     _filter = [CIFilter filterWithName:name];
     _postProcessorCacheKey = name;
+    _mainImageName = mainImageName;
     
     IFKInputConverter *converter = [[IFKInputConverter alloc] initWithWidth:width height:height];
-    NSArray<NSString *> *sortedNames = [[inputs allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+    NSArray<NSString *> *sortedNames = [[[inputs allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
       return [obj1 compare:obj2];
+
+    }] filter:^BOOL(NSString *val, int idx) {
+      return ![skippedInputs containsObject:val];
     }];
     
     for (NSString *inputName in sortedNames) {
@@ -46,7 +59,7 @@
 - (nonnull UIImage *)process:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
 {
   CIImage *tmp = [[CIImage alloc] initWithImage:image];
-  [_filter setValue:tmp forKey:@"inputImage"];
+  [_filter setValue:tmp forKey:_mainImageName];
   
   CGRect outputRect = tmp.extent;
   
@@ -127,12 +140,6 @@
   image.reactKeyframeAnimation = animation;
   
   return image;
-}
-
-+ (BOOL)cacheDisabled:(nullable NSDictionary *)config
-{
-  return (config != nil && [config objectForKey:@"disableCache"] != nil)
-    && [[config objectForKey:@"disableCache"] objectForKey:@"bool"];
 }
 
 @end

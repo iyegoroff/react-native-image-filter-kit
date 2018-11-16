@@ -27,7 +27,16 @@
           self convertDistance:any defaultValue:(id)[
           self convertScalarVector:any defaultValue:(id)[
           self convertOffset:any defaultValue:(id)[
-          self convertPosition:any defaultValue:nil]]]]]];
+          self convertPosition:any defaultValue:(id)[
+          self convertImage:any defaultValue:nil]]]]]]];
+}
+
+- (nullable UIImage *)convertImage:(nullable NSDictionary *)image
+                      defaultValue:(nullable UIImage *)defaultValue
+{
+  return image != nil && ![[image objectForKey:@"image"] isKindOfClass:[NSNumber class]]
+    ? ([image objectForKey:@"image"] ?: defaultValue)
+    : defaultValue;
 }
 
 - (nullable NSNumber *)convertScalar:(nullable NSDictionary *)scalar
@@ -123,35 +132,37 @@
   return defaultValue;
 }
 
-- (nullable NSNumber *)convertRelative:(nonnull NSString *)relative
+- (nullable NSNumber *)convertRelative:(nullable NSString *)relative
                           defaultValue:(nullable NSNumber *)defaultValue;
 {
-  double num;
-  NSScanner *scanner = [NSScanner scannerWithString:relative];
-
-  [scanner scanDouble:&num];
-  NSString *unit = [relative substringFromIndex:[scanner scanLocation]];
-
-  if ([unit isEqualToString:@""]) {
-    return [NSNumber numberWithFloat:num];
+  if (relative != nil) {
+    double num;
+    NSScanner *scanner = [NSScanner scannerWithString:relative];
+    
+    [scanner scanDouble:&num];
+    NSString *unit = [relative substringFromIndex:[scanner scanLocation]];
+    
+    if ([unit isEqualToString:@""]) {
+      return @(num);
+    }
+    
+    if ([unit isEqualToString:@"h"]) {
+      return @(num * _boundsHeight * 0.01f);
+    }
+    
+    if ([unit isEqualToString:@"w"]) {
+      return @(num * _boundsWidth * 0.01f);
+    }
+    
+    if ([unit isEqualToString:@"max"]) {
+      return @(num * MAX(_boundsWidth, _boundsHeight) * 0.01f);
+    }
+    
+    if ([unit isEqualToString:@"min"]) {
+      return @(num * MIN(_boundsWidth, _boundsHeight) * 0.01f);
+    }
   }
-
-  if ([unit isEqualToString:@"h"]) {
-    return [NSNumber numberWithFloat:num * _boundsHeight * 0.01f];
-  }
-
-  if ([unit isEqualToString:@"w"]) {
-    return [NSNumber numberWithFloat:num * _boundsWidth * 0.01f];
-  }
-
-  if ([unit isEqualToString:@"max"]) {
-    return [NSNumber numberWithFloat:num * MAX(_boundsWidth, _boundsHeight) * 0.01f];
-  }
-
-  if ([unit isEqualToString:@"min"]) {
-    return [NSNumber numberWithFloat:num * MIN(_boundsWidth, _boundsHeight) * 0.01f];
-  }
-
+  
   return defaultValue;
 }
 

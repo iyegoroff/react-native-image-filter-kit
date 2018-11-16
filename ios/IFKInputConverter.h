@@ -9,6 +9,9 @@
 
 - (nullable NSObject *)convertAny:(nullable NSDictionary *)any;
 
+- (nullable UIImage *)convertImage:(nullable NSDictionary *)image
+                      defaultValue:(nullable UIImage *)defaultValue;
+
 - (nullable NSNumber *)convertScalar:(nullable NSDictionary *)scalar
                         defaultValue:(nullable NSNumber *)defaultValue;
 

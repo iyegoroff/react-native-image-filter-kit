@@ -26,6 +26,7 @@
 		74B3B3B62131EF0B00589ED5 /* IFKTuple.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B3B3B52131EF0B00589ED5 /* IFKTuple.m */; };
 		74BF08B320B258E300D93AFC /* IFKImageFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08AF20B258E200D93AFC /* IFKImageFilterManager.m */; };
 		74BF08B420B258E300D93AFC /* IFKImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08B220B258E300D93AFC /* IFKImageFilter.m */; };
+		74D0D692219EEA8500EC6551 /* IFKConfigHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D0D691219EEA8500EC6551 /* IFKConfigHelper.m */; };
 		74F6B5F9211E40D2005A9DB1 /* IFKImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F6B5F8211E40D2005A9DB1 /* IFKImageCache.m */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,8 @@
 		74BF08B020B258E200D93AFC /* IFKImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKImageFilter.h; sourceTree = "<group>"; };
 		74BF08B120B258E200D93AFC /* IFKImageFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKImageFilterManager.h; sourceTree = "<group>"; };
 		74BF08B220B258E300D93AFC /* IFKImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKImageFilter.m; sourceTree = "<group>"; };
+		74D0D690219EEA8500EC6551 /* IFKConfigHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKConfigHelper.h; sourceTree = "<group>"; };
+		74D0D691219EEA8500EC6551 /* IFKConfigHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKConfigHelper.m; sourceTree = "<group>"; };
 		74F6B5F7211E40D2005A9DB1 /* IFKImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKImageCache.h; sourceTree = "<group>"; };
 		74F6B5F8211E40D2005A9DB1 /* IFKImageCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKImageCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -167,6 +170,8 @@
 				7425EBFC219C5C9400E93C3A /* IFKFilterableImage.m */,
 				7425EBFE219C62B200E93C3A /* IFKPostProcessor.h */,
 				7425EBFF219C62B200E93C3A /* IFKPostProcessor.m */,
+				74D0D690219EEA8500EC6551 /* IFKConfigHelper.h */,
+				74D0D691219EEA8500EC6551 /* IFKConfigHelper.m */,
 			);
 			name = RNImageFilter;
 			sourceTree = "<group>";
@@ -230,6 +235,7 @@
 				74AEEEBA21989B8300DAA02F /* IFKResize.m in Sources */,
 				74538BDE213406AF00F1FDD0 /* IFKOutputExtentHandler.m in Sources */,
 				7425EBFD219C5C9400E93C3A /* IFKFilterableImage.m in Sources */,
+				74D0D692219EEA8500EC6551 /* IFKConfigHelper.m in Sources */,
 				74076F4E219B549A0015E836 /* IFKCancellationToken.m in Sources */,
 				74F6B5F9211E40D2005A9DB1 /* IFKImageCache.m in Sources */,
 				7425EC00219C62B200E93C3A /* IFKPostProcessor.m in Sources */,

@@ -14,7 +14,8 @@ import { ShapeRegistry } from './shape-registry'
 import { ImagePlaceholder } from './image-placeholder'
 import { id } from './util'
 
-// const isAndroid = Platform.OS === 'android'
+const mainImageName = Platform.OS === 'android' ? 'image' : 'inputImage'
+
 const anyToString = (n: any) => `${n}`
 const convertColor = processColor // (c: any) => (isAndroid ? processColor(c) : c)
 const convertColors = (cs: any[]) => cs.map(convertColor)
@@ -48,7 +49,7 @@ export const finalizeConfig = ({ name, ...values }: Config) => {
     ...(Object.keys(shape).reduce(
       (acc, k) => {
         const inputType = shape[k] === imageStyle ? image : shape[k] as Input
-        const key = shape[k] === imageStyle ? 'image' : k
+        const key = shape[k] === imageStyle ? mainImageName : k
         const inputValue = values[key]
 
         if (inputValue !== undefined) {
@@ -118,7 +119,7 @@ export const extractConfigAndImages = (filterProps: Config) => {
               />
             )
 
-            acc.image = idx
+            acc[mainImageName] = idx
           } else if (inputValue !== undefined) {
             acc[key] = inputValue
           }

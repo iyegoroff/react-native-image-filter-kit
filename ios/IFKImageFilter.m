@@ -1,22 +1,19 @@
-#import "Image/RCTImageView.h"
-#import "Image/RCTImageUtils.h"
 #import "IFKImageFilter.h"
-#import "IFKFilterPostProcessor.h"
-#import "IFKFilteredImage.h"
+#import "Image/RCTImageView.h"
 #import "React/RCTImageSource.h"
 #import "NSArray+FilterMapReduce.h"
-#import "IFKTuple.h"
 #import "IFKPostProcessor.h"
 #import "IFKFilterableImage.h"
+#import "IFKConfigHelper.h"
 #import <React/RCTLog.h>
 #import "Bolts.h"
 
 typedef IFKTask<IFKFilterableImage *> DeferredImage;
+typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 
 @interface IFKImageFilter ()
 
 @property (nonatomic, strong) NSDictionary* jsonConfig;
-
 @property (nonatomic, strong) NSArray<UIImage *> *originalImages;
 @property (nonatomic, strong) NSArray<RCTImageView *> *targets;
 
@@ -27,8 +24,8 @@ typedef IFKTask<IFKFilterableImage *> DeferredImage;
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
-    _originalImages = [NSArray array];
-    _targets = [NSArray array];
+    _originalImages = @[[NSNull null]];
+    _targets = @[];
   }
   
   return self;
@@ -76,13 +73,9 @@ typedef IFKTask<IFKFilterableImage *> DeferredImage;
     return acc;
   } init:[NSMutableArray array]];
   
-  if ([_targets every:^BOOL(RCTImageView *val, int idx) {
-    return val.image != nil;
-  }]) {
-    _originalImages = [_targets map:^id(RCTImageView *val, int idx) {
-      return [val.image copy];
-    }];
-  }
+  _originalImages = [_targets map:^id(RCTImageView *val, int idx) {
+    return val.image != nil ? [val.image copy] : [NSNull null];
+  }];
   
   for (RCTImageView *target in _targets) {
     [target addObserver:self
@@ -97,52 +90,125 @@ typedef IFKTask<IFKFilterableImage *> DeferredImage;
 - (void)layoutSubviews
 {
   [super layoutSubviews];
+  
+  if (_targets.count == 0) {
+    [self linkTargets];
+  }
+}
 
-  [self linkTargets];
+- (nonnull DeferredImage *)createImageComposition:(nonnull NSDictionary *)config
+                                wrappedImageNames:(nonnull NSArray<NSString *> *)wrappedImageNames
+                                    wrappedImages:(nonnull DeferredImages *)wrappedImages
+{
+  NSString *name = [config objectForKey:@"name"];
+
+  return [wrappedImages continueWithSuccessBlock:^id _Nullable(DeferredImages * _Nonnull tasks) {
+    NSArray<IFKFilterableImage *> *result = [tasks result];
+    NSUInteger mainIdx = [wrappedImageNames indexOfObject:@"inputImage"];
+    NSArray *restImageNames = [wrappedImageNames filter:^BOOL(NSString *val, int idx) {
+      return idx != mainIdx;
+    }];
+    
+    return [[IFKTask taskForCompletionOfAllTasksWithResults:[[result filter:^BOOL(IFKFilterableImage *val, int idx) {
+      return idx != mainIdx;
+      
+    }] map:^id(IFKFilterableImage *val, int idx) {
+      return [self filterImage:val];
+      
+    }]] continueWithSuccessBlock:^id _Nullable(IFKTask<NSArray<RCTImageView *> *> * _Nonnull task) {
+      IFKFilterableImage *mainImage = result[mainIdx];
+      NSArray<RCTImageView *> *restImages = [task result];
+      
+      RCTImageView *target = [mainImage target];
+      
+      CGFloat width = [target frame].size.width;
+      CGFloat height = [target frame].size.height;
+      NSMutableArray<IFKPostProcessor *> *postProcessors =
+        [NSMutableArray arrayWithArray:[mainImage postProcessors]];
+      
+      NSDictionary *completeConfig = [restImageNames reduce:^id(NSMutableDictionary *acc, NSString *key, int idx) {
+        [acc setObject:@{@"image": [[CIImage alloc] initWithImage:[restImages[idx] image]]}
+                forKey:key];
+
+        return acc;
+      } init:[NSMutableDictionary dictionaryWithDictionary:config]];
+      
+      [postProcessors addObject:[[IFKPostProcessor alloc] initWithName:name
+                                                                 width:width
+                                                                height:height
+                                                         mainImageName:@"inputImage"
+                                                                inputs:completeConfig]];
+      
+      return [[IFKFilterableImage alloc] initWithTarget:target
+                                          originalImage:[mainImage originalImage]
+                                         postProcessors:postProcessors
+                                          cacheDisabled:[IFKConfigHelper isCacheDisabled:config]];
+    }];
+  }];
 }
 
 - (nonnull DeferredImage *)createSingularImage:(nonnull NSDictionary *)config
-                                     prevImage:(nonnull DeferredImage *)prevImage
+                                  wrappedImage:(nonnull DeferredImage *)wrappedImage
 {
   NSString *name = [config objectForKey:@"name"];
   
-  return [prevImage continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
-    IFKFilterableImage *result = [task result];
+  return [wrappedImage continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
+    IFKFilterableImage *mainImage = [task result];
+    RCTImageView *target = [mainImage target];
     
-    CGFloat width = [[result image] frame].size.width;
-    CGFloat height = [[result image] frame].size.height;
+    CGFloat width = [target frame].size.width;
+    CGFloat height = [target frame].size.height;
     NSMutableArray<IFKPostProcessor *> *postProcessors =
-      [NSMutableArray arrayWithArray:[result postProcessors]];
+      [NSMutableArray arrayWithArray:[mainImage postProcessors]];
     
     [postProcessors addObject:[[IFKPostProcessor alloc] initWithName:name
                                                                width:width
                                                               height:height
+                                                       mainImageName:@"inputImage"
                                                               inputs:config]];
     
-    BOOL cacheDisabled = [IFKPostProcessor cacheDisabled:config];
-    
-    return [[IFKFilterableImage alloc] initWithImage:[result image]
-                                      postProcessors:postProcessors
-                                       cacheDisabled:cacheDisabled];
+    return [[IFKFilterableImage alloc] initWithTarget:target
+                                        originalImage:[mainImage originalImage]
+                                       postProcessors:postProcessors
+                                        cacheDisabled:[IFKConfigHelper isCacheDisabled:config]];
   }];
 }
 
 - (nonnull DeferredImage *)parseConfig:(nonnull NSObject *)config
-                                images:(nonnull NSArray<UIImage *> *)images
 {
   if ([config isKindOfClass:[NSNumber class]]) {
-    RCTImageView *image = _targets[[(NSNumber *)config intValue]];
-    return [IFKTask taskWithResult:[[IFKFilterableImage alloc] initWithImage:image
+    NSUInteger idx = [(NSNumber *)config intValue];
+    return [IFKTask taskWithResult:[[IFKFilterableImage alloc] initWithTarget:_targets[idx]
+                                                                originalImage:_originalImages[idx]
                                                               postProcessors:@[]
                                                                cacheDisabled:NO]];
   }
   
-  // TODO: add composite image
   NSDictionary *jsonConfig = (NSDictionary *)config;
-  NSObject *prevImageConfig = [[jsonConfig objectForKey:@"image"] objectForKey:@"image"];
+  NSDictionary *wrappedImageConfigs = [IFKConfigHelper wrappedConfigs:jsonConfig];
   
-  return [self createSingularImage:jsonConfig
-                         prevImage:[self parseConfig:prevImageConfig images:images]];
+  if ([IFKConfigHelper isComposition:jsonConfig]) {
+    NSArray *names = [wrappedImageConfigs allKeys];
+    NSArray *tasks = [names map:^id(id val, int idx) {
+      return [self parseConfig:[wrappedImageConfigs objectForKey:val]];
+    }];
+
+    return [self createImageComposition:jsonConfig
+                      wrappedImageNames:names
+                          wrappedImages:[IFKTask taskForCompletionOfAllTasksWithResults:tasks]];
+  } else if ([IFKConfigHelper isSingular:jsonConfig]) {
+    NSObject *wrappedImageConfig = [[wrappedImageConfigs allValues] firstObject];
+    
+    return [self createSingularImage:jsonConfig
+                           wrappedImage:[self parseConfig:wrappedImageConfig]];
+  } else {
+    NSString *reason = [NSString stringWithFormat:@"ImageFilterKit: ImageFilter error: Can't find '\"%@\"' post processor.",
+                        [jsonConfig objectForKey:@"name"]];
+
+    @throw [NSException exceptionWithName:NSGenericException
+                                   reason:reason
+                                 userInfo:nil];
+  }
 }
 
 - (void)runFilterPipeline:(BOOL)shouldInvalidate
@@ -152,11 +218,11 @@ typedef IFKTask<IFKFilterableImage *> DeferredImage;
       [self updateTarget:_targets[0] image:nil];
     }
     
-    if (_jsonConfig != nil && _originalImages.count > 0) {
-      [[self parseConfig:_jsonConfig images:_originalImages] continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
-        IFKFilterableImage *result = [task result];
-        
-        [self filterImage:result originalImage:_originalImages[0]];
+    if (_jsonConfig != nil && [_originalImages every:^BOOL(UIImage *val, int idx) {
+      return ![val isEqual:[NSNull null]];
+    }]) {
+      [[self parseConfig:_jsonConfig] continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
+        [self filterImage:[task result]];
         
         return nil;
       }];
@@ -165,9 +231,9 @@ typedef IFKTask<IFKFilterableImage *> DeferredImage;
 }
 
 - (IFKTask<RCTImageView *> *)filterImage:(IFKFilterableImage *)filterableImage
-                           originalImage:(UIImage *)originalImage
 {
-  RCTImageView *target = [filterableImage image];
+  RCTImageView *target = [filterableImage target];
+  UIImage *originalImage = [filterableImage originalImage];
   IFKTaskCompletionSource<RCTImageView *> *deferred = [IFKTaskCompletionSource taskCompletionSource];
   __weak IFKImageFilter *weakSelf = self;
   
@@ -183,38 +249,13 @@ typedef IFKTask<IFKFilterableImage *> DeferredImage;
       dispatch_async(dispatch_get_main_queue(), ^{
         // TODO: cancellation
         [innerSelf updateTarget:target image:image];
+        [deferred setResult:target];
       });
     }
   });
   
   return [deferred task];
 }
-
-//- (void)renderFilteredImage:(BOOL)shouldInvalidate
-//{
-//  Filtering filtering = [self filtering];
-//
-//  if (filtering) {
-//    __weak RNImageFilter *weakSelf = self;
-//
-//    if (shouldInvalidate) {
-//      [self updateImage:nil];
-//    }
-//
-//    [_filteringQueue cancelAllOperations];
-//    [_filteringQueue addOperationWithBlock:^{
-//      RNFilteredImage *image = filtering();
-//
-//      [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//        RNImageFilter *strongSelf = weakSelf;
-//
-//        if (image != nil && strongSelf != nil) {
-//          [strongSelf updateImage:image.image];
-//        }
-//      }];
-//    }];
-//  }
-//}
 
 - (void)updateTarget:(nullable RCTImageView *)target image:(nullable UIImage *)image
 {
@@ -239,14 +280,12 @@ typedef IFKTask<IFKFilterableImage *> DeferredImage;
                         change:(NSDictionary *)change
                        context:(void *)context {
   if ([keyPath isEqualToString:@"image"]) {
-    _originalImages = [_originalImages reduce:^id(NSMutableArray* acc, UIImage *val, int idx) {
-      BOOL isUpdated = object == [_targets at:idx];
-      UIImage *image = isUpdated ? [object.image copy] : [_originalImages at:idx];
-      
-      [acc replaceObjectAtIndex:idx withObject:image];
+    _originalImages = [_targets reduce:^id(NSMutableArray* acc, RCTImageView *val, int idx) {
+      [acc replaceObjectAtIndex:idx
+                     withObject:(object == val) ? [object.image copy] : [_originalImages at:idx]];
       
       return acc;
-    } init:[NSMutableArray array]];
+    } init:_originalImages];
 
     [self runFilterPipeline:YES];
   }

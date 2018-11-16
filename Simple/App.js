@@ -33,11 +33,13 @@ import {
 import matrices from 'rn-color-matrices';
 import { ShapeRegistry } from '../dist/common/shape-registry';
 
+const imageStyle = Platform.OS === 'ios' ? { width: 320, height: 320 } : { width: 360, height: 360 }
+
 const degToRad = (deg) => Math.PI * deg / 180;
 const background = 'rgb(255, 255, 255)';
 const atx = (
   <Image
-    style={{ width: 360, height: 360 }}
+    style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/atx.jpg' }}
     resizeMode={'cover'}
   />
@@ -45,7 +47,7 @@ const atx = (
 
 const bike = (
   <Image
-    style={{ width: 360, height: 360 }}
+    style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/bike.jpg' }}
     resizeMode={'cover'}
   />
@@ -53,7 +55,7 @@ const bike = (
 
 const tahoe = (
   <Image
-    style={{ width: 360, height: 360 }}
+    style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/tahoe.jpg' }}
     resizeMode={'cover'}
   />
@@ -77,7 +79,7 @@ const src = (
 
 const parrot = (
   <Image
-    style={{ width: 360, height: 360 }}
+    style={imageStyle}
     source={require('./parrot.png')}
     resizeMode={'contain'}
   />
@@ -85,7 +87,7 @@ const parrot = (
 
 const flowers = (
   <Image
-    style={{ width: 360, height: 360 }}
+    style={imageStyle}
     source={{ uri: 'https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg' }}
     resizeMode={'cover'}
   />
@@ -303,26 +305,29 @@ export default class App extends Component<Props> {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <ScrollView>
         <ImageFilter
           config={{
-            name: 'CIColorMonochrome',
-            inputColor: 'red',
-            inputImage: {
-              name: 'Grayscale',
-              image: {
-                name: 'Sepia',
-                image: parrot
-              }
-            }
+            name: 'CIConstantColorGenerator',
+            imageStyle
           }}
         />
-        <Switch
+        {/* <ImageFilter
+          config={{
+            name: 'Grayscale',
+            image: {
+              name: 'CILightenBlendMode',
+              inputImage: bike,
+              inputBackgroundImage: atx
+            }
+          }}
+        /> */}
+        {/* <Switch
           value={this.state.showList}
           onValueChange={(showList) => this.setState({ showList })}
         />
-        {this.state.showList ? this.renderList() : this.renderSelect()}
-      </View>
+        {this.state.showList ? this.renderList() : this.renderSelect()} */}
+      </ScrollView>
     )
   }
 
@@ -370,6 +375,6 @@ const styles = StyleSheet.create({
   picker: {
     alignSelf: 'stretch'
   },
-  image: { width: 360, height: 360 },
+  image: imageStyle,
   halfImage: { width: 180, height: 180 }
 });

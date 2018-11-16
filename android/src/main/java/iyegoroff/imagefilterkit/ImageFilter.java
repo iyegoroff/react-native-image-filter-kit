@@ -116,11 +116,11 @@ public class ImageFilter extends ReactViewGroup {
 
   private Task<FilterableImage> createImageComposition(
     final @Nonnull JSONObject config,
-    final @Nonnull Task<List<FilterableImage>> prevImage
+    final @Nonnull Task<List<FilterableImage>> prevImages
   ) throws JSONException {
     final String name = config.getString("name");
 
-    return prevImage
+    return prevImages
       .onSuccessTask(new Continuation<List<FilterableImage>, Task<FilterableImage>>() {
         @Override
         public Task<FilterableImage> then(Task<List<FilterableImage>> task) {
