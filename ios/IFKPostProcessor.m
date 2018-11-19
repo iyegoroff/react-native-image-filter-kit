@@ -12,8 +12,6 @@
 @interface IFKPostProcessor ()
 
 @property (nonatomic, strong) CIFilter *filter;
-@property (nonatomic, strong) NSString *postProcessorCacheKey;
-@property (nonatomic, strong) NSString *mainImageName;
 
 @end
 
@@ -22,20 +20,17 @@
 - (nonnull instancetype)initWithName:(nonnull NSString *)name
                                width:(CGFloat)width
                               height:(CGFloat)height
-                       mainImageName:(NSString *)mainImageName
                               inputs:(nonnull NSDictionary *)inputs;
 {
   static NSArray<NSString *> *skippedInputs;
 
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    skippedInputs = @[@"disableCache", @"name"];
+    skippedInputs = @[@"disableCache", @"name", @"inputImage", @"generatedImage"];
   });
   
   if ((self = [super init])) {
     _filter = [CIFilter filterWithName:name];
-    _postProcessorCacheKey = name;
-    _mainImageName = mainImageName;
     
     IFKInputConverter *converter = [[IFKInputConverter alloc] initWithWidth:width height:height];
     NSArray<NSString *> *sortedNames = [[[inputs allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
@@ -46,20 +41,29 @@
     }];
     
     for (NSString *inputName in sortedNames) {
-      NSObject *value = [converter convertAny:[inputs objectForKey:inputName]];
-
-      [_filter setValue:value forKey:inputName];
-      _postProcessorCacheKey = [NSString stringWithFormat:@"%@_%@", _postProcessorCacheKey, value];
+      [_filter setValue:[converter convertAny:[inputs objectForKey:inputName]] forKey:inputName];
     }
   }
   
   return self;
 }
 
-- (nonnull UIImage *)process:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
+- (nonnull UIImage *)process:(nonnull UIImage *)image
+                  resizeMode:(RCTResizeMode)resizeMode
+                   viewFrame:(CGRect)viewFrame
+{
+  if ([_filter respondsToSelector:NSSelectorFromString(@"inputImage")]) {
+    return [self processFilter:image resizeMode:resizeMode];
+    
+  } else {
+    return [self processGenerator:image resizeMode:resizeMode viewFrame:viewFrame];
+  }
+}
+
+- (nonnull UIImage *)processFilter:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
 {
   CIImage *tmp = [[CIImage alloc] initWithImage:image];
-  [_filter setValue:tmp forKey:_mainImageName];
+  [_filter setValue:tmp forKey:@"inputImage"];
   
   CGRect outputRect = tmp.extent;
   
@@ -68,6 +72,25 @@
   UIImage *filteredImage = [IFKPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
                                                          srcSize:outputRect.size
                                                         destSize:image.size
+                                                           scale:image.scale
+                                                      resizeMode:resizeMode];
+  
+  CGImageRelease(cgim);
+  
+  return filteredImage;
+}
+
+- (nonnull UIImage *)processGenerator:(nonnull UIImage *)image
+                           resizeMode:(RCTResizeMode)resizeMode
+                            viewFrame:(CGRect)viewFrame
+{
+  CGRect outputRect = viewFrame;
+
+  CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:outputRect];
+  
+  UIImage *filteredImage = [IFKPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
+                                                         srcSize:outputRect.size
+                                                        destSize:outputRect.size
                                                            scale:image.scale
                                                       resizeMode:resizeMode];
   

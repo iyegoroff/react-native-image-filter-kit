@@ -14,7 +14,7 @@ import { ShapeRegistry } from './shape-registry'
 import { ImagePlaceholder } from './image-placeholder'
 import { id } from './util'
 
-const mainImageName = Platform.OS === 'android' ? 'image' : 'inputImage'
+const mainImageName = Platform.OS === 'android' ? 'image' : 'generatedImage'
 
 const anyToString = (n: any) => `${n}`
 const convertColor = processColor // (c: any) => (isAndroid ? processColor(c) : c)

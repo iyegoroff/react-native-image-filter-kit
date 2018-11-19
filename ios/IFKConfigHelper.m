@@ -1,7 +1,13 @@
 #import "IFKConfigHelper.h"
 #import "NSArray+FilterMapReduce.h"
+#import <React/RCTAssert.h>
 
 @implementation IFKConfigHelper
+
++ (nonnull NSString *)name:(nonnull NSDictionary *)config
+{
+  return [config objectForKey:@"name"];
+}
 
 + (BOOL)isCacheDisabled:(nonnull NSDictionary *)config
 {
@@ -17,6 +23,23 @@
 + (BOOL)isComposition:(nonnull NSDictionary *)config
 {
   return [IFKConfigHelper countImages:config] > 1;
+}
+
++ (NSString *)mainImage:(nonnull NSDictionary *)config
+{
+  if ([config objectForKey:@"inputImage"] != nil) {
+    return @"inputImage";
+  }
+  
+  if ([config objectForKey:@"generatedImage"] != nil) {
+    return @"generatedImage";
+  }
+  
+  RCTAssert(false,
+            @"ImageFilterKit: ConfigHelper - can't find any main image for %@ config",
+            [IFKConfigHelper name:config]);
+  
+  return nil;
 }
 
 + (nonnull NSDictionary<NSString *, NSObject *> *)wrappedConfigs:(nonnull NSDictionary *)config

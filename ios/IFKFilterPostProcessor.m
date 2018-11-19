@@ -78,7 +78,7 @@
                            (long)image.resizeMode];
   }
   
-  UIImage *cachedImage = [IFKImageCache imageForKey:accumulatedCacheKey];
+  UIImage *cachedImage = [[IFKImageCache instance] imageForKey:accumulatedCacheKey];
   
   IFKFilteredImage *mainImage = images[@"inputImage"] ?: images[@"generatedImage"];
   RCTResizeMode resizeMode = mainImage ? mainImage.resizeMode : RCTResizeModeContain;
@@ -167,7 +167,7 @@
     CGImageRelease(cgim);
     
     if (filteredImage != nil) {
-      [IFKImageCache setImage:filteredImage forKey:accumulatedCacheKey];
+      [[IFKImageCache instance] setImage:filteredImage forKey:accumulatedCacheKey];
     }
     
 //    RCTLog(@"filter: key = %@", accumulatedCacheKey);

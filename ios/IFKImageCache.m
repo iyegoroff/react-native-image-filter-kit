@@ -1,45 +1,101 @@
 #import "IFKImageCache.h"
+#import <React/RCTDefines.h>
 
-static NSCache *imageCache(void) {
-  static NSCache *cache;
-  static dispatch_once_t onceToken;
-  
-  dispatch_once(&onceToken, ^{
-    cache = [[NSCache alloc] init];
-    
-    uint64_t physicalMemory = [NSProcessInfo processInfo].physicalMemory;
-    float ratio = physicalMemory <= (1024 * 1024 * 512 /* 512 Mb */) ? 0.1 : 0.2;
-    uint64_t limit = physicalMemory / (uint64_t)(1 / ratio);
-    cache.totalCostLimit = limit > (uint64_t)(INT_MAX) ? INT_MAX : (int)limit;
-    cache.name = @"RNImageCache";
-  });
-  
-  return cache;
-}
+static IFKImageCache *instance = nil;
+static dispatch_once_t onceToken;
+
+@interface IFKImageCache ()
+
+@property (nonatomic, strong) NSCache *cache;
+#if RCT_DEBUG
+@property (nonatomic, assign) NSUInteger cacheSize;
+#endif
+
+@end
 
 @implementation IFKImageCache
 
-+ (unsigned long)costFor:(nonnull UIImage *)image
++ (nonnull IFKImageCache *)instance
 {
-  return [UIImageJPEGRepresentation(image, 1) length];
+  dispatch_once(&onceToken, ^{
+    if (instance == nil) {
+      instance = [[IFKImageCache alloc] initPrivate:[NSProcessInfo processInfo].physicalMemory / 4];
+    }
+  });
+  
+  return instance;
 }
 
-+ (nullable UIImage *)imageForKey:(nonnull NSString *)key
++ (nonnull IFKImageCache *)instance:(unsigned long long)maxCacheSizeInBytes
 {
-  UIImage *image = (UIImage *)[imageCache() objectForKey:key];
+  dispatch_once(&onceToken, ^{
+    if (instance == nil) {
+      instance = [[IFKImageCache alloc] initPrivate:maxCacheSizeInBytes];
+    }
+  });
   
-  if (image != nil) {
-    NSLog(@"filter: cache hit");
-  } else {
-    NSLog(@"filter: cache miss");
+  return instance;
+}
+
+- (instancetype)initPrivate:(unsigned long long)maxCacheSizeInBytes {
+  if ((self = [super init])) {
+    _cache = [[NSCache alloc] init];
+    _cache.name = @"IFKImageCache";
+    _cache.totalCostLimit = maxCacheSizeInBytes > NSUIntegerMax
+      ? NSUIntegerMax
+      : (NSUInteger)maxCacheSizeInBytes;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(clearCache)
+                                                 name:UIApplicationDidReceiveMemoryWarningNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(clearCache)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+    
+#if RCT_DEBUG
+    NSLog(@"ImageFilterKit: max cache size %lld MB", maxCacheSizeInBytes / 1024 / 1024);
+    _cacheSize = 0;
+#endif
   }
-  
-  return image;
+
+  return self;
 }
 
-+ (void)setImage:(nonnull UIImage *)image forKey:(nonnull NSString *)key
+- (void)dealloc
 {
-  [imageCache() setObject:image forKey:key cost:[IFKImageCache costFor:image]];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)clearCache
+{
+  [_cache removeAllObjects];
+}
+
+- (NSUInteger)costFor:(nonnull UIImage *)image
+{
+  return image.size.width * image.size.height * image.scale * image.scale * 4;
+}
+
+- (nullable UIImage *)imageForKey:(nonnull NSString *)key
+{
+  return (UIImage *)[_cache objectForKey:key];
+}
+
+- (void)setImage:(nonnull UIImage *)image forKey:(nonnull NSString *)key
+{
+  NSUInteger size = [self costFor:image];
+  [_cache setObject:image forKey:key cost:size];
+
+#if RCT_DEBUG
+  _cacheSize += size;
+  NSLog(@"ImageFilterKit: added %lu MB sized image to cache", (unsigned long)size);
+  NSLog(@"ImageFilterKit: used cache size %lu of %lu MB",
+        (unsigned long)(_cacheSize / 1024 / 1024),
+        (unsigned long)(_cache.totalCostLimit / 1024 / 1024));
+#endif
 }
 
 @end

@@ -5,6 +5,7 @@
 #import "IFKPostProcessor.h"
 #import "IFKFilterableImage.h"
 #import "IFKConfigHelper.h"
+#import "IFKImageCache.h"
 #import <React/RCTLog.h>
 #import "Bolts.h"
 
@@ -42,8 +43,6 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   _config = config;
   NSData* data = [config dataUsingEncoding:NSUTF8StringEncoding];
   _jsonConfig = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-  
-  NSLog(@"ImagFilterKit: %@", _jsonConfig);
   
   [self runFilterPipeline:NO];
 }
@@ -100,11 +99,11 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
                                 wrappedImageNames:(nonnull NSArray<NSString *> *)wrappedImageNames
                                     wrappedImages:(nonnull DeferredImages *)wrappedImages
 {
-  NSString *name = [config objectForKey:@"name"];
+  NSString *name = [IFKConfigHelper name:config];
 
   return [wrappedImages continueWithSuccessBlock:^id _Nullable(DeferredImages * _Nonnull tasks) {
     NSArray<IFKFilterableImage *> *result = [tasks result];
-    NSUInteger mainIdx = [wrappedImageNames indexOfObject:@"inputImage"];
+    NSUInteger mainIdx = [wrappedImageNames indexOfObject:[IFKConfigHelper mainImage:config]];
     NSArray *restImageNames = [wrappedImageNames filter:^BOOL(NSString *val, int idx) {
       return idx != mainIdx;
     }];
@@ -136,13 +135,12 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
       [postProcessors addObject:[[IFKPostProcessor alloc] initWithName:name
                                                                  width:width
                                                                 height:height
-                                                         mainImageName:@"inputImage"
                                                                 inputs:completeConfig]];
       
       return [[IFKFilterableImage alloc] initWithTarget:target
                                           originalImage:[mainImage originalImage]
-                                         postProcessors:postProcessors
-                                          cacheDisabled:[IFKConfigHelper isCacheDisabled:config]];
+                                                 config:[NSString stringWithFormat:@"%@", config]
+                                         postProcessors:postProcessors];
     }];
   }];
 }
@@ -150,7 +148,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 - (nonnull DeferredImage *)createSingularImage:(nonnull NSDictionary *)config
                                   wrappedImage:(nonnull DeferredImage *)wrappedImage
 {
-  NSString *name = [config objectForKey:@"name"];
+  NSString *name = [IFKConfigHelper name:config];
   
   return [wrappedImage continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
     IFKFilterableImage *mainImage = [task result];
@@ -164,13 +162,12 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
     [postProcessors addObject:[[IFKPostProcessor alloc] initWithName:name
                                                                width:width
                                                               height:height
-                                                       mainImageName:@"inputImage"
                                                               inputs:config]];
     
     return [[IFKFilterableImage alloc] initWithTarget:target
                                         originalImage:[mainImage originalImage]
-                                       postProcessors:postProcessors
-                                        cacheDisabled:[IFKConfigHelper isCacheDisabled:config]];
+                                               config:[NSString stringWithFormat:@"%@", config]
+                                       postProcessors:postProcessors];
   }];
 }
 
@@ -178,10 +175,11 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 {
   if ([config isKindOfClass:[NSNumber class]]) {
     NSUInteger idx = [(NSNumber *)config intValue];
+
     return [IFKTask taskWithResult:[[IFKFilterableImage alloc] initWithTarget:_targets[idx]
                                                                 originalImage:_originalImages[idx]
-                                                              postProcessors:@[]
-                                                               cacheDisabled:NO]];
+                                                                       config:@""
+                                                               postProcessors:@[]]];
   }
   
   NSDictionary *jsonConfig = (NSDictionary *)config;
@@ -202,12 +200,11 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
     return [self createSingularImage:jsonConfig
                            wrappedImage:[self parseConfig:wrappedImageConfig]];
   } else {
-    NSString *reason = [NSString stringWithFormat:@"ImageFilterKit: ImageFilter error: Can't find '\"%@\"' post processor.",
-                        [jsonConfig objectForKey:@"name"]];
-
-    @throw [NSException exceptionWithName:NSGenericException
-                                   reason:reason
-                                 userInfo:nil];
+    RCTAssert(false,
+              @"ImageFilterKit: ImageFilter error: Can't find %@ post processor.",
+              [IFKConfigHelper name:jsonConfig]);
+    
+    return nil;
   }
 }
 
@@ -234,25 +231,45 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 {
   RCTImageView *target = [filterableImage target];
   UIImage *originalImage = [filterableImage originalImage];
+  CGRect viewFrame = [target frame];
   IFKTaskCompletionSource<RCTImageView *> *deferred = [IFKTaskCompletionSource taskCompletionSource];
-  __weak IFKImageFilter *weakSelf = self;
+  NSString *cacheKey = [NSString stringWithFormat:
+                        @"[%@+%@]",
+                        [filterableImage config],
+                        [IFKImageFilter cacheKey:target]];
   
-  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    IFKImageFilter *innerSelf = weakSelf;
+  UIImage *cachedImage = [[IFKImageCache instance] imageForKey:cacheKey];
+  
+  if (cachedImage != nil) {
+    NSLog(@"filter: TAKING FROM CACHE");
+    [self updateTarget:target image:cachedImage];
+    [deferred setResult:target];
     
-    if (innerSelf != nil) {
-      // TODO: cancellation
-      UIImage *image = [[filterableImage postProcessors] reduce:^id(UIImage *acc, IFKPostProcessor *val, int idx) {
-        return [val process:acc resizeMode:[target resizeMode]];
-      } init:originalImage];
+  } else {
+    __weak IFKImageFilter *weakSelf = self;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      IFKImageFilter *innerSelf = weakSelf;
       
-      dispatch_async(dispatch_get_main_queue(), ^{
+      if (innerSelf != nil) {
         // TODO: cancellation
-        [innerSelf updateTarget:target image:image];
-        [deferred setResult:target];
-      });
-    }
-  });
+        UIImage *image = [[filterableImage postProcessors] reduce:^id(UIImage *acc, IFKPostProcessor *val, int idx) {
+          return [val process:acc resizeMode:[target resizeMode] viewFrame:viewFrame];
+        } init:originalImage];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+          // TODO: cancellation
+          if (![filterableImage isCacheDisabled]) {
+            NSLog(@"filter: PUT TO CACHE");
+            [[IFKImageCache instance] setImage:image forKey:cacheKey];
+          }
+          
+          [innerSelf updateTarget:target image:image];
+          [deferred setResult:target];
+        });
+      }
+    });
+  }
   
   return [deferred task];
 }
@@ -289,6 +306,19 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 
     [self runFilterPipeline:YES];
   }
+}
+
++ (nonnull NSString *)cacheKey:(nonnull RCTImageView *)image
+{
+  return [image.imageSources reduce:^id(NSString *key, RCTImageSource *source, int idx) {
+    return [NSString stringWithFormat:
+            @"%@(%@_%f_%@)",
+            key,
+            [NSValue valueWithCGSize:source.size],
+            source.scale,
+            source.request.URL.absoluteString];
+    
+  } init:[NSString stringWithFormat:@"%ld", (long)image.resizeMode]];
 }
 
 @end

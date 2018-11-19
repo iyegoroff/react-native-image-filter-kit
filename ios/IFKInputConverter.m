@@ -1,5 +1,4 @@
 #import "IFKInputConverter.h"
-#import <React/RCTAssert.h>
 
 @interface IFKInputConverter ()
 

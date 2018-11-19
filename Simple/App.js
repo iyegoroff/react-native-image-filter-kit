@@ -309,19 +309,33 @@ export default class App extends Component<Props> {
         <ImageFilter
           config={{
             name: 'CIConstantColorGenerator',
+            inputColor: 'green',
             imageStyle
           }}
         />
-        {/* <ImageFilter
+        <ImageFilter
           config={{
-            name: 'Grayscale',
+            name: 'Lsd',
             image: {
               name: 'CILightenBlendMode',
-              inputImage: bike,
-              inputBackgroundImage: atx
+              inputImage: {
+                name: 'Sepia',
+                image: bike
+              },
+              inputBackgroundImage: {
+                name: 'Night',
+                image: atx
+              }
             }
           }}
-        /> */}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIConstantColorGenerator',
+            inputColor: 'red',
+            imageStyle
+          }}
+        />
         {/* <Switch
           value={this.state.showList}
           onValueChange={(showList) => this.setState({ showList })}
