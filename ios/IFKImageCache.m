@@ -4,6 +4,12 @@
 static IFKImageCache *instance = nil;
 static dispatch_once_t onceToken;
 
+#if RCT_DEBUG
+static double asMB(unsigned long long bytes) {
+  return bytes / 1024.0 / 1024.0;
+}
+#endif
+
 @interface IFKImageCache ()
 
 @property (nonatomic, strong) NSCache *cache;
@@ -56,7 +62,7 @@ static dispatch_once_t onceToken;
                                                object:nil];
     
 #if RCT_DEBUG
-    NSLog(@"ImageFilterKit: max cache size %lld MB", maxCacheSizeInBytes / 1024 / 1024);
+    NSLog(@"ImageFilterKit: max cache size %.3f MB", asMB(maxCacheSizeInBytes));
     _cacheSize = 0;
 #endif
   }
@@ -91,10 +97,8 @@ static dispatch_once_t onceToken;
 
 #if RCT_DEBUG
   _cacheSize += size;
-  NSLog(@"ImageFilterKit: added %lu MB sized image to cache", (unsigned long)size);
-  NSLog(@"ImageFilterKit: used cache size %lu of %lu MB",
-        (unsigned long)(_cacheSize / 1024 / 1024),
-        (unsigned long)(_cache.totalCostLimit / 1024 / 1024));
+  NSLog(@"ImageFilterKit: added %.3f MB sized image to cache", asMB(size));
+  NSLog(@"ImageFilterKit: used cache size %.3f MB", asMB(_cacheSize));
 #endif
 }
 

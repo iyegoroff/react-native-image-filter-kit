@@ -35,6 +35,9 @@ import { ShapeRegistry } from '../dist/common/shape-registry';
 
 const imageStyle = Platform.OS === 'ios' ? { width: 320, height: 320 } : { width: 360, height: 360 }
 
+// Image.prefetch('http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg');
+// Image.prefetch('https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg');
+
 const degToRad = (deg) => Math.PI * deg / 180;
 const background = 'rgb(255, 255, 255)';
 const atx = (
@@ -93,6 +96,14 @@ const flowers = (
   />
 );
 
+const pizza = (
+  <Image
+    style={imageStyle}
+    source={{ uri: 'http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg' }}
+    resizeMode={'cover'}
+  />
+);
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -124,7 +135,9 @@ class CSSGramItem extends PureComponent {
         <TouchableWithoutFeedback onPress={this.pressed}>
           {isFiltered ? this.filteredImage() : this.image()}
         </TouchableWithoutFeedback>
-        {isFiltered ? <Text style={styles.text}>{this.props.filter}</Text> : null}
+        {isFiltered
+          ? <View style={styles.textWrap}><Text style={styles.text}>{this.props.filter}</Text></View>
+          : null}
       </View>
     );
   }
@@ -212,36 +225,36 @@ export default class App extends Component<Props> {
       // { uri: 'http://www.hdwallpapery.com/static/images/Sv4BC_ltdPPcT.png', key: `Sv4BC_ltdPPcT_${i}` },
       // { uri: 'http://img.talkandroid.com/uploads/2015/03/square_cash_app_icon-450x450.png', key: `square_cash_app_icon-450x450_${i}` },
       // { name: 'Normal', key: `Normal_${i}` },
-      { name: 'Sharpen', key: `Sharpen_${i}` },
-      { name: 'Emboss', key: `Emboss_${i}` },
-      { name: 'EdgeDetection', key: `EdgeDetection_${i}` },
-      { name: 'FuzzyGlass', key: `FuzzyGlass_${i}` },
-      { name: '_1977', key: `_1977_${i}` },
-      { name: 'Aden', key: `Aden_${i}` },
-      { name: 'Brannan', key: `Brannan_${i}` },
-      { name: 'Brooklyn', key: `Brooklyn_${i}` },
-      { name: 'Clarendon', key: `Clarendon_${i}` },
-      { name: 'Earlybird', key: `Earlybird_${i}` },
-      { name: 'Gingham', key: `Gingham_${i}` },
-      { name: 'Hudson', key: `Hudson_${i}` },
-      { name: 'Kelvin', key: `Kelvin_${i}` },
-      { name: 'Lark', key: `Lark_${i}` },
-      { name: 'Inkwell', key: `dInkwell_${i}` },
-      { name: 'Lofi', key: `Lofi_${i}` },
-      { name: 'Maven', key: `Maven_${i}` },
-      { name: 'Mayfair', key: `Mayfair_${i}` },
-      { name: 'Moon', key: `Moon_${i}` },
-      { name: 'Nashville', key: `Nashville_${i}` },
-      { name: 'Perpetua', key: `Perpetua_${i}` },
-      { name: 'Reyes', key: `Reyes_${i}` },
-      { name: 'Rise', key: `Rise_${i}` },
-      { name: 'Slumber', key: `Slumber_${i}` },
-      { name: 'Stinson', key: `Stinson_${i}` },
-      { name: 'Toaster', key: `Toaster_${i}` },
-      { name: 'Valencia', key: `Valencia_${i}` },
-      { name: 'Walden', key: `Walden_${i}` },
-      { name: 'Willow', key: `Willow_${i}` },
-      { name: 'Xpro2', key: `Xpro2_${i}` }
+      // { name: 'Sharpen', key: `Sharpen_${i}` },
+      // { name: 'Emboss', key: `Emboss_${i}` },
+      // { name: 'EdgeDetection', key: `EdgeDetection_${i}` },
+      // { name: 'FuzzyGlass', key: `FuzzyGlass_${i}` },
+      // { name: '_1977', key: `_1977_${i}` },
+      // { name: 'Aden', key: `Aden_${i}` },
+      // { name: 'Brannan', key: `Brannan_${i}` },
+      // { name: 'Brooklyn', key: `Brooklyn_${i}` },
+      // { name: 'Clarendon', key: `Clarendon_${i}` },
+      // { name: 'Earlybird', key: `Earlybird_${i}` },
+      // { name: 'Gingham', key: `Gingham_${i}` },
+      // { name: 'Hudson', key: `Hudson_${i}` },
+      // { name: 'Kelvin', key: `Kelvin_${i}` },
+      // { name: 'Lark', key: `Lark_${i}` },
+      // { name: 'Inkwell', key: `dInkwell_${i}` },
+      // { name: 'Lofi', key: `Lofi_${i}` },
+      // { name: 'Maven', key: `Maven_${i}` },
+      // { name: 'Mayfair', key: `Mayfair_${i}` },
+      // { name: 'Moon', key: `Moon_${i}` },
+      // { name: 'Nashville', key: `Nashville_${i}` },
+      // { name: 'Perpetua', key: `Perpetua_${i}` },
+      // { name: 'Reyes', key: `Reyes_${i}` },
+      // { name: 'Rise', key: `Rise_${i}` },
+      // { name: 'Slumber', key: `Slumber_${i}` },
+      // { name: 'Stinson', key: `Stinson_${i}` },
+      // { name: 'Toaster', key: `Toaster_${i}` },
+      // { name: 'Valencia', key: `Valencia_${i}` },
+      // { name: 'Walden', key: `Walden_${i}` },
+      // { name: 'Willow', key: `Willow_${i}` },
+      // { name: 'Xpro2', key: `Xpro2_${i}` }
     ]))
   };
 
@@ -306,41 +319,13 @@ export default class App extends Component<Props> {
   render() {
     return (
       <ScrollView>
-        <ImageFilter
-          config={{
-            name: 'CIConstantColorGenerator',
-            inputColor: 'green',
-            imageStyle
-          }}
-        />
-        <ImageFilter
-          config={{
-            name: 'Lsd',
-            image: {
-              name: 'CILightenBlendMode',
-              inputImage: {
-                name: 'Sepia',
-                image: bike
-              },
-              inputBackgroundImage: {
-                name: 'Night',
-                image: atx
-              }
-            }
-          }}
-        />
-        <ImageFilter
-          config={{
-            name: 'CIConstantColorGenerator',
-            inputColor: 'red',
-            imageStyle
-          }}
-        />
-        {/* <Switch
+        {pizza}
+        <Switch
           value={this.state.showList}
           onValueChange={(showList) => this.setState({ showList })}
         />
-        {this.state.showList ? this.renderList() : this.renderSelect()} */}
+        {this.state.showList ? this.renderList() : this.renderSelect()}
+        {pizza}
       </ScrollView>
     )
   }
@@ -360,10 +345,7 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   filter: {
   },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
+  textWrap: {
     position: 'absolute',
     right: 10,
     bottom: 10,
@@ -371,6 +353,11 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     borderRadius: 5,
     backgroundColor: 'rgba(0, 0, 0, 0.35)'
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white'
   },
   container: {
     width: '100%',

@@ -62,6 +62,11 @@
 
 - (nonnull UIImage *)processFilter:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
 {
+//  BOOL isSlow = arc4random() % 2 == 0;
+//  NSLog(@"filter: %@", isSlow ? @"slow" : @"fast");
+//  if (isSlow) {
+//    [NSThread sleepForTimeInterval:5];
+//  }
   CIImage *tmp = [[CIImage alloc] initWithImage:image];
   [_filter setValue:tmp forKey:@"inputImage"];
   
