@@ -31,7 +31,10 @@ import {
   rgbaToRgb
 } from 'react-native-image-filter-kit';
 import matrices from 'rn-color-matrices';
+import imageCacheHoc from 'react-native-image-cache-hoc';
 import { ShapeRegistry } from '../dist/common/shape-registry';
+
+const CacheableImage = imageCacheHoc(Image);
 
 const imageStyle = Platform.OS === 'ios' ? { width: 320, height: 320 } : { width: 360, height: 360 }
 
@@ -144,11 +147,12 @@ class CSSGramItem extends PureComponent {
 
   image() {
     const { image: uri } = this.props;
+    const Component = typeof uri === 'number' ? Image : CacheableImage;
+
     return (
-      <Image
+      <Component
         style={this.state.isHalf ? styles.halfImage : styles.image}
         source={typeof uri === 'number' ? uri : { uri }}
-        // source={{ uri: 'http://travellingmoods.com/wp-content/uploads/2015/05/New-York-City.jpg' }}
         resizeMode={'contain'}
       />
     );
@@ -186,7 +190,8 @@ export default class App extends Component<Props> {
     selectedImage: 'Parrot',
     images: [
       { name: 'Parrot', uri: require('./shmarrot.png') },
-      { name: 'Pizza', uri: 'http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg' },
+      { name: 'Coast', uri: 'https://thisismyhappiness.com/wp-content/uploads/2014/05/big-sur-bixby.jpg' },
+      { name: 'Mountains', uri: 'https://www.highreshdwallpapers.com/wp-content/uploads/2011/09/Large-Format-HD-Wallpaper.jpg' },
       { name: 'Flowers', uri: 'https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg' },
       { name: 'Atx', uri: 'https://una.im/CSSgram/img/atx.jpg' },
       { name: 'Bike', uri: 'https://una.im/CSSgram/img/bike.jpg' },
@@ -319,13 +324,11 @@ export default class App extends Component<Props> {
   render() {
     return (
       <ScrollView>
-        {pizza}
         <Switch
           value={this.state.showList}
           onValueChange={(showList) => this.setState({ showList })}
         />
         {this.state.showList ? this.renderList() : this.renderSelect()}
-        {pizza}
       </ScrollView>
     )
   }

@@ -57,23 +57,11 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   }
 }
 
-- (void)linkTargets
+- (void)linkTargets:(NSArray<RCTImageView *> *)targets
 {
   [self unlinkTargets];
   
-  _targets = [self.subviews reduce:^id(id acc, __kindof UIView *val, int idx) {
-    RCTView *child = (RCTView *)val;
-    
-    while (![child isKindOfClass:[RCTImageView class]] && [child isKindOfClass:[RCTView class]]) {
-      child = [child.subviews at:0];
-    }
-    
-    if ([child isKindOfClass:[RCTImageView class]]) {
-      [acc addObject:child];
-    }
-    
-    return acc;
-  } init:[NSMutableArray array]];
+  _targets = targets;
   
   _originalImages = [_targets map:^id(RCTImageView *val, int idx) {
     return val.image != nil ? [val.image copy] : [NSNull null];
@@ -87,12 +75,36 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   [self runFilterPipelineAndInvalidate:YES onlyCheckCache:NO];
 }
 
+- (NSArray<RCTImageView *> *)findTargets
+{
+  return [self.subviews reduce:^id(id acc, __kindof UIView *val, int idx) {
+    RCTView *child = (RCTView *)val;
+    
+    while (![child isKindOfClass:[RCTImageView class]] && [child isKindOfClass:[RCTView class]]) {
+      child = [child.subviews at:0];
+    }
+    
+    if ([child isKindOfClass:[RCTImageView class]]) {
+      [acc addObject:child];
+    }
+    
+    return acc;
+  } init:[NSMutableArray array]];
+}
+
+
 - (void)layoutSubviews
 {
   [super layoutSubviews];
   
-  if (_targets.count == 0) {
-    [self linkTargets];
+  NSArray *foundTargets = [self findTargets];
+  
+  if (_targets.count != foundTargets.count || [[_targets reduce:^id(NSNumber *acc, RCTImageView *val, int idx) {
+    return @([acc boolValue] || val != foundTargets[idx]);
+  } init:@NO] boolValue]) {
+    NSLog(@"filter: link");
+    
+    [self linkTargets:foundTargets];
   }
 }
 
@@ -273,13 +285,12 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
     }] continueWithExecutor:[IFKExecutor mainThreadExecutor] successBlock:^id _Nullable(IFKTask<UIImage *> * _Nonnull task) {
       UIImage *image = [task result];
       
-      NSLog(@"filter: pis %d is %d", [target valueForKey:@"_pendingImageSource"] != nil, [target valueForKey:@"_imageSource"] != nil);
-      if (![filterableImage isCacheDisabled] && [target valueForKey:@"_pendingImageSource"] == nil) {
-        NSLog(@"filter: PUT TO CACHE - %@", cacheKey);
-        [[IFKImageCache instance] setImage:image forKey:cacheKey];
-      }
-      
       if ([target valueForKey:@"_pendingImageSource"] == nil) {
+        if (![filterableImage isCacheDisabled]) {
+          NSLog(@"filter: PUT TO CACHE - %@", cacheKey);
+          [[IFKImageCache instance] setImage:image forKey:cacheKey];
+        }
+        
         [self updateTarget:target image:image];
       }
       

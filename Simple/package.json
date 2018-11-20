@@ -17,6 +17,7 @@
   "dependencies": {
     "react": "16.5.1",
     "react-native": "0.57.1",
+    "react-native-image-cache-hoc": "^2.0.0",
     "react-native-image-filter-kit": "file:../"
   },
   "devDependencies": {

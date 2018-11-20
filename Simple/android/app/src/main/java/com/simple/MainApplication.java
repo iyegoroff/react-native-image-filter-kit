@@ -5,6 +5,7 @@ import android.content.ComponentCallbacks2;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import iyegoroff.imagefilterkit.ImageFilterKitPackage;
 import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
 
@@ -71,6 +72,7 @@ public class MainApplication extends Application implements ReactApplication {
 
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new RNFetchBlobPackage(),
         new ImageFilterKitPackage()
       );
     }
