@@ -36,7 +36,7 @@ import { ShapeRegistry } from '../dist/common/shape-registry';
 
 const CacheableImage = imageCacheHoc(Image);
 
-const imageStyle = Platform.OS === 'ios' ? { width: 320, height: 320 } : { width: 360, height: 360 }
+const imageStyle = Platform.OS === 'ios' ? { width: 320, height: 320, backgroundColor: 'gray',borderWidth: 1, marginBottom: 10 } : { width: 360, height: 360 }
 
 // Image.prefetch('http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg');
 // Image.prefetch('https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg');
@@ -59,13 +59,21 @@ const bike = (
   />
 );
 
+const cacti = (
+  <Image
+    style={imageStyle}
+    source={{ uri: 'https://una.im/CSSgram/img/cacti.jpg' }}
+    resizeMode={'cover'}
+  />
+);
+
 const tahoe = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/tahoe.jpg' }}
     resizeMode={'cover'}
   />
-);
+)
 
 const dest = (
   <Image
@@ -104,6 +112,14 @@ const pizza = (
     style={imageStyle}
     source={{ uri: 'http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg' }}
     resizeMode={'cover'}
+  />
+);
+
+const random = (
+  <Image
+    style={imageStyle}
+    source={{ uri: 'https://picsum.photos/200/?random?t=' + Date.now() }}
+    resizeMode={'contain'}
   />
 );
 
@@ -324,11 +340,173 @@ export default class App extends Component<Props> {
   render() {
     return (
       <ScrollView>
-        <Switch
+        <ImageFilter
+          config={{
+            name: 'CILightTunnel',
+            inputImage: parrot,
+            inputCenter: { x: '50w', y: '50h' },
+            inputRadius: '3min',
+            inputRotation: Math.PI * 20
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIVignetteEffect',
+            inputImage: parrot,
+            inputCenter: { x: '50w', y: '50h' },
+            inputRadius: '5min'
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIEdges',
+            inputImage: parrot
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIComicEffect',
+            inputImage: parrot
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CITwelvefoldReflectedTile',
+            inputImage: cacti,
+            inputCenter: { x: '50w', y: '50h' },
+            inputWidth: '500min',
+            inputAngle: -Math.PI * 0.5
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIGaussianGradient',
+            imageStyle: { width: 320, height: 320 },
+            inputColor0: 'red',
+            inputColor1: 'green',
+            inputCenter: { x: '50w', y: '50h' },
+            inputRadius: '25min'
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIRadialGradient',
+            imageStyle: { width: 320, height: 320 },
+            inputColor0: 'blue',
+            inputColor1: 'green',
+            inputCenter: { x: '50w', y: '50h' },
+            inputRadius0: '35min',
+            inputRadius1: '25min'
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CISmoothLinearGradient',
+            imageStyle: { width: 320, height: 320 },
+            inputPoint0: { x: '0w', y: '0h' },
+            inputPoint1: { x: '100w', y: '0h' },
+            inputColor0: 'blue',
+            inputColor1: 'green'
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CILinearGradient',
+            imageStyle: { width: 320, height: 320 },
+            inputPoint0: { x: '0w', y: '0h' },
+            inputPoint1: { x: '100w', y: '0h' },
+            inputColor0: 'blue',
+            inputColor1: 'green'
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIMaskedVariableBlur',
+            inputMask: {
+              name: 'CIMultiplyBlendMode',
+              inputImage: {
+                name: 'CILinearGradient',
+                imageStyle: { width: 320, height: 320 },
+                inputColor0: '#FFFFFF00',
+                inputColor1: '#987654',
+                inputPoint0: { x: '0w', y: '100h' },
+                inputPoint1: { x: '100w', y: '100h' },
+              },
+              inputBackgroundImage: {
+                name: 'CILinearGradient',
+                imageStyle: { width: 320, height: 320 },
+                inputColor0: '#abcdef00',
+                inputColor1: '#fedcba01',
+                inputPoint0: { x: '100w', y: '0h' },
+                inputPoint1: { x: '100w', y: '100h' },
+              },
+            },
+            inputImage: atx,
+            inputRadius: '10min',
+            scaleMode: { match: 'inputImage' },
+            inputImageResizeMode: { width: 1, height: 0.5 },
+            inputBackgroundImageResizeMode: { width: 0.5, height: 1 }
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIOverlayBlendMode',
+            inputImage: atx,
+            inputBackgroundImage: {
+              name: 'CIMultiplyBlendMode',
+              inputImage: {
+                name: 'CILinearGradient',
+                imageStyle: { width: 320, height: 320 },
+                inputColor0: '#FFFFFF00',
+                inputColor1: '#987654',
+                inputPoint0: { x: '0w', y: '100h' },
+                inputPoint1: { x: '100w', y: '100h' },
+              },
+              inputBackgroundImage: {
+                name: 'CILinearGradient',
+                imageStyle: { width: 320, height: 320 },
+                inputColor0: '#abcdef00',
+                inputColor1: '#fedcba01',
+                inputPoint0: { x: '100w', y: '0h' },
+                inputPoint1: { x: '100w', y: '100h' },
+              },
+            },
+            scaleMode: { match: 'inputImage' },
+            // inputImageResizeMode: { width: 0.5 }
+            // name: 'CILinearGradient',
+            // imageStyle: { width: 320, height: 320 },
+            // inputColor0: '#000000ff',
+            // inputColor1: '#00000000',
+            // inputPoint0: { x: '100w', y: '0h' },
+            // inputPoint1: { x: '100w', y: '100h' },
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIMultiplyBlendMode',
+            inputImage: {
+              name: 'CILinearGradient',
+              imageStyle: { width: 320, height: 320 },
+              inputColor0: '#FFFFFF00',
+              inputColor1: '#987654',
+              inputPoint0: { x: '0w', y: '100h' },
+              inputPoint1: { x: '100w', y: '100h' },
+            },
+            inputBackgroundImage: {
+              name: 'CILinearGradient',
+              imageStyle: { width: 320, height: 320 },
+              inputColor0: '#abcdef00',
+              inputColor1: '#fedcba01',
+              inputPoint0: { x: '100w', y: '0h' },
+              inputPoint1: { x: '100w', y: '100h' },
+            },
+          }}
+        />
+        {/* <Switch
           value={this.state.showList}
           onValueChange={(showList) => this.setState({ showList })}
         />
-        {this.state.showList ? this.renderList() : this.renderSelect()}
+        {this.state.showList ? this.renderList() : this.renderSelect()} */}
       </ScrollView>
     )
   }

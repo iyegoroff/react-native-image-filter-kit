@@ -10,8 +10,27 @@ import {
   image,
   imageStyle,
   config,
-  bool
+  bool,
+  scaleMode,
+  gravityAxis,
+  resizeMode
 } from '../common/inputs'
+
+const Blend = {
+  scaleMode: scaleMode,
+  inputImage: image,
+  inputImageResizeMode: resizeMode,
+  inputImageGravityAxis: gravityAxis,
+  inputBackgroundImage: image,
+  inputBackgroundImageResizeMode: resizeMode,
+  inputBackgroundImageGravityAxis: gravityAxis,
+  disableCache: bool
+}
+
+const Common = {
+  inputImage: image,
+  disableCache: bool
+}
 
 export const shapes = {
   ImageFilter: {
@@ -20,68 +39,57 @@ export const shapes = {
 
   CIBoxBlur: {
     inputRadius: distance,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIDiscBlur: {
     inputRadius: distance,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIGaussianBlur: {
     inputRadius: distance,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIMaskedVariableBlur: {
-    inputRadius: distance,
     inputImage: image,
     inputMask: image,
+    inputRadius: distance,
     disableCache: bool
   },
 
-  CIMedianFilter: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIMedianFilter: Common,
 
   CIMotionBlur: {
     inputRadius: distance,
     inputAngle: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CINoiseReduction: {
     inputNoiseLevel: scalar,
     inputSharpness: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIZoomBlur: {
     inputCenter: position,
     inputAmount: distance,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIColorClamp: {
     inputMinComponents: scalarVector,
     inputMaxComponents: scalarVector,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIColorControls: {
     inputSaturation: scalar,
     inputBrightness: scalar,
     inputContrast: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIColorMatrix: {
@@ -90,8 +98,7 @@ export const shapes = {
     inputBVector: scalarVector,
     inputAVector: scalarVector,
     inputBiasVector: scalarVector,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIColorPolynomial: {
@@ -99,43 +106,32 @@ export const shapes = {
     inputGreenCoefficients: scalarVector,
     inputBlueCoefficients: scalarVector,
     inputAlphaCoefficients: scalarVector,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIExposureAdjust: {
     inputEV: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIGammaAdjust: {
     inputPower: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIHueAdjust: {
     inputAngle: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
-  CILinearToSRGBToneCurve: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CILinearToSRGBToneCurve: Common,
 
-  CISRGBToneCurveToLinear: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CISRGBToneCurveToLinear: Common,
 
   CITemperatureAndTint: {
     inputNeutral: offset,
     inputTargetNeutral: offset,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIToneCurve: {
@@ -144,210 +140,134 @@ export const shapes = {
     inputPoint2: offset,
     inputPoint3: offset,
     inputPoint4: offset,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIVibrance: {
     inputAmount: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIWhitePointAdjust,
   // CIColorCrossPolynomial,
   // CIColorCube,
   // CIColorCubeWithColorSpace,
-  CIColorInvert: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIColorInvert: Common,
 
   // CIColorMap,
   CIColorMonochrome: {
     inputColor: color,
     inputIntensity: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIColorPosterize: {
     inputLevels: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIFalseColor,
-  CIMaskToAlpha: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIMaskToAlpha: Common,
 
-  CIMaximumComponent: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIMaximumComponent: Common,
 
-  CIMinimumComponent: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIMinimumComponent: Common,
 
-  CIPhotoEffectChrome: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIPhotoEffectChrome: Common,
 
-  CIPhotoEffectFade: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIPhotoEffectFade: Common,
 
-  CIPhotoEffectInstant: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIPhotoEffectInstant: Common,
 
-  CIPhotoEffectMono: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIPhotoEffectMono: Common,
 
-  CIPhotoEffectNoir: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIPhotoEffectNoir: Common,
 
-  CIPhotoEffectProcess: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIPhotoEffectProcess: Common,
 
-  CIPhotoEffectTonal: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIPhotoEffectTonal: Common,
 
-  CIPhotoEffectTransfer: {
-    inputImage: image,
-    disableCache: bool
-  },
+  CIPhotoEffectTransfer: Common,
 
   CISepiaTone: {
     inputIntensity: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIVignette: {
     inputRadius: distance,
     inputIntensity: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIVignetteEffect: {
     inputCenter: position,
     inputIntensity: scalar,
     inputRadius: distance,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
-  CIAdditionCompositing: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIAdditionCompositing: Blend,
 
-  CIColorBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIColorBlendMode: Blend,
 
-  CIColorBurnBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIColorBurnBlendMode: Blend,
 
-  CIColorDodgeBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIColorDodgeBlendMode: Blend,
 
-  CIDarkenBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIDarkenBlendMode: Blend,
 
-  // CIDifferenceBlendMode,
-  // CIDivideBlendMode,
-  CIExclusionBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIDifferenceBlendMode: Blend,
 
-  // CIHardLightBlendMode,
-  CIHueBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIDivideBlendMode: Blend,
 
-  CILightenBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIExclusionBlendMode: Blend,
 
-  // CILinearBurnBlendMode,
-  // CILinearDodgeBlendMode,
-  // CILuminosityBlendMode,
-  // CIMaximumCompositing,
-  // CIMinimumCompositing,
-  CIMultiplyBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIHardLightBlendMode: Blend,
 
-  // CIMultiplyCompositing,
-  CIOverlayBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CIHueBlendMode: Blend,
 
-  // CIPinLightBlendMode,
-  // CISaturationBlendMode,
-  CIScreenBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CILightenBlendMode: Blend,
 
-  CISoftLightBlendMode: {
-    inputImage: image,
-    inputBackgroundImage: image,
-    disableCache: bool
-  },
+  CILinearBurnBlendMode: Blend,
 
-  // CISourceAtopCompositing,
-  // CISourceInCompositing,
-  // CISourceOutCompositing,
-  // CISourceOverCompositing,
-  // CISubtractBlendMode,
+  CILinearDodgeBlendMode: Blend,
+
+  CILuminosityBlendMode: Blend,
+
+  CIMaximumCompositing: Blend,
+
+  CIMinimumCompositing: Blend,
+
+  CIMultiplyBlendMode: Blend,
+
+  CIMultiplyCompositing: Blend,
+
+  CIOverlayBlendMode: Blend,
+
+  CIPinLightBlendMode: Blend,
+
+  CISaturationBlendMode: Blend,
+
+  CIScreenBlendMode: Blend,
+
+  CISoftLightBlendMode: Blend,
+
+  CISourceAtopCompositing: Blend,
+
+  CISourceInCompositing: Blend,
+
+  CISourceOutCompositing: Blend,
+
+  CISourceOverCompositing: Blend,
+
+  CISubtractBlendMode: Blend,
+
   CIBumpDistortion: {
     inputCenter: position,
     inputRadius: distance,
     inputScale: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIBumpDistortionLinear: {
@@ -355,23 +275,20 @@ export const shapes = {
     inputRadius: distance,
     inputScale: scalar,
     inputAngle: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CICircleSplashDistortion: {
     inputCenter: position,
     inputRadius: distance,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CICircularWrap: {
     inputCenter: position,
     inputRadius: distance,
     inputAngle: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIDroste,
@@ -379,7 +296,13 @@ export const shapes = {
   // CIGlassDistortion,
   // CIGlassLozenge,
   // CIHoleDistortion,
-  // CILightTunnel,
+  CILightTunnel: {
+    inputCenter: position,
+    inputRotation: scalar,
+    inputRadius: distance,
+    ...Common
+  },
+
   // CIPinchDistortion,
   // CIStretchCrop,
   // CITorusLensDistortion,
@@ -388,8 +311,7 @@ export const shapes = {
     inputCenter: position,
     inputRadius: distance,
     inputAngle: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIAztecCodeGenerator,
@@ -419,7 +341,15 @@ export const shapes = {
   // CIPerspectiveTransform,
   // CIPerspectiveTransformWithExtent,
   // CIStraightenFilter,
-  // CIGaussianGradient,
+  CIGaussianGradient: {
+    inputCenter: position,
+    inputRadius: distance,
+    inputColor0: color,
+    inputColor1: color,
+    imageStyle: imageStyle,
+    disableCache: bool
+  },
+
   CILinearGradient: {
     inputPoint0: position,
     inputPoint1: position,
@@ -439,13 +369,20 @@ export const shapes = {
     disableCache: bool
   },
 
-  // CISmoothLinearGradient,
+  CISmoothLinearGradient: {
+    inputPoint0: position,
+    inputPoint1: position,
+    inputColor0: color,
+    inputColor1: color,
+    imageStyle: imageStyle,
+    disableCache: bool
+  },
+
   CICircularScreen: {
     inputCenter: position,
     inputWidth: distance,
     inputSharpness: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CICMYKHalftone,
@@ -454,8 +391,7 @@ export const shapes = {
     inputAngle: scalar,
     inputWidth: distance,
     inputSharpness: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIHatchedScreen,
@@ -464,8 +400,7 @@ export const shapes = {
     inputAngle: scalar,
     inputWidth: distance,
     inputSharpness: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIAreaAverage,
@@ -479,22 +414,26 @@ export const shapes = {
   // CIAreaMinimumAlpha,
   CISharpenLuminance: {
     inputSharpness: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIUnsharpMask: {
     inputRadius: distance,
     inputIntensity: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIBlendWithAlphaMask,
   // CIBlendWithMask,
   // CIBloom,
-  // CIComicEffect,
-  // CIConvolution3X3,
+  CIComicEffect: Common,
+
+  CIConvolution3X3: {
+    inputWeights: scalarVector,
+    inputBias: scalar,
+    ...Common
+  },
+
   // CIConvolution5X5,
   // CIConvolution7X7,
   // CIConvolution9Horizontal,
@@ -502,15 +441,13 @@ export const shapes = {
   CICrystallize: {
     inputRadius: distance,
     inputCenter: position,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIDepthOfField,
   CIEdges: {
     inputIntensity: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIEdgeWork,
@@ -524,22 +461,19 @@ export const shapes = {
     inputEdgeIntensity: scalar,
     inputThreshold: scalar,
     inputContrast: scalar,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIPixellate: {
     inputCenter: position,
     inputScale: distance,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   CIPointillize: {
     inputRadius: distance,
     inputCenter: position,
-    inputImage: image,
-    disableCache: bool
+    ...Common
   },
 
   // CIShadedMaterial,
@@ -558,9 +492,8 @@ export const shapes = {
     inputAngle: scalar,
     inputCenter: position,
     inputWidth: distance,
-    inputImage: image,
-    disableCache: bool
-  }
+    ...Common
+  },
 
   // CIParallelogramTile,
   // CIPerspectiveTile,
@@ -568,8 +501,22 @@ export const shapes = {
   // CISixfoldRotatedTile,
   // CITriangleKaleidoscope,
   // CITriangleTile,
-  // CITwelvefoldReflectedTile,
-  // CIAccordionFoldTransition,
+  CITwelvefoldReflectedTile: {
+    inputCenter: position,
+    inputAngle: scalar,
+    inputWidth: scalar,
+    ...Common
+  }
+
+  // CIAccordionFoldTransition: {
+  //   inputImage: image,
+  //   inputTargetImage: image,
+  //   inputBottomHeight: distance,
+  //   inputNumberOfFolds: scalar,
+  //   inputFoldShadowAmount: scalar,
+  //   inputTime: scalar
+  // }
+
   // CIBarsSwipeTransition,
   // CICopyMachineTransition,
   // CIDisintegrateWithMaskTransition,

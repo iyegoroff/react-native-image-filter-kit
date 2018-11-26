@@ -8,5 +8,6 @@
 + (BOOL)isComposition:(nonnull NSDictionary *)config;
 + (nonnull NSString *)mainImage:(nonnull NSDictionary *)config;
 + (nonnull NSDictionary<NSString *, NSObject *> *)wrappedConfigs:(nonnull NSDictionary *)config;
++ (NSUInteger)maxImageIndex:(nonnull NSDictionary *)config;
 
 @end

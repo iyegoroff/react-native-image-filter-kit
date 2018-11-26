@@ -1,63 +1,63 @@
-import { Blend, BlendColor } from '../common/shapes'
+import { Composition, BlendColor } from '../common/shapes'
 
 export const shapes = {
-  PlusBlend: Blend,
+  PlusBlend: Composition,
 
-  ClearBlend: Blend,
+  ClearBlend: Composition,
 
-  DarkenBlend: Blend,
+  DarkenBlend: Composition,
 
-  DstBlend: Blend,
+  DstBlend: Composition,
 
-  DstATopBlend: Blend,
+  DstATopBlend: Composition,
 
-  DstInBlend: Blend,
+  DstInBlend: Composition,
 
-  DstOutBlend: Blend,
+  DstOutBlend: Composition,
 
-  DstOverBlend: Blend,
+  DstOverBlend: Composition,
 
-  LightenBlend: Blend,
+  LightenBlend: Composition,
 
-  ModulateBlend: Blend,
+  ModulateBlend: Composition,
 
-  OverlayBlend: Blend,
+  OverlayBlend: Composition,
 
-  ScreenBlend: Blend,
+  ScreenBlend: Composition,
 
-  SrcBlend: Blend,
+  SrcBlend: Composition,
 
-  SrcATopBlend: Blend,
+  SrcATopBlend: Composition,
 
-  SrcInBlend: Blend,
+  SrcInBlend: Composition,
 
-  SrcOutBlend: Blend,
+  SrcOutBlend: Composition,
 
-  SrcOverBlend: Blend,
+  SrcOverBlend: Composition,
 
-  XorBlend: Blend,
+  XorBlend: Composition,
 
-  ColorDodgeBlend: Blend,
+  ColorDodgeBlend: Composition,
 
-  ExclusionBlend: Blend,
+  ExclusionBlend: Composition,
 
-  ColorBurnBlend: Blend,
+  ColorBurnBlend: Composition,
 
-  SoftLightBlend: Blend,
+  SoftLightBlend: Composition,
 
-  HueBlend: Blend,
+  HueBlend: Composition,
 
-  ColorBlend: Blend,
+  ColorBlend: Composition,
 
-  SaturationBlend: Blend,
+  SaturationBlend: Composition,
 
-  LuminosityBlend: Blend,
+  LuminosityBlend: Composition,
 
-  DifferenceBlend: Blend,
+  DifferenceBlend: Composition,
 
-  HardLightBlend: Blend,
+  HardLightBlend: Composition,
 
-  MultiplyBlend: Blend,
+  MultiplyBlend: Composition,
 
   PlusBlendColor: BlendColor,
 

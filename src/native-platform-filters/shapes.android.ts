@@ -10,7 +10,7 @@ import {
   config,
   bool
 } from '../common/inputs'
-import { Common, Blend } from '../common/shapes'
+import { Common, Composition } from '../common/shapes'
 
 const Generator = {
   imageStyle: imageStyle,
@@ -83,7 +83,7 @@ export const shapes = {
 
   PorterDuffXfermode: {
     mode: porterDuffMode,
-    ...Blend
+    ...Composition
   },
 
   ScriptIntrinsicBlur: {

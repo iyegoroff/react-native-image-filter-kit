@@ -70,11 +70,33 @@
     : defaultValue;
 }
 
-//- (nonnull IFKResize *)convertResize:(nullable NSDictionary *)resize
-//                        defaultValue:(IFKResizeMode)defaultValue
-//{
-//
-//}
+- (nonnull IFKResize *)convertResize:(nullable NSDictionary *)resize
+                        defaultValue:(IFKResizeMode)defaultValue
+{
+  static NSDictionary *convert;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    convert = @{
+      @"STRETCH": @(STRETCH),
+      @"CONTAIN": @(CONTAIN),
+      @"COVER": @(COVER),
+    };
+  });
+  
+  if (resize != nil && [resize objectForKey:@"resizeMode"]) {
+    id resizeMode = [resize objectForKey:@"resizeMode"];
+    
+    if ([resizeMode isKindOfClass:[NSString class]] && [convert objectForKey:resizeMode]) {
+      return [[IFKResizeWithMode alloc] initWithMode:[[convert objectForKey:resizeMode] intValue]];
+    }
+    
+    if ([resizeMode isKindOfClass:[NSDictionary class]]) {
+      return [[IFKResizeWithSize alloc] initWithSize:resizeMode];
+    }
+  }
+  
+  return [[IFKResizeWithMode alloc] initWithMode:defaultValue];
+}
 
 - (nullable CIVector *)convertScalarVector:(nullable NSDictionary *)scalarVector
                               defaultValue:(nullable CIVector *)defaultValue
@@ -93,25 +115,71 @@
   return defaultValue;
 }
 
-//- (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
-//                      defaultValue:(IFKScaleMode)defaultValue
-//{
-//
-//}
+- (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
+                      defaultValue:(IFKScaleMode)defaultValue
+{
+  static NSDictionary *convert;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    convert = @{
+      @"UP": @(UP),
+      @"DOWN": @(DOWN),
+    };
+  });
+  
+  if (scale != nil && [scale objectForKey:@"scaleMode"]) {
+    id scaleMode = [scale objectForKey:@"scaleMode"];
+    
+    if ([scaleMode isKindOfClass:[NSString class]] && [convert objectForKey:scaleMode] != nil) {
+      return [[IFKScaleWithMode alloc] initWithMode:[[convert objectForKey:scaleMode] intValue]];
+    }
+    
+    if ([scaleMode isKindOfClass:[NSDictionary class]]) {
+      NSString *match = [(NSDictionary *)scaleMode objectForKey:@"match"];
+      
+      return [[IFKScaleWithMatch alloc] initWithMatch:match];
+    }
+  }
+  
+  return [[IFKScaleWithMode alloc] initWithMode:defaultValue];
+}
 
-//- (IFKGravityAxis)convertGravityAxis:(nullable NSDictionary *)gravityAxis
-//                        defaultValue:(IFKGravityAxis)defaultValue
-//{
-//
-//}
+- (IFKGravityAxis)convertGravityAxis:(nullable NSDictionary *)gravityAxis
+                        defaultValue:(IFKGravityAxis)defaultValue
+{
+  static NSDictionary *convert;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    convert = @{
+      @"CENTER": @(CENTER),
+      @"CENTER_LEFT": @(CENTER_LEFT),
+      @"CENTER_RIGHT": @(CENTER_RIGHT),
+      @"CENTER_TOP": @(CENTER_TOP),
+      @"CENTER_BOTTOM": @(CENTER_BOTTOM),
+      @"LEFT_TOP": @(LEFT_TOP),
+      @"LEFT_BOTTOM": @(LEFT_BOTTOM),
+      @"RIGHT_TOP": @(RIGHT_TOP),
+      @"RIGHT_BOTTOM": @(RIGHT_BOTTOM)
+    };
+  });
+  
+  if (gravityAxis != nil && [gravityAxis objectForKey:@"gravityAxis"]) {
+    NSNumber *value = [convert objectForKey:[gravityAxis objectForKey:@"gravityAxis"]];
+    
+    return value != nil ? [value intValue] : defaultValue;
+  }
+  
+  return defaultValue;
+}
 
 - (nullable CIVector *)convertOffset:(nullable NSDictionary *)offset
                         defaultValue:(nullable CIVector *)defaultValue
 {
   if (offset != nil && [offset objectForKey:@"offset"]) {
-    NSArray<NSNumber *> *vector = [offset objectForKey:@"offset"];
+    NSDictionary *vector = [offset objectForKey:@"offset"];
     
-    return [CIVector vectorWithCGPoint:CGPointMake([vector[0] floatValue], [vector[1] floatValue])];
+    return [CIVector vectorWithCGPoint:CGPointMake([vector[@"x"] floatValue],
+                                                   [vector[@"y"] floatValue])];
   }
   
   return defaultValue;
@@ -121,9 +189,9 @@
                           defaultValue:(nullable CIVector *)defaultValue
 {
   if (position != nil && [position objectForKey:@"position"]) {
-    NSArray<NSString *> *vector = [position objectForKey:@"position"];
-    NSNumber *x = [self convertRelative:vector[0] defaultValue:nil];
-    NSNumber *y = [self convertRelative:vector[1] defaultValue:nil];
+    NSDictionary *vector = [position objectForKey:@"position"];
+    NSNumber *x = [self convertRelative:vector[@"x"] defaultValue:nil];
+    NSNumber *y = [self convertRelative:vector[@"y"] defaultValue:nil];
     
     return [CIVector vectorWithCGPoint:CGPointMake([x floatValue], [y floatValue])];
   }

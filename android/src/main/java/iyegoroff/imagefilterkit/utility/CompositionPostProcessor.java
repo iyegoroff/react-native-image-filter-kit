@@ -75,12 +75,12 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
         : Math.min(dstExtent, srcExtent);
 
     } else if (mScaleMode instanceof Scale.WithMatch) {
-      String name = ((Scale.WithMatch) mScaleMode).name;
+      String match = ((Scale.WithMatch) mScaleMode).match;
 
-      if ("dstImage".equals(name)) {
+      if ("dstImage".equals(match)) {
         return dstExtent;
 
-      } else if ("srcImage".equals(name)) {
+      } else if ("srcImage".equals(match)) {
         return dstExtent;
       }
     }

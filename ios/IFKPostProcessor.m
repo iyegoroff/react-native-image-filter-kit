@@ -12,47 +12,58 @@
 @interface IFKPostProcessor ()
 
 @property (nonatomic, strong) CIFilter *filter;
+@property (nonatomic, strong) NSDictionary *inputs;
 
 @end
 
 @implementation IFKPostProcessor
 
-- (nonnull instancetype)initWithName:(nonnull NSString *)name
-                               width:(CGFloat)width
-                              height:(CGFloat)height
-                              inputs:(nonnull NSDictionary *)inputs;
+- (nonnull instancetype)initWithName:(nonnull NSString *)name inputs:(nonnull NSDictionary *)inputs
 {
-  static NSArray<NSString *> *skippedInputs;
-
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    skippedInputs = @[@"disableCache", @"name", @"inputImage", @"generatedImage"];
-  });
-  
   if ((self = [super init])) {
     _filter = [CIFilter filterWithName:name];
-    
-    IFKInputConverter *converter = [[IFKInputConverter alloc] initWithWidth:width height:height];
-    NSArray<NSString *> *sortedNames = [[[inputs allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
-      return [obj1 compare:obj2];
-
-    }] filter:^BOOL(NSString *val, int idx) {
-      return ![skippedInputs containsObject:val];
-    }];
-    
-    for (NSString *inputName in sortedNames) {
-      [_filter setValue:[converter convertAny:[inputs objectForKey:inputName]] forKey:inputName];
-    }
+    _inputs = inputs;
   }
   
   return self;
+}
+
+- (void)initFilter:(CGSize)size
+{
+  static NSArray<NSString *> *skippedInputs;
+  
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    skippedInputs = @[
+      @"disableCache",
+      @"name",
+      @"inputImage",
+      @"generatedImage",
+      @"scaleMode",
+      @"dstResizeMode",
+      @"dstGravityAxis",
+      @"srcResizeMode",
+      @"srcGravityAxis"
+    ];
+  });
+  
+  IFKInputConverter *converter = [[IFKInputConverter alloc] initWithWidth:size.width
+                                                                   height:size.height];
+
+  NSArray *names = [[_inputs allKeys] filter:^BOOL(NSString *val, int idx) {
+    return ![skippedInputs containsObject:val];
+  }];
+  
+  for (NSString *inputName in names) {
+    [_filter setValue:[converter convertAny:[_inputs objectForKey:inputName]] forKey:inputName];
+  }
 }
 
 - (nonnull UIImage *)process:(nonnull UIImage *)image
                   resizeMode:(RCTResizeMode)resizeMode
                    viewFrame:(CGRect)viewFrame
 {
-  if ([_filter respondsToSelector:NSSelectorFromString(@"inputImage")]) {
+  if ([[_filter inputKeys] containsObject:@"inputImage"]) {
     return [self processFilter:image resizeMode:resizeMode];
     
   } else {
@@ -68,41 +79,52 @@
 //    [NSThread sleepForTimeInterval:5];
 //  }
   CIImage *tmp = [[CIImage alloc] initWithImage:image];
+  [self initFilter:tmp.extent.size];
   [_filter setValue:tmp forKey:@"inputImage"];
   
-  CGRect outputRect = tmp.extent;
-  
-  CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:outputRect];
-  
-  UIImage *filteredImage = [IFKPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
-                                                         srcSize:outputRect.size
-                                                        destSize:image.size
-                                                           scale:image.scale
-                                                      resizeMode:resizeMode];
-  
-  CGImageRelease(cgim);
-  
-  return filteredImage;
+  return [self filteredImageWithScale:image.scale
+                           resizeMode:resizeMode
+                            viewFrame:tmp.extent
+                             destSize:image.size];
 }
 
 - (nonnull UIImage *)processGenerator:(nonnull UIImage *)image
                            resizeMode:(RCTResizeMode)resizeMode
                             viewFrame:(CGRect)viewFrame
 {
-  CGRect outputRect = viewFrame;
+  CGRect frame = CGRectMake(viewFrame.origin.x,
+                            viewFrame.origin.y,
+                            viewFrame.size.width,
+                            viewFrame.size.height);
+  
+  [self initFilter:frame.size];
+  
+  return [self filteredImageWithScale:image.scale
+                           resizeMode:resizeMode
+                            viewFrame:frame
+                             destSize:frame.size];
+}
 
-  CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:outputRect];
+- (nonnull UIImage *)filteredImageWithScale:(CGFloat)scale
+                                 resizeMode:(RCTResizeMode)resizeMode
+                                  viewFrame:(CGRect)viewFrame
+                                   destSize:(CGSize)destSize
+{
+  CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:viewFrame];
+  
+  NSLog(@"filter: f %@ %@", _filter, [NSValue valueWithCGRect:viewFrame]);
   
   UIImage *filteredImage = [IFKPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
-                                                         srcSize:outputRect.size
-                                                        destSize:outputRect.size
-                                                           scale:image.scale
+                                                         srcSize:viewFrame.size
+                                                        destSize:destSize
+                                                           scale:scale
                                                       resizeMode:resizeMode];
   
   CGImageRelease(cgim);
   
   return filteredImage;
 }
+
 
 - (nonnull CIContext *)context
 {
@@ -116,7 +138,7 @@
   static CIContext *contextWithColorManagement;
   
   dispatch_once(&initToken, ^{
-    filtersWithColorManagement = @[@"CIColorMatrix", @"CIColorInvert", @"CIColorPolynomial"];
+    filtersWithColorManagement = @[@"CIColorMatrix", @"CIColorInvert", @"CIColorPolynomial", @"CIEdges"];
     
     eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3]
       ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];

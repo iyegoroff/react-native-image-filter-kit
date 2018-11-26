@@ -1,6 +1,6 @@
 import { bool, scaleMode, image, resizeMode, gravityAxis, color } from './inputs'
 
-export const Blend = {
+export const Composition = {
   scaleMode: scaleMode,
   dstImage: image,
   dstGravityAxis: gravityAxis,

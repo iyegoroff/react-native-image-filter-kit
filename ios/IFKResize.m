@@ -11,8 +11,9 @@
   
   if ([self isKindOfClass:[IFKResizeWithSize class]]) {
     return [NSString stringWithFormat:
-            @"Resize.WithSize(%@)",
-            [NSValue valueWithCGSize:((IFKResizeWithSize *)self).size]];
+            @"Resize.WithSize(%@, %@)",
+            ((IFKResizeWithSize *)self).width,
+            ((IFKResizeWithSize *)self).height];
   }
   
   RCTAssert(false, @"ImageFilterKit: unknown IFKResize subclass");
@@ -37,10 +38,11 @@
 
 @implementation IFKResizeWithSize
 
-- (nonnull instancetype)initWithSize:(CGSize)size
+- (nonnull instancetype)initWithSize:(nonnull NSDictionary *)size
 {
   if ((self = [super init])) {
-    _size = size;
+    _width = [size objectForKey:@"width"];
+    _height = [size objectForKey:@"height"];
   }
   
   return self;

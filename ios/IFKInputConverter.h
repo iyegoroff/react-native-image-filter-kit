@@ -21,17 +21,17 @@
 - (nullable NSNumber *)convertDistance:(nullable NSDictionary *)distance
                           defaultValue:(nullable NSNumber *)defaultValue;
 
-//- (nonnull IFKResize *)convertResize:(nullable NSDictionary *)resize
-//                        defaultValue:(IFKResizeMode)defaultValue;
+- (nonnull IFKResize *)convertResize:(nullable NSDictionary *)resize
+                        defaultValue:(IFKResizeMode)defaultValue;
 
 - (nullable CIVector *)convertScalarVector:(nullable NSDictionary *)scalarVector
                               defaultValue:(nullable CIVector *)defaultValue;
 
-//- (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
-//                      defaultValue:(IFKScaleMode)defaultValue;
+- (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
+                      defaultValue:(IFKScaleMode)defaultValue;
 
-//- (IFKGravityAxis)convertGravityAxis:(nullable NSDictionary *)gravityAxis
-//                        defaultValue:(IFKGravityAxis)defaultValue;
+- (IFKGravityAxis)convertGravityAxis:(nullable NSDictionary *)gravityAxis
+                        defaultValue:(IFKGravityAxis)defaultValue;
 
 - (nullable CIVector *)convertOffset:(nullable NSDictionary *)offset
                         defaultValue:(nullable CIVector *)defaultValue;

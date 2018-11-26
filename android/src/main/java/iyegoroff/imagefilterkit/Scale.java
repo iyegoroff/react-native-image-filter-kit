@@ -24,10 +24,10 @@ public class Scale {
   }
 
   public static class WithMatch extends Scale {
-    public final @Nullable String name;
+    public final @Nullable String match;
 
-    WithMatch(@Nullable String name) {
-      this.name = name;
+    WithMatch(@Nullable String match) {
+      this.match = match;
     }
   }
 
@@ -38,8 +38,7 @@ public class Scale {
     }
 
     if (this instanceof WithMatch) {
-      return String
-        .format("Scale.WithMatch(%s)", ((WithMatch) this).name);
+      return String.format("Scale.WithMatch(%s)", ((WithMatch) this).match);
     }
 
     throw Assertions.assertUnreachable("ImageFilterKit: unknown Scale subclass");

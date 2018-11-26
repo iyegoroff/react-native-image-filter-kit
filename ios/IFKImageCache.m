@@ -92,6 +92,7 @@ static double asMB(unsigned long long bytes) {
 
 - (void)setImage:(nonnull UIImage *)image forKey:(nonnull NSString *)key
 {
+  NSLog(@"filter: image %@", image);
   NSUInteger size = [self costFor:image];
   [_cache setObject:image forKey:key cost:size];
 

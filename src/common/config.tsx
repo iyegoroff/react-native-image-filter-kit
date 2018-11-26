@@ -27,6 +27,21 @@ const paramConvertMap: { [key: string]: Function } = {
   [colorVector]: convertColors
 }
 
+const iosKeyConvertMap: { [key: string]: string } = {
+  inputImageResizeMode: 'srcResizeMode',
+  inputImageGravityAxis: 'srcGravityAxis',
+  inputBackgroundImageResizeMode: 'dstResizeMode',
+  inputBackgroundImageGravityAxis: 'dstGravityAxis',
+  inputMaskResizeMode: 'dstResizeMode',
+  inputMaskGravityAxis: 'dstGravityAxis'
+}
+
+const iosMatchMap: { [key: string]: string } = {
+  inputImage: 'srcImage',
+  inputBackgroundImage: 'dstImage',
+  inputMask: 'dstImage'
+}
+
 const defaultImageStyle = { width: '100%', height: '100%' }
 
 const requiredValueInvariant = (filterName: string, value: any, key: string) => {
@@ -40,6 +55,20 @@ interface Config {
   readonly name: string
   [key: string]: any
 }
+
+const convertKey = Platform.select({
+  android: id,
+  ios: (key: string) => iosKeyConvertMap[key] || key
+})
+
+const convertValue = Platform.select({
+  android: id,
+  ios: (value: any) => (
+    typeof (value as { match: Function | string }).match === 'string'
+      ? { match: iosMatchMap[value.match] || value.match }
+      : value
+  )
+})
 
 export const finalizeConfig = ({ name, ...values }: Config) => {
   const shape = ShapeRegistry.shape(name)
@@ -56,7 +85,7 @@ export const finalizeConfig = ({ name, ...values }: Config) => {
           const convert: Function = paramConvertMap[inputType] ||
             (inputType === image && typeof inputValue !== 'number' ? finalizeConfig : id)
 
-          acc[key] = { [inputType]: convert(values[key]) }
+          acc[convertKey(key)] = { [inputType]: convertValue(convert(values[key])) }
         }
 
         return acc
@@ -74,11 +103,7 @@ export const extractConfigAndImages = (filterProps: Config) => {
       const idx = images.length
       const elem = filter as React.ReactElement<any>
 
-      images.push(
-        elem.props.key !== undefined
-          ? elem
-          : <React.Fragment key={`image_#${idx}`}>{elem}</React.Fragment>
-      )
+      images.push(elem)
 
       return idx
     }

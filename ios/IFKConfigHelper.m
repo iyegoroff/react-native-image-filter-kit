@@ -11,8 +11,9 @@
 
 + (BOOL)isCacheDisabled:(nonnull NSDictionary *)config
 {
+  NSLog(@"filter: cache %@", [config objectForKey:@"disableCache"]);
   return [config objectForKey:@"disableCache"] != nil
-    && [[config objectForKey:@"disableCache"] objectForKey:@"bool"];
+    && [[[config objectForKey:@"disableCache"] objectForKey:@"bool"] boolValue];
 }
 
 + (BOOL)isSingular:(nonnull NSDictionary *)config
@@ -64,6 +65,26 @@
     return [val isKindOfClass:[NSDictionary class]]
       && [(NSDictionary *)val objectForKey:@"image"] != nil;
   }].count;
+}
+
++ (NSUInteger)maxImageIndex:(nonnull NSDictionary *)config
+{
+  NSNumber *(^__block iter)(NSDictionary *, NSNumber *);
+  NSNumber *(^__weak __block weakIter)(NSDictionary *, NSNumber *);
+  
+  weakIter = iter = ^(NSDictionary *nextConfig, NSNumber *prevMaxImageIndex) {
+    return [[nextConfig allValues] reduce:^id(NSNumber *acc, NSDictionary *val, int idx) {
+      NSObject *image = [val isKindOfClass:[NSDictionary class]]
+        ? [val objectForKey:@"image"]
+        : nil;
+      
+      return [image isKindOfClass:[NSNumber class]]
+        ? ([acc intValue] > ((NSNumber *)image).intValue ? acc : image)
+        : ([image isKindOfClass:[NSDictionary class]] ? weakIter((NSDictionary *)image, acc) : acc);
+    } init:prevMaxImageIndex];
+  };
+  
+  return [iter(config, @(0)) intValue];
 }
 
 @end

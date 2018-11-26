@@ -20,8 +20,9 @@ typedef enum {
 
 @interface IFKResizeWithSize : IFKResize
 
-@property (nonatomic, assign) CGSize size;
+@property (nonatomic, strong) NSNumber *width;
+@property (nonatomic, strong) NSNumber *height;
 
-- (nonnull instancetype)initWithSize:(CGSize)size;
+- (nonnull instancetype)initWithSize:(nonnull NSDictionary *)size;
 
 @end

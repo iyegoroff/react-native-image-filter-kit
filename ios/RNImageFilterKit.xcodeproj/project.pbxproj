@@ -19,6 +19,7 @@
 		7425EC00219C62B200E93C3A /* IFKPostProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7425EBFF219C62B200E93C3A /* IFKPostProcessor.m */; };
 		744B74CF211F758F009CBCAE /* IFKFilteredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 744B74CE211F758F009CBCAE /* IFKFilteredImage.m */; };
 		74538BDE213406AF00F1FDD0 /* IFKOutputExtentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 74538BDD213406AF00F1FDD0 /* IFKOutputExtentHandler.m */; };
+		7494575121AA2CFB005AD9F1 /* IFKCompositionPostProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7494575021AA2CFB005AD9F1 /* IFKCompositionPostProcessor.m */; };
 		749468FF21A34A7300D4805E /* RCTImageView+CacheKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 749468FE21A34A7300D4805E /* RCTImageView+CacheKey.m */; };
 		74AEAD0B21999E7000DC563B /* IFKScale.m in Sources */ = {isa = PBXBuildFile; fileRef = 74AEAD0A21999E7000DC563B /* IFKScale.m */; };
 		74AEAD0E2199A44800DC563B /* IFKInputConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74AEAD0D2199A44800DC563B /* IFKInputConverter.m */; };
@@ -70,6 +71,8 @@
 		744B74CE211F758F009CBCAE /* IFKFilteredImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKFilteredImage.m; sourceTree = "<group>"; };
 		74538BDC213406AF00F1FDD0 /* IFKOutputExtentHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKOutputExtentHandler.h; sourceTree = "<group>"; };
 		74538BDD213406AF00F1FDD0 /* IFKOutputExtentHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKOutputExtentHandler.m; sourceTree = "<group>"; };
+		7494574F21AA2CFB005AD9F1 /* IFKCompositionPostProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKCompositionPostProcessor.h; sourceTree = "<group>"; };
+		7494575021AA2CFB005AD9F1 /* IFKCompositionPostProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKCompositionPostProcessor.m; sourceTree = "<group>"; };
 		749468FD21A34A7300D4805E /* RCTImageView+CacheKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCTImageView+CacheKey.h"; sourceTree = "<group>"; };
 		749468FE21A34A7300D4805E /* RCTImageView+CacheKey.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "RCTImageView+CacheKey.m"; sourceTree = "<group>"; };
 		74AEAD0921999E7000DC563B /* IFKScale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKScale.h; sourceTree = "<group>"; };
@@ -173,6 +176,8 @@
 				7425EBFC219C5C9400E93C3A /* IFKFilterableImage.m */,
 				7425EBFE219C62B200E93C3A /* IFKPostProcessor.h */,
 				7425EBFF219C62B200E93C3A /* IFKPostProcessor.m */,
+				7494574F21AA2CFB005AD9F1 /* IFKCompositionPostProcessor.h */,
+				7494575021AA2CFB005AD9F1 /* IFKCompositionPostProcessor.m */,
 				74D0D690219EEA8500EC6551 /* IFKConfigHelper.h */,
 				74D0D691219EEA8500EC6551 /* IFKConfigHelper.m */,
 				749468FD21A34A7300D4805E /* RCTImageView+CacheKey.h */,
@@ -244,6 +249,7 @@
 				74076F4E219B549A0015E836 /* IFKCancellationToken.m in Sources */,
 				74F6B5F9211E40D2005A9DB1 /* IFKImageCache.m in Sources */,
 				7425EC00219C62B200E93C3A /* IFKPostProcessor.m in Sources */,
+				7494575121AA2CFB005AD9F1 /* IFKCompositionPostProcessor.m in Sources */,
 				74076F51219B549A0015E836 /* IFKExecutor.m in Sources */,
 				744B74CF211F758F009CBCAE /* IFKFilteredImage.m in Sources */,
 				74076F54219B549A0015E836 /* Bolts.m in Sources */,
