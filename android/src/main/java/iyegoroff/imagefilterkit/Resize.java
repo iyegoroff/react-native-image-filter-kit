@@ -2,6 +2,8 @@ package iyegoroff.imagefilterkit;
 
 import com.facebook.infer.annotation.Assertions;
 
+import java.util.Locale;
+
 import javax.annotation.Nullable;
 
 public class Resize {
@@ -41,8 +43,12 @@ public class Resize {
     }
 
     if (this instanceof WithSize) {
-      return String
-        .format("Resize.WithSize(%a, %a)", ((WithSize) this).width, ((WithSize) this).height);
+      return String.format(
+        (Locale) null,
+        "Resize.WithSize(%f, %f)",
+        ((WithSize) this).width,
+        ((WithSize) this).height
+      );
     }
 
     throw Assertions.assertUnreachable("ImageFilterKit: unknown Resize subclass");

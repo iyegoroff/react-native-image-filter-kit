@@ -41,21 +41,21 @@
       @"generatedImage",
       @"scaleMode",
       @"dstResizeMode",
-      @"dstGravityAxis",
+      @"dstAnchor",
+      @"dstPosition",
       @"srcResizeMode",
-      @"srcGravityAxis"
+      @"srcAnchor",
+      @"srcPosition"
     ];
   });
-  
-  IFKInputConverter *converter = [[IFKInputConverter alloc] initWithWidth:size.width
-                                                                   height:size.height];
 
   NSArray *names = [[_inputs allKeys] filter:^BOOL(NSString *val, int idx) {
     return ![skippedInputs containsObject:val];
   }];
   
   for (NSString *inputName in names) {
-    [_filter setValue:[converter convertAny:[_inputs objectForKey:inputName]] forKey:inputName];
+    [_filter setValue:[IFKInputConverter convertAny:[_inputs objectForKey:inputName] bounds:size]
+               forKey:inputName];
   }
 }
 
@@ -80,6 +80,7 @@
 //  }
   CIImage *tmp = [[CIImage alloc] initWithImage:image];
   [self initFilter:tmp.extent.size];
+  
   [_filter setValue:tmp forKey:@"inputImage"];
   
   return [self filteredImageWithScale:image.scale
@@ -138,7 +139,15 @@
   static CIContext *contextWithColorManagement;
   
   dispatch_once(&initToken, ^{
-    filtersWithColorManagement = @[@"CIColorMatrix", @"CIColorInvert", @"CIColorPolynomial", @"CIEdges"];
+    filtersWithColorManagement = @[
+      @"CIColorMatrix",
+      @"CIColorInvert",
+      @"CIColorPolynomial",
+      @"CIEdges",
+      @"CIConvolution3X3",
+      @"CIConvolution5X5",
+      @"CIConvolution7X7"
+    ];
     
     eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3]
       ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];

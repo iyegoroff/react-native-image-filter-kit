@@ -17,9 +17,11 @@
 
 @property (nonatomic, strong) IFKScale *scaleMode;
 @property (nonatomic, strong) IFKResize *dstResizeMode;
-@property (nonatomic, assign) IFKGravityAxis dstGravityAxis;
+@property (nonatomic, assign) CGPoint dstAnchor;
+@property (nonatomic, assign) CGPoint dstPosition;
 @property (nonatomic, strong) IFKResize *srcResizeMode;
-@property (nonatomic, assign) IFKGravityAxis srcGravityAxis;
+@property (nonatomic, assign) CGPoint srcAnchor;
+@property (nonatomic, assign) CGPoint srcPosition;
 
 @end
 
@@ -28,23 +30,38 @@
 - (nonnull instancetype)initWithName:(nonnull NSString *)name inputs:(nonnull NSDictionary *)inputs
 {
   if ((self = [super initWithName:name inputs:inputs])) {
-    IFKInputConverter *converter = [[IFKInputConverter alloc] initWithWidth:0 height:0];
-    
-    _scaleMode = [converter convertScale:[[self inputs] objectForKey:@"scaleMode"] defaultValue:UP];
+    CIVector *center = [CIVector vectorWithCGPoint:CGPointMake(0.5f, 0.5f)];
+
+    _scaleMode = [IFKInputConverter convertScale:[[self inputs] objectForKey:@"scaleMode"]
+                                    defaultValue:UP];
+    _dstResizeMode = [IFKInputConverter convertResize:[[self inputs] objectForKey:@"dstResizeMode"]
+                                         defaultValue:COVER];
+    _srcResizeMode = [IFKInputConverter convertResize:[[self inputs] objectForKey:@"srcResizeMode"]
+                                         defaultValue:COVER];
+    _dstAnchor = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"dstAnchor"]
+                                      defaultValue:center] CGPointValue];
+    _srcAnchor = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcAnchor"]
+                                      defaultValue:center] CGPointValue];
+    _dstPosition = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"dstPosition"]
+                                        defaultValue:center] CGPointValue];
+    _srcPosition = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcPosition"]
+                                        defaultValue:center] CGPointValue];
   }
   
   return self;
 }
 
-- (CGFloat)outImageExtentWithDstExtent:(CGFloat)dstExtent srcExtent:(CGFloat)srcExtent
++ (CGFloat)outImageExtentWithScaleMode:(IFKScale *)scaleMode
+                             dstExtent:(CGFloat)dstExtent
+                             srcExtent:(CGFloat)srcExtent
 {
-  if ([_scaleMode isKindOfClass:[IFKScaleWithMode class]]) {
-    return ((IFKScaleWithMode *)_scaleMode).mode == UP
+  if ([scaleMode isKindOfClass:[IFKScaleWithMode class]]) {
+    return ((IFKScaleWithMode *)scaleMode).mode == UP
       ? MAX(dstExtent, srcExtent)
       : MIN(dstExtent, srcExtent);
     
-  } else if ([_scaleMode isKindOfClass:[IFKScaleWithMatch class]]) {
-    NSString *match = ((IFKScaleWithMatch *)_scaleMode).match;
+  } else if ([scaleMode isKindOfClass:[IFKScaleWithMatch class]]) {
+    NSString *match = ((IFKScaleWithMatch *)scaleMode).match;
     
     if ([@"dstImage" isEqualToString:match]) {
       return dstExtent;
@@ -54,7 +71,7 @@
     }
   }
   
-  RCTAssert(false, @"ImageFilterKit: invalid scaleMode - %@", _scaleMode);
+  RCTAssert(false, @"ImageFilterKit: invalid scaleMode - %@", scaleMode);
   
   return 0.0f;
 }
@@ -64,12 +81,11 @@
                          imageWidth:(CGFloat)bitmapWidth
                         imageHeight:(CGFloat)bitmapHeight
                          resizeMode:(nonnull IFKResize *)resizeMode
-                        gravityAxis:(IFKGravityAxis)gravityAxis
+                             anchor:(CGPoint)anchor
+                           position:(CGPoint)position
 {
   CGFloat width = 0;
   CGFloat height = 0;
-  CGFloat x = 0;
-  CGFloat y = 0;
   
   if ([resizeMode isKindOfClass:[IFKResizeWithMode class]]) {
     IFKResizeMode mode = ((IFKResizeWithMode *)resizeMode).mode;
@@ -118,44 +134,10 @@
     }
   }
   
-  if (gravityAxis == CENTER) {
-    x = canvasWidth / 2 - width / 2;
-    y = canvasHeight / 2 - height / 2;
-    
-  } else if (gravityAxis == CENTER_LEFT) {
-    x = 0;
-    y = canvasHeight / 2 - height / 2;
-    
-  } else if (gravityAxis == CENTER_RIGHT) {
-    x = canvasWidth - width;
-    y = canvasHeight / 2 - height / 2;
-    
-  } else if (gravityAxis == CENTER_TOP) {
-    x = canvasWidth / 2 - width / 2;
-    y = canvasHeight - height;
-    
-  } else if (gravityAxis == CENTER_BOTTOM) {
-    x = canvasWidth / 2 - width / 2;
-    y = 0;
-    
-  } else if (gravityAxis == LEFT_TOP) {
-    x = 0;
-    y = canvasHeight - height;
-    
-  } else if (gravityAxis == LEFT_BOTTOM) {
-    x = 0;
-    y = 0;
-    
-  } else if (gravityAxis == RIGHT_TOP) {
-    x = canvasWidth - width;
-    y = canvasHeight - height;
-    
-  } else if (gravityAxis == RIGHT_BOTTOM) {
-    x = canvasWidth - width;
-    y = 0;
-  }
-  
-  return CGRectMake(x, y, width, height);
+  return CGRectMake(canvasWidth * position.x - width * anchor.x,
+                    canvasHeight * position.y - height * anchor.y,
+                    width,
+                    height);
 }
 
 - (nonnull NSString *)dstImageName
@@ -170,26 +152,17 @@
     return @"inputMask";
   }
   
+  if ([inputKeys containsObject:@"inputGradientImage"]) {
+    return @"inputGradientImage";
+  }
+  
+  if ([inputKeys containsObject:@"inputTargetImage"]) {
+    return @"inputTargetImage";
+  }
+  
   RCTAssert(false, @"ImageFilterKit: unknown filter input - %@", [self filter].name);
   
   return @"";
-}
-
-- (void)initFilter:(CGSize)size
-{
-  [super initFilter:size];
-
-  IFKInputConverter *converter = [[IFKInputConverter alloc] initWithWidth:size.width
-                                                                   height:size.height];
-  
-  _dstResizeMode = [converter convertResize:[[self inputs] objectForKey:@"dstResizeMode"]
-                               defaultValue:COVER];
-  _srcResizeMode = [converter convertResize:[[self inputs] objectForKey:@"srcResizeMode"]
-                               defaultValue:COVER];
-  _dstGravityAxis = [converter convertGravityAxis:[[self inputs] objectForKey:@"dstGravityAxis"]
-                                     defaultValue:CENTER];
-  _srcGravityAxis = [converter convertGravityAxis:[[self inputs] objectForKey:@"srcGravityAxis"]
-                                     defaultValue:CENTER];
 }
 
 - (nonnull UIImage *)processFilter:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
@@ -205,8 +178,12 @@
   CGRect dstFrame = dstImage.extent;
   
   CGSize outSize = CGSizeMake(
-    [self outImageExtentWithDstExtent:dstFrame.size.width srcExtent:srcFrame.size.width],
-    [self outImageExtentWithDstExtent:dstFrame.size.height srcExtent:srcFrame.size.height]
+    [IFKCompositionPostProcessor outImageExtentWithScaleMode:_scaleMode
+                                                   dstExtent:dstFrame.size.width
+                                                   srcExtent:srcFrame.size.width],
+    [IFKCompositionPostProcessor outImageExtentWithScaleMode:_scaleMode
+                                                   dstExtent:dstFrame.size.height
+                                                   srcExtent:srcFrame.size.height]
   );
   
   [self initFilter:outSize];
@@ -218,17 +195,27 @@
                                                            imageWidth:dstFrame.size.width
                                                           imageHeight:dstFrame.size.height
                                                            resizeMode:_dstResizeMode
-                                                          gravityAxis:_dstGravityAxis];
+                                                               anchor:_dstAnchor
+                                                             position:_dstPosition];
   
   CGRect src = [IFKCompositionPostProcessor imageFrameWithCanvasWidth:outSize.width
                                                          canvasHeight:outSize.height
                                                            imageWidth:srcFrame.size.width
                                                           imageHeight:srcFrame.size.height
                                                            resizeMode:_srcResizeMode
-                                                          gravityAxis:_srcGravityAxis];
+                                                               anchor:_srcAnchor
+                                                             position:_srcPosition];
   
-  NSLog(@"post: inputImage %@ -> %@ (%@ + %i)", [NSValue valueWithCGRect:srcFrame], [NSValue valueWithCGRect:src], _srcResizeMode, _srcGravityAxis);
-  NSLog(@"post: inputBackgroundImage %@ -> %@ (%@ + %i)", [NSValue valueWithCGRect:dstFrame], [NSValue valueWithCGRect:dst], _dstResizeMode, _dstGravityAxis);
+  NSLog(@"IFK: DST %@ %f %f", [NSValue valueWithCGRect:dst], dstFrame.size.width, dstFrame.size.height);
+  NSLog(@"IFK: SRC %@ %f %f", [NSValue valueWithCGRect:src], srcFrame.size.width, srcFrame.size.height);
+  
+  NSLog(@"IFK: DST {%f, %f, %@}; SRC {%f, %f, %@}; Canvas {%f, %f}",
+        dstFrame.size.width, dstFrame.size.height, _dstResizeMode,
+        srcFrame.size.width, srcFrame.size.height, _srcResizeMode,
+        outSize.width, outSize.height);
+  
+  NSLog(@"post: inputImage %@ -> %@", [NSValue valueWithCGRect:srcFrame], [NSValue valueWithCGRect:src]);
+  NSLog(@"post: inputBackgroundImage %@ -> %@", [NSValue valueWithCGRect:dstFrame], [NSValue valueWithCGRect:dst]);
   
   CGAffineTransform srcTransform = CGAffineTransformMake(src.size.width / srcFrame.size.width,
                                                          0,

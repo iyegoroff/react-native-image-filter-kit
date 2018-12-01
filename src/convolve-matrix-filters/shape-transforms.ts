@@ -7,17 +7,31 @@ export interface EdgeDetectionConfig extends FilterConfig {
   readonly disableIntermediateCaches?: boolean
 }
 
+const edgeDetectionMatrix = [
+  -1, -1, -1,
+  -1, 8, -1,
+  -1, -1, -1
+]
+
+const embossMatrix = [
+  -2, -1, 0,
+  -1, 1, 1,
+  0, 1, 2
+]
+
+const fuzzyGlassMatrix = [
+  0, 20, 0,
+  20, -59, 20,
+  1, 13, 0
+].map(w => w / 7)
+
 const asNative3x3FilterConfig = Platform.select({
-  // ios: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
-  //   name: 'CIColorMatrix',
-  //   inputRVector: matrix.slice(0, 4),
-  //   inputGVector: matrix.slice(5, 9),
-  //   inputBVector: matrix.slice(10, 14),
-  //   inputAVector: matrix.slice(15, 19),
-  //   inputBiasVector: [matrix[4], matrix[9], matrix[14], matrix[19]],
-  //   image,
-  //   disableCache
-  // } as Config),
+  ios: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
+    name: 'CIConvolution3X3',
+    inputWeights: matrix,
+    inputImage: image,
+    disableCache
+  } as Config),
 
   android: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
     name: 'ScriptIntrinsicConvolve3x3',
@@ -28,16 +42,12 @@ const asNative3x3FilterConfig = Platform.select({
 })
 
 const asNative5x5FilterConfig = Platform.select({
-  // ios: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
-  //   name: 'CIColorMatrix',
-  //   inputRVector: matrix.slice(0, 4),
-  //   inputGVector: matrix.slice(5, 9),
-  //   inputBVector: matrix.slice(10, 14),
-  //   inputAVector: matrix.slice(15, 19),
-  //   inputBiasVector: [matrix[4], matrix[9], matrix[14], matrix[19]],
-  //   image,
-  //   disableCache
-  // } as Config),
+  ios: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
+    name: 'CIConvolution5X5',
+    inputWeights: matrix,
+    inputImage: image,
+    disableCache
+  } as Config),
 
   android: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
     name: 'ScriptIntrinsicConvolve5x5',
@@ -63,43 +73,44 @@ export const shapeTransforms = {
     })
   ),
 
-  EdgeDetection: (
-    { image, disableCache, disableIntermediateCaches = true }: EdgeDetectionConfig
-  ) => ({
-    name: 'PlusBlendColor',
-    dstImage: asNative3x3FilterConfig({
-      image,
+  EdgeDetection: Platform.select({
+    ios: ({ image, disableCache }: EdgeDetectionConfig) => ({
+      name: 'CIColorInvert',
+      inputImage: {
+        ...asNative3x3FilterConfig({
+          image,
+          disableCache,
+          matrix: edgeDetectionMatrix
+        }),
+        inputBias: 1
+      },
+      disableCache
+    } as Config),
+
+    android: ({ image, disableCache, disableIntermediateCaches = true }: EdgeDetectionConfig) => ({
+      name: 'PlusBlendColor',
+      dstImage: asNative3x3FilterConfig({
+        image,
+        disableCache,
+        matrix: edgeDetectionMatrix
+      }),
       disableCache,
-      matrix: [
-        -1, -1, -1,
-        -1, 8, -1,
-        -1, -1, -1
-      ]
-    }),
-    disableCache,
-    disableIntermediateCaches,
-    srcColor: 'black'
+      disableIntermediateCaches,
+      srcColor: 'black'
+    } as Config)
   }),
 
   Emboss: (config: FilterConfig) => (
     asNative3x3FilterConfig({
       ...config,
-      matrix: [
-        -2, -1, 0,
-        -1, 1, 1,
-        0, 1, 2
-      ]
+      matrix: embossMatrix
     })
   ),
 
   FuzzyGlass: (config: FilterConfig) => (
     asNative3x3FilterConfig({
       ...config,
-      matrix: [
-        0, 20, 0,
-        20, -59, 20,
-        1, 13, 0
-      ].map(w => w / 7)
+      matrix: fuzzyGlassMatrix
     })
   )
 }

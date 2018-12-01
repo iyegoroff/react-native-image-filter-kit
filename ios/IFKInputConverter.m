@@ -1,36 +1,23 @@
 #import "IFKInputConverter.h"
 
-@interface IFKInputConverter ()
-
-@property (nonatomic, assign) CGFloat boundsWidth;
-@property (nonatomic, assign) CGFloat boundsHeight;
-
-@end
-
 @implementation IFKInputConverter
 
-- (nonnull instancetype)initWithWidth:(CGFloat)boundsWidth height:(CGFloat)boundsHeight
-{
-  if ((self = [super init])) {
-    _boundsWidth = boundsWidth;
-    _boundsHeight = boundsHeight;
-  }
-
-  return self;
-}
-
-- (nullable NSObject *)convertAny:(nullable NSDictionary *)any
++ (nullable NSObject *)convertAny:(nullable NSDictionary *)any bounds:(CGSize)bounds
 {
   return [self convertScalar:any defaultValue:(id)[
           self convertColor:any defaultValue:(id)[
-          self convertDistance:any defaultValue:(id)[
+          self convertDistance:any bounds:bounds defaultValue:(id)[
           self convertScalarVector:any defaultValue:(id)[
           self convertOffset:any defaultValue:(id)[
-          self convertPosition:any defaultValue:(id)[
-          self convertImage:any defaultValue:nil]]]]]]];
+          self convertPosition:any bounds:bounds defaultValue:(id)[
+          self convertImage:any defaultValue:(id)[
+          self convertDistanceVector:any bounds:bounds defaultValue:(id)[
+          self convertISOLatin1EncodedText:any defaultValue:(id)[
+          self convertArea:any bounds:bounds defaultValue:(id)[
+          self convertText:any defaultValue:nil]]]]]]]]]]];
 }
 
-- (nullable UIImage *)convertImage:(nullable NSDictionary *)image
++ (nullable UIImage *)convertImage:(nullable NSDictionary *)image
                       defaultValue:(nullable UIImage *)defaultValue
 {
   return image != nil && ![[image objectForKey:@"image"] isKindOfClass:[NSNumber class]]
@@ -38,15 +25,17 @@
     : defaultValue;
 }
 
-- (nullable NSNumber *)convertScalar:(nullable NSDictionary *)scalar
++ (nullable NSNumber *)convertScalar:(nullable NSDictionary *)scalar
                         defaultValue:(nullable NSNumber *)defaultValue
 {
-  return scalar != nil
-    ? ([scalar objectForKey:@"scalar"] ?: defaultValue)
+  return scalar == nil
+    ? defaultValue
+    : [scalar objectForKey:@"scalar"]
+    ? @([[scalar objectForKey:@"scalar"] floatValue])
     : defaultValue;
 }
 
-- (nullable CIColor *)convertColor:(nullable NSDictionary *)color
++ (nullable CIColor *)convertColor:(nullable NSDictionary *)color
                       defaultValue:(nullable CIColor *)defaultValue
 {
   if (color != nil && [color objectForKey:@"color"]) {
@@ -62,15 +51,18 @@
   return defaultValue;
 }
 
-- (nullable NSNumber *)convertDistance:(nullable NSDictionary *)distance
++ (nullable NSNumber *)convertDistance:(nullable NSDictionary *)distance
+                                bounds:(CGSize)bounds
                           defaultValue:(nullable NSNumber *)defaultValue
 {
   return distance != nil
-    ? [self convertRelative:[distance objectForKey:@"distance"] defaultValue:defaultValue]
+    ? [self convertRelative:[distance objectForKey:@"distance"]
+                     bounds:bounds
+               defaultValue:defaultValue]
     : defaultValue;
 }
 
-- (nonnull IFKResize *)convertResize:(nullable NSDictionary *)resize
++ (nonnull IFKResize *)convertResize:(nullable NSDictionary *)resize
                         defaultValue:(IFKResizeMode)defaultValue
 {
   static NSDictionary *convert;
@@ -98,7 +90,7 @@
   return [[IFKResizeWithMode alloc] initWithMode:defaultValue];
 }
 
-- (nullable CIVector *)convertScalarVector:(nullable NSDictionary *)scalarVector
++ (nullable CIVector *)convertScalarVector:(nullable NSDictionary *)scalarVector
                               defaultValue:(nullable CIVector *)defaultValue
 {
   if (scalarVector != nil && [scalarVector objectForKey:@"scalarVector"]) {
@@ -115,7 +107,7 @@
   return defaultValue;
 }
 
-- (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
++ (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
                       defaultValue:(IFKScaleMode)defaultValue
 {
   static NSDictionary *convert;
@@ -144,54 +136,33 @@
   return [[IFKScaleWithMode alloc] initWithMode:defaultValue];
 }
 
-- (IFKGravityAxis)convertGravityAxis:(nullable NSDictionary *)gravityAxis
-                        defaultValue:(IFKGravityAxis)defaultValue
-{
-  static NSDictionary *convert;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    convert = @{
-      @"CENTER": @(CENTER),
-      @"CENTER_LEFT": @(CENTER_LEFT),
-      @"CENTER_RIGHT": @(CENTER_RIGHT),
-      @"CENTER_TOP": @(CENTER_TOP),
-      @"CENTER_BOTTOM": @(CENTER_BOTTOM),
-      @"LEFT_TOP": @(LEFT_TOP),
-      @"LEFT_BOTTOM": @(LEFT_BOTTOM),
-      @"RIGHT_TOP": @(RIGHT_TOP),
-      @"RIGHT_BOTTOM": @(RIGHT_BOTTOM)
-    };
-  });
-  
-  if (gravityAxis != nil && [gravityAxis objectForKey:@"gravityAxis"]) {
-    NSNumber *value = [convert objectForKey:[gravityAxis objectForKey:@"gravityAxis"]];
-    
-    return value != nil ? [value intValue] : defaultValue;
-  }
-  
-  return defaultValue;
-}
-
-- (nullable CIVector *)convertOffset:(nullable NSDictionary *)offset
++ (nullable CIVector *)convertOffset:(nullable NSDictionary *)offset
                         defaultValue:(nullable CIVector *)defaultValue
 {
   if (offset != nil && [offset objectForKey:@"offset"]) {
     NSDictionary *vector = [offset objectForKey:@"offset"];
     
-    return [CIVector vectorWithCGPoint:CGPointMake([vector[@"x"] floatValue],
-                                                   [vector[@"y"] floatValue])];
+    return [CIVector vectorWithCGPoint:CGPointMake(
+      vector[@"x"] ? [vector[@"x"] floatValue] : [defaultValue valueAtIndex:0],
+      vector[@"y"] ? [vector[@"y"] floatValue] : [defaultValue valueAtIndex:1]
+    )];
   }
   
   return defaultValue;
 }
 
-- (nullable CIVector *)convertPosition:(nullable NSDictionary *)position
++ (nullable CIVector *)convertPosition:(nullable NSDictionary *)position
+                                bounds:(CGSize)bounds
                           defaultValue:(nullable CIVector *)defaultValue
 {
   if (position != nil && [position objectForKey:@"position"]) {
     NSDictionary *vector = [position objectForKey:@"position"];
-    NSNumber *x = [self convertRelative:vector[@"x"] defaultValue:nil];
-    NSNumber *y = [self convertRelative:vector[@"y"] defaultValue:nil];
+    NSNumber *x = [self convertRelative:vector[@"x"]
+                                 bounds:bounds
+                           defaultValue:@([defaultValue valueAtIndex:0])];
+    NSNumber *y = [self convertRelative:vector[@"y"]
+                                 bounds:bounds
+                           defaultValue:@([defaultValue valueAtIndex:1])];
     
     return [CIVector vectorWithCGPoint:CGPointMake([x floatValue], [y floatValue])];
   }
@@ -199,8 +170,65 @@
   return defaultValue;
 }
 
-- (nullable NSNumber *)convertRelative:(nullable NSString *)relative
-                          defaultValue:(nullable NSNumber *)defaultValue;
++ (nullable CIVector *)convertDistanceVector:(nullable NSDictionary *)distanceVector
+                                      bounds:(CGSize)bounds
+                                defaultValue:(nullable CIVector *)defaultValue
+{
+  if (distanceVector != nil && [distanceVector objectForKey:@"distanceVector"]) {
+    NSArray<NSString *> *vector = [distanceVector objectForKey:@"distanceVector"];
+    CGFloat v[vector.count];
+    
+    for (int i = 0; i < vector.count; i++) {
+      v[i] = [[self convertRelative:vector[i] bounds:bounds defaultValue:nil] floatValue];
+    }
+    
+    return [CIVector vectorWithValues:v count:vector.count];
+  }
+  
+  return defaultValue;
+}
+
++ (nullable NSData *)convertISOLatin1EncodedText:(nullable NSDictionary *)text
+                                    defaultValue:(nullable NSData *)defaultValue
+{
+  return text == nil
+    ? defaultValue
+    : [text objectForKey:@"ISOLatin1EncodedText"]
+    ? [[text objectForKey:@"ISOLatin1EncodedText"] dataUsingEncoding:NSISOLatin1StringEncoding]
+    : defaultValue;
+}
+
++ (nullable CIVector *)convertArea:(nullable NSDictionary *)area
+                            bounds:(CGSize)bounds
+                      defaultValue:(nullable CIVector *)defaultValue
+{
+  if (area != nil && [area objectForKey:@"area"]) {
+    NSDictionary *vector = [area objectForKey:@"area"];
+    NSNumber *x = [self convertRelative:vector[@"x"] bounds:bounds defaultValue:nil];
+    NSNumber *y = [self convertRelative:vector[@"y"] bounds:bounds defaultValue:nil];
+    NSNumber *width = [self convertRelative:vector[@"width"] bounds:bounds defaultValue:nil];
+    NSNumber *height = [self convertRelative:vector[@"height"] bounds:bounds defaultValue:nil];
+    
+    return [CIVector vectorWithCGRect:CGRectMake([x floatValue],
+                                                 [y floatValue],
+                                                 [width floatValue],
+                                                 [height floatValue])];
+  }
+  
+  return defaultValue;
+}
+
++ (nullable NSString *)convertText:(nullable NSDictionary *)text
+                      defaultValue:(nullable NSString *)defaultValue
+{
+  return text != nil
+    ? [text objectForKey:@"text"] ?: defaultValue
+    : defaultValue;
+}
+
++ (nullable NSNumber *)convertRelative:(nullable NSString *)relative
+                                bounds:(CGSize)bounds
+                          defaultValue:(nullable NSNumber *)defaultValue
 {
   if (relative != nil) {
     double num;
@@ -214,19 +242,19 @@
     }
     
     if ([unit isEqualToString:@"h"]) {
-      return @(num * _boundsHeight * 0.01f);
+      return @(num * bounds.height * 0.01f);
     }
     
     if ([unit isEqualToString:@"w"]) {
-      return @(num * _boundsWidth * 0.01f);
+      return @(num * bounds.width * 0.01f);
     }
     
     if ([unit isEqualToString:@"max"]) {
-      return @(num * MAX(_boundsWidth, _boundsHeight) * 0.01f);
+      return @(num * MAX(bounds.width, bounds.height) * 0.01f);
     }
     
     if ([unit isEqualToString:@"min"]) {
-      return @(num * MIN(_boundsWidth, _boundsHeight) * 0.01f);
+      return @(num * MIN(bounds.width, bounds.height) * 0.01f);
     }
   }
   

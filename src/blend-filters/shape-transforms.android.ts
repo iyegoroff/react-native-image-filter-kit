@@ -1,7 +1,5 @@
-import { Image } from 'react-native'
-
-export interface ColorBlendConfig {
-  readonly dstImage: Image
+interface ColorBlendConfig {
+  readonly dstImage: unknown
   readonly srcColor: string
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean

@@ -8,22 +8,26 @@ import {
   offset,
   color,
   image,
-  imageStyle,
   config,
   bool,
   scaleMode,
-  gravityAxis,
-  resizeMode
+  resizeMode,
+  text,
+  area,
+  ISOLatin1EncodedText
 } from '../common/inputs'
+import { Generator } from '../common/shapes'
 
 const Blend = {
   scaleMode: scaleMode,
   inputImage: image,
   inputImageResizeMode: resizeMode,
-  inputImageGravityAxis: gravityAxis,
+  inputImageAnchor: offset,
+  inputImagePosition: offset,
   inputBackgroundImage: image,
   inputBackgroundImageResizeMode: resizeMode,
-  inputBackgroundImageGravityAxis: gravityAxis,
+  inputBackgroundImageAnchor: offset,
+  inputBackgroundImagePosition: offset,
   disableCache: bool
 }
 
@@ -148,13 +152,34 @@ export const shapes = {
     ...Common
   },
 
-  // CIWhitePointAdjust,
+  CIWhitePointAdjust: {
+    inputColor: color,
+    ...Common
+  },
+
   // CIColorCrossPolynomial,
-  // CIColorCube,
+  CIColorCube: {
+    inputCubeDimension: scalar,
+    inputCubeData: text,
+    ...Common
+  },
+
   // CIColorCubeWithColorSpace,
   CIColorInvert: Common,
 
-  // CIColorMap,
+  CIColorMap: {
+    scaleMode: scaleMode,
+    inputImage: image,
+    inputImageResizeMode: resizeMode,
+    inputImageAnchor: offset,
+    inputImagePosition: offset,
+    inputGradientImage: image,
+    inputGradientImageResizeMode: resizeMode,
+    inputGradientImageAnchor: offset,
+    inputGradientImagePosition: offset,
+    disableCache: bool
+  },
+
   CIColorMonochrome: {
     inputColor: color,
     inputIntensity: scalar,
@@ -166,7 +191,12 @@ export const shapes = {
     ...Common
   },
 
-  // CIFalseColor,
+  CIFalseColor: {
+    inputColor0: color,
+    inputColor1: color,
+    ...Common
+  },
+
   CIMaskToAlpha: Common,
 
   CIMaximumComponent: Common,
@@ -204,6 +234,7 @@ export const shapes = {
     inputCenter: position,
     inputIntensity: scalar,
     inputRadius: distance,
+    inputFalloff: scalar,
     ...Common
   },
 
@@ -295,7 +326,12 @@ export const shapes = {
   // CIDisplacementDistortion,
   // CIGlassDistortion,
   // CIGlassLozenge,
-  // CIHoleDistortion,
+  CIHoleDistortion: {
+    inputCenter: position,
+    inputRadius: distance,
+    ...Common
+  },
+
   CILightTunnel: {
     inputCenter: position,
     inputRotation: scalar,
@@ -306,7 +342,13 @@ export const shapes = {
   // CIPinchDistortion,
   // CIStretchCrop,
   // CITorusLensDistortion,
-  // CITwirlDistortion,
+  CITwirlDistortion: {
+    inputCenter: position,
+    inputRadius: distance,
+    inputAngle: scalar,
+    ...Common
+  },
+
   CIVortexDistortion: {
     inputCenter: position,
     inputRadius: distance,
@@ -314,28 +356,50 @@ export const shapes = {
     ...Common
   },
 
-  // CIAztecCodeGenerator,
+  CIAztecCodeGenerator: {
+    inputMessage: ISOLatin1EncodedText,
+    inputCorrectionLevel: scalar,
+    inputLayers: scalar,
+    inputCompactStyle: scalar,
+    ...Generator
+  },
   // CICheckerboardGenerator,
   // CICode128BarcodeGenerator,
   CIConstantColorGenerator: {
     inputColor: color,
-    imageStyle: imageStyle,
-    disableCache: bool
+    ...Generator
   },
 
   // CILenticularHaloGenerator,
   // CIPDF417BarcodeGenerator,
-  // CIQRCodeGenerator,
-  CIRandomGenerator: {
-    imageStyle: imageStyle,
-    disableCache: bool
+  CIQRCodeGenerator: {
+    inputMessage: ISOLatin1EncodedText,
+    inputCorrectionLevel: text,
+    ...Generator
   },
 
-  // CIStarShineGenerator,
+  CIRandomGenerator: Generator,
+
+  CIStarShineGenerator: {
+    inputCenter: position,
+    inputColor: color,
+    inputRadius: distance,
+    inputCrossScale: scalar,
+    inputCrossAngle: scalar,
+    inputCrossOpacity: scalar,
+    inputCrossWidth: distance,
+    inputEpsilon: scalar,
+    ...Generator
+  },
+
   // CIStripesGenerator,
   // CISunbeamsGenerator,
   // CIAffineTransform,
-  // CICrop,
+  CICrop: {
+    inputRectangle: area,
+    ...Common
+  },
+
   // CILanczosScaleTransform,
   // CIPerspectiveCorrection,
   // CIPerspectiveTransform,
@@ -346,8 +410,7 @@ export const shapes = {
     inputRadius: distance,
     inputColor0: color,
     inputColor1: color,
-    imageStyle: imageStyle,
-    disableCache: bool
+    ...Generator
   },
 
   CILinearGradient: {
@@ -355,8 +418,7 @@ export const shapes = {
     inputPoint1: position,
     inputColor0: color,
     inputColor1: color,
-    imageStyle: imageStyle,
-    disableCache: bool
+    ...Generator
   },
 
   CIRadialGradient: {
@@ -365,8 +427,7 @@ export const shapes = {
     inputRadius1: distance,
     inputColor0: color,
     inputColor1: color,
-    imageStyle: imageStyle,
-    disableCache: bool
+    ...Generator
   },
 
   CISmoothLinearGradient: {
@@ -374,8 +435,7 @@ export const shapes = {
     inputPoint1: position,
     inputColor0: color,
     inputColor1: color,
-    imageStyle: imageStyle,
-    disableCache: bool
+    ...Generator
   },
 
   CICircularScreen: {
@@ -405,9 +465,19 @@ export const shapes = {
 
   // CIAreaAverage,
   // CIAreaHistogram,
-  // CIRowAverage,
+  CIRowAverage: {
+    inputExtent: area,
+    ...Common
+  },
+
   // CIColumnAverage,
-  // CIHistogramDisplayFilter,
+  CIHistogramDisplayFilter: {
+    inputHeight: scalar,
+    inputHighLimit: scalar,
+    inputLowLimit: scalar,
+    ...Common
+  },
+
   // CIAreaMaximum,
   // CIAreaMinimum,
   // CIAreaMaximumAlpha,
@@ -425,7 +495,12 @@ export const shapes = {
 
   // CIBlendWithAlphaMask,
   // CIBlendWithMask,
-  // CIBloom,
+  CIBloom: {
+    inputRadius: distance,
+    inputIntensity: scalar,
+    ...Common
+  },
+
   CIComicEffect: Common,
 
   CIConvolution3X3: {
@@ -434,8 +509,18 @@ export const shapes = {
     ...Common
   },
 
-  // CIConvolution5X5,
-  // CIConvolution7X7,
+  CIConvolution5X5: {
+    inputWeights: scalarVector,
+    inputBias: scalar,
+    ...Common
+  },
+
+  CIConvolution7X7: {
+    inputWeights: scalarVector,
+    inputBias: scalar,
+    ...Common
+  },
+
   // CIConvolution9Horizontal,
   // CIConvolution9Vertical,
   CICrystallize: {
@@ -450,10 +535,18 @@ export const shapes = {
     ...Common
   },
 
-  // CIEdgeWork,
+  CIEdgeWork: {
+    inputRadius: distance,
+    ...Common
+  },
   // CIGloom,
   // CIHeightFieldFromMask,
-  // CIHexagonalPixellate,
+  CIHexagonalPixellate: {
+    inputCenter: position,
+    inputScale: distance,
+    ...Common
+  },
+
   // CIHighlightShadowAdjust,
   CILineOverlay: {
     inputNRNoiseLevel: scalar,
@@ -506,25 +599,48 @@ export const shapes = {
     inputAngle: scalar,
     inputWidth: scalar,
     ...Common
+  },
+
+  CIXRay: Common,
+
+  CIThermal: Common,
+
+  CIMorphologyGradient: {
+    inputRadius: distance,
+    ...Common
+  },
+
+  CIDisparityToDepth: Common,
+
+  CIBokehBlur: {
+    inputRadius: distance,
+    inputRingAmount: scalar,
+    inputRingSize: scalar,
+    inputSoftness: scalar,
+    ...Common
+  },
+
+  CISaliencyMapFilter: Common,
+
+  CISampleNearest: Common,
+
+  CIMix: {
+    inputAmount: scalar,
+    ...Blend
+  },
+
+  CIDepthToDisparity: Common,
+
+  CIHeightFieldFromMask: {
+    inputRadius: distance,
+    ...Common
+  },
+
+  CITextImageGenerator: {
+    inputText: text,
+    inputFontName: text,
+    inputFontSize: distance,
+    inputScaleFactor: scalar,
+    ...Generator
   }
-
-  // CIAccordionFoldTransition: {
-  //   inputImage: image,
-  //   inputTargetImage: image,
-  //   inputBottomHeight: distance,
-  //   inputNumberOfFolds: scalar,
-  //   inputFoldShadowAmount: scalar,
-  //   inputTime: scalar
-  // }
-
-  // CIBarsSwipeTransition,
-  // CICopyMachineTransition,
-  // CIDisintegrateWithMaskTransition,
-  // CIDissolveTransition,
-  // CIFlashTransition,
-  // CIModTransition,
-  // CIPageCurlTransition,
-  // CIPageCurlWithShadowTransition,
-  // CIRippleTransition,
-  // CISwipeTransition
 }

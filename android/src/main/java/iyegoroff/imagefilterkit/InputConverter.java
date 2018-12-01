@@ -1,5 +1,6 @@
 package iyegoroff.imagefilterkit;
 
+import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
 
@@ -47,19 +48,19 @@ public class InputConverter {
 //      this.convertRelative(pos != null ? pos.optString("y", defaultY) : defaultY)
 //    );
 //  }
-//
-//  public PointF convertOffset(
-//    @Nullable JSONObject position,
-//    float defaultX,
-//    float defaultY
-//  ) {
-//    JSONObject pos = position != null ? position.optJSONObject("position") : null;
-//
-//    return new PointF(
-//      pos != null ? (float) pos.optDouble("x", defaultX) : defaultX,
-//      pos != null ? (float) pos.optDouble("y", defaultY) : defaultY
-//    );
-//  }
+
+  public PointF convertOffset(
+    @Nullable JSONObject position,
+    float defaultX,
+    float defaultY
+  ) {
+    JSONObject pos = position != null ? position.optJSONObject("offset") : null;
+
+    return new PointF(
+      pos != null ? (float) pos.optDouble("x", defaultX) : defaultX,
+      pos != null ? (float) pos.optDouble("y", defaultY) : defaultY
+    );
+  }
 
   public Resize convertResize(@Nullable JSONObject resizeMode, @Nonnull Resize.Mode defaultMode) {
     JSONObject size = resizeMode != null ? resizeMode.optJSONObject("resizeMode") : null;
@@ -133,17 +134,6 @@ public class InputConverter {
     }
 
     return new Scale.WithMode(convertEnumeration(mode, defaultMode, Scale.Mode.class));
-  }
-
-  public GravityAxis convertGravityAxis(
-    @Nullable JSONObject gravityAxis,
-    GravityAxis defaultValue
-  ) {
-    return convertEnumeration(
-      gravityAxis != null ? gravityAxis.optString("gravityAxis") : null,
-      defaultValue,
-      GravityAxis.class
-    );
   }
 
   public Shader.TileMode convertTileMode(

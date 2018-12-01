@@ -36,7 +36,7 @@ import { ShapeRegistry } from '../dist/common/shape-registry';
 
 const CacheableImage = imageCacheHoc(Image);
 
-const imageStyle = Platform.OS === 'ios' ? { width: 320, height: 320, backgroundColor: 'gray',borderWidth: 1, marginBottom: 10 } : { width: 360, height: 360 }
+const imageStyle = { width: 320, height: 320, backgroundColor: 'red' }
 
 // Image.prefetch('http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg');
 // Image.prefetch('https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg');
@@ -47,7 +47,7 @@ const atx = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/atx.jpg' }}
-    resizeMode={'cover'}
+    resizeMode={'contain'}
   />
 );
 
@@ -63,7 +63,7 @@ const cacti = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/cacti.jpg' }}
-    resizeMode={'cover'}
+    resizeMode={'contain'}
   />
 );
 
@@ -71,7 +71,7 @@ const tahoe = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/tahoe.jpg' }}
-    resizeMode={'cover'}
+    resizeMode={'stretch'}
   />
 )
 
@@ -95,7 +95,7 @@ const parrot = (
   <Image
     style={imageStyle}
     source={require('./parrot.png')}
-    resizeMode={'contain'}
+    resizeMode={'stretch'}
   />
 );
 
@@ -337,9 +337,319 @@ export default class App extends Component<Props> {
     this.setState({ selectedImage: item })
   }
 
+  renderBlend(name) {
+    return (
+      <ImageFilter
+        key={name}
+        config={{
+          name,
+          dstImage: tahoe,
+          srcImage: parrot,
+          scaleMode: 'DOWN',
+          dstResizeMode: 'COVER',
+          srcResizeMode: 'COVER',
+          // srcAnchor: { x: 0.5, y: 0 },
+          // srcPosition: { x: 0, y: 0 },
+          // srcAnchor: { x: 0, y: 1 },
+          // srcPosition: { x: 0, y: 1 }
+        }}
+      />
+    )
+  }
+
   render() {
     return (
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+        <ImageFilter
+          key={'N'}
+          config={{
+            name: 'Normal',
+            image: parrot
+          }}
+        />
+        {/* {this.renderBlend('ClearBlend')} */}
+        {/* {this.renderBlend('DstInBlend')} */}
+        {/* {this.renderBlend('ModulateBlend')} */}
+        {/* {this.renderBlend('SrcInBlend')}
+        {this.renderBlend('SrcOutBlend')} */}
+        {/* {this.renderBlend('XorBlend')} */}
+        {this.renderBlend('LightenBlend')}
+        {parrot}
+        {/* {this.renderBlend('DifferenceBlend')}
+        {this.renderBlend('HardLightBlend')}
+        {this.renderBlend('SoftLightBlend')}
+        {this.renderBlend('ColorBurnBlend')}
+        {this.renderBlend('SrcOverBlend')}
+        {this.renderBlend('MultiplyBlend')}
+        {this.renderBlend('ScreenBlend')}
+        {this.renderBlend('OverlayBlend')}
+        {this.renderBlend('DstOverBlend')}
+        {this.renderBlend('DstOutBlend')}
+        {this.renderBlend('PlusBlend')}
+        {this.renderBlend('DarkenBlend')}
+        {this.renderBlend('LightenBlend')}
+        {this.renderBlend('SrcATopBlend')}
+        {this.renderBlend('DstATopBlend')} */}
+        {/* <ImageFilter
+          key={'CITextImageGenerator'}
+          config={{
+            name: 'CITextImageGenerator',
+            imageStyle: { height: 100, backgroundColor: 'red' },
+            inputScaleFactor: 2,
+            inputFontSize: 50,
+            inputText: 'tesTsss'
+          }}
+        /> */}
+        {/* <ImageFilter
+          key={'CIHistogramDisplayFilter'}
+          config={{
+            name: 'CIHistogramDisplayFilter',
+            inputImage: flowers,
+            inputHeight: 200
+          }}
+        />
+        <ImageFilter
+          key={'CIHexagonalPixellate'}
+          config={{
+            name: 'CIHexagonalPixellate',
+            inputImage: atx,
+            inputCenter: { x: 0, y: 250 },
+            inputScale: 15
+          }}
+        />
+        <ImageFilter
+          key={'CIFalseColor'}
+          config={{
+            name: 'CIFalseColor',
+            inputColor0: 'red',
+            inputColor1: 'green',
+            inputImage: atx
+          }}
+        />
+        <ImageFilter
+          key={'CIHeightFieldFromMask'}
+          config={{
+            name: 'CIHeightFieldFromMask',
+            inputImage: cacti,
+            inputRadius: 2
+          }}
+        />
+        <ImageFilter
+          key={'CIMix'}
+          config={{
+            name: 'CIMix',
+            inputImage: atx,
+            inputBackgroundImage: cacti,
+            inputAmount: 0.5
+          }}
+        />
+        <ImageFilter
+          key={'CIEdgeWork'}
+          config={{
+            name: 'CIEdgeWork',
+            inputImage: parrot,
+            inputRadius: 5
+          }}
+        /> */}
+        {/* <ImageFilter
+          key={'CISampleNearest'}
+          config={{
+            name: 'CISampleNearest',
+            inputImage: parrot
+          }}
+        />
+        <ImageFilter
+          key={'CISaliencyMapFilter'}
+          config={{
+            name: 'CISaliencyMapFilter',
+            inputImage: tahoe
+          }}
+        />
+        <ImageFilter
+          key={'CITwirlDistortion'}
+          config={{
+            name: 'CITwirlDistortion',
+            inputImage: atx,
+            inputCenter: { x: '50w', y: '50h' },
+            inputAngle: Math.PI / 2,
+            inputRadius: '50min',
+          }}
+        />
+        <ImageFilter
+          key={'CIVignetteEffect'}
+          config={{
+            name: 'CIVignetteEffect',
+            inputImage: parrot,
+            inputCenter: { x: '50w', y: '50h' },
+            inputIntensity: 1,
+            inputRadius: '25min',
+            inputFalloff: 0
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIWhitePointAdjust',
+            inputImage: parrot,
+            inputColor: '#FF00FF'
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIQRCodeGenerator',
+            inputMessage: `d`,
+            imageStyle: { height: 320, width: 320 }
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIAztecCodeGenerator',
+            inputMessage: ` Generates an output image representing the input data according to the ISO/IEC 18004:2006 standard. The width and height of each module (square dot) of the code in the output image is one point. To create a QR code from a string or URL, convert it to an NSData object using the NSISOLatin1StringEncoding string encoding.
+The inputCorrectionLevel parameter controls the amount of additional data encoded in the output image to provide error correction. Higher levels of error correction result in larger output images but allow larger areas of the code to be damaged or obscured without. There are four possible correction modes (with corresponding error resilience levels): `,
+            inputLayers: 32,
+            inputCompactStyle: 0,
+            inputCorrectionLevel: 23,
+            imageStyle: { height: 320, width: 320 }
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CICrop',
+            inputImage: cacti,
+            inputRectangle: { x:'25w', y:'25h', width:'50w', height:'50h' }
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIStarShineGenerator',
+            imageStyle: { height: 320, backgroundColor: 'black' },
+            inputColor: '#134523',
+            inputRadius: 20,
+            inputCrossScale: 20,
+            inputCrossAngle: Math.PI * 0.35,
+            inputCenter: { x: '50w', y: '50h' },
+            inputCrossOpacity: -2.5,
+            inputCrossWidth: 2,
+            inputEpsilon: 0.2
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIBokehBlur',
+            inputImage: parrot,
+            inputRadius: '3min',
+            inputRingAmount: 5,
+            inputSoftness: 5,
+            inputRingSize: 2
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIMorphologyGradient',
+            inputImage: cacti,
+            inputRadius: 5
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIXRay',
+            inputImage: atx
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIThermal',
+            inputImage: tahoe
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIBloom',
+            inputImage: cacti,
+            inputRadius: '5min',
+            inputIntensity: 2,
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIHoleDistortion',
+            inputImage: {
+              name: 'CIHoleDistortion',
+              inputImage: {
+                name: 'CIHoleDistortion',
+                inputImage: parrot,
+                inputCenter: { x: '85w', y: '85h' },
+                inputRadius: '5min'
+              },
+              inputCenter: { x: '15w', y: '15h' },
+              inputRadius: '5min'
+            },
+            inputCenter: { x: '50w', y: '50h' },
+            inputRadius: '5min'
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIColorMap',
+            inputImage: parrot,
+            inputGradientImage: tahoe,
+            scaleMode: 'UP'
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'Sharpen',
+            image: parrot,
+            amount: 4
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'EdgeDetection',
+            image: parrot
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'Emboss',
+            image: parrot
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'FuzzyGlass',
+            image: parrot
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIConvolution5X5',
+            inputImage: parrot,
+            inputWeights: [
+              0.5, 0, 0, 0, 0,
+              0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0,
+              0, 0, 0, 0, 0.5,
+            ],
+            inputBias: 0
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'CIConvolution7X7',
+            inputImage: parrot,
+            inputWeights: [
+              0, 0, -1, -1, -1, 0, 0,
+              0, -1, -3, -3, -3, -1, 0,
+              -1, -3, 0, 7, 0, -3, -1, 
+              -1, -3, 7, 25, 7, -3, -1, 
+              -1, -3, 0, 7, 0, -3, -1, 
+              0, -1, -3, -3, -3, -1, 0, 
+              0, 0, -1, -1, -1, 0, 0
+            ],
+            inputBias: 0
+          }}
+        />
         <ImageFilter
           config={{
             name: 'CILightTunnel',
@@ -360,7 +670,8 @@ export default class App extends Component<Props> {
         <ImageFilter
           config={{
             name: 'CIEdges',
-            inputImage: parrot
+            inputImage: parrot,
+            inputIntensity: 15
           }}
         />
         <ImageFilter
@@ -501,7 +812,7 @@ export default class App extends Component<Props> {
               inputPoint1: { x: '100w', y: '100h' },
             },
           }}
-        />
+        /> */}
         {/* <Switch
           value={this.state.showList}
           onValueChange={(showList) => this.setState({ showList })}

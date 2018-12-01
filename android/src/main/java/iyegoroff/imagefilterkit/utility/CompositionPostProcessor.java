@@ -1,6 +1,7 @@
 package iyegoroff.imagefilterkit.utility;
 
 import android.graphics.Bitmap;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
 
@@ -22,7 +23,6 @@ import java.util.Locale;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.imagefilterkit.GravityAxis;
 import iyegoroff.imagefilterkit.InputConverter;
 import iyegoroff.imagefilterkit.Resize;
 import iyegoroff.imagefilterkit.Scale;
@@ -33,9 +33,11 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   private final @Nonnull CloseableReference<CloseableImage> mSrc;
   private final @Nonnull CacheKey mSrcCacheKey;
   protected final @Nonnull Resize mSrcResizeMode;
-  protected final @Nonnull GravityAxis mSrcGravityAxis;
+  protected final @Nonnull PointF mSrcAnchor;
+  protected final @Nonnull PointF mSrcPosition;
   protected final @Nonnull Resize mDstResizeMode;
-  protected final @Nonnull GravityAxis mDstGravityAxis;
+  protected final @Nonnull PointF mDstAnchor;
+  protected final @Nonnull PointF mDstPosition;
 
   public CompositionPostProcessor(
     int width,
@@ -52,9 +54,11 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     mSrc = src.clone();
     mSrcCacheKey = srcCacheKey;
     mSrcResizeMode = converter.convertResize(config != null ? config.optJSONObject("srcResizeMode") : null, Resize.Mode.COVER);
-    mSrcGravityAxis = converter.convertGravityAxis(config != null ? config.optJSONObject("srcGravityAxis") : null, GravityAxis.CENTER);
+    mSrcAnchor = converter.convertOffset(config != null ? config.optJSONObject("srcAnchor") : null, 0.5f, 0.5f);
+    mSrcPosition = converter.convertOffset(config != null ? config.optJSONObject("srcPosition") : null, 0.5f, 0.5f);
     mDstResizeMode = converter.convertResize(config != null ? config.optJSONObject("dstResizeMode") : null, Resize.Mode.COVER);
-    mDstGravityAxis = converter.convertGravityAxis(config != null ? config.optJSONObject("dstGravityAxis") : null, GravityAxis.CENTER);
+    mDstAnchor = converter.convertOffset(config != null ? config.optJSONObject("dstAnchor") : null, 0.5f, 0.5f);
+    mDstPosition = converter.convertOffset(config != null ? config.optJSONObject("dstPosition") : null, 0.5f, 0.5f);
   }
 
   @Override
@@ -81,7 +85,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
         return dstExtent;
 
       } else if ("srcImage".equals(match)) {
-        return dstExtent;
+        return srcExtent;
       }
     }
 
@@ -110,12 +114,11 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     int bitmapWidth,
     int bitmapHeight,
     @Nonnull Resize resizeMode,
-    @Nonnull GravityAxis gravityAxis
+    @Nonnull PointF anchor,
+    @Nonnull PointF position
   ) {
     float width = 0;
     float height = 0;
-    float x = 0;
-    float y = 0;
 
     if (resizeMode instanceof Resize.WithMode) {
       Resize.Mode mode = ((Resize.WithMode) resizeMode).mode;
@@ -164,53 +167,11 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
       }
     }
 
-    if (gravityAxis == GravityAxis.CENTER) {
-      x = canvasWidth / 2 - width / 2;
-      y = canvasHeight / 2 - height / 2;
-
-    } else if (gravityAxis == GravityAxis.CENTER_LEFT) {
-      x = 0;
-      y = canvasHeight / 2 - height / 2;
-
-    } else if (gravityAxis == GravityAxis.CENTER_RIGHT) {
-      x = canvasWidth - width;
-      y = canvasHeight / 2 - height / 2;
-
-    } else if (gravityAxis == GravityAxis.CENTER_TOP) {
-      x = canvasWidth / 2 - width / 2;
-      y = 0;
-
-    } else if (gravityAxis == GravityAxis.CENTER_BOTTOM) {
-      x = canvasWidth / 2 - width / 2;
-      y = canvasHeight - height;
-
-    } else if (gravityAxis == GravityAxis.LEFT_TOP) {
-      x = 0;
-      y = 0;
-
-    } else if (gravityAxis == GravityAxis.LEFT_BOTTOM) {
-      x = 0;
-      y = canvasHeight - height;
-
-    } else if (gravityAxis == GravityAxis.RIGHT_TOP) {
-      x = canvasWidth - width;
-      y = 0;
-
-    } else if (gravityAxis == GravityAxis.RIGHT_BOTTOM) {
-      x = canvasWidth - width;
-      y = canvasHeight - height;
-    }
+    float x = canvasWidth * position.x - width * anchor.x;
+    float y = canvasHeight * (1 - position.y) - height * (1 - anchor.y);
 
     width += x;
     height += y;
-//
-//    Log.d(ReactConstants.TAG,
-//      "ImageFilterKit: " +
-//        String.valueOf(canvasWidth) + " " +
-//        String.valueOf(canvasHeight) + " " +
-//        String.valueOf(bitmapWidth) + " " +
-//        String.valueOf(bitmapHeight) + " " +
-//        new Rect((int)x, (int)y, (int)width, (int)height).toString());
 
     return new RectF(x, y, width, height);
   }
@@ -220,13 +181,15 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     return new MultiCacheKey(Arrays.asList(
       new SimpleCacheKey(String.format(
         (Locale) null,
-        "%s_%s_%s_%s_%s_%s",
+        "%s_%s_%s_%s_%s_%s_%s_%s",
         prefix,
         mScaleMode.toString(),
         mSrcResizeMode.toString(),
-        mSrcGravityAxis.toString(),
+        mSrcAnchor.toString(),
+        mSrcPosition.toString(),
         mDstResizeMode.toString(),
-        mDstGravityAxis.toString()
+        mDstAnchor.toString(),
+        mDstPosition.toString()
       )),
       mSrcCacheKey
     ));

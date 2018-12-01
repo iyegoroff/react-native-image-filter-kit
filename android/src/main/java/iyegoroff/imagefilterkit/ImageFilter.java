@@ -130,7 +130,7 @@ public class ImageFilter extends ReactViewGroup {
           final FilterableImage src = result.get(1);
           final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
 
-          ImageFilter.filterImage(src, mImageListeners.get(src.getImage()))
+          ImageFilter.filterImage(src, mImageListeners.get(src.getImage()), true)
             .onSuccess(new Continuation<ReactImageView, Void>() {
               @Override
               public Void then(Task<ReactImageView> task) {
@@ -343,7 +343,8 @@ public class ImageFilter extends ReactViewGroup {
               target.getPostProcessors(),
               target.isCacheDisabled()
             ),
-            mImageListeners.get(ReactImageView.class.cast(self.getChildAt(0)))
+            mImageListeners.get(ReactImageView.class.cast(self.getChildAt(0))),
+            false
           );
 
         } else {
@@ -358,7 +359,7 @@ public class ImageFilter extends ReactViewGroup {
 
                 final FilterableImage result = task.getResult();
 
-                ImageFilter.filterImage(result, mImageListeners.get(result.getImage()))
+                ImageFilter.filterImage(result, mImageListeners.get(result.getImage()), false)
                   .onSuccess(new Continuation<ReactImageView, Void>() {
                     @Override
                     public Void then(Task<ReactImageView> task) {
@@ -407,7 +408,8 @@ public class ImageFilter extends ReactViewGroup {
 
   private static Task<ReactImageView> filterImage(
     final FilterableImage filterableImage,
-    final @Nullable FrescoControllerListener listener
+    final @Nullable FrescoControllerListener listener,
+    final boolean isIntermediate
   ) {
     final ReactImageView image = filterableImage.getImage();
     final TaskCompletionSource<ReactImageView> deferred = new TaskCompletionSource<>();
@@ -443,7 +445,7 @@ public class ImageFilter extends ReactViewGroup {
       new Functor() {
         @Override
         public void call() {
-          ImageFilter.filterImage(filterableImage, listener);
+          ImageFilter.filterImage(filterableImage, listener, isIntermediate);
         }
       }
     );

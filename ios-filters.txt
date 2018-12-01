@@ -1,0 +1,402 @@
+ filter = CIAffineClamp
+ param: Image, min = (null), max = (null)
+ param: Transform, min = (null), max = (null)
+ filter = CIAffineTile
+ param: Image, min = (null), max = (null)
+ param: Transform, min = (null), max = (null)
+ filter = CIAffineTransform
+ param: Image, min = (null), max = (null)
+ param: Transform, min = (null), max = (null)
+ filter = CIAreaAverage
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ filter = CIAreaHistogram
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ param: Scale, min = 0, max = (null)
+ param: Count, min = 1, max = 2048
+ filter = CIAreaMaximum
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ filter = CIAreaMaximumAlpha
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ filter = CIAreaMinimum
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ filter = CIAreaMinimumAlpha
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ filter = CIAreaMinMax
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ filter = CIAreaMinMaxRed
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ filter = CIAttributedTextImageGenerator
+ param: Text, min = (null), max = (null)
+ param: Scale Factor, min = 0, max = (null) filter = CIAztecCodeGenerator
+ param: Message, min = (null), max = (null)
+ param: Cor param: Layers, min = 1, max = 32
+ param: Compact Style, min = 0, max = 1
+ filter = CIBarcodeGenerator
+ param: Barcode Descriptor, min = (null), max = (null)
+ filter = CIBicubicScaleTransform
+ param: Image, min = (null), max = (null)
+ param: Scale, min = 0, max = (null)
+ param: Aspect Ratio, min = 0, max = (null)
+ param: B, min = 0, max = 1
+ param: C, min = 0, max = 1
+ filter = CIBlendWithAlphaMask
+ param: Image, min = (null), max = (null)
+ param: Background Image, min = (null), max = (null)
+ param: Mask Image, min = (null), max = (null)
+ filter = CIBlendWithBlueMask
+ param: Image, min = (null), max = (null)
+ param: Background Image, min = (null), max = (null)
+ param: Mask Image, min = (null), max = (null)
+ filter = CIBlendWithMask
+ param: Image, min = (null), max = (null)
+ param: Mask Image, min = (null), max = (null)
+ filter = CIBlendWithRedMask
+ param: Image, min = (null), max = (null)
+ param: Background Image, min = (null), max = (null)
+ param: Mask Image, min = (null), max = (null)
+ filter = CICameraCalibrationLensCorrection
+ param: Image, min = (null), max = (null)
+ param: Calibration Data object of type AVC param: Use Inverse Look Up Table, min = (null), max = (null)
+ filter = CICheckerboardGenerator
+ param: Center, min = (null), max = (null)
+ param: Color 1, min = (null), max = (null)
+ param: Color 2, min = (null), max = (null)
+ param: Width, min = (null), max = (null)
+ param: Sharpness, min = 0, max = 1
+ filter = CICMYKHalftone
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Width, min = -2, max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Sharpness, min = 0, max = (null)
+ param: Gray Component Replacement, min = 0, max = (null)
+ filter = CICode128BarcodeGenerator
+ param: Message, min = (null), max = (null)
+ param: Quiet Space, min = 0, max = 100
+ param: Barcode Height, min = 1, max = 500
+ filter = CIColorCrossPolynomial
+ param: Image, min param: Red Coefficients, min = (null), max = (null)
+ param: Green Coefficients, min = (null), max = (null)
+ param: Blue Coefficients, min = (null), max = (null)
+ filter = CIColorCube
+ param: Image, min = (null), max = (null)
+ param: Cube Dimension, min = 2, max = 64
+ param: Cube Data, min = (null), max = (null)
+ filter = CIColorCubesMixedWithMask
+ param: Image, min = (null), max = (null)
+ param: Mask Image, min = (null), max = (null)
+ param: Cube Dimension, min = 2, max = 64
+ param: Cube 0 Data, min = (null), max = (null)
+ param: Cube 1 Data, min = (null), max = (null)
+ param: Color Space, min = (null), max = (null)
+ filter = CIColorCubeWithColorSpace
+ param: Image, min = (null), max = (null)
+ param: Cube Dimension, min = 2, max = 64
+ param: Cube Data, min = (null), max = (null)
+ param: Color Space, min = (null), max = (null)
+ filter = CIColorCurves
+ param: Image, min = (null), max = (null)
+ param: Curves Data, min = (null), max = (null)
+ param: Curves Domain, min = (null), max = (null)
+ param: Color Space, min = (null), max = (null)
+ filter = CIColumnAverage
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ filter = CIConvolution9Horizontal
+ param: Image, min = (null), max = (null)
+ param: Weights, min = (null), max = (null)
+ param: Bias, min = (null), max = (null)
+ filter = CIConvolution9Vertical
+ param: Image, min = (nul param: Weights, min = (null), max = (null)
+ param: Bias, min = (null), max = (null)
+ filter = CICoreMLModelFilter
+ param: Image, min = (null), max = (null)
+ param: Model, min = (null), max = (null)
+ filter = CIDepthBlurEffect
+ param: Image, min = (null), max = (null)
+ param: Disparity Image, min = (null), max = (null)
+ param: Matte Image, min = (null), max = (null)
+ param: Aperture, min = 0, max = 22
+ param: Left Eye Positions, min = (null), max = (null)
+ param: Right Eye Positions, min = (null), max = (null)
+ param: Chin Pos param: Nose Positions, min = (null), max = (null)
+ param: Focus Rectangle, min = (null), max = (null)
+ param: Luma Noise Scale, min = 0, max = 0.1
+ param: Scale Factor, min = (null), max = (null)
+ param: Calibration Data, min = (null), max = (null)
+ param: Aux Data Metadata, min = (null), max = (null)
+ param: Shape, min = (null), max = (null)
+ filter = CIDepthOfField
+ param: Image, min = (null), max = (null)
+ param: Point 0, param: Point 1, min = (null), max = (null)
+ param: Saturation, min = 0, max = (null)
+ param: Unsharp Mask Radius, min = 0, max = (null)
+ param: Unsharp Mask Intensity, min = 0, max = (null)
+ param: Radius, min = 0, max = (null)
+ filter = CIDisplacementDistortion
+ param: Image, min = (null), max = (null)
+ param: Displacement Image, min = (null), max = (null)
+ param: Scale, min = 0, max = (null)
+ filter = CIDroste
+ param: Image, min = (null), max = (null)
+ param: Inset Point 0, min = (null), max = (null)
+ param: Inset Point 1, min = (null), max = (null)
+ param: Strands, min = -10, max = 10
+ param: Periodicity, min = 1, max = (null)
+ param: Rotation, min = (null), max = (null)
+ param: Zoom, min = 0.01, max = (null)
+ filter = CIEdgePreserveUpsampleFilter
+ param: I param: Small Image, min = (null), max = (null)
+ param: Spatial Sigma, min = 0, max = 5
+ param: Luma Sigma, min = 0, max = 1
+ filter = CIEightfoldReflectedTile
+ param: Image param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Width, min = 0, max = (null)
+ filter = CIFourfoldReflectedTile
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Width, min = 0, max = (null)
+ param: Acute Angle, min = (null), max = (null)
+ filter = CIFourfoldRotatedTile
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Width, min = 0, max = (null)
+ filter = CIFourfoldTranslatedTile
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Width, min = 0, max = (null)
+ param: Acute Angle, min = (null), max = (null)
+ filter = CIGlassDistortion
+ param: Image, min = (null), max = (null)
+ param: Texture, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Scale, min = 0, max = (null)
+ filter = CIGlassLozenge
+ param: Image, min = (null), max = (null)
+ param: Point 0, min = (null), max = (null)
+ param: Point 1, min = (null), max = (null)
+ param: Radius, min = 0, max = (null)
+ param: Refraction, min = 0, max = (null)
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Width, min = 0, max = (null)
+ filter = CIGloom
+ param: Image, min = (null), max = (null)
+ param: Radius, min = 0, max = (null)
+ param: Intensity, min = 0, max = (null)
+ filter = CIGuidedFilter
+ param: Image, min = (null), max = (null)
+ param: A larger image to param: Radius, min = (null), max = (null)
+ param: Epsilon, min = (null), max = (null)
+ filter = CIHatchedScreen
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Width, min = 1, max = (null)
+ param: Sharpness, min = 0, max = 1
+ filter = CIHighlightShadowAdjust
+ param: Image, min = (null), max = (null)
+ param: Radius, min = 0, max = (null)
+ param: Shadow Amount, min = -1, max = 1
+ param: Highlight Amount, min = 0, max = 1
+ filter = CIHueSaturationValueGradient
+ param: Value, min = 0, max = (null)
+ param: Radius, min = 0, max = (null)
+ param: Softness, min = 0, max = (null)
+ param: Dither, min = 0, max = (null)
+ param: Color Space, min = (null), max = (null)
+ filter = CIKaleidoscope
+ param: Image, min = (null), max = (null)
+ param: Count, min = 1, max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ filter = CILabDeltaE
+ param: Image, min = (null), max = (null)
+ param: Image2, min = (null), max = (null)
+ filter = CILanczosScaleTransform
+ param: Image, min = (null), max = (null)
+ param: Scale, min = 0, max = (null)
+ param: Aspect Ratio, min = 0, max = (null)
+ filter = CILenticularHaloGenerator
+ param: Center, min = (null), max = (null)
+ param: Color, min = (null), max = (null)
+ param: Halo Radius, min = 0, max = (null)
+ param: Halo Width, min = 0, max = (null)
+ param: Halo Overlap, min = 0, max = (null)
+ param: Striation Strength, min = 0, max = (null)
+ param: Striation Contrast, min = 0, max = (null)
+ param: Time, min = 0, max = 1
+ filter = CILineOverlay
+ param: Image, min = (null), max = (null)
+ param: NR Noise Level, min = 0, max = (null)
+ param: NR Sharpness, min = 0, max = (null)
+ param: Edge Intensity, min = 0, max = (null)
+ param: Threshold, min = 0, max = (null)
+ param: Contrast, min = 0.25, max = (null)
+ filter = CIMeshGenerator
+ param: Width, min = 0, max = (null)
+ param: Color, min = (null), max = (null)
+ param: Mesh, min = (null), max = (null)
+ filter = CIMorphologyMaximum
+ param: Image, min = (null), max = (null)
+ param: Radius, min = (null), max = (null)
+ filter = CIMorphologyMinimum
+ param: Image, min = (null), max = (null)
+ param: Radius, min = (null), max = (null)
+ filter = CINinePartStretched
+ param: Image, min = (null), max = (null)
+ param: Breakpoint0, min = (null), max = (null)
+ param: Breakpoint1, min = (null), max = (null)
+ param: Grow Amount, min = (null), max = (null)
+ filter = CINinePartTiled
+ param: Image, min = (null), max = (null)
+ param: Breakpoint0, min = (null), max = (null)
+ param: Breakpoint1, min = (null), max = (null)
+ param: Grow Amount, min = (null), max = (null)
+ param: Flip Y Tiles, min = 0, max = 1
+ param: Image, min = (null), max = (null)
+ param: Noise Level, min = 0, max = (null)
+ param: Sharpness, min = 0, max = (null)
+ filter = CIParallelogramTile
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Acute Angle, min = (null), max = (null)
+ param: Width, min = 0, max = (null)
+ filter = CIPDF417BarcodeGenerator
+ param: Message, min = (null), max = (null)
+ param: Min Width, min = 56, max = 583
+ param: Max Width, min = 56, max = 583
+ param: Min Height, min = 13, max = 283
+ param: Max Height, min = 13, max = 283
+ param: Data Columns, min = 1, max = 30
+ param: Rows, min = 3, max = 90
+ param: Preferred Aspect Ratio, min = 0, max = 9223372036854775807
+ param: Compaction Mode, min = 0, max = 3
+ param: Compact Style, min = 0, max = 1
+ param: Correction Level, min = 0, max = 8
+ param: Always Specify Compaction, min = 0, max = 1
+ filter = CIPerspectiveCorrection
+ param: Image, min = (null), max = (null)
+ param: Top Left, min = (null), max = (null)
+ param: Top Right, min = (null), max = (null)
+ param: Bottom Left, min = (null), max = (null)
+ param: Crop, min = (null), max = (null)
+ filter = CIPerspectiveTile
+ param: Image, min = (null), max = (null)
+ param: Top Left, min = (null), max = (null)
+ param: Top Right, min = (null), max = (null)
+ param: Bottom Right, min = (null), max = (null)
+ param: Bottom Left, min = (null), max = (null)
+ filter = CIPerspectiveTransform
+ param: Image, min = (null), max = (null)
+ param: Top Left, min = (null), max = (null)
+ param: Top Right, min = (null), max = (null)
+ param: Bottom Right, min = (null), max = (null)
+ param: Bottom Left, min = (null), max = (null)
+ filter = CIPerspectiveTransformWithExtent
+ param: Image, min = (null), max = (null)
+ param: Extent, min = (null), max = (null)
+ param: Top Left, min = (null), max = (null)
+ param: Top Right, min = (null), max = (null)
+ param: Bottom Right, min = (null), max = (null)
+ param: Bottom Left, min = (null), max = (null)
+ filter = CIPinchDistortion
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Radius, min = 0, max = (null)
+ param: Scale, min = 0, max = (null)
+ filter = CIQRCodeGenerator
+ param: Message, min = (null), max = (null)
+ param: Correction Level, min = (null), max = (null)
+ filter = CIShadedMaterial
+ param: Image, min = (null), max = (null)
+ param: Shading Image, min = (null), max = (null)
+ param: Scale, min = 0, max = (null)
+ filter = CISixfoldReflectedTile
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Width, min = 0, max = (null)
+ filter = CISixfoldRotatedTile
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Width, min = 0, max = (null)
+ filter = CISpotColor
+ param: Image, min = (null), max = (null)
+ param: Center Color 1, min = (null), max = (null)
+ param: Replacement Color 1, min = (null), max = (null)
+ param: Closeness 1, min = 0, max = (null)
+ param: Contrast 1, min = 0, max = (null)
+ param: Center Color 2, min = (null), max = (null)
+ param: Replacement Color 2, min = (null), max = (null)
+ param: Closeness 2, min = 0, max = (null)
+ param: Contrast 2, min = 0, max = (null)
+ param: Center Color 3, min = (null), max = (null)
+ param: Replacement Color 3, min = (null), max = (null)
+ param: Closeness 3, min = 0, max = (null)
+ param: Contrast 3, min = 0, max = (null)
+ filter = CISpotLight
+ param: Image, min = (null), max = (null)
+ param: Light Position, min = (null), max = (null)
+ param: Light Points At, min = (null), max = (null)
+ param: Brightness, min = 0, max = (null)
+ param: Concentration, min = 0.001, max = (null)
+ param: Color, min = (null), max = (null)
+ filter = CIStraightenFilter
+ param: Image, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ filter = CIStretchCrop
+ param: Image, min = (null), max = (null)
+ param: Size, min = (null), max = (null)
+ param: Crop Amount, min = 0, max = 1
+ param: Center Stretch Amo filter = CIStripesGenerator
+ param: Center, min = (null), max = (null)
+ param: Color 1, min = (null), max = (null)
+ param: Color 2, min = (null), max = (null)
+ param: Width, min = (null), max = (null)
+ param: Sharpness, min = 0, max = 1
+ filter = CISunbeamsGenerator
+ param: Center, min = (null), max = (null)
+ param: Color, min = (null), max = (null)
+ param: Sun Radius, min = 0, max = (null)
+ param: Maximum Striation Radius, min = 0, max = (null)
+ param: Striation Strength, min = 0, max = (null)
+ param: Striation Contrast, min = 0, max = (null)
+ param: Time, min = 0, max = 1
+ filter = CITextImageGenerator
+ param: Text, min = (null), max = (null)
+ param: Font Name, min = (null), max = (null)
+ param: Font Size, min = 0, max = (null)
+ param: Scale Factor, min = 0, max = (null)
+ filter = CITorusLensDistortion
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Radius, min = 0, max = (null)
+ param: Width, min = 0, max = (null)
+ param: Refraction, min = 0, max = (null)
+ filter = CITriangleKaleidoscope
+ param: Image, min = (null), max = (null)
+ param: Point, min = (null), max = (null)
+ param: Size, min = (null), max = (null)
+ param: Rotation, min = (null), max = (null)
+ param: Decay, min = (null), max = (null)
+ filter = CITriangleTile
+ param: Image, min = (null), max = (null)
+ param: Center, min = (null), max = (null)
+ param: Angle, min = (null), max = (null)
+ param: Width, min = 0, max = (null)

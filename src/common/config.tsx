@@ -8,7 +8,10 @@ import {
   colorVector,
   image,
   imageStyle,
-  Input
+  Input,
+  position,
+  distanceVector,
+  area
 } from './inputs'
 import { ShapeRegistry } from './shape-registry'
 import { ImagePlaceholder } from './image-placeholder'
@@ -16,30 +19,62 @@ import { id } from './util'
 
 const mainImageName = Platform.OS === 'android' ? 'image' : 'generatedImage'
 
-const anyToString = (n: any) => `${n}`
+const anyToString = (n: unknown) => `${n}`
+const convertDistances = (distances: unknown[]) => distances.map(anyToString)
+const convertPosition = ({ x, y }: { x: unknown; y: unknown }) => ({ x: `${x}`, y: `${y}` })
 const convertColor = processColor // (c: any) => (isAndroid ? processColor(c) : c)
-const convertColors = (cs: any[]) => cs.map(convertColor)
+const convertColors = (cs: unknown[]) => cs.map(convertColor)
+const convertArea = (rect: { x: unknown; y: unknown; width: unknown; height: unknown }) => ({
+  x: `${rect.x}`,
+  y: `${rect.y}`,
+  width: `${rect.width}`,
+  height: `${rect.height}`
+})
 
 const paramConvertMap: { [key: string]: Function } = {
+  [position]: convertPosition,
   [distance]: anyToString,
+  [distanceVector]: convertDistances,
   [scalar]: anyToString,
   [color]: convertColor,
-  [colorVector]: convertColors
+  [colorVector]: convertColors,
+  [area]: convertArea
 }
+
+const srcResizeMode = 'srcResizeMode'
+const srcAnchor = 'srcAnchor'
+const srcPosition = 'srcPosition'
+const dstResizeMode = 'dstResizeMode'
+const dstAnchor = 'dstAnchor'
+const dstPosition = 'dstPosition'
 
 const iosKeyConvertMap: { [key: string]: string } = {
-  inputImageResizeMode: 'srcResizeMode',
-  inputImageGravityAxis: 'srcGravityAxis',
-  inputBackgroundImageResizeMode: 'dstResizeMode',
-  inputBackgroundImageGravityAxis: 'dstGravityAxis',
-  inputMaskResizeMode: 'dstResizeMode',
-  inputMaskGravityAxis: 'dstGravityAxis'
+  inputImageResizeMode: srcResizeMode,
+  inputImageAnchor: srcAnchor,
+  inputImagePosition: srcPosition,
+  inputBackgroundImageResizeMode: dstResizeMode,
+  inputBackgroundImageAnchor: dstAnchor,
+  inputBackgroundImagePosition: dstPosition,
+  inputMaskResizeMode: dstResizeMode,
+  inputMaskAnchor: dstAnchor,
+  inputMaskPosition: dstPosition,
+  inputGradientImageResizeMode: dstResizeMode,
+  inputGradientImageAnchor: dstAnchor,
+  inputGradientImagePosition: dstPosition,
+  inputTargetImageResizeMode: dstResizeMode,
+  inputTargetImageAnchor: dstAnchor,
+  inputTargetImagePosition: dstPosition
 }
 
+const srcImage = 'srcImage'
+const dstImage = 'dstImage'
+
 const iosMatchMap: { [key: string]: string } = {
-  inputImage: 'srcImage',
-  inputBackgroundImage: 'dstImage',
-  inputMask: 'dstImage'
+  inputImage: srcImage,
+  inputGradientImage: dstImage,
+  inputBackgroundImage: dstImage,
+  inputMask: dstImage,
+  inputTargetImage: dstImage
 }
 
 const defaultImageStyle = { width: '100%', height: '100%' }

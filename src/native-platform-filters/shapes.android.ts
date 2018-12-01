@@ -6,16 +6,9 @@ import {
   distance,
   tileMode,
   porterDuffMode,
-  imageStyle,
-  config,
-  bool
+  config
 } from '../common/inputs'
-import { Common, Composition } from '../common/shapes'
-
-const Generator = {
-  imageStyle: imageStyle,
-  disableCache: bool
-}
+import { Common, Composition, Generator } from '../common/shapes'
 
 export const shapes = {
   ImageFilter: {

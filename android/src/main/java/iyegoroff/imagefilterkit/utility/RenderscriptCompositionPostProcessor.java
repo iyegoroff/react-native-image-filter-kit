@@ -6,13 +6,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
+import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.react.common.ReactConstants;
 
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -109,6 +113,16 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
       final Canvas dstCanvas = new Canvas(tmpDst);
       final Canvas srcCanvas = new Canvas(tmpSrc);
 
+      Log.d(ReactConstants.TAG, "IFK: DST " + bitmapFrame(
+        outWidth,
+        outHeight,
+        dst.getWidth(),
+        dst.getHeight(),
+        mDstResizeMode,
+        mDstAnchor,
+        mDstPosition
+      ).toString());
+
       dstCanvas.drawBitmap(
         dst,
         null,
@@ -118,10 +132,21 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
           dst.getWidth(),
           dst.getHeight(),
           mDstResizeMode,
-          mDstGravityAxis
+          mDstAnchor,
+          mDstPosition
         ),
         new Paint()
       );
+
+      Log.d(ReactConstants.TAG, "IFK: SRC " + bitmapFrame(
+        outWidth,
+        outHeight,
+        src.getWidth(),
+        src.getHeight(),
+        mSrcResizeMode,
+        mSrcAnchor,
+        mSrcPosition
+      ).toString());
 
       srcCanvas.drawBitmap(
         src,
@@ -132,12 +157,21 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
           src.getWidth(),
           src.getHeight(),
           mSrcResizeMode,
-          mSrcGravityAxis
+          mSrcAnchor,
+          mSrcPosition
         ),
         new Paint()
       );
 
       processRenderscriptComposition(tmpDst, tmpSrc, out);
+
+      Log.d(ReactConstants.TAG, String.format(
+        (Locale) null,
+        "IFK: DST {%d, %d, %s}; SRC {%d, %d, %s}; Canvas {%d, %d};",
+        dst.getWidth(), dst.getHeight(), mDstResizeMode.toString(),
+        src.getWidth(), src.getHeight(), mSrcResizeMode.toString(),
+        outWidth, outHeight
+      ));
 
       return CloseableReference.cloneOrNull(outRef);
     } finally {

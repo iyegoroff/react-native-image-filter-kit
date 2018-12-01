@@ -1,12 +1,14 @@
-import { bool, scaleMode, image, resizeMode, gravityAxis, color } from './inputs'
+import { bool, scaleMode, image, resizeMode, color, imageStyle, offset } from './inputs'
 
 export const Composition = {
   scaleMode: scaleMode,
   dstImage: image,
-  dstGravityAxis: gravityAxis,
+  dstAnchor: offset,
+  dstPosition: offset,
   dstResizeMode: resizeMode,
   srcImage: image,
-  srcGravityAxis: gravityAxis,
+  srcAnchor: offset,
+  srcPosition: offset,
   srcResizeMode: resizeMode,
   disableCache: bool
 }
@@ -19,5 +21,10 @@ export const Common = {
 export const BlendColor = {
   dstImage: image,
   srcColor: color,
+  disableCache: bool
+}
+
+export const Generator = {
+  imageStyle: imageStyle,
   disableCache: bool
 }

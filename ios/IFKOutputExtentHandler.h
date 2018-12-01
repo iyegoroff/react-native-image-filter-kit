@@ -1,5 +1,4 @@
 #import <UIKit/UIKit.h>
-#import "IFKTuple.h"
 
 @interface IFKOutputExtentHandler : NSObject
 

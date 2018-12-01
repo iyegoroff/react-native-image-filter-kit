@@ -12,8 +12,12 @@ export const image = 'image'
 export const imageStyle = 'imageStyle'
 export const resizeMode = 'resizeMode'
 export const scaleMode = 'scaleMode'
-export const gravityAxis = 'gravityAxis'
 export const bool = 'bool'
+export const distanceVector = 'distanceVector'
+export const text = 'text'
+export const area = 'area'
+export const binaryData = 'binaryData'
+export const ISOLatin1EncodedText = 'ISOLatin1EncodedText'
 
 export type Input =
   | typeof config
@@ -30,5 +34,9 @@ export type Input =
   | typeof imageStyle
   | typeof resizeMode
   | typeof scaleMode
-  | typeof gravityAxis
   | typeof bool
+  | typeof distanceVector
+  | typeof text
+  | typeof area
+  | typeof binaryData
+  | typeof ISOLatin1EncodedText
