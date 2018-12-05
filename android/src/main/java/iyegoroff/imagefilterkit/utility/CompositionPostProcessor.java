@@ -3,7 +3,6 @@ package iyegoroff.imagefilterkit.utility;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
@@ -13,7 +12,6 @@ import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.infer.annotation.Assertions;
-import com.facebook.react.common.ReactConstants;
 
 import org.json.JSONObject;
 
@@ -25,11 +23,9 @@ import javax.annotation.Nullable;
 
 import iyegoroff.imagefilterkit.InputConverter;
 import iyegoroff.imagefilterkit.Resize;
-import iyegoroff.imagefilterkit.Scale;
 
 public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
-  private final @Nonnull Scale mScaleMode;
   private final @Nonnull CloseableReference<CloseableImage> mSrc;
   private final @Nonnull CacheKey mSrcCacheKey;
   protected final @Nonnull Resize mSrcResizeMode;
@@ -38,6 +34,9 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   protected final @Nonnull Resize mDstResizeMode;
   protected final @Nonnull PointF mDstAnchor;
   protected final @Nonnull PointF mDstPosition;
+  protected final int mWidth;
+  protected final int mHeight;
+  protected final @Nullable String mResizeCanvasTo;
 
   public CompositionPostProcessor(
     int width,
@@ -50,7 +49,9 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mScaleMode = converter.convertScale(config != null ? config.optJSONObject("scaleMode") : null, Scale.Mode.UP);
+    mWidth = width;
+    mHeight = height;
+
     mSrc = src.clone();
     mSrcCacheKey = srcCacheKey;
     mSrcResizeMode = converter.convertResize(config != null ? config.optJSONObject("srcResizeMode") : null, Resize.Mode.COVER);
@@ -59,6 +60,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     mDstResizeMode = converter.convertResize(config != null ? config.optJSONObject("dstResizeMode") : null, Resize.Mode.COVER);
     mDstAnchor = converter.convertOffset(config != null ? config.optJSONObject("dstAnchor") : null, 0.5f, 0.5f);
     mDstPosition = converter.convertOffset(config != null ? config.optJSONObject("dstPosition") : null, 0.5f, 0.5f);
+    mResizeCanvasTo = converter.convertText(config != null ? config.optJSONObject("resizeCanvasTo") : null, null);
   }
 
   @Override
@@ -72,28 +74,6 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     PlatformBitmapFactory bitmapFactory
   );
 
-  protected int outBitmapExtent(int dstExtent, int srcExtent) {
-    if (mScaleMode instanceof Scale.WithMode) {
-      return ((Scale.WithMode) mScaleMode).mode == Scale.Mode.UP
-        ? Math.max(dstExtent, srcExtent)
-        : Math.min(dstExtent, srcExtent);
-
-    } else if (mScaleMode instanceof Scale.WithMatch) {
-      String match = ((Scale.WithMatch) mScaleMode).match;
-
-      if ("dstImage".equals(match)) {
-        return dstExtent;
-
-      } else if ("srcImage".equals(match)) {
-        return srcExtent;
-      }
-    }
-
-    throw Assertions.assertUnreachable(
-      "ImageFilterKit: invalid scaleMode - " + String.valueOf(mScaleMode)
-    );
-  }
-
   @Override
   public CloseableReference<Bitmap> process(
     Bitmap dst,
@@ -106,6 +86,22 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 //    } finally {
 //      CloseableReference.closeSafely(mSrc);
 //    }
+  }
+
+  protected int canvasExtent(int dstExtent, int srcExtent, int defaultExtent) {
+    if (mResizeCanvasTo == null) {
+      return defaultExtent;
+
+    } else if ("dstImage".equals(mResizeCanvasTo)) {
+      return dstExtent;
+
+    } else if ("srcImage".equals(mResizeCanvasTo)) {
+      return srcExtent;
+    }
+
+    throw Assertions.assertUnreachable(
+      "ImageFilterKit: invalid resizeCanvasTo - " + mResizeCanvasTo
+    );
   }
 
   protected static RectF bitmapFrame(
@@ -123,16 +119,16 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     if (resizeMode instanceof Resize.WithMode) {
       Resize.Mode mode = ((Resize.WithMode) resizeMode).mode;
 
-      if (mode == Resize.Mode.COVER) {
-        if (bitmapWidth > bitmapHeight) {
+      if (mode == Resize.Mode.CONTAIN) {
+        if (canvasWidth / bitmapWidth > canvasHeight / bitmapHeight) {
           height = canvasHeight;
           width = bitmapWidth * height / bitmapHeight;
         } else {
           width = canvasWidth;
           height = bitmapHeight * width / bitmapWidth;
         }
-      } else if (mode == Resize.Mode.CONTAIN) {
-        if (bitmapWidth > bitmapHeight) {
+      } else if (mode == Resize.Mode.COVER) {
+        if (canvasWidth / bitmapWidth > canvasHeight / bitmapHeight) {
           width = canvasWidth;
           height = bitmapHeight * width / bitmapWidth;
         } else {
@@ -181,9 +177,8 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     return new MultiCacheKey(Arrays.asList(
       new SimpleCacheKey(String.format(
         (Locale) null,
-        "%s_%s_%s_%s_%s_%s_%s_%s",
+        "%s_%s_%s_%s_%s_%s_%s",
         prefix,
-        mScaleMode.toString(),
         mSrcResizeMode.toString(),
         mSrcAnchor.toString(),
         mSrcPosition.toString(),

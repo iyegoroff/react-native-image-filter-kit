@@ -1,7 +1,6 @@
-import { bool, scaleMode, image, resizeMode, color, imageStyle, offset } from './inputs'
+import { bool, image, resizeMode, color, imageStyle, offset, text } from './inputs'
 
 export const Composition = {
-  scaleMode: scaleMode,
   dstImage: image,
   dstAnchor: offset,
   dstPosition: offset,
@@ -10,6 +9,7 @@ export const Composition = {
   srcAnchor: offset,
   srcPosition: offset,
   srcResizeMode: resizeMode,
+  resizeCanvasTo: text,
   disableCache: bool
 }
 

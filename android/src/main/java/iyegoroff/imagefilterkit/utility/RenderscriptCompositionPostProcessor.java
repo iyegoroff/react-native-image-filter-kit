@@ -98,12 +98,12 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
     Bitmap src,
     PlatformBitmapFactory bitmapFactory
   ) {
-    final int outWidth = outBitmapExtent(dst.getWidth(), src.getWidth());
-    final int outHeight = outBitmapExtent(dst.getHeight(), src.getHeight());
+    final int width = canvasExtent(dst.getWidth(), src.getWidth(), mWidth);
+    final int height = canvasExtent(dst.getHeight(), src.getWidth(), mHeight);
 
-    final CloseableReference<Bitmap> tmpDstRef = bitmapFactory.createBitmap(outWidth, outHeight);
-    final CloseableReference<Bitmap> tmpSrcRef = bitmapFactory.createBitmap(outWidth, outHeight);
-    final CloseableReference<Bitmap> outRef = bitmapFactory.createBitmap(outWidth, outHeight);
+    final CloseableReference<Bitmap> tmpDstRef = bitmapFactory.createBitmap(width, height);
+    final CloseableReference<Bitmap> tmpSrcRef = bitmapFactory.createBitmap(width, height);
+    final CloseableReference<Bitmap> outRef = bitmapFactory.createBitmap(width, height);
 
     try {
       final Bitmap out = outRef.get();
@@ -114,8 +114,8 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
       final Canvas srcCanvas = new Canvas(tmpSrc);
 
       Log.d(ReactConstants.TAG, "IFK: DST " + bitmapFrame(
-        outWidth,
-        outHeight,
+        width,
+        height,
         dst.getWidth(),
         dst.getHeight(),
         mDstResizeMode,
@@ -127,8 +127,8 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
         dst,
         null,
         bitmapFrame(
-          outWidth,
-          outHeight,
+          width,
+          height,
           dst.getWidth(),
           dst.getHeight(),
           mDstResizeMode,
@@ -139,8 +139,8 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
       );
 
       Log.d(ReactConstants.TAG, "IFK: SRC " + bitmapFrame(
-        outWidth,
-        outHeight,
+        width,
+        height,
         src.getWidth(),
         src.getHeight(),
         mSrcResizeMode,
@@ -152,8 +152,8 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
         src,
         null,
         bitmapFrame(
-          outWidth,
-          outHeight,
+          width,
+          height,
           src.getWidth(),
           src.getHeight(),
           mSrcResizeMode,
@@ -170,7 +170,7 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
         "IFK: DST {%d, %d, %s}; SRC {%d, %d, %s}; Canvas {%d, %d};",
         dst.getWidth(), dst.getHeight(), mDstResizeMode.toString(),
         src.getWidth(), src.getHeight(), mSrcResizeMode.toString(),
-        outWidth, outHeight
+        width, height
       ));
 
       return CloseableReference.cloneOrNull(outRef);

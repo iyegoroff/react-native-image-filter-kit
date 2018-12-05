@@ -11,7 +11,6 @@ export const colorVector = 'colorVector'
 export const image = 'image'
 export const imageStyle = 'imageStyle'
 export const resizeMode = 'resizeMode'
-export const scaleMode = 'scaleMode'
 export const bool = 'bool'
 export const distanceVector = 'distanceVector'
 export const text = 'text'
@@ -33,7 +32,6 @@ export type Input =
   | typeof image
   | typeof imageStyle
   | typeof resizeMode
-  | typeof scaleMode
   | typeof bool
   | typeof distanceVector
   | typeof text

@@ -119,6 +119,8 @@ public class ImageFilter extends ReactViewGroup {
     final @Nonnull Task<List<FilterableImage>> prevImages
   ) throws JSONException {
     final String name = config.getString("name");
+    final int w = this.getWidth();
+    final int h = this.getHeight();
 
     return prevImages
       .onSuccessTask(new Continuation<List<FilterableImage>, Task<FilterableImage>>() {
@@ -156,6 +158,8 @@ public class ImageFilter extends ReactViewGroup {
                           if (ref != null) {
                             ArrayList<Postprocessor> postProcessors =
                               new ArrayList<>(dst.getPostProcessors());
+
+                            Log.d(ReactConstants.TAG, String.format((Locale)null, "IFK: w %d h %d %d %d", w, h, width, height));
 
                             try {
                               postProcessors.add(

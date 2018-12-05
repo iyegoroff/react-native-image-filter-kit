@@ -25,6 +25,8 @@
     _inputs = inputs;
   }
   
+  NSLog(@"IFK: fil %@ %@", name, inputs);
+  
   return self;
 }
 
@@ -39,13 +41,14 @@
       @"name",
       @"inputImage",
       @"generatedImage",
-      @"scaleMode",
+      @"resizeCanvasTo",
       @"dstResizeMode",
       @"dstAnchor",
       @"dstPosition",
       @"srcResizeMode",
       @"srcAnchor",
-      @"srcPosition"
+      @"srcPosition",
+      @"swapImages"
     ];
   });
 

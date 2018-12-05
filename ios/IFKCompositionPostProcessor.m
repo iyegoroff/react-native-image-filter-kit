@@ -15,25 +15,27 @@
 
 @interface IFKCompositionPostProcessor ()
 
-@property (nonatomic, strong) IFKScale *scaleMode;
 @property (nonatomic, strong) IFKResize *dstResizeMode;
 @property (nonatomic, assign) CGPoint dstAnchor;
 @property (nonatomic, assign) CGPoint dstPosition;
 @property (nonatomic, strong) IFKResize *srcResizeMode;
 @property (nonatomic, assign) CGPoint srcAnchor;
 @property (nonatomic, assign) CGPoint srcPosition;
+@property (nonatomic, assign) BOOL swapImages;
+@property (nonatomic, assign) CGSize canvasSize;
+@property (nonatomic, strong) NSString *resizeCanvasTo;
 
 @end
 
 @implementation IFKCompositionPostProcessor
 
-- (nonnull instancetype)initWithName:(nonnull NSString *)name inputs:(nonnull NSDictionary *)inputs
+- (nonnull instancetype)initWithName:(nonnull NSString *)name
+                              inputs:(nonnull NSDictionary *)inputs
+                          canvasSize:(CGSize)canvasSize
 {
   if ((self = [super initWithName:name inputs:inputs])) {
     CIVector *center = [CIVector vectorWithCGPoint:CGPointMake(0.5f, 0.5f)];
 
-    _scaleMode = [IFKInputConverter convertScale:[[self inputs] objectForKey:@"scaleMode"]
-                                    defaultValue:UP];
     _dstResizeMode = [IFKInputConverter convertResize:[[self inputs] objectForKey:@"dstResizeMode"]
                                          defaultValue:COVER];
     _srcResizeMode = [IFKInputConverter convertResize:[[self inputs] objectForKey:@"srcResizeMode"]
@@ -46,34 +48,14 @@
                                         defaultValue:center] CGPointValue];
     _srcPosition = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcPosition"]
                                         defaultValue:center] CGPointValue];
+    _swapImages = [[IFKInputConverter convertBoolean:[[self inputs] objectForKey:@"swapImages"]
+                                        defaultValue:@(NO)] boolValue];
+    _resizeCanvasTo = [IFKInputConverter convertText:[[self inputs] objectForKey:@"resizeCanvasTo"]
+                                        defaultValue:nil];
+    _canvasSize = canvasSize;
   }
   
   return self;
-}
-
-+ (CGFloat)outImageExtentWithScaleMode:(IFKScale *)scaleMode
-                             dstExtent:(CGFloat)dstExtent
-                             srcExtent:(CGFloat)srcExtent
-{
-  if ([scaleMode isKindOfClass:[IFKScaleWithMode class]]) {
-    return ((IFKScaleWithMode *)scaleMode).mode == UP
-      ? MAX(dstExtent, srcExtent)
-      : MIN(dstExtent, srcExtent);
-    
-  } else if ([scaleMode isKindOfClass:[IFKScaleWithMatch class]]) {
-    NSString *match = ((IFKScaleWithMatch *)scaleMode).match;
-    
-    if ([@"dstImage" isEqualToString:match]) {
-      return dstExtent;
-      
-    } else if ([@"srcImage" isEqualToString:match]) {
-      return srcExtent;
-    }
-  }
-  
-  RCTAssert(false, @"ImageFilterKit: invalid scaleMode - %@", scaleMode);
-  
-  return 0.0f;
 }
 
 + (CGRect)imageFrameWithCanvasWidth:(CGFloat)canvasWidth
@@ -90,16 +72,17 @@
   if ([resizeMode isKindOfClass:[IFKResizeWithMode class]]) {
     IFKResizeMode mode = ((IFKResizeWithMode *)resizeMode).mode;
     
-    if (mode == COVER) {
-      if (bitmapWidth > bitmapHeight) {
+    if (mode == CONTAIN) {
+      if (canvasWidth / bitmapWidth > canvasHeight / bitmapHeight) {
         height = canvasHeight;
         width = bitmapWidth * height / bitmapHeight;
       } else {
         width = canvasWidth;
         height = bitmapHeight * width / bitmapWidth;
       }
-    } else if (mode == CONTAIN) {
-      if (bitmapWidth > bitmapHeight) {
+      
+    } else if (mode == COVER) {
+      if (canvasWidth / bitmapWidth > canvasHeight / bitmapHeight) {
         width = canvasWidth;
         height = bitmapHeight * width / bitmapWidth;
       } else {
@@ -177,18 +160,13 @@
   CGRect srcFrame = srcImage.extent;
   CGRect dstFrame = dstImage.extent;
   
-  CGSize outSize = CGSizeMake(
-    [IFKCompositionPostProcessor outImageExtentWithScaleMode:_scaleMode
-                                                   dstExtent:dstFrame.size.width
-                                                   srcExtent:srcFrame.size.width],
-    [IFKCompositionPostProcessor outImageExtentWithScaleMode:_scaleMode
-                                                   dstExtent:dstFrame.size.height
-                                                   srcExtent:srcFrame.size.height]
-  );
+  CGSize outSize = [@"dstImage" isEqualToString:_resizeCanvasTo]
+    ? dstFrame.size
+    : [@"srcImage" isEqualToString:_resizeCanvasTo]
+    ? srcFrame.size
+    : _canvasSize;
   
   [self initFilter:outSize];
-  
-  NSLog(@"post: outExtent %@ -> %@", _scaleMode, [NSValue valueWithCGSize:outSize]);
   
   CGRect dst = [IFKCompositionPostProcessor imageFrameWithCanvasWidth:outSize.width
                                                          canvasHeight:outSize.height
@@ -232,15 +210,15 @@
                                                          dst.origin.y);
   
   [[self filter] setValue:[srcImage imageByApplyingTransform:srcTransform]
-                   forKey:@"inputImage"];
+                   forKey:_swapImages ? [self dstImageName] : @"inputImage"];
   
   [[self filter] setValue:[dstImage imageByApplyingTransform:dstTransform]
-                   forKey:[self dstImageName]];
+                   forKey:_swapImages ? @"inputImage" : [self dstImageName]];
   
   return [self filteredImageWithScale:image.scale
                            resizeMode:resizeMode
                             viewFrame:CGRectMake(0, 0, outSize.width, outSize.height)
-                             destSize:image.size];
+                             destSize:outSize];
 }
 
 @end

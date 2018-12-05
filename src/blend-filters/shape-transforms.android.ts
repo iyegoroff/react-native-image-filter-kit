@@ -21,7 +21,7 @@ const asRenderscriptBlendColorConfig = (
   { srcColor, disableIntermediateCaches = true, ...config }: ColorBlendConfig
 ) => ({
   ...config,
-  scaleMode: { match: 'dstImage' },
+  resizeCanvasTo: 'dstImage',
   srcImage: {
     name: 'Color',
     color: srcColor,

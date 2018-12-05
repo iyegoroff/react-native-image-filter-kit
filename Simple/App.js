@@ -18,7 +18,8 @@ import {
   FlatList,
   Picker,
   Switch,
-  Button
+  Button,
+  PickerIOS
 } from 'react-native';
 import {
   ImageFilter,
@@ -36,18 +37,21 @@ import { ShapeRegistry } from '../dist/common/shape-registry';
 
 const CacheableImage = imageCacheHoc(Image);
 
-const imageStyle = { width: 320, height: 320, backgroundColor: 'red' }
+const imageStyle = { width: 320, height: 320, backgroundColor: 'green' }
+const Pick = Platform.OS === 'ios' ? PickerIOS : Picker
+const PickItem = Platform.OS === 'ios' ? PickerIOS.Item : Picker.Item
 
 // Image.prefetch('http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg');
 // Image.prefetch('https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg');
 
 const degToRad = (deg) => Math.PI * deg / 180;
 const background = 'rgb(255, 255, 255)';
+const resizeMode = 'contain'
 const atx = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/atx.jpg' }}
-    resizeMode={'contain'}
+    resizeMode={resizeMode}
   />
 );
 
@@ -55,7 +59,7 @@ const bike = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/bike.jpg' }}
-    resizeMode={'cover'}
+    resizeMode={resizeMode}
   />
 );
 
@@ -63,7 +67,7 @@ const cacti = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/cacti.jpg' }}
-    resizeMode={'contain'}
+    resizeMode={resizeMode}
   />
 );
 
@@ -71,23 +75,23 @@ const tahoe = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://una.im/CSSgram/img/tahoe.jpg' }}
-    resizeMode={'stretch'}
+    resizeMode={resizeMode}
   />
 )
 
 const dest = (
   <Image
-    style={{ width: 128, height: 128 }}
+    style={imageStyle}
     source={require('./dest.png')}
-    resizeMode={'cover'}
+    resizeMode={resizeMode}
   />
 );
 
 const src = (
   <Image
-    style={{ width: 128, height: 128 }}
+    style={imageStyle}
     source={require('./src.png')}
-    resizeMode={'cover'}
+    resizeMode={resizeMode}
   />
 );
 
@@ -95,7 +99,7 @@ const parrot = (
   <Image
     style={imageStyle}
     source={require('./parrot.png')}
-    resizeMode={'stretch'}
+    resizeMode={resizeMode}
   />
 );
 
@@ -103,7 +107,7 @@ const flowers = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg' }}
-    resizeMode={'cover'}
+    resizeMode={resizeMode}
   />
 );
 
@@ -111,7 +115,7 @@ const pizza = (
   <Image
     style={imageStyle}
     source={{ uri: 'http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg' }}
-    resizeMode={'cover'}
+    resizeMode={resizeMode}
   />
 );
 
@@ -119,7 +123,7 @@ const random = (
   <Image
     style={imageStyle}
     source={{ uri: 'https://picsum.photos/200/?random?t=' + Date.now() }}
-    resizeMode={'contain'}
+    resizeMode={resizeMode}
   />
 );
 
@@ -201,11 +205,47 @@ type Props = {};
 export default class App extends Component<Props> {
   state = {
     t: Date.now(),
+    blends: [
+      'Modulate',
+      'Multiply',
+      'Xor',
+      'DstATop',
+      'SrcIn',
+      'SrcATop',
+      'Difference',
+      'Color',
+      'Exclusion',
+      'Luminosity',
+      'HardLight',
+      'Darken',
+      'Saturation',
+      'SoftLight',
+      'Lighten',
+      'Plus',
+      'ColorBurn',
+      'ColorDodge',
+      'Hue',
+      'Overlay',
+      'Screen'
+    ],
+    selectedBlend: 'Lighten',
+    blendImages: [
+      { name: 'parrot', item: parrot },
+      { name: 'tahoe', item: tahoe },
+      { name: 'atx', item: atx },
+      { name: 'cacti', item: cacti },
+      { name: 'bike', item: bike },
+      { name: 'dest', item: dest },
+      { name: 'src', item: src },
+      { name: 'pizza', item: pizza },
+    ],
+    firstSelectedImage: 'parrot',
+    secondSelectedImage: 'tahoe',
     showList: false,
     selectedFilter: 'Normal_0',
     selectedImage: 'Parrot',
     images: [
-      { name: 'Parrot', uri: require('./shmarrot.png') },
+      { name: 'Parrot', uri: require('./parrot.png') },
       { name: 'Coast', uri: 'https://thisismyhappiness.com/wp-content/uploads/2014/05/big-sur-bixby.jpg' },
       { name: 'Mountains', uri: 'https://www.highreshdwallpapers.com/wp-content/uploads/2011/09/Large-Format-HD-Wallpaper.jpg' },
       { name: 'Flowers', uri: 'https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg' },
@@ -303,24 +343,24 @@ export default class App extends Component<Props> {
   }
 
   renderSelect() {
-    const { selectedFilter, selectedImage, filters, images } = this.state;
+    const { selectedFilter, first, filters, images } = this.state;
   
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <Picker
+        <Pick
           style={styles.picker}
           selectedValue={selectedFilter}
           onValueChange={this.filterChanged}
         >
-          {filters.map(({ name, key }) => <Picker.Item value={key} label={name} key={key} />)}
-        </Picker>
-        <Picker
+          {filters.map(({ name, key }) => <PickItem value={key} label={name} key={key} />)}
+        </Pick>
+        <Pick
           style={styles.picker}
           selectedValue={selectedImage}
           onValueChange={this.valueChanged}
         >
-          {images.map(({ name }) => <Picker.Item value={name} label={name} key={name} />)}
-        </Picker>
+          {images.map(({ name }) => <PickItem value={name} label={name} key={name} />)}
+        </Pick>
         <CSSGramItem
           filter={filters.find(({ key }) => key === selectedFilter).name}
           image={images.find(({ name }) => name === selectedImage).uri}
@@ -337,59 +377,102 @@ export default class App extends Component<Props> {
     this.setState({ selectedImage: item })
   }
 
-  renderBlend(name) {
+  renderBlend(name, firstSelectedImage, secondSelectedImage) {
+    const blend = `${name}Blend`
+    const blendColor = `${blend}Color`
+
+    const config = {
+      name: blend,
+      dstResizeMode: 'CONTAIN',
+      srcResizeMode: 'CONTAIN',
+      dstAnchor: { x: 0, y: 1 },
+      // srcPosition: { x: 0, y: 1 },'
+      srcAnchor: { x: 0, y: 1 },
+      // srcPosition: { x: 0, y: 1 }
+    }
+
     return (
-      <ImageFilter
-        key={name}
-        config={{
-          name,
-          dstImage: tahoe,
-          srcImage: parrot,
-          scaleMode: 'DOWN',
-          dstResizeMode: 'COVER',
-          srcResizeMode: 'COVER',
-          // srcAnchor: { x: 0.5, y: 0 },
-          // srcPosition: { x: 0, y: 0 },
-          // srcAnchor: { x: 0, y: 1 },
-          // srcPosition: { x: 0, y: 1 }
-        }}
-      />
+      <View>
+        <Text>{blend}</Text>
+        <ImageFilter
+          key={blend + '1'}
+          config={{
+            dstImage: firstSelectedImage,
+            srcImage: secondSelectedImage,
+            ...config
+          }}
+        />
+        <ImageFilter
+          key={blend + '2'}
+          config={{
+            dstImage: secondSelectedImage,
+            srcImage: firstSelectedImage,
+            ...config
+          }}
+        />
+        <Text>{blendColor}</Text>
+        <ImageFilter
+          key={blendColor}
+          config={{
+            name: blendColor,
+            dstImage: firstSelectedImage,
+            srcColor: '#0080ff80',
+          }}
+        />
+      </View>
     )
   }
 
+  blendChanged = (selectedBlend) => {
+    this.setState({ selectedBlend })
+  }
+
+  firstImageChanged = (firstSelectedImage) => {
+    this.setState({ firstSelectedImage })
+  }
+
+  secondImageChanged = (secondSelectedImage) => {
+    this.setState({ secondSelectedImage })
+  }
+
+  image(name) {
+    return this.state.blendImages.find(x => x.name === name).item
+  }
+
   render() {
+    const { selectedBlend, blends, firstSelectedImage, secondSelectedImage, blendImages } = this.state
+
     return (
       <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-        <ImageFilter
+        {/* <ImageFilter
           key={'N'}
           config={{
             name: 'Normal',
             image: parrot
           }}
-        />
-        {/* {this.renderBlend('ClearBlend')} */}
-        {/* {this.renderBlend('DstInBlend')} */}
-        {/* {this.renderBlend('ModulateBlend')} */}
-        {/* {this.renderBlend('SrcInBlend')}
-        {this.renderBlend('SrcOutBlend')} */}
-        {/* {this.renderBlend('XorBlend')} */}
-        {this.renderBlend('LightenBlend')}
-        {parrot}
-        {/* {this.renderBlend('DifferenceBlend')}
-        {this.renderBlend('HardLightBlend')}
-        {this.renderBlend('SoftLightBlend')}
-        {this.renderBlend('ColorBurnBlend')}
-        {this.renderBlend('SrcOverBlend')}
-        {this.renderBlend('MultiplyBlend')}
-        {this.renderBlend('ScreenBlend')}
-        {this.renderBlend('OverlayBlend')}
-        {this.renderBlend('DstOverBlend')}
-        {this.renderBlend('DstOutBlend')}
-        {this.renderBlend('PlusBlend')}
-        {this.renderBlend('DarkenBlend')}
-        {this.renderBlend('LightenBlend')}
-        {this.renderBlend('SrcATopBlend')}
-        {this.renderBlend('DstATopBlend')} */}
+        /> */}
+        <Pick
+          style={styles.picker}
+          selectedValue={selectedBlend}
+          onValueChange={this.blendChanged}
+        >
+          {blends.map((blend) => <PickItem value={blend} label={blend} key={blend} />)}
+        </Pick>
+        <Pick
+          style={styles.picker}
+          selectedValue={firstSelectedImage}
+          onValueChange={this.firstImageChanged}
+        >
+          {blendImages.map(({ name }) => <PickItem value={name} label={name} key={name} />)}
+        </Pick>
+        <Pick
+          style={styles.picker}
+          selectedValue={secondSelectedImage}
+          onValueChange={this.secondImageChanged}
+        >
+          {blendImages.map(({ name }) => <PickItem value={name} label={name} key={name} />)}
+        </Pick>
+        {this.renderBlend(selectedBlend, this.image(firstSelectedImage), this.image(secondSelectedImage))}
         {/* <ImageFilter
           key={'CITextImageGenerator'}
           config={{
@@ -866,7 +949,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   picker: {
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    maxHeight: 150
   },
   image: imageStyle,
   halfImage: { width: 180, height: 180 }

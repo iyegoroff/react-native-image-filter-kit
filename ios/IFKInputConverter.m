@@ -14,7 +14,8 @@
           self convertDistanceVector:any bounds:bounds defaultValue:(id)[
           self convertISOLatin1EncodedText:any defaultValue:(id)[
           self convertArea:any bounds:bounds defaultValue:(id)[
-          self convertText:any defaultValue:nil]]]]]]]]]]];
+          self convertText:any defaultValue:(id)[
+          self convertBoolean:any defaultValue:nil]]]]]]]]]]]];
 }
 
 + (nullable UIImage *)convertImage:(nullable NSDictionary *)image
@@ -107,35 +108,6 @@
   return defaultValue;
 }
 
-+ (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
-                      defaultValue:(IFKScaleMode)defaultValue
-{
-  static NSDictionary *convert;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    convert = @{
-      @"UP": @(UP),
-      @"DOWN": @(DOWN),
-    };
-  });
-  
-  if (scale != nil && [scale objectForKey:@"scaleMode"]) {
-    id scaleMode = [scale objectForKey:@"scaleMode"];
-    
-    if ([scaleMode isKindOfClass:[NSString class]] && [convert objectForKey:scaleMode] != nil) {
-      return [[IFKScaleWithMode alloc] initWithMode:[[convert objectForKey:scaleMode] intValue]];
-    }
-    
-    if ([scaleMode isKindOfClass:[NSDictionary class]]) {
-      NSString *match = [(NSDictionary *)scaleMode objectForKey:@"match"];
-      
-      return [[IFKScaleWithMatch alloc] initWithMatch:match];
-    }
-  }
-  
-  return [[IFKScaleWithMode alloc] initWithMode:defaultValue];
-}
-
 + (nullable CIVector *)convertOffset:(nullable NSDictionary *)offset
                         defaultValue:(nullable CIVector *)defaultValue
 {
@@ -223,6 +195,16 @@
 {
   return text != nil
     ? [text objectForKey:@"text"] ?: defaultValue
+    : defaultValue;
+}
+
++ (nullable NSNumber *)convertBoolean:(nullable NSDictionary *)boolean
+                         defaultValue:(nullable NSNumber *)defaultValue
+{
+  return boolean == nil
+    ? defaultValue
+    : [boolean objectForKey:@"bool"]
+    ? @([[boolean objectForKey:@"bool"] boolValue])
     : defaultValue;
 }
 

@@ -1,6 +1,5 @@
 #import <UIKit/UIKit.h>
 #import "IFKResize.h"
-#import "IFKScale.h"
 
 @interface IFKInputConverter : NSObject
 
@@ -25,9 +24,6 @@
 + (nullable CIVector *)convertScalarVector:(nullable NSDictionary *)scalarVector
                               defaultValue:(nullable CIVector *)defaultValue;
 
-+ (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
-                      defaultValue:(IFKScaleMode)defaultValue;
-
 + (nullable CIVector *)convertOffset:(nullable NSDictionary *)offset
                         defaultValue:(nullable CIVector *)defaultValue;
 
@@ -48,5 +44,8 @@
 
 + (nullable NSData *)convertISOLatin1EncodedText:(nullable NSDictionary *)text
                                     defaultValue:(nullable NSData *)defaultValue;
+
++ (nullable NSNumber *)convertBoolean:(nullable NSDictionary *)boolean
+                         defaultValue:(nullable NSNumber *)defaultValue;
 
 @end

@@ -10,7 +10,6 @@ import {
   image,
   config,
   bool,
-  scaleMode,
   resizeMode,
   text,
   area,
@@ -19,7 +18,7 @@ import {
 import { Generator } from '../common/shapes'
 
 const Blend = {
-  scaleMode: scaleMode,
+  resizeCanvasTo: text,
   inputImage: image,
   inputImageResizeMode: resizeMode,
   inputImageAnchor: offset,
@@ -28,7 +27,8 @@ const Blend = {
   inputBackgroundImageResizeMode: resizeMode,
   inputBackgroundImageAnchor: offset,
   inputBackgroundImagePosition: offset,
-  disableCache: bool
+  disableCache: bool,
+  swapImages: bool
 }
 
 const Common = {
@@ -168,7 +168,7 @@ export const shapes = {
   CIColorInvert: Common,
 
   CIColorMap: {
-    scaleMode: scaleMode,
+    resizeCanvasTo: text,
     inputImage: image,
     inputImageResizeMode: resizeMode,
     inputImageAnchor: offset,

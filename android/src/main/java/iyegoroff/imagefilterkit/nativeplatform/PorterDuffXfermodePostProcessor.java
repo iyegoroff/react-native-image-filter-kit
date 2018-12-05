@@ -55,8 +55,8 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
     PlatformBitmapFactory bitmapFactory
   ) {
     final CloseableReference<Bitmap> outRef = bitmapFactory.createBitmap(
-      outBitmapExtent(dst.getWidth(), src.getWidth()),
-      outBitmapExtent(dst.getHeight(), src.getHeight())
+      canvasExtent(dst.getWidth(), src.getWidth(), mWidth),
+      canvasExtent(dst.getHeight(), src.getWidth(), mHeight)
     );
 
     try {

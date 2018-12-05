@@ -14,8 +14,6 @@ interface Offset {
 
 type ResizeMode = 'COVER' | 'CONTAIN' | 'STRETCH' | { width?: number; height?: number }
 
-type ScaleMode = 'UP' | 'DOWN' | { match?: 'dstImage' | 'srcImage' }
-
 interface BlendConfig {
   readonly dstImage: unknown
   readonly srcImage: unknown
@@ -25,9 +23,9 @@ interface BlendConfig {
   readonly srcResizeMode?: ResizeMode
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
-  readonly scaleMode?: ScaleMode
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean
+  readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }
 
 const asNativeBlendConfig = ({
@@ -61,7 +59,7 @@ const asInvertedNativeBlendConfig = ({
   srcAnchor,
   dstPosition,
   srcPosition,
-  scaleMode,
+  resizeCanvasTo,
   ...config
 }: BlendConfig) => ({
   inputImage: dstImage,
@@ -72,30 +70,30 @@ const asInvertedNativeBlendConfig = ({
   inputBackgroundImageResizeMode: srcResizeMode,
   inputBackgroundImageAnchor: srcAnchor,
   inputBackgroundImagePosition: srcPosition,
-  scaleMode: scaleMode !== undefined && scaleMode.match !== undefined
-    ? { match: scaleMode.match === 'dstImage' ? 'srcImage' : 'dstImage' }
-    : scaleMode,
+  resizeCanvasTo: resizeCanvasTo !== undefined
+    ? resizeCanvasTo === 'dstImage' ? 'srcImage' : 'dstImage'
+    : resizeCanvasTo,
   ...config
 })
 
-// const asNativeBlendColorConfig = ({ disableCache, dstImage, srcColor }: ColorBlendConfig) => ({
-//   name: 'PorterDuffColorFilter',
-//   image: dstImage,
-//   color: srcColor,
-//   disableCache
-// })
+const asNativeBlendColorConfig = (
+  { srcColor, dstImage, disableIntermediateCaches = true, ...config }: ColorBlendConfig
+) => ({
+  ...config,
+  swapImages: true,
+  inputImage: dstImage,
+  resizeCanvasTo: 'srcImage',
+  inputBackgroundImage: {
+    name: 'CIConstantColorGenerator',
+    inputColor: srcColor,
+    disableCache: disableIntermediateCaches
+  }
+})
 
-// const asRenderscriptBlendColorConfig = (
-//   { srcColor, disableIntermediateCaches = true, ...config }: ColorBlendConfig
-// ) => ({
-//   ...config,
-//   scaleMode: { match: 'dstImage' },
-//   srcImage: {
-//     name: 'Color',
-//     color: srcColor,
-//     disableCache: disableIntermediateCaches
-//   }
-// })
+const asInvertedNativeBlendColorConfig = (config: ColorBlendConfig) => ({
+  ...asNativeBlendColorConfig(config),
+  swapImages: false
+})
 
 export const shapeTransforms = {
   PlusBlend: (config: BlendConfig) => ({
@@ -183,6 +181,16 @@ export const shapeTransforms = {
     name: 'CIDifferenceBlendMode'
   }),
 
+  ColorDodgeBlend: (config: BlendConfig) => ({
+    ...asNativeBlendConfig(config),
+    name: 'CIColorDodgeBlendMode'
+  }),
+
+  ExclusionBlend: (config: BlendConfig) => ({
+    ...asNativeBlendConfig(config),
+    name: 'CIExclusionBlendMode'
+  }),
+
   ColorBurnBlend: (config: BlendConfig) => ({
     ...asNativeBlendConfig(config),
     name: 'CIColorBurnBlendMode'
@@ -191,6 +199,16 @@ export const shapeTransforms = {
   SoftLightBlend: (config: BlendConfig) => ({
     ...asNativeBlendConfig(config),
     name: 'CISoftLightBlendMode'
+  }),
+
+  HueBlend: (config: BlendConfig) => ({
+    ...asNativeBlendConfig(config),
+    name: 'CIHueBlendMode'
+  }),
+
+  ColorBlend: (config: BlendConfig) => ({
+    ...asNativeBlendConfig(config),
+    name: 'CIColorBlendMode'
   }),
 
   HardLightBlend: (config: BlendConfig) => ({
@@ -203,10 +221,15 @@ export const shapeTransforms = {
     name: 'CIDifferenceBlendMode'
   }),
 
-  ExclusionBlend: (config: BlendConfig) => ({
+  SaturationBlend: (config: BlendConfig) => ({
     ...asNativeBlendConfig(config),
-    name: 'CIExclusionBlendMode'
-  })
+    name: 'CISaturationBlendMode'
+  }),
+
+  LuminosityBlend: (config: BlendConfig) => ({
+    ...asNativeBlendConfig(config),
+    name: 'CILuminosityBlendMode'
+  }),
 
   // DstBlend: (config: Object) => ({
   //   ...asNativeBlendConfig(config),
@@ -218,30 +241,30 @@ export const shapeTransforms = {
   //   mode: 'SRC'
   // }),
 
-  // PlusBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'ADD'
-  // }),
+  PlusBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIAdditionCompositing'
+  }),
 
   // ClearBlendColor: (config: ColorBlendConfig) => ({
   //   ...asNativeBlendColorConfig(config),
   //   mode: 'CLEAR'
   // }),
 
-  // DarkenBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'DARKEN'
-  // }),
+  DarkenBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIDarkenBlendMode'
+  }),
 
   // DstBlendColor: (config: ColorBlendConfig) => ({
   //   ...asNativeBlendColorConfig(config),
   //   mode: 'DST'
   // }),
 
-  // DstATopBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'DST_ATOP'
-  // }),
+  DstATopBlendColor: (config: ColorBlendConfig) => ({
+    ...asInvertedNativeBlendColorConfig(config),
+    name: 'CISourceAtopCompositing'
+  }),
 
   // DstInBlendColor: (config: ColorBlendConfig) => ({
   //   ...asNativeBlendColorConfig(config),
@@ -258,40 +281,45 @@ export const shapeTransforms = {
   //   mode: 'DST_OVER'
   // }),
 
-  // LightenBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'LIGHTEN'
-  // }),
+  LightenBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CILightenBlendMode'
+  }),
 
-  // ModulateBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'MULTIPLY'
-  // }),
+  ModulateBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIMultiplyCompositing'
+  }),
 
-  // OverlayBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'OVERLAY'
-  // }),
+  MultiplyBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIMultiplyBlendMode'
+  }),
 
-  // ScreenBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'SCREEN'
-  // }),
+  OverlayBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIOverlayBlendMode'
+  }),
+
+  ScreenBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIScreenBlendMode'
+  }),
 
   // SrcBlendColor: (config: ColorBlendConfig) => ({
   //   ...asNativeBlendColorConfig(config),
   //   mode: 'SRC'
   // }),
 
-  // SrcATopBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'SRC_ATOP'
-  // }),
+  SrcATopBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CISourceAtopCompositing'
+  }),
 
-  // SrcInBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'SRC_IN'
-  // }),
+  SrcInBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CISourceInCompositing'
+  }),
 
   // SrcOutBlendColor: (config: ColorBlendConfig) => ({
   //   ...asNativeBlendColorConfig(config),
@@ -308,58 +336,53 @@ export const shapeTransforms = {
   //   mode: 'XOR'
   // }),
 
-  // ColorDodgeBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'ColorDodgeBlend'
-  // }),
+  ColorDodgeBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIColorDodgeBlendMode'
+  }),
 
-  // ExclusionBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'ExclusionBlend'
-  // }),
+  ExclusionBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIExclusionBlendMode'
+  }),
 
-  // ColorBurnBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'ColorBurnBlend'
-  // }),
+  ColorBurnBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIColorBurnBlendMode'
+  }),
 
-  // SoftLightBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'SoftLightBlend'
-  // }),
+  SoftLightBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CISoftLightBlendMode'
+  }),
 
-  // HueBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'HueBlend'
-  // }),
+  HueBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIHueBlendMode'
+  }),
 
-  // ColorBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'ColorBlend'
-  // }),
+  ColorBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIColorBlendMode'
+  }),
 
-  // SaturationBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'SaturationBlend'
-  // }),
+  SaturationBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CISaturationBlendMode'
+  }),
 
-  // LuminosityBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'LuminosityBlend'
-  // }),
+  LuminosityBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CILuminosityBlendMode'
+  }),
 
-  // DifferenceBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'DifferenceBlend'
-  // }),
+  DifferenceBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIDifferenceBlendMode'
+  }),
 
-  // HardLightBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'HardLightBlend'
-  // }),
-
-  // MultiplyBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asRenderscriptBlendColorConfig(config),
-  //   name: 'MultiplyBlend'
-  // })
+  HardLightBlendColor: (config: ColorBlendConfig) => ({
+    ...asNativeBlendColorConfig(config),
+    name: 'CIHardLightBlendMode'
+  })
 }

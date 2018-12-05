@@ -62,6 +62,10 @@ public class InputConverter {
     );
   }
 
+  public String convertText(@Nullable JSONObject text, @Nullable String defaultValue) {
+    return text != null ? text.optString("text", defaultValue) : defaultValue;
+  }
+
   public Resize convertResize(@Nullable JSONObject resizeMode, @Nonnull Resize.Mode defaultMode) {
     JSONObject size = resizeMode != null ? resizeMode.optJSONObject("resizeMode") : null;
     String mode = resizeMode != null ? resizeMode.optString("resizeMode") : null;
@@ -123,17 +127,6 @@ public class InputConverter {
       defaultValue,
       PorterDuff.Mode.class
     );
-  }
-
-  public Scale convertScale(@Nullable JSONObject scaleMode, @Nonnull Scale.Mode defaultMode) {
-    JSONObject scale = scaleMode != null ? scaleMode.optJSONObject("scaleMode") : null;
-    String mode = scaleMode != null ? scaleMode.optString("scaleMode") : null;
-
-    if (scale != null) {
-      return new Scale.WithMatch(scale.has("match") ? scale.optString("match") : null);
-    }
-
-    return new Scale.WithMode(convertEnumeration(mode, defaultMode, Scale.Mode.class));
   }
 
   public Shader.TileMode convertTileMode(
