@@ -1,0 +1,144 @@
+vec4 linearGradient(
+  vec4 inputExtent,
+  int amount,
+  vec4 colors[5],
+  float stops[5],
+  vec2 start,
+  vec2 end
+) {
+  vec2 fragCoord = destCoord();
+  float width = inputExtent.z;
+  float height = inputExtent.w;
+  vec2 startPoint = vec2(inputExtent.x + start.x * width, inputExtent.x + end.x * width);
+  vec2 endPoint = vec2(inputExtent.y + start.y * height, inputExtent.y + end.y * height);
+
+  vec2 dt = endPoint - startPoint;
+  vec2 pt = fragCoord - startPoint;
+  float t = dot(pt, dt)/ dot(dt, dt);
+
+  vec4 color = colors[0];
+  for (int i = 1; i < amount; i) {
+    color = mix(color, colors[i], clamp((t - stops[i - 1])/(stops[i] - stops[i - 1]), 0.0, 1.0));
+  }
+  return color;
+}
+
+kernel vec4 linearGradient1Kernel(
+  vec4 inputExtent,
+  vec4 color0,
+  float stop0,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[5];
+  colors[0] = color0;
+
+  float stops[5];
+  stops[0] = stop0;
+
+  return linearGradient(inputExtent, 1, colors, stops, start, end);
+}
+
+kernel vec4 linearGradient2Kernel(
+  vec4 inputExtent,
+  vec4 color0,
+  float stop0,
+  vec4 color1,
+  float stop1,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[5];
+  colors[0] = color0;
+  colors[1] = color1;
+
+  float stops[5];
+  stops[0] = stop0;
+  stops[1] = stop1;
+
+  return linearGradient(inputExtent, 2, colors, stops, start, end);
+}
+
+kernel vec4 linearGradient3Kernel(
+  vec4 inputExtent,
+  vec4 color0,
+  float stop0,
+  vec4 color1,
+  float stop1,
+  vec4 color2,
+  float stop2,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[5];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+
+  float stops[5];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+
+  return linearGradient(inputExtent, 3, colors, stops, start, end);
+}
+
+kernel vec4 linearGradient4Kernel(
+  vec4 inputExtent,
+  vec4 color0,
+  float stop0,
+  vec4 color1,
+  float stop1,
+  vec4 color2,
+  float stop2,
+  vec4 color3,
+  float stop3,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[5];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+
+  float stops[5];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+
+  return linearGradient(inputExtent, 4, colors, stops, start, end);
+}
+
+kernel vec4 linearGradient5Kernel(
+  vec4 inputExtent,
+  vec4 color0,
+  float stop0,
+  vec4 color1,
+  float stop1,
+  vec4 color2,
+  float stop2,
+  vec4 color3,
+  float stop3,
+  vec4 color4,
+  float stop4,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[5];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+
+  float stops[5];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+
+  return linearGradient(inputExtent, 5, colors, stops, start, end);
+}

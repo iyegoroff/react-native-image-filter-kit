@@ -5,22 +5,29 @@ interface ColorBlendConfig {
   readonly disableIntermediateCaches?: boolean
 }
 
-const asNativeBlendConfig = (config: Object) => ({
+const asNativeBlendConfig = (mode: string) => (config: Object) => ({
   ...config,
+  mode,
   name: 'PorterDuffXfermode'
 })
 
-const asNativeBlendColorConfig = ({ disableCache, dstImage, srcColor }: ColorBlendConfig) => ({
+const asNativeBlendColorConfig = (mode: string) => ({
+  disableCache,
+  dstImage,
+  srcColor
+}: ColorBlendConfig) => ({
   name: 'PorterDuffColorFilter',
   image: dstImage,
   color: srcColor,
-  disableCache
+  disableCache,
+  mode
 })
 
-const asRenderscriptBlendColorConfig = (
+const asRenderscriptBlendColorConfig = (name: string) => (
   { srcColor, disableIntermediateCaches = true, ...config }: ColorBlendConfig
 ) => ({
   ...config,
+  name,
   resizeCanvasTo: 'dstImage',
   srcImage: {
     name: 'Color',
@@ -30,238 +37,49 @@ const asRenderscriptBlendColorConfig = (
 })
 
 export const shapeTransforms = {
-  PlusBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'ADD'
-  }),
+  PlusBlend: asNativeBlendConfig('ADD'),
 
-  ClearBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'CLEAR'
-  }),
+  DarkenBlend: asNativeBlendConfig('DARKEN'),
 
-  DarkenBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'DARKEN'
-  }),
+  LightenBlend: asNativeBlendConfig('LIGHTEN'),
 
-  DstBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'DST'
-  }),
+  ModulateBlend: asNativeBlendConfig('MULTIPLY'),
 
-  DstATopBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'DST_ATOP'
-  }),
+  OverlayBlend: asNativeBlendConfig('OVERLAY'),
 
-  DstInBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'DST_IN'
-  }),
+  ScreenBlend: asNativeBlendConfig('SCREEN'),
 
-  DstOutBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'DST_OUT'
-  }),
+  PlusBlendColor: asNativeBlendColorConfig('ADD'),
 
-  DstOverBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'DST_OVER'
-  }),
+  DarkenBlendColor: asNativeBlendColorConfig('DARKEN'),
 
-  LightenBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'LIGHTEN'
-  }),
+  LightenBlendColor: asNativeBlendColorConfig('LIGHTEN'),
 
-  ModulateBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'MULTIPLY'
-  }),
+  ModulateBlendColor: asNativeBlendColorConfig('MULTIPLY'),
 
-  OverlayBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'OVERLAY'
-  }),
+  OverlayBlendColor: asNativeBlendColorConfig('OVERLAY'),
 
-  ScreenBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'SCREEN'
-  }),
+  ScreenBlendColor: asNativeBlendColorConfig('SCREEN'),
 
-  SrcBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'SRC'
-  }),
+  ColorDodgeBlendColor: asRenderscriptBlendColorConfig('ColorDodgeBlend'),
 
-  SrcATopBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'SRC_ATOP'
-  }),
+  ExclusionBlendColor: asRenderscriptBlendColorConfig('ExclusionBlend'),
 
-  SrcInBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'SRC_IN'
-  }),
+  ColorBurnBlendColor: asRenderscriptBlendColorConfig('ColorBurnBlend'),
 
-  SrcOutBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'SRC_OUT'
-  }),
+  SoftLightBlendColor: asRenderscriptBlendColorConfig('SoftLightBlend'),
 
-  SrcOverBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'SRC_OVER'
-  }),
+  HueBlendColor: asRenderscriptBlendColorConfig('HueBlend'),
 
-  XorBlend: (config: Object) => ({
-    ...asNativeBlendConfig(config),
-    mode: 'XOR'
-  }),
+  ColorBlendColor: asRenderscriptBlendColorConfig('ColorBlend'),
 
-  PlusBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'ADD'
-  }),
+  SaturationBlendColor: asRenderscriptBlendColorConfig('SaturationBlend'),
 
-  ClearBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'CLEAR'
-  }),
+  LuminosityBlendColor: asRenderscriptBlendColorConfig('LuminosityBlend'),
 
-  DarkenBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'DARKEN'
-  }),
+  DifferenceBlendColor: asRenderscriptBlendColorConfig('DifferenceBlend'),
 
-  DstBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'DST'
-  }),
+  HardLightBlendColor: asRenderscriptBlendColorConfig('HardLightBlend'),
 
-  DstATopBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'DST_ATOP'
-  }),
-
-  DstInBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'DST_IN'
-  }),
-
-  DstOutBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'DST_OUT'
-  }),
-
-  DstOverBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'DST_OVER'
-  }),
-
-  LightenBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'LIGHTEN'
-  }),
-
-  ModulateBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'MULTIPLY'
-  }),
-
-  OverlayBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'OVERLAY'
-  }),
-
-  ScreenBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'SCREEN'
-  }),
-
-  SrcBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'SRC'
-  }),
-
-  SrcATopBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'SRC_ATOP'
-  }),
-
-  SrcInBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'SRC_IN'
-  }),
-
-  SrcOutBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'SRC_OUT'
-  }),
-
-  SrcOverBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'SRC_OVER'
-  }),
-
-  XorBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    mode: 'XOR'
-  }),
-
-  ColorDodgeBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'ColorDodgeBlend'
-  }),
-
-  ExclusionBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'ExclusionBlend'
-  }),
-
-  ColorBurnBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'ColorBurnBlend'
-  }),
-
-  SoftLightBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'SoftLightBlend'
-  }),
-
-  HueBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'HueBlend'
-  }),
-
-  ColorBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'ColorBlend'
-  }),
-
-  SaturationBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'SaturationBlend'
-  }),
-
-  LuminosityBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'LuminosityBlend'
-  }),
-
-  DifferenceBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'DifferenceBlend'
-  }),
-
-  HardLightBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'HardLightBlend'
-  }),
-
-  MultiplyBlendColor: (config: ColorBlendConfig) => ({
-    ...asRenderscriptBlendColorConfig(config),
-    name: 'MultiplyBlend'
-  })
+  MultiplyBlendColor: asRenderscriptBlendColorConfig('MultiplyBlend')
 }

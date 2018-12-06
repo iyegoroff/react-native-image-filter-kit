@@ -1,0 +1,9 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "node_modules/react-native-image-filter-kit/ios/Resources/IFKHazeRemoval.cikernel",
+      "sha1": "cb1bb68528a5fb3513da08b6c4d22822cc092b50"
+    }
+  ]
+}

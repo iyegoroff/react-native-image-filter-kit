@@ -103,6 +103,10 @@
   
   [self initFilter:frame.size];
   
+  if ([[_filter inputKeys] containsObject:@"inputExtent"]) {
+    [_filter setValue:[CIVector vectorWithCGRect:frame] forKey:@"inputExtent"];
+  }
+  
   return [self filteredImageWithScale:image.scale
                            resizeMode:resizeMode
                             viewFrame:frame

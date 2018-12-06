@@ -3,19 +3,7 @@ import { Composition, BlendColor } from '../common/shapes'
 export const shapes = {
   PlusBlend: Composition,
 
-  ClearBlend: Composition,
-
   DarkenBlend: Composition,
-
-  DstBlend: Composition,
-
-  DstATopBlend: Composition,
-
-  DstInBlend: Composition,
-
-  DstOutBlend: Composition,
-
-  DstOverBlend: Composition,
 
   LightenBlend: Composition,
 
@@ -24,18 +12,6 @@ export const shapes = {
   OverlayBlend: Composition,
 
   ScreenBlend: Composition,
-
-  SrcBlend: Composition,
-
-  SrcATopBlend: Composition,
-
-  SrcInBlend: Composition,
-
-  SrcOutBlend: Composition,
-
-  SrcOverBlend: Composition,
-
-  XorBlend: Composition,
 
   ColorDodgeBlend: Composition,
 
@@ -61,19 +37,7 @@ export const shapes = {
 
   PlusBlendColor: BlendColor,
 
-  ClearBlendColor: BlendColor,
-
   DarkenBlendColor: BlendColor,
-
-  DstBlendColor: BlendColor,
-
-  DstATopBlendColor: BlendColor,
-
-  DstInBlendColor: BlendColor,
-
-  DstOutBlendColor: BlendColor,
-
-  DstOverBlendColor: BlendColor,
 
   LightenBlendColor: BlendColor,
 
@@ -82,18 +46,6 @@ export const shapes = {
   OverlayBlendColor: BlendColor,
 
   ScreenBlendColor: BlendColor,
-
-  SrcBlendColor: BlendColor,
-
-  SrcATopBlendColor: BlendColor,
-
-  SrcInBlendColor: BlendColor,
-
-  SrcOutBlendColor: BlendColor,
-
-  SrcOverBlendColor: BlendColor,
-
-  XorBlendColor: BlendColor,
 
   ColorDodgeBlendColor: BlendColor,
 

@@ -43,17 +43,17 @@ const asNativeFilterConfig = Platform.select({
   } as Config)
 })
 
-const luminanceToAlphaAndroidFix: Matrix = [
-  -0.299, -0.587, -0.114, 0, 255,
-  -0.299, -0.587, -0.114, 0, 255,
-  -0.299, -0.587, -0.114, 0, 255,
-  0, 0, 0, 1, 255
-]
+// const luminanceToAlphaAndroidFix: Matrix = [
+//   -0.299, -0.587, -0.114, 0, 255,
+//   -0.299, -0.587, -0.114, 0, 255,
+//   -0.299, -0.587, -0.114, 0, 255,
+//   0, 0, 0, 1, 255
+// ]
 
-export const luminanceToAlpha = Platform.select({
-  ios: matrices.luminanceToAlpha,
-  android: () => luminanceToAlphaAndroidFix
-})
+// export const luminanceToAlpha = Platform.select({
+//   ios: matrices.luminanceToAlpha,
+//   android: () => luminanceToAlphaAndroidFix
+// })
 
 export const shapeTransforms = {
   ColorMatrix: asNativeFilterConfig,
@@ -88,7 +88,7 @@ export const shapeTransforms = {
 
   LuminanceToAlpha: (config: FilterConfig) => (
     asNativeFilterConfig({
-      matrix: luminanceToAlpha(),
+      matrix: matrices.luminanceToAlpha(),
       ...config
     })
   ),

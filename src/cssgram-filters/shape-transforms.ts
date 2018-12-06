@@ -56,7 +56,7 @@ export const shapeTransforms = {
           image: {
             name: 'DarkenBlend',
             disableCache,
-            scaleMode: { match: 'dstImage' },
+            resizeCanvasTo: 'dstImage',
             dstImage: image,
             srcImage: {
               name: 'LinearGradient',
@@ -100,7 +100,7 @@ export const shapeTransforms = {
       image: {
         name: 'OverlayBlend',
         disableCache,
-        scaleMode: { match: 'dstImage' },
+        resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -144,7 +144,7 @@ export const shapeTransforms = {
       image: {
         name: 'OverlayBlend',
         disableCache,
-        scaleMode: { match: 'dstImage' },
+        resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -188,9 +188,9 @@ export const shapeTransforms = {
         disableCache,
         amount: 1.2,
         image: {
-          name: 'ModulateBlend',
+          name: 'MultiplyBlend',
           disableCache,
-          scaleMode: { match: 'dstImage' },
+          resizeCanvasTo: 'dstImage',
           dstImage: image,
           srcImage: {
             name: 'RadialGradient',
@@ -271,9 +271,9 @@ export const shapeTransforms = {
       disableCache,
       amount: 1.1,
       image: {
-        name: 'ModulateBlend',
+        name: 'MultiplyBlend',
         disableCache,
-        scaleMode: { match: 'dstImage' },
+        resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -325,7 +325,7 @@ export const shapeTransforms = {
       image: {
         name: 'OverlayBlend',
         disableCache,
-        scaleMode: { match: 'dstImage' },
+        resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -410,7 +410,7 @@ export const shapeTransforms = {
   Perpetua: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'SoftLightBlend',
     disableCache,
-    scaleMode: { match: 'dstImage' },
+    resizeCanvasTo: 'dstImage',
     dstImage: image,
     srcImage: {
       name: 'LinearGradient',
@@ -468,11 +468,11 @@ export const shapeTransforms = {
           image: {
             name: 'OverlayBlend',
             disableCache,
-            scaleMode: { match: 'dstImage' },
+            resizeCanvasTo: 'dstImage',
             dstImage: {
-              name: 'ModulateBlend',
+              name: 'MultiplyBlend',
               disableCache,
-              scaleMode: { match: 'dstImage' },
+              resizeCanvasTo: 'dstImage',
               dstImage: image,
               srcImage: {
                 name: 'RadialGradient',
@@ -556,7 +556,7 @@ export const shapeTransforms = {
       image: {
         name: 'ScreenBlend',
         disableCache,
-        scaleMode: { match: 'dstImage' },
+        resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
           name: 'RadialGradient',
@@ -639,7 +639,7 @@ export const shapeTransforms = {
           dstImage: {
             name: 'OverlayBlend',
             disableCache,
-            scaleMode: { match: 'dstImage' },
+            resizeCanvasTo: 'dstImage',
             dstImage: image,
             srcImage: {
               name: 'RadialGradient',
@@ -662,7 +662,7 @@ export const shapeTransforms = {
     image: {
       name: 'ColorBurnBlend',
       disableCache,
-      scaleMode: { match: 'dstImage' },
+      resizeCanvasTo: 'dstImage',
       dstImage: image,
       srcImage: {
         name: 'RadialGradient',

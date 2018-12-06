@@ -46,6 +46,8 @@
     CGFloat green = ((value >> 8) & 0xFF) / 255.0;
     CGFloat blue = (value & 0xFF) / 255.0;
     
+    CIVector *v;
+    
     return [CIColor colorWithRed:red green:green blue:blue alpha:alpha];
   }
   

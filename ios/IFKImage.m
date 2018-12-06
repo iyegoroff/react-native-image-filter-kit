@@ -2,11 +2,11 @@
 
 @implementation IFKImage
 
-- (nonnull instancetype)initWithImage:(UIImage *)image hash:(NSString *)hashKey
+- (nonnull instancetype)initWithImage:(UIImage *)image cacheKey:(NSString *)cacheKey
 {
   if ((self = [super init])) {
     _image = image;
-    _hashKey = hashKey;
+    _cacheKey = cacheKey;
   }
   
   return self;

@@ -1,5 +1,3 @@
-// tslint:disable:max-file-line-count
-
 import { Platform } from 'react-native'
 import { MatrixFilterConfig, Config, AmountFilterConfig, FilterConfig } from '../common/configs'
 

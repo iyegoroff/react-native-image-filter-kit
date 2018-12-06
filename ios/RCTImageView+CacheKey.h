@@ -1,6 +1,7 @@
 #import "Image/RCTImageView.h"
+#import "IFKCacheable.h"
 
-@interface RCTImageView (CacheKey)
+@interface RCTImageView (CacheKey) <IFKCacheable>
 
 - (nonnull NSString *)cacheKey;
 

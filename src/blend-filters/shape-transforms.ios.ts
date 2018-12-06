@@ -1,5 +1,3 @@
-// tslint:disable:max-file-line-count
-
 interface ColorBlendConfig {
   readonly dstImage: unknown
   readonly srcColor: string
@@ -28,7 +26,7 @@ interface BlendConfig {
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }
 
-const asNativeBlendConfig = ({
+const asNativeBlendConfig = (name: string) => ({
   dstImage,
   srcImage,
   dstResizeMode,
@@ -47,39 +45,15 @@ const asNativeBlendConfig = ({
   inputBackgroundImageResizeMode: dstResizeMode,
   inputBackgroundImageAnchor: dstAnchor,
   inputBackgroundImagePosition: dstPosition,
-  ...config
+  ...config,
+  name
 })
 
-const asInvertedNativeBlendConfig = ({
-  dstImage,
-  srcImage,
-  dstResizeMode,
-  srcResizeMode,
-  dstAnchor,
-  srcAnchor,
-  dstPosition,
-  srcPosition,
-  resizeCanvasTo,
-  ...config
-}: BlendConfig) => ({
-  inputImage: dstImage,
-  inputImageResizeMode: dstResizeMode,
-  inputImageAnchor: dstAnchor,
-  inputImagePosition: dstPosition,
-  inputBackgroundImage: srcImage,
-  inputBackgroundImageResizeMode: srcResizeMode,
-  inputBackgroundImageAnchor: srcAnchor,
-  inputBackgroundImagePosition: srcPosition,
-  resizeCanvasTo: resizeCanvasTo !== undefined
-    ? resizeCanvasTo === 'dstImage' ? 'srcImage' : 'dstImage'
-    : resizeCanvasTo,
-  ...config
-})
-
-const asNativeBlendColorConfig = (
+const asNativeBlendColorConfig = (name: string) => (
   { srcColor, dstImage, disableIntermediateCaches = true, ...config }: ColorBlendConfig
 ) => ({
   ...config,
+  name,
   swapImages: true,
   inputImage: dstImage,
   resizeCanvasTo: 'srcImage',
@@ -90,299 +64,72 @@ const asNativeBlendColorConfig = (
   }
 })
 
-const asInvertedNativeBlendColorConfig = (config: ColorBlendConfig) => ({
-  ...asNativeBlendColorConfig(config),
-  swapImages: false
-})
-
 export const shapeTransforms = {
-  PlusBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIAdditionCompositing'
-  }),
+  PlusBlend: asNativeBlendConfig('CIAdditionCompositing'),
 
-  // ClearBlend: (config: BlendConfig) => ({
-  //   ...asInvertedNativeBlendConfig(config),
-  //   name: 'CISourceOutCompositing'
-  // }),
+  DarkenBlend: asNativeBlendConfig('CIDarkenBlendMode'),
 
-  DarkenBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIDarkenBlendMode'
-  }),
+  LightenBlend: asNativeBlendConfig('CILightenBlendMode'),
 
-  LightenBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CILightenBlendMode'
-  }),
+  OverlayBlend: asNativeBlendConfig('CIOverlayBlendMode'),
 
-  SrcATopBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CISourceAtopCompositing'
-  }),
+  ScreenBlend: asNativeBlendConfig('CIScreenBlendMode'),
 
-  DstATopBlend: (config: BlendConfig) => ({
-    ...asInvertedNativeBlendConfig(config),
-    name: 'CISourceAtopCompositing'
-  }),
+  ModulateBlend: asNativeBlendConfig('CIMultiplyCompositing'),
 
-  DstInBlend: (config: BlendConfig) => ({
-    ...asInvertedNativeBlendConfig(config),
-    name: 'CISourceInCompositing'
-  }),
+  MultiplyBlend: asNativeBlendConfig('CIMultiplyBlendMode'),
 
-  DstOutBlend: (config: BlendConfig) => ({
-    ...asInvertedNativeBlendConfig(config),
-    name: 'CISourceOutCompositing'
-  }),
+  ColorDodgeBlend: asNativeBlendConfig('CIColorDodgeBlendMode'),
 
-  DstOverBlend: (config: BlendConfig) => ({
-    ...asInvertedNativeBlendConfig(config),
-    name: 'CISourceOverCompositing'
-  }),
+  ExclusionBlend: asNativeBlendConfig('CIExclusionBlendMode'),
 
-  OverlayBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIOverlayBlendMode'
-  }),
+  ColorBurnBlend: asNativeBlendConfig('CIColorBurnBlendMode'),
 
-  ScreenBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIScreenBlendMode'
-  }),
+  SoftLightBlend: asNativeBlendConfig('CISoftLightBlendMode'),
 
-  ModulateBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIMultiplyCompositing'
-  }),
+  HueBlend: asNativeBlendConfig('CIHueBlendMode'),
 
-  MultiplyBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIMultiplyBlendMode'
-  }),
+  ColorBlend: asNativeBlendConfig('CIColorBlendMode'),
 
-  SrcInBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CISourceInCompositing'
-  }),
+  HardLightBlend: asNativeBlendConfig('CIHardLightBlendMode'),
 
-  SrcOutBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CISourceOutCompositing'
-  }),
+  DifferenceBlend: asNativeBlendConfig('CIDifferenceBlendMode'),
 
-  SrcOverBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CISourceOverCompositing'
-  }),
+  SaturationBlend: asNativeBlendConfig('CISaturationBlendMode'),
 
-  XorBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIDifferenceBlendMode'
-  }),
+  LuminosityBlend: asNativeBlendConfig('CILuminosityBlendMode'),
 
-  ColorDodgeBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIColorDodgeBlendMode'
-  }),
+  PlusBlendColor: asNativeBlendColorConfig('CIAdditionCompositing'),
 
-  ExclusionBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIExclusionBlendMode'
-  }),
+  DarkenBlendColor: asNativeBlendColorConfig('CIDarkenBlendMode'),
 
-  ColorBurnBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIColorBurnBlendMode'
-  }),
+  LightenBlendColor: asNativeBlendColorConfig('CILightenBlendMode'),
 
-  SoftLightBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CISoftLightBlendMode'
-  }),
+  ModulateBlendColor: asNativeBlendColorConfig('CIMultiplyCompositing'),
 
-  HueBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIHueBlendMode'
-  }),
+  MultiplyBlendColor: asNativeBlendColorConfig('CIMultiplyBlendMode'),
 
-  ColorBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIColorBlendMode'
-  }),
+  OverlayBlendColor: asNativeBlendColorConfig('CIOverlayBlendMode'),
 
-  HardLightBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIHardLightBlendMode'
-  }),
+  ScreenBlendColor: asNativeBlendColorConfig('CIScreenBlendMode'),
 
-  DifferenceBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CIDifferenceBlendMode'
-  }),
+  ColorDodgeBlendColor: asNativeBlendColorConfig('CIColorDodgeBlendMode'),
 
-  SaturationBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CISaturationBlendMode'
-  }),
+  ExclusionBlendColor: asNativeBlendColorConfig('CIExclusionBlendMode'),
 
-  LuminosityBlend: (config: BlendConfig) => ({
-    ...asNativeBlendConfig(config),
-    name: 'CILuminosityBlendMode'
-  }),
+  ColorBurnBlendColor: asNativeBlendColorConfig('CIColorBurnBlendMode'),
 
-  // DstBlend: (config: Object) => ({
-  //   ...asNativeBlendConfig(config),
-  //   mode: 'DST'
-  // }),
+  SoftLightBlendColor: asNativeBlendColorConfig('CISoftLightBlendMode'),
 
-  // SrcBlend: (config: Object) => ({
-  //   ...asNativeBlendConfig(config),
-  //   mode: 'SRC'
-  // }),
+  HueBlendColor: asNativeBlendColorConfig('CIHueBlendMode'),
 
-  PlusBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIAdditionCompositing'
-  }),
+  ColorBlendColor: asNativeBlendColorConfig('CIColorBlendMode'),
 
-  // ClearBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'CLEAR'
-  // }),
+  SaturationBlendColor: asNativeBlendColorConfig('CISaturationBlendMode'),
 
-  DarkenBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIDarkenBlendMode'
-  }),
+  LuminosityBlendColor: asNativeBlendColorConfig('CILuminosityBlendMode'),
 
-  // DstBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'DST'
-  // }),
+  DifferenceBlendColor: asNativeBlendColorConfig('CIDifferenceBlendMode'),
 
-  DstATopBlendColor: (config: ColorBlendConfig) => ({
-    ...asInvertedNativeBlendColorConfig(config),
-    name: 'CISourceAtopCompositing'
-  }),
-
-  // DstInBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'DST_IN'
-  // }),
-
-  // DstOutBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'DST_OUT'
-  // }),
-
-  // DstOverBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'DST_OVER'
-  // }),
-
-  LightenBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CILightenBlendMode'
-  }),
-
-  ModulateBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIMultiplyCompositing'
-  }),
-
-  MultiplyBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIMultiplyBlendMode'
-  }),
-
-  OverlayBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIOverlayBlendMode'
-  }),
-
-  ScreenBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIScreenBlendMode'
-  }),
-
-  // SrcBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'SRC'
-  // }),
-
-  SrcATopBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CISourceAtopCompositing'
-  }),
-
-  SrcInBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CISourceInCompositing'
-  }),
-
-  // SrcOutBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'SRC_OUT'
-  // }),
-
-  // SrcOverBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'SRC_OVER'
-  // }),
-
-  // XorBlendColor: (config: ColorBlendConfig) => ({
-  //   ...asNativeBlendColorConfig(config),
-  //   mode: 'XOR'
-  // }),
-
-  ColorDodgeBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIColorDodgeBlendMode'
-  }),
-
-  ExclusionBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIExclusionBlendMode'
-  }),
-
-  ColorBurnBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIColorBurnBlendMode'
-  }),
-
-  SoftLightBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CISoftLightBlendMode'
-  }),
-
-  HueBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIHueBlendMode'
-  }),
-
-  ColorBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIColorBlendMode'
-  }),
-
-  SaturationBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CISaturationBlendMode'
-  }),
-
-  LuminosityBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CILuminosityBlendMode'
-  }),
-
-  DifferenceBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIDifferenceBlendMode'
-  }),
-
-  HardLightBlendColor: (config: ColorBlendConfig) => ({
-    ...asNativeBlendColorConfig(config),
-    name: 'CIHardLightBlendMode'
-  })
+  HardLightBlendColor: asNativeBlendColorConfig('CIHardLightBlendMode')
 }

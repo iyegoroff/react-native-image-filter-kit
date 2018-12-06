@@ -134,6 +134,8 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
+const Img = (props) => <Image {...props} />
+
 class CSSGramItem extends PureComponent {
   static defaultProps = {
     filter: 'Normal',
@@ -170,7 +172,7 @@ class CSSGramItem extends PureComponent {
     const Component = typeof uri === 'number' ? Image : CacheableImage;
 
     return (
-      <Component
+      <Img
         style={this.state.isHalf ? styles.halfImage : styles.image}
         source={typeof uri === 'number' ? uri : { uri }}
         resizeMode={'contain'}
@@ -208,10 +210,6 @@ export default class App extends Component<Props> {
     blends: [
       'Modulate',
       'Multiply',
-      'Xor',
-      'DstATop',
-      'SrcIn',
-      'SrcATop',
       'Difference',
       'Color',
       'Exclusion',
@@ -246,6 +244,7 @@ export default class App extends Component<Props> {
     selectedImage: 'Parrot',
     images: [
       { name: 'Parrot', uri: require('./parrot.png') },
+      { name: 'Pizza', uri: 'http://www.maximumwall.com/wp-content/uploads/2017/01/wallpaper-image-nourriture-hd-13.jpg' },
       { name: 'Coast', uri: 'https://thisismyhappiness.com/wp-content/uploads/2014/05/big-sur-bixby.jpg' },
       { name: 'Mountains', uri: 'https://www.highreshdwallpapers.com/wp-content/uploads/2011/09/Large-Format-HD-Wallpaper.jpg' },
       { name: 'Flowers', uri: 'https://media.ooreka.fr/public/image/plant/314/mainImage-source-11702050.jpg' },
@@ -290,39 +289,34 @@ export default class App extends Component<Props> {
       // { name: 'Emboss', key: `Emboss_${i}` },
       // { name: 'EdgeDetection', key: `EdgeDetection_${i}` },
       // { name: 'FuzzyGlass', key: `FuzzyGlass_${i}` },
-      // { name: '_1977', key: `_1977_${i}` },
-      // { name: 'Aden', key: `Aden_${i}` },
-      // { name: 'Brannan', key: `Brannan_${i}` },
-      // { name: 'Brooklyn', key: `Brooklyn_${i}` },
-      // { name: 'Clarendon', key: `Clarendon_${i}` },
-      // { name: 'Earlybird', key: `Earlybird_${i}` },
-      // { name: 'Gingham', key: `Gingham_${i}` },
-      // { name: 'Hudson', key: `Hudson_${i}` },
-      // { name: 'Kelvin', key: `Kelvin_${i}` },
-      // { name: 'Lark', key: `Lark_${i}` },
-      // { name: 'Inkwell', key: `dInkwell_${i}` },
-      // { name: 'Lofi', key: `Lofi_${i}` },
-      // { name: 'Maven', key: `Maven_${i}` },
-      // { name: 'Mayfair', key: `Mayfair_${i}` },
-      // { name: 'Moon', key: `Moon_${i}` },
-      // { name: 'Nashville', key: `Nashville_${i}` },
-      // { name: 'Perpetua', key: `Perpetua_${i}` },
-      // { name: 'Reyes', key: `Reyes_${i}` },
-      // { name: 'Rise', key: `Rise_${i}` },
-      // { name: 'Slumber', key: `Slumber_${i}` },
-      // { name: 'Stinson', key: `Stinson_${i}` },
-      // { name: 'Toaster', key: `Toaster_${i}` },
-      // { name: 'Valencia', key: `Valencia_${i}` },
-      // { name: 'Walden', key: `Walden_${i}` },
-      // { name: 'Willow', key: `Willow_${i}` },
-      // { name: 'Xpro2', key: `Xpro2_${i}` }
+      { name: '_1977', key: `_1977_${i}` },
+      { name: 'Aden', key: `Aden_${i}` },
+      { name: 'Brannan', key: `Brannan_${i}` },
+      { name: 'Brooklyn', key: `Brooklyn_${i}` },
+      { name: 'Clarendon', key: `Clarendon_${i}` },
+      { name: 'Earlybird', key: `Earlybird_${i}` },
+      { name: 'Gingham', key: `Gingham_${i}` },
+      { name: 'Hudson', key: `Hudson_${i}` },
+      { name: 'Kelvin', key: `Kelvin_${i}` },
+      { name: 'Lark', key: `Lark_${i}` },
+      { name: 'Inkwell', key: `dInkwell_${i}` },
+      { name: 'Lofi', key: `Lofi_${i}` },
+      { name: 'Maven', key: `Maven_${i}` },
+      { name: 'Mayfair', key: `Mayfair_${i}` },
+      { name: 'Moon', key: `Moon_${i}` },
+      { name: 'Nashville', key: `Nashville_${i}` },
+      { name: 'Perpetua', key: `Perpetua_${i}` },
+      { name: 'Reyes', key: `Reyes_${i}` },
+      { name: 'Rise', key: `Rise_${i}` },
+      { name: 'Slumber', key: `Slumber_${i}` },
+      { name: 'Stinson', key: `Stinson_${i}` },
+      { name: 'Toaster', key: `Toaster_${i}` },
+      { name: 'Valencia', key: `Valencia_${i}` },
+      { name: 'Walden', key: `Walden_${i}` },
+      { name: 'Willow', key: `Willow_${i}` },
+      { name: 'Xpro2', key: `Xpro2_${i}` }
     ]))
   };
-
-  selectedFilter = null;
-  selectedImage = null;
-  changeTimer = null;
-
 
   componentDidMount() {
     // this.interval = setInterval(() => this.setState({ t: Date.now() }), 7000);
@@ -343,7 +337,7 @@ export default class App extends Component<Props> {
   }
 
   renderSelect() {
-    const { selectedFilter, first, filters, images } = this.state;
+    const { selectedFilter, first, filters, images, selectedImage } = this.state;
   
     return (
       <ScrollView contentContainerStyle={styles.container}>
@@ -385,9 +379,9 @@ export default class App extends Component<Props> {
       name: blend,
       dstResizeMode: 'CONTAIN',
       srcResizeMode: 'CONTAIN',
-      dstAnchor: { x: 0, y: 1 },
+      // dstAnchor: { x: 0, y: 1 },
       // srcPosition: { x: 0, y: 1 },'
-      srcAnchor: { x: 0, y: 1 },
+      // srcAnchor: { x: 0, y: 1 },
       // srcPosition: { x: 0, y: 1 }
     }
 
@@ -444,14 +438,17 @@ export default class App extends Component<Props> {
 
     return (
       <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-        {/* <ImageFilter
+        <ImageFilter
           key={'N'}
           config={{
-            name: 'Normal',
-            image: parrot
+            name: 'IFKHazeRemoval',
+            inputColor: '#80ff0080',
+            inputDistance: 0.5,
+            inputSlope: -0.0001,
+            inputImage: tahoe
           }}
-        /> */}
-        <Pick
+        />
+        {/* <Pick
           style={styles.picker}
           selectedValue={selectedBlend}
           onValueChange={this.blendChanged}
@@ -472,7 +469,7 @@ export default class App extends Component<Props> {
         >
           {blendImages.map(({ name }) => <PickItem value={name} label={name} key={name} />)}
         </Pick>
-        {this.renderBlend(selectedBlend, this.image(firstSelectedImage), this.image(secondSelectedImage))}
+        {this.renderBlend(selectedBlend, this.image(firstSelectedImage), this.image(secondSelectedImage))} */}
         {/* <ImageFilter
           key={'CITextImageGenerator'}
           config={{
