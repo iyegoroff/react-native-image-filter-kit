@@ -46,8 +46,6 @@
     CGFloat green = ((value >> 8) & 0xFF) / 255.0;
     CGFloat blue = (value & 0xFF) / 255.0;
     
-    CIVector *v;
-    
     return [CIColor colorWithRed:red green:green blue:blue alpha:alpha];
   }
   
@@ -133,10 +131,10 @@
     NSDictionary *vector = [position objectForKey:@"position"];
     NSNumber *x = [self convertRelative:vector[@"x"]
                                  bounds:bounds
-                           defaultValue:@([defaultValue valueAtIndex:0])];
+                           defaultValue:@(defaultValue ? [defaultValue valueAtIndex:0] : 0)];
     NSNumber *y = [self convertRelative:vector[@"y"]
                                  bounds:bounds
-                           defaultValue:@([defaultValue valueAtIndex:1])];
+                           defaultValue:@(defaultValue ? [defaultValue valueAtIndex:1] : 0)];
     
     return [CIVector vectorWithCGPoint:CGPointMake([x floatValue], [y floatValue])];
   }

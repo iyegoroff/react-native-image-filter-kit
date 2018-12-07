@@ -17,3 +17,8 @@ export interface AmountFilterConfig extends FilterConfig {
 export interface MatrixFilterConfig extends FilterConfig {
   readonly matrix: number[]
 }
+
+export interface Position {
+  readonly x: string | number
+  readonly y: string | number
+}

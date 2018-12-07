@@ -161,8 +161,8 @@ android {
 }
 
 dependencies {
-    compile project(':rn-fetch-blob')
     compile project(':react-native-image-filter-kit')
+    compile project(':rn-fetch-blob')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${_ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules

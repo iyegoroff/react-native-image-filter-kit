@@ -437,9 +437,98 @@ export default class App extends Component<Props> {
     const { selectedBlend, blends, firstSelectedImage, secondSelectedImage, blendImages } = this.state
 
     return (
-      <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+      <ScrollView contentContainerStyle={{ alignItems: 'center', backgroundColor: 'black' }}>
+        {/* {Platform.OS === 'android' && <>
+          <ImageFilter
+            config={{
+              name: 'RadialGradient',
+              centerX: '50w',
+              centerY: '50h',
+              radius: '50min',
+              colors: ['red', 'blue', 'green'],
+              stops: [0, 0.5, 1],
+              tileMode: 'CLAMP',
+              imageStyle
+            }}
+          />
+          <ImageFilter
+            config={{
+              name: 'SweepGradient',
+              cx: '50w',
+              cy: '50h',
+              colors: ['cyan', 'magenta', 'yellow', 'cyan'],
+              positions: [0, 0.33, 0.66, 1],
+              imageStyle
+            }}
+          />
+        </>} */}
         <ImageFilter
-          key={'N'}
+          config={{
+            name: 'LinearGradientGenerator',
+            colors: ['red', 'lime', 'blue', 'white'],
+            stops: [0, 0.33, 0.66, 1],
+            imageStyle
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'RadialGradientGenerator',
+            colors: ['red', 'lime', 'blue', 'white'],
+            stops: [0, 0.33, 0.66, 1],
+            imageStyle
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'SweepGradientGenerator',
+            colors: ['white', 'red', 'lime', 'blue', 'white'],
+            stops: [0, 0.25, 0.5, 0.75, 1],
+            imageStyle
+          }}
+        />
+        {/* <ImageFilter
+          config={{
+            name: 'CIRadialGradient',
+            inputCenter: { x: '50w', y: '50h' },
+            inputColor0: 'red',
+            inputColor1: 'blue',
+            inputRadius0: '0min',
+            inputRadius1: '50min',
+            imageStyle
+          }}
+        /> */}
+        {/* <ImageFilter
+          config={{
+            name: 'ColorGenerator',
+            color: 'red',
+            imageStyle
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'ColorGenerator',
+            color: '#00ff00',
+            imageStyle
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'LinearGradientGenerator',
+            colors: ['red', 'blue', 'green'],
+            stops: [0, 0.5, 1],
+            start: { x: '10w', y: '50h' },
+            end: { x: '90w', y: '30h' },
+            imageStyle
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'LinearGradientGenerator',
+            imageStyle
+          }}
+        /> */}
+        {/* <ImageFilter
+          key={'IFKHazeRemoval'}
           config={{
             name: 'IFKHazeRemoval',
             inputColor: '#80ff0080',
@@ -447,7 +536,37 @@ export default class App extends Component<Props> {
             inputSlope: -0.0001,
             inputImage: tahoe
           }}
+        /> */}
+        {/* <ImageFilter
+          config={{
+            name: 'CILinearGradient',
+            imageStyle: { width: 320, height: 320 },
+            inputPoint0: { x: '0w', y: '0h' },
+            inputPoint1: { x: '100w', y: '0h' },
+            inputColor0: 'red',
+            inputColor1: 'blue'
+          }}
         />
+        <View style={{ height: StyleSheet.hairlineWidth, width: '100%' }}/>
+        <ImageFilter
+          key={'IFKLinearGradient2'}
+          config={{
+            name: 'IFKLinearGradient',
+            inputColor0: 'red',
+            inputColor1: 'blue',
+            inputAmount: 2,
+            inputStop1: 1,
+            imageStyle: { height: 320, width: 320 }
+          }}
+        />
+        <View style={{ height: StyleSheet.hairlineWidth, width: '100%' }} />
+        <ImageFilter
+          key={'IFKLinearGradient'}
+          config={{
+            name: 'IFKLinearGradient',
+            imageStyle: { height: 320, width: 320 }
+          }}
+        /> */}
         {/* <Pick
           style={styles.picker}
           selectedValue={selectedBlend}

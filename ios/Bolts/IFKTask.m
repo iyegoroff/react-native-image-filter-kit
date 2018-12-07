@@ -12,7 +12,7 @@
 
 #import <libkern/OSAtomic.h>
 
-#import "Bolts.h"
+#import "IFKBolts.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

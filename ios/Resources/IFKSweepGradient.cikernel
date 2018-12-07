@@ -1,15 +1,15 @@
-vec4 linearGradient(
+const float PI = 3.14159265358979323846264;
+
+vec4 sweepGradient(inputExtent, 
+  vec4 inputExtent,
   int amount,
   vec4 colors[5],
   float stops[5],
-  vec2 start,
-  vec2 end
+  vec2 center
 ) {
   vec2 fragCoord = destCoord();
 
-  vec2 dt = end - start;
-  vec2 pt = fragCoord - start;
-  float t = dot(pt, dt)/ dot(dt, dt);
+  float t = (atan(inputExtent.z - fragCoord.y - center.x, inputExtent.w - fragCoord.x - center.y) + PI) / (2.0 * PI);
 
   vec4 color = colors[0];
   for (int i = 1; i < amount; i++) {
@@ -18,11 +18,11 @@ vec4 linearGradient(
   return color;
 }
 
-kernel vec4 linearGradient1Kernel(
+kernel vec4 sweepGradient1Kernel(
+  vec4 inputExtent,
   vec4 color0,
   float stop0,
-  vec2 start,
-  vec2 end
+  vec2 center
 ) {
   vec4 colors[5];
   colors[0] = color0;
@@ -30,16 +30,16 @@ kernel vec4 linearGradient1Kernel(
   float stops[5];
   stops[0] = stop0;
 
-  return linearGradient(1, colors, stops, start, end);
+  return sweepGradient(inputExtent, 1, colors, stops, center);
 }
 
-kernel vec4 linearGradient2Kernel(
+kernel vec4 sweepGradient2Kernel(
+  vec4 inputExtent,
   vec4 color0,
   float stop0,
   vec4 color1,
   float stop1,
-  vec2 start,
-  vec2 end
+  vec2 center
 ) {
   vec4 colors[5];
   colors[0] = color0;
@@ -49,18 +49,18 @@ kernel vec4 linearGradient2Kernel(
   stops[0] = stop0;
   stops[1] = stop1;
 
-  return linearGradient(2, colors, stops, start, end);
+  return sweepGradient(inputExtent, 2, colors, stops, center);
 }
 
-kernel vec4 linearGradient3Kernel(
+kernel vec4 sweepGradient3Kernel(
+  vec4 inputExtent,
   vec4 color0,
   float stop0,
   vec4 color1,
   float stop1,
   vec4 color2,
   float stop2,
-  vec2 start,
-  vec2 end
+  vec2 center
 ) {
   vec4 colors[5];
   colors[0] = color0;
@@ -72,10 +72,11 @@ kernel vec4 linearGradient3Kernel(
   stops[1] = stop1;
   stops[2] = stop2;
 
-  return linearGradient(3, colors, stops, start, end);
+  return sweepGradient(inputExtent, 3, colors, stops, center);
 }
 
-kernel vec4 linearGradient4Kernel(
+kernel vec4 sweepGradient4Kernel(
+  vec4 inputExtent,
   vec4 color0,
   float stop0,
   vec4 color1,
@@ -84,8 +85,7 @@ kernel vec4 linearGradient4Kernel(
   float stop2,
   vec4 color3,
   float stop3,
-  vec2 start,
-  vec2 end
+  vec2 center
 ) {
   vec4 colors[5];
   colors[0] = color0;
@@ -99,10 +99,11 @@ kernel vec4 linearGradient4Kernel(
   stops[2] = stop2;
   stops[3] = stop3;
 
-  return linearGradient(4, colors, stops, start, end);
+  return sweepGradient(inputExtent, 4, colors, stops, center);
 }
 
-kernel vec4 linearGradient5Kernel(
+kernel vec4 sweepGradient5Kernel(
+  vec4 inputExtent,
   vec4 color0,
   float stop0,
   vec4 color1,
@@ -113,8 +114,7 @@ kernel vec4 linearGradient5Kernel(
   float stop3,
   vec4 color4,
   float stop4,
-  vec2 start,
-  vec2 end
+  vec2 center
 ) {
   vec4 colors[5];
   colors[0] = color0;
@@ -130,5 +130,5 @@ kernel vec4 linearGradient5Kernel(
   stops[3] = stop3;
   stops[4] = stop4;
 
-  return linearGradient(5, colors, stops, start, end);
+  return sweepGradient(inputExtent, 5, colors, stops, center);
 }
