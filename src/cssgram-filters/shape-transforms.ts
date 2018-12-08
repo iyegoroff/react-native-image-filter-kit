@@ -59,7 +59,7 @@ export const shapeTransforms = {
             resizeCanvasTo: 'dstImage',
             dstImage: image,
             srcImage: {
-              name: 'LinearGradient',
+              name: 'LinearGradientGenerator',
               disableCache: disableIntermediateCaches,
               colors: ['rgba(66, 10, 14, .2)', 'transparent']
             }
@@ -103,7 +103,7 @@ export const shapeTransforms = {
         resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
-          name: 'RadialGradient',
+          name: 'RadialGradientGenerator',
           disableCache: disableIntermediateCaches,
           colors: ['rgba(168, 223, 193, .4)', 'rgb(196, 183, 200)'],
           stops: [0.7, 1],
@@ -147,7 +147,7 @@ export const shapeTransforms = {
         resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
-          name: 'RadialGradient',
+          name: 'RadialGradientGenerator',
           disableCache: disableIntermediateCaches,
           colors: ['rgb(208, 186, 142)', 'rgb(54, 3, 9)', 'rgb(29, 2, 16)'],
           stops: [0.2, 0.85, 1],
@@ -193,7 +193,7 @@ export const shapeTransforms = {
           resizeCanvasTo: 'dstImage',
           dstImage: image,
           srcImage: {
-            name: 'RadialGradient',
+            name: 'RadialGradientGenerator',
             disableCache: disableIntermediateCaches,
             colors: [
               rgbaToRgb(background, `rgba(166, 177, 255, 0.5)`),
@@ -276,7 +276,7 @@ export const shapeTransforms = {
         resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
-          name: 'RadialGradient',
+          name: 'RadialGradientGenerator',
           disableCache: disableIntermediateCaches,
           colors: [rgbaToRgb(background, 'rgba(255, 255, 255, 0)'), 'rgb(172, 172, 172)'],
           stops: [0.7, 1],
@@ -328,7 +328,7 @@ export const shapeTransforms = {
         resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
-          name: 'RadialGradient',
+          name: 'RadialGradientGenerator',
           disableCache: disableIntermediateCaches,
           colors: [
             `rgba(255, 255, 255, ${0.8 * 0.4})`,
@@ -337,8 +337,7 @@ export const shapeTransforms = {
           ],
           stops: [0, 0.3, 0.6],
           radius: '84min',
-          centerX: '40w',
-          centerY: '40h'
+          center: { x: '40w', y: '40h' }
         }
       }
     }
@@ -413,10 +412,9 @@ export const shapeTransforms = {
     resizeCanvasTo: 'dstImage',
     dstImage: image,
     srcImage: {
-      name: 'LinearGradient',
+      name: 'LinearGradientGenerator',
       disableCache: disableIntermediateCaches,
-      x1: 0,
-      y1: '100h',
+      end: { x: 0, y: '100h' },
       colors: ['rgba(0, 91, 154, 0.5)', 'rgba(230, 193, 61, 0.5)']
     }
   }),
@@ -475,7 +473,7 @@ export const shapeTransforms = {
               resizeCanvasTo: 'dstImage',
               dstImage: image,
               srcImage: {
-                name: 'RadialGradient',
+                name: 'RadialGradientGenerator',
                 disableCache: disableIntermediateCaches,
                 colors: [
                   rgbaToRgb(background, 'rgba(236, 205, 169, 0.15)'),
@@ -486,7 +484,7 @@ export const shapeTransforms = {
               }
             },
             srcImage: {
-              name: 'RadialGradient',
+              name: 'RadialGradientGenerator',
               disableCache: disableIntermediateCaches,
               colors: [`rgba(232, 197, 152, ${0.8 * 0.6})`, 'rgba(255, 255, 255, 0)'],
               stops: [0, 0.9],
@@ -559,10 +557,9 @@ export const shapeTransforms = {
         resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
-          name: 'RadialGradient',
+          name: 'RadialGradientGenerator',
           disableCache: disableIntermediateCaches,
           colors: [`rgb(128, 78, 15)`, `rgb(59, 0, 59)`],
-          stops: [0, 1],
           radius: '70min'
         }
       }
@@ -642,7 +639,7 @@ export const shapeTransforms = {
             resizeCanvasTo: 'dstImage',
             dstImage: image,
             srcImage: {
-              name: 'RadialGradient',
+              name: 'RadialGradientGenerator',
               disableCache: disableIntermediateCaches,
               colors: [`rgb(212, 169, 175)`, `rgb(112, 89, 92)`],
               stops: [0.55, 1],
@@ -665,7 +662,7 @@ export const shapeTransforms = {
       resizeCanvasTo: 'dstImage',
       dstImage: image,
       srcImage: {
-        name: 'RadialGradient',
+        name: 'RadialGradientGenerator',
         disableCache: disableIntermediateCaches,
         colors: ['rgb(230, 231, 224)', 'rgba(70, 69, 170, 0.66)'],
         stops: [0.4, 1],

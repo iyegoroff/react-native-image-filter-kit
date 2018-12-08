@@ -188,7 +188,6 @@
                                    scale:(CGFloat)scale
                               resizeMode:(RCTResizeMode)resizeMode
 {
-  //  RCTLog(@"filter: sizes %@ -> %@", [NSValue valueWithCGSize:srcSize], [NSValue valueWithCGSize:destSize]);
   if (CGSizeEqualToSize(destSize, CGSizeZero) ||
       CGSizeEqualToSize(srcSize, CGSizeZero) ||
       CGSizeEqualToSize(srcSize, destSize)) {
@@ -197,10 +196,6 @@
   
   CAKeyframeAnimation *animation = image.reactKeyframeAnimation;
   CGRect targetRect = RCTTargetRect(srcSize, destSize, scale, resizeMode);
-  //  RCTLog(@"filer: srcSize %@", [NSValue valueWithCGSize:srcSize]);
-  //  RCTLog(@"filer: destSize %@", [NSValue valueWithCGSize:destSize]);
-  //  RCTLog(@"filer: resizeMode %@", [RNFilterPostProcessor resize:resizeMode]);
-  //  RCTLog(@"filer: targetRect %@", [NSValue valueWithCGRect:targetRect]);
   CGAffineTransform transform = RCTTransformFromTargetRect(srcSize, targetRect);
   image = RCTTransformImage(image, destSize, scale, transform);
   image.reactKeyframeAnimation = animation;

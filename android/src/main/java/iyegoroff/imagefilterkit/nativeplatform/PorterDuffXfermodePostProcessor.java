@@ -77,7 +77,7 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
       ).toString() + " " + String.valueOf(dst.getWidth()) + " " + String.valueOf(dst.getHeight()));
 
       canvas.drawBitmap(
-        dst,
+        mSwapImages ? src : dst,
         null,
         bitmapFrame(
           canvasWidth,
@@ -104,7 +104,7 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
       paint.setXfermode(new PorterDuffXfermode(mMode));
 
       canvas.drawBitmap(
-        src,
+        mSwapImages ? dst : src,
         null,
         bitmapFrame(
           canvasWidth,

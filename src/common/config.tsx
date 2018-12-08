@@ -108,7 +108,7 @@ const convertValue = Platform.select({
 export const finalizeConfig = ({ name, ...values }: Config) => {
   const shape = ShapeRegistry.shape(name)
 
-  return {
+  return ({
     name,
     ...(Object.keys(shape).reduce(
       (acc, k) => {
@@ -127,8 +127,29 @@ export const finalizeConfig = ({ name, ...values }: Config) => {
       },
       {} as Config
     ))
-  }
+  })
 }
+
+const swapComposition = (config: Config, resizeCanvasTo: string) => ({
+  ...config,
+  dstImage: config['srcImage'],
+  srcImage: config['dstImage'],
+  dstResizeMode: config['srcResizeMode'],
+  srcResizeMode: config['dstResizeMode'],
+  dstAnchor: config['srcAnchor'],
+  srcAnchor: config['dstAnchor'],
+  dstPosition: config['srcPosition'],
+  srcPosition: config['dstPosition'],
+  resizeCanvasTo,
+  swapImages: true
+})
+
+const patchComposition = (config: Config) => (
+  Platform.select({
+    ios: config['resizeCanvasTo'] === 'dstImage' ? swapComposition(config, 'srcImage') : config,
+    android: config['resizeCanvasTo'] === 'srcImage' ? swapComposition(config, 'dstImage') : config
+  })
+)
 
 export const extractConfigAndImages = (filterProps: Config) => {
   const images: React.ReactElement<any>[] = []
@@ -152,7 +173,7 @@ export const extractConfigAndImages = (filterProps: Config) => {
     let nextConfig = { name: n, ...values }
     do {
       prevConfig = nextConfig
-      nextConfig = ShapeRegistry.transform(prevConfig.name)(prevConfig)
+      nextConfig = ShapeRegistry.transform(prevConfig.name)(patchComposition(prevConfig))
     } while (nextConfig.name !== prevConfig.name)
 
     const { name, ...rest } = nextConfig

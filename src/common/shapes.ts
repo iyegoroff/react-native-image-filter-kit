@@ -10,7 +10,8 @@ export const Composition = {
   srcPosition: offset,
   srcResizeMode: resizeMode,
   resizeCanvasTo: text,
-  disableCache: bool
+  disableCache: bool,
+  swapImages: bool
 }
 
 export const Common = {

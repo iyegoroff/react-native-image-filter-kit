@@ -22,6 +22,10 @@ public class InputConverter {
     mBoundsHeight = boundsHeight;
   }
 
+  public boolean convertBool(@Nullable JSONObject bool, boolean defaultValue) {
+    return bool != null ? bool.optBoolean("bool", defaultValue) : defaultValue;
+  }
+
   public float convertScalar(@Nullable JSONObject scalar, float defaultValue) {
     return scalar != null ? (float) scalar.optDouble("scalar", defaultValue) : defaultValue;
   }

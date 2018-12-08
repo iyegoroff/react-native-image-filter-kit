@@ -28,6 +28,8 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
   private final @Nonnull CloseableReference<CloseableImage> mSrc;
   private final @Nonnull CacheKey mSrcCacheKey;
+  private final @Nullable String mResizeCanvasTo;
+  protected final boolean mSwapImages;
   protected final @Nonnull Resize mSrcResizeMode;
   protected final @Nonnull PointF mSrcAnchor;
   protected final @Nonnull PointF mSrcPosition;
@@ -36,7 +38,6 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   protected final @Nonnull PointF mDstPosition;
   protected final int mWidth;
   protected final int mHeight;
-  protected final @Nullable String mResizeCanvasTo;
 
   public CompositionPostProcessor(
     int width,
@@ -61,6 +62,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     mDstAnchor = converter.convertOffset(config != null ? config.optJSONObject("dstAnchor") : null, 0.5f, 0.5f);
     mDstPosition = converter.convertOffset(config != null ? config.optJSONObject("dstPosition") : null, 0.5f, 0.5f);
     mResizeCanvasTo = converter.convertText(config != null ? config.optJSONObject("resizeCanvasTo") : null, null);
+    mSwapImages = converter.convertBool(config != null ? config.optJSONObject("swapImages") : null, false);
   }
 
   @Override
@@ -82,7 +84,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     Bitmap src = ((CloseableBitmap) mSrc.get()).getUnderlyingBitmap();
 
 //    try {
-      return processComposition(dst, src, bitmapFactory);
+    return processComposition(dst, src, bitmapFactory);
 //    } finally {
 //      CloseableReference.closeSafely(mSrc);
 //    }
@@ -177,14 +179,15 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     return new MultiCacheKey(Arrays.asList(
       new SimpleCacheKey(String.format(
         (Locale) null,
-        "%s_%s_%s_%s_%s_%s_%s",
+        "%s_%s_%s_%s_%s_%s_%s_%b",
         prefix,
         mSrcResizeMode.toString(),
         mSrcAnchor.toString(),
         mSrcPosition.toString(),
         mDstResizeMode.toString(),
         mDstAnchor.toString(),
-        mDstPosition.toString()
+        mDstPosition.toString(),
+        mSwapImages
       )),
       mSrcCacheKey
     ));

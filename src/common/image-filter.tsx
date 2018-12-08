@@ -26,6 +26,8 @@ export const createImageFilter = (
 
     checkStyle(style)
 
+    console.log('IFK: ' + JSON.stringify(finalizeConfig(config)))
+
     return (
       <IFKImageFilter
         style={[defaultStyle, style]}

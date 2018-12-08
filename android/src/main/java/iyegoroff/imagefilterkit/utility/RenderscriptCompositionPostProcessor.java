@@ -163,11 +163,15 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
         new Paint()
       );
 
-      processRenderscriptComposition(tmpDst, tmpSrc, out);
+      processRenderscriptComposition(
+        mSwapImages ? tmpSrc : tmpDst,
+        mSwapImages ? tmpDst : tmpSrc,
+        out
+      );
 
       Log.d(ReactConstants.TAG, String.format(
         (Locale) null,
-        "IFK: DST {%d, %d, %s}; SRC {%d, %d, %s}; Canvas {%d, %d};",
+        "IFK: %b DST {%d, %d, %s}; SRC {%d, %d, %s}; Canvas {%d, %d};", mSwapImages,
         dst.getWidth(), dst.getHeight(), mDstResizeMode.toString(),
         src.getWidth(), src.getHeight(), mSrcResizeMode.toString(),
         width, height

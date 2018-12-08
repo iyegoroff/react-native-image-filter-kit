@@ -256,18 +256,18 @@ export default class App extends Component<Props> {
     ],
     filters: [].concat.apply([], Array.from(Array(1)).map((x, i) => [
       { name: 'Normal', key: `Normal_${i}` },
-      { name: 'Sepia', key: `Sepia_${i}` },
-      { name: 'Saturate', key: `Saturate_${i}` },
-      { name: 'HueRotate', key: `HueRotate_${i}` },
-      { name: 'LuminanceToAlpha', key: `LuminanceToAlpha_${i}` },
-      { name: 'Invert', key: `Invert_${i}` },
-      { name: 'Grayscale', key: `Grayscale_${i}` },
-      { name: 'Warm', key: `Warm_${i}` },
-      { name: 'Cool', key: `Cool_${i}` },
-      { name: 'Tint', key: `Tint_${i}` },
-      { name: 'Night', key: `Night_${i}` },
-      { name: 'Lsd', key: `Lsd_${i}` },
-      { name: 'Browni', key: `Browni_${i}` },
+      // { name: 'Sepia', key: `Sepia_${i}` },
+      // { name: 'Saturate', key: `Saturate_${i}` },
+      // { name: 'HueRotate', key: `HueRotate_${i}` },
+      // { name: 'LuminanceToAlpha', key: `LuminanceToAlpha_${i}` },
+      // { name: 'Invert', key: `Invert_${i}` },
+      // { name: 'Grayscale', key: `Grayscale_${i}` },
+      // { name: 'Warm', key: `Warm_${i}` },
+      // { name: 'Cool', key: `Cool_${i}` },
+      // { name: 'Tint', key: `Tint_${i}` },
+      // { name: 'Night', key: `Night_${i}` },
+      // { name: 'Lsd', key: `Lsd_${i}` },
+      // { name: 'Browni', key: `Browni_${i}` },
       // { uri: 'https://una.im/CSSgram/img/bike.jpg', key: `bike_${i}` },
       // { uri: 'http://travellingmoods.com/wp-content/uploads/2015/05/New-York-City.jpg', key: `ny_${i}` },
       // { uri: 'https://wallpapercave.com/wp/ZXkSCiR.jpg', key: `paper_${i}` },
@@ -437,7 +437,44 @@ export default class App extends Component<Props> {
     const { selectedBlend, blends, firstSelectedImage, secondSelectedImage, blendImages } = this.state
 
     return (
-      <ScrollView contentContainerStyle={{ alignItems: 'center', backgroundColor: 'black' }}>
+      <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+        <ImageFilter
+          key={'x'}
+          config={{
+            name: 'ColorDodgeBlend',
+            resizeCanvasTo: 'dstImage',
+            dstImage: atx,
+            srcImage: {
+              name: 'SweepGradientGenerator',
+              colors: ['#808080', '#ff000080', '#00ff0080', '#0000ff80', '#808080'],
+              stops: [0, 0.25, 0.5, 0.75, 1]
+            }
+          }}
+        />
+        <ImageFilter
+          key={'y'}
+          config={{
+            name: 'ColorDodgeBlend',
+            resizeCanvasTo: 'srcImage',
+            srcImage: atx,
+            dstImage: {
+              name: 'SweepGradientGenerator',
+              colors: ['#808080', '#ff000080', '#00ff0080', '#0000ff80', '#808080'],
+              stops: [0, 0.25, 0.5, 0.75, 1]
+            }
+          }}
+        />
+        <ImageFilter
+          config={{
+            name: 'SaturationBlend',
+            resizeCanvasTo: 'srcImage',
+            srcImage: parrot,
+            dstImage: {
+              name: 'LinearGradientGenerator',
+              colors: ['green', 'black']
+            }
+          }}
+        />
         {/* {Platform.OS === 'android' && <>
           <ImageFilter
             config={{
@@ -462,7 +499,7 @@ export default class App extends Component<Props> {
             }}
           />
         </>} */}
-        <ImageFilter
+        {/* <ImageFilter
           config={{
             name: 'LinearGradientGenerator',
             colors: ['red', 'lime', 'blue', 'white'],
@@ -485,7 +522,7 @@ export default class App extends Component<Props> {
             stops: [0, 0.25, 0.5, 0.75, 1],
             imageStyle
           }}
-        />
+        /> */}
         {/* <ImageFilter
           config={{
             name: 'CIRadialGradient',
@@ -1012,11 +1049,11 @@ The inputCorrectionLevel parameter controls the amount of additional data encode
             },
           }}
         /> */}
-        {/* <Switch
+        <Switch
           value={this.state.showList}
           onValueChange={(showList) => this.setState({ showList })}
         />
-        {this.state.showList ? this.renderList() : this.renderSelect()} */}
+        {this.state.showList ? this.renderList() : this.renderSelect()}
       </ScrollView>
     )
   }

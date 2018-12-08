@@ -54,14 +54,13 @@ const asNativeBlendColorConfig = (name: string) => (
 ) => ({
   ...config,
   name,
-  swapImages: true,
-  inputImage: dstImage,
-  resizeCanvasTo: 'srcImage',
-  inputBackgroundImage: {
+  inputImage: {
     name: 'CIConstantColorGenerator',
     inputColor: srcColor,
     disableCache: disableIntermediateCaches
-  }
+  },
+  resizeCanvasTo: 'dstImage',
+  inputBackgroundImage: dstImage
 })
 
 export const shapeTransforms = {
