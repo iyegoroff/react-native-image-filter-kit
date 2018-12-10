@@ -1,6 +1,6 @@
-const float PI = 3.14159265358979323846264;
+#define PI 3.14159265358979323846264
 
-vec4 sweepGradient(inputExtent, 
+vec4 sweepGradient( 
   vec4 inputExtent,
   int amount,
   vec4 colors[5],

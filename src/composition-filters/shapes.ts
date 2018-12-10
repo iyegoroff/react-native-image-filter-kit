@@ -1,27 +1,27 @@
 import { Composition } from '../common/shapes'
 
 export const shapes = {
-  ClearBlend: Composition,
+  // ClearComposition: Composition,
 
-  DstBlend: Composition,
+  DstComposition: Composition,
 
-  DstATopBlend: Composition,
+  DstATopComposition: Composition,
 
-  DstInBlend: Composition,
+  DstInComposition: Composition,
 
-  DstOutBlend: Composition,
+  DstOutComposition: Composition,
 
-  DstOverBlend: Composition,
+  DstOverComposition: Composition,
 
-  SrcBlend: Composition,
+  SrcComposition: Composition,
 
-  SrcATopBlend: Composition,
+  SrcATopComposition: Composition,
 
-  SrcInBlend: Composition,
+  SrcInComposition: Composition,
 
-  SrcOutBlend: Composition,
+  // SrcOutComposition: Composition,
 
-  SrcOverBlend: Composition,
+  // SrcOverComposition: Composition,
 
-  XorBlend: Composition
+  XorComposition: Composition
 }

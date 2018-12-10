@@ -120,7 +120,7 @@
 {
   CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:viewFrame];
   
-  NSLog(@"filter: f %@ %@", _filter, [NSValue valueWithCGRect:viewFrame]);
+  NSLog(@"filter: context %@", [self context]);
   
   UIImage *filteredImage = [IFKPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
                                                          srcSize:viewFrame.size
@@ -149,8 +149,37 @@
     filtersWithColorManagement = @[
       @"CIColorMatrix",
       @"CIColorInvert",
-      @"CIColorPolynomial",
-      @"CIEdges",
+      @"CIAdditionCompositing",
+      @"CIColorBlendMode",
+      @"CIColorBurnBlendMode",
+      @"CIColorDodgeBlendMode",
+      @"CIDarkenBlendMode",
+      @"CIDifferenceBlendMode",
+      @"CIDivideBlendMode",
+      @"CIExclusionBlendMode",
+      @"CIHardLightBlendMode",
+      @"CIHueBlendMode",
+      @"CILightenBlendMode",
+      @"CILinearBurnBlendMode",
+      @"CILinearDodgeBlendMode",
+      @"CILuminosityBlendMode",
+      @"CIMaximumCompositing",
+      @"CIMinimumCompositing",
+      @"CIMultiplyBlendMode",
+      @"CIMultiplyCompositing",
+      @"CIOverlayBlendMode",
+      @"CIPinLightBlendMode",
+      @"CISaturationBlendMode",
+      @"CIScreenBlendMode",
+      @"CISoftLightBlendMode",
+      @"CISourceAtopCompositing",
+      @"CISourceInCompositing",
+      @"CISourceOutCompositing",
+      @"CISourceOverCompositing",
+      @"CISubtractBlendMode",
+      @"IFKRadialGradient",
+      @"IFKLinearGradient",
+      @"IFKSweepGradient",
       @"CIConvolution3X3",
       @"CIConvolution5X5",
       @"CIConvolution7X7"
@@ -163,13 +192,6 @@
   if ([filtersWithColorManagement some:^BOOL(NSString *val, int idx) {
     return [val isEqualToString:_filter.name];
   }]) {
-    dispatch_once(&contextWithColorManagementToken, ^{
-      contextWithColorManagement = [CIContext contextWithEAGLContext:eaglContext options:nil];
-    });
-    
-    return contextWithColorManagement;
-    
-  } else {
     dispatch_once(&contextToken, ^{
       context = [CIContext contextWithEAGLContext:eaglContext
                                           options:@{kCIImageColorSpace: [NSNull null],
@@ -178,6 +200,13 @@
     });
     
     return context;
+    
+  } else {
+    dispatch_once(&contextWithColorManagementToken, ^{
+      contextWithColorManagement = [CIContext contextWithEAGLContext:eaglContext options:nil];
+    });
+    
+    return contextWithColorManagement;
   }
 }
 

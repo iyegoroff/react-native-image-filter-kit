@@ -15,7 +15,11 @@
     },
     {
       "path": "node_modules/react-native-image-filter-kit/ios/Resources/IFKSweepGradient.cikernel",
-      "sha1": "72654ca0457985bd9742e021322c229af27f4a47"
+      "sha1": "694b4bd26358090a4201f3b39e4b4da414461b03"
+    },
+    {
+      "path": "node_modules/react-native-image-filter-kit/ios/Resources/IFKXorCompositing.cikernel",
+      "sha1": "6ae62d81d9bd7f17c0184aa74fc1cb89160bf96f"
     }
   ]
 }

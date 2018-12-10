@@ -4,28 +4,33 @@ const asNativeCompositionConfig = (mode: String) => (config: Object) => ({
   name: 'PorterDuffXfermode'
 })
 
+const asRenderscriptCompositingConfig = (name: string) => (config: Object) => ({
+  ...config,
+  name
+})
+
 export const shapeTransforms = {
-  ClearBlend: asNativeCompositionConfig('CLEAR'),
+  // ClearComposition: asNativeCompositionConfig('CLEAR'),
 
-  DstBlend: asNativeCompositionConfig('DST'),
+  // DstComposition: asNativeCompositionConfig('DST'),
 
-  DstATopBlend: asNativeCompositionConfig('DST_ATOP'),
+  DstATopComposition: asRenderscriptCompositingConfig('DestinationATopCompositing'),
 
-  DstInBlend: asNativeCompositionConfig('DST_IN'),
+  DstInComposition: asRenderscriptCompositingConfig('DestinationInCompositing'),
 
-  DstOutBlend: asNativeCompositionConfig('DST_OUT'),
+  DstOutComposition: asNativeCompositionConfig('DST_OUT'),
 
-  DstOverBlend: asNativeCompositionConfig('DST_OVER'),
+  DstOverComposition: asNativeCompositionConfig('DST_OVER'),
 
-  SrcBlend: asNativeCompositionConfig('SRC'),
+  // SrcComposition: asNativeCompositionConfig('SRC'),
 
-  SrcATopBlend: asNativeCompositionConfig('SRC_ATOP'),
+  SrcATopComposition: asNativeCompositionConfig('SRC_ATOP'),
 
-  SrcInBlend: asNativeCompositionConfig('SRC_IN'),
+  SrcInComposition: asRenderscriptCompositingConfig('SourceInCompositing'),
 
-  SrcOutBlend: asNativeCompositionConfig('SRC_OUT'),
+  SrcOutComposition: asRenderscriptCompositingConfig('SourceOutCompositing'),
 
-  SrcOverBlend: asNativeCompositionConfig('SRC_OVER'),
+  SrcOverComposition: asNativeCompositionConfig('SRC_OVER'),
 
-  XorBlend: asNativeCompositionConfig('XOR')
+  XorComposition: asNativeCompositionConfig('XOR')
 }

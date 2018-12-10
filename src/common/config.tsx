@@ -16,6 +16,8 @@ import {
 import { ShapeRegistry } from './shape-registry'
 import { ImagePlaceholder } from './image-placeholder'
 import { id } from './util'
+import { Config } from './configs'
+import { swapComposition } from './swap-composition'
 
 const mainImageName = Platform.OS === 'android' ? 'image' : 'generatedImage'
 
@@ -86,11 +88,6 @@ const requiredValueInvariant = (filterName: string, value: any, key: string) => 
   )
 }
 
-interface Config {
-  readonly name: string
-  [key: string]: any
-}
-
 const convertKey = Platform.select({
   android: id,
   ios: (key: string) => iosKeyConvertMap[key] || key
@@ -129,20 +126,6 @@ export const finalizeConfig = ({ name, ...values }: Config) => {
     ))
   })
 }
-
-const swapComposition = (config: Config, resizeCanvasTo: string) => ({
-  ...config,
-  dstImage: config['srcImage'],
-  srcImage: config['dstImage'],
-  dstResizeMode: config['srcResizeMode'],
-  srcResizeMode: config['dstResizeMode'],
-  dstAnchor: config['srcAnchor'],
-  srcAnchor: config['dstAnchor'],
-  dstPosition: config['srcPosition'],
-  srcPosition: config['dstPosition'],
-  resizeCanvasTo,
-  swapImages: true
-})
 
 const patchComposition = (config: Config) => (
   Platform.select({

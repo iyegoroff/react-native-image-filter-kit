@@ -1,3 +1,5 @@
+import { transparentPlaceholderSource } from '../common/image-placeholder'
+
 interface Offset {
   readonly x?: number
   readonly y?: number
@@ -5,7 +7,7 @@ interface Offset {
 
 type ResizeMode = 'COVER' | 'CONTAIN' | 'STRETCH' | { width?: number; height?: number }
 
-interface BlendConfig {
+interface CompositionConfig {
   readonly dstImage: unknown
   readonly srcImage: unknown
   readonly dstResizeMode?: ResizeMode
@@ -19,7 +21,11 @@ interface BlendConfig {
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }
 
-const asNativeBlendConfig = (name: string) => ({
+const asNativeCompositionConfig = (
+  name: string,
+  srcPlaceholder?: unknown,
+  dstPlaceholder?: unknown
+) => ({
   dstImage,
   srcImage,
   dstResizeMode,
@@ -29,12 +35,12 @@ const asNativeBlendConfig = (name: string) => ({
   dstPosition,
   srcPosition,
   ...config
-}: BlendConfig) => ({
-  inputImage: srcImage,
+}: CompositionConfig) => ({
+  inputImage: srcPlaceholder || srcImage,
   inputImageResizeMode: srcResizeMode,
   inputImageAnchor: srcAnchor,
   inputImagePosition: srcPosition,
-  inputBackgroundImage: dstImage,
+  inputBackgroundImage: dstPlaceholder || dstImage,
   inputBackgroundImageResizeMode: dstResizeMode,
   inputBackgroundImageAnchor: dstAnchor,
   inputBackgroundImagePosition: dstPosition,
@@ -42,7 +48,7 @@ const asNativeBlendConfig = (name: string) => ({
   name
 })
 
-const asInvertedNativeBlendConfig = (name: string) => ({
+const asInvertedNativeCompositionConfig = (name: string) => ({
   dstImage,
   srcImage,
   dstResizeMode,
@@ -53,7 +59,7 @@ const asInvertedNativeBlendConfig = (name: string) => ({
   srcPosition,
   resizeCanvasTo,
   ...config
-}: BlendConfig) => ({
+}: CompositionConfig) => ({
   inputImage: dstImage,
   inputImageResizeMode: dstResizeMode,
   inputImageAnchor: dstAnchor,
@@ -70,27 +76,21 @@ const asInvertedNativeBlendConfig = (name: string) => ({
 })
 
 export const shapeTransforms = {
-  // ClearBlend: asInvertedNativeBlendConfig('CISourceOutCompositing'),
+  SrcATopComposition: asNativeCompositionConfig('CISourceAtopCompositing'),
 
-  SrcATopBlend: asNativeBlendConfig('CISourceAtopCompositing'),
+  DstATopComposition: asInvertedNativeCompositionConfig('CISourceAtopCompositing'),
 
-  DstATopBlend: asInvertedNativeBlendConfig('CISourceAtopCompositing'),
+  DstInComposition: asInvertedNativeCompositionConfig('CISourceInCompositing'),
 
-  DstInBlend: asInvertedNativeBlendConfig('CISourceInCompositing'),
+  DstOutComposition: asInvertedNativeCompositionConfig('CISourceOutCompositing'),
 
-  DstOutBlend: asInvertedNativeBlendConfig('CISourceOutCompositing'),
+  DstOverComposition: asInvertedNativeCompositionConfig('CISourceOverCompositing'),
 
-  DstOverBlend: asInvertedNativeBlendConfig('CISourceOverCompositing'),
+  SrcInComposition: asNativeCompositionConfig('CISourceInCompositing'),
 
-  SrcInBlend: asNativeBlendConfig('CISourceInCompositing'),
+  SrcOutComposition: asNativeCompositionConfig('CISourceOutCompositing'),
 
-  SrcOutBlend: asNativeBlendConfig('CISourceOutCompositing'),
+  SrcOverComposition: asNativeCompositionConfig('CISourceOverCompositing'),
 
-  SrcOverBlend: asNativeBlendConfig('CISourceOverCompositing'),
-
-  XorBlend: asNativeBlendConfig('CIDifferenceBlendMode')
-
-  // DstBlend: asNativeBlendConfig('DST'),
-
-  // SrcBlend: asNativeBlendConfig('SRC'),
+  XorComposition: asNativeCompositionConfig('IFKXorCompositing')
 }

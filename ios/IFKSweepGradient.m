@@ -32,20 +32,20 @@
 }
   
 - (CIImage *)outputImage
-  {
-    if (self.inputExtent == nil) {
-      return nil;
-    }
-    
-    int inputAmount = [self.inputAmount intValue];
-    
-    RCTAssert(inputAmount > 0 && inputAmount <= 5,
-              @"ImageFilterKit: IFKSweepGradient takes only up to 5 colors, submitted %i colors.",
-              inputAmount);
-    
-    CIKernel *kernel = [IFKSweepGradient filterKernel:inputAmount];
-    
-    NSArray *args = inputAmount == 1
+{
+  if (self.inputExtent == nil) {
+    return nil;
+  }
+  
+  int inputAmount = [self.inputAmount intValue];
+  
+  RCTAssert(inputAmount > 0 && inputAmount <= 5,
+            @"ImageFilterKit: IFKSweepGradient takes only up to 5 colors, submitted %i colors.",
+            inputAmount);
+  
+  CIKernel *kernel = [IFKSweepGradient filterKernel:inputAmount];
+  
+  NSArray *args = inputAmount == 1
     ? @[self.inputExtent,
         self.inputColor0,
         self.inputStop0,
@@ -89,10 +89,10 @@
         self.inputColor4,
         self.inputStop4,
         self.inputCenter];
-    
-    return [kernel applyWithExtent:[self.inputExtent CGRectValue]
-                       roiCallback:^CGRect(int index, CGRect destRect) {
-                         return destRect;
-                       } arguments:args];
-  }
+  
+  return [kernel applyWithExtent:[self.inputExtent CGRectValue]
+                     roiCallback:^CGRect(int index, CGRect destRect) {
+                       return destRect;
+                     } arguments:args];
+}
 @end

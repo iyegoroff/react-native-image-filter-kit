@@ -1,0 +1,10 @@
+kernel vec4 xorCompositing(sampler srcImage, sampler dstImage)
+{
+  vec4 src = sample(srcImage, samplerCoord(srcImage));
+  vec4 dst = sample(dstImage, samplerCoord(dstImage));
+
+  return vec4(
+    (1.0 - dst.a) * src.rgb + (1.0 - src.a) * dst.rgb,
+    (1.0 - dst.a) * src.a + (1.0 - src.a) * dst.a
+  );
+}

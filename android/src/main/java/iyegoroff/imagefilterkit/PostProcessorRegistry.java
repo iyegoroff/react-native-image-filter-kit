@@ -27,6 +27,10 @@ import iyegoroff.imagefilterkit.blend.LuminosityBlendPostProcessor;
 import iyegoroff.imagefilterkit.blend.MultiplyBlendPostProcessor;
 import iyegoroff.imagefilterkit.blend.SaturationBlendPostProcessor;
 import iyegoroff.imagefilterkit.blend.SoftLightBlendPostProcessor;
+import iyegoroff.imagefilterkit.compositing.DestinationATopCompositingPostProcessor;
+import iyegoroff.imagefilterkit.compositing.DestinationInCompositingPostProcessor;
+import iyegoroff.imagefilterkit.compositing.SourceInCompositingPostProcessor;
+import iyegoroff.imagefilterkit.compositing.SourceOutCompositingPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.ColorMatrixColorFilterPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.ColorPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.LightingColorFilterPostProcessor;
@@ -390,6 +394,63 @@ public class PostProcessorRegistry {
         return new MultiplyBlendPostProcessor(width, height, config, imageRef, imageKey, context);
       }
     });
+
+    addComposition("DestinationATopCompositing", new CreateComposition() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull CloseableReference<CloseableImage> imageRef,
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
+      ) {
+        return new DestinationATopCompositingPostProcessor(width, height, config, imageRef, imageKey, context);
+      }
+    });
+
+    addComposition("SourceOutCompositing", new CreateComposition() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull CloseableReference<CloseableImage> imageRef,
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
+      ) {
+        return new SourceOutCompositingPostProcessor(width, height, config, imageRef, imageKey, context);
+      }
+    });
+
+    addComposition("DestinationInCompositing", new CreateComposition() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull CloseableReference<CloseableImage> imageRef,
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
+      ) {
+        return new DestinationInCompositingPostProcessor(width, height, config, imageRef, imageKey, context);
+      }
+    });
+
+    addComposition("SourceInCompositing", new CreateComposition() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull CloseableReference<CloseableImage> imageRef,
+        @Nonnull CacheKey imageKey,
+        @Nonnull Context context
+      ) {
+        return new SourceInCompositingPostProcessor(width, height, config, imageRef, imageKey, context);
+      }
+    });
+
   }
 
   private void addSingular(@Nonnull String name, @Nonnull CreateSingular functor) {

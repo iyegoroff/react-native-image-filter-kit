@@ -337,7 +337,7 @@ export const shapeTransforms = {
           ],
           stops: [0, 0.3, 0.6],
           radius: '84min',
-          center: { x: '40w', y: '40h' }
+          center: { x: '40w', y: '60h' }
         }
       }
     }
@@ -414,7 +414,8 @@ export const shapeTransforms = {
     srcImage: {
       name: 'LinearGradientGenerator',
       disableCache: disableIntermediateCaches,
-      end: { x: 0, y: '100h' },
+      start: { x: '0w', y: '100h' },
+      end: { x: '0w', y: '0h' },
       colors: ['rgba(0, 91, 154, 0.5)', 'rgba(230, 193, 61, 0.5)']
     }
   }),
@@ -666,7 +667,7 @@ export const shapeTransforms = {
         disableCache: disableIntermediateCaches,
         colors: ['rgb(230, 231, 224)', 'rgba(70, 69, 170, 0.66)'],
         stops: [0.4, 1],
-        radius: '73.5min'
+        radius: '72.5min'
       }
     }
   })

@@ -4,7 +4,10 @@ import {
   image,
   bool,
   position,
-  distance
+  distance,
+  text,
+  resizeMode,
+  offset
 } from '../common/inputs'
 import { Generator } from '../common/shapes'
 
@@ -26,6 +29,20 @@ const Gradient = {
   inputStop3: scalar,
   inputStop4: scalar,
   ...Generator
+}
+
+const Blend = {
+  resizeCanvasTo: text,
+  inputImage: image,
+  inputImageResizeMode: resizeMode,
+  inputImageAnchor: offset,
+  inputImagePosition: offset,
+  inputBackgroundImage: image,
+  inputBackgroundImageResizeMode: resizeMode,
+  inputBackgroundImageAnchor: offset,
+  inputBackgroundImagePosition: offset,
+  disableCache: bool,
+  swapImages: bool
 }
 
 export const shapes = {
@@ -51,5 +68,7 @@ export const shapes = {
   IFKSweepGradient: {
     inputCenter: position,
     ...Gradient
-  }
+  },
+
+  IFKXorCompositing: Blend
 }

@@ -1,4 +1,4 @@
-#import <UIKit/UIKit.h>
+#import <CoreImage/CoreImage.h>
 
 @interface IFKHazeRemoval : CIFilter
 

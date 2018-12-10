@@ -3,6 +3,7 @@ import { Matrix } from 'rn-color-matrices';
 
 export interface Config {
   readonly name: string
+  [key: string]: any
 }
 
 export interface FilterConfig {
