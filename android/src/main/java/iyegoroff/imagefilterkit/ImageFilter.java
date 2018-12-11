@@ -132,7 +132,7 @@ public class ImageFilter extends ReactViewGroup {
           final FilterableImage src = result.get(1);
           final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
 
-          ImageFilter.filterImage(src, mImageListeners.get(src.getImage()), true)
+          ImageFilter.filterImage(src, mImageListeners.get(src.getImage()))
             .onSuccess(new Continuation<ReactImageView, Void>() {
               @Override
               public Void then(Task<ReactImageView> task) {
@@ -347,8 +347,7 @@ public class ImageFilter extends ReactViewGroup {
               target.getPostProcessors(),
               target.isCacheDisabled()
             ),
-            mImageListeners.get(ReactImageView.class.cast(self.getChildAt(0))),
-            false
+            mImageListeners.get(ReactImageView.class.cast(self.getChildAt(0)))
           );
 
         } else {
@@ -363,7 +362,7 @@ public class ImageFilter extends ReactViewGroup {
 
                 final FilterableImage result = task.getResult();
 
-                ImageFilter.filterImage(result, mImageListeners.get(result.getImage()), false)
+                ImageFilter.filterImage(result, mImageListeners.get(result.getImage()))
                   .onSuccess(new Continuation<ReactImageView, Void>() {
                     @Override
                     public Void then(Task<ReactImageView> task) {
@@ -387,7 +386,7 @@ public class ImageFilter extends ReactViewGroup {
                   Exception exc = task.getError();
                   Log.w(
                     ReactConstants.TAG,
-                    "ImageFilterKit: ImageFilter error: " + exc.getMessage()
+                    "ImageFilterKit: ImageFilter error: " + exc.toString()
                   );
 
 //                  if (exc instanceof TooManyBitmapsException) {
@@ -412,8 +411,7 @@ public class ImageFilter extends ReactViewGroup {
 
   private static Task<ReactImageView> filterImage(
     final FilterableImage filterableImage,
-    final @Nullable FrescoControllerListener listener,
-    final boolean isIntermediate
+    final @Nullable FrescoControllerListener listener
   ) {
     final ReactImageView image = filterableImage.getImage();
     final TaskCompletionSource<ReactImageView> deferred = new TaskCompletionSource<>();
@@ -449,7 +447,7 @@ public class ImageFilter extends ReactViewGroup {
       new Functor() {
         @Override
         public void call() {
-          ImageFilter.filterImage(filterableImage, listener, isIntermediate);
+          ImageFilter.filterImage(filterableImage, listener);
         }
       }
     );

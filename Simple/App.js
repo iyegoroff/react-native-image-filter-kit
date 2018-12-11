@@ -128,6 +128,13 @@ const pizza = (
   />
 );
 
+const miniCoast = (
+  <Image
+    style={{ width: 320, height: 100, resizeMode: 'stretch' }}
+    source={{ uri: 'https://thisismyhappiness.com/wp-content/uploads/2014/05/big-sur-bixby.jpg' }}
+  />
+)
+
 const random = (
   <Image
     style={imageStyle}
@@ -214,6 +221,20 @@ class CSSGramItem extends PureComponent {
 
 type Props = {};
 export default class App extends Component<Props> {
+  DELTA_INDEX = [
+    0, 0.01, 0.02, 0.04, 0.05, 0.06, 0.07, 0.08, 0.1, 0.11,
+    0.12, 0.14, 0.15, 0.16, 0.17, 0.18, 0.20, 0.21, 0.22, 0.24,
+    0.25, 0.27, 0.28, 0.30, 0.32, 0.34, 0.36, 0.38, 0.40, 0.42,
+    0.44, 0.46, 0.48, 0.5, 0.53, 0.56, 0.59, 0.62, 0.65, 0.68,
+    0.71, 0.74, 0.77, 0.80, 0.83, 0.86, 0.89, 0.92, 0.95, 0.98,
+    1.0, 1.06, 1.12, 1.18, 1.24, 1.30, 1.36, 1.42, 1.48, 1.54,
+    1.60, 1.66, 1.72, 1.78, 1.84, 1.90, 1.96, 2.0, 2.12, 2.25,
+    2.37, 2.50, 2.62, 2.75, 2.87, 3.0, 3.2, 3.4, 3.6, 3.8,
+    4.0, 4.3, 4.7, 4.9, 5.0, 5.5, 6.0, 6.5, 6.8, 7.0,
+    7.3, 7.5, 7.8, 8.0, 8.4, 8.7, 9.0, 9.4, 9.6, 9.8,
+    10.0
+  ]
+
   state = {
     t: Date.now(),
     blends: [
@@ -298,32 +319,32 @@ export default class App extends Component<Props> {
       // { name: 'Emboss', key: `Emboss_${i}` },
       // { name: 'EdgeDetection', key: `EdgeDetection_${i}` },
       // { name: 'FuzzyGlass', key: `FuzzyGlass_${i}` },
-      { name: '_1977', key: `_1977_${i}` },
-      { name: 'Aden', key: `Aden_${i}` },
-      { name: 'Brannan', key: `Brannan_${i}` },
-      { name: 'Brooklyn', key: `Brooklyn_${i}` },
-      { name: 'Clarendon', key: `Clarendon_${i}` },
-      { name: 'Earlybird', key: `Earlybird_${i}` },
-      { name: 'Gingham', key: `Gingham_${i}` },
-      { name: 'Hudson', key: `Hudson_${i}` },
-      { name: 'Kelvin', key: `Kelvin_${i}` },
-      { name: 'Lark', key: `Lark_${i}` },
-      { name: 'Inkwell', key: `dInkwell_${i}` },
-      { name: 'Lofi', key: `Lofi_${i}` },
-      { name: 'Maven', key: `Maven_${i}` },
-      { name: 'Mayfair', key: `Mayfair_${i}` },
-      { name: 'Moon', key: `Moon_${i}` },
-      { name: 'Nashville', key: `Nashville_${i}` },
-      { name: 'Perpetua', key: `Perpetua_${i}` },
-      { name: 'Reyes', key: `Reyes_${i}` },
-      { name: 'Rise', key: `Rise_${i}` },
-      { name: 'Slumber', key: `Slumber_${i}` },
-      { name: 'Stinson', key: `Stinson_${i}` },
-      { name: 'Toaster', key: `Toaster_${i}` },
-      { name: 'Valencia', key: `Valencia_${i}` },
-      { name: 'Walden', key: `Walden_${i}` },
-      { name: 'Willow', key: `Willow_${i}` },
-      { name: 'Xpro2', key: `Xpro2_${i}` }
+      { name: '_1977', key: `_1977_${i}` }, { name: '_1977Compat', key: `_1977Compat_${i}` },
+      { name: 'Aden', key: `Aden_${i}` }, { name: 'AdenCompat', key: `AdenCompat_${i}` },
+      { name: 'Brannan', key: `Brannan_${i}` }, { name: 'BrannanCompat', key: `BrannanCompat_${i}` },
+      { name: 'Brooklyn', key: `Brooklyn_${i}` }, { name: 'BrooklynCompat', key: `BrooklynCompat_${i}` },
+      { name: 'Clarendon', key: `Clarendon_${i}` }, { name: 'ClarendonCompat', key: `ClarendonCompat_${i}` },
+      { name: 'Earlybird', key: `Earlybird_${i}` }, { name: 'EarlybirdCompat', key: `EarlybirdCompat_${i}` },
+      { name: 'Gingham', key: `Gingham_${i}` }, { name: 'GinghamCompat', key: `GinghamCompat_${i}` },
+      { name: 'Hudson', key: `Hudson_${i}` }, { name: 'HudsonCompat', key: `HudsonCompat_${i}` },
+      { name: 'Kelvin', key: `Kelvin_${i}` }, { name: 'KelvinCompat', key: `KelvinCompat_${i}` },
+      { name: 'Lark', key: `Lark_${i}` }, { name: 'LarkCompat', key: `LarkCompat_${i}` },
+      { name: 'Inkwell', key: `dInkwell_${i}` }, { name: 'InkwellCompat', key: `dInkwellCompat_${i}` },
+      { name: 'Lofi', key: `Lofi_${i}` }, { name: 'LofiCompat', key: `LofiCompat_${i}` },
+      { name: 'Maven', key: `Maven_${i}` }, { name: 'MavenCompat', key: `MavenCompat_${i}` },
+      { name: 'Mayfair', key: `Mayfair_${i}` }, { name: 'MayfairCompat', key: `MayfairCompat_${i}` },
+      { name: 'Moon', key: `Moon_${i}` }, { name: 'MoonCompat', key: `MoonCompat_${i}` },
+      { name: 'Nashville', key: `Nashville_${i}` }, { name: 'NashvilleCompat', key: `NashvilleCompat_${i}` },
+      { name: 'Perpetua', key: `Perpetua_${i}` }, { name: 'PerpetuaCompat', key: `PerpetuaCompat_${i}` },
+      { name: 'Reyes', key: `Reyes_${i}` }, { name: 'ReyesCompat', key: `ReyesCompat_${i}` },
+      { name: 'Rise', key: `Rise_${i}` }, { name: 'RiseCompat', key: `RiseCompat_${i}` },
+      { name: 'Slumber', key: `Slumber_${i}` }, { name: 'SlumberCompat', key: `SlumberCompat_${i}` },
+      { name: 'Stinson', key: `Stinson_${i}` }, { name: 'StinsonCompat', key: `StinsonCompat_${i}` },
+      { name: 'Toaster', key: `Toaster_${i}` }, { name: 'ToasterCompat', key: `ToasterCompat_${i}` },
+      { name: 'Valencia', key: `Valencia_${i}` }, { name: 'ValenciaCompat', key: `ValenciaCompat_${i}` },
+      { name: 'Walden', key: `Walden_${i}` }, { name: 'WaldenCompat', key: `WaldenCompat_${i}` },
+      { name: 'Willow', key: `Willow_${i}` }, { name: 'WillowCompat', key: `WillowCompat_${i}` },
+      { name: 'Xpro2', key: `Xpro2_${i}` }, { name: 'Xpro2Compat', key: `Xpro2Compat_${i}` }
     ]))
   };
 
@@ -345,9 +366,69 @@ export default class App extends Component<Props> {
     );
   }
 
+  multiply(th, matrix) {
+    var i, j, k, col = Array.from(5);
+
+    for (i = 0; i < 5; i++) {
+      for (j = 0; j < 5; j++) {
+        col[j] = th[j + i * 5];
+      }
+      for (j = 0; j < 5; j++) {
+        var val = 0;
+        for (k = 0; k < 5; k++) {
+          val += matrix[j + k * 5] * col[k];
+        }
+        th[j + i * 5] = val;
+      }
+    }
+
+    return th
+  };
+
+  contrast(value) {
+    var x;
+    if (value < 0) {
+      x = 0.5 + value * 0.5;
+    } else {
+      x = value % 1;
+      if (x == 0) {
+        x = this.DELTA_INDEX[value];
+      } else {
+        x = this.DELTA_INDEX[(value << 0)] * (1 - x) + this.DELTA_INDEX[(value << 0) + 1] * x; // use linear interpolation for more granularity.
+      }
+      x = x * 0.5 + 0.5;
+    }
+    return ([
+      x / 0.5, 0, 0, 0, 0.5 * (0.5 - x),
+      0, x / 0.5, 0, 0, 0.5 * (0.5 - x),
+      0, 0, x / 0.5, 0, 0.5 * (0.5 - x),
+      0, 0, 0, 1, 0
+    ]);
+  }
+
+  brightness(b) {
+    return [
+      1, 0, 0, 0, b,
+      0, 1, 0, 0, b,
+      0, 0, 1, 0, b,
+      0, 0, 0, 1, 0
+    ]
+  }
+
+  // contrast(v) {
+  //   const n = 0.5 * (1 - v);
+  //   return [
+  //     v, 0, 0, 0, n * 255,
+  //     0, v, 0, 0, n * 255,
+  //     0, 0, v, 0, n * 255,
+  //     0, 0, 0, 1, 0
+  //   ]
+  // }
+
+
   renderSelect() {
     const { selectedFilter, first, filters, images, selectedImage } = this.state;
-  
+
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Pick
@@ -447,9 +528,9 @@ export default class App extends Component<Props> {
     const color = 'rgba(161, 44, 199, .31)'
     return (
       <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-        <ImageFilter
+        {/* <ImageFilter
           config={{
-            name: 'XorComposition',
+            name: 'DstOverComposition',
             srcImage: atx,
             dstImage: cacti,
             dstAnchor: { x: 0.75, y: 0.75 },
@@ -458,13 +539,13 @@ export default class App extends Component<Props> {
         />
         <ImageFilter
           config={{
-            name: 'XorComposition',
+            name: 'DstOverComposition',
             dstImage: atx,
             srcImage: cacti,
             dstAnchor: { x: 0.75, y: 0.75 },
             srcAnchor: { x: 0.25, y: 0.25 }
           }}
-        />
+        /> */}
         <Switch
           value={this.state.showList}
           onValueChange={(showList) => this.setState({ showList })}

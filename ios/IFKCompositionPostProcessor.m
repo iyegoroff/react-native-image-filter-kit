@@ -71,9 +71,11 @@
   
   if ([resizeMode isKindOfClass:[IFKResizeWithMode class]]) {
     IFKResizeMode mode = ((IFKResizeWithMode *)resizeMode).mode;
+    CGFloat bitmapAspect = bitmapWidth / bitmapHeight;
+    CGFloat canvasAspect = canvasWidth / canvasHeight;
     
     if (mode == CONTAIN) {
-      if (canvasWidth / bitmapWidth > canvasHeight / bitmapHeight) {
+      if (bitmapAspect < canvasAspect) {
         height = canvasHeight;
         width = bitmapWidth * height / bitmapHeight;
       } else {
@@ -82,7 +84,7 @@
       }
       
     } else if (mode == COVER) {
-      if (canvasWidth / bitmapWidth > canvasHeight / bitmapHeight) {
+      if (bitmapAspect < canvasAspect) {
         width = canvasWidth;
         height = bitmapHeight * width / bitmapWidth;
       } else {

@@ -3,6 +3,7 @@ package iyegoroff.imagefilterkit.utility;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
@@ -12,6 +13,7 @@ import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.common.ReactConstants;
 
 import org.json.JSONObject;
 
@@ -67,6 +69,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
   @Override
   protected void finalize() {
+    Log.d(ReactConstants.TAG, "ImageFilterKit: free " + mSrcCacheKey.toString());
     CloseableReference.closeSafely(mSrc);
   }
 
@@ -83,9 +86,12 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   ) {
     Bitmap src = ((CloseableBitmap) mSrc.get()).getUnderlyingBitmap();
 
-//    try {
     return processComposition(dst, src, bitmapFactory);
+
+//    try {
+//      return processComposition(dst, src, bitmapFactory);
 //    } finally {
+//      Log.d(ReactConstants.TAG, "ImageFilterKit: free " + mSrcCacheKey.toString());
 //      CloseableReference.closeSafely(mSrc);
 //    }
   }
@@ -107,10 +113,10 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   }
 
   protected static RectF bitmapFrame(
-    int canvasWidth,
-    int canvasHeight,
-    int bitmapWidth,
-    int bitmapHeight,
+    float canvasWidth,
+    float canvasHeight,
+    float bitmapWidth,
+    float bitmapHeight,
     @Nonnull Resize resizeMode,
     @Nonnull PointF anchor,
     @Nonnull PointF position
@@ -120,17 +126,20 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
     if (resizeMode instanceof Resize.WithMode) {
       Resize.Mode mode = ((Resize.WithMode) resizeMode).mode;
+      float bitmapAspect = bitmapWidth / bitmapHeight;
+      float canvasAspect = canvasWidth / canvasHeight;
 
       if (mode == Resize.Mode.CONTAIN) {
-        if (canvasWidth / bitmapWidth > canvasHeight / bitmapHeight) {
+        if (bitmapAspect < canvasAspect) {
           height = canvasHeight;
           width = bitmapWidth * height / bitmapHeight;
         } else {
           width = canvasWidth;
           height = bitmapHeight * width / bitmapWidth;
         }
+
       } else if (mode == Resize.Mode.COVER) {
-        if (canvasWidth / bitmapWidth > canvasHeight / bitmapHeight) {
+        if (bitmapAspect < canvasAspect) {
           width = canvasWidth;
           height = bitmapHeight * width / bitmapWidth;
         } else {

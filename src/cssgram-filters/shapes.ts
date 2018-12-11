@@ -60,5 +60,59 @@ export const shapes = {
 
   Willow: CSSGram,
 
-  Xpro2: CSSGram
+  Xpro2: CSSGram,
+
+  _1977Compat: CSSGram,
+
+  AdenCompat: CSSGram,
+
+  BrannanCompat: CSSGram,
+
+  BrooklynCompat: CSSGram,
+
+  ClarendonCompat: CSSGram,
+
+  CssgramCompat: CSSGram,
+
+  EarlybirdCompat: CSSGram,
+
+  GinghamCompat: CSSGram,
+
+  HudsonCompat: CSSGram,
+
+  InkwellCompat: CSSGram,
+
+  KelvinCompat: CSSGram,
+
+  LarkCompat: CSSGram,
+
+  LofiCompat: CSSGram,
+
+  MavenCompat: CSSGram,
+
+  MayfairCompat: CSSGram,
+
+  MoonCompat: CSSGram,
+
+  NashvilleCompat: CSSGram,
+
+  PerpetuaCompat: CSSGram,
+
+  ReyesCompat: CSSGram,
+
+  RiseCompat: CSSGram,
+
+  SlumberCompat: CSSGram,
+
+  StinsonCompat: CSSGram,
+
+  ToasterCompat: CSSGram,
+
+  ValenciaCompat: CSSGram,
+
+  WaldenCompat: CSSGram,
+
+  WillowCompat: CSSGram,
+
+  Xpro2Compat: CSSGram
 }

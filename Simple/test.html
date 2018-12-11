@@ -9,14 +9,40 @@
   </filter>
 
     <filter id="colorMeLTA_2">
-      <feColorMatrix in="SourceGraphic" type="matrix" values="1.35 0 0 0 -0.255
-                    0 1.35 0 0 -0.255
-                    0 0 1.35 0 -0.255
+      <feColorMatrix in="SourceGraphic" type="matrix"
+            values="0.75 0 0 0 0
+                    0 0.75 0 0 0
+                    0 0 0.75 0 0
                     0 0 0 1 0" />
     </filter>
 
+    <filter id="colorMeLTA_1">
+      <feColorMatrix in="SourceGraphic" type="matrix"
+            values="1.5 0 0 0 -0.25
+                    0 1.5 0 0 -0.25
+                    0 0 1.5 0 -0.25
+                    0 0 0 1 0" />
+    </filter>
 
-  <g filter="url(#colorMeLTA_2)">
-    <image xlink:href="https://una.im/CSSgram/img/atx.jpg" x="300px" y="0" height="605px" width="605px" />
+    <filter id="colorMeLTA_3">
+      <feColorMatrix in="SourceGraphic" type="matrix"
+            values="1.125 0 0 -0.195 -0.1875
+                    0 1.125 0 -0.195 -0.1875
+                    0 0 1.125 -0.195 -0.1875
+                    0 0 0 1 0" />
+    </filter>
+
+<g filter="url(#colorMeLTA_2)">
+  <g filter="url(#colorMeLTA_1)">
+    <rect x="0px" y="0px" height="605px" width="605px" fill="#800000ff"></rect>
+    <!-- <image xlink:href="https://thisismyhappiness.com/wp-content/uploads/2014/05/big-sur-bixby.jpg" x="0px" y="0px" height="605px"
+      width="605px" /> -->
   </g>
+</g>
+
+<g filter="url(#colorMeLTA_3)">
+  <rect x="605px" y="0px" height="605px" width="605px" fill="#800000ff"></rect>
+  <!-- <image xlink:href="https://thisismyhappiness.com/wp-content/uploads/2014/05/big-sur-bixby.jpg" x="605px" y="0px"
+    height="605px" width="605px" /> -->
+</g>
 </svg>

@@ -57,7 +57,7 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
   public void onFailure(final String id, final Throwable throwable) {
     Log.w(
       ReactConstants.TAG,
-      "ImageFilterKit: FrescoControllerListener error: " + throwable.getMessage()
+      "ImageFilterKit: FrescoControllerListener error: " + throwable.toString()
     );
 
 //    if (throwable instanceof TooManyBitmapsException) {
