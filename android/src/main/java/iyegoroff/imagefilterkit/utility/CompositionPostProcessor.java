@@ -3,7 +3,6 @@ package iyegoroff.imagefilterkit.utility;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
@@ -13,7 +12,6 @@ import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.infer.annotation.Assertions;
-import com.facebook.react.common.ReactConstants;
 
 import org.json.JSONObject;
 
@@ -69,7 +67,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
   @Override
   protected void finalize() {
-    Log.d(ReactConstants.TAG, "ImageFilterKit: free " + mSrcCacheKey.toString());
+//    Log.d(ReactConstants.TAG, "ImageFilterKit: free " + mSrcCacheKey.toString());
     CloseableReference.closeSafely(mSrc);
   }
 
@@ -87,13 +85,6 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     Bitmap src = ((CloseableBitmap) mSrc.get()).getUnderlyingBitmap();
 
     return processComposition(dst, src, bitmapFactory);
-
-//    try {
-//      return processComposition(dst, src, bitmapFactory);
-//    } finally {
-//      Log.d(ReactConstants.TAG, "ImageFilterKit: free " + mSrcCacheKey.toString());
-//      CloseableReference.closeSafely(mSrc);
-//    }
   }
 
   protected int canvasExtent(int dstExtent, int srcExtent, int defaultExtent) {

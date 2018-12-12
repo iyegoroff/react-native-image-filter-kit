@@ -7,7 +7,9 @@ import com.facebook.react.common.ReactConstants;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class ReflectUtils {
+class ReflectUtils {
+
+  @SuppressWarnings("unchecked")
   static <T> T getFieldValue(Object target, String name) {
     Class<?> type = target.getClass();
 
@@ -40,6 +42,7 @@ public class ReflectUtils {
     }
   }
 
+  @SuppressWarnings("unchecked")
   static <T> T invokeMethod(Object target, String name) {
     Class<?> type = target.getClass();
 

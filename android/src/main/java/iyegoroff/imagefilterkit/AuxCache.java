@@ -19,14 +19,14 @@ import javax.annotation.Nullable;
 
 public class AuxCache {
 
-  private static final @Nonnull LruCache<CacheKey, FilterableImage> sImpl = new LruCache<>(256);
+  private static final @Nonnull LruCache<CacheKey, WeakFilterableImage> sImpl = new LruCache<>(256);
 
-  static void put(final @Nonnull CacheKey auxKey, final @Nonnull FilterableImage image) {
+  static void put(final @Nonnull CacheKey auxKey, final @Nonnull WeakFilterableImage image) {
     sImpl.put(auxKey, image);
   }
 
   @Nullable
-  public static FilterableImage get(final @Nonnull CacheKey auxKey) {
+  public static WeakFilterableImage get(final @Nonnull CacheKey auxKey) {
     return sImpl.get(auxKey);
   }
 

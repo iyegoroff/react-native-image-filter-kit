@@ -1,9 +1,12 @@
 package iyegoroff.imagefilterkit;
 
+import com.facebook.react.common.MapBuilder;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.views.view.ReactViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -26,5 +29,14 @@ public class ImageFilterManager extends ReactViewManager {
   @ReactProp(name = PROP_CONFIG)
   public void setConfig(ImageFilter view, @Nullable String config) {
     view.setConfig(config);
+  }
+
+  public Map<String, Object> getExportedCustomBubblingEventTypeConstants() {
+    return MapBuilder.<String, Object>builder()
+      .put(
+        "ImageFilterError",
+        MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", "onError"))
+      )
+      .build();
   }
 }

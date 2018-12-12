@@ -5,13 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableImage;
-import com.facebook.react.common.ReactConstants;
 
 import org.json.JSONObject;
 
@@ -66,16 +64,6 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
       final int canvasWidth = canvas.getWidth();
       final int canvasHeight = canvas.getHeight();
 
-      Log.d(ReactConstants.TAG, "IFK: DST " + bitmapFrame(
-        canvasWidth,
-        canvasHeight,
-        dst.getWidth(),
-        dst.getHeight(),
-        mDstResizeMode,
-        mDstAnchor,
-        mDstPosition
-      ).toString() + " " + String.valueOf(dst.getWidth()) + " " + String.valueOf(dst.getHeight()));
-
       canvas.drawBitmap(
         mSwapImages ? src : dst,
         null,
@@ -90,16 +78,6 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
         ),
         paint
       );
-
-      Log.d(ReactConstants.TAG, "IFK: SRC " + bitmapFrame(
-        canvasWidth,
-        canvasHeight,
-        src.getWidth(),
-        src.getHeight(),
-        mSrcResizeMode,
-        mSrcAnchor,
-        mSrcPosition
-      ).toString() + " " + String.valueOf(src.getWidth()) + " " + String.valueOf(src.getHeight()));
 
       paint.setXfermode(new PorterDuffXfermode(mMode));
 
@@ -117,14 +95,6 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
         ),
         paint
       );
-
-      Log.d(ReactConstants.TAG, String.format(
-        (Locale) null,
-        "IFK: DST {%d, %d, %s}; SRC {%d, %d, %s}; Canvas {%d, %d};",
-        dst.getWidth(), dst.getHeight(), mDstResizeMode.toString(),
-        src.getWidth(), src.getHeight(), mSrcResizeMode.toString(),
-        canvasWidth, canvasHeight
-      ));
 
       return CloseableReference.cloneOrNull(outRef);
     } finally {

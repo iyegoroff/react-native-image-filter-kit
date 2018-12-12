@@ -10,6 +10,7 @@ import com.facebook.common.executors.UiThreadImmediateExecutorService;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.BaseDataSubscriber;
 import com.facebook.datasource.DataSource;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
@@ -18,7 +19,11 @@ import com.facebook.imagepipeline.memory.BitmapCounterProvider;
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
 import com.facebook.imagepipeline.request.Postprocessor;
 import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.ReactConstants;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.facebook.react.views.image.ReactImageView;
 import com.facebook.react.views.view.ReactViewGroup;
 
@@ -119,8 +124,6 @@ public class ImageFilter extends ReactViewGroup {
     final @Nonnull Task<List<FilterableImage>> prevImages
   ) throws JSONException {
     final String name = config.getString("name");
-    final int w = this.getWidth();
-    final int h = this.getHeight();
 
     return prevImages
       .onSuccessTask(new Continuation<List<FilterableImage>, Task<FilterableImage>>() {
@@ -158,8 +161,6 @@ public class ImageFilter extends ReactViewGroup {
                           if (ref != null) {
                             ArrayList<Postprocessor> postProcessors =
                               new ArrayList<>(dst.getPostProcessors());
-
-                            Log.d(ReactConstants.TAG, String.format((Locale)null, "IFK: w %d h %d %d %d", w, h, width, height));
 
                             try {
                               postProcessors.add(
@@ -302,14 +303,15 @@ public class ImageFilter extends ReactViewGroup {
 
       FrescoControllerListener nextListener = new FrescoControllerListener(
         FrescoControllerListener.originalListener(prevListener),
-        new Functor() {
+        new Functor.Arity0() {
           public void call() {
             self.runFilterPipeline();
           }
         },
-        new Functor() {
-          public void call() {
-            self.runFilterPipeline();
+        new Functor.Arity1<Throwable>() {
+          public void call(Throwable error) {
+            self.handleError(error);
+//            self.runFilterPipeline();
           }
         }
       );
@@ -321,7 +323,7 @@ public class ImageFilter extends ReactViewGroup {
   }
 
   private void runFilterPipeline() {
-    ImageFilter.info("before");
+    ImageFilter.info("before filtering");
     final ArrayList<ReactImageView> images = this.images();
 
     if (!mIsReady && getChildCount() > 0) {
@@ -333,9 +335,12 @@ public class ImageFilter extends ReactViewGroup {
         final ImageFilter self = this;
         final CacheKey auxKey = AuxCache.auxKey(mConfig, images);
 
-        final FilterableImage target = AuxCache.get(auxKey);
+        final WeakFilterableImage target = AuxCache.get(auxKey);
+        final ArrayList<Postprocessor> postProcessors = target != null
+          ? target.getPostProcessors()
+          : null;
 
-        if (target != null) {
+        if (target != null && postProcessors != null) {
           if (!self.mIsReady && self.getChildCount() > 0) {
             self.getChildAt(0).setVisibility(View.VISIBLE);
             self.mIsReady = true;
@@ -344,7 +349,7 @@ public class ImageFilter extends ReactViewGroup {
           ImageFilter.filterImage(
             new FilterableImage(
               (ReactImageView) self.getChildAt(0),
-              target.getPostProcessors(),
+              postProcessors,
               target.isCacheDisabled()
             ),
             mImageListeners.get(ReactImageView.class.cast(self.getChildAt(0)))
@@ -367,10 +372,16 @@ public class ImageFilter extends ReactViewGroup {
                     @Override
                     public Void then(Task<ReactImageView> task) {
                       if (!result.isCacheDisabled()) {
-                        AuxCache.put(auxKey, result);
+                        AuxCache.put(
+                          auxKey,
+                          new WeakFilterableImage(
+                            result.getPostProcessors(),
+                            result.isCacheDisabled()
+                          )
+                        );
                       }
 
-                      ImageFilter.info("after");
+                      ImageFilter.info("after filtering");
 
                       return null;
                     }
@@ -383,16 +394,7 @@ public class ImageFilter extends ReactViewGroup {
               @Override
               public Void then(Task<Void> task) {
                 if (task.isFaulted()) {
-                  Exception exc = task.getError();
-                  Log.w(
-                    ReactConstants.TAG,
-                    "ImageFilterKit: ImageFilter error: " + exc.toString()
-                  );
-
-//                  if (exc instanceof TooManyBitmapsException) {
-//                    System.gc();
-//                    self.runFilterPipeline();
-//                  }
+                  self.handleError(task.getError());
                 }
 
                 return null;
@@ -409,8 +411,25 @@ public class ImageFilter extends ReactViewGroup {
     }
   }
 
+  private void handleError(final @Nonnull Throwable error) {
+    Log.w(ReactConstants.TAG, "ImageFilterKit: " + error.toString());
+
+    WritableMap event = Arguments.createMap();
+    event.putString("message", error.toString());
+
+    ((ReactContext)getContext()).getJSModule(RCTEventEmitter.class).receiveEvent(
+      this.getId(),
+      "ImageFilterError",
+      event
+    );
+
+    ImageFilter.info("before clearCaches");
+    Fresco.getImagePipeline().clearCaches();
+    ImageFilter.info("after clearCaches");
+  }
+
   private static Task<ReactImageView> filterImage(
-    final FilterableImage filterableImage,
+    final @Nonnull FilterableImage filterableImage,
     final @Nullable FrescoControllerListener listener
   ) {
     final ReactImageView image = filterableImage.getImage();
@@ -436,7 +455,7 @@ public class ImageFilter extends ReactViewGroup {
 
     FrescoControllerListener nextListener = new FrescoControllerListener(
       prevListener,
-      new Functor() {
+      new Functor.Arity0() {
         public void call() {
           if (!deferred.getTask().isCompleted()) {
             ReactImageViewUtils.setControllerListener(image, prevListener);
@@ -444,10 +463,10 @@ public class ImageFilter extends ReactViewGroup {
           }
         }
       },
-      new Functor() {
+      new Functor.Arity1<Throwable>() {
         @Override
-        public void call() {
-          ImageFilter.filterImage(filterableImage, listener);
+        public void call(Throwable error) {
+//          ImageFilter.filterImage(filterableImage, listener);
         }
       }
     );
@@ -463,18 +482,21 @@ public class ImageFilter extends ReactViewGroup {
   }
 
   private static void info(@Nonnull String prefix) {
-    BitmapCounter counter = BitmapCounterProvider.get();
-    Log.d(
-      ReactConstants.TAG,
-      String.format(
-        Locale.US,
-        "ImageFilterKit: %s %d/%d %d/%d MB",
-        prefix,
-        counter.getCount(),
-        counter.getMaxCount(),
-        counter.getSize() / 1024 / 1024,
-        counter.getMaxSize() / 1024 / 1024
-      )
-    );
+    if (BuildConfig.DEBUG) {
+      BitmapCounter counter = BitmapCounterProvider.get();
+
+      Log.d(
+        ReactConstants.TAG,
+        String.format(
+          Locale.US,
+          "ImageFilterKit: %s - %d/%d images, %d/%d MB",
+          prefix,
+          counter.getCount(),
+          counter.getMaxCount(),
+          counter.getSize() / 1024 / 1024,
+          counter.getMaxSize() / 1024 / 1024
+        )
+      );
+    }
   }
 }

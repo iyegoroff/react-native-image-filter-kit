@@ -4,61 +4,92 @@ import android.app.Application;
 import android.content.ComponentCallbacks2;
 import android.util.Log;
 
+import com.facebook.common.memory.MemoryTrimType;
+import com.facebook.common.memory.MemoryTrimmable;
+import com.facebook.common.memory.MemoryTrimmableRegistry;
 import com.facebook.react.ReactApplication;
 import iyegoroff.imagefilterkit.ImageFilterKitPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
 
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.common.ReactConstants;
+import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
+  public class FrescoMemoryTrimmableRegistry implements MemoryTrimmableRegistry {
 
-//  @Override
-//  public void onTrimMemory(final int level) {
-//    super.onTrimMemory(level);
-//    switch (level) {
-//      case ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN:
-//        frescoMemoryTrimmableRegistry.trim(MemoryTrimType.OnAppBackgrounded);
-//        Log.d(ReactConstants.TAG, "OnAppBackgrounded - level = " + level);
-//        break;
-//
-//      case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE:
-//      case ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW:
-//      case ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL:
-//        frescoMemoryTrimmableRegistry.trim(MemoryTrimType.OnCloseToDalvikHeapLimit);
-//        clearMemoryCaches();
-//        L.d("OnCloseToDalvikHeapLimit - level = " + level);
-//        break;
-//
-//      case ComponentCallbacks2.TRIM_MEMORY_BACKGROUND:
-//      case ComponentCallbacks2.TRIM_MEMORY_MODERATE:
-//      case ComponentCallbacks2.TRIM_MEMORY_COMPLETE:
-//        frescoMemoryTrimmableRegistry.trim(MemoryTrimType.OnSystemLowMemoryWhileAppInForeground);
-//        L.d("OnSystemLowMemoryWhileAppInForeground - level = " + level);
-//        break;
-//
-//      default:
-//        L.d("default - level = " + level);
-//        break;
-//    }
-//  }
+    private final List<MemoryTrimmable> trimmables = new LinkedList<>();
 
-  private class MainReactPackage extends MainReactPackageWithFrescoCache {
-    MainReactPackage() {
-      super(
-        null,
-        (int) (Runtime.getRuntime().maxMemory() / 4),
-        null
-      );
+    @Override
+    public void registerMemoryTrimmable(final MemoryTrimmable trimmable) {
+      Log.d(ReactConstants.TAG, "ImageFilterKit: add trimmable " + String.valueOf(trimmable));
+      trimmables.add(trimmable);
+    }
+
+    @Override
+    public void unregisterMemoryTrimmable(final MemoryTrimmable trimmable) {
+      Log.d(ReactConstants.TAG, "ImageFilterKit: remove trimmable " + String.valueOf(trimmable));
+      trimmables.remove(trimmable);
+    }
+
+    public synchronized void trim(final MemoryTrimType trimType) {
+      Log.d(ReactConstants.TAG, "ImageFilterKit: will trim " + String.valueOf(trimType));
+      for (MemoryTrimmable trimmable : trimmables) {
+        Log.d(ReactConstants.TAG, "ImageFilterKit: trimmed " + String.valueOf(trimmable));
+        trimmable.trim(trimType);
+      }
+    }
+
+  }
+
+  private FrescoMemoryTrimmableRegistry mTrimmableRegistry = new FrescoMemoryTrimmableRegistry();
+
+  @Override
+  public void onTrimMemory(final int level) {
+    super.onTrimMemory(level);
+    switch (level) {
+      case ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN:
+        mTrimmableRegistry.trim(MemoryTrimType.OnAppBackgrounded);
+        Log.d(ReactConstants.TAG, "ImageFilterKit: OnAppBackgrounded - level = " + level);
+        break;
+
+      case ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE:
+      case ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW:
+      case ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL:
+        mTrimmableRegistry.trim(MemoryTrimType.OnCloseToDalvikHeapLimit);
+        Log.d(ReactConstants.TAG, "ImageFilterKit: OnCloseToDalvikHeapLimit - level = " + level);
+        break;
+
+      case ComponentCallbacks2.TRIM_MEMORY_BACKGROUND:
+      case ComponentCallbacks2.TRIM_MEMORY_MODERATE:
+      case ComponentCallbacks2.TRIM_MEMORY_COMPLETE:
+        mTrimmableRegistry.trim(MemoryTrimType.OnSystemLowMemoryWhileAppInForeground);
+        Log.d(ReactConstants.TAG, "ImageFilterKit: OnSystemLowMemoryWhileAppInForeground - level = " + level);
+        break;
+
+      default:
+        Log.d(ReactConstants.TAG, "ImageFilterKit: default - level = " + level);
+        break;
     }
   }
+
+
+//  private class MainReactPackage extends MainReactPackageWithFrescoCache {
+//    MainReactPackage() {
+//      super(
+//        null,
+//        (int) (Runtime.getRuntime().maxMemory() / 4),
+//        null
+//      );
+//    }
+//  }
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override

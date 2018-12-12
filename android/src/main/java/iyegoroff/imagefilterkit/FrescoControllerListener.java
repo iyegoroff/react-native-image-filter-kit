@@ -1,33 +1,30 @@
 package iyegoroff.imagefilterkit;
 
 import android.graphics.drawable.Animatable;
-import android.util.Log;
 
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.controller.ControllerListener;
-import com.facebook.imagepipeline.common.TooManyBitmapsException;
 import com.facebook.imagepipeline.image.ImageInfo;
-import com.facebook.react.common.ReactConstants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class FrescoControllerListener extends BaseControllerListener<ImageInfo> {
   private final @Nullable ControllerListener<ImageInfo> mWrappedListener;
-  private final @Nonnull Functor mImageUpdated;
-  private final @Nonnull Functor mRetry;
+  private final @Nonnull Functor.Arity0 mImageUpdated;
+  private final @Nonnull Functor.Arity1<Throwable> mError;
   private boolean mIsEnabled = true;
 
   FrescoControllerListener(
     final @Nullable ControllerListener<ImageInfo> originalListener,
-    final @Nonnull Functor imageUpdated,
-    final @Nonnull Functor retry
+    final @Nonnull Functor.Arity0 onImageUpdated,
+    final @Nonnull Functor.Arity1<Throwable> onError
   ) {
     super();
 
     mWrappedListener = originalListener;
-    mImageUpdated = imageUpdated;
-    mRetry = retry;
+    mImageUpdated = onImageUpdated;
+    mError = onError;
   }
 
   public void onSubmit(final String id, final Object callerContext) {
@@ -55,15 +52,7 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
   }
 
   public void onFailure(final String id, final Throwable throwable) {
-    Log.w(
-      ReactConstants.TAG,
-      "ImageFilterKit: FrescoControllerListener error: " + throwable.toString()
-    );
-
-//    if (throwable instanceof TooManyBitmapsException) {
-//      System.gc();
-//      mRetry.call();
-//    }
+    mError.call(throwable);
 
     if (mWrappedListener != null) {
       mWrappedListener.onFailure(id, throwable);

@@ -3,8 +3,14 @@ import { requireNativeComponent, ViewProps } from 'react-native'
 import { defaultStyle, checkStyle, hidden } from './style'
 import { finalizeConfig, extractConfigAndImages } from './config'
 import pick from 'lodash.pick'
+import { id } from './util'
 
-const IFKImageFilter = requireNativeComponent<ViewProps & { config: string }>('IFKImageFilter')
+type ImageFilterProps<T> = ViewProps & {
+  readonly config: T
+  readonly onError?: (error: { message: string }) => void
+}
+
+const IFKImageFilter = requireNativeComponent<ImageFilterProps<string>>('IFKImageFilter')
 
 const hideEveryTailChild = (child: React.ReactChild, index: number) => (
   index === 0 ? child : hidden(child as React.ReactElement<ViewProps>)
@@ -13,8 +19,8 @@ const hideEveryTailChild = (child: React.ReactChild, index: number) => (
 export const createImageFilter = (
   name: string,
   shape: object
-): React.SFC<ViewProps & { config: object }> => (
-  ({ style, ...props }: ViewProps & { config: object }) => {
+): React.SFC<ImageFilterProps<object>> => (
+  ({ style, onError, ...props }: ImageFilterProps<object>) => {
     const shapePropKeys = Object.keys(shape)
     const restPropKeys = Object.keys(props).filter(key => !shapePropKeys.includes(key))
 
@@ -26,12 +32,11 @@ export const createImageFilter = (
 
     checkStyle(style)
 
-    console.log('IFK: ' + JSON.stringify(finalizeConfig(config)))
-
     return (
       <IFKImageFilter
         style={[defaultStyle, style]}
         config={JSON.stringify(finalizeConfig(config))}
+        onError={onError || id}
         {...pick(props, restPropKeys) as object}
       >
         {React.Children.map(images, hideEveryTailChild)}

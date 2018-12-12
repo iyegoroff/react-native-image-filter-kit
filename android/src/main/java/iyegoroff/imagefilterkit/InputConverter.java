@@ -4,8 +4,6 @@ import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
 
-import com.facebook.react.common.build.ReactBuildConfig;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -171,7 +169,7 @@ public class InputConverter {
         * 0.01f;
     }
 
-    if (ReactBuildConfig.DEBUG) {
+    if (BuildConfig.DEBUG) {
       throw new AssertionError("Invalid relative number - " + relative);
     }
 
