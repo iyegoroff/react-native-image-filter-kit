@@ -14,7 +14,9 @@ import javax.annotation.Nullable;
 public class ImageFilterManager extends ReactViewManager {
 
   static final String REACT_CLASS = "IFKImageFilter";
+
   private static final String PROP_CONFIG = "config";
+  private static final String PROP_CLEAR_CACHES_MAX_RETRIES = "clearCachesMaxRetries";
 
   @Override
   public String getName() {
@@ -31,11 +33,33 @@ public class ImageFilterManager extends ReactViewManager {
     view.setConfig(config);
   }
 
+  @ReactProp(name = PROP_CLEAR_CACHES_MAX_RETRIES, defaultInt = 10)
+  public void setClearCachesMaxRetries(ImageFilter view, int retries) {
+    view.setClearCachesMaxRetries(retries);
+  }
+
   public Map<String, Object> getExportedCustomBubblingEventTypeConstants() {
     return MapBuilder.<String, Object>builder()
       .put(
-        "ImageFilterError",
-        MapBuilder.of("phasedRegistrationNames", MapBuilder.of("bubbled", "onError"))
+        ImageFilterEvent.ON_FILTERING_START,
+        MapBuilder.of(
+          "phasedRegistrationNames",
+          MapBuilder.of("bubbled", ImageFilterEvent.ON_FILTERING_START)
+        )
+      )
+      .put(
+        ImageFilterEvent.ON_FILTERING_FINISH,
+        MapBuilder.of(
+          "phasedRegistrationNames",
+          MapBuilder.of("bubbled", ImageFilterEvent.ON_FILTERING_FINISH)
+        )
+      )
+      .put(
+        ImageFilterEvent.ON_FILTERING_ERROR,
+        MapBuilder.of(
+          "phasedRegistrationNames",
+          MapBuilder.of("bubbled", ImageFilterEvent.ON_FILTERING_ERROR)
+        )
       )
       .build();
   }

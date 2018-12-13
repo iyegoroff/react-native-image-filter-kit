@@ -27,6 +27,17 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
     mError = onError;
   }
 
+  FrescoControllerListener(
+    final @Nullable ControllerListener<ImageInfo> originalListener,
+    final @Nonnull Functor.Arity0 onImageUpdated
+  ) {
+    this(originalListener, onImageUpdated, new Functor.Arity1<Throwable>() {
+      @Override
+      public void call(Throwable arg1) { }
+    });
+  }
+
+
   public void onSubmit(final String id, final Object callerContext) {
     if (mWrappedListener != null) {
       mWrappedListener.onSubmit(id, callerContext);
@@ -60,7 +71,7 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
   }
 
   public void setEnabled(final boolean isEnabled) {
-    this.mIsEnabled = isEnabled;
+    mIsEnabled = isEnabled;
   }
 
   public boolean isEnabled() {

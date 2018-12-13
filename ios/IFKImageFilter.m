@@ -19,7 +19,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 @property (nonatomic, strong) NSDictionary* jsonConfig;
 @property (nonatomic, strong) NSArray<IFKImage *> *originalImages;
 @property (nonatomic, strong) NSArray<RCTImageView *> *targets;
-@property (nonatomic, strong) IFKCancellationTokenSource *cancelFiltering;
+@property (nonatomic, strong) IFKCancellationTokenSource *filtering;
 
 @end
 
@@ -30,7 +30,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   if ((self = [super initWithFrame:frame])) {
     _originalImages = @[[NSNull null]];
     _targets = @[];
-    _cancelFiltering = [IFKCancellationTokenSource cancellationTokenSource];
+    _filtering = [IFKCancellationTokenSource cancellationTokenSource];
   }
   
   return self;
@@ -39,7 +39,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 - (void)dealloc
 {
   [self unlinkTargets];
-  [_cancelFiltering cancel];
+  [_filtering cancel];
 }
 
 - (void)setConfig:(NSString *)config
@@ -165,8 +165,8 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
                                           originalImage:[mainImage originalImage]
                                                  config:config
                                          postProcessors:postProcessors];
-    } cancellationToken:[_cancelFiltering token]];
-  } cancellationToken:[_cancelFiltering token]];
+    } cancellationToken:[_filtering token]];
+  } cancellationToken:[_filtering token]];
 }
 
 - (nonnull DeferredImage *)createSingularImage:(nonnull NSDictionary *)config
@@ -187,7 +187,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
                                         originalImage:[mainImage originalImage]
                                                config:config
                                        postProcessors:postProcessors];
-  } cancellationToken:[_cancelFiltering token]];
+  } cancellationToken:[_filtering token]];
 }
 
 - (nonnull DeferredImage *)parseConfig:(nonnull NSObject *)config
@@ -258,7 +258,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
           [self filterImage:[task result]];
           
           return nil;
-        } cancellationToken:[_cancelFiltering token]];
+        } cancellationToken:[_filtering token]];
       }
     }
   }
@@ -266,8 +266,8 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 
 - (void)resetFilterPipeline
 {
-  [_cancelFiltering cancel];
-  _cancelFiltering = [IFKCancellationTokenSource cancellationTokenSource];
+  [_filtering cancel];
+  _filtering = [IFKCancellationTokenSource cancellationTokenSource];
   NSLog(@"filter: cancel");
 }
 
@@ -307,7 +307,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
       }
       
       return target;
-    } cancellationToken:[_cancelFiltering token]];
+    } cancellationToken:[_filtering token]];
   }
 }
 

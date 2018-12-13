@@ -1,16 +1,25 @@
 import React from 'react'
-import { requireNativeComponent, ViewProps } from 'react-native'
+import { requireNativeComponent, ViewProps, NativeSyntheticEvent } from 'react-native'
 import { defaultStyle, checkStyle, hidden } from './style'
 import { finalizeConfig, extractConfigAndImages } from './config'
 import pick from 'lodash.pick'
 import { id } from './util'
 
-type ImageFilterProps<T> = ViewProps & {
-  readonly config: T
-  readonly onError?: (error: { message: string }) => void
+type NativeProps = ViewProps & {
+  readonly config: string
+  readonly ifkOnFilteringError?: (event: NativeSyntheticEvent<{ message: string }>) => void
+  readonly ifkOnFilteringStart?: (event: NativeSyntheticEvent<{}>) => void
+  readonly ifkOnFilteringFinish?: (event: NativeSyntheticEvent<{}>) => void
 }
 
-const IFKImageFilter = requireNativeComponent<ImageFilterProps<string>>('IFKImageFilter')
+type Props = ViewProps & {
+  readonly config: object
+  readonly onFilteringError?: NativeProps['ifkOnFilteringError']
+  readonly onFilteringStart?: NativeProps['ifkOnFilteringStart']
+  readonly onFilteringFinish?: NativeProps['ifkOnFilteringFinish']
+}
+
+const IFKImageFilter = requireNativeComponent<NativeProps>('IFKImageFilter')
 
 const hideEveryTailChild = (child: React.ReactChild, index: number) => (
   index === 0 ? child : hidden(child as React.ReactElement<ViewProps>)
@@ -19,8 +28,8 @@ const hideEveryTailChild = (child: React.ReactChild, index: number) => (
 export const createImageFilter = (
   name: string,
   shape: object
-): React.SFC<ImageFilterProps<object>> => (
-  ({ style, onError, ...props }: ImageFilterProps<object>) => {
+): React.SFC<Props> => (
+  ({ style, onFilteringError, onFilteringStart, onFilteringFinish, ...props }: Props) => {
     const shapePropKeys = Object.keys(shape)
     const restPropKeys = Object.keys(props).filter(key => !shapePropKeys.includes(key))
 
@@ -36,7 +45,9 @@ export const createImageFilter = (
       <IFKImageFilter
         style={[defaultStyle, style]}
         config={JSON.stringify(finalizeConfig(config))}
-        onError={onError || id}
+        ifkOnFilteringError={onFilteringError || id}
+        ifkOnFilteringStart={onFilteringStart || id}
+        ifkOnFilteringFinish={onFilteringFinish || id}
         {...pick(props, restPropKeys) as object}
       >
         {React.Children.map(images, hideEveryTailChild)}

@@ -1,10 +1,13 @@
 package iyegoroff.imagefilterkit;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 
-import com.facebook.imagepipeline.cache.BitmapMemoryCacheTrimStrategy;
-import com.facebook.imagepipeline.cache.NativeMemoryCacheTrimStrategy;
+import com.facebook.common.internal.Supplier;
+import com.facebook.common.logging.FLog;
+import com.facebook.imagepipeline.cache.DefaultBitmapMemoryCacheParamsSupplier;
+import com.facebook.imagepipeline.cache.MemoryCacheParams;
 import com.facebook.react.bridge.ModuleSpec;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -23,7 +26,6 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
 
   private @Nullable final Integer mMaxCacheEntries;
   private @Nullable final Integer mMaxCacheSizeInBytes;
-  private @Nonnull final Bitmap.Config mBitmapsConfig;
   private static @Nonnull Bitmap.Config sBitmapsConfig = Bitmap.Config.ARGB_8888;
 
   public MainReactPackageWithFrescoCache(
@@ -36,9 +38,11 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
     mMaxCacheEntries = maxCacheEntries;
     mMaxCacheSizeInBytes = maxCacheSizeInBytes;
 
-    Bitmap.Config config = bitmapsConfig == null ? sBitmapsConfig : bitmapsConfig;
-    mBitmapsConfig = config;
-    sBitmapsConfig = config;
+    sBitmapsConfig = bitmapsConfig == null ? sBitmapsConfig : bitmapsConfig;
+  }
+
+  public MainReactPackageWithFrescoCache() {
+    this(null, null, null);
   }
 
   public static Bitmap.Config bitmapsConfig() {
@@ -49,12 +53,26 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
   public List<ModuleSpec> getNativeModules(final ReactApplicationContext context) {
     List<ModuleSpec> modules = super.getNativeModules(context);
 
-    final BitmapMemoryCacheParamsSupplier cacheParamsSupplier =
-      new BitmapMemoryCacheParamsSupplier(context, mMaxCacheEntries, mMaxCacheSizeInBytes);
+    ActivityManager manager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+    final Supplier<MemoryCacheParams> cacheParamsSupplier =
+      new DefaultBitmapMemoryCacheParamsSupplier(manager) {
+        @Override
+        public MemoryCacheParams get() {
+          MemoryCacheParams params = super.get();
+
+          return new MemoryCacheParams(
+            mMaxCacheSizeInBytes == null ? params.maxCacheSize : mMaxCacheSizeInBytes,
+            mMaxCacheEntries == null ? params.maxCacheEntries : mMaxCacheEntries,
+            params.maxEvictionQueueSize,
+            params.maxEvictionQueueEntries,
+            params.maxCacheEntrySize
+          );
+        }
+      };
 
     String size = String.valueOf(cacheParamsSupplier.get().maxCacheSize / 1024 / 1024);
     String entries = String.valueOf(cacheParamsSupplier.get().maxCacheEntries);
-    Log.d(
+    FLog.d(
       ReactConstants.TAG,
       "ImageFilterKit: Fresco cache size - " + entries + " entries, " + size + " MB overall"
     );
@@ -74,8 +92,9 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
                 context,
                 true,
                 FrescoModule.getDefaultConfigBuilder(context)
+                  .setMemoryTrimmableRegistry(MemoryTrimmer.getInstance())
                   .setBitmapMemoryCacheParamsSupplier(cacheParamsSupplier)
-                  .setBitmapsConfig(mBitmapsConfig)
+                  .setBitmapsConfig(sBitmapsConfig)
                   .build()
               );
             }

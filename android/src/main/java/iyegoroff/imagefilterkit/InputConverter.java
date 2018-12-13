@@ -33,7 +33,7 @@ public class InputConverter {
   }
 
   public float convertDistance(@Nullable JSONObject distance, @Nonnull String defaultValue) {
-    return this.convertRelative(
+    return convertRelative(
       distance != null ? distance.optString("distance", defaultValue) : defaultValue
     );
   }
@@ -46,8 +46,8 @@ public class InputConverter {
 //    JSONObject pos = position != null ? position.optJSONObject("position") : null;
 //
 //    return new PointF(
-//      this.convertRelative(pos != null ? pos.optString("x", defaultX) : defaultX),
-//      this.convertRelative(pos != null ? pos.optString("y", defaultY) : defaultY)
+//      convertRelative(pos != null ? pos.optString("x", defaultX) : defaultX),
+//      convertRelative(pos != null ? pos.optString("y", defaultY) : defaultY)
 //    );
 //  }
 

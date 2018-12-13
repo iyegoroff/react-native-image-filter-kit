@@ -198,7 +198,9 @@ class CSSGramItem extends PureComponent {
   filteredImage() {
     return (
       <ImageFilter
-        onError={this.handleError}
+        onFilteringError={this.handleError}
+        onFilteringStart={this.handleStart}
+        onFilteringFinish={this.handleFinish}
         config={{
           name: this.props.filter,
           image: this.image(),
@@ -206,6 +208,14 @@ class CSSGramItem extends PureComponent {
         }}
       />
     );
+  }
+
+  handleStart = () => {
+    console.warn('START')
+  }
+
+  handleFinish = () => {
+    console.warn('FINISH')
   }
 
   handleError = (error) => {
@@ -377,38 +387,43 @@ export default class App extends Component<Props> {
   }
 
   renderBlends() {
-    const { selectedBlend, blends, firstSelectedImage, secondSelectedImage, blendImages } = this.state
-
     return (
       <View>
-        <Pick
-          style={styles.picker}
-          selectedValue={selectedBlend}
-          onValueChange={this.blendChanged}
-        >
-          {blends.map((blend) => <PickItem value={blend} label={blend} key={blend} />)}
-        </Pick>
-        <Pick
-          style={styles.picker}
-          selectedValue={firstSelectedImage}
-          onValueChange={this.firstImageChanged}
-        >
-          {blendImages.map(({ name }) => <PickItem value={name} label={name} key={name} />)}
-        </Pick>
-        <Pick
-          style={styles.picker}
-          selectedValue={secondSelectedImage}
-          onValueChange={this.secondImageChanged}
-        >
-          {blendImages.map(({ name }) => <PickItem value={name} label={name} key={name} />)}
-        </Pick>
-        {this.renderBlend(
-          selectedBlend,
-          blendImages.find(b => b.name === firstSelectedImage).item,
-          blendImages.find(b => b.name === secondSelectedImage).item,
-        )}
+        <Text>'TEST'</Text>
       </View>
     );
+    // const { selectedBlend, blends, firstSelectedImage, secondSelectedImage, blendImages } = this.state
+
+    // return (
+    //   <View>
+    //     <Pick
+    //       style={styles.picker}
+    //       selectedValue={selectedBlend}
+    //       onValueChange={this.blendChanged}
+    //     >
+    //       {blends.map((blend) => <PickItem value={blend} label={blend} key={blend} />)}
+    //     </Pick>
+    //     <Pick
+    //       style={styles.picker}
+    //       selectedValue={firstSelectedImage}
+    //       onValueChange={this.firstImageChanged}
+    //     >
+    //       {blendImages.map(({ name }) => <PickItem value={name} label={name} key={name} />)}
+    //     </Pick>
+    //     <Pick
+    //       style={styles.picker}
+    //       selectedValue={secondSelectedImage}
+    //       onValueChange={this.secondImageChanged}
+    //     >
+    //       {blendImages.map(({ name }) => <PickItem value={name} label={name} key={name} />)}
+    //     </Pick>
+    //     {this.renderBlend(
+    //       selectedBlend,
+    //       blendImages.find(b => b.name === firstSelectedImage).item,
+    //       blendImages.find(b => b.name === secondSelectedImage).item,
+    //     )}
+    //   </View>
+    // );
   }
 
   renderBlend(name, firstSelectedImage, secondSelectedImage) {

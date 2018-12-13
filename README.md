@@ -26,7 +26,7 @@ RNImageColorFilter;
 ## Caveats
 - blurRadius
 - disableCache = true + resizeMode != 'cover'
-- MainReactPackage - makePackagePatch.js issue
+- MainReactPackage - makePackagePatch.js issue + onError
 - key for image
 
 ## FAQ

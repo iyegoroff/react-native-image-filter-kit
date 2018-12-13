@@ -1,7 +1,6 @@
 package iyegoroff.imagefilterkit;
 
-import android.util.Log;
-
+import com.facebook.common.logging.FLog;
 import com.facebook.react.common.ReactConstants;
 
 import java.lang.reflect.Field;
@@ -20,8 +19,8 @@ class ReflectUtils {
       return (T) field.get(target);
 
     } catch (Exception e) {
-      Log.d(ReactConstants.TAG, "Can't get " + type.getName() + " field " + name);
-      Log.d(ReactConstants.TAG, e.getMessage());
+      FLog.w(ReactConstants.TAG, "Can't get " + type.getName() + " field " + name);
+      FLog.w(ReactConstants.TAG, e.getMessage());
     }
 
     return null;
@@ -37,8 +36,8 @@ class ReflectUtils {
       field.set(target, value);
 
     } catch (Exception e) {
-      Log.d(ReactConstants.TAG, "Can't set " + type.getName() + " field " + name);
-      Log.d(ReactConstants.TAG, e.getMessage());
+      FLog.w(ReactConstants.TAG, "Can't set " + type.getName() + " field " + name);
+      FLog.w(ReactConstants.TAG, e.getMessage());
     }
   }
 
@@ -53,8 +52,8 @@ class ReflectUtils {
       return (T) method.invoke(target);
 
     } catch (Exception e) {
-      Log.d(ReactConstants.TAG, "Can't invoke " + type.getName() + " method " + name);
-      Log.d(ReactConstants.TAG, e.getMessage());
+      FLog.w(ReactConstants.TAG, "Can't invoke " + type.getName() + " method " + name);
+      FLog.w(ReactConstants.TAG, e.getMessage());
     }
 
     return null;

@@ -1,17 +1,20 @@
 package iyegoroff.imagefilterkit;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.executors.UiThreadImmediateExecutorService;
+import com.facebook.common.logging.FLog;
+import com.facebook.common.memory.MemoryTrimType;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.BaseDataSubscriber;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.imagepipeline.common.TooManyBitmapsException;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.memory.BitmapCounter;
@@ -51,10 +54,11 @@ import iyegoroff.imagefilterkit.utility.MultiPostProcessor;
 public class ImageFilter extends ReactViewGroup {
 
   private @Nullable JSONObject mConfig = null;
+  private int mClearCachesMaxRetries = 10;
   private boolean mIsReady = false;
   private int mDefaultWidth = 0;
   private int mDefaultHeight = 0;
-  private CancellationTokenSource mCancelFiltering = new CancellationTokenSource();
+  private CancellationTokenSource mFiltering = new CancellationTokenSource();
   private final @Nonnull Map<ReactImageView, FrescoControllerListener> mImageListeners =
     new HashMap<>();
 
@@ -73,19 +77,23 @@ public class ImageFilter extends ReactViewGroup {
     }
 
     if (mIsReady) {
-      this.reset();
-
-      this.runFilterPipeline();
+      sendJSEvent(ImageFilterEvent.ON_FILTERING_START, null);
+      reset();
+      runFilterPipeline();
     }
+  }
+
+  public void setClearCachesMaxRetries(int retries) {
+    mClearCachesMaxRetries = retries;
   }
 
   @Override
   protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
 
-    this.reset();
-
-    this.runFilterPipeline();
+    sendJSEvent(ImageFilterEvent.ON_FILTERING_START, null);
+    reset();
+    runFilterPipeline();
   }
 
   private Task<FilterableImage> createSingularImage(
@@ -116,7 +124,7 @@ public class ImageFilter extends ReactViewGroup {
 
           return new FilterableImage(result.getImage(), postProcessors, cacheDisabled);
         }
-      }, mCancelFiltering.getToken());
+      }, mFiltering.getToken());
   }
 
   private Task<FilterableImage> createImageComposition(
@@ -213,11 +221,11 @@ public class ImageFilter extends ReactViewGroup {
 
                 return null;
               }
-            }, mCancelFiltering.getToken());
+            }, mFiltering.getToken());
 
           return deferred.getTask();
         }
-      }, mCancelFiltering.getToken());
+      }, mFiltering.getToken());
   }
 
 
@@ -265,8 +273,8 @@ public class ImageFilter extends ReactViewGroup {
   private @Nonnull ArrayList<ReactImageView> images() {
     ArrayList<ReactImageView> images = new ArrayList<>();
 
-    for (int i = 0; i < this.getChildCount(); i++) {
-      View child = this.getChildAt(i);
+    for (int i = 0; i < getChildCount(); i++) {
+      View child = getChildAt(i);
 
       while (!(child instanceof ReactImageView) && (child instanceof ViewGroup)) {
         child = ((ViewGroup) child).getChildAt(0);
@@ -275,7 +283,6 @@ public class ImageFilter extends ReactViewGroup {
       if (child instanceof ReactImageView) {
         images.add((ReactImageView) child);
       } else {
-        // TODO: remove this
         return new ArrayList<>();
       }
     }
@@ -284,13 +291,16 @@ public class ImageFilter extends ReactViewGroup {
   }
 
   private void reset() {
-    mCancelFiltering.cancel();
+    reset(0);
+  }
+
+  private void reset(final int retries) {
+    mFiltering.cancel();
     mImageListeners.clear();
 
-    final ImageFilter self = this;
-    List<ReactImageView> images = this.images();
+    List<ReactImageView> images = images();
 
-    mCancelFiltering = new CancellationTokenSource();
+    mFiltering = new CancellationTokenSource();
 
     for (final ReactImageView image : images) {
       final ControllerListener<ImageInfo> prevListener = ReactImageViewUtils
@@ -305,13 +315,23 @@ public class ImageFilter extends ReactViewGroup {
         FrescoControllerListener.originalListener(prevListener),
         new Functor.Arity0() {
           public void call() {
-            self.runFilterPipeline();
+            sendJSEvent(ImageFilterEvent.ON_FILTERING_START, null);
+            runFilterPipeline();
           }
         },
         new Functor.Arity1<Throwable>() {
           public void call(Throwable error) {
-            self.handleError(error);
-//            self.runFilterPipeline();
+            handleError(
+              error,
+              new Functor.Arity1<Integer>() {
+                @Override
+                public void call(Integer rs) {
+                  reset(rs);
+                  runFilterPipeline();
+                }
+              },
+              retries
+            );
           }
         }
       );
@@ -323,8 +343,8 @@ public class ImageFilter extends ReactViewGroup {
   }
 
   private void runFilterPipeline() {
-    ImageFilter.info("before filtering");
-    final ArrayList<ReactImageView> images = this.images();
+    ImageFilter.ashmemInfo("before filtering");
+    final ArrayList<ReactImageView> images = images();
 
     if (!mIsReady && getChildCount() > 0) {
       getChildAt(0).setVisibility(View.INVISIBLE);
@@ -353,7 +373,13 @@ public class ImageFilter extends ReactViewGroup {
               target.isCacheDisabled()
             ),
             mImageListeners.get(ReactImageView.class.cast(self.getChildAt(0)))
-          );
+          ).onSuccess(new Continuation<ReactImageView, Object>() {
+            @Override
+            public Object then(Task<ReactImageView> task) {
+              sendJSEvent(ImageFilterEvent.ON_FILTERING_FINISH, null);
+              return null;
+            }
+          }, mFiltering.getToken());
 
         } else {
           parseConfig(mConfig, images)
@@ -381,20 +407,22 @@ public class ImageFilter extends ReactViewGroup {
                         );
                       }
 
-                      ImageFilter.info("after filtering");
+                      ImageFilter.ashmemInfo("after filtering");
+
+                      sendJSEvent(ImageFilterEvent.ON_FILTERING_FINISH, null);
 
                       return null;
                     }
-                  }, mCancelFiltering.getToken());
+                  }, mFiltering.getToken());
 
                 return null;
               }
-            }, mCancelFiltering.getToken())
+            }, mFiltering.getToken())
             .continueWith(new Continuation<Void, Void>() {
               @Override
               public Void then(Task<Void> task) {
                 if (task.isFaulted()) {
-                  self.handleError(task.getError());
+                  handleError(task.getError());
                 }
 
                 return null;
@@ -411,21 +439,50 @@ public class ImageFilter extends ReactViewGroup {
     }
   }
 
-  private void handleError(final @Nonnull Throwable error) {
-    Log.w(ReactConstants.TAG, "ImageFilterKit: " + error.toString());
-
+  private void sendJSEvent(final @Nonnull String eventName, final @Nullable String message) {
     WritableMap event = Arguments.createMap();
-    event.putString("message", error.toString());
+    if (message != null) {
+      event.putString("message", message);
+    }
 
     ((ReactContext)getContext()).getJSModule(RCTEventEmitter.class).receiveEvent(
-      this.getId(),
-      "ImageFilterError",
+      getId(),
+      eventName,
       event
     );
+  }
 
-    ImageFilter.info("before clearCaches");
-    Fresco.getImagePipeline().clearCaches();
-    ImageFilter.info("after clearCaches");
+  private void handleError(final @Nonnull Throwable error) {
+    handleError(error, null, 0);
+  }
+
+  private void handleError(
+    final @Nonnull Throwable error,
+    final @Nullable Functor.Arity1<Integer> retry,
+    final int retries
+  ) {
+    FLog.w(ReactConstants.TAG, "ImageFilterKit: " + error.toString());
+
+    MemoryTrimmer trimmer = MemoryTrimmer.getInstance();
+
+    if (error instanceof TooManyBitmapsException && trimmer.isUsed() && retries < mClearCachesMaxRetries) {
+      FLog.d(ReactConstants.TAG, "ImageFilterKit: clearing caches ...");
+      trimmer.trim(MemoryTrimType.OnCloseToDalvikHeapLimit);
+      Fresco.getImagePipeline().clearCaches();
+
+      Task.delay(1, mFiltering.getToken()).continueWith(new Continuation<Void, Object>() {
+        @Override
+        public Object then(Task<Void> task) {
+          if (retry != null) {
+            retry.call(retries + 1);
+          }
+          return null;
+        }
+      }, UiThreadImmediateExecutorService.getInstance(), mFiltering.getToken());
+
+    } else {
+      sendJSEvent(ImageFilterEvent.ON_FILTERING_ERROR, error.toString());
+    }
   }
 
   private static Task<ReactImageView> filterImage(
@@ -462,12 +519,6 @@ public class ImageFilter extends ReactViewGroup {
             deferred.setResult(image);
           }
         }
-      },
-      new Functor.Arity1<Throwable>() {
-        @Override
-        public void call(Throwable error) {
-//          ImageFilter.filterImage(filterableImage, listener);
-        }
       }
     );
 
@@ -481,16 +532,16 @@ public class ImageFilter extends ReactViewGroup {
     return deferred.getTask();
   }
 
-  private static void info(@Nonnull String prefix) {
-    if (BuildConfig.DEBUG) {
+  private static void ashmemInfo(@Nonnull String stateLabel) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       BitmapCounter counter = BitmapCounterProvider.get();
 
-      Log.d(
+      FLog.d(
         ReactConstants.TAG,
         String.format(
-          Locale.US,
-          "ImageFilterKit: %s - %d/%d images, %d/%d MB",
-          prefix,
+          (Locale)null,
+          "ImageFilterKit: bitmap pool %s - %d/%d images, %d/%d MB",
+          stateLabel,
           counter.getCount(),
           counter.getMaxCount(),
           counter.getSize() / 1024 / 1024,

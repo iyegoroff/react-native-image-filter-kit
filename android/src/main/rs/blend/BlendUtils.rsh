@@ -38,30 +38,29 @@ static inline float3 setSaturationHelper(float minComp, float midComp, float max
 }
 
 static inline float3 setSaturation(const float3 hueLumColor, const float3 satColor) {
+  float3 hue = hueLumColor;
   float sat = getSaturation(satColor);
 
-  if (hueLumColor.r <= hueLumColor.g) {
-    if (hueLumColor.g <= hueLumColor.b) {
-      hueLumColor.rgb = setSaturationHelper(hueLumColor.r, hueLumColor.g, hueLumColor.b, sat);
+  if (hue.r <= hue.g) {
+    if (hue.g <= hue.b) {
+      return setSaturationHelper(hue.r, hue.g, hue.b, sat);
 
-    } else if (hueLumColor.r <= hueLumColor.b) {
-      hueLumColor.rbg = setSaturationHelper(hueLumColor.r, hueLumColor.b, hueLumColor.g, sat);
+    } else if (hue.r <= hue.b) {
+      return setSaturationHelper(hue.r, hue.b, hue.g, sat).rbg;
 
     } else {
-      hueLumColor.brg = setSaturationHelper(hueLumColor.b, hueLumColor.r, hueLumColor.g, sat);
+      return setSaturationHelper(hue.b, hue.r, hue.g, sat).brg;
     }
 
-  } else if (hueLumColor.r <= hueLumColor.b) {
-    hueLumColor.grb = setSaturationHelper(hueLumColor.g, hueLumColor.r, hueLumColor.b, sat);
+  } else if (hue.r <= hue.b) {
+    return setSaturationHelper(hue.g, hue.r, hue.b, sat).grb;
 
-  } else if (hueLumColor.g <= hueLumColor.b) {
-    hueLumColor.gbr = setSaturationHelper(hueLumColor.g, hueLumColor.b, hueLumColor.r, sat);
+  } else if (hue.g <= hue.b) {
+    return setSaturationHelper(hue.g, hue.b, hue.r, sat).gbr;
 
   } else {
-    hueLumColor.bgr = setSaturationHelper(hueLumColor.b, hueLumColor.g, hueLumColor.r, sat);
+    return setSaturationHelper(hue.b, hue.g, hue.r, sat).bgr;
   }
-
-  return hueLumColor;
 }
 
 #endif
