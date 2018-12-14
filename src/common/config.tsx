@@ -24,7 +24,7 @@ const mainImageName = Platform.OS === 'android' ? 'image' : 'generatedImage'
 const anyToString = (n: unknown) => `${n}`
 const convertDistances = (distances: unknown[]) => distances.map(anyToString)
 const convertPosition = ({ x, y }: { x: unknown; y: unknown }) => ({ x: `${x}`, y: `${y}` })
-const convertColor = processColor // (c: any) => (isAndroid ? processColor(c) : c)
+const convertColor = processColor
 const convertColors = (cs: unknown[]) => cs.map(convertColor)
 const convertArea = (rect: { x: unknown; y: unknown; width: unknown; height: unknown }) => ({
   x: `${rect.x}`,

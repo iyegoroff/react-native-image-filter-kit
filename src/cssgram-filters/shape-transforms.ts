@@ -16,8 +16,6 @@ export interface CSSGramConfig {
 const degToRad = (deg: number) => Math.PI * deg / 180
 const background = 'rgb(255, 255, 255)'
 
-// const amounts = {}
-
 export const shapeTransforms = {
   _1977Compat: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',

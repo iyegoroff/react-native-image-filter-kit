@@ -29,3 +29,22 @@ export const Generator = {
   imageStyle: imageStyle,
   disableCache: bool
 }
+
+export const BlendIos = {
+  resizeCanvasTo: text,
+  inputImage: image,
+  inputImageResizeMode: resizeMode,
+  inputImageAnchor: offset,
+  inputImagePosition: offset,
+  inputBackgroundImage: image,
+  inputBackgroundImageResizeMode: resizeMode,
+  inputBackgroundImageAnchor: offset,
+  inputBackgroundImagePosition: offset,
+  disableCache: bool,
+  swapImages: bool
+}
+
+export const CommonIos = {
+  inputImage: image,
+  disableCache: bool
+}

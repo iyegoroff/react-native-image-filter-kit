@@ -15,26 +15,7 @@ import {
   area,
   ISOLatin1EncodedText
 } from '../common/inputs'
-import { Generator } from '../common/shapes'
-
-const Blend = {
-  resizeCanvasTo: text,
-  inputImage: image,
-  inputImageResizeMode: resizeMode,
-  inputImageAnchor: offset,
-  inputImagePosition: offset,
-  inputBackgroundImage: image,
-  inputBackgroundImageResizeMode: resizeMode,
-  inputBackgroundImageAnchor: offset,
-  inputBackgroundImagePosition: offset,
-  disableCache: bool,
-  swapImages: bool
-}
-
-const Common = {
-  inputImage: image,
-  disableCache: bool
-}
+import { Generator, CommonIos as Common, BlendIos as Blend } from '../common/shapes'
 
 export const shapes = {
   ImageFilter: {

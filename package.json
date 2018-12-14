@@ -21,8 +21,7 @@
 	"version": "0.0.0",
 	"peerDependencies": {
 		"react": "*",
-		"react-native": "*",
-		"fbjs": "*"
+		"react-native": "*"
 	},
 	"dependencies": {
 		"concat-color-matrices": "^1.0.0",

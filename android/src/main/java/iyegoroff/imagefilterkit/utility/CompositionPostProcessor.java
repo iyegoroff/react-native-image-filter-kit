@@ -99,7 +99,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     }
 
     throw Assertions.assertUnreachable(
-      "ImageFilterKit: invalid resizeCanvasTo - " + mResizeCanvasTo
+      "ImageFilterKit: invalid property 'resizeCanvasTo' - " + mResizeCanvasTo
     );
   }
 

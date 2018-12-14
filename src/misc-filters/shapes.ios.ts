@@ -1,20 +1,5 @@
-import {
-  scalar,
-  color,
-  image,
-  bool,
-  position,
-  distance,
-  text,
-  resizeMode,
-  offset
-} from '../common/inputs'
-import { Generator } from '../common/shapes'
-
-const Common = {
-  inputImage: image,
-  disableCache: bool
-}
+import { scalar, color, position, distance } from '../common/inputs'
+import { Generator, CommonIos as Common, BlendIos as Blend } from '../common/shapes'
 
 const Gradient = {
   inputAmount: scalar,
@@ -29,20 +14,6 @@ const Gradient = {
   inputStop3: scalar,
   inputStop4: scalar,
   ...Generator
-}
-
-const Blend = {
-  resizeCanvasTo: text,
-  inputImage: image,
-  inputImageResizeMode: resizeMode,
-  inputImageAnchor: offset,
-  inputImagePosition: offset,
-  inputBackgroundImage: image,
-  inputBackgroundImageResizeMode: resizeMode,
-  inputBackgroundImageAnchor: offset,
-  inputBackgroundImagePosition: offset,
-  disableCache: bool,
-  swapImages: bool
 }
 
 export const shapes = {
