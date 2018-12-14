@@ -83,8 +83,7 @@
 		"src",
 		"dist",
 		"*.md",
-		"*.podspec",
-		"FilterConstructor"
+		"*.podspec"
 	],
 	"rnpm": {
 		"commands": {

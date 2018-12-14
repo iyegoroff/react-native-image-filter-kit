@@ -40,5 +40,6 @@ dist/
 
 **/infer-out
 
-_Simple
-_FilterConstructor
+Simple
+FilterConstructor
+index.tmp
