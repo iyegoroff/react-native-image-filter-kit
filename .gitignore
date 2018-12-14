@@ -37,3 +37,8 @@ blueprint-templates/
 dist/
 
 **/index.android.bundle
+
+**/infer-out
+
+_Simple
+_FilterConstructor
