@@ -186,16 +186,16 @@
                                                                anchor:_srcAnchor
                                                              position:_srcPosition];
   
-  NSLog(@"IFK: DST %@ %f %f", [NSValue valueWithCGRect:dst], dstFrame.size.width, dstFrame.size.height);
-  NSLog(@"IFK: SRC %@ %f %f", [NSValue valueWithCGRect:src], srcFrame.size.width, srcFrame.size.height);
+//  NSLog(@"IFK: DST %@ %f %f", [NSValue valueWithCGRect:dst], dstFrame.size.width, dstFrame.size.height);
+//  NSLog(@"IFK: SRC %@ %f %f", [NSValue valueWithCGRect:src], srcFrame.size.width, srcFrame.size.height);
   
-  NSLog(@"IFK: DST {%f, %f, %@}; SRC {%f, %f, %@}; Canvas {%f, %f}",
-        dstFrame.size.width, dstFrame.size.height, _dstResizeMode,
-        srcFrame.size.width, srcFrame.size.height, _srcResizeMode,
-        outSize.width, outSize.height);
+//  NSLog(@"IFK: DST {%f, %f, %@}; SRC {%f, %f, %@}; Canvas {%f, %f}",
+//        dstFrame.size.width, dstFrame.size.height, _dstResizeMode,
+//        srcFrame.size.width, srcFrame.size.height, _srcResizeMode,
+//        outSize.width, outSize.height);
   
-  NSLog(@"post: inputImage %@ -> %@", [NSValue valueWithCGRect:srcFrame], [NSValue valueWithCGRect:src]);
-  NSLog(@"post: inputBackgroundImage %@ -> %@", [NSValue valueWithCGRect:dstFrame], [NSValue valueWithCGRect:dst]);
+//  NSLog(@"post: inputImage %@ -> %@", [NSValue valueWithCGRect:srcFrame], [NSValue valueWithCGRect:src]);
+//  NSLog(@"post: inputBackgroundImage %@ -> %@", [NSValue valueWithCGRect:dstFrame], [NSValue valueWithCGRect:dst]);
   
   CGAffineTransform srcTransform = CGAffineTransformMake(src.size.width / srcFrame.size.width,
                                                          0,

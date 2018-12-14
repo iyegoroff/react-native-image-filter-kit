@@ -11,7 +11,6 @@
 
 + (BOOL)isCacheDisabled:(nonnull NSDictionary *)config
 {
-  NSLog(@"filter: cache %@", [config objectForKey:@"disableCache"]);
   return [config objectForKey:@"disableCache"] != nil
     && [[[config objectForKey:@"disableCache"] objectForKey:@"bool"] boolValue];
 }

@@ -25,8 +25,6 @@
     _inputs = inputs;
   }
   
-  NSLog(@"IFK: fil %@ %@", name, inputs);
-  
   return self;
 }
 
@@ -119,8 +117,6 @@
                                    destSize:(CGSize)destSize
 {
   CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:viewFrame];
-  
-  NSLog(@"filter: context %@", [self context]);
   
   UIImage *filteredImage = [IFKPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
                                                          srcSize:viewFrame.size

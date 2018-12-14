@@ -32,11 +32,8 @@ import {
   rgbaToRgb
 } from 'react-native-image-filter-kit';
 import matrices from 'rn-color-matrices';
-import imageCacheHoc from 'react-native-image-cache-hoc';
 import { ShapeRegistry } from '../dist/common/shape-registry';
 import { ImageTransparentPlaceholder, ImagePlaceholder } from '../dist/common/image-placeholder';
-
-const CacheableImage = imageCacheHoc(Image);
 
 const imageStyle = { width: 320, height: 320 }
 const Pick = Platform.OS === 'ios' ? PickerIOS : Picker

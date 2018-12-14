@@ -12,12 +12,13 @@
     "build:release": ":",
     "generate:android:signing-key": "keytool -genkey -v -keystore simple.keystore -alias simple -keyalg RSA -keysize 2048 -validity 10000 && mv simple.keystore android/app",
     "generate:android:apk": "npm run generate:android:bundle && cd android && ./gradlew assembleRelease",
-    "generate:android:bundle": "npm run build:release && react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle"
+    "generate:android:bundle": "npm run build:release && react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle",
+    "infer:android": "cd android && infer run -- ./gradlew build",
+    "clean:android": "cd android && ./gradlew clean"
   },
   "dependencies": {
     "react": "16.5.1",
     "react-native": "0.57.1",
-    "react-native-image-cache-hoc": "^2.0.0",
     "react-native-image-filter-kit": "file:../"
   },
   "devDependencies": {

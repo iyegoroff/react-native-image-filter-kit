@@ -7,16 +7,16 @@ import { id } from './util'
 
 type NativeProps = ViewProps & {
   readonly config: string
-  readonly ifkOnFilteringError?: (event: NativeSyntheticEvent<{ message: string }>) => void
-  readonly ifkOnFilteringStart?: (event: NativeSyntheticEvent<{}>) => void
-  readonly ifkOnFilteringFinish?: (event: NativeSyntheticEvent<{}>) => void
+  readonly onIFKFilteringError?: (event: NativeSyntheticEvent<{ message: string }>) => void
+  readonly onIFKFilteringStart?: (event: NativeSyntheticEvent<{}>) => void
+  readonly onIFKFilteringFinish?: (event: NativeSyntheticEvent<{}>) => void
 }
 
 type Props = ViewProps & {
   readonly config: object
-  readonly onFilteringError?: NativeProps['ifkOnFilteringError']
-  readonly onFilteringStart?: NativeProps['ifkOnFilteringStart']
-  readonly onFilteringFinish?: NativeProps['ifkOnFilteringFinish']
+  readonly onFilteringError?: NativeProps['onIFKFilteringError']
+  readonly onFilteringStart?: NativeProps['onIFKFilteringStart']
+  readonly onFilteringFinish?: NativeProps['onIFKFilteringFinish']
 }
 
 const IFKImageFilter = requireNativeComponent<NativeProps>('IFKImageFilter')
@@ -45,9 +45,9 @@ export const createImageFilter = (
       <IFKImageFilter
         style={[defaultStyle, style]}
         config={JSON.stringify(finalizeConfig(config))}
-        ifkOnFilteringError={onFilteringError || id}
-        ifkOnFilteringStart={onFilteringStart || id}
-        ifkOnFilteringFinish={onFilteringFinish || id}
+        onIFKFilteringError={onFilteringError || id}
+        onIFKFilteringStart={onFilteringStart || id}
+        onIFKFilteringFinish={onFilteringFinish || id}
         {...pick(props, restPropKeys) as object}
       >
         {React.Children.map(images, hideEveryTailChild)}

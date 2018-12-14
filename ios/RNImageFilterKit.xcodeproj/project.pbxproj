@@ -27,7 +27,6 @@
 		74AEEEBA21989B8300DAA02F /* IFKResize.m in Sources */ = {isa = PBXBuildFile; fileRef = 74AEEEB921989B8300DAA02F /* IFKResize.m */; };
 		74B28F9321B8653B001E6AAE /* IFKHazeRemoval.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B28F9221B8653B001E6AAE /* IFKHazeRemoval.m */; };
 		74B28F9721B87522001E6AAE /* IFKFilterConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B28F9621B87522001E6AAE /* IFKFilterConstructor.m */; };
-		74B3B39D2131780200589ED5 /* IFKFilterPostProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B3B39C2131780200589ED5 /* IFKFilterPostProcessor.m */; };
 		74BF08B320B258E300D93AFC /* IFKImageFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08AF20B258E200D93AFC /* IFKImageFilterManager.m */; };
 		74BF08B420B258E300D93AFC /* IFKImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08B220B258E300D93AFC /* IFKImageFilter.m */; };
 		74D0D692219EEA8500EC6551 /* IFKConfigHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D0D691219EEA8500EC6551 /* IFKConfigHelper.m */; };
@@ -96,8 +95,6 @@
 		74B28F9621B87522001E6AAE /* IFKFilterConstructor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKFilterConstructor.m; sourceTree = "<group>"; };
 		74B28F9821B884E6001E6AAE /* IFKHazeRemoval.cikernel */ = {isa = PBXFileReference; lastKnownFileType = text; path = IFKHazeRemoval.cikernel; sourceTree = "<group>"; };
 		74B290EE21B8A185001E6AAE /* IFKLinearGradient.cikernel */ = {isa = PBXFileReference; lastKnownFileType = text; path = IFKLinearGradient.cikernel; sourceTree = "<group>"; };
-		74B3B39B2131780200589ED5 /* IFKFilterPostProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKFilterPostProcessor.h; sourceTree = "<group>"; };
-		74B3B39C2131780200589ED5 /* IFKFilterPostProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKFilterPostProcessor.m; sourceTree = "<group>"; };
 		74BF08AF20B258E200D93AFC /* IFKImageFilterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKImageFilterManager.m; sourceTree = "<group>"; };
 		74BF08B020B258E200D93AFC /* IFKImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKImageFilter.h; sourceTree = "<group>"; };
 		74BF08B120B258E200D93AFC /* IFKImageFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKImageFilterManager.h; sourceTree = "<group>"; };
@@ -175,8 +172,6 @@
 				74BF08B220B258E300D93AFC /* IFKImageFilter.m */,
 				74BF08B120B258E200D93AFC /* IFKImageFilterManager.h */,
 				74BF08AF20B258E200D93AFC /* IFKImageFilterManager.m */,
-				74B3B39B2131780200589ED5 /* IFKFilterPostProcessor.h */,
-				74B3B39C2131780200589ED5 /* IFKFilterPostProcessor.m */,
 				74F6B5F7211E40D2005A9DB1 /* IFKImageCache.h */,
 				74F6B5F8211E40D2005A9DB1 /* IFKImageCache.m */,
 				7412B1112123FCF400FB00FF /* NSArray+FilterMapReduce.h */,
@@ -323,7 +318,6 @@
 				74076F54219B549A0015E836 /* IFKBolts.m in Sources */,
 				74AEAD0E2199A44800DC563B /* IFKInputConverter.m in Sources */,
 				74BF08B320B258E300D93AFC /* IFKImageFilterManager.m in Sources */,
-				74B3B39D2131780200589ED5 /* IFKFilterPostProcessor.m in Sources */,
 				74076F4F219B549A0015E836 /* IFKCancellationTokenRegistration.m in Sources */,
 				74076F53219B549A0015E836 /* IFKTaskCompletionSource.m in Sources */,
 				74938E4A21B1DB0B006BCF26 /* IFKImage.m in Sources */,

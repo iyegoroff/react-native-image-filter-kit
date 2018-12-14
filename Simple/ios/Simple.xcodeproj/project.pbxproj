@@ -20,7 +20,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		1922B479A075488CB8D5039D /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD89F97973945948500A10D /* libRNFetchBlob.a */; };
+		1F6932EDB0DE49A59373D4DF /* IFKXorCompositing.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 92BCE330C41E4583826A99D2 /* IFKXorCompositing.cikernel */; };
 		1FA09C853C3C4D19850657E6 /* IFKSweepGradient.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 60D0F44EC8C34E86A5C2B8BF /* IFKSweepGradient.cikernel */; };
 		554BF33FCB7446E8B53648E6 /* IFKHazeRemoval.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 70C7F246838E4C79B681B206 /* IFKHazeRemoval.cikernel */; };
 		6008ABD66090478A98076BCB /* IFKRadialGradient.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E8429B1F24B85A86C8584 /* IFKRadialGradient.cikernel */; };
@@ -28,7 +28,6 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		EF96A53A7C42473387373E75 /* libRNImageFilterKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F78E14127894D07A888451B /* libRNImageFilterKit.a */; };
 		F34F467392E3482FB2C80004 /* IFKLinearGradient.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 8F4020E6C25748A2A4AC00F3 /* IFKLinearGradient.cikernel */; };
-		1F6932EDB0DE49A59373D4DF /* IFKXorCompositing.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = 92BCE330C41E4583826A99D2 /* IFKXorCompositing.cikernel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,13 +276,6 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNImageFilterKit;
 		};
-		7492A63C21A4309E0009CB00 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D8CDDE30E605401EB2577FB7 /* RNFetchBlob.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A15C300E1CD25C330074CB35;
-			remoteInfo = RNFetchBlob;
-		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -333,11 +325,9 @@
 		7A3E8429B1F24B85A86C8584 /* IFKRadialGradient.cikernel */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = IFKRadialGradient.cikernel; path = "../node_modules/react-native-image-filter-kit/ios/Resources/IFKRadialGradient.cikernel"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8F4020E6C25748A2A4AC00F3 /* IFKLinearGradient.cikernel */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = IFKLinearGradient.cikernel; path = "../node_modules/react-native-image-filter-kit/ios/Resources/IFKLinearGradient.cikernel"; sourceTree = "<group>"; };
+		92BCE330C41E4583826A99D2 /* IFKXorCompositing.cikernel */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = IFKXorCompositing.cikernel; path = "../node_modules/react-native-image-filter-kit/ios/Resources/IFKXorCompositing.cikernel"; sourceTree = "<group>"; };
 		A9ED3E0C583C46CD8B5805A0 /* RNImageFilterKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImageFilterKit.xcodeproj; path = "../node_modules/react-native-image-filter-kit/ios/RNImageFilterKit.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
-		BFD89F97973945948500A10D /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
-		D8CDDE30E605401EB2577FB7 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
-		92BCE330C41E4583826A99D2 /* IFKXorCompositing.cikernel */ = {isa = PBXFileReference; name = "IFKXorCompositing.cikernel"; path = "../node_modules/react-native-image-filter-kit/ios/Resources/IFKXorCompositing.cikernel"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,7 +347,6 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				1922B479A075488CB8D5039D /* libRNFetchBlob.a in Frameworks */,
 				EF96A53A7C42473387373E75 /* libRNImageFilterKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,19 +478,11 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7492A63921A4309D0009CB00 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7492A63D21A4309E0009CB00 /* libRNFetchBlob.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		74AEEE7521984AAB00DAA02F /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				BFD89F97973945948500A10D /* libRNFetchBlob.a */,
 				6F78E14127894D07A888451B /* libRNImageFilterKit.a */,
+				F117F410B0B14DD8ABF4766C /* libRNFetchBlob.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -530,7 +511,6 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				D8CDDE30E605401EB2577FB7 /* RNFetchBlob.xcodeproj */,
 				A9ED3E0C583C46CD8B5805A0 /* RNImageFilterKit.xcodeproj */,
 			);
 			name = Libraries;
@@ -683,10 +663,6 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
-				},
-				{
-					ProductGroup = 7492A63921A4309D0009CB00 /* Products */;
-					ProjectRef = D8CDDE30E605401EB2577FB7 /* RNFetchBlob.xcodeproj */;
 				},
 				{
 					ProductGroup = 74615B3621BDE73D006A1F22 /* Products */;
@@ -946,13 +922,6 @@
 			remoteRef = 74615B3921BDE73D006A1F22 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7492A63D21A4309E0009CB00 /* libRNFetchBlob.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFetchBlob.a;
-			remoteRef = 7492A63C21A4309E0009CB00 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1044,14 +1013,12 @@
 				DEVELOPMENT_TEAM = N9JQ8J5UME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 				);
 				INFOPLIST_FILE = Simple/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Simple\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1073,14 +1040,12 @@
 				DEVELOPMENT_TEAM = N9JQ8J5UME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-filter-kit/ios/**",
 				);
 				INFOPLIST_FILE = Simple/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/Simple\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",

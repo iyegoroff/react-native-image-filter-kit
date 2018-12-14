@@ -7,7 +7,6 @@ import com.facebook.react.ReactApplication;
 import iyegoroff.imagefilterkit.ImageFilterKitPackage;
 import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
 
-import com.RNFetchBlob.RNFetchBlobPackage;
 
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -65,7 +64,6 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
             new ImageFilterKitPackage(),
-            new RNFetchBlobPackage(),
         new ImageFilterKitPackage()
       );
     }

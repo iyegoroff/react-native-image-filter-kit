@@ -16,6 +16,10 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 
 @interface IFKImageFilter ()
 
+@property (nonatomic, copy) RCTBubblingEventBlock onIFKFilteringStart;
+@property (nonatomic, copy) RCTBubblingEventBlock onIFKFilteringFinish;
+@property (nonatomic, copy) RCTBubblingEventBlock onIFKFilteringError;
+
 @property (nonatomic, strong) NSDictionary* jsonConfig;
 @property (nonatomic, strong) NSArray<IFKImage *> *originalImages;
 @property (nonatomic, strong) NSArray<RCTImageView *> *targets;
@@ -47,6 +51,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   _config = config;
   NSData* data = [config dataUsingEncoding:NSUTF8StringEncoding];
   _jsonConfig = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+  NSLog(@"filter: set config");
   [self runFilterPipelineAndInvalidate:NO onlyCheckCache:NO];
 }
 
@@ -70,13 +75,12 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   
   _targets = foundTargets;
   
-//  NSLog(@"filter: upd link %@ %@", _targets, _originalImages);
-  
   for (RCTImageView *target in _targets) {
     [self addOnChangeObserver:target keyPath:@"image"];
     [self addOnChangeObserver:target keyPath:@"imageSources"];
   }
   
+  NSLog(@"filter: link targets");
   [self runFilterPipelineAndInvalidate:YES onlyCheckCache:NO];
 }
 
@@ -107,8 +111,6 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   if (_targets.count != foundTargets.count || [[_targets reduce:^id(NSNumber *acc, RCTImageView *val, int idx) {
     return @([acc boolValue] || val != foundTargets[idx]);
   } init:@NO] boolValue]) {
-//    NSLog(@"filter: link");
-    
     [self linkTargets:foundTargets];
   }
 }
@@ -117,7 +119,6 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
                                 wrappedImageNames:(nonnull NSArray<NSString *> *)wrappedImageNames
                                     wrappedImages:(nonnull DeferredImages *)wrappedImages
 {
-//  NSLog(@"filter: com parse %@", config);
   NSString *name = [IFKConfigHelper name:config];
 
   return [wrappedImages continueWithSuccessBlock:^id _Nullable(DeferredImages * _Nonnull tasks) {
@@ -136,17 +137,11 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
     }]] continueWithSuccessBlock:^id _Nullable(IFKTask<NSArray<RCTImageView *> *> * _Nonnull task) {
       IFKFilterableImage *mainImage = result[mainIdx];
       NSArray<RCTImageView *> *restImages = [task result];
-      
-      RCTImageView *target = [mainImage target];
-      
-      NSLog(@"IFK: target size %@ %@", [NSValue valueWithCGSize:[target frame].size], [NSValue valueWithCGSize:[self frame].size]);
 
       NSMutableArray<IFKPostProcessor *> *postProcessors =
         [NSMutableArray arrayWithArray:[mainImage postProcessors]];
       
-//      NSLog(@"filter: names %@ %@", restImageNames, restImages);
       NSDictionary *completeConfig = [restImageNames reduce:^id(NSMutableDictionary *acc, NSString *key, int idx) {
-//        NSLog(@"filter: img %i %@ %@", idx, restImages[idx], [restImages[idx] image]);
         [acc setObject:@{@"image": [[CIImage alloc] initWithImage:[restImages[idx] image]]}
                 forKey:key];
 
@@ -161,7 +156,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
                                                                            inputs:completeConfig
                                                                        canvasSize:canvasSize]];
       
-      return [[IFKFilterableImage alloc] initWithTarget:target
+      return [[IFKFilterableImage alloc] initWithTarget:[mainImage target]
                                           originalImage:[mainImage originalImage]
                                                  config:config
                                          postProcessors:postProcessors];
@@ -230,19 +225,24 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 
 - (void)runFilterPipelineAndInvalidate:(BOOL)shouldInvalidate onlyCheckCache:(BOOL)onlyCheckCache
 {
-//  NSLog(@"filter: max index %lu _targets.count %lu", (unsigned long)[IFKConfigHelper maxImageIndex:_jsonConfig], (unsigned long)_targets.count);
-//  NSLog(@"filter: max targets %@", _targets);
   if (_targets.count > [IFKConfigHelper maxImageIndex:_jsonConfig]) {
     NSString *cacheKey = [self fastCacheKey:[NSString stringWithFormat:@"%@", _jsonConfig]];
     UIImage *cachedImage = [[IFKImageCache instance] imageForKey:cacheKey];
     
-//    NSLog(@"IFK: RENDER %@", RCTMD5Hash(cacheKey));
-    
     if (cachedImage != nil) {
-      [self resetFilterPipeline];
-      
-      NSLog(@"filter: INSTANT UPDATE - %@", cacheKey);
-      [self updateTarget:_targets[0] image:cachedImage];
+      if (_targets[0].image != cachedImage) {
+        if (_onIFKFilteringStart) {
+          _onIFKFilteringStart(nil);
+        }
+        
+        [self resetFilterPipeline];
+        
+        [self updateTarget:_targets[0] image:cachedImage];
+        
+        if (_onIFKFilteringFinish) {
+          _onIFKFilteringFinish(nil);
+        }
+      }
 
     } else if (!onlyCheckCache) {
       [self resetFilterPipeline];
@@ -254,8 +254,17 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
       if (_jsonConfig != nil && [_originalImages every:^BOOL(IFKImage *val, int idx) {
         return ![val isEqual:[NSNull null]];
       }]) {
-        [[self parseConfig:_jsonConfig] continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
-          [self filterImage:[task result]];
+        if (_onIFKFilteringStart) {
+          _onIFKFilteringStart(nil);
+        }
+        
+        [[[self parseConfig:_jsonConfig] continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
+          return [self filterImage:[task result]];
+          
+        } cancellationToken:[_filtering token]] continueWithExecutor:[IFKExecutor mainThreadExecutor] successBlock:^id _Nullable(IFKTask * _Nonnull t) {
+          if (_onIFKFilteringFinish) {
+            _onIFKFilteringFinish(nil);
+          }
           
           return nil;
         } cancellationToken:[_filtering token]];
@@ -280,7 +289,6 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   UIImage *cachedImage = [[IFKImageCache instance] imageForKey:fastCacheKey];
   
   if (cachedImage != nil) {
-    NSLog(@"filter: TAKING FROM CACHE");
     [self updateTarget:target image:cachedImage];
     
     return [IFKTask taskWithResult:target];
@@ -288,7 +296,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   } else {
     NSString *safeCacheKey = [self safeCacheKey:[filterableImage config]];
     IFKExecutor *executor = [IFKExecutor executorWithDispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-
+    
     return [[IFKTask taskFromExecutor:executor withBlock:^id _Nonnull{
       return [[filterableImage postProcessors] reduce:^id(UIImage *acc, IFKPostProcessor *val, int idx) {
         return [val process:acc resizeMode:[target resizeMode] viewFrame:viewFrame];
@@ -299,7 +307,6 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
       
       if ([target valueForKey:@"_pendingImageSource"] == nil) {
         if (![filterableImage isCacheDisabled] && image != nil) {
-          NSLog(@"filter: PUT TO CACHE - %@ %@", safeCacheKey, [filterableImage config]);
           [[IFKImageCache instance] setImage:image forKey:safeCacheKey];
         }
         
@@ -320,7 +327,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   }
 
   [target setImage:image];
-
+  
   if (isObserved) {
     [self addOnChangeObserver:target keyPath:@"image"];
   }
@@ -331,21 +338,21 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
                         change:(NSDictionary *)change
                        context:(void *)context {
   if ([keyPath isEqualToString:@"image"]) {
+    NSLog(@"filter: chamge %@ %@", change, object.image);
     _originalImages = [_targets reduce:^id(NSMutableArray* acc, RCTImageView *val, int idx) {
       [acc replaceObjectAtIndex:idx
-                     withObject:(object == val) ? [[IFKImage alloc] initWithImage:[object.image copy] cacheKey:[val cacheKey]] : [_originalImages at:idx]];
+                     withObject:(object == val)
+                                  ? [[IFKImage alloc] initWithImage:[object.image copy] cacheKey:[val cacheKey]]
+                                  : [_originalImages at:idx]];
       
       return acc;
     } init:_originalImages];
     
-    NSLog(@"filter: upd obs %@ %@", _targets, _originalImages);
-    
-//    NSLog(@"filter: update cache");
-//    NSLog(@"IFK: key %@ %@ %@", RCTMD5Hash([NSString stringWithFormat:@"%@", _jsonConfig]), object.image, _originalImages);
+    NSLog(@"filter: update cache");
     [self runFilterPipelineAndInvalidate:YES onlyCheckCache:NO];
     
   } else if ([keyPath isEqualToString:@"imageSources"]) {
-//    NSLog(@"filter: only check cache");
+    NSLog(@"filter: only check cache");
     [self runFilterPipelineAndInvalidate:YES onlyCheckCache:YES];
   }
 }
@@ -355,7 +362,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   [target addObserver:self
            forKeyPath:keyPath
               options:NSKeyValueObservingOptionNew
-              context:NULL];
+              context:nil];
 }
 
 - (void)removeOnChangeObserver:(NSObject *)target keyPath:(NSString *)keyPath
