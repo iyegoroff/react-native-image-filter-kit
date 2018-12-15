@@ -40,11 +40,13 @@ export const BlendIos = {
   inputBackgroundImageResizeMode: resizeMode,
   inputBackgroundImageAnchor: offset,
   inputBackgroundImagePosition: offset,
+  clampToExtent: bool,
   disableCache: bool,
   swapImages: bool
 }
 
 export const CommonIos = {
   inputImage: image,
+  clampToExtent: bool,
   disableCache: bool
 }

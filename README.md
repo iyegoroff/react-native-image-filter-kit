@@ -139,6 +139,7 @@ The purpose of this module is to support most of the native image filters on eac
 ## Reference
 
 - [Color matrix filters](docs/color_matrix_filters.md)
+- [Blur filters](docs/blur_filters.md)
 - [Convolve matrix filters](docs/convolve_matrix_filters.md)
 - [Generators](docs/generators.md)
 - [Composition filters](docs/composition_filters.md)
@@ -148,7 +149,7 @@ The purpose of this module is to support most of the native image filters on eac
 - [iOS-only filters](docs/ios_only_filters.md)
 
 ## Caveats
-- blurRadius
+- `blurRadius` Image prop will not work in conjunction with this library, instead of it just use [BoxBlur](docs/blur_filters.md#BoxBlur) filter
 - old Androids
 
 ## Credits

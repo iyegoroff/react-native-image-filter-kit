@@ -1,8 +1,7 @@
 {
   "extends": "tslint-config-standard",
-  "rulesDirectory": ["node_modules/vrsource-tslint-rules/rules"],
   "rules": {
-    "no-param-reassign": true,
+    "no-parameter-reassignment": true,
     "no-shadowed-variable": true,
     "max-line-length": [true, 100],
     "max-file-line-count": [true, 300],

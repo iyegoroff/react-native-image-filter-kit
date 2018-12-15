@@ -38,13 +38,13 @@ All image blends have the same props
   <tr>
     <td>dstAnchor</td>
     <td><a href="typed.md#Offset">Offset</a></td>
-    <td>{ x: 0.5, y: 0.5 }</td>
+    <td>{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;}</td>
     <td>dst image anchor, relative to dst image size</td>
   </tr>
   <tr>
     <td>dstPosition</td>
     <td><a href="typed.md#Offset">Offset</a></td>
-    <td>{ x: 0.5, y: 0.5 }</td>
+    <td>{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;}</td>
     <td>dst image position, relative to canvas size</td>
   </tr>
   <tr>
@@ -62,13 +62,13 @@ All image blends have the same props
   <tr>
     <td>srcAnchor</td>
     <td><a href="typed.md#Offset">Offset</a></td>
-    <td>{ x: 0.5, y: 0.5 }</td>
+    <td>{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;}</td>
     <td>src image anchor, relative to src image size</td>
   </tr>
   <tr>
     <td>srcPosition</td>
     <td><a href="typed.md#Offset">Offset</a></td>
-    <td>{ x: 0.5, y: 0.5 }</td>
+    <td>{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;}</td>
     <td>src image position, relative to canvas size</td>
   </tr>
   <tr>
@@ -79,7 +79,7 @@ All image blends have the same props
   </tr>
   <tr>
     <td>resizeCanvasTo</td>
-    <td>'dstImage' | 'srcImage'</td>
+    <td>'dstImage'&nbsp;|&nbsp;'srcImage'</td>
     <td>-</td>
     <td>
       <div>can be used when one image is created by a <a href="generators.md">Generator</a></div>

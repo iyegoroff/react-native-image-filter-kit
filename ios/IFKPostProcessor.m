@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) CIFilter *filter;
 @property (nonatomic, strong) NSDictionary *inputs;
+@property (nonatomic, assign) BOOL clampToExtent;
 
 @end
 
@@ -23,6 +24,9 @@
   if ((self = [super init])) {
     _filter = [CIFilter filterWithName:name];
     _inputs = inputs;
+
+    _clampToExtent = [[IFKInputConverter convertBoolean:[_inputs objectForKey:@"clampToExtent"]
+                                           defaultValue:@NO] boolValue];
   }
   
   return self;
@@ -46,7 +50,8 @@
       @"srcResizeMode",
       @"srcAnchor",
       @"srcPosition",
-      @"swapImages"
+      @"swapImages",
+      @"clampToExtent"
     ];
   });
 
@@ -82,7 +87,7 @@
   CIImage *tmp = [[CIImage alloc] initWithImage:image];
   [self initFilter:tmp.extent.size];
   
-  [_filter setValue:tmp forKey:@"inputImage"];
+  [_filter setValue:_clampToExtent ? [tmp imageByClampingToExtent] : tmp forKey:@"inputImage"];
   
   return [self filteredImageWithScale:image.scale
                            resizeMode:resizeMode

@@ -1,3 +1,4 @@
+import blurFilters from './blur-filters'
 import generators from './generators'
 import colorMatrixFilters from './color-matrix-filters'
 import cssgramFilters from './cssgram-filters'
@@ -13,6 +14,7 @@ import { concatColorMatrices } from 'concat-color-matrices'
 import rgbaToRgb from 'rgba-to-rgb'
 
 const exports = {
+  ...blurFilters,
   ...generators,
   ...colorMatrixFilters,
   ...convolveMatrixFilters,
