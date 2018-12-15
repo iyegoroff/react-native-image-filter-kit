@@ -3,7 +3,6 @@ import { Common } from '../common/shapes'
 
 const CSSGram = {
   disableIntermediateCaches: bool,
-  concatMatrices: bool,
   ...Common
 }
 
@@ -17,8 +16,6 @@ export const shapes = {
   Brooklyn: CSSGram,
 
   Clarendon: CSSGram,
-
-  Cssgram: CSSGram,
 
   Earlybird: CSSGram,
 
@@ -71,8 +68,6 @@ export const shapes = {
   BrooklynCompat: CSSGram,
 
   ClarendonCompat: CSSGram,
-
-  CssgramCompat: CSSGram,
 
   EarlybirdCompat: CSSGram,
 

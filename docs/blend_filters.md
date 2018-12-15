@@ -1,0 +1,132 @@
+# Blend filters
+
+## Image blends
+
+- ColorBlend
+- ​ColorBurnBlend
+- ​ColorDodgeBlend
+- ​DarkenBlend
+- ​DifferenceBlend
+- ​ExclusionBlend
+- ​HardLightBlend
+- ​HueBlend
+- ​LightenBlend
+- ​LuminosityBlend
+- ​ModulateBlend
+- ​MultiplyBlend
+- ​OverlayBlend
+- ​PlusBlend
+- ​SaturationBlend
+- ​ScreenBlend
+- ​SoftLightBlend
+
+All image blends have the same props
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>dstImage</td>
+    <td>Image | ImageFilter</td>
+    <td>-</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>dstAnchor</td>
+    <td><a href="typed.md#Offset">Offset</a></td>
+    <td>{ x: 0.5, y: 0.5 }</td>
+    <td>dst image anchor, relative to dst image size</td>
+  </tr>
+  <tr>
+    <td>dstPosition</td>
+    <td><a href="typed.md#Offset">Offset</a></td>
+    <td>{ x: 0.5, y: 0.5 }</td>
+    <td>dst image position, relative to canvas size</td>
+  </tr>
+  <tr>
+    <td>dstResizeMode</td>
+    <td><a href="typed.md#ResizeMode">ResizeMode</a></td>
+    <td>'COVER'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>srcImage</td>
+    <td>Image | ImageFilter</td>
+    <td>-</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>srcAnchor</td>
+    <td><a href="typed.md#Offset">Offset</a></td>
+    <td>{ x: 0.5, y: 0.5 }</td>
+    <td>src image anchor, relative to src image size</td>
+  </tr>
+  <tr>
+    <td>srcPosition</td>
+    <td><a href="typed.md#Offset">Offset</a></td>
+    <td>{ x: 0.5, y: 0.5 }</td>
+    <td>src image position, relative to canvas size</td>
+  </tr>
+  <tr>
+    <td>srcResizeMode</td>
+    <td><a href="typed.md#ResizeMode">ResizeMode</a></td>
+    <td>'COVER'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>resizeCanvasTo</td>
+    <td>'dstImage' | 'srcImage'</td>
+    <td>-</td>
+    <td>
+      <div>can be used when one image is created by a <a href="generators.md">Generator</a></div>
+      <div>to specify that canvas size is equal to another image size</div>
+    </td>
+  </tr>
+</table>
+
+## Color blends
+
+- ColorBlendColor
+- ​ColorBurnBlendColor
+- ​ColorDodgeBlendColor
+- ​DarkenBlendColor
+- ​DifferenceBlendColor
+- ​ExclusionBlendColor
+- ​HardLightBlendColor
+- ​HueBlendColor
+- ​LightenBlendColor
+- ​LuminosityBlendColor
+- ​ModulateBlendColor
+- ​MultiplyBlendColor
+- ​OverlayBlendColor
+- ​PlusBlendColor
+- ​SaturationBlendColor
+- ​ScreenBlendColor
+- ​SoftLightBlendColor
+
+All color blends have the same props
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>dstImage</td>
+    <td>Image | ImageFilter</td>
+    <td>-</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>srcColor</td>
+    <td>string</td>
+    <td>-</td>
+    <td>color</td>
+  </tr>
+</table>

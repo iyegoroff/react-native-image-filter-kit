@@ -1,0 +1,4 @@
+#### Distance
+#### Position
+#### Offset
+#### ResizeMode

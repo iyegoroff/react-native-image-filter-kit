@@ -75,8 +75,14 @@ const result = (
 ```
 
 <table>
-  <tr><th>result</th></tr>
-  <tr><th><img src="img/earlybird.png" align="left" width="300"></th></tr>
+  <tr>
+    <th>original image</th>
+    <th>result</th>
+  </tr>
+  <tr>
+    <th><img src="https://raw.githubusercontent.com/iyegoroff/react-native-image-filter-kit/master/img/parrot.png" align="left" width="300"></th>
+    <th><img src="https://raw.githubusercontent.com/iyegoroff/react-native-image-filter-kit/master/img/earlybird.png" align="left" width="300"></th>
+  </tr>
 </table>
 &nbsp;
 <details>
@@ -85,26 +91,26 @@ const result = (
   <tr>
     <th>
       <table>
-        <tr><th>parrot.png</th></tr>
-        <tr><th><img src="img/parrot.png" align="left" width="170"></th></tr>
+        <tr><th>original image</th></tr>
+        <tr><th><img src="https://raw.githubusercontent.com/iyegoroff/react-native-image-filter-kit/master/img/parrot.png" align="left" width="170"></th></tr>
       </table>
     </th>
     <th>
       <table>
         <tr><th>Emboss</th></tr>
-        <tr><th><img src="img/emboss.png" align="left" width="170"></th></tr>
+        <tr><th><img src="https://raw.githubusercontent.com/iyegoroff/react-native-image-filter-kit/master/img/emboss.png" align="left" width="170"></th></tr>
       </table>
     </th>
     <th rowspan="2">
       <table>
         <tr><th>SoftLightBlend</th></tr>
-        <tr><th><img src="img/soft_light_blend.png" align="left" width="170"></th></tr>
+        <tr><th><img src="https://raw.githubusercontent.com/iyegoroff/react-native-image-filter-kit/master/img/soft_light_blend.png" align="left" width="170"></th></tr>
       </table>
     </th>
     <th rowspan="2">
       <table>
         <tr><th>Earlybird</th></tr>
-        <tr><th><img src="img/earlybird.png" align="left" width="170"></th></tr>
+        <tr><th><img src="https://raw.githubusercontent.com/iyegoroff/react-native-image-filter-kit/master/img/earlybird.png" align="left" width="170"></th></tr>
       </table>
     </th>
   </tr>
@@ -112,13 +118,13 @@ const result = (
     <td>
       <table>
         <tr><th>RadialGradient</th></tr>
-        <tr><th><img src="img/radial_gradient.png" align="left" width="170"></th></tr>
+        <tr><th><img src="https://raw.githubusercontent.com/iyegoroff/react-native-image-filter-kit/master/img/radial_gradient.png" align="left" width="170"></th></tr>
       </table>
     </td>
     <td>
       <table>
         <tr><th>Invert</th></tr>
-        <tr><th><img src="img/invert.png" align="left" width="170"></th></tr>
+        <tr><th><img src="https://raw.githubusercontent.com/iyegoroff/react-native-image-filter-kit/master/img/invert.png" align="left" width="170"></th></tr>
       </table>
     </td>
   </tr>
@@ -147,3 +153,4 @@ The purpose of this module is to support most of the native image filters on eac
 
 ## Credits
 - CSSGram filters are taken from [cssgram](https://github.com/una/cssgram) project by @una
+- `EdgeDetection`, `Emboss` and `FuzzyGlass` filters are taken from [android-graphics-demo](https://github.com/chiuki/android-graphics-demo) project by @chiuki

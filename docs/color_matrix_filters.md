@@ -57,11 +57,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>usually between 0..10</td>
   </tr>
@@ -82,7 +82,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -101,7 +101,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>matrix</td>
@@ -126,7 +126,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>desaturation</td>
@@ -169,11 +169,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>usually between -10..10</td>
   </tr>
@@ -194,7 +194,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -213,7 +213,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>firstColor</td>
@@ -244,11 +244,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>between 0..1</td>
   </tr>
@@ -269,11 +269,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>0</td>
     <td>angle in radians</td>
   </tr>
@@ -294,7 +294,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -313,7 +313,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -332,7 +332,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -351,7 +351,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -370,11 +370,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>0.1</td>
     <td>usually between 0..1</td>
   </tr>
@@ -395,7 +395,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -414,7 +414,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -433,7 +433,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -452,11 +452,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>usually between 0..1</td>
   </tr>
@@ -477,29 +477,29 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>red</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>between 0..1</td>
   </tr>
   <tr>
     <td>green</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>between 0..1</td>
   </tr>
   <tr>
     <td>blue</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>between 0..1</td>
   </tr>
   <tr>
     <td>alpha</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>between 0..1</td>
   </tr>
@@ -520,11 +520,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>usually between -10..10</td>
   </tr>
@@ -545,11 +545,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>between 0..1</td>
   </tr>
@@ -570,7 +570,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -589,11 +589,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>1</td>
     <td>usually between -10..10</td>
   </tr>
@@ -614,11 +614,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>0</td>
     <td>usually between 0..20</td>
   </tr>
@@ -639,11 +639,11 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
   <tr>
     <td>amount</td>
-    <td>scalar</td>
+    <td>number</td>
     <td>0</td>
     <td>usually between -1..1</td>
   </tr>
@@ -664,7 +664,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -683,7 +683,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -702,7 +702,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -723,7 +723,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -742,7 +742,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -761,7 +761,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -780,7 +780,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -799,7 +799,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -818,7 +818,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -837,7 +837,7 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>
 
@@ -856,6 +856,6 @@
     <td>image</td>
     <td>Image | ImageFilter</td>
     <td>-</td>
-    <td>target image</td>
+    <td></td>
   </tr>
 </table>

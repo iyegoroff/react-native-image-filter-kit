@@ -3,7 +3,7 @@ import { Composition } from '../common/shapes'
 export const shapes = {
   // ClearComposition: Composition,
 
-  DstComposition: Composition,
+  // DstComposition: Composition,
 
   DstATopComposition: Composition,
 
@@ -13,15 +13,15 @@ export const shapes = {
 
   DstOverComposition: Composition,
 
-  SrcComposition: Composition,
+  // SrcComposition: Composition,
 
   SrcATopComposition: Composition,
 
   SrcInComposition: Composition,
 
-  // SrcOutComposition: Composition,
+  SrcOutComposition: Composition,
 
-  // SrcOverComposition: Composition,
+  SrcOverComposition: Composition,
 
   XorComposition: Composition
 }
