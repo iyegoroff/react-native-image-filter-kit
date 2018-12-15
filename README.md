@@ -22,7 +22,7 @@ Various image filters for iOS & Android.
 ## Status
 
 - iOS & Android - filter components work as combinable wrappers for standard `Image` component
-- <strong>Minimal Android SDK version - 17</strong>
+- <strong>Minimum Android SDK version - 17</strong>
 - React-Native:
   - with rn >= 0.57.1 use latest version
 
