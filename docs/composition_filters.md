@@ -76,8 +76,7 @@ All composition filters have the same props
     <td>'dstImage'&nbsp;|&nbsp;'srcImage'</td>
     <td>-</td>
     <td>
-      <div>can be used when one image is created by a <a href="generators.md">Generator</a></div>
-      <div>to specify that canvas size is equal to another image size</div>
+      can be used when one image is created by a <a href="generators.md">Generator</a> to specify that canvas size is equal to another image size
     </td>
   </tr>
 </table>

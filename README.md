@@ -155,3 +155,5 @@ The purpose of this module is to support most of the native image filters on eac
 ## Credits
 - CSSGram filters are taken from [cssgram](https://github.com/una/cssgram) project by @una
 - `EdgeDetection`, `Emboss` and `FuzzyGlass` filters are taken from [android-graphics-demo](https://github.com/chiuki/android-graphics-demo) project by @chiuki
+- parrot [image](https://commons.wikimedia.org/wiki/File:Ara_macao_-flying_away-8a.jpg) by
+  [Robert01](https://de.wikipedia.org/wiki/Benutzer:Robert01)
