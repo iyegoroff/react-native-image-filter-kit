@@ -179,7 +179,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     return new MultiCacheKey(Arrays.asList(
       new SimpleCacheKey(String.format(
         (Locale) null,
-        "%s_%s_%s_%s_%s_%s_%s_%b",
+        "%s_%s_%s_%s_%s_%s_%s_%s_%b",
         prefix,
         mSrcResizeMode.toString(),
         mSrcAnchor.toString(),
@@ -187,6 +187,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
         mDstResizeMode.toString(),
         mDstAnchor.toString(),
         mDstPosition.toString(),
+        mResizeCanvasTo,
         mSwapImages
       )),
       mSrcCacheKey

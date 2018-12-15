@@ -1,13 +1,11 @@
 {
-	"description": "Various color filters for React Native Image component",
+	"description": "Various image filters for iOS & Android",
 	"keywords": [
 		"react-native",
-		"color-filter",
-		"image"
+		"image-filter"
 	],
 	"license": "MIT",
 	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
 	"name": "react-native-image-filter-kit",
 	"author": "iyegoroff <iegoroff@gmail.com>",
 	"bugs": {
@@ -77,7 +75,6 @@
 	},
 	"files": [
 		"android",
-		"img/*.png",
 		"ios",
 		"src",
 		"dist",

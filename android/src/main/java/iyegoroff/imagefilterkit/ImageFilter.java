@@ -361,18 +361,20 @@ public class ImageFilter extends ReactViewGroup {
           : null;
 
         if (target != null && postProcessors != null) {
-          if (!self.mIsReady && self.getChildCount() > 0) {
-            self.getChildAt(0).setVisibility(View.VISIBLE);
+          if (!self.mIsReady && getChildCount() > 0) {
+            getChildAt(0).setVisibility(View.VISIBLE);
             self.mIsReady = true;
           }
 
+          ReactImageView mainImage = images.get(0);
+
           ImageFilter.filterImage(
             new FilterableImage(
-              (ReactImageView) self.getChildAt(0),
+              mainImage,
               postProcessors,
               target.isCacheDisabled()
             ),
-            mImageListeners.get(ReactImageView.class.cast(self.getChildAt(0)))
+            mImageListeners.get(mainImage)
           ).onSuccess(new Continuation<ReactImageView, Object>() {
             @Override
             public Object then(Task<ReactImageView> task) {
@@ -386,8 +388,8 @@ public class ImageFilter extends ReactViewGroup {
             .onSuccess(new Continuation<FilterableImage, Void>() {
               @Override
               public Void then(Task<FilterableImage> task) {
-                if (!self.mIsReady && self.getChildCount() > 0) {
-                  self.getChildAt(0).setVisibility(View.VISIBLE);
+                if (!self.mIsReady && getChildCount() > 0) {
+                  getChildAt(0).setVisibility(View.VISIBLE);
                   self.mIsReady = true;
                 }
 
