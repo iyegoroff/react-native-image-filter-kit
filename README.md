@@ -11,13 +11,17 @@ Various image filters for iOS & Android.
 
 `$ npm install react-native-image-filter-kit --save`
 
-### Automatic installation
+### Mostly automatic installation
 
 `$ react-native link react-native-image-filter-kit`
 
 ### Manual installation
 
 [link](docs/manual_installation.md)
+
+### Final step
+
+Open `android/build.gradle` and change `minSdkVersion` to 17.
 
 ## Status
 
