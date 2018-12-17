@@ -162,7 +162,8 @@ const result = (
   - using smaller images
   - using [ColorMatrix](docs/color_matrix_filters.md#ColorMatrix) filter with [concatColorMatrices](docs/functions.md#concatColorMatrices) instead of wrapping the image with multiple color matrix based filters
   - replacing standard `MainReactPackage` with [alternative](android/src/main/java/iyegoroff/imagefilterkit/MainReactPackageWithFrescoCache.java
-) provided by this module:
+) one provided by this module:
+    &nbsp;
     ```diff
       ...
     - import com.facebook.react.shell.MainReactPackage;
