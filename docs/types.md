@@ -110,7 +110,7 @@ const result = (
 
 `'COVER' | 'CONTAIN' | 'STRETCH' | { width?: number; height?: number }`
 
-`ResizeMode` is used by [blend](blend_filters.md) and [composition](composition_filters.md) filters for resizing images on a canvas. Using an object, for example, `{ width: 0.5; height: 2 }` means that image width will be scaled down and height scaled up two times.
+`ResizeMode` is used by [blend](blend_filters.md) and [composition](composition_filters.md) filters for resizing images on a canvas. Using an object, for example, <code>{&nbsp;width:&nbsp;0.5;&nbsp;height:&nbsp;2&nbsp;}</code> means that image width will be scaled down and height scaled up two times.
 
 ***
 #### RelativeUnit
