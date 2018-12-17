@@ -7,6 +7,15 @@
 
 Various image filters for iOS & Android.
 
+## Status
+
+- iOS & Android:
+  - filter components work as combinable wrappers for standard `Image` component
+  - resulting images are being cached
+  - <strong>Minimum Android SDK version - 17</strong>
+- React-Native:
+  - with rn >= 0.57.1 use latest version
+
 ## Getting started
 
 `$ npm install react-native-image-filter-kit --save`
@@ -23,12 +32,10 @@ Various image filters for iOS & Android.
 
 Open `android/build.gradle` and change `minSdkVersion` to 17.
 
-## Status
+## Scope
 
-- iOS & Android - filter components work as combinable wrappers for standard `Image` component
-- <strong>Minimum Android SDK version - 17</strong>
-- React-Native:
-  - with rn >= 0.57.1 use latest version
+The purpose of this module is to support most of the native image filters on each platform and to provide a common interface for these filters. If the filter exists only on one platform, then its counterpart will be implemented using `renderscript` on Android and `cikernel` on iOS. If you need only [color matrix](docs/color_matrix_filters.md) filters - better use a [lightweight predecessor](https://github.com/iyegoroff/react-native-color-matrix-image-filters) of this module.
+
 
 ## Example
 
@@ -136,12 +143,9 @@ const result = (
 
 </details>
 
-## Scope
-
-The purpose of this module is to support most of the native image filters on each platform and to provide a common interface for these filters. If the filter exists only on one platform, then its counterpart will be implemented using `renderscript` on Android and `cikernel` on iOS. If you need only [color matrix](docs/color_matrix_filters.md) filters - better use a [lightweight predecessor](https://github.com/iyegoroff/react-native-color-matrix-image-filters) of this module.
-
 ## Reference
 
+- [Types](docs/types.md)
 - [Color matrix filters](docs/color_matrix_filters.md)
 - [Blur filters](docs/blur_filters.md)
 - [Convolve matrix filters](docs/convolve_matrix_filters.md)
@@ -154,7 +158,26 @@ The purpose of this module is to support most of the native image filters on eac
 
 ## Caveats
 - `blurRadius` Image prop will not work in conjunction with this library, instead of it just use [BoxBlur](docs/blur_filters.md#BoxBlur) filter
-- old Androids
+- When running on pre-Lollipop (SDK < 21) Android devices you may experience [TooManyBitmapsException](https://frescolib.org/javadoc/reference/com/facebook/imagepipeline/common/TooManyBitmapsException.html), which results in image is not being rendered (this can be logged with [onFilteringError](docs/types.md#ImageFilter) prop). It looks like this is a relatively rare case which arises on low-end devices when filtering wallpaper-sized images (like 1920 × 1080 pixels). The common workarounds are:
+  - using smaller images
+  - using [ColorMatrix](docs/color_matrix_filters.md#ColorMatrix) filter with [concatColorMatrices](docs/functions.md#concatColorMatrices) instead of wrapping the image with multiple color matrix based filters
+  - replacing standard `MainReactPackage` with [alternative](android/src/main/java/iyegoroff/imagefilterkit/MainReactPackageWithFrescoCache.java
+) provided by this module:
+    ```diff
+      ...
+    - import com.facebook.react.shell.MainReactPackage;
+    + import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
+      import com.facebook.soloader.SoLoader;
+
+      import java.util.Arrays;
+      import java.util.List;
+
+      public class MainApplication extends Application implements ReactApplication {
+
+    +   private class MainReactPackage extends MainReactPackageWithFrescoCache {}
+      ...
+    ```
+    After this change `ImageFilter` will not throw `TooManyBitmapsException` immediately and will clear Fresco image caches, trim bitmap pool memory and try to filter the image again several times until succeed or reach the limit of retries, specified by [clearCachesMaxRetries](docs/types.md#ImageFilter) prop. 
 
 ## Credits
 - CSSGram filters are taken from [cssgram](https://github.com/una/cssgram) project by @una
