@@ -1,7 +1,9 @@
+#define MAX_COLORS 10
+
 vec4 linearGradient(
   int amount,
-  vec4 colors[5],
-  float stops[5],
+  vec4 colors[MAX_COLORS],
+  float stops[MAX_COLORS],
   vec2 start,
   vec2 end
 ) {
@@ -19,33 +21,33 @@ vec4 linearGradient(
 }
 
 kernel vec4 linearGradient1Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
   vec2 start,
   vec2 end
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
 
   return linearGradient(1, colors, stops, start, end);
 }
 
 kernel vec4 linearGradient2Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
   vec2 start,
   vec2 end
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
 
@@ -53,21 +55,21 @@ kernel vec4 linearGradient2Kernel(
 }
 
 kernel vec4 linearGradient3Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
-  vec4 color2,
+  __color color2,
   float stop2,
   vec2 start,
   vec2 end
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
   colors[2] = color2;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
   stops[2] = stop2;
@@ -76,24 +78,24 @@ kernel vec4 linearGradient3Kernel(
 }
 
 kernel vec4 linearGradient4Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
-  vec4 color2,
+  __color color2,
   float stop2,
-  vec4 color3,
+  __color color3,
   float stop3,
   vec2 start,
   vec2 end
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
   colors[2] = color2;
   colors[3] = color3;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
   stops[2] = stop2;
@@ -103,27 +105,27 @@ kernel vec4 linearGradient4Kernel(
 }
 
 kernel vec4 linearGradient5Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
-  vec4 color2,
+  __color color2,
   float stop2,
-  vec4 color3,
+  __color color3,
   float stop3,
-  vec4 color4,
+  __color color4,
   float stop4,
   vec2 start,
   vec2 end
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
   colors[2] = color2;
   colors[3] = color3;
   colors[4] = color4;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
   stops[2] = stop2;
@@ -131,4 +133,219 @@ kernel vec4 linearGradient5Kernel(
   stops[4] = stop4;
 
   return linearGradient(5, colors, stops, start, end);
+}
+
+kernel vec4 linearGradient6Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+
+  return linearGradient(6, colors, stops, start, end);
+}
+
+kernel vec4 linearGradient7Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+
+  return linearGradient(7, colors, stops, start, end);
+}
+
+kernel vec4 linearGradient8Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  __color color7,
+  float stop7,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+  colors[7] = color7;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+  stops[7] = stop7;
+
+  return linearGradient(8, colors, stops, start, end);
+}
+
+kernel vec4 linearGradient9Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  __color color7,
+  float stop7,
+  __color color8,
+  float stop8,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+  colors[7] = color7;
+  colors[8] = color8;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+  stops[7] = stop7;
+  stops[8] = stop8;
+
+  return linearGradient(9, colors, stops, start, end);
+}
+
+kernel vec4 linearGradient10Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  __color color7,
+  float stop7,
+  __color color8,
+  float stop8,
+  __color color9,
+  float stop9,
+  vec2 start,
+  vec2 end
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+  colors[7] = color7;
+  colors[8] = color8;
+  colors[9] = color9;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+  stops[7] = stop7;
+  stops[8] = stop8;
+  stops[9] = stop9;
+
+  return linearGradient(10, colors, stops, start, end);
 }

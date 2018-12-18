@@ -1,5 +1,8 @@
 #import "IFKGradient.h"
 #import "IFKFilterConstructor.h"
+#import <React/RCTAssert.h>
+
+static CGFloat defaultStops[5] = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
 
 @implementation IFKGradient
   
@@ -23,60 +26,32 @@
                                                 error:nil];
   return [CIKernel kernelsWithString:code];
 }
-  
-- (NSNumber *)inputAmount
+
+- (NSArray<CIColor *> *)inputColors
 {
-  return _inputAmount ?: @(5);
+  return _inputColors ?: @[[CIColor yellowColor],
+                           [CIColor blueColor],
+                           [CIColor greenColor],
+                           [CIColor redColor],
+                           [CIColor cyanColor]];
 }
 
-- (CIColor *)inputColor0
+- (CIVector *)inputStops
 {
-  return _inputColor0 ?: [CIColor yellowColor];
+  return _inputStops ?: [CIVector vectorWithValues:defaultStops count:5];
 }
 
-- (CIColor *)inputColor1
+- (int)inputAmount
 {
-  return _inputColor1 ?: [CIColor blueColor];
+  return MIN((int)[self.inputColors count], (int)[self.inputStops count]);
 }
 
-- (CIColor *)inputColor2
++ (void)assertMaxColors:(Class)gradientClass inputAmount:(int)inputAmount
 {
-  return _inputColor2 ?: [CIColor greenColor];
-}
-
-- (CIColor *)inputColor3
-{
-  return _inputColor3 ?: [CIColor redColor];
-}
-
-- (CIColor *)inputColor4
-{
-  return _inputColor4 ?: [CIColor cyanColor];
-}
-
-- (NSNumber *)inputStop0
-{
-  return _inputStop0 ?: @(0.0);
-}
-
-- (NSNumber *)inputStop1
-{
-  return _inputStop1 ?: @(0.25);
-}
-
-- (NSNumber *)inputStop2
-{
-  return _inputStop2 ?: @(0.5);
-}
-
-- (NSNumber *)inputStop3
-{
-  return _inputStop3 ?: @(0.75);
-}
-
-- (NSNumber *)inputStop4
-{
-  return _inputStop4 ?: @(1.0);
+  RCTAssert(inputAmount > 0 && inputAmount <= 10,
+            @"ImageFilterKit: %@ takes only up to 10 colors, submitted %i colors.",
+            NSStringFromClass(gradientClass),
+            inputAmount);
 }
 
 @end

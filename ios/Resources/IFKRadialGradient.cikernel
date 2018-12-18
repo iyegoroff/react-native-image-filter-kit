@@ -1,7 +1,9 @@
+#define MAX_COLORS 10
+
 vec4 radialGradient(
   int amount,
-  vec4 colors[5],
-  float stops[5],
+  vec4 colors[MAX_COLORS],
+  float stops[MAX_COLORS],
   vec2 center,
   float radius
 ) {
@@ -17,33 +19,33 @@ vec4 radialGradient(
 }
 
 kernel vec4 radialGradient1Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
   vec2 center,
   float radius
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
 
   return radialGradient(1, colors, stops, center, radius);
 }
 
 kernel vec4 radialGradient2Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
   vec2 center,
   float radius
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
 
@@ -51,21 +53,21 @@ kernel vec4 radialGradient2Kernel(
 }
 
 kernel vec4 radialGradient3Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
-  vec4 color2,
+  __color color2,
   float stop2,
   vec2 center,
   float radius
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
   colors[2] = color2;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
   stops[2] = stop2;
@@ -74,24 +76,24 @@ kernel vec4 radialGradient3Kernel(
 }
 
 kernel vec4 radialGradient4Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
-  vec4 color2,
+  __color color2,
   float stop2,
-  vec4 color3,
+  __color color3,
   float stop3,
   vec2 center,
   float radius
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
   colors[2] = color2;
   colors[3] = color3;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
   stops[2] = stop2;
@@ -101,27 +103,27 @@ kernel vec4 radialGradient4Kernel(
 }
 
 kernel vec4 radialGradient5Kernel(
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
-  vec4 color2,
+  __color color2,
   float stop2,
-  vec4 color3,
+  __color color3,
   float stop3,
-  vec4 color4,
+  __color color4,
   float stop4,
   vec2 center,
   float radius
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
   colors[2] = color2;
   colors[3] = color3;
   colors[4] = color4;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
   stops[2] = stop2;
@@ -129,4 +131,219 @@ kernel vec4 radialGradient5Kernel(
   stops[4] = stop4;
 
   return radialGradient(5, colors, stops, center, radius);
+}
+
+kernel vec4 radialGradient6Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  vec2 center,
+  float radius
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+
+  return radialGradient(6, colors, stops, center, radius);
+}
+
+kernel vec4 radialGradient7Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  vec2 center,
+  float radius
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+
+  return radialGradient(7, colors, stops, center, radius);
+}
+
+kernel vec4 radialGradient8Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  __color color7,
+  float stop7,
+  vec2 center,
+  float radius
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+  colors[7] = color7;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+  stops[7] = stop7;
+
+  return radialGradient(8, colors, stops, center, radius);
+}
+
+kernel vec4 radialGradient9Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  __color color7,
+  float stop7,
+  __color color8,
+  float stop8,
+  vec2 center,
+  float radius
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+  colors[7] = color7;
+  colors[8] = color8;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+  stops[7] = stop7;
+  stops[8] = stop8;
+
+  return radialGradient(9, colors, stops, center, radius);
+}
+
+kernel vec4 radialGradient10Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  __color color7,
+  float stop7,
+  __color color8,
+  float stop8,
+  __color color9,
+  float stop9,
+  vec2 center,
+  float radius
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+  colors[7] = color7;
+  colors[8] = color8;
+  colors[9] = color9;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+  stops[7] = stop7;
+  stops[8] = stop8;
+  stops[9] = stop9;
+
+  return radialGradient(10, colors, stops, center, radius);
 }

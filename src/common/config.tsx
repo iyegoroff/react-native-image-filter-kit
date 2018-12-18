@@ -17,6 +17,7 @@ import { ShapeRegistry } from './shape-registry'
 import { id } from './util'
 import { Config } from './configs'
 import { swapComposition } from './swap-composition'
+import { ImagePlaceholder } from './image-placeholder'
 
 const mainImageName = Platform.OS === 'android' ? 'image' : 'generatedImage'
 
@@ -173,7 +174,7 @@ export const extractConfigAndImages = (filterProps: Config) => {
           } else if (inputType === placeholder) {
             const idx = images.length
 
-            images.push(inputValue)
+            images.push(inputValue || <ImagePlaceholder key={`ifk_placeholder_${idx}`} />)
 
             acc[mainImageName] = idx
           } else if (inputValue !== undefined) {

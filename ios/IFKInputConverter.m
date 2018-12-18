@@ -1,4 +1,5 @@
 #import "IFKInputConverter.h"
+#import "NSArray+FilterMapReduce.h"
 
 @implementation IFKInputConverter
 
@@ -15,7 +16,8 @@
           self convertISOLatin1EncodedText:any defaultValue:(id)[
           self convertArea:any bounds:bounds defaultValue:(id)[
           self convertText:any defaultValue:(id)[
-          self convertBoolean:any defaultValue:nil]]]]]]]]]]]];
+          self convertBoolean:any defaultValue:(id)[
+          self convertColorVector:any defaultValue:nil]]]]]]]]]]]]];
 }
 
 + (nullable UIImage *)convertImage:(nullable NSDictionary *)image
@@ -40,13 +42,7 @@
                       defaultValue:(nullable CIColor *)defaultValue
 {
   if (color != nil && [color objectForKey:@"color"]) {
-    NSUInteger value = [((NSNumber *)[color objectForKey:@"color"]) unsignedIntegerValue];
-    CGFloat alpha = ((value >> 24) & 0xFF) / 255.0;
-    CGFloat red = ((value >> 16) & 0xFF) / 255.0;
-    CGFloat green = ((value >> 8) & 0xFF) / 255.0;
-    CGFloat blue = (value & 0xFF) / 255.0;
-    
-    return [CIColor colorWithRed:red green:green blue:blue alpha:alpha];
+    return [self color:[((NSNumber *)[color objectForKey:@"color"]) unsignedIntegerValue]];
   }
   
   return defaultValue;
@@ -103,6 +99,18 @@
     }
     
     return [CIVector vectorWithValues:v count:vector.count];
+  }
+  
+  return defaultValue;
+}
+
++ (nullable NSArray<CIColor *> *)convertColorVector:(nullable NSDictionary *)colorVector
+                                       defaultValue:(nullable NSArray<CIColor *> *)defaultValue
+{
+  if (colorVector != nil && [colorVector objectForKey:@"colorVector"]) {
+    return [[colorVector objectForKey:@"colorVector"] map:^id(NSNumber *val, int idx) {
+      return [self color:[val unsignedIntegerValue]];
+    }];
   }
   
   return defaultValue;
@@ -241,6 +249,14 @@
   }
   
   return defaultValue;
+}
+
++ (CIColor *)color:(NSUInteger)color
+{
+  return [CIColor colorWithRed:((color >> 16) & 0xFF) / 255.0
+                         green:((color >> 8) & 0xFF) / 255.0
+                          blue:(color & 0xFF) / 255.0
+                         alpha:((color >> 24) & 0xFF) / 255.0];
 }
 
 @end

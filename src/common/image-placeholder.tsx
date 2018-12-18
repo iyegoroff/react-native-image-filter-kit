@@ -18,15 +18,15 @@ const defaultStyle = {
 }
 
 export const ImagePlaceholder = ({ style, ...props }: Omit<ImageProps, 'source'>) => (
-  <Image {...props} source={imagePlaceholderSource} style={style || defaultStyle}/>
+  <Image {...props} source={imagePlaceholderSource} style={[defaultStyle, style]} />
 )
 
 export const ImageBackgroundPlaceholder = (
   { style, ...props }: Omit<ImageBackgroundProps, 'source'>
 ) => (
-  <ImageBackground {...props} source={imagePlaceholderSource} style={style || defaultStyle}/>
+  <ImageBackground {...props} source={imagePlaceholderSource} style={[defaultStyle, style]} />
 )
 
 export const ImageTransparentPlaceholder = ({ style, ...props }: Omit<ImageProps, 'source'>) => (
-  <Image {...props} source={transparentPlaceholderSource} style={style || defaultStyle} />
+  <Image {...props} source={transparentPlaceholderSource} style={[defaultStyle, style]} />
 )

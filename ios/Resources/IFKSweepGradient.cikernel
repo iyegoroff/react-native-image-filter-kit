@@ -1,15 +1,15 @@
 #define PI 3.14159265358979323846264
+#define MAX_COLORS 10
 
 vec4 sweepGradient( 
-  vec4 inputExtent,
   int amount,
-  vec4 colors[5],
-  float stops[5],
+  vec4 colors[MAX_COLORS],
+  float stops[MAX_COLORS],
   vec2 center
 ) {
   vec2 fragCoord = destCoord();
 
-  float t = (atan(inputExtent.z - fragCoord.y - center.x, inputExtent.w - fragCoord.x - center.y) + PI) / (2.0 * PI);
+  float t = (atan(-fragCoord.y + center.y, -fragCoord.x + center.x) + PI) / (2.0 * PI) ;
 
   vec4 color = colors[0];
   for (int i = 1; i < amount; i++) {
@@ -19,116 +19,321 @@ vec4 sweepGradient(
 }
 
 kernel vec4 sweepGradient1Kernel(
-  vec4 inputExtent,
-  vec4 color0,
+  __color color0,
   float stop0,
   vec2 center
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
 
-  return sweepGradient(inputExtent, 1, colors, stops, center);
+  return sweepGradient(1, colors, stops, center);
 }
 
 kernel vec4 sweepGradient2Kernel(
-  vec4 inputExtent,
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
   vec2 center
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
 
-  return sweepGradient(inputExtent, 2, colors, stops, center);
+  return sweepGradient(2, colors, stops, center);
 }
 
 kernel vec4 sweepGradient3Kernel(
-  vec4 inputExtent,
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
-  vec4 color2,
+  __color color2,
   float stop2,
   vec2 center
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
   colors[2] = color2;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
   stops[2] = stop2;
 
-  return sweepGradient(inputExtent, 3, colors, stops, center);
+  return sweepGradient(3, colors, stops, center);
 }
 
 kernel vec4 sweepGradient4Kernel(
-  vec4 inputExtent,
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
-  vec4 color2,
+  __color color2,
   float stop2,
-  vec4 color3,
+  __color color3,
   float stop3,
   vec2 center
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
   colors[2] = color2;
   colors[3] = color3;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
   stops[2] = stop2;
   stops[3] = stop3;
 
-  return sweepGradient(inputExtent, 4, colors, stops, center);
+  return sweepGradient(4, colors, stops, center);
 }
 
 kernel vec4 sweepGradient5Kernel(
-  vec4 inputExtent,
-  vec4 color0,
+  __color color0,
   float stop0,
-  vec4 color1,
+  __color color1,
   float stop1,
-  vec4 color2,
+  __color color2,
   float stop2,
-  vec4 color3,
+  __color color3,
   float stop3,
-  vec4 color4,
+  __color color4,
   float stop4,
   vec2 center
 ) {
-  vec4 colors[5];
+  vec4 colors[MAX_COLORS];
   colors[0] = color0;
   colors[1] = color1;
   colors[2] = color2;
   colors[3] = color3;
   colors[4] = color4;
 
-  float stops[5];
+  float stops[MAX_COLORS];
   stops[0] = stop0;
   stops[1] = stop1;
   stops[2] = stop2;
   stops[3] = stop3;
   stops[4] = stop4;
 
-  return sweepGradient(inputExtent, 5, colors, stops, center);
+  return sweepGradient(5, colors, stops, center);
+}
+
+kernel vec4 sweepGradient6Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  vec2 center
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+
+  return sweepGradient(6, colors, stops, center);
+}
+
+kernel vec4 sweepGradient7Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  vec2 center
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+
+  return sweepGradient(7, colors, stops, center);
+}
+
+kernel vec4 sweepGradient8Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  __color color7,
+  float stop7,
+  vec2 center
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+  colors[7] = color7;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+  stops[7] = stop7;
+
+  return sweepGradient(8, colors, stops, center);
+}
+
+kernel vec4 sweepGradient9Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  __color color7,
+  float stop7,
+  __color color8,
+  float stop8,
+  vec2 center
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+  colors[7] = color7;
+  colors[8] = color8;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+  stops[7] = stop7;
+  stops[8] = stop8;
+
+  return sweepGradient(9, colors, stops, center);
+}
+
+kernel vec4 sweepGradient10Kernel(
+  __color color0,
+  float stop0,
+  __color color1,
+  float stop1,
+  __color color2,
+  float stop2,
+  __color color3,
+  float stop3,
+  __color color4,
+  float stop4,
+  __color color5,
+  float stop5,
+  __color color6,
+  float stop6,
+  __color color7,
+  float stop7,
+  __color color8,
+  float stop8,
+  __color color9,
+  float stop9,
+  vec2 center
+) {
+  vec4 colors[MAX_COLORS];
+  colors[0] = color0;
+  colors[1] = color1;
+  colors[2] = color2;
+  colors[3] = color3;
+  colors[4] = color4;
+  colors[5] = color5;
+  colors[6] = color6;
+  colors[7] = color7;
+  colors[8] = color8;
+  colors[9] = color9;
+
+  float stops[MAX_COLORS];
+  stops[0] = stop0;
+  stops[1] = stop1;
+  stops[2] = stop2;
+  stops[3] = stop3;
+  stops[4] = stop4;
+  stops[5] = stop5;
+  stops[6] = stop6;
+  stops[7] = stop7;
+  stops[8] = stop8;
+  stops[9] = stop9;
+
+  return sweepGradient(10, colors, stops, center);
 }

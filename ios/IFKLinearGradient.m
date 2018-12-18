@@ -1,5 +1,4 @@
 #import "IFKLinearGradient.h"
-#import <React/RCTAssert.h>
 
 @implementation IFKLinearGradient
   
@@ -47,59 +46,21 @@
   if (self.inputExtent == nil) {
     return nil;
   }
-
-  int inputAmount = [self.inputAmount intValue];
   
-  RCTAssert(inputAmount > 0 && inputAmount <= 5,
-            @"ImageFilterKit: IFKLinearGradient takes only up to 5 colors, submitted %i colors.",
-            inputAmount);
+  int inputAmount = [self inputAmount];
+  
+  [IFKGradient assertMaxColors:[IFKLinearGradient class] inputAmount:inputAmount];
   
   CIKernel *kernel = [IFKLinearGradient filterKernel:inputAmount];
+  NSMutableArray *args = [NSMutableArray array];
   
-  NSArray *args = inputAmount == 1
-    ? @[self.inputColor0,
-        self.inputStop0,
-        self.inputStart,
-        self.inputEnd]
-    : inputAmount == 2
-    ? @[self.inputColor0,
-        self.inputStop0,
-        self.inputColor1,
-        self.inputStop1,
-        self.inputStart,
-        self.inputEnd]
-    : inputAmount == 3
-    ? @[self.inputColor0,
-        self.inputStop0,
-        self.inputColor1,
-        self.inputStop1,
-        self.inputColor2,
-        self.inputStop2,
-        self.inputStart,
-        self.inputEnd]
-    : inputAmount == 4
-    ? @[self.inputColor0,
-        self.inputStop0,
-        self.inputColor1,
-        self.inputStop1,
-        self.inputColor2,
-        self.inputStop2,
-        self.inputColor3,
-        self.inputStop3,
-        self.inputStart,
-        self.inputEnd]
-    : @[self.inputColor0,
-        self.inputStop0,
-        self.inputColor1,
-        self.inputStop1,
-        self.inputColor2,
-        self.inputStop2,
-        self.inputColor3,
-        self.inputStop3,
-        self.inputColor4,
-        self.inputStop4,
-        self.inputStart,
-        self.inputEnd];
+  for (int i = 0; i < inputAmount; i++) {
+    [args addObject:self.inputColors[i]];
+    [args addObject:@([self.inputStops valueAtIndex:i])];
+  }
+  
+  [args addObject:self.inputStart];
+  [args addObject:self.inputEnd];
   
   return [kernel applyWithExtent:[self.inputExtent CGRectValue]
                      roiCallback:^CGRect(int index, CGRect destRect) {

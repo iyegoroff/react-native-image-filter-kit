@@ -24,6 +24,9 @@
 + (nullable CIVector *)convertScalarVector:(nullable NSDictionary *)scalarVector
                               defaultValue:(nullable CIVector *)defaultValue;
 
++ (nullable NSArray<CIColor *> *)convertColorVector:(nullable NSDictionary *)colorVector
+                                       defaultValue:(nullable NSArray<CIColor *> *)defaultValue;
+
 + (nullable CIVector *)convertOffset:(nullable NSDictionary *)offset
                         defaultValue:(nullable CIVector *)defaultValue;
 

@@ -1,5 +1,4 @@
 #import "IFKRadialGradient.h"
-#import <React/RCTAssert.h>
 
 @implementation IFKRadialGradient
   
@@ -46,58 +45,22 @@
     return nil;
   }
   
-  int inputAmount = [self.inputAmount intValue];
+  int inputAmount = [self inputAmount];
   
-  RCTAssert(inputAmount > 0 && inputAmount <= 5,
-            @"ImageFilterKit: IFKRadialGradient takes only up to 5 colors, submitted %i colors.",
-            inputAmount);
+  [IFKGradient assertMaxColors:[IFKRadialGradient class] inputAmount:inputAmount];
   
   CIKernel *kernel = [IFKRadialGradient filterKernel:inputAmount];
+  NSMutableArray *args = [NSMutableArray array];
   
-  NSArray *args = inputAmount == 1
-    ? @[self.inputColor0,
-        self.inputStop0,
-        self.inputCenter,
-        self.inputRadius]
-    : inputAmount == 2
-    ? @[self.inputColor0,
-        self.inputStop0,
-        self.inputColor1,
-        self.inputStop1,
-        self.inputCenter,
-        self.inputRadius]
-    : inputAmount == 3
-    ? @[self.inputColor0,
-        self.inputStop0,
-        self.inputColor1,
-        self.inputStop1,
-        self.inputColor2,
-        self.inputStop2,
-        self.inputCenter,
-        self.inputRadius]
-    : inputAmount == 4
-    ? @[self.inputColor0,
-        self.inputStop0,
-        self.inputColor1,
-        self.inputStop1,
-        self.inputColor2,
-        self.inputStop2,
-        self.inputColor3,
-        self.inputStop3,
-        self.inputCenter,
-        self.inputRadius]
-    : @[self.inputColor0,
-        self.inputStop0,
-        self.inputColor1,
-        self.inputStop1,
-        self.inputColor2,
-        self.inputStop2,
-        self.inputColor3,
-        self.inputStop3,
-        self.inputColor4,
-        self.inputStop4,
-        self.inputCenter,
-        self.inputRadius];
+  for (int i = 0; i < inputAmount; i++) {
+    [args addObject:self.inputColors[i]];
+    [args addObject:@([self.inputStops valueAtIndex:i])];
+  }
+  
+  [args addObject:self.inputCenter];
+  [args addObject:self.inputRadius];
+  
+  NSLog(@"filter: %@", args);
   
   return [kernel applyWithExtent:[self.inputExtent CGRectValue]
                      roiCallback:^CGRect(int index, CGRect destRect) {
