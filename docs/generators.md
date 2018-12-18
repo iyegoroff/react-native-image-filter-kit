@@ -17,8 +17,8 @@
     <th>desc</th>
   </tr>
   <tr>
-    <td>imageStyle</td>
-    <td>ImageStyle</td>
+    <td>placeholder</td>
+    <td><a href="types.md#ImagePlaceholder">ImagePlaceholder</a>&nbsp;|&nbsp;<a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
     <td>-</td>
     <td><strong>required</strong> unless used inside <a href="blend_filters.md">blend</a> or <a href="composition_filters.md">composition</a> filter with <code>resizeCanvasTo</code> prop pointing to another image</td>
   </tr>
@@ -42,8 +42,8 @@
     <th>desc</th>
   </tr>
   <tr>
-    <td>imageStyle</td>
-    <td>ImageStyle</td>
+    <td>placeholder</td>
+    <td><a href="types.md#ImagePlaceholder">ImagePlaceholder</a>&nbsp;|&nbsp;<a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
     <td>-</td>
     <td><strong>required</strong> unless used inside <a href="blend_filters.md">blend</a> or <a href="composition_filters.md">composition</a> filter with <code>resizeCanvasTo</code> prop pointing to another image</td>
   </tr>
@@ -85,8 +85,8 @@
     <th>desc</th>
   </tr>
   <tr>
-    <td>imageStyle</td>
-    <td>ImageStyle</td>
+    <td>placeholder</td>
+    <td><a href="types.md#ImagePlaceholder">ImagePlaceholder</a>&nbsp;|&nbsp;<a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
     <td>-</td>
     <td><strong>required</strong> unless used inside <a href="blend_filters.md">blend</a> or <a href="composition_filters.md">composition</a> filter with <code>resizeCanvasTo</code> prop pointing to another image</td>
   </tr>
@@ -128,8 +128,8 @@
     <th>desc</th>
   </tr>
   <tr>
-    <td>imageStyle</td>
-    <td>ImageStyle</td>
+    <td>placeholder</td>
+    <td><a href="types.md#ImagePlaceholder">ImagePlaceholder</a>&nbsp;|&nbsp;<a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
     <td>-</td>
     <td><strong>required</strong> unless used inside <a href="blend_filters.md">blend</a> or <a href="composition_filters.md">composition</a> filter with <code>resizeCanvasTo</code> prop pointing to another image</td>
   </tr>

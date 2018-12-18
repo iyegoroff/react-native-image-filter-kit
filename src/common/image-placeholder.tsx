@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, ImageProps } from 'react-native'
+import { Image, ImageProps, ImageBackgroundProps, ImageBackground } from 'react-native'
 import { Omit } from './util'
 
 export const imagePlaceholderSource = {
@@ -19,6 +19,12 @@ const defaultStyle = {
 
 export const ImagePlaceholder = ({ style, ...props }: Omit<ImageProps, 'source'>) => (
   <Image {...props} source={imagePlaceholderSource} style={style || defaultStyle}/>
+)
+
+export const ImageBackgroundPlaceholder = (
+  { style, ...props }: Omit<ImageBackgroundProps, 'source'>
+) => (
+  <ImageBackground {...props} source={imagePlaceholderSource} style={style || defaultStyle}/>
 )
 
 export const ImageTransparentPlaceholder = ({ style, ...props }: Omit<ImageProps, 'source'>) => (

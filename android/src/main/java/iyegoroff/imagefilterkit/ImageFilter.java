@@ -282,8 +282,6 @@ public class ImageFilter extends ReactViewGroup {
 
       if (child instanceof ReactImageView) {
         images.add((ReactImageView) child);
-      } else {
-        return new ArrayList<>();
       }
     }
 

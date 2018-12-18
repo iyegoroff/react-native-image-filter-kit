@@ -87,11 +87,23 @@ const result = (
 
 ***
 
+#### ImagePlaceholder
+
+`Image` with predefined `source` prop.
+
+***
+
+#### ImageBackgroundPlaceholder
+
+`ImageBackground` with predefined `source` prop.
+
+***
+
 #### Distance
 
 `number | RelativeUnit`
 
-`Distance` can be a `number` representing actual pixels or a [RelativeUnit](#RelativeUnit) representing a value that depends on the image size
+`Distance` can be a `number` representing actual pixels or a [RelativeUnit](#RelativeUnit) representing a value that depends on the image size.
 
 ***
 #### Position
@@ -103,7 +115,7 @@ const result = (
 
 `{ x: number; y: number }`
 
-`Offset` usually represents relative values, not actual pixels
+`Offset` usually represents relative values, not actual pixels.
 
 ***
 #### ResizeMode

@@ -1,4 +1,4 @@
-import { bool, image, resizeMode, color, imageStyle, offset, text } from './inputs'
+import { bool, image, resizeMode, color, placeholder, offset, text } from './inputs'
 
 export const Composition = {
   dstImage: image,
@@ -26,7 +26,7 @@ export const BlendColor = {
 }
 
 export const Generator = {
-  imageStyle: imageStyle,
+  placeholder: placeholder,
   disableCache: bool
 }
 

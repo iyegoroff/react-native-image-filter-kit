@@ -1,5 +1,5 @@
 import React from 'react'
-import { processColor, Platform } from 'react-native'
+import { processColor, Platform, ImageBackground, Image } from 'react-native'
 import invariant from 'invariant'
 import {
   distance,
@@ -7,14 +7,13 @@ import {
   color,
   colorVector,
   image,
-  imageStyle,
+  placeholder,
   Input,
   position,
   distanceVector,
   area
 } from './inputs'
 import { ShapeRegistry } from './shape-registry'
-import { ImagePlaceholder } from './image-placeholder'
 import { id } from './util'
 import { Config } from './configs'
 import { swapComposition } from './swap-composition'
@@ -79,8 +78,6 @@ const iosMatchMap: { [key: string]: string } = {
   inputTargetImage: dstImage
 }
 
-const defaultImageStyle = { width: '100%', height: '100%' }
-
 const requiredValueInvariant = (filterName: string, value: any, key: string) => {
   invariant(
     value !== undefined,
@@ -109,8 +106,8 @@ export const finalizeConfig = ({ name, ...values }: Config) => {
     name,
     ...(Object.keys(shape).reduce(
       (acc, k) => {
-        const inputType = shape[k] === imageStyle ? image : shape[k] as Input
-        const key = shape[k] === imageStyle ? mainImageName : k
+        const inputType = shape[k] === placeholder ? image : shape[k] as Input
+        const key = shape[k] === placeholder ? mainImageName : k
         const inputValue = values[key]
 
         if (inputValue !== undefined) {
@@ -173,15 +170,10 @@ export const extractConfigAndImages = (filterProps: Config) => {
             requiredValueInvariant(name, inputValue, key)
 
             acc[key] = parseFilter(inputValue)
-          } else if (inputType === imageStyle) {
+          } else if (inputType === placeholder) {
             const idx = images.length
 
-            images.push(
-              <ImagePlaceholder
-                style={inputValue || defaultImageStyle}
-                key={`image_placeholder_#${idx}`}
-              />
-            )
+            images.push(inputValue)
 
             acc[mainImageName] = idx
           } else if (inputValue !== undefined) {

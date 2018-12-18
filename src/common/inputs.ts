@@ -9,7 +9,7 @@ export const tileMode = 'tileMode'
 export const porterDuffMode = 'porterDuffMode'
 export const colorVector = 'colorVector'
 export const image = 'image'
-export const imageStyle = 'imageStyle'
+export const placeholder = 'placeholder'
 export const resizeMode = 'resizeMode'
 export const bool = 'bool'
 export const distanceVector = 'distanceVector'
@@ -30,7 +30,7 @@ export type Input =
   | typeof porterDuffMode
   | typeof colorVector
   | typeof image
-  | typeof imageStyle
+  | typeof placeholder
   | typeof resizeMode
   | typeof bool
   | typeof distanceVector

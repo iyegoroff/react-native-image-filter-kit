@@ -11,7 +11,7 @@ Various image filters for iOS & Android.
 
 - iOS & Android:
   - filter components work as combinable wrappers for standard `Image` component
-  - resulting images are being cached
+  - resulting images are being cached in memory
   - <strong>Minimum Android SDK version - 17</strong>
 - React-Native:
   - with rn >= 0.57.1 use latest version
@@ -146,6 +146,7 @@ const result = (
 ## Reference
 
 - [Types](docs/types.md)
+- [Functions](docs/functions.md)
 - [Color matrix filters](docs/color_matrix_filters.md)
 - [Blur filters](docs/blur_filters.md)
 - [Convolve matrix filters](docs/convolve_matrix_filters.md)
@@ -161,6 +162,7 @@ const result = (
 - When running on pre-Lollipop (SDK < 21) Android devices you may experience [TooManyBitmapsException](https://frescolib.org/javadoc/reference/com/facebook/imagepipeline/common/TooManyBitmapsException.html), which results in image is not being rendered (this can be logged with [onFilteringError](docs/types.md#ImageFilter) prop). It looks like this is a relatively rare case which arises on low-end devices when filtering wallpaper-sized images (like 1920 × 1080 pixels). The common workarounds are:
   - using smaller images
   - using [ColorMatrix](docs/color_matrix_filters.md#ColorMatrix) filter with [concatColorMatrices](docs/functions.md#concatColorMatrices) instead of wrapping the image with multiple color matrix based filters
+  - adding `android:largeHeap="true"` to `android/app/src/main/AndroidManifest.xml`
   - replacing standard `MainReactPackage` with [alternative](android/src/main/java/iyegoroff/imagefilterkit/MainReactPackageWithFrescoCache.java
 ) one provided by this module:
     ```diff
