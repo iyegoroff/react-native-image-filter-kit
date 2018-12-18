@@ -1,25 +1,22 @@
 import React from 'react'
-import { processColor, Platform, ImageBackground, Image } from 'react-native'
-import invariant from 'invariant'
+import { processColor, Platform } from 'react-native'
 import {
   distance,
   scalar,
   color,
   colorVector,
   image,
-  placeholder,
   Input,
   position,
   distanceVector,
-  area
+  area,
+  marker
 } from './inputs'
 import { ShapeRegistry } from './shape-registry'
 import { id } from './util'
 import { Config } from './configs'
 import { swapComposition } from './swap-composition'
 import { ImagePlaceholder } from './image-placeholder'
-
-const mainImageName = Platform.OS === 'android' ? 'image' : 'generatedImage'
 
 const anyToString = (n: unknown) => `${n}`
 const convertDistances = (distances: unknown[]) => distances.map(anyToString)
@@ -79,13 +76,6 @@ const iosMatchMap: { [key: string]: string } = {
   inputTargetImage: dstImage
 }
 
-const requiredValueInvariant = (filterName: string, value: any, key: string) => {
-  invariant(
-    value !== undefined,
-    `ImageFilterKit: ${filterName} filter should specify '${key}' value.`
-  )
-}
-
 const convertKey = Platform.select({
   android: id,
   ios: (key: string) => iosKeyConvertMap[key] || key
@@ -106,9 +96,8 @@ export const finalizeConfig = ({ name, ...values }: Config) => {
   return ({
     name,
     ...(Object.keys(shape).reduce(
-      (acc, k) => {
-        const inputType = shape[k] === placeholder ? image : shape[k] as Input
-        const key = shape[k] === placeholder ? mainImageName : k
+      (acc, key) => {
+        const inputType = shape[key] as Input
         const inputValue = values[key]
 
         if (inputValue !== undefined) {
@@ -168,15 +157,13 @@ export const extractConfigAndImages = (filterProps: Config) => {
           const inputValue = rest[key]
 
           if (inputType === image) {
-            requiredValueInvariant(name, inputValue, key)
+            acc[key] = parseFilter(
+              inputValue || <ImagePlaceholder key={`ifk_placeholder_${images.length}`} />
+            )
 
-            acc[key] = parseFilter(inputValue)
-          } else if (inputType === placeholder) {
-            const idx = images.length
+          } else if (inputType === marker) {
+            acc[key] = true
 
-            images.push(inputValue || <ImagePlaceholder key={`ifk_placeholder_${idx}`} />)
-
-            acc[mainImageName] = idx
           } else if (inputValue !== undefined) {
             acc[key] = inputValue
           }

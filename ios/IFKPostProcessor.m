@@ -14,6 +14,7 @@
 @property (nonatomic, strong) CIFilter *filter;
 @property (nonatomic, strong) NSDictionary *inputs;
 @property (nonatomic, assign) BOOL clampToExtent;
+@property (nonatomic, assign) BOOL isGenerator;
 
 @end
 
@@ -27,6 +28,7 @@
 
     _clampToExtent = [[IFKInputConverter convertBoolean:[_inputs objectForKey:@"clampToExtent"]
                                            defaultValue:@NO] boolValue];
+    _isGenerator = [[_inputs objectForKey:@"isGenerator"] objectForKey:@"marker"] != nil;
   }
   
   return self;
@@ -42,7 +44,6 @@
       @"disableCache",
       @"name",
       @"inputImage",
-      @"generatedImage",
       @"resizeCanvasTo",
       @"dstResizeMode",
       @"dstAnchor",
@@ -56,7 +57,7 @@
   });
 
   NSArray *names = [[_inputs allKeys] filter:^BOOL(NSString *val, int idx) {
-    return ![skippedInputs containsObject:val];
+    return ![skippedInputs containsObject:val] && ![_inputs[val] objectForKey:@"marker"];
   }];
   
   for (NSString *inputName in names) {
@@ -69,12 +70,9 @@
                   resizeMode:(RCTResizeMode)resizeMode
                    viewFrame:(CGRect)viewFrame
 {
-  if ([[_filter inputKeys] containsObject:@"inputImage"]) {
-    return [self processFilter:image resizeMode:resizeMode];
-    
-  } else {
-    return [self processGenerator:image resizeMode:resizeMode viewFrame:viewFrame];
-  }
+  return _isGenerator
+    ? [self processGenerator:image resizeMode:resizeMode viewFrame:viewFrame]
+    : [self processFilter:image resizeMode:resizeMode];
 }
 
 - (nonnull UIImage *)processFilter:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode

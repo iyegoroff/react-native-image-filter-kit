@@ -31,10 +31,6 @@
     return @"inputImage";
   }
   
-  if ([config objectForKey:@"generatedImage"] != nil) {
-    return @"generatedImage";
-  }
-  
   RCTAssert(false,
             @"ImageFilterKit: ConfigHelper - can't find any main image for %@ config",
             [IFKConfigHelper name:config]);

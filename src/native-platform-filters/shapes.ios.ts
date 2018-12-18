@@ -15,7 +15,7 @@ import {
   area,
   ISOLatin1EncodedText
 } from '../common/inputs'
-import { Generator, CommonIos as Common, BlendIos as Blend } from '../common/shapes'
+import { GeneratorIos as Generator, CommonIos as Common, BlendIos as Blend } from '../common/shapes'
 
 export const shapes = {
   ImageFilter: {

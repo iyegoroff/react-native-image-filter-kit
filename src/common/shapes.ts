@@ -1,4 +1,4 @@
-import { bool, image, resizeMode, color, placeholder, offset, text } from './inputs'
+import { bool, image, resizeMode, color, offset, text, marker } from './inputs'
 
 export const Composition = {
   dstImage: image,
@@ -26,8 +26,8 @@ export const BlendColor = {
 }
 
 export const Generator = {
-  placeholder: placeholder,
-  disableCache: bool
+  ...Common,
+  isGenerator: marker
 }
 
 export const BlendIos = {
@@ -49,4 +49,9 @@ export const CommonIos = {
   inputImage: image,
   clampToExtent: bool,
   disableCache: bool
+}
+
+export const GeneratorIos = {
+  ...CommonIos,
+  isGenerator: marker
 }

@@ -13,8 +13,8 @@ export const transparentPlaceholderSource = {
 }
 
 const defaultStyle = {
-  width: 1,
-  height: 1
+  width: '100%',
+  height: '100%'
 }
 
 export const ImagePlaceholder = ({ style, ...props }: Omit<ImageProps, 'source'>) => (

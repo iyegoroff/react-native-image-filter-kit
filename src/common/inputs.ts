@@ -9,7 +9,6 @@ export const tileMode = 'tileMode'
 export const porterDuffMode = 'porterDuffMode'
 export const colorVector = 'colorVector'
 export const image = 'image'
-export const placeholder = 'placeholder'
 export const resizeMode = 'resizeMode'
 export const bool = 'bool'
 export const distanceVector = 'distanceVector'
@@ -17,6 +16,7 @@ export const text = 'text'
 export const area = 'area'
 export const binaryData = 'binaryData'
 export const ISOLatin1EncodedText = 'ISOLatin1EncodedText'
+export const marker = 'marker'
 
 export type Input =
   | typeof config
@@ -30,7 +30,6 @@ export type Input =
   | typeof porterDuffMode
   | typeof colorVector
   | typeof image
-  | typeof placeholder
   | typeof resizeMode
   | typeof bool
   | typeof distanceVector
@@ -38,3 +37,4 @@ export type Input =
   | typeof area
   | typeof binaryData
   | typeof ISOLatin1EncodedText
+  | typeof marker

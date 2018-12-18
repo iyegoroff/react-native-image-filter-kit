@@ -1,5 +1,9 @@
 import invariant from 'invariant'
-import { LinearGradientGeneratorConfig, RadialGradientGeneratorConfig } from './shapes'
+import {
+  LinearGradientGeneratorConfig,
+  RadialGradientGeneratorConfig,
+  SweepGradientGeneratorConfig
+} from './shapes'
 import { isUnit, unitSupplement } from '../common/util'
 
 export const shapeTransforms = {
@@ -61,7 +65,7 @@ export const shapeTransforms = {
     stops = [0, 1],
     center = { x: '50w', y: '50h' },
     ...config
-  }: RadialGradientGeneratorConfig) => {
+  }: SweepGradientGeneratorConfig) => {
     invariant(
       isUnit(center.y),
       `ImageFilterKit: SweepGradientGenerator props 'center.y' should have measure unit.`

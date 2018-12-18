@@ -1,5 +1,5 @@
 import { scalar, color, position, distance, colorVector, scalarVector } from '../common/inputs'
-import { Generator, CommonIos as Common, BlendIos as Blend } from '../common/shapes'
+import { GeneratorIos as Generator, CommonIos as Common, BlendIos as Blend } from '../common/shapes'
 
 const Gradient = {
   inputColors: colorVector,

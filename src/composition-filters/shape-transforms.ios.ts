@@ -1,5 +1,3 @@
-import { transparentPlaceholderSource } from '../common/image-placeholder'
-
 interface Offset {
   readonly x?: number
   readonly y?: number
