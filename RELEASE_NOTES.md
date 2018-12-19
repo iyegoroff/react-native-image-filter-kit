@@ -1,0 +1,1 @@
+[release notes](https://github.com/iyegoroff/react-native-image-filter-kit/releases)
