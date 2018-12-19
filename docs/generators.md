@@ -171,7 +171,7 @@ Three options available:
     }
   />
   ```
-- when used inside [blend](blend_filters.md) or [composition](composition_filters.md) size can be specified by `resizeCanvasTo` prop
+- when used inside [blend](blend_filters.md) or [composition](composition_filters.md), size can be specified by `resizeCanvasTo` prop
   ```ts
   <PlusBlend
     resizeCanvasTo={'dstImage'}
