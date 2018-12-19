@@ -53,7 +53,7 @@
     <td>colors</td>
     <td>string[]</td>
     <td>['red',&nbsp;'blue']</td>
-    <td></td>
+    <td>up to 10 colors</td>
   </tr>
   <tr>
     <td>stops</td>
@@ -96,7 +96,7 @@
     <td>colors</td>
     <td>string[]</td>
     <td>['red',&nbsp;'blue']</td>
-    <td></td>
+    <td>up to 10 colors</td>
   </tr>
   <tr>
     <td>stops</td>
@@ -139,7 +139,7 @@
     <td>colors</td>
     <td>string[]</td>
     <td>['red',&nbsp;'blue']</td>
-    <td></td>
+    <td>up to 10 colors</td>
   </tr>
   <tr>
     <td>stops</td>
