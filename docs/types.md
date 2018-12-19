@@ -89,13 +89,13 @@ const result = (
 
 #### ImagePlaceholder
 
-`Image` with predefined `source` prop.
+`Image` with predefined `source` prop. Intended for use with [Generators](generators.md). Default `style` prop: `{ width: '100%', height: '100%' }`.
 
 ***
 
 #### ImageBackgroundPlaceholder
 
-`ImageBackground` with predefined `source` prop.
+`ImageBackground` with predefined `source` prop. Intended for use with [Generators](generators.md). Default `style` prop: `{ width: '100%', height: '100%' }`.
 
 ***
 

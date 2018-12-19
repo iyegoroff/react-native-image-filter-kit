@@ -20,9 +20,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>Image&nbsp;|&nbsp;<a href="types.md#ImageFilter">ImageFilter</a></td>
+    <td>ReactElement</td>
     <td>-</td>
-    <td><strong>required</strong></td>
+    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
   </tr>
   <tr>
     <td>matrix</td>
@@ -53,9 +53,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>Image&nbsp;|&nbsp;<a href="types.md#ImageFilter">ImageFilter</a></td>
+    <td>ReactElement</td>
     <td>-</td>
-    <td><strong>required</strong></td>
+    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
   </tr>
   <tr>
     <td>matrix</td>
@@ -88,9 +88,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>Image&nbsp;|&nbsp;<a href="types.md#ImageFilter">ImageFilter</a></td>
+    <td>ReactElement</td>
     <td>-</td>
-    <td><strong>required</strong></td>
+    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
   </tr>
 </table>
 
@@ -107,9 +107,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>Image&nbsp;|&nbsp;<a href="types.md#ImageFilter">ImageFilter</a></td>
+    <td>ReactElement</td>
     <td>-</td>
-    <td><strong>required</strong></td>
+    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
   </tr>
 </table>
 
@@ -126,9 +126,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>Image&nbsp;|&nbsp;<a href="types.md#ImageFilter">ImageFilter</a></td>
+    <td>ReactElement</td>
     <td>-</td>
-    <td><strong>required</strong></td>
+    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
   </tr>
 </table>
 
@@ -145,9 +145,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>Image&nbsp;|&nbsp;<a href="types.md#ImageFilter">ImageFilter</a></td>
+    <td>ReactElement</td>
     <td>-</td>
-    <td><strong>required</strong></td>
+    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
   </tr>
   <tr>
     <td>amount</td>

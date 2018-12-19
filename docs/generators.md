@@ -4,6 +4,8 @@
 - [LinearGradientGenerator](#LinearGradientGenerator)
 - [RadialGradientGenerator](#RadialGradientGenerator)
 - [SweepGradientGenerator](#SweepGradientGenerator)
+----
+- [Setting the size of generated image](#Setting-the-size-of-generated-image)
 
 ---
 
@@ -18,9 +20,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td><a href="types.md#ImagePlaceholder">ImagePlaceholder</a>&nbsp;|&nbsp;<a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
-    <td>-</td>
-    <td><strong>required</strong> unless used inside <a href="blend_filters.md">blend</a> or <a href="composition_filters.md">composition</a> filter with <code>resizeCanvasTo</code> prop pointing to another image</td>
+    <td>ReactElement</td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
   </tr>
   <tr>
     <td>color</td>
@@ -43,9 +45,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td><a href="types.md#ImagePlaceholder">ImagePlaceholder</a>&nbsp;|&nbsp;<a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
-    <td>-</td>
-    <td><strong>required</strong> unless used inside <a href="blend_filters.md">blend</a> or <a href="composition_filters.md">composition</a> filter with <code>resizeCanvasTo</code> prop pointing to another image</td>
+    <td>ReactElement</td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
   </tr>
   <tr>
     <td>colors</td>
@@ -86,9 +88,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td><a href="types.md#ImagePlaceholder">ImagePlaceholder</a>&nbsp;|&nbsp;<a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
-    <td>-</td>
-    <td><strong>required</strong> unless used inside <a href="blend_filters.md">blend</a> or <a href="composition_filters.md">composition</a> filter with <code>resizeCanvasTo</code> prop pointing to another image</td>
+    <td>ReactElement</td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
   </tr>
   <tr>
     <td>colors</td>
@@ -129,9 +131,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td><a href="types.md#ImagePlaceholder">ImagePlaceholder</a>&nbsp;|&nbsp;<a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
-    <td>-</td>
-    <td><strong>required</strong> unless used inside <a href="blend_filters.md">blend</a> or <a href="composition_filters.md">composition</a> filter with <code>resizeCanvasTo</code> prop pointing to another image</td>
+    <td>ReactElement</td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
   </tr>
   <tr>
     <td>colors</td>
@@ -152,3 +154,28 @@
     <td></td>
   </tr>
 </table>
+
+***
+
+## Setting the size of generated image
+Three options available:
+- setting the size via `style` prop
+  ```ts
+  <LinearGradientGenerator style={{ width: 320, height: 320 }} />
+  ```
+- setting the size directly for placeholder image
+  ```ts
+  <LinearGradientGenerator
+    image={
+      <ImageBackgroundPlaceholder style={{ width: 320, height: 320 }} />
+    }
+  />
+  ```
+- when used inside [blend](blend_filters.md) or [composition](composition_filters.md) size can be specified by `resizeCanvasTo` prop
+  ```ts
+  <PlusBlend
+    resizeCanvasTo={'dstImage'}
+    dstImage={<Image source={require('./parrot.png')} />}
+    srcImage={<LinearGradientGenerator />}
+  />
+  ```
