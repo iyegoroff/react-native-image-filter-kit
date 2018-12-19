@@ -179,7 +179,8 @@ const result = (
     +   private class MainReactPackage extends MainReactPackageWithFrescoCache {}
       ...
     ```
-    After this change `ImageFilter` will not throw `TooManyBitmapsException` immediately and will clear Fresco image caches, trim bitmap pool memory and try to filter the image again several times until succeed or reach the limit of retries, specified by [clearCachesMaxRetries](docs/types.md#ImageFilter) prop. 
+    After this change `ImageFilter` will not throw `TooManyBitmapsException` immediately and will clear Fresco image caches, trim bitmap pool memory and try to filter the image again several times until succeed or reach the limit of retries, specified by [clearCachesMaxRetries](docs/types.md#ImageFilter) prop.
+- Note to `react-native-asset` users - linking this module will break your `Copy Bundle Resources` build phase on iOS, because there is no way to run `react-native-asset` in [incremental/decremental mode](https://github.com/unimonkiez/react-native-asset/issues/10) currently. So you need to link manually [this module](docs/manual_installation.md) or your own resources without `react-native-asset` usage.
 
 ## Credits
 - CSSGram filters are taken from [cssgram](https://github.com/una/cssgram) project by @una

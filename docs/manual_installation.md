@@ -6,7 +6,8 @@
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `react-native-image-filter-kit` and add `RNImageFilterKit.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNImageFilterKit.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
+4. Linking `cikernel` resources: add resources from `node_modules/react-native-image-filter-kit/ios/Resources` to your project's `Build Phases` ➜ `Copy Bundle Resources`
+5. Run your project (`Cmd+R`)<
 
 #### Android
 
