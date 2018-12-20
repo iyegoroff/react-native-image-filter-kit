@@ -93,6 +93,8 @@ const result = (
 
 Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually this is just `Image`, `ImageBackground`, `ImagePlaceholder`, `ImageBackgroundPlaceholder`, `ImageFilter` or [Config](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/typings/index.d.ts#L124)
 
+***
+
 #### ImagePlaceholder
 
 `Image` with predefined `source` prop. Intended for use with [Generators](generators.md). Default `style` prop: `{ width: '100%', height: '100%' }`.
