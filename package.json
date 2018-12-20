@@ -6,6 +6,7 @@
   ],
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "name": "react-native-image-filter-kit",
   "author": "iyegoroff <iegoroff@gmail.com>",
   "bugs": {
@@ -51,9 +52,10 @@
     ]
   },
   "scripts": {
-    "build": "rm -rf dest && tsc -p ./src && :",
+    "build": "rm -rf dist && tsc -p ./src && :",
     "watch": "tsc -p ./src --watch",
-    "lint": "tslint --fix -p ./src && :"
+    "lint": "tslint --fix -p ./src && :",
+    "update:typings": "cp src/typings/index.d.ts dist/index.d.ts && :"
   },
   "husky": {
     "hooks": {
@@ -65,6 +67,7 @@
       "*.ts": [
         "npm run lint",
         "npm run build",
+        "npm run update:typings",
         "git add"
       ]
     },

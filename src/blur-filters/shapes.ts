@@ -1,14 +1,14 @@
-import { distance } from '../common/inputs'
+import { scalar } from '../common/inputs'
 import { Common } from '../common/shapes'
 
 export const shapes = {
   BoxBlur: {
-    radius: distance,
+    radius: scalar,
     ...Common
   },
 
   GaussianBlur: {
-    radius: distance,
+    radius: scalar,
     ...Common
   }
 }
