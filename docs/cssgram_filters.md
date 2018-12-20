@@ -38,7 +38,7 @@ All CSSGram filters have the same props
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
     <td><strong>required</strong></td>
   </tr>

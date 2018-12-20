@@ -20,7 +20,7 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
     <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
   </tr>
@@ -45,7 +45,7 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
     <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
   </tr>
@@ -88,7 +88,7 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
     <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
   </tr>
@@ -131,7 +131,7 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
     <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
   </tr>

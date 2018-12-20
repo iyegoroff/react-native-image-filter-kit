@@ -31,9 +31,9 @@ All image blends have the same props
   </tr>
   <tr>
     <td>dstImage</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>dstAnchor</td>
@@ -55,9 +55,9 @@ All image blends have the same props
   </tr>
   <tr>
     <td>srcImage</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>srcAnchor</td>
@@ -118,14 +118,14 @@ All color blends have the same props
   </tr>
   <tr>
     <td>dstImage</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>srcColor</td>
     <td>string</td>
     <td>-</td>
-    <td>color</td>
+    <td><strong>required</a></td>
   </tr>
 </table>

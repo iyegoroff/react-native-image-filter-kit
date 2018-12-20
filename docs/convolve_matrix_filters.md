@@ -20,18 +20,18 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>matrix</td>
     <td>number[]</td>
     <td>
 <pre>
-[0, 0, 0,
- 0, 1, 0,
- 0, 0, 0]
+[0,&nbsp;0,&nbsp;0,
+ 0,&nbsp;1,&nbsp;0,
+ 0,&nbsp;0,&nbsp;0]
 </pre>
     </td>
   <td>
@@ -53,20 +53,20 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>matrix</td>
     <td>number[]</td>
     <td>
 <pre>
-[0, 0, 0, 0, 0,
- 0, 0, 0, 0, 0,
- 0, 0, 1, 0, 0,
- 0, 0, 0, 0, 0,
- 0, 0, 0, 0, 0]
+[0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,
+ 0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,
+ 0,&nbsp;0,&nbsp;1,&nbsp;0,&nbsp;0,
+ 0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,
+ 0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0]
 </pre>
     </td>
     <td>
@@ -88,9 +88,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -107,9 +107,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -126,9 +126,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -145,9 +145,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>

@@ -16,9 +16,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>radius</td>
@@ -41,9 +41,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>radius</td>

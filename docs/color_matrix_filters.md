@@ -55,9 +55,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -80,9 +80,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -99,9 +99,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>matrix</td>
@@ -124,9 +124,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>desaturation</td>
@@ -144,13 +144,13 @@
     <td>lightColor</td>
     <td>string</td>
     <td>"#FFE580"</td>
-    <td>color</td>
+    <td></td>
   </tr>
   <tr>
     <td>darkColor</td>
     <td>string</td>
     <td>"#338000"</td>
-    <td>color</td>
+    <td></td>
   </tr>
 </table>
 
@@ -167,9 +167,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -192,9 +192,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -211,21 +211,21 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>firstColor</td>
     <td>string</td>
     <td>"#FFE580"</td>
-    <td>color</td>
+    <td></td>
   </tr>
   <tr>
     <td>secondColor</td>
     <td>string</td>
     <td>"#338000"</td>
-    <td>color</td>
+    <td></td>
   </tr>
 </table>
 
@@ -242,9 +242,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -267,9 +267,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -292,9 +292,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -311,9 +311,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -330,9 +330,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -349,9 +349,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -368,9 +368,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -393,9 +393,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -412,9 +412,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -431,9 +431,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -450,9 +450,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -475,9 +475,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>red</td>
@@ -518,9 +518,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -543,9 +543,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -568,9 +568,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -587,9 +587,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -612,9 +612,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -637,9 +637,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>amount</td>
@@ -662,9 +662,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -681,9 +681,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -700,9 +700,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -721,9 +721,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -740,9 +740,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -759,9 +759,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -778,9 +778,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -797,9 +797,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -816,9 +816,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -835,9 +835,9 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 
@@ -854,8 +854,8 @@
   </tr>
   <tr>
     <td>image</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
 </table>

@@ -25,9 +25,9 @@ All composition filters have the same props
   </tr>
   <tr>
     <td>dstImage</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>dstAnchor</td>
@@ -49,9 +49,9 @@ All composition filters have the same props
   </tr>
   <tr>
     <td>srcImage</td>
-    <td>ReactElement</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
     <td>-</td>
-    <td><strong>required</strong>, usually <code>Image</code> or <code>ImageBackground</code></td>
+    <td><strong>required</strong></td>
   </tr>
   <tr>
     <td>srcAnchor</td>
