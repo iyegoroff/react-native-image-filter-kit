@@ -7,7 +7,7 @@ export function registerFilter<Config>(
 ): React.FC<ViewProps & Config>
 ```
 
-Should be used to create custom filters.
+Should be used to create [custom filters](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/examples/CustomFilter/App.tsx).
 
 #### rgbaToRgb
 ```ts
