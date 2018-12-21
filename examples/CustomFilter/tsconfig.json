@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "baseUrl": ".",
+    "target": "es6",
+    "strict": true,
+    "outDir": "build",
+    "jsx": "react-native",
+    "lib": ["es6"],
+    "moduleResolution": "node"
+  }
+}
