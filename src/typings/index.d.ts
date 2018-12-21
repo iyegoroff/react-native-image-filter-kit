@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'
 import { Matrix } from 'rn-color-matrices'
 import { ViewProps, NativeSyntheticEvent, ImageProps, ImageBackgroundProps } from 'react-native'
 
@@ -117,11 +117,11 @@ interface SweepGradientGeneratorConfig extends GradientGeneratorConfig {
   readonly center?: Position
 }
 
-interface ColorGeneratorConfig extends CommonConfig {
+interface ColorGeneratorConfig {
   readonly color: string
 }
 
-type Config =
+export type Config =
   | { name: 'ColorMatrix' } & ColorMatrixConfig
   | { name: 'Normal' } & CommonConfig
   | { name: 'RGBA' } & RGBAConfig
@@ -273,153 +273,153 @@ type ImageFilterProps<Rest> = ViewProps & Rest & {
   readonly clearCachesMaxRetries?: number
 }
 
-export class ImageFilter extends React.Component<ImageFilterProps<{ readonly config: Config }>> { }
-export class ColorMatrix extends React.Component<ImageFilterProps<ColorMatrixConfig>> { }
-export class Normal extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class RGBA extends React.Component<ImageFilterProps<RGBAConfig>> { }
-export class Saturate extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class HueRotate extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class LuminanceToAlpha extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Invert extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Grayscale extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class Sepia extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class Nightvision extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Warm extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Cool extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Brightness extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class Contrast extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class Temperature extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class Tint extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class Threshold extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class Technicolor extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Polaroid extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class ToBGR extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Kodachrome extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Browni extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Vintage extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Night extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class Predator extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class Lsd extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class ColorTone extends React.Component<ImageFilterProps<ColorToneConfig>> { }
-export class DuoTone extends React.Component<ImageFilterProps<DuoToneConfig>> { }
-export class Protanomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Deuteranomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Tritanomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Protanopia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Deuteranopia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Tritanopia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Achromatopsia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Achromatomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class ConvolveMatrix3x3 extends React.Component<ImageFilterProps<ConvolveMatrix3x3Config>> { }
-export class ConvolveMatrix5x5 extends React.Component<ImageFilterProps<ConvolveMatrix5x5Config>> { }
-export class Sharpen extends React.Component<ImageFilterProps<AmountConfig>> { }
-export class EdgeDetection extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Emboss extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class FuzzyGlass extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class BoxBlur extends React.Component<ImageFilterProps<BlurConfig>> { }
-export class GaussianBlur extends React.Component<ImageFilterProps<BlurConfig>> { }
-export class PlusBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class DarkenBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class LightenBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class ModulateBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class OverlayBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class ScreenBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class ColorDodgeBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class ExclusionBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class ColorBurnBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class SoftLightBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class HueBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class ColorBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class SaturationBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class LuminosityBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class DifferenceBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class HardLightBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class MultiplyBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class PlusBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class DarkenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class LightenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class ModulateBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class OverlayBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class ScreenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class ColorDodgeBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class ExclusionBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class ColorBurnBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class SoftLightBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class HueBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class ColorBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class SaturationBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class LuminosityBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class DifferenceBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class HardLightBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class MultiplyBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export class DstATopComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class DstInComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class DstOutComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class DstOverComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class SrcATopComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class SrcInComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class SrcOutComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class SrcOverComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class XorComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export class _1977 extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Aden extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Brannan extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Brooklyn extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Clarendon extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Earlybird extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Gingham extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Hudson extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Inkwell extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Kelvin extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Lark extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Lofi extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Maven extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Mayfair extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Moon extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Nashville extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Perpetua extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Reyes extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Rise extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Slumber extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Stinson extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Toaster extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Valencia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Walden extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Willow extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Xpro2 extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class _1977Compat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class AdenCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class BrannanCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class BrooklynCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class ClarendonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class EarlybirdCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class GinghamCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class HudsonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class InkwellCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class KelvinCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class LarkCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class LofiCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class MavenCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class MayfairCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class MoonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class NashvilleCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class PerpetuaCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class ReyesCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class RiseCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class SlumberCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class StinsonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class ToasterCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class ValenciaCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class WaldenCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class WillowCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class Xpro2Compat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export class ColorGenerator extends React.Component<ImageFilterProps<ColorGeneratorConfig>> { }
-export class LinearGradientGenerator extends React.Component<ImageFilterProps<LinearGradientGeneratorConfig>> { }
-export class RadialGradientGenerator extends React.Component<ImageFilterProps<RadialGradientGeneratorConfig>> { }
-export class SweepGradientGenerator extends React.Component<ImageFilterProps<SweepGradientGeneratorConfig>> { }
+export declare class ImageFilter extends React.Component<ImageFilterProps<{ readonly config: Config }>> { }
+export declare class ColorMatrix extends React.Component<ImageFilterProps<ColorMatrixConfig>> { }
+export declare class Normal extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class RGBA extends React.Component<ImageFilterProps<RGBAConfig>> { }
+export declare class Saturate extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class HueRotate extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class LuminanceToAlpha extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Invert extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Grayscale extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class Sepia extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class Nightvision extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Warm extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Cool extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Brightness extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class Contrast extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class Temperature extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class Tint extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class Threshold extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class Technicolor extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Polaroid extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class ToBGR extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Kodachrome extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Browni extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Vintage extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Night extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class Predator extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class Lsd extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class ColorTone extends React.Component<ImageFilterProps<ColorToneConfig>> { }
+export declare class DuoTone extends React.Component<ImageFilterProps<DuoToneConfig>> { }
+export declare class Protanomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Deuteranomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Tritanomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Protanopia extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Deuteranopia extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Tritanopia extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Achromatopsia extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Achromatomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class ConvolveMatrix3x3 extends React.Component<ImageFilterProps<ConvolveMatrix3x3Config>> { }
+export declare class ConvolveMatrix5x5 extends React.Component<ImageFilterProps<ConvolveMatrix5x5Config>> { }
+export declare class Sharpen extends React.Component<ImageFilterProps<AmountConfig>> { }
+export declare class EdgeDetection extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Emboss extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class FuzzyGlass extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class BoxBlur extends React.Component<ImageFilterProps<BlurConfig>> { }
+export declare class GaussianBlur extends React.Component<ImageFilterProps<BlurConfig>> { }
+export declare class PlusBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class DarkenBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class LightenBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class ModulateBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class OverlayBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class ScreenBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class ColorDodgeBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class ExclusionBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class ColorBurnBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class SoftLightBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class HueBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class ColorBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class SaturationBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class LuminosityBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class DifferenceBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class HardLightBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class MultiplyBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class PlusBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class DarkenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class LightenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class ModulateBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class OverlayBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class ScreenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class ColorDodgeBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class ExclusionBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class ColorBurnBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class SoftLightBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class HueBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class ColorBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class SaturationBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class LuminosityBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class DifferenceBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class HardLightBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class MultiplyBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
+export declare class DstATopComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class DstInComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class DstOutComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class DstOverComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class SrcATopComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class SrcInComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class SrcOutComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class SrcOverComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class XorComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
+export declare class _1977 extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Aden extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Brannan extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Brooklyn extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Clarendon extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Earlybird extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Gingham extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Hudson extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Inkwell extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Kelvin extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Lark extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Lofi extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Maven extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Mayfair extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Moon extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Nashville extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Perpetua extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Reyes extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Rise extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Slumber extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Stinson extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Toaster extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Valencia extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Walden extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Willow extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Xpro2 extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class _1977Compat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class AdenCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class BrannanCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class BrooklynCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class ClarendonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class EarlybirdCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class GinghamCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class HudsonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class InkwellCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class KelvinCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class LarkCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class LofiCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class MavenCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class MayfairCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class MoonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class NashvilleCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class PerpetuaCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class ReyesCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class RiseCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class SlumberCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class StinsonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class ToasterCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class ValenciaCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class WaldenCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class WillowCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class Xpro2Compat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class ColorGenerator extends React.Component<ImageFilterProps<ColorGeneratorConfig>> { }
+export declare class LinearGradientGenerator extends React.Component<ImageFilterProps<LinearGradientGeneratorConfig>> { }
+export declare class RadialGradientGenerator extends React.Component<ImageFilterProps<RadialGradientGeneratorConfig>> { }
+export declare class SweepGradientGenerator extends React.Component<ImageFilterProps<SweepGradientGeneratorConfig>> { }
 
-export class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> {}
-export class ImageBackgroundPlaceholder extends React.Component<Omit<ImageBackgroundProps, 'source'>> {}
+export declare class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> { }
+export declare class ImageBackgroundPlaceholder extends React.Component<Omit<ImageBackgroundProps, 'source'>> { }
 
 export function rgbaToRgb(RGB_background: string, RGBA_color: string): string
 export function concatColorMatrices(matrices: Matrix[]): Matrix
@@ -464,3 +464,32 @@ export function deuteranopia(): Matrix
 export function tritanopia(): Matrix
 export function achromatopsia(): Matrix
 export function achromatomaly(): Matrix
+
+type Input =
+  | 'config'
+  | 'distance'
+  | 'scalar'
+  | 'position'
+  | 'scalarVector'
+  | 'offset'
+  | 'color'
+  | 'tileMode'
+  | 'porterDuffMode'
+  | 'colorVector'
+  | 'image'
+  | 'resizeMode'
+  | 'bool'
+  | 'distanceVector'
+  | 'text'
+  | 'area'
+  | 'binaryData'
+  | 'ISOLatin1EncodedText'
+  | 'marker'
+
+type Shape = { [key: string]: Input }
+
+export function registerFilter<Config>(
+  name: string,
+  shape: Shape,
+  transform: (config: Config) => object
+): React.FC<ViewProps & Config>

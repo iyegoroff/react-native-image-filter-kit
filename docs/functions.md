@@ -1,3 +1,14 @@
+#### registerFilter
+```ts
+export function registerFilter<Config>(
+  name: string,
+  shape: Shape,
+  transform: (config: Config) => object
+): React.FC<ViewProps & Config>
+```
+
+Should be used to create custom filters.
+
 #### rgbaToRgb
 ```ts
 function rgbaToRgb(RGB_background: string, RGBA_color: string): string

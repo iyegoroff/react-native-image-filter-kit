@@ -1,16 +1,14 @@
 // tslint:disable:max-file-line-count
 
 import rgbaToRgb from 'rgba-to-rgb'
-import { Image } from 'react-native'
 import { concatColorMatrices } from 'concat-color-matrices'
 import matrices from 'rn-color-matrices'
 const { brightness, contrast, saturate, grayscale, hueRotate, sepia } = matrices
 
 export interface CSSGramConfig {
-  readonly image: Image
+  readonly image: unknown
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean
-  readonly concatMatrices?: boolean
 }
 
 const degToRad = (deg: number) => Math.PI * deg / 180

@@ -8,9 +8,9 @@ import compositionFilters from './composition-filters'
 import convolveMatrixFilters from './convolve-matrix-filters'
 import nativePlatformFilters from './native-platform-filters'
 import { ImagePlaceholder, ImageBackgroundPlaceholder } from './common/image-placeholder'
+import registerFilter from './common/register-filter'
 import colorMatrices from 'rn-color-matrices'
 import { concatColorMatrices } from 'concat-color-matrices'
-// import { luminanceToAlpha } from './color-matrix-filters/shape-transforms'
 import rgbaToRgb from 'rgba-to-rgb'
 
 const exports = {
@@ -24,11 +24,11 @@ const exports = {
   ...blendFilters,
   ...miscFilters,
   ...compositionFilters,
-  // luminanceToAlpha,
   rgbaToRgb,
   concatColorMatrices,
   ImagePlaceholder,
-  ImageBackgroundPlaceholder
+  ImageBackgroundPlaceholder,
+  registerFilter
 }
 
 declare const module: { exports: typeof exports }

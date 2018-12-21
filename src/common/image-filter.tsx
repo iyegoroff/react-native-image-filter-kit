@@ -19,7 +19,7 @@ type Props = ViewProps & {
   readonly onFilteringFinish?: NativeProps['onIFKFilteringFinish']
 }
 
-const IFKImageFilter = requireNativeComponent<NativeProps>('IFKImageFilter')
+const IFKImageFilter = requireNativeComponent('IFKImageFilter')
 
 const hideEveryTailChild = (child: React.ReactChild, index: number) => (
   index === 0 ? child : hidden(child as React.ReactElement<ViewProps>)
@@ -28,7 +28,7 @@ const hideEveryTailChild = (child: React.ReactChild, index: number) => (
 export const createImageFilter = (
   name: string,
   shape: object
-): React.SFC<Props> => (
+): React.FunctionComponent<Props> => (
   ({ style, onFilteringError, onFilteringStart, onFilteringFinish, ...props }: Props) => {
     const shapePropKeys = Object.keys(shape)
     const restPropKeys = Object.keys(props).filter(key => !shapePropKeys.includes(key))
