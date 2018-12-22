@@ -28,7 +28,8 @@ const exports = {
   concatColorMatrices,
   ImagePlaceholder,
   ImageBackgroundPlaceholder,
-  registerFilter
+  registerFilter,
+  GenericImageFilter: nativePlatformFilters.ImageFilter
 }
 
 declare const module: { exports: typeof exports }

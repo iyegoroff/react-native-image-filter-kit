@@ -55,7 +55,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc -p ./src",
     "watch": "tsc -p ./src -w",
-    "lint": "tslint --fix -p ./src && tslint --fix -p ./examples/CustomFilter",
+    "lint": "tslint --fix -p ./src && tslint --fix -p ./examples/CustomFilter/src",
     "update:typings": "cp src/typings/index.d.ts dist/index.d.ts",
     "build:all": "npm run lint && npm run build && npm run update:typings && :"
   },
@@ -76,6 +76,7 @@
     ]
   },
   "files": [
+    ".dockerignore",
     "android",
     "ios",
     "src",

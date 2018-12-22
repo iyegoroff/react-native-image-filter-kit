@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "target": "es6",
     "strict": true,
-    "outDir": "build",
+    "outDir": "../build",
     "jsx": "react-native",
     "lib": ["es6"],
     "moduleResolution": "node"

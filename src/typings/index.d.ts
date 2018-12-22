@@ -21,40 +21,45 @@ type ResizeMode = 'COVER' | 'CONTAIN' | 'STRETCH' | {
   readonly height?: number
 }
 
-type Filterable = React.ReactElement<unknown> | Config
+export type Filterable<Rest> = React.ReactElement<unknown> | Config<Rest>
 
-interface CommonConfig {
-  readonly image: Filterable
+interface CacheableConfig {
+  /** Should be used only when defining custom filters */
+  readonly disableCache?: boolean
 }
 
-interface ColorMatrixConfig extends CommonConfig {
+interface CommonConfig<Rest = never> extends CacheableConfig {
+  readonly image: Filterable<Rest>
+}
+
+interface ColorMatrixConfig<Rest = never> extends CommonConfig<Rest> {
   readonly matrix: Matrix
 }
 
-interface RGBAConfig extends CommonConfig {
+interface RGBAConfig<Rest = never> extends CommonConfig<Rest> {
   readonly red?: number
   readonly green?: number
   readonly blue?: number
   readonly alpha?: number
 }
 
-interface AmountConfig extends CommonConfig {
+interface AmountConfig<Rest = never> extends CommonConfig<Rest> {
   readonly amount?: number
 }
 
-interface ColorToneConfig extends CommonConfig {
+interface ColorToneConfig<Rest = never> extends CommonConfig<Rest> {
   readonly desaturation?: number
   readonly toned?: number
   readonly lightColor?: string
   readonly darkColor?: string
 }
 
-interface DuoToneConfig extends CommonConfig {
+interface DuoToneConfig<Rest = never> extends CommonConfig<Rest> {
   readonly firstColor?: string
   readonly secondColor?: string
 }
 
-interface ConvolveMatrix3x3Config extends CommonConfig {
+interface ConvolveMatrix3x3Config<Rest = never> extends CommonConfig<Rest> {
   readonly matrix?: [
     number, number, number,
     number, number, number,
@@ -62,7 +67,7 @@ interface ConvolveMatrix3x3Config extends CommonConfig {
   ]
 }
 
-interface ConvolveMatrix5x5Config extends CommonConfig {
+interface ConvolveMatrix5x5Config<Rest = never> extends CommonConfig<Rest> {
   readonly matrix?: [
     number, number, number, number, number,
     number, number, number, number, number,
@@ -72,29 +77,30 @@ interface ConvolveMatrix5x5Config extends CommonConfig {
   ]
 }
 
-interface BlurConfig extends CommonConfig {
+interface BlurConfig<Rest = never> extends CommonConfig<Rest> {
   readonly radius?: number
 }
 
-interface CompositionConfig {
-  readonly dstImage: Filterable
+interface CompositionConfig<Rest = never> extends CacheableConfig {
+  readonly dstImage: Filterable<Rest>
   readonly dstAnchor?: Offset
   readonly dstPosition?: Offset
   readonly dstResizeMode?: ResizeMode
-  readonly srcImage: Filterable
+  readonly srcImage: Filterable<Rest>
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
   readonly srcResizeMode?: ResizeMode
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }
 
-interface BlendColorConfig {
-  readonly dstImage: Filterable
+interface BlendColorConfig<Rest = never> extends CacheableConfig {
+  readonly dstImage: Filterable<Rest>
   readonly srcColor: string
+  /** Should be used only when defining custom filters */
+  readonly disableIntermediateCaches?: boolean
 }
 
-interface GradientGeneratorConfig {
-  readonly image: Filterable
+interface GradientGeneratorConfig<Rest> extends Partial<CommonConfig<Rest>> {
   readonly colors?: [
     string, string?, string?, string?, string?, string?, string?, string?, string?, string?
   ]
@@ -103,177 +109,189 @@ interface GradientGeneratorConfig {
   ]
 }
 
-interface LinearGradientGeneratorConfig extends GradientGeneratorConfig {
+interface LinearGradientGeneratorConfig<Rest = never> extends GradientGeneratorConfig<Rest> {
   readonly start?: Position
   readonly end?: Position
 }
 
-interface RadialGradientGeneratorConfig extends GradientGeneratorConfig {
+interface RadialGradientGeneratorConfig<Rest = never> extends GradientGeneratorConfig<Rest> {
   readonly center?: Position
   readonly radius?: Distance
 }
 
-interface SweepGradientGeneratorConfig extends GradientGeneratorConfig {
+interface SweepGradientGeneratorConfig<Rest = never> extends GradientGeneratorConfig<Rest> {
   readonly center?: Position
 }
 
-interface ColorGeneratorConfig {
+interface ColorGeneratorConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
   readonly color: string
 }
 
-export type Config =
-  | { name: 'ColorMatrix' } & ColorMatrixConfig
-  | { name: 'Normal' } & CommonConfig
-  | { name: 'RGBA' } & RGBAConfig
-  | { name: 'Saturate' } & AmountConfig
-  | { name: 'HueRotate' } & AmountConfig
-  | { name: 'LuminanceToAlpha' } & CommonConfig
-  | { name: 'Invert' } & CommonConfig
-  | { name: 'Grayscale' } & AmountConfig
-  | { name: 'Sepia' } & AmountConfig
-  | { name: 'Nightvision' } & CommonConfig
-  | { name: 'Warm' } & CommonConfig
-  | { name: 'Cool' } & CommonConfig
-  | { name: 'Brightness' } & AmountConfig
-  | { name: 'Contrast' } & AmountConfig
-  | { name: 'Temperature' } & AmountConfig
-  | { name: 'Tint' } & AmountConfig
-  | { name: 'Threshold' } & AmountConfig
-  | { name: 'Technicolor' } & CommonConfig
-  | { name: 'Polaroid' } & CommonConfig
-  | { name: 'ToBGR' } & CommonConfig
-  | { name: 'Kodachrome' } & CommonConfig
-  | { name: 'Browni' } & CommonConfig
-  | { name: 'Vintage' } & CommonConfig
-  | { name: 'Night' } & AmountConfig
-  | { name: 'Predator' } & AmountConfig
-  | { name: 'Lsd' } & CommonConfig
-  | { name: 'ColorTone' } & ColorToneConfig
-  | { name: 'DuoTone' } & DuoToneConfig
-  | { name: 'Protanomaly' } & CommonConfig
-  | { name: 'Deuteranomaly' } & CommonConfig
-  | { name: 'Tritanomaly' } & CommonConfig
-  | { name: 'Protanopia' } & CommonConfig
-  | { name: 'Deuteranopia' } & CommonConfig
-  | { name: 'Tritanopia' } & CommonConfig
-  | { name: 'Achromatopsia' } & CommonConfig
-  | { name: 'Achromatomaly' } & CommonConfig
-  | { name: 'ConvolveMatrix3x3' } & ConvolveMatrix3x3Config
-  | { name: 'ConvolveMatrix5x5' } & ConvolveMatrix5x5Config
-  | { name: 'Sharpen' } & AmountConfig
-  | { name: 'EdgeDetection' } & CommonConfig
-  | { name: 'Emboss' } & CommonConfig
-  | { name: 'FuzzyGlass' } & CommonConfig
-  | { name: 'BoxBlur' } & BlurConfig
-  | { name: 'GaussianBlur' } & BlurConfig
-  | { name: 'PlusBlend' } & CompositionConfig
-  | { name: 'DarkenBlend' } & CompositionConfig
-  | { name: 'LightenBlend' } & CompositionConfig
-  | { name: 'ModulateBlend' } & CompositionConfig
-  | { name: 'OverlayBlend' } & CompositionConfig
-  | { name: 'ScreenBlend' } & CompositionConfig
-  | { name: 'ColorDodgeBlend' } & CompositionConfig
-  | { name: 'ExclusionBlend' } & CompositionConfig
-  | { name: 'ColorBurnBlend' } & CompositionConfig
-  | { name: 'SoftLightBlend' } & CompositionConfig
-  | { name: 'HueBlend' } & CompositionConfig
-  | { name: 'ColorBlend' } & CompositionConfig
-  | { name: 'SaturationBlend' } & CompositionConfig
-  | { name: 'LuminosityBlend' } & CompositionConfig
-  | { name: 'DifferenceBlend' } & CompositionConfig
-  | { name: 'HardLightBlend' } & CompositionConfig
-  | { name: 'MultiplyBlend' } & CompositionConfig
-  | { name: 'PlusBlendColor' } & BlendColorConfig
-  | { name: 'DarkenBlendColor' } & BlendColorConfig
-  | { name: 'LightenBlendColor' } & BlendColorConfig
-  | { name: 'ModulateBlendColor' } & BlendColorConfig
-  | { name: 'OverlayBlendColor' } & BlendColorConfig
-  | { name: 'ScreenBlendColor' } & BlendColorConfig
-  | { name: 'ColorDodgeBlendColor' } & BlendColorConfig
-  | { name: 'ExclusionBlendColor' } & BlendColorConfig
-  | { name: 'ColorBurnBlendColor' } & BlendColorConfig
-  | { name: 'SoftLightBlendColor' } & BlendColorConfig
-  | { name: 'HueBlendColor' } & BlendColorConfig
-  | { name: 'ColorBlendColor' } & BlendColorConfig
-  | { name: 'SaturationBlendColor' } & BlendColorConfig
-  | { name: 'LuminosityBlendColor' } & BlendColorConfig
-  | { name: 'DifferenceBlendColor' } & BlendColorConfig
-  | { name: 'HardLightBlendColor' } & BlendColorConfig
-  | { name: 'MultiplyBlendColor' } & BlendColorConfig
-  | { name: 'DstATopComposition' } & CompositionConfig
-  | { name: 'DstInComposition' } & CompositionConfig
-  | { name: 'DstOutComposition' } & CompositionConfig
-  | { name: 'DstOverComposition' } & CompositionConfig
-  | { name: 'SrcATopComposition' } & CompositionConfig
-  | { name: 'SrcInComposition' } & CompositionConfig
-  | { name: 'SrcOutComposition' } & CompositionConfig
-  | { name: 'SrcOverComposition' } & CompositionConfig
-  | { name: 'XorComposition' } & CompositionConfig
-  | { name: '_1977' } & CommonConfig
-  | { name: 'Aden' } & CommonConfig
-  | { name: 'Brannan' } & CommonConfig
-  | { name: 'Brooklyn' } & CommonConfig
-  | { name: 'Clarendon' } & CommonConfig
-  | { name: 'Earlybird' } & CommonConfig
-  | { name: 'Gingham' } & CommonConfig
-  | { name: 'Hudson' } & CommonConfig
-  | { name: 'Inkwell' } & CommonConfig
-  | { name: 'Kelvin' } & CommonConfig
-  | { name: 'Lark' } & CommonConfig
-  | { name: 'Lofi' } & CommonConfig
-  | { name: 'Maven' } & CommonConfig
-  | { name: 'Mayfair' } & CommonConfig
-  | { name: 'Moon' } & CommonConfig
-  | { name: 'Nashville' } & CommonConfig
-  | { name: 'Perpetua' } & CommonConfig
-  | { name: 'Reyes' } & CommonConfig
-  | { name: 'Rise' } & CommonConfig
-  | { name: 'Slumber' } & CommonConfig
-  | { name: 'Stinson' } & CommonConfig
-  | { name: 'Toaster' } & CommonConfig
-  | { name: 'Valencia' } & CommonConfig
-  | { name: 'Walden' } & CommonConfig
-  | { name: 'Willow' } & CommonConfig
-  | { name: 'Xpro2' } & CommonConfig
-  | { name: '_1977Compat' } & CommonConfig
-  | { name: 'AdenCompat' } & CommonConfig
-  | { name: 'BrannanCompat' } & CommonConfig
-  | { name: 'BrooklynCompat' } & CommonConfig
-  | { name: 'ClarendonCompat' } & CommonConfig
-  | { name: 'EarlybirdCompat' } & CommonConfig
-  | { name: 'GinghamCompat' } & CommonConfig
-  | { name: 'HudsonCompat' } & CommonConfig
-  | { name: 'InkwellCompat' } & CommonConfig
-  | { name: 'KelvinCompat' } & CommonConfig
-  | { name: 'LarkCompat' } & CommonConfig
-  | { name: 'LofiCompat' } & CommonConfig
-  | { name: 'MavenCompat' } & CommonConfig
-  | { name: 'MayfairCompat' } & CommonConfig
-  | { name: 'MoonCompat' } & CommonConfig
-  | { name: 'NashvilleCompat' } & CommonConfig
-  | { name: 'PerpetuaCompat' } & CommonConfig
-  | { name: 'ReyesCompat' } & CommonConfig
-  | { name: 'RiseCompat' } & CommonConfig
-  | { name: 'SlumberCompat' } & CommonConfig
-  | { name: 'StinsonCompat' } & CommonConfig
-  | { name: 'ToasterCompat' } & CommonConfig
-  | { name: 'ValenciaCompat' } & CommonConfig
-  | { name: 'WaldenCompat' } & CommonConfig
-  | { name: 'WillowCompat' } & CommonConfig
-  | { name: 'Xpro2Compat' } & CommonConfig
-  | { name: 'ColorGenerator' } & ColorGeneratorConfig
-  | { name: 'LinearGradientGenerator' } & LinearGradientGeneratorConfig
-  | { name: 'RadialGradientGenerator' } & RadialGradientGeneratorConfig
-  | { name: 'SweepGradientGenerator' } & SweepGradientGeneratorConfig
+interface ConfigWithIntermediates<Rest = never> extends CommonConfig<Rest> {
+  /** Should be used only when defining custom filters */
+  readonly disableIntermediateCaches?: boolean
+}
 
-type ImageFilterProps<Rest> = ViewProps & Rest & {
+export type ConfigCase<Name, Config> = { readonly name: Name } & Config
+
+export type Config<Rest = never> =
+  | ConfigCase<'ColorMatrix', ColorMatrixConfig<Rest>>
+  | ConfigCase<'Normal', CommonConfig<Rest>>
+  | ConfigCase<'RGBA', RGBAConfig<Rest>>
+  | ConfigCase<'Saturate', AmountConfig<Rest>>
+  | ConfigCase<'HueRotate', AmountConfig<Rest>>
+  | ConfigCase<'LuminanceToAlpha', CommonConfig<Rest>>
+  | ConfigCase<'Invert', CommonConfig<Rest>>
+  | ConfigCase<'Grayscale', AmountConfig<Rest>>
+  | ConfigCase<'Sepia', AmountConfig<Rest>>
+  | ConfigCase<'Nightvision', CommonConfig<Rest>>
+  | ConfigCase<'Warm', CommonConfig<Rest>>
+  | ConfigCase<'Cool', CommonConfig<Rest>>
+  | ConfigCase<'Brightness', AmountConfig<Rest>>
+  | ConfigCase<'Contrast', AmountConfig<Rest>>
+  | ConfigCase<'Temperature', AmountConfig<Rest>>
+  | ConfigCase<'Tint', AmountConfig<Rest>>
+  | ConfigCase<'Threshold', AmountConfig<Rest>>
+  | ConfigCase<'Technicolor', CommonConfig<Rest>>
+  | ConfigCase<'Polaroid', CommonConfig<Rest>>
+  | ConfigCase<'ToBGR', CommonConfig<Rest>>
+  | ConfigCase<'Kodachrome', CommonConfig<Rest>>
+  | ConfigCase<'Browni', CommonConfig<Rest>>
+  | ConfigCase<'Vintage', CommonConfig<Rest>>
+  | ConfigCase<'Night', AmountConfig<Rest>>
+  | ConfigCase<'Predator', AmountConfig<Rest>>
+  | ConfigCase<'Lsd', CommonConfig<Rest>>
+  | ConfigCase<'ColorTone', ColorToneConfig<Rest>>
+  | ConfigCase<'DuoTone', DuoToneConfig<Rest>>
+  | ConfigCase<'Protanomaly', CommonConfig<Rest>>
+  | ConfigCase<'Deuteranomaly', CommonConfig<Rest>>
+  | ConfigCase<'Tritanomaly', CommonConfig<Rest>>
+  | ConfigCase<'Protanopia', CommonConfig<Rest>>
+  | ConfigCase<'Deuteranopia', CommonConfig<Rest>>
+  | ConfigCase<'Tritanopia', CommonConfig<Rest>>
+  | ConfigCase<'Achromatopsia', CommonConfig<Rest>>
+  | ConfigCase<'Achromatomaly', CommonConfig<Rest>>
+  | ConfigCase<'ConvolveMatrix3x3', ConvolveMatrix3x3Config<Rest>>
+  | ConfigCase<'ConvolveMatrix5x5', ConvolveMatrix5x5Config<Rest>>
+  | ConfigCase<'Sharpen', AmountConfig<Rest>>
+  | ConfigCase<'EdgeDetection', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Emboss', CommonConfig<Rest>>
+  | ConfigCase<'FuzzyGlass', CommonConfig<Rest>>
+  | ConfigCase<'BoxBlur', BlurConfig<Rest>>
+  | ConfigCase<'GaussianBlur', BlurConfig<Rest>>
+  | ConfigCase<'PlusBlend', CompositionConfig<Rest>>
+  | ConfigCase<'DarkenBlend', CompositionConfig<Rest>>
+  | ConfigCase<'LightenBlend', CompositionConfig<Rest>>
+  | ConfigCase<'ModulateBlend', CompositionConfig<Rest>>
+  | ConfigCase<'OverlayBlend', CompositionConfig<Rest>>
+  | ConfigCase<'ScreenBlend', CompositionConfig<Rest>>
+  | ConfigCase<'ColorDodgeBlend', CompositionConfig<Rest>>
+  | ConfigCase<'ExclusionBlend', CompositionConfig<Rest>>
+  | ConfigCase<'ColorBurnBlend', CompositionConfig<Rest>>
+  | ConfigCase<'SoftLightBlend', CompositionConfig<Rest>>
+  | ConfigCase<'HueBlend', CompositionConfig<Rest>>
+  | ConfigCase<'ColorBlend', CompositionConfig<Rest>>
+  | ConfigCase<'SaturationBlend', CompositionConfig<Rest>>
+  | ConfigCase<'LuminosityBlend', CompositionConfig<Rest>>
+  | ConfigCase<'DifferenceBlend', CompositionConfig<Rest>>
+  | ConfigCase<'HardLightBlend', CompositionConfig<Rest>>
+  | ConfigCase<'MultiplyBlend', CompositionConfig<Rest>>
+  | ConfigCase<'PlusBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'DarkenBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'LightenBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'ModulateBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'OverlayBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'ScreenBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'ColorDodgeBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'ExclusionBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'ColorBurnBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'SoftLightBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'HueBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'ColorBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'SaturationBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'LuminosityBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'DifferenceBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'HardLightBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'MultiplyBlendColor', BlendColorConfig<Rest>>
+  | ConfigCase<'DstATopComposition', CompositionConfig<Rest>>
+  | ConfigCase<'DstInComposition', CompositionConfig<Rest>>
+  | ConfigCase<'DstOutComposition', CompositionConfig<Rest>>
+  | ConfigCase<'DstOverComposition', CompositionConfig<Rest>>
+  | ConfigCase<'SrcATopComposition', CompositionConfig<Rest>>
+  | ConfigCase<'SrcInComposition', CompositionConfig<Rest>>
+  | ConfigCase<'SrcOutComposition', CompositionConfig<Rest>>
+  | ConfigCase<'SrcOverComposition', CompositionConfig<Rest>>
+  | ConfigCase<'XorComposition', CompositionConfig<Rest>>
+  | ConfigCase<'_1977', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Aden', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Brannan', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Brooklyn', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Clarendon', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Earlybird', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Gingham', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Hudson', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Inkwell', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Kelvin', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Lark', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Lofi', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Maven', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Mayfair', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Moon', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Nashville', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Perpetua', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Reyes', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Rise', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Slumber', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Stinson', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Toaster', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Valencia', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Walden', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Willow', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Xpro2', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'_1977Compat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'AdenCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'BrannanCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'BrooklynCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'ClarendonCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'EarlybirdCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'GinghamCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'HudsonCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'InkwellCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'KelvinCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'LarkCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'LofiCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'MavenCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'MayfairCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'MoonCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'NashvilleCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'PerpetuaCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'ReyesCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'RiseCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'SlumberCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'StinsonCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'ToasterCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'ValenciaCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'WaldenCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'WillowCompat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'Xpro2Compat', ConfigWithIntermediates<Rest>>
+  | ConfigCase<'ColorGenerator', ColorGeneratorConfig<Rest>>
+  | ConfigCase<'LinearGradientGenerator', LinearGradientGeneratorConfig<Rest>>
+  | ConfigCase<'RadialGradientGenerator', RadialGradientGeneratorConfig<Rest>>
+  | ConfigCase<'SweepGradientGenerator', SweepGradientGeneratorConfig<Rest>>
+  | Rest
+
+export type ImageFilterProps<Rest> = ViewProps & Rest & {
   readonly onFilteringStart?: (event: NativeSyntheticEvent<{}>) => void
   readonly onFilteringFinish?: (event: NativeSyntheticEvent<{}>) => void
   readonly onFilteringError?: (event: NativeSyntheticEvent<{ message: string }>) => void
   readonly clearCachesMaxRetries?: number
 }
 
-export declare class ImageFilter extends React.Component<ImageFilterProps<{ readonly config: Config }>> { }
+export declare class GenericImageFilter<Rest>
+  extends React.Component<ImageFilterProps<{ readonly config: Config<Rest> }>> { }
+
+export declare class ImageFilter extends GenericImageFilter<never> { }
+
 export declare class ColorMatrix extends React.Component<ImageFilterProps<ColorMatrixConfig>> { }
 export declare class Normal extends React.Component<ImageFilterProps<CommonConfig>> { }
 export declare class RGBA extends React.Component<ImageFilterProps<RGBAConfig>> { }
@@ -313,7 +331,7 @@ export declare class Achromatomaly extends React.Component<ImageFilterProps<Comm
 export declare class ConvolveMatrix3x3 extends React.Component<ImageFilterProps<ConvolveMatrix3x3Config>> { }
 export declare class ConvolveMatrix5x5 extends React.Component<ImageFilterProps<ConvolveMatrix5x5Config>> { }
 export declare class Sharpen extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class EdgeDetection extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class EdgeDetection extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
 export declare class Emboss extends React.Component<ImageFilterProps<CommonConfig>> { }
 export declare class FuzzyGlass extends React.Component<ImageFilterProps<CommonConfig>> { }
 export declare class BoxBlur extends React.Component<ImageFilterProps<BlurConfig>> { }
@@ -361,58 +379,58 @@ export declare class SrcInComposition extends React.Component<ImageFilterProps<C
 export declare class SrcOutComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
 export declare class SrcOverComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
 export declare class XorComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class _1977 extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Aden extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Brannan extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Brooklyn extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Clarendon extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Earlybird extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Gingham extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Hudson extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Inkwell extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Kelvin extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Lark extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Lofi extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Maven extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Mayfair extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Moon extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Nashville extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Perpetua extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Reyes extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Rise extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Slumber extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Stinson extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Toaster extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Valencia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Walden extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Willow extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Xpro2 extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class _1977Compat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class AdenCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class BrannanCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class BrooklynCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class ClarendonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class EarlybirdCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class GinghamCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class HudsonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class InkwellCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class KelvinCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class LarkCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class LofiCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class MavenCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class MayfairCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class MoonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class NashvilleCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class PerpetuaCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class ReyesCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class RiseCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class SlumberCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class StinsonCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class ToasterCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class ValenciaCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class WaldenCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class WillowCompat extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Xpro2Compat extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class _1977 extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Aden extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Brannan extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Brooklyn extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Clarendon extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Earlybird extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Gingham extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Hudson extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Inkwell extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Kelvin extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Lark extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Lofi extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Maven extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Mayfair extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Moon extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Nashville extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Perpetua extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Reyes extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Rise extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Slumber extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Stinson extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Toaster extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Valencia extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Walden extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Willow extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Xpro2 extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class _1977Compat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class AdenCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class BrannanCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class BrooklynCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class ClarendonCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class EarlybirdCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class GinghamCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class HudsonCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class InkwellCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class KelvinCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class LarkCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class LofiCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class MavenCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class MayfairCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class MoonCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class NashvilleCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class PerpetuaCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class ReyesCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class RiseCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class SlumberCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class StinsonCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class ToasterCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class ValenciaCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class WaldenCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class WillowCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
+export declare class Xpro2Compat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
 export declare class ColorGenerator extends React.Component<ImageFilterProps<ColorGeneratorConfig>> { }
 export declare class LinearGradientGenerator extends React.Component<ImageFilterProps<LinearGradientGeneratorConfig>> { }
 export declare class RadialGradientGenerator extends React.Component<ImageFilterProps<RadialGradientGeneratorConfig>> { }
@@ -488,8 +506,8 @@ type Input =
 
 type Shape = { [key: string]: Input }
 
-export function registerFilter<Config>(
+export function registerFilter<T, U>(
   name: string,
   shape: Shape,
-  transform: (config: Config) => object
-): React.FC<ViewProps & Config>
+  transform: (config: T) => Config<U>
+): React.FC<ViewProps & T>

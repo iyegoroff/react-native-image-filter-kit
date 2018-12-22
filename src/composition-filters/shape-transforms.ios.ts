@@ -15,7 +15,6 @@ interface CompositionConfig {
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
   readonly disableCache?: boolean
-  readonly disableIntermediateCaches?: boolean
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }
 
