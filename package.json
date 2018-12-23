@@ -82,6 +82,7 @@
     "src",
     "dist",
     "examples/CustomFilter",
+    "tslint.json",
     "*.md",
     "*.podspec"
   ],
