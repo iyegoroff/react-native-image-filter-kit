@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "preinstall": "cd ../.. && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd examples/CustomFilter && which yarn && yarn link react-native-image-filter-kit || :",
+    "preinstall": "cd ../.. && npm ci && npm run build:all",
     "postinstall": "metro-with-symlinks",
     "run:android": "cd android && ./gradlew clean && cd .. && react-native run-android",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",

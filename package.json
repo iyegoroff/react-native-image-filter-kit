@@ -81,7 +81,7 @@
     "ios",
     "src",
     "dist",
-    "examples",
+    "examples/CustomFilter",
     "*.md",
     "*.podspec"
   ],
