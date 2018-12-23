@@ -17,6 +17,7 @@ import { id } from './util'
 import { Config } from './configs'
 import { swapComposition } from './swap-composition'
 import { ImagePlaceholder } from './image-placeholder'
+import { convertImageName } from './convert-image-name'
 
 const anyToString = (n: unknown) => `${n}`
 const convertDistances = (distances: unknown[]) => distances.map(anyToString)
@@ -62,7 +63,10 @@ const iosKeyConvertMap: { [key: string]: string } = {
   inputGradientImagePosition: dstPosition,
   inputTargetImageResizeMode: dstResizeMode,
   inputTargetImageAnchor: dstAnchor,
-  inputTargetImagePosition: dstPosition
+  inputTargetImagePosition: dstPosition,
+  inputDisplacementImageResizeMode: dstResizeMode,
+  inputDisplacementImageAnchor: dstAnchor,
+  inputDisplacementImagePosition: dstPosition
 }
 
 const srcImage = 'srcImage'
@@ -73,7 +77,8 @@ const iosMatchMap: { [key: string]: string } = {
   inputGradientImage: dstImage,
   inputBackgroundImage: dstImage,
   inputMask: dstImage,
-  inputTargetImage: dstImage
+  inputTargetImage: dstImage,
+  inputDisplacementImage: dstImage
 }
 
 const convertKey = Platform.select({
@@ -114,12 +119,17 @@ export const finalizeConfig = ({ name, ...values }: Config) => {
   })
 }
 
-const patchComposition = (config: Config) => (
-  Platform.select({
-    ios: config['resizeCanvasTo'] === 'dstImage' ? swapComposition(config, 'srcImage') : config,
-    android: config['resizeCanvasTo'] === 'srcImage' ? swapComposition(config, 'dstImage') : config
+const patchComposition = (config: Config) => {
+  const cfg = {
+    ...config,
+    resizeCanvasTo: convertImageName(config.name, config['resizeCanvasTo'])
+  }
+
+  return Platform.select({
+    ios: cfg['resizeCanvasTo'] === 'dstImage' ? swapComposition(cfg, 'srcImage') : cfg,
+    android: cfg['resizeCanvasTo'] === 'srcImage' ? swapComposition(cfg, 'dstImage') : cfg
   })
-)
+}
 
 export const extractConfigAndImages = (filterProps: Config) => {
   const images: React.ReactElement<any>[] = []

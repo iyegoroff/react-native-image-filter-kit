@@ -439,6 +439,7 @@ export declare class SweepGradientGenerator extends React.Component<ImageFilterP
 export declare class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> { }
 export declare class ImageBackgroundPlaceholder extends React.Component<Omit<ImageBackgroundProps, 'source'>> { }
 
+export function degToRad(deg: number): number
 export function rgbaToRgb(RGB_background: string, RGBA_color: string): string
 export function concatColorMatrices(matrices: Matrix[]): Matrix
 

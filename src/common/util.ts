@@ -11,3 +11,5 @@ export const unitSupplement = (unit: string | number) => {
 
   return amount !== undefined && measure !== undefined ? `${100 - +amount}${measure}` : unit
 }
+
+export const degToRad = (deg: number) => Math.PI * deg / 180

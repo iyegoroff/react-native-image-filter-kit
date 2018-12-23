@@ -1,5 +1,9 @@
 import { scalar, color, position, distance, colorVector, scalarVector } from '../common/inputs'
-import { GeneratorIos as Generator, CommonIos as Common, BlendIos as Blend } from '../common/shapes'
+import {
+  GeneratorIos as Generator,
+  CommonIos as Common,
+  CompositionIos as Composition
+} from '../common/shapes'
 
 const Gradient = {
   inputColors: colorVector,
@@ -32,5 +36,5 @@ export const shapes = {
     ...Gradient
   },
 
-  IFKXorCompositing: Blend
+  IFKXorCompositing: Composition
 }

@@ -145,6 +145,10 @@
     return @"inputTargetImage";
   }
   
+  if ([inputKeys containsObject:@"inputDisplacementImage"]) {
+    return @"inputDisplacementImage";
+  }
+  
   RCTAssert(false, @"ImageFilterKit: unknown filter input - %@", [self filter].name);
   
   return @"";

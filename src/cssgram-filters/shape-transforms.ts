@@ -3,6 +3,7 @@
 import rgbaToRgb from 'rgba-to-rgb'
 import { concatColorMatrices } from 'concat-color-matrices'
 import matrices from 'rn-color-matrices'
+import { degToRad } from '../common/util'
 const { brightness, contrast, saturate, grayscale, hueRotate, sepia } = matrices
 
 export interface CSSGramConfig {
@@ -11,7 +12,6 @@ export interface CSSGramConfig {
   readonly disableIntermediateCaches?: boolean
 }
 
-const degToRad = (deg: number) => Math.PI * deg / 180
 const background = 'rgb(255, 255, 255)'
 
 export const shapeTransforms = {

@@ -30,7 +30,7 @@ export const Generator = {
   isGenerator: marker
 }
 
-export const BlendIos = {
+export const CompositionIos = {
   resizeCanvasTo: text,
   inputImage: image,
   inputImageResizeMode: resizeMode,

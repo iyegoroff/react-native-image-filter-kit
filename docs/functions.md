@@ -17,6 +17,15 @@ function rgbaToRgb(RGB_background: string, RGBA_color: string): string
 https://github.com/iyegoroff/rgba-to-rgb
 
 ***
+
+#### degToRad
+```ts
+function degToRad(deg: number): number
+```
+
+Converts degrees to radians
+
+***
 #### concatColorMatrices
 ```ts
 function concatColorMatrices(matrices: Matrix[]): Matrix
