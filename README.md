@@ -154,8 +154,8 @@ const result = (
 - [Composition filters](docs/composition_filters.md)
 - [Blend filters](docs/blend_filters.md)
 - [CSSGram filters](docs/cssgram_filters.md)
-- [Android-only filters](docs/android_only_filters.md)
-- [iOS-only filters](docs/ios_only_filters.md)
+- [Android-only filters](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/native-platform-filters/shapes.android.ts)
+- [iOS-only filters](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/native-platform-filters/shapes.ios.ts)
 
 ## Caveats
 - `blurRadius` Image prop will not work in conjunction with this library, instead of it just use [BoxBlur](docs/blur_filters.md#BoxBlur) filter
