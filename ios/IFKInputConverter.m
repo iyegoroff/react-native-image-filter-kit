@@ -1,5 +1,8 @@
 #import "IFKInputConverter.h"
 #import "NSArray+FilterMapReduce.h"
+#import <React/RCTAssert.h>
+
+static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\s*(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?))?(?:\\s*([-+])\\s*(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?))?";
 
 @implementation IFKInputConverter
 
@@ -53,7 +56,7 @@
                           defaultValue:(nullable NSNumber *)defaultValue
 {
   return distance != nil
-    ? [self convertRelative:[distance objectForKey:@"distance"]
+    ? [self convertRelativeExpr:[distance objectForKey:@"distance"]
                      bounds:bounds
                defaultValue:defaultValue]
     : defaultValue;
@@ -137,10 +140,10 @@
 {
   if (position != nil && [position objectForKey:@"position"]) {
     NSDictionary *vector = [position objectForKey:@"position"];
-    NSNumber *x = [self convertRelative:vector[@"x"]
+    NSNumber *x = [self convertRelativeExpr:vector[@"x"]
                                  bounds:bounds
                            defaultValue:@(defaultValue ? [defaultValue valueAtIndex:0] : 0)];
-    NSNumber *y = [self convertRelative:vector[@"y"]
+    NSNumber *y = [self convertRelativeExpr:vector[@"y"]
                                  bounds:bounds
                            defaultValue:@(defaultValue ? [defaultValue valueAtIndex:1] : 0)];
     
@@ -159,7 +162,7 @@
     CGFloat v[vector.count];
     
     for (int i = 0; i < vector.count; i++) {
-      v[i] = [[self convertRelative:vector[i] bounds:bounds defaultValue:nil] floatValue];
+      v[i] = [[self convertRelativeExpr:vector[i] bounds:bounds defaultValue:nil] floatValue];
     }
     
     return [CIVector vectorWithValues:v count:vector.count];
@@ -184,10 +187,10 @@
 {
   if (area != nil && [area objectForKey:@"area"]) {
     NSDictionary *vector = [area objectForKey:@"area"];
-    NSNumber *x = [self convertRelative:vector[@"x"] bounds:bounds defaultValue:nil];
-    NSNumber *y = [self convertRelative:vector[@"y"] bounds:bounds defaultValue:nil];
-    NSNumber *width = [self convertRelative:vector[@"width"] bounds:bounds defaultValue:nil];
-    NSNumber *height = [self convertRelative:vector[@"height"] bounds:bounds defaultValue:nil];
+    NSNumber *x = [self convertRelativeExpr:vector[@"x"] bounds:bounds defaultValue:nil];
+    NSNumber *y = [self convertRelativeExpr:vector[@"y"] bounds:bounds defaultValue:nil];
+    NSNumber *width = [self convertRelativeExpr:vector[@"width"] bounds:bounds defaultValue:nil];
+    NSNumber *height = [self convertRelativeExpr:vector[@"height"] bounds:bounds defaultValue:nil];
     
     return [CIVector vectorWithCGRect:CGRectMake([x floatValue],
                                                  [y floatValue],
@@ -216,39 +219,94 @@
     : defaultValue;
 }
 
-+ (nullable NSNumber *)convertRelative:(nullable NSString *)relative
-                                bounds:(CGSize)bounds
-                          defaultValue:(nullable NSNumber *)defaultValue
++ (nullable NSNumber *)convertRelativeExpr:(nullable NSString *)relative
+                                    bounds:(CGSize)bounds
+                              defaultValue:(nullable NSNumber *)defaultValue
 {
   if (relative != nil) {
-    double num;
-    NSScanner *scanner = [NSScanner scannerWithString:relative];
-    
-    [scanner scanDouble:&num];
-    NSString *unit = [relative substringFromIndex:[scanner scanLocation]];
-    
-    if ([unit isEqualToString:@""]) {
-      return @(num);
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    NSTextCheckingResult *match = [regex firstMatchInString:relative
+                                                    options:0
+                                                      range:NSMakeRange(0, [relative length])];
+    if (match) {
+      NSRange firstRange = [match rangeAtIndex:1];
+      NSRange firstOperationRange = [match rangeAtIndex:2];
+      NSRange secondRange = [match rangeAtIndex:3];
+      NSRange secondOperationRange = [match rangeAtIndex:4];
+      NSRange thirdRange = [match rangeAtIndex:5];
+      
+      NSNumber *first;
+      NSString *firstOperation;
+      NSNumber *second;
+      NSString *secondOperation;
+      NSNumber *third;
+      
+      if (firstRange.location != NSNotFound) {
+        first = [self convertRelative:[relative substringWithRange:firstRange] bounds:bounds];
+      }
+      
+      if (firstOperationRange.location != NSNotFound) {
+        firstOperation = [relative substringWithRange:firstOperationRange];
+      }
+      
+      if (secondRange.location != NSNotFound) {
+        second = [self convertRelative:[relative substringWithRange:secondRange] bounds:bounds];
+      }
+      
+      if (secondOperationRange.location != NSNotFound) {
+        secondOperation = [relative substringWithRange:secondOperationRange];
+      }
+      
+      if (thirdRange.location != NSNotFound) {
+        third = [self convertRelative:[relative substringWithRange:thirdRange] bounds:bounds];
+      }
+      
+      float secondResult = (secondOperation == nil || third == nil)
+        ? [second floatValue]
+        : [second floatValue] + ([@"+" isEqualToString:secondOperation] ? 1.0f : -1.0f) * [third floatValue];
+      
+      return (firstOperation == nil || second == nil)
+        ? first
+        : @([first floatValue] + ([@"+" isEqualToString:firstOperation] ? 1.0f : -1.0f) * secondResult);
     }
-    
-    if ([unit isEqualToString:@"h"]) {
-      return @(num * bounds.height * 0.01f);
-    }
-    
-    if ([unit isEqualToString:@"w"]) {
-      return @(num * bounds.width * 0.01f);
-    }
-    
-    if ([unit isEqualToString:@"max"]) {
-      return @(num * MAX(bounds.width, bounds.height) * 0.01f);
-    }
-    
-    if ([unit isEqualToString:@"min"]) {
-      return @(num * MIN(bounds.width, bounds.height) * 0.01f);
-    }
+
+#if RCT_DEBUG
+    RCTAssert(false, @"ImageFilterKit: Invalid relative expr - '%@'", relative);
+#endif
   }
   
   return defaultValue;
+}
+
++ (nonnull NSNumber *)convertRelative:(nonnull NSString *)relative
+                               bounds:(CGSize)bounds
+{
+  double num;
+  NSScanner *scanner = [NSScanner scannerWithString:relative];
+  
+  [scanner scanDouble:&num];
+  NSString *unit = [relative substringFromIndex:[scanner scanLocation]];
+  
+  if ([unit isEqualToString:@"h"]) {
+    return @(num * bounds.height * 0.01f);
+  }
+  
+  if ([unit isEqualToString:@"w"]) {
+    return @(num * bounds.width * 0.01f);
+  }
+  
+  if ([unit isEqualToString:@"max"]) {
+    return @(num * MAX(bounds.width, bounds.height) * 0.01f);
+  }
+  
+  if ([unit isEqualToString:@"min"]) {
+    return @(num * MIN(bounds.width, bounds.height) * 0.01f);
+  }
+  
+  return @(num);
 }
 
 + (CIColor *)color:(NSUInteger)color

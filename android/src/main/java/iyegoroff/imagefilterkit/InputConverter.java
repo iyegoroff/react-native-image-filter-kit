@@ -7,10 +7,17 @@ import android.graphics.Shader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class InputConverter {
+
+  private static final Pattern sRelativeExprMatcher = Pattern.compile(
+    "(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\s*(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?))?(?:\\s*([-+])\\s*(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?))?"
+  );
 
   private final int mBoundsWidth;
   private final int mBoundsHeight;
@@ -33,7 +40,7 @@ public class InputConverter {
   }
 
   public float convertDistance(@Nullable JSONObject distance, @Nonnull String defaultValue) {
-    return convertRelative(
+    return convertRelativeExpr(
       distance != null ? distance.optString("distance", defaultValue) : defaultValue
     );
   }
@@ -46,8 +53,8 @@ public class InputConverter {
 //    JSONObject pos = position != null ? position.optJSONObject("position") : null;
 //
 //    return new PointF(
-//      convertRelative(pos != null ? pos.optString("x", defaultX) : defaultX),
-//      convertRelative(pos != null ? pos.optString("y", defaultY) : defaultY)
+//      convertRelativeExpr(pos != null ? pos.optString("x", defaultX) : defaultX),
+//      convertRelativeExpr(pos != null ? pos.optString("y", defaultY) : defaultY)
 //    );
 //  }
 
@@ -142,6 +149,49 @@ public class InputConverter {
     );
   }
 
+  private float convertRelativeExpr(@Nonnull String relative) {
+    Matcher match = sRelativeExprMatcher.matcher(relative);
+    boolean matches = match.matches();
+
+    if (matches) {
+      String firstMatch = match.group(1);
+      String firstOperation = match.group(2);
+      String secondMatch = match.group(3);
+      String secondOperation = match.group(4);
+      String thirdMatch = match.group(5);
+
+      float first = 0.0f;
+      float second = 0.0f;
+      float third = 0.0f;
+
+      if (firstMatch != null) {
+        first = convertRelative(firstMatch);
+      }
+
+      if (secondMatch != null) {
+        second = convertRelative(secondMatch);
+      }
+
+      if (thirdMatch != null) {
+        third = convertRelative(thirdMatch);
+      }
+
+      float secondResult = (secondOperation == null || thirdMatch == null)
+        ? second
+        : second + ("+".equals(secondOperation) ? 1.0f : -1.0f) * third;
+
+      return (firstOperation == null || secondMatch == null)
+        ? first
+        : first + ("+".equals(firstOperation) ? 1.0f : -1.0f) * secondResult;
+    }
+
+    if (BuildConfig.DEBUG) {
+      throw new AssertionError("ImageFilterKit: Invalid relative expr - '" + relative + "'");
+    }
+
+    return 0;
+  }
+
   private float convertRelative(@Nonnull String relative) {
     String matcher = "-?\\d+(\\.\\d+)?";
 
@@ -170,7 +220,7 @@ public class InputConverter {
     }
 
     if (BuildConfig.DEBUG) {
-      throw new AssertionError("Invalid relative number - " + relative);
+      throw new AssertionError("ImageFilterKit: Invalid relative number - " + relative);
     }
 
     return 0;

@@ -1,6 +1,4 @@
-import invariant from 'invariant'
 import { LinearGradientConfig, RadialGradientConfig, SweepGradientConfig } from './shapes'
-import { isUnit, unitSupplement } from '../common/util'
 
 export const shapeTransforms = {
   Color: (config: Object) => ({
@@ -14,24 +12,16 @@ export const shapeTransforms = {
     start = { x: 0, y: '0h' },
     end = { x: '100w', y: '0h' },
     ...config
-  }: LinearGradientConfig) => {
-    invariant(
-      isUnit(start.y) && isUnit(end.y),
-      `ImageFilterKit: LinearGradient props 'start.y' and 'end.y' should have measure ` +
-      `units.`
-    )
-
-    return {
-      ...config,
-      name: 'AndroidLinearGradient',
-      colors,
-      locations: stops,
-      x0: start.x,
-      y0: unitSupplement(start.y),
-      x1: end.x,
-      y1: unitSupplement(end.y)
-    }
-  },
+  }: LinearGradientConfig) => ({
+    ...config,
+    name: 'AndroidLinearGradient',
+    colors,
+    locations: stops,
+    x0: start.x,
+    y0: `100h - ${start.y}`,
+    x1: end.x,
+    y1: `100h - ${end.y}`
+  }),
 
   RadialGradient: ({
     colors = ['red', 'blue'],
@@ -39,41 +29,27 @@ export const shapeTransforms = {
     center = { x: '50w', y: '50h' },
     radius = '50min',
     ...config
-  }: RadialGradientConfig) => {
-    invariant(
-      isUnit(center.y),
-      `ImageFilterKit: RadialGradient props 'center.y' should have measure unit.`
-    )
-
-    return {
-      ...config,
-      name: 'AndroidRadialGradient',
-      colors,
-      stops,
-      radius,
-      centerX: center.x,
-      centerY: unitSupplement(center.y)
-    }
-  },
+  }: RadialGradientConfig) => ({
+    ...config,
+    name: 'AndroidRadialGradient',
+    colors,
+    stops,
+    radius,
+    centerX: center.x,
+    centerY: `100h - ${center.y}`
+  }),
 
   SweepGradient: ({
     colors = ['red', 'blue'],
     stops = [0, 1],
     center = { x: '50w', y: '50h' },
     ...config
-  }: SweepGradientConfig) => {
-    invariant(
-      isUnit(center.y),
-      `ImageFilterKit: SweepGradient props 'center.y' should have measure unit.`
-    )
-
-    return {
-      ...config,
-      name: 'AndroidSweepGradient',
-      colors: Array.from(colors).reverse(),
-      positions: stops.map(stop => 1 - stop).reverse(),
-      centerX: center.x,
-      centerY: unitSupplement(center.y)
-    }
-  }
+  }: SweepGradientConfig) => ({
+    ...config,
+    name: 'AndroidSweepGradient',
+    colors: Array.from(colors).reverse(),
+    positions: stops.map(stop => 1 - stop).reverse(),
+    centerX: center.x,
+    centerY: `100h - ${center.y}`
+  })
 }
