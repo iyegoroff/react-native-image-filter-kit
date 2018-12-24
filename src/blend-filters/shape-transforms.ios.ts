@@ -55,7 +55,7 @@ const asNativeBlendColorConfig = (name: string) => (
   ...config,
   name,
   inputImage: {
-    name: 'CIConstantColorGenerator',
+    name: 'IosCIConstantColorGenerator',
     inputColor: srcColor,
     disableCache: disableIntermediateCaches
   },
@@ -64,71 +64,71 @@ const asNativeBlendColorConfig = (name: string) => (
 })
 
 export const shapeTransforms = {
-  PlusBlend: asNativeBlendConfig('CIAdditionCompositing'),
+  PlusBlend: asNativeBlendConfig('IosCIAdditionCompositing'),
 
-  DarkenBlend: asNativeBlendConfig('CIDarkenBlendMode'),
+  DarkenBlend: asNativeBlendConfig('IosCIDarkenBlendMode'),
 
-  LightenBlend: asNativeBlendConfig('CILightenBlendMode'),
+  LightenBlend: asNativeBlendConfig('IosCILightenBlendMode'),
 
-  OverlayBlend: asNativeBlendConfig('CIOverlayBlendMode'),
+  OverlayBlend: asNativeBlendConfig('IosCIOverlayBlendMode'),
 
-  ScreenBlend: asNativeBlendConfig('CIScreenBlendMode'),
+  ScreenBlend: asNativeBlendConfig('IosCIScreenBlendMode'),
 
-  ModulateBlend: asNativeBlendConfig('CIMultiplyCompositing'),
+  ModulateBlend: asNativeBlendConfig('IosCIMultiplyCompositing'),
 
-  MultiplyBlend: asNativeBlendConfig('CIMultiplyBlendMode'),
+  MultiplyBlend: asNativeBlendConfig('IosCIMultiplyBlendMode'),
 
-  ColorDodgeBlend: asNativeBlendConfig('CIColorDodgeBlendMode'),
+  ColorDodgeBlend: asNativeBlendConfig('IosCIColorDodgeBlendMode'),
 
-  ExclusionBlend: asNativeBlendConfig('CIExclusionBlendMode'),
+  ExclusionBlend: asNativeBlendConfig('IosCIExclusionBlendMode'),
 
-  ColorBurnBlend: asNativeBlendConfig('CIColorBurnBlendMode'),
+  ColorBurnBlend: asNativeBlendConfig('IosCIColorBurnBlendMode'),
 
-  SoftLightBlend: asNativeBlendConfig('CISoftLightBlendMode'),
+  SoftLightBlend: asNativeBlendConfig('IosCISoftLightBlendMode'),
 
-  HueBlend: asNativeBlendConfig('CIHueBlendMode'),
+  HueBlend: asNativeBlendConfig('IosCIHueBlendMode'),
 
-  ColorBlend: asNativeBlendConfig('CIColorBlendMode'),
+  ColorBlend: asNativeBlendConfig('IosCIColorBlendMode'),
 
-  HardLightBlend: asNativeBlendConfig('CIHardLightBlendMode'),
+  HardLightBlend: asNativeBlendConfig('IosCIHardLightBlendMode'),
 
-  DifferenceBlend: asNativeBlendConfig('CIDifferenceBlendMode'),
+  DifferenceBlend: asNativeBlendConfig('IosCIDifferenceBlendMode'),
 
-  SaturationBlend: asNativeBlendConfig('CISaturationBlendMode'),
+  SaturationBlend: asNativeBlendConfig('IosCISaturationBlendMode'),
 
-  LuminosityBlend: asNativeBlendConfig('CILuminosityBlendMode'),
+  LuminosityBlend: asNativeBlendConfig('IosCILuminosityBlendMode'),
 
-  PlusBlendColor: asNativeBlendColorConfig('CIAdditionCompositing'),
+  PlusBlendColor: asNativeBlendColorConfig('IosCIAdditionCompositing'),
 
-  DarkenBlendColor: asNativeBlendColorConfig('CIDarkenBlendMode'),
+  DarkenBlendColor: asNativeBlendColorConfig('IosCIDarkenBlendMode'),
 
-  LightenBlendColor: asNativeBlendColorConfig('CILightenBlendMode'),
+  LightenBlendColor: asNativeBlendColorConfig('IosCILightenBlendMode'),
 
-  ModulateBlendColor: asNativeBlendColorConfig('CIMultiplyCompositing'),
+  ModulateBlendColor: asNativeBlendColorConfig('IosCIMultiplyCompositing'),
 
-  MultiplyBlendColor: asNativeBlendColorConfig('CIMultiplyBlendMode'),
+  MultiplyBlendColor: asNativeBlendColorConfig('IosCIMultiplyBlendMode'),
 
-  OverlayBlendColor: asNativeBlendColorConfig('CIOverlayBlendMode'),
+  OverlayBlendColor: asNativeBlendColorConfig('IosCIOverlayBlendMode'),
 
-  ScreenBlendColor: asNativeBlendColorConfig('CIScreenBlendMode'),
+  ScreenBlendColor: asNativeBlendColorConfig('IosCIScreenBlendMode'),
 
-  ColorDodgeBlendColor: asNativeBlendColorConfig('CIColorDodgeBlendMode'),
+  ColorDodgeBlendColor: asNativeBlendColorConfig('IosCIColorDodgeBlendMode'),
 
-  ExclusionBlendColor: asNativeBlendColorConfig('CIExclusionBlendMode'),
+  ExclusionBlendColor: asNativeBlendColorConfig('IosCIExclusionBlendMode'),
 
-  ColorBurnBlendColor: asNativeBlendColorConfig('CIColorBurnBlendMode'),
+  ColorBurnBlendColor: asNativeBlendColorConfig('IosCIColorBurnBlendMode'),
 
-  SoftLightBlendColor: asNativeBlendColorConfig('CISoftLightBlendMode'),
+  SoftLightBlendColor: asNativeBlendColorConfig('IosCISoftLightBlendMode'),
 
-  HueBlendColor: asNativeBlendColorConfig('CIHueBlendMode'),
+  HueBlendColor: asNativeBlendColorConfig('IosCIHueBlendMode'),
 
-  ColorBlendColor: asNativeBlendColorConfig('CIColorBlendMode'),
+  ColorBlendColor: asNativeBlendColorConfig('IosCIColorBlendMode'),
 
-  SaturationBlendColor: asNativeBlendColorConfig('CISaturationBlendMode'),
+  SaturationBlendColor: asNativeBlendColorConfig('IosCISaturationBlendMode'),
 
-  LuminosityBlendColor: asNativeBlendColorConfig('CILuminosityBlendMode'),
+  LuminosityBlendColor: asNativeBlendColorConfig('IosCILuminosityBlendMode'),
 
-  DifferenceBlendColor: asNativeBlendColorConfig('CIDifferenceBlendMode'),
+  DifferenceBlendColor: asNativeBlendColorConfig('IosCIDifferenceBlendMode'),
 
-  HardLightBlendColor: asNativeBlendColorConfig('CIHardLightBlendMode')
+  HardLightBlendColor: asNativeBlendColorConfig('IosCIHardLightBlendMode')
 }

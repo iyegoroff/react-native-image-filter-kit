@@ -12,29 +12,29 @@ const Gradient = {
 }
 
 export const shapes = {
-  IFKHazeRemoval: {
+  IosIFKHazeRemoval: {
     inputDistance: scalar,
     inputSlope: scalar,
     inputColor: color,
     ...Common
   },
 
-  IFKLinearGradient: {
+  IosIFKLinearGradient: {
     inputStart: position,
     inputEnd: position,
     ...Gradient
   },
 
-  IFKRadialGradient: {
+  IosIFKRadialGradient: {
     inputCenter: position,
     inputRadius: distance,
     ...Gradient
   },
 
-  IFKSweepGradient: {
+  IosIFKSweepGradient: {
     inputCenter: position,
     ...Gradient
   },
 
-  IFKXorCompositing: Composition
+  IosIFKXorCompositing: Composition
 }

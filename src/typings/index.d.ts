@@ -100,7 +100,7 @@ interface BlendColorConfig<Rest = never> extends CacheableConfig {
   readonly disableIntermediateCaches?: boolean
 }
 
-interface GradientGeneratorConfig<Rest> extends Partial<CommonConfig<Rest>> {
+interface GradientConfig<Rest> extends Partial<CommonConfig<Rest>> {
   readonly colors?: [
     string, string?, string?, string?, string?, string?, string?, string?, string?, string?
   ]
@@ -109,21 +109,21 @@ interface GradientGeneratorConfig<Rest> extends Partial<CommonConfig<Rest>> {
   ]
 }
 
-interface LinearGradientGeneratorConfig<Rest = never> extends GradientGeneratorConfig<Rest> {
+interface LinearGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly start?: Position
   readonly end?: Position
 }
 
-interface RadialGradientGeneratorConfig<Rest = never> extends GradientGeneratorConfig<Rest> {
+interface RadialGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly center?: Position
   readonly radius?: Distance
 }
 
-interface SweepGradientGeneratorConfig<Rest = never> extends GradientGeneratorConfig<Rest> {
+interface SweepGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly center?: Position
 }
 
-interface ColorGeneratorConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+interface ColorConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
   readonly color: string
 }
 
@@ -274,10 +274,10 @@ export type Config<Rest = never> =
   | ConfigCase<'WaldenCompat', ConfigWithIntermediates<Rest>>
   | ConfigCase<'WillowCompat', ConfigWithIntermediates<Rest>>
   | ConfigCase<'Xpro2Compat', ConfigWithIntermediates<Rest>>
-  | ConfigCase<'ColorGenerator', ColorGeneratorConfig<Rest>>
-  | ConfigCase<'LinearGradientGenerator', LinearGradientGeneratorConfig<Rest>>
-  | ConfigCase<'RadialGradientGenerator', RadialGradientGeneratorConfig<Rest>>
-  | ConfigCase<'SweepGradientGenerator', SweepGradientGeneratorConfig<Rest>>
+  | ConfigCase<'Color', ColorConfig<Rest>>
+  | ConfigCase<'LinearGradient', LinearGradientConfig<Rest>>
+  | ConfigCase<'RadialGradient', RadialGradientConfig<Rest>>
+  | ConfigCase<'SweepGradient', SweepGradientConfig<Rest>>
   | Rest
 
 export type ImageFilterProps<Rest> = ViewProps & Rest & {
@@ -431,10 +431,10 @@ export declare class ValenciaCompat extends React.Component<ImageFilterProps<Con
 export declare class WaldenCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
 export declare class WillowCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
 export declare class Xpro2Compat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class ColorGenerator extends React.Component<ImageFilterProps<ColorGeneratorConfig>> { }
-export declare class LinearGradientGenerator extends React.Component<ImageFilterProps<LinearGradientGeneratorConfig>> { }
-export declare class RadialGradientGenerator extends React.Component<ImageFilterProps<RadialGradientGeneratorConfig>> { }
-export declare class SweepGradientGenerator extends React.Component<ImageFilterProps<SweepGradientGeneratorConfig>> { }
+export declare class Color extends React.Component<ImageFilterProps<ColorConfig>> { }
+export declare class LinearGradient extends React.Component<ImageFilterProps<LinearGradientConfig>> { }
+export declare class RadialGradient extends React.Component<ImageFilterProps<RadialGradientConfig>> { }
+export declare class SweepGradient extends React.Component<ImageFilterProps<SweepGradientConfig>> { }
 
 export declare class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> { }
 export declare class ImageBackgroundPlaceholder extends React.Component<Omit<ImageBackgroundProps, 'source'>> { }

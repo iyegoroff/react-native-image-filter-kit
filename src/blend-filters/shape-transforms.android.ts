@@ -8,7 +8,7 @@ interface ColorBlendConfig {
 const asNativeBlendConfig = (mode: string) => (config: Object) => ({
   ...config,
   mode,
-  name: 'PorterDuffXfermode'
+  name: 'AndroidPorterDuffXfermode'
 })
 
 const asNativeBlendColorConfig = (mode: string) => ({
@@ -16,7 +16,7 @@ const asNativeBlendColorConfig = (mode: string) => ({
   dstImage,
   srcColor
 }: ColorBlendConfig) => ({
-  name: 'PorterDuffColorFilter',
+  name: 'AndroidPorterDuffColorFilter',
   image: dstImage,
   color: srcColor,
   disableCache,
@@ -30,7 +30,7 @@ const asRenderscriptBlendColorConfig = (name: string) => (
   name,
   resizeCanvasTo: 'dstImage',
   srcImage: {
-    name: 'Color',
+    name: 'AndroidColor',
     color: srcColor,
     disableCache: disableIntermediateCaches
   }

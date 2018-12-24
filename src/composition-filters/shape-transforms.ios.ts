@@ -73,21 +73,21 @@ const asInvertedNativeCompositionConfig = (name: string) => ({
 })
 
 export const shapeTransforms = {
-  SrcATopComposition: asNativeCompositionConfig('CISourceAtopCompositing'),
+  SrcATopComposition: asNativeCompositionConfig('IosCISourceAtopCompositing'),
 
-  DstATopComposition: asInvertedNativeCompositionConfig('CISourceAtopCompositing'),
+  DstATopComposition: asInvertedNativeCompositionConfig('IosCISourceAtopCompositing'),
 
-  DstInComposition: asInvertedNativeCompositionConfig('CISourceInCompositing'),
+  DstInComposition: asInvertedNativeCompositionConfig('IosCISourceInCompositing'),
 
-  DstOutComposition: asInvertedNativeCompositionConfig('CISourceOutCompositing'),
+  DstOutComposition: asInvertedNativeCompositionConfig('IosCISourceOutCompositing'),
 
-  DstOverComposition: asInvertedNativeCompositionConfig('CISourceOverCompositing'),
+  DstOverComposition: asInvertedNativeCompositionConfig('IosCISourceOverCompositing'),
 
-  SrcInComposition: asNativeCompositionConfig('CISourceInCompositing'),
+  SrcInComposition: asNativeCompositionConfig('IosCISourceInCompositing'),
 
-  SrcOutComposition: asNativeCompositionConfig('CISourceOutCompositing'),
+  SrcOutComposition: asNativeCompositionConfig('IosCISourceOutCompositing'),
 
-  SrcOverComposition: asNativeCompositionConfig('CISourceOverCompositing'),
+  SrcOverComposition: asNativeCompositionConfig('IosCISourceOverCompositing'),
 
-  XorComposition: asNativeCompositionConfig('IFKXorCompositing')
+  XorComposition: asNativeCompositionConfig('IosIFKXorCompositing')
 }

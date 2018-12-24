@@ -1,27 +1,23 @@
-import {
-  LinearGradientGeneratorConfig,
-  RadialGradientGeneratorConfig,
-  SweepGradientGeneratorConfig
-} from './shapes'
+import { LinearGradientConfig, RadialGradientConfig, SweepGradientConfig } from './shapes'
 
 export const shapeTransforms = {
-  ColorGenerator: ({ color, image, ...config }: { color: string, image: object }) => ({
+  Color: ({ color, image, ...config }: { color: string, image: object }) => ({
     ...config,
-    name: 'CIConstantColorGenerator',
+    name: 'IosCIConstantColorGenerator',
     inputImage: image,
     inputColor: color
   }),
 
-  LinearGradientGenerator: ({
+  LinearGradient: ({
     colors = ['red', 'blue'],
     stops = [0, 1],
     start = { x: 0, y: '0h' },
     end = { x: '100w', y: '0h' },
     image,
     ...config
-  }: LinearGradientGeneratorConfig) => ({
+  }: LinearGradientConfig) => ({
     ...config,
-    name: 'IFKLinearGradient',
+    name: 'IosIFKLinearGradient',
     inputImage: image,
     inputColors: colors,
     inputStops: stops,
@@ -29,16 +25,16 @@ export const shapeTransforms = {
     inputEnd: end
   }),
 
-  RadialGradientGenerator: ({
+  RadialGradient: ({
     colors = ['red', 'blue'],
     stops = [0, 1],
     center = { x: '50w', y: '50h' },
     radius = '50min',
     image,
     ...config
-  }: RadialGradientGeneratorConfig) => ({
+  }: RadialGradientConfig) => ({
     ...config,
-    name: 'IFKRadialGradient',
+    name: 'IosIFKRadialGradient',
     inputImage: image,
     inputColors: colors,
     inputStops: stops,
@@ -46,15 +42,15 @@ export const shapeTransforms = {
     inputRadius: radius
   }),
 
-  SweepGradientGenerator: ({
+  SweepGradient: ({
     colors = ['red', 'blue'],
     stops = [0, 1],
     center = { x: '50w', y: '50h' },
     image,
     ...config
-  }: SweepGradientGeneratorConfig) => ({
+  }: SweepGradientConfig) => ({
     ...config,
-    name: 'IFKSweepGradient',
+    name: 'IosIFKSweepGradient',
     inputImage: image,
     inputColors: colors,
     inputStops: stops,

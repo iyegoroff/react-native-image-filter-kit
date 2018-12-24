@@ -5,7 +5,7 @@ import {
   Brightness,
   Sepia,
   ScreenBlend,
-  RadialGradientGenerator,
+  RadialGradient,
   ConfigWithIntermediates
 } from 'react-native-image-filter-kit'
 
@@ -98,7 +98,7 @@ export const Poprocket = registerFilter(
         resizeCanvasTo: 'dstImage',
         dstImage: image,
         srcImage: {
-          name: 'RadialGradientGenerator',
+          name: 'RadialGradient',
           disableCache: disableIntermediateCaches,
           colors: ['rgba(206, 39, 70, 0.75)', 'rgba(0, 0, 0, 1)'],
           stops: [0.4, 0.8],
@@ -129,7 +129,7 @@ export const PoprocketStandalone = (
             resizeCanvasTo={'dstImage'}
             dstImage={image}
             srcImage={
-              <RadialGradientGenerator
+              <RadialGradient
                 disableCache={disableIntermediateCaches}
                 colors={['rgba(206, 39, 70, 0.75)', 'rgba(0, 0, 0, 1)']}
                 stops={[0.4, 0.8]}

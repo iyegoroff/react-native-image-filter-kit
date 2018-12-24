@@ -25,7 +25,7 @@ export interface DuoToneConfig extends FilterConfig {
 
 const asNativeFilterConfig = Platform.select({
   ios: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
-    name: 'CIColorMatrix',
+    name: 'IosCIColorMatrix',
     inputRVector: matrix.slice(0, 4),
     inputGVector: matrix.slice(5, 9),
     inputBVector: matrix.slice(10, 14),
@@ -36,7 +36,7 @@ const asNativeFilterConfig = Platform.select({
   } as Config),
 
   android: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
-    name: 'ColorMatrixColorFilter',
+    name: 'AndroidColorMatrixColorFilter',
     matrix,
     image,
     disableCache

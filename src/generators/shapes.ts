@@ -2,33 +2,33 @@ import { color, colorVector, scalarVector, position, distance } from '../common/
 import { Generator } from '../common/shapes'
 import { Position } from '../common/configs'
 
-interface GradientGeneratorConfig {
+interface GradientConfig {
   readonly colors?: ReadonlyArray<string>
   readonly stops?: ReadonlyArray<number>
   readonly image: object
 }
 
-export interface LinearGradientGeneratorConfig extends GradientGeneratorConfig {
+export interface LinearGradientConfig extends GradientConfig {
   readonly start?: Position
   readonly end?: Position
 }
 
-export interface RadialGradientGeneratorConfig extends GradientGeneratorConfig {
+export interface RadialGradientConfig extends GradientConfig {
   readonly center?: Position
   readonly radius?: string
 }
 
-export interface SweepGradientGeneratorConfig extends GradientGeneratorConfig {
+export interface SweepGradientConfig extends GradientConfig {
   readonly center?: Position
 }
 
 export const shapes = {
-  ColorGenerator: {
+  Color: {
     color: color,
     ...Generator
   },
 
-  LinearGradientGenerator: {
+  LinearGradient: {
     colors: colorVector,
     stops: scalarVector,
     start: position,
@@ -36,7 +36,7 @@ export const shapes = {
     ...Generator
   },
 
-  RadialGradientGenerator: {
+  RadialGradient: {
     colors: colorVector,
     stops: scalarVector,
     center: position,
@@ -44,7 +44,7 @@ export const shapes = {
     ...Generator
   },
 
-  SweepGradientGenerator: {
+  SweepGradient: {
     colors: colorVector,
     stops: scalarVector,
     center: position,

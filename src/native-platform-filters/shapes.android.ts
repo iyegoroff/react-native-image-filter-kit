@@ -18,36 +18,36 @@ export const shapes = {
   },
 
   // https://developer.android.com/reference/android/graphics/ColorMatrixColorFilter
-  ColorMatrixColorFilter: {
+  AndroidColorMatrixColorFilter: {
     matrix: scalarVector,
     ...Common
   },
 
   // https://frescolib.org/javadoc/reference/com/facebook/imagepipeline/postprocessors/IterativeBoxBlurPostProcessor.html
-  IterativeBoxBlur: {
+  AndroidIterativeBoxBlur: {
     blurRadius: scalar,
     iterations: scalar,
     ...Common
   },
 
   // https://developer.android.com/reference/android/graphics/LightingColorFilter
-  LightingColorFilter: {
+  AndroidLightingColorFilter: {
     mul: color,
     add: color,
     ...Common
   },
 
   // https://frescolib.org/javadoc/reference/com/facebook/imagepipeline/postprocessors/RoundAsCirclePostprocessor.html
-  RoundAsCircle: Common,
+  AndroidRoundAsCircle: Common,
 
   // https://developer.android.com/reference/android/graphics/Color
-  Color: {
+  AndroidColor: {
     color: color,
     ...Generator
   },
 
   // https://developer.android.com/reference/android/graphics/LinearGradient
-  LinearGradient: {
+  AndroidLinearGradient: {
     x0: distance,
     y0: distance,
     x1: distance,
@@ -59,7 +59,7 @@ export const shapes = {
   },
 
   // https://developer.android.com/reference/android/graphics/RadialGradient
-  RadialGradient: {
+  AndroidRadialGradient: {
     centerX: distance,
     centerY: distance,
     radius: distance,
@@ -70,7 +70,7 @@ export const shapes = {
   },
 
   // https://developer.android.com/reference/android/graphics/SweepGradient
-  SweepGradient: {
+  AndroidSweepGradient: {
     cx: distance,
     cy: distance,
     colors: colorVector,
@@ -79,32 +79,32 @@ export const shapes = {
   },
 
   // https://developer.android.com/reference/android/graphics/PorterDuffColorFilter
-  PorterDuffColorFilter: {
+  AndroidPorterDuffColorFilter: {
     color: color,
     mode: porterDuffMode,
     ...Common
   },
 
   // https://developer.android.com/reference/android/graphics/PorterDuffXfermode
-  PorterDuffXfermode: {
+  AndroidPorterDuffXfermode: {
     mode: porterDuffMode,
     ...Composition
   },
 
   // https://developer.android.com/reference/android/renderscript/ScriptIntrinsicBlur
-  ScriptIntrinsicBlur: {
+  AndroidScriptIntrinsicBlur: {
     radius: scalar,
     ...Common
   },
 
   // https://developer.android.com/reference/android/renderscript/ScriptIntrinsicConvolve3x3
-  ScriptIntrinsicConvolve3x3: {
+  AndroidScriptIntrinsicConvolve3x3: {
     coefficients: scalarVector,
     ...Common
   },
 
   // https://developer.android.com/reference/android/renderscript/ScriptIntrinsicConvolve5x5
-  ScriptIntrinsicConvolve5x5: {
+  AndroidScriptIntrinsicConvolve5x5: {
     coefficients: scalarVector,
     ...Common
   }

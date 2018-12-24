@@ -3,7 +3,6 @@ package iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.renderscript.Element;
-import android.renderscript.ScriptIntrinsicConvolve3x3;
 import android.renderscript.ScriptIntrinsicConvolve5x5;
 
 import com.facebook.cache.common.CacheKey;

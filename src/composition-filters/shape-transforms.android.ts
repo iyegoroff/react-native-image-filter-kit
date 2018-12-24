@@ -1,7 +1,7 @@
 const asNativeCompositionConfig = (mode: String) => (config: Object) => ({
   ...config,
   mode,
-  name: 'PorterDuffXfermode'
+  name: 'AndroidPorterDuffXfermode'
 })
 
 const asRenderscriptCompositingConfig = (name: string) => (config: Object) => ({
@@ -14,9 +14,9 @@ export const shapeTransforms = {
 
   // DstComposition: asNativeCompositionConfig('DST'),
 
-  DstATopComposition: asRenderscriptCompositingConfig('DestinationATopCompositing'),
+  DstATopComposition: asRenderscriptCompositingConfig('AndroidDestinationATopCompositing'),
 
-  DstInComposition: asRenderscriptCompositingConfig('DestinationInCompositing'),
+  DstInComposition: asRenderscriptCompositingConfig('AndroidDestinationInCompositing'),
 
   DstOutComposition: asNativeCompositionConfig('DST_OUT'),
 
@@ -26,9 +26,9 @@ export const shapeTransforms = {
 
   SrcATopComposition: asNativeCompositionConfig('SRC_ATOP'),
 
-  SrcInComposition: asRenderscriptCompositingConfig('SourceInCompositing'),
+  SrcInComposition: asRenderscriptCompositingConfig('AndroidSourceInCompositing'),
 
-  SrcOutComposition: asRenderscriptCompositingConfig('SourceOutCompositing'),
+  SrcOutComposition: asRenderscriptCompositingConfig('AndroidSourceOutCompositing'),
 
   SrcOverComposition: asNativeCompositionConfig('SRC_OVER'),
 

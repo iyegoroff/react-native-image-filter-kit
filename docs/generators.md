@@ -1,15 +1,15 @@
 # Generators
 
-- [ColorGenerator](#ColorGenerator)
-- [LinearGradientGenerator](#LinearGradientGenerator)
-- [RadialGradientGenerator](#RadialGradientGenerator)
-- [SweepGradientGenerator](#SweepGradientGenerator)
+- [Color](#Color)
+- [LinearGradient](#LinearGradient)
+- [RadialGradient](#RadialGradient)
+- [SweepGradient](#SweepGradient)
 ----
 - [Setting the size of generated image](#Setting-the-size-of-generated-image)
 
 ---
 
-#### ColorGenerator
+#### Color
 
 <table>
   <tr>
@@ -34,7 +34,7 @@
 
 ***
 
-#### LinearGradientGenerator
+#### LinearGradient
 
 <table>
   <tr>
@@ -77,7 +77,7 @@
 
 ***
 
-#### RadialGradientGenerator
+#### RadialGradient
 
 <table>
   <tr>
@@ -120,7 +120,7 @@
 
 ***
 
-#### SweepGradientGenerator
+#### SweepGradient
 
 <table>
   <tr>
@@ -161,11 +161,11 @@
 Three options available:
 - setting the size via `style` prop
   ```ts
-  <LinearGradientGenerator style={{ width: 320, height: 320 }} />
+  <LinearGradient style={{ width: 320, height: 320 }} />
   ```
 - setting the size directly for placeholder image
   ```ts
-  <LinearGradientGenerator
+  <LinearGradient
     image={
       <ImageBackgroundPlaceholder style={{ width: 320, height: 320 }} />
     }
@@ -176,6 +176,6 @@ Three options available:
   <PlusBlend
     resizeCanvasTo={'dstImage'}
     dstImage={<Image source={require('./parrot.png')} />}
-    srcImage={<LinearGradientGenerator />}
+    srcImage={<LinearGradient />}
   />
   ```

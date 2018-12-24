@@ -72,7 +72,7 @@ const result = (
         srcImage: {
           name: 'Invert',
           image: {
-            name: 'RadialGradientGenerator',
+            name: 'RadialGradient',
             colors: ['rgba(0, 0, 255, 1)', '#00ff00', 'red'],
             stops: [0.25, 0.75, 1],
             center: { x: '50w', y: '100h' }

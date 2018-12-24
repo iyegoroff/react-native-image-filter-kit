@@ -8,17 +8,17 @@ interface BlurConfig extends FilterConfig {
 export const shapeTransforms = {
   BoxBlur: Platform.select({
     ios: ({ radius = 5, image, disableCache }: BlurConfig) => ({
-      name: 'CIBoxBlur',
+      name: 'IosCIBoxBlur',
       disableCache,
       inputRadius: radius * 2,
       clampToExtent: true,
       inputImage: {
-        name: 'CIBoxBlur',
+        name: 'IosCIBoxBlur',
         disableCache,
         inputRadius: radius * 2,
         clampToExtent: true,
         inputImage: {
-          name: 'CIBoxBlur',
+          name: 'IosCIBoxBlur',
           disableCache,
           inputRadius: radius * 2,
           clampToExtent: true,
@@ -29,14 +29,14 @@ export const shapeTransforms = {
 
     android: ({ radius = 5, ...config }: BlurConfig) => ({
       ...config,
-      name: 'IterativeBoxBlur',
+      name: 'AndroidIterativeBoxBlur',
       blurRadius: radius
     } as object)
   }),
 
   GaussianBlur: Platform.select({
     ios: ({ radius = 5, image, disableCache }: BlurConfig) => ({
-      name: 'CIGaussianBlur',
+      name: 'IosCIGaussianBlur',
       disableCache,
       inputRadius: radius,
       inputImage: image,
@@ -45,7 +45,7 @@ export const shapeTransforms = {
 
     android: ({ radius = 5, ...config }: BlurConfig) => ({
       ...config,
-      name: 'ScriptIntrinsicBlur',
+      name: 'AndroidScriptIntrinsicBlur',
       radius: radius * 2
     } as object)
   })

@@ -30,47 +30,47 @@ type ConvertMap = { [P in InputShapes]?: { [T in InputImageNames]?: OutputImageN
 const convertMap = Platform.select<ConvertMap>({
   android: {},
   ios: {
-    CIMaskedVariableBlur: {
+    IosCIMaskedVariableBlur: {
       inputImage: srcImage,
       inputMask: dstImage
     },
-    CIDisplacementDistortion: {
+    IosCIDisplacementDistortion: {
       inputImage: srcImage,
       inputDisplacementImage: dstImage
     },
-    CIColorMap: {
+    IosCIColorMap: {
       inputImage: srcImage,
       inputGradientImage: dstImage
     },
-    CIMix: toBackground,
-    CIAdditionCompositing: toBackground,
-    CIColorBlendMode: toBackground,
-    CIColorBurnBlendMode: toBackground,
-    CIColorDodgeBlendMode: toBackground,
-    CIDarkenBlendMode: toBackground,
-    CIDifferenceBlendMode: toBackground,
-    CIDivideBlendMode: toBackground,
-    CIExclusionBlendMode: toBackground,
-    CIHardLightBlendMode: toBackground,
-    CIHueBlendMode: toBackground,
-    CILightenBlendMode: toBackground,
-    CILinearBurnBlendMode: toBackground,
-    CILinearDodgeBlendMode: toBackground,
-    CILuminosityBlendMode: toBackground,
-    CIMaximumCompositing: toBackground,
-    CIMinimumCompositing: toBackground,
-    CIMultiplyBlendMode: toBackground,
-    CIMultiplyCompositing: toBackground,
-    CIOverlayBlendMode: toBackground,
-    CIPinLightBlendMode: toBackground,
-    CISaturationBlendMode: toBackground,
-    CIScreenBlendMode: toBackground,
-    CISoftLightBlendMode: toBackground,
-    CISourceAtopCompositing: toBackground,
-    CISourceInCompositing: toBackground,
-    CISourceOutCompositing: toBackground,
-    CISourceOverCompositing: toBackground,
-    CISubtractBlendMode: toBackground
+    IosCIMix: toBackground,
+    IosCIAdditionCompositing: toBackground,
+    IosCIColorBlendMode: toBackground,
+    IosCIColorBurnBlendMode: toBackground,
+    IosCIColorDodgeBlendMode: toBackground,
+    IosCIDarkenBlendMode: toBackground,
+    IosCIDifferenceBlendMode: toBackground,
+    IosCIDivideBlendMode: toBackground,
+    IosCIExclusionBlendMode: toBackground,
+    IosCIHardLightBlendMode: toBackground,
+    IosCIHueBlendMode: toBackground,
+    IosCILightenBlendMode: toBackground,
+    IosCILinearBurnBlendMode: toBackground,
+    IosCILinearDodgeBlendMode: toBackground,
+    IosCILuminosityBlendMode: toBackground,
+    IosCIMaximumCompositing: toBackground,
+    IosCIMinimumCompositing: toBackground,
+    IosCIMultiplyBlendMode: toBackground,
+    IosCIMultiplyCompositing: toBackground,
+    IosCIOverlayBlendMode: toBackground,
+    IosCIPinLightBlendMode: toBackground,
+    IosCISaturationBlendMode: toBackground,
+    IosCIScreenBlendMode: toBackground,
+    IosCISoftLightBlendMode: toBackground,
+    IosCISourceAtopCompositing: toBackground,
+    IosCISourceInCompositing: toBackground,
+    IosCISourceOutCompositing: toBackground,
+    IosCISourceOverCompositing: toBackground,
+    IosCISubtractBlendMode: toBackground
   }
 })
 

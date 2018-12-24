@@ -95,11 +95,15 @@ const convertValue = Platform.select({
   )
 })
 
+const removePlatformPrefixes = (name: string) => (
+  name.replace(/^(?:Android|Ios)/, '')
+)
+
 export const finalizeConfig = ({ name, ...values }: Config) => {
   const shape = ShapeRegistry.shape(name)
 
   return ({
-    name,
+    name: removePlatformPrefixes(name),
     ...(Object.keys(shape).reduce(
       (acc, key) => {
         const inputType = shape[key] as Input

@@ -25,14 +25,14 @@ const fuzzyGlassMatrix = [
 
 const asNative3x3FilterConfig = Platform.select({
   ios: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
-    name: 'CIConvolution3X3',
+    name: 'IosCIConvolution3X3',
     inputWeights: matrix,
     inputImage: image,
     disableCache
   } as Config),
 
   android: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
-    name: 'ScriptIntrinsicConvolve3x3',
+    name: 'AndroidScriptIntrinsicConvolve3x3',
     coefficients: matrix,
     image,
     disableCache
@@ -41,14 +41,14 @@ const asNative3x3FilterConfig = Platform.select({
 
 const asNative5x5FilterConfig = Platform.select({
   ios: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
-    name: 'CIConvolution5X5',
+    name: 'IosCIConvolution5X5',
     inputWeights: matrix,
     inputImage: image,
     disableCache
   } as Config),
 
   android: ({ matrix, image, disableCache }: MatrixFilterConfig) => ({
-    name: 'ScriptIntrinsicConvolve5x5',
+    name: 'AndroidScriptIntrinsicConvolve5x5',
     coefficients: matrix,
     image,
     disableCache
@@ -73,7 +73,7 @@ export const shapeTransforms = {
 
   EdgeDetection: Platform.select({
     ios: ({ image, disableCache }: EdgeDetectionConfig) => ({
-      name: 'CIColorInvert',
+      name: 'IosCIColorInvert',
       inputImage: {
         ...asNative3x3FilterConfig({
           image,

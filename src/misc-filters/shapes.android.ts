@@ -1,11 +1,11 @@
 import { Composition } from '../common/shapes'
 
 export const shapes = {
-  DestinationATopCompositing: Composition,
+  AndroidDestinationATopCompositing: Composition,
 
-  SourceOutCompositing: Composition,
+  AndroidSourceOutCompositing: Composition,
 
-  DestinationInCompositing: Composition,
+  AndroidDestinationInCompositing: Composition,
 
-  SourceInCompositing: Composition
+  AndroidSourceInCompositing: Composition
 }
