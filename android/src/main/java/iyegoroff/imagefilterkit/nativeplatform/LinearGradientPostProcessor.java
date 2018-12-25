@@ -1,6 +1,7 @@
 package iyegoroff.imagefilterkit.nativeplatform;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
@@ -52,9 +53,11 @@ public class LinearGradientPostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public void processGenerated(@Nonnull Paint paint, @Nonnull Bitmap bitmap) {
+  public void processGenerated(@Nonnull Paint paint, @Nonnull Canvas canvas) {
     paint.setStyle(Paint.Style.FILL);
     paint.setShader(new LinearGradient(mX0, mY0, mX1, mY1, mColors, mLocations, mTileMode));
+
+    super.processGenerated(paint, canvas);
   }
 
   @Nonnull

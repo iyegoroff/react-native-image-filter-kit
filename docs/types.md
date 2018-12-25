@@ -109,9 +109,9 @@ Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually t
 
 #### Distance
 
-`number | RelativeUnit`
+`number | RelativeUnit | Expression`
 
-`Distance` can be a `number` representing actual pixels or a [RelativeUnit](#RelativeUnit) representing a value that depends on the image size.
+`Distance` can be a `number` representing actual pixels, a [RelativeUnit](#RelativeUnit) representing a value that depends on the image size or a [Expression](#Expression).
 
 ***
 #### Position
@@ -135,6 +135,10 @@ Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually t
 ***
 #### RelativeUnit
 Relative units are values similar to CSS [viewport units](https://css-tricks.com/fun-viewport-units/#article-header-id-0). There are 4 suffixes: 'h', 'w', 'min' and 'max'. For example `'50w'` means <i>50% of image width</i> and `'100min'` - <i>100% of minimum image dimension</i>.
+
+***
+#### Expression
+Expression allows to perform one arithmetic operation with numbers and relative units - `+` or `-`. Examples: <code>100w&nbsp;-&nbsp;10min</code>, <code>50max&nbsp;+&nbsp;25.5</code>, <code>10&nbsp;+&nbsp;20.5h</code>.
 
 ***
 #### Matrix

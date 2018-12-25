@@ -27,7 +27,9 @@ public abstract class GeneratorPostProcessor extends CacheablePostProcessor {
     mHeight = height;
   }
 
-  public abstract void processGenerated(@Nonnull Paint paint, @Nonnull Bitmap bitmap);
+  public void processGenerated(@Nonnull Paint paint, @Nonnull Canvas canvas) {
+    canvas.drawRect(new Rect(0, 0, mWidth, mHeight), paint);
+  }
 
   @Override
   public CloseableReference<Bitmap> process(
@@ -42,9 +44,7 @@ public abstract class GeneratorPostProcessor extends CacheablePostProcessor {
       final Canvas canvas = new Canvas(destBitmap);
       Paint paint = new Paint();
 
-      processGenerated(paint, destBitmap);
-
-      canvas.drawRect(new Rect(0, 0, mWidth, mHeight), paint);
+      processGenerated(paint, canvas);
 
       return CloseableReference.cloneOrNull(bitmapRef);
     } finally {

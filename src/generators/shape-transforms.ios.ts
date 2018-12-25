@@ -1,4 +1,9 @@
-import { LinearGradientConfig, RadialGradientConfig, SweepGradientConfig } from './shapes'
+import {
+  LinearGradientConfig,
+  RadialGradientConfig,
+  SweepGradientConfig,
+  TextImageConfig
+} from './shapes'
 
 export const shapeTransforms = {
   Color: ({ color, image, ...config }: { color: string, image: object }) => ({
@@ -55,5 +60,15 @@ export const shapeTransforms = {
     inputColors: colors,
     inputStops: stops,
     inputCenter: center
+  }),
+
+  TextImage: ({ color, text, fontSize, fontName, image, ...config }: TextImageConfig) => ({
+    ...config,
+    name: 'IosIFKTextImage',
+    inputImage: image,
+    inputText: text,
+    inputFontName: fontName,
+    inputFontSize: fontSize,
+    inputColor: color
   })
 }

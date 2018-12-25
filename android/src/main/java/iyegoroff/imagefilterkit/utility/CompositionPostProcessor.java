@@ -3,6 +3,7 @@ package iyegoroff.imagefilterkit.utility;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
@@ -12,6 +13,7 @@ import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.common.ReactConstants;
 
 import org.json.JSONObject;
 
@@ -88,6 +90,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   }
 
   protected int canvasExtent(int dstExtent, int srcExtent, int defaultExtent) {
+    Log.d(ReactConstants.TAG, "IFK: " + String.valueOf(mResizeCanvasTo) + " " + String.valueOf(dstExtent) + " " + String.valueOf(srcExtent) + " " + String.valueOf(defaultExtent));
     if (mResizeCanvasTo == null) {
       return defaultExtent;
 

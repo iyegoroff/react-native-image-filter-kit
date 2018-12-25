@@ -61,45 +61,60 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
       final Canvas canvas = new Canvas(outRef.get());
       final Paint paint = new Paint();
 
-      final int canvasWidth = canvas.getWidth();
-      final int canvasHeight = canvas.getHeight();
+      if (mSwapImages) {
+        drawSrc(canvas, src, paint);
 
-      canvas.drawBitmap(
-        mSwapImages ? src : dst,
-        null,
-        bitmapFrame(
-          canvasWidth,
-          canvasHeight,
-          dst.getWidth(),
-          dst.getHeight(),
-          mDstResizeMode,
-          mDstAnchor,
-          mDstPosition
-        ),
-        paint
-      );
+      } else {
+        drawDst(canvas, dst, paint);
+      }
 
       paint.setXfermode(new PorterDuffXfermode(mMode));
 
-      canvas.drawBitmap(
-        mSwapImages ? dst : src,
-        null,
-        bitmapFrame(
-          canvasWidth,
-          canvasHeight,
-          src.getWidth(),
-          src.getHeight(),
-          mSrcResizeMode,
-          mSrcAnchor,
-          mSrcPosition
-        ),
-        paint
-      );
+      if (mSwapImages) {
+        drawDst(canvas, dst, paint);
+
+      } else {
+        drawSrc(canvas, src, paint);
+      }
 
       return CloseableReference.cloneOrNull(outRef);
     } finally {
       CloseableReference.closeSafely(outRef);
     }
+  }
+
+  private void drawDst(@Nonnull Canvas canvas, @Nonnull Bitmap dst, @Nonnull Paint paint) {
+    canvas.drawBitmap(
+      dst,
+      null,
+      bitmapFrame(
+        canvas.getWidth(),
+        canvas.getHeight(),
+        dst.getWidth(),
+        dst.getHeight(),
+        mDstResizeMode,
+        mDstAnchor,
+        mDstPosition
+      ),
+      paint
+    );
+  }
+
+  private void drawSrc(@Nonnull Canvas canvas, @Nonnull Bitmap src, @Nonnull Paint paint) {
+    canvas.drawBitmap(
+      src,
+      null,
+      bitmapFrame(
+        canvas.getWidth(),
+        canvas.getHeight(),
+        src.getWidth(),
+        src.getHeight(),
+        mSrcResizeMode,
+        mSrcAnchor,
+        mSrcPosition
+      ),
+      paint
+    );
   }
 
   @Nonnull

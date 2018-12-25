@@ -1,4 +1,12 @@
-import { scalar, color, position, distance, colorVector, scalarVector } from '../common/inputs'
+import {
+  scalar,
+  color,
+  position,
+  distance,
+  colorVector,
+  scalarVector,
+  text
+} from '../common/inputs'
 import {
   GeneratorIos as Generator,
   CommonIos as Common,
@@ -36,5 +44,14 @@ export const shapes = {
     ...Gradient
   },
 
-  IosIFKXorCompositing: Composition
+  IosIFKXorCompositing: Composition,
+
+  IosIFKTextImage: {
+    inputText: text,
+    inputLineWidth: scalar,
+    inputFontName: text,
+    inputFontSize: distance,
+    inputColor: color,
+    ...Generator
+  }
 }

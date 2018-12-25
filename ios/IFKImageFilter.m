@@ -338,7 +338,6 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
                         change:(NSDictionary *)change
                        context:(void *)context {
   if ([keyPath isEqualToString:@"image"]) {
-    NSLog(@"filter: chamge %@ %@", change, object.image);
     _originalImages = [_targets reduce:^id(NSMutableArray* acc, RCTImageView *val, int idx) {
       [acc replaceObjectAtIndex:idx
                      withObject:(object == val)

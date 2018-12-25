@@ -1,4 +1,9 @@
-import { LinearGradientConfig, RadialGradientConfig, SweepGradientConfig } from './shapes'
+import {
+  LinearGradientConfig,
+  RadialGradientConfig,
+  SweepGradientConfig,
+  TextImageConfig
+} from './shapes'
 
 export const shapeTransforms = {
   Color: (config: Object) => ({
@@ -51,5 +56,10 @@ export const shapeTransforms = {
     positions: stops.map(stop => 1 - stop).reverse(),
     centerX: center.x,
     centerY: `100h - ${center.y}`
+  }),
+
+  TextImage: (config: TextImageConfig) => ({
+    ...config,
+    name: 'AndroidTextImage'
   })
 }

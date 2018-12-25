@@ -60,8 +60,6 @@
   [args addObject:self.inputCenter];
   [args addObject:self.inputRadius];
   
-  NSLog(@"filter: %@", args);
-  
   return [kernel applyWithExtent:[self.inputExtent CGRectValue]
                      roiCallback:^CGRect(int index, CGRect destRect) {
                        return destRect;

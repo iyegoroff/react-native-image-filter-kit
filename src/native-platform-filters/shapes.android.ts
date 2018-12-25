@@ -8,7 +8,8 @@ import {
   distance,
   tileMode,
   porterDuffMode,
-  config
+  config,
+  text
 } from '../common/inputs'
 import { Common, Composition, Generator } from '../common/shapes'
 
@@ -107,5 +108,13 @@ export const shapes = {
   AndroidScriptIntrinsicConvolve5x5: {
     coefficients: scalarVector,
     ...Common
+  },
+
+  AndroidTextImage: {
+    text: text,
+    fontName: text,
+    fontSize: distance,
+    color: color,
+    ...Generator
   }
 }

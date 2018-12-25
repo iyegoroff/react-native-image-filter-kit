@@ -108,6 +108,7 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
 
       final Canvas dstCanvas = new Canvas(tmpDst);
       final Canvas srcCanvas = new Canvas(tmpSrc);
+      final Paint paint = new Paint();
 
       dstCanvas.drawBitmap(
         dst,
@@ -121,7 +122,7 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
           mDstAnchor,
           mDstPosition
         ),
-        new Paint()
+        paint
       );
 
       srcCanvas.drawBitmap(
@@ -136,7 +137,7 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
           mSrcAnchor,
           mSrcPosition
         ),
-        new Paint()
+        paint
       );
 
       processRenderscriptComposition(

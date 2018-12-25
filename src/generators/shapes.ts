@@ -1,4 +1,4 @@
-import { color, colorVector, scalarVector, position, distance } from '../common/inputs'
+import { color, colorVector, scalarVector, position, distance, text } from '../common/inputs'
 import { Generator } from '../common/shapes'
 import { Position } from '../common/configs'
 
@@ -20,6 +20,14 @@ export interface RadialGradientConfig extends GradientConfig {
 
 export interface SweepGradientConfig extends GradientConfig {
   readonly center?: Position
+}
+
+export interface TextImageConfig {
+  readonly text: string
+  readonly fontName?: string
+  readonly fontSize?: string
+  readonly image: object
+  readonly color?: string
 }
 
 export const shapes = {
@@ -48,6 +56,14 @@ export const shapes = {
     colors: colorVector,
     stops: scalarVector,
     center: position,
+    ...Generator
+  },
+
+  TextImage: {
+    text: text,
+    fontName: text,
+    fontSize: distance,
+    color: color,
     ...Generator
   }
 }

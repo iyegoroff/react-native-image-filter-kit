@@ -1,0 +1,85 @@
+package iyegoroff.imagefilterkit.nativeplatform;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+
+import com.facebook.cache.common.CacheKey;
+import com.facebook.cache.common.SimpleCacheKey;
+import com.facebook.react.uimanager.PixelUtil;
+import com.facebook.react.views.text.ReactFontManager;
+
+import org.json.JSONObject;
+
+import java.util.Locale;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import iyegoroff.imagefilterkit.InputConverter;
+import iyegoroff.imagefilterkit.utility.GeneratorPostProcessor;
+
+public class TextImagePostProcessor extends GeneratorPostProcessor {
+
+  private @Nonnull final String mText;
+  private @Nullable final String mFontName;
+  private final float mFontSize;
+  private final int mColor;
+
+  private @Nullable final Typeface mTypeface;
+
+  public TextImagePostProcessor(
+    int width,
+    int height,
+    @Nullable JSONObject config,
+    final Context context
+  ) {
+    super(width, height, config);
+
+    InputConverter converter = new InputConverter(width, height);
+
+    mText = converter.convertText(config != null ? config.optJSONObject("text") : null, "");
+    mFontName = converter.convertText(config != null ? config.optJSONObject("fontName") : null, null);
+    mFontSize = converter.convertDistance(config != null ? config.optJSONObject("fontSize") : null, "16");
+    mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
+
+    mTypeface = ReactFontManager.getInstance()
+      .getTypeface(mFontName, Typeface.NORMAL, context.getAssets());
+  }
+
+  @Override
+  public String getName () {
+    return "TextImagePostProcessor";
+  }
+
+  @Override
+  public void processGenerated(@Nonnull Paint paint, @Nonnull Canvas canvas) {
+    paint.setTypeface(mTypeface);
+    paint.setAntiAlias(true);
+    paint.setTextAlign(Paint.Align.CENTER);
+    paint.setColor(mColor);
+    paint.setTextSize(PixelUtil.toPixelFromDIP(mFontSize));
+    Paint.FontMetrics m = paint.getFontMetrics();
+//    canvas.drawText(mText, mWidth / 2.0f, mHeight / 2.0f + mFontSize / 2.0f, paint);
+    canvas.drawText(mText, mWidth / 2.0f, -m.ascent, paint);
+  }
+
+  @Nonnull
+  @Override
+  public CacheKey generateCacheKey() {
+    return new SimpleCacheKey(
+      String.format(
+        (Locale) null,
+        "text_image_%s_%s_%f_%d_%d_%d",
+        mText,
+        mFontName,
+        mFontSize,
+        mColor,
+        mWidth,
+        mHeight
+      )
+    );
+  }
+}

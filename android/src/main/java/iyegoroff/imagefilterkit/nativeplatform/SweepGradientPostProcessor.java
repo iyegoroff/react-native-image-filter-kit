@@ -1,6 +1,7 @@
 package iyegoroff.imagefilterkit.nativeplatform;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.SweepGradient;
 
@@ -45,9 +46,11 @@ public class SweepGradientPostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public void processGenerated(@Nonnull Paint paint, @Nonnull Bitmap bitmap) {
+  public void processGenerated(@Nonnull Paint paint, @Nonnull Canvas canvas) {
     paint.setStyle(Paint.Style.FILL);
     paint.setShader(new SweepGradient(mCx, mCy, mColors, mPositions));
+
+    super.processGenerated(paint, canvas);
   }
 
   @Nonnull

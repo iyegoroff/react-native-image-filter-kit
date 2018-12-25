@@ -1,6 +1,7 @@
 package iyegoroff.imagefilterkit.nativeplatform;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.facebook.cache.common.CacheKey;
@@ -34,8 +35,10 @@ public class ColorPostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public void processGenerated(@Nonnull Paint paint, @Nonnull Bitmap bitmap) {
+  public void processGenerated(@Nonnull Paint paint, @Nonnull Canvas canvas) {
     paint.setColor(mColor);
+
+    super.processGenerated(paint, canvas);
   }
 
   @Nonnull

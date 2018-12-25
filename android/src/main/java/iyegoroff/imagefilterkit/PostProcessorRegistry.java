@@ -41,6 +41,7 @@ import iyegoroff.imagefilterkit.nativeplatform.PorterDuffXfermodePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.RadialGradientPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.RoundAsCirclePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.SweepGradientPostProcessor;
+import iyegoroff.imagefilterkit.nativeplatform.TextImagePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic.ScriptIntrinsicBlurPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic.ScriptIntrinsicConvolve3x3PostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic.ScriptIntrinsicConvolve5x5PostProcessor;
@@ -224,6 +225,18 @@ public class PostProcessorRegistry {
         @Nonnull Context context
       ) {
         return new ScriptIntrinsicConvolve5x5PostProcessor(width, height, config, context);
+      }
+    });
+
+    addSingular("TextImage", new CreateSingular() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
+        return new TextImagePostProcessor(width, height, config, context);
       }
     });
 

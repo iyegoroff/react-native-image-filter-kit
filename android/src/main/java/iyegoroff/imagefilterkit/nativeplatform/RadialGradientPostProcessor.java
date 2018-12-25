@@ -1,6 +1,7 @@
 package iyegoroff.imagefilterkit.nativeplatform;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
@@ -51,9 +52,11 @@ public class RadialGradientPostProcessor extends GeneratorPostProcessor {
 
 
   @Override
-  public void processGenerated(@Nonnull Paint paint, @Nonnull Bitmap bitmap) {
+  public void processGenerated(@Nonnull Paint paint, @Nonnull Canvas canvas) {
     paint.setStyle(Paint.Style.FILL);
     paint.setShader(new RadialGradient(mCenterX, mCenterY, mRadius, mColors, mStops, mTileMode));
+
+    super.processGenerated(paint, canvas);
   }
 
   @Nonnull
