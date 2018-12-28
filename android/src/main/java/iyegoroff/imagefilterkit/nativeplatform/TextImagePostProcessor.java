@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 
 import com.facebook.cache.common.CacheKey;
@@ -58,12 +60,19 @@ public class TextImagePostProcessor extends GeneratorPostProcessor {
   public void processGenerated(@Nonnull Paint paint, @Nonnull Canvas canvas) {
     paint.setTypeface(mTypeface);
     paint.setAntiAlias(true);
-    paint.setTextAlign(Paint.Align.CENTER);
     paint.setColor(mColor);
-    paint.setTextSize(PixelUtil.toPixelFromDIP(mFontSize));
-    Paint.FontMetrics m = paint.getFontMetrics();
-//    canvas.drawText(mText, mWidth / 2.0f, mHeight / 2.0f + mFontSize / 2.0f, paint);
-    canvas.drawText(mText, mWidth / 2.0f, -m.ascent, paint);
+    paint.setTextAlign(Paint.Align.LEFT);
+    paint.setTextSize(mFontSize);
+
+    Rect bounds = new Rect();
+    paint.getTextBounds(mText, 0, mText.length(), bounds);
+
+    canvas.drawText(
+      mText,
+      mWidth / 2.0f - bounds.width() / 2.0f - bounds.left,
+      mHeight / 2.0f + bounds.height() / 2.0f - bounds.bottom,
+      paint
+    );
   }
 
   @Nonnull

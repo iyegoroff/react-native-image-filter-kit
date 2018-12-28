@@ -14,6 +14,7 @@ import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.infer.annotation.Assertions;
 import com.facebook.react.common.ReactConstants;
+import com.facebook.react.uimanager.PixelUtil;
 
 import org.json.JSONObject;
 
@@ -90,15 +91,24 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   }
 
   protected int canvasExtent(int dstExtent, int srcExtent, int defaultExtent) {
-    Log.d(ReactConstants.TAG, "IFK: " + String.valueOf(mResizeCanvasTo) + " " + String.valueOf(dstExtent) + " " + String.valueOf(srcExtent) + " " + String.valueOf(defaultExtent));
     if (mResizeCanvasTo == null) {
       return defaultExtent;
+    }
 
-    } else if ("dstImage".equals(mResizeCanvasTo)) {
+    if ("dstImage".equals(mResizeCanvasTo)) {
       return dstExtent;
+    }
 
-    } else if ("srcImage".equals(mResizeCanvasTo)) {
+    if ("srcImage".equals(mResizeCanvasTo)) {
       return srcExtent;
+    }
+
+    if ("MIN".equals(mResizeCanvasTo)) {
+      return Math.min(dstExtent, srcExtent);
+    }
+
+    if ("MAX".equals(mResizeCanvasTo)) {
+      return Math.max(dstExtent, srcExtent);
     }
 
     throw Assertions.assertUnreachable(
@@ -174,7 +184,9 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     width += x;
     height += y;
 
-    return new RectF(x, y, width, height);
+    Log.d(ReactConstants.TAG, String.format((Locale)null, "IFK_ (%f %f) -> (%d %d %d %d)", bitmapWidth, bitmapHeight, Math.round(x), Math.round(y), Math.round(width), Math.round(height)));
+
+    return new RectF(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
   }
 
   @Nonnull

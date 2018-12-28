@@ -5,11 +5,14 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.react.common.ReactConstants;
+import com.facebook.react.uimanager.PixelUtil;
 
 import org.json.JSONObject;
 
@@ -52,14 +55,17 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
     Bitmap src,
     PlatformBitmapFactory bitmapFactory
   ) {
-    final CloseableReference<Bitmap> outRef = bitmapFactory.createBitmap(
-      canvasExtent(dst.getWidth(), src.getWidth(), mWidth),
-      canvasExtent(dst.getHeight(), src.getWidth(), mHeight)
-    );
+    int width = Math.round(PixelUtil.toPixelFromDIP(mWidth));
+    int height = Math.round(PixelUtil.toPixelFromDIP(mHeight));
+    width = canvasExtent(dst.getWidth(), src.getWidth(), width);
+    height = canvasExtent(dst.getHeight(), src.getHeight(), height);
+    final CloseableReference<Bitmap> outRef = bitmapFactory.createBitmap(width, height);
+    Log.d(ReactConstants.TAG, String.format((Locale)null, "IFK_ CANVAS(%d %d)", width, height));
 
     try {
       final Canvas canvas = new Canvas(outRef.get());
       final Paint paint = new Paint();
+      paint.setAntiAlias(true);
 
       if (mSwapImages) {
         drawSrc(canvas, src, paint);
@@ -76,6 +82,22 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
       } else {
         drawSrc(canvas, src, paint);
       }
+
+      Log.d(ReactConstants.TAG, String.format((Locale)null,
+        "IFK_ (%d %d) canv(%d %d) out(%d %d <-> %d %d) dst(%d %d) src(%d %d)",
+        mWidth,
+        mHeight,
+        canvas.getWidth(),
+        canvas.getHeight(),
+        Math.min(dst.getWidth(), src.getWidth()),
+        Math.min(dst.getHeight(), src.getWidth()),
+        canvasExtent(dst.getWidth(), src.getWidth(), mWidth),
+        canvasExtent(dst.getHeight(), src.getWidth(), mHeight),
+        dst.getWidth(),
+        dst.getHeight(),
+        src.getWidth(),
+        src.getHeight()
+      ));
 
       return CloseableReference.cloneOrNull(outRef);
     } finally {

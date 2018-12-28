@@ -16,6 +16,7 @@ interface CompositionConfig {
   readonly srcPosition?: Offset
   readonly disableCache?: boolean
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
+  readonly swapImages?: boolean
 }
 
 const asNativeCompositionConfig = (
@@ -56,21 +57,24 @@ const asInvertedNativeCompositionConfig = (name: string) => ({
   srcPosition,
   resizeCanvasTo,
   ...config
-}: CompositionConfig) => ({
-  inputImage: dstImage,
-  inputImageResizeMode: dstResizeMode,
-  inputImageAnchor: dstAnchor,
-  inputImagePosition: dstPosition,
-  inputBackgroundImage: srcImage,
-  inputBackgroundImageResizeMode: srcResizeMode,
-  inputBackgroundImageAnchor: srcAnchor,
-  inputBackgroundImagePosition: srcPosition,
-  resizeCanvasTo: resizeCanvasTo !== undefined
-    ? resizeCanvasTo === 'dstImage' ? 'srcImage' : 'dstImage'
-    : resizeCanvasTo,
-  ...config,
-  name
-})
+}: CompositionConfig) => {
+  // console.warn(resizeCanvasTo)
+  return ({
+    inputImage: dstImage,
+    inputImageResizeMode: dstResizeMode,
+    inputImageAnchor: dstAnchor,
+    inputImagePosition: dstPosition,
+    inputBackgroundImage: srcImage,
+    inputBackgroundImageResizeMode: srcResizeMode,
+    inputBackgroundImageAnchor: srcAnchor,
+    inputBackgroundImagePosition: srcPosition,
+    resizeCanvasTo: resizeCanvasTo !== undefined
+      ? resizeCanvasTo === 'dstImage' ? 'srcImage' : 'dstImage'
+      : resizeCanvasTo,
+    ...config,
+    name
+  })
+}
 
 export const shapeTransforms = {
   SrcATopComposition: asNativeCompositionConfig('IosCISourceAtopCompositing'),

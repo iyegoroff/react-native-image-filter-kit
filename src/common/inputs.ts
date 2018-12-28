@@ -10,6 +10,7 @@ export const porterDuffMode = 'porterDuffMode'
 export const colorVector = 'colorVector'
 export const image = 'image'
 export const resizeMode = 'resizeMode'
+export const size = 'size'
 export const bool = 'bool'
 export const distanceVector = 'distanceVector'
 export const text = 'text'
@@ -31,6 +32,7 @@ export type Input =
   | typeof colorVector
   | typeof image
   | typeof resizeMode
+  | typeof size
   | typeof bool
   | typeof distanceVector
   | typeof text

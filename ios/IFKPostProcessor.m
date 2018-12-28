@@ -52,7 +52,8 @@
       @"srcAnchor",
       @"srcPosition",
       @"swapImages",
-      @"clampToExtent"
+      @"clampToExtent",
+      @"size"
     ];
   });
 

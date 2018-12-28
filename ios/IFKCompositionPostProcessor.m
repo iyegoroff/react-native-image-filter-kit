@@ -154,6 +154,35 @@
   return @"";
 }
 
+- (CGFloat)canvasExtentWithDstExtent:(CGFloat)dstExtent
+                           srcExtent:(CGFloat)srcExtent
+                       defaultExtent:(CGFloat)defaultExtent
+{
+  if (_resizeCanvasTo == nil) {
+    return defaultExtent;
+  }
+  
+  if ([@"dstImage" isEqualToString:_resizeCanvasTo]) {
+    return dstExtent;
+  }
+  
+  if ([@"srcImage" isEqualToString:_resizeCanvasTo]) {
+    return srcExtent;
+  }
+  
+  if ([@"MIN" isEqualToString:_resizeCanvasTo]) {
+    return MIN(dstExtent, srcExtent);
+  }
+  
+  if ([@"MAX" isEqualToString:_resizeCanvasTo]) {
+    return MAX(dstExtent, srcExtent);
+  }
+  
+  RCTAssert(false, @"ImageFilterKit: unknown resizeCanvasTo input - %@", _resizeCanvasTo);
+  
+  return 0;
+}
+
 - (nonnull UIImage *)processFilter:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
 {
   //  BOOL isSlow = arc4random() % 2 == 0;
@@ -166,11 +195,14 @@
   CGRect srcFrame = srcImage.extent;
   CGRect dstFrame = dstImage.extent;
   
-  CGSize outSize = [@"dstImage" isEqualToString:_resizeCanvasTo]
-    ? dstFrame.size
-    : [@"srcImage" isEqualToString:_resizeCanvasTo]
-    ? srcFrame.size
-    : _canvasSize;
+  CGSize outSize = CGSizeMake(
+    [self canvasExtentWithDstExtent:dstFrame.size.width
+                          srcExtent:srcFrame.size.width
+                      defaultExtent:_canvasSize.width],
+    [self canvasExtentWithDstExtent:dstFrame.size.height
+                          srcExtent:srcFrame.size.height
+                      defaultExtent:_canvasSize.height]
+  );
   
   [self initFilter:outSize];
   

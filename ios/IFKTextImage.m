@@ -1,6 +1,8 @@
 #import "IFKTextImage.h"
 #import <UIKit/UIKit.h>
+#import <CoreText/CoreText.h>
 #import <React/RCTUtils.h>
+#import "Image/RCTImageUtils.h"
 #import "IFKFilterConstructor.h"
 
 @implementation IFKTextImage
@@ -31,29 +33,29 @@
     return nil;
   }
   
-  // based on this: https://stackoverflow.com/a/28907826/4134913
-  
   UIFont *font = [UIFont fontWithName:self.inputFontName size:[self.inputFontSize floatValue]];
   CGRect frame = CGRectMake(0, 0, self.inputExtent.Z, self.inputExtent.W);
+  NSDictionary *attrs = @{NSFontAttributeName: font,
+                          NSForegroundColorAttributeName: [UIColor colorWithCIColor:_inputColor]};
   
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
-  CGContextRef ctx = UIGraphicsGetCurrentContext();
-  CGContextSetTextDrawingMode(ctx, kCGTextInvisible);
   
-  [self.inputText drawInRect:frame
-              withAttributes:@{NSFontAttributeName: font,
-                               NSForegroundColorAttributeName: [UIColor colorWithCIColor:_inputColor]}];
+  CGSize size = [self.inputText sizeWithAttributes:attrs];
   
-  CGPoint p = CGContextGetTextPosition(ctx);
+  CGRect bounds = [self.inputText boundingRectWithSize:size
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                            attributes:attrs
+                                               context:nil];
+  CGRect altBounds = [self.inputText boundingRectWithSize:size
+                                                  options:NSStringDrawingUsesDeviceMetrics
+                                               attributes:attrs
+                                                  context:nil];
   
-  CGContextSetTextDrawingMode(ctx, kCGTextFill);
-  
-  [self.inputText drawInRect:CGRectMake(self.inputExtent.Z / 2.0f - p.x / 2.0f,
-                                        0,//self.inputExtent.W / 2.0f - ([self.inputFontSize floatValue] / 2.0f + p.y / 2.0f) / RCTScreenScale(),
-                                        frame.size.width,
-                                        frame.size.height)
-              withAttributes:@{NSFontAttributeName: font,
-                               NSForegroundColorAttributeName: [UIColor colorWithCIColor:_inputColor]}];
+  [self.inputText drawInRect:CGRectMake(frame.size.width / 2.0f - altBounds.size.width / 2.0f - altBounds.origin.x,
+                                        frame.size.height / 2.0f - bounds.size.height / 2.0f - bounds.origin.y,
+                                        size.width,
+                                        size.height)
+              withAttributes:attrs];
   
   UIImage *textImage = UIGraphicsGetImageFromCurrentImageContext();
   

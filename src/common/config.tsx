@@ -1,5 +1,5 @@
 import React from 'react'
-import { processColor, Platform } from 'react-native'
+import { processColor, Platform, StyleSheet, ViewStyle, PixelRatio } from 'react-native'
 import {
   distance,
   scalar,
@@ -174,6 +174,15 @@ export const extractConfigAndImages = (filterProps: Config) => {
             acc[key] = parseFilter(
               inputValue || <ImagePlaceholder key={`ifk_placeholder_${images.length}`} />
             )
+
+            if (inputValue && inputValue.props && inputValue.props.style) {
+              const style = StyleSheet.flatten<ViewStyle>(inputValue.props.style)
+              const { width, height } = style
+
+              if (typeof width === 'number' && typeof height === 'number') {
+                acc['size'] = { width: width / PixelRatio.get(), height: height / PixelRatio.get() }
+              }
+            }
 
           } else if (inputType === marker) {
             acc[key] = true

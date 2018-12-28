@@ -89,6 +89,17 @@ public class InputConverter {
     return new Resize.WithMode(convertEnumeration(mode, defaultMode, Resize.Mode.class));
   }
 
+  public Size convertSize(@Nullable JSONObject size, @Nonnull Size defaultSize) {
+    JSONObject sz = size != null ? size.optJSONObject("size") : null;
+
+    return sz != null
+      ? new Size(
+          sz.has("width") ? (float)sz.optDouble("width") : defaultSize.width,
+          sz.has("height") ? (float)sz.optDouble("height") : defaultSize.height
+        )
+      : defaultSize;
+  }
+
   public float[] convertScalarVector(@Nullable JSONObject scalarVector, float[] defaultValue) {
     if (scalarVector != null && scalarVector.has("scalarVector")) {
       JSONArray sv = scalarVector.optJSONArray("scalarVector");

@@ -2,6 +2,7 @@ package iyegoroff.imagefilterkit;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,6 +27,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.ReactConstants;
+import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.facebook.react.views.image.ReactImageView;
 import com.facebook.react.views.view.ReactViewGroup;
@@ -111,13 +113,24 @@ public class ImageFilter extends ReactViewGroup {
           final int measuredHeight = result.getImage().getMeasuredHeight();
           final int width = measuredWidth == 0 ? mDefaultWidth : measuredWidth;
           final int height = measuredHeight == 0 ? mDefaultHeight : measuredHeight;
+          final Size size = new InputConverter(0, 0)
+            .convertSize(config.optJSONObject("size"), new Size(width, height));
+
+          Log.d(ReactConstants.TAG, "IFK_ sing: " + name + " " + String.valueOf(Math.round(PixelUtil.toPixelFromDIP(size.width))) + "-" + String.valueOf(Math.round(PixelUtil.toPixelFromDIP(size.height))));
+          Log.d(ReactConstants.TAG, "IFK_ sing meas: " + name + " " + String.valueOf(measuredWidth) + "-" + String.valueOf(measuredHeight));
 
           final ArrayList<Postprocessor> postProcessors =
             new ArrayList<>(result.getPostProcessors());
 
           postProcessors.add(
             PostProcessorRegistry.getInstance()
-              .createSingular(name, width, height, config, getContext())
+              .createSingular(
+                name, //width, height,
+                Math.round(PixelUtil.toPixelFromDIP(size.width)),
+                Math.round(PixelUtil.toPixelFromDIP(size.height)),
+                config,
+                getContext()
+              )
           );
 
           final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
@@ -143,6 +156,15 @@ public class ImageFilter extends ReactViewGroup {
           final FilterableImage src = result.get(1);
           final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
 
+          Log.d(ReactConstants.TAG, String.format((Locale)null,
+            "IFK_ def(%d %d) dst(%d %d) src(%d %d)",
+            mDefaultWidth,
+            mDefaultHeight,
+            dst.getImage().getMeasuredWidth(),
+            dst.getImage().getMeasuredHeight(),
+            src.getImage().getMeasuredWidth(),
+            src.getImage().getMeasuredHeight()
+          ));
           ImageFilter.filterImage(src, mImageListeners.get(src.getImage()))
             .onSuccess(new Continuation<ReactImageView, Void>() {
               @Override
@@ -154,6 +176,8 @@ public class ImageFilter extends ReactViewGroup {
                   final int measuredHeight = result.getMeasuredHeight();
                   final int width = measuredWidth == 0 ? mDefaultWidth : measuredWidth;
                   final int height = measuredHeight == 0 ? mDefaultHeight : measuredHeight;
+                  final Size size = new InputConverter(0, 0)
+                    .convertSize(config.optJSONObject("size"), new Size(width, height));
 
                   final DataSource<CloseableReference<CloseableImage>> ds = ReactImageViewUtils
                     .getDataSource(result);
@@ -170,12 +194,15 @@ public class ImageFilter extends ReactViewGroup {
                             ArrayList<Postprocessor> postProcessors =
                               new ArrayList<>(dst.getPostProcessors());
 
+                            Log.d(ReactConstants.TAG, "IFK_ multi: " + name + " " + String.valueOf(Math.round(PixelUtil.toPixelFromDIP(size.width))) + "-" + String.valueOf(Math.round(PixelUtil.toPixelFromDIP(size.height))));
+                            Log.d(ReactConstants.TAG, "IFK_ multi meas: " + name + " " + String.valueOf(measuredWidth) + "-" + String.valueOf(measuredHeight));
+
                             try {
                               postProcessors.add(
                                 PostProcessorRegistry.getInstance().createComposition(
-                                  name,
-                                  width,
-                                  height,
+                                  name, //width, height,
+                                  Math.round(PixelUtil.toPixelFromDIP(size.width)),
+                                  Math.round(PixelUtil.toPixelFromDIP(size.height)),
                                   config,
                                   ref,
                                   src.generatedCacheKey(),

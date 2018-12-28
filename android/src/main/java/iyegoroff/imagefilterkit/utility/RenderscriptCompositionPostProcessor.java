@@ -6,13 +6,18 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
+import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableImage;
+import com.facebook.react.common.ReactConstants;
+import com.facebook.react.uimanager.PixelUtil;
 
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -94,8 +99,11 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
     Bitmap src,
     PlatformBitmapFactory bitmapFactory
   ) {
-    final int width = canvasExtent(dst.getWidth(), src.getWidth(), mWidth);
-    final int height = canvasExtent(dst.getHeight(), src.getWidth(), mHeight);
+    int width = Math.round(PixelUtil.toPixelFromDIP(mWidth));
+    int height = Math.round(PixelUtil.toPixelFromDIP(mHeight));
+    width = canvasExtent(dst.getWidth(), src.getWidth(), width);
+    height = canvasExtent(dst.getHeight(), src.getHeight(), height);
+    Log.d(ReactConstants.TAG, String.format((Locale)null, "IFK_ CANVAS(%d %d)", width, height));
 
     final CloseableReference<Bitmap> tmpDstRef = bitmapFactory.createBitmap(width, height);
     final CloseableReference<Bitmap> tmpSrcRef = bitmapFactory.createBitmap(width, height);

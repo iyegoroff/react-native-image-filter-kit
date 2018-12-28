@@ -39,6 +39,7 @@ static inline float3 setSaturationHelper(float minComp, float midComp, float max
 
 static inline float3 setSaturation(const float3 hueLumColor, const float3 satColor) {
   float3 hue = hueLumColor;
+  float3 tmp;
   float sat = getSaturation(satColor);
 
   if (hue.r <= hue.g) {
@@ -49,14 +50,14 @@ static inline float3 setSaturation(const float3 hueLumColor, const float3 satCol
       return setSaturationHelper(hue.r, hue.b, hue.g, sat).rbg;
 
     } else {
-      return setSaturationHelper(hue.b, hue.r, hue.g, sat).brg;
+      return setSaturationHelper(hue.b, hue.r, hue.g, sat).gbr;
     }
 
   } else if (hue.r <= hue.b) {
     return setSaturationHelper(hue.g, hue.r, hue.b, sat).grb;
 
   } else if (hue.g <= hue.b) {
-    return setSaturationHelper(hue.g, hue.b, hue.r, sat).gbr;
+    return setSaturationHelper(hue.g, hue.b, hue.r, sat).brg;
 
   } else {
     return setSaturationHelper(hue.b, hue.g, hue.r, sat).bgr;
