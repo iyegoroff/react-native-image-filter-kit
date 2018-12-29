@@ -223,6 +223,27 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   }
 }
 
+- (BOOL)imagesAreLoading
+{
+  return [_targets some:^BOOL(RCTImageView *val, int idx) {
+    return [val valueForKey:@"_pendingImageSource"] != nil;
+  }];
+}
+
+- (void)startFiltering
+{
+  if (_onIFKFilteringStart) {
+    _onIFKFilteringStart(nil);
+  }
+}
+
+- (void)finishFiltering
+{
+  if (_onIFKFilteringFinish) {
+    _onIFKFilteringFinish(nil);
+  }
+}
+
 - (void)runFilterPipelineAndInvalidate:(BOOL)shouldInvalidate onlyCheckCache:(BOOL)onlyCheckCache
 {
   if (_targets.count > [IFKConfigHelper maxImageIndex:_jsonConfig]) {
@@ -231,17 +252,13 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
     
     if (cachedImage != nil) {
       if (_targets[0].image != cachedImage) {
-        if (_onIFKFilteringStart) {
-          _onIFKFilteringStart(nil);
-        }
+        [self startFiltering];
         
         [self resetFilterPipeline];
         
         [self updateTarget:_targets[0] image:cachedImage];
         
-        if (_onIFKFilteringFinish) {
-          _onIFKFilteringFinish(nil);
-        }
+        [self finishFiltering];
       }
 
     } else if (!onlyCheckCache) {
@@ -253,18 +270,14 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
       
       if (_jsonConfig != nil && [_originalImages every:^BOOL(IFKImage *val, int idx) {
         return ![val isEqual:[NSNull null]];
-      }]) {
-        if (_onIFKFilteringStart) {
-          _onIFKFilteringStart(nil);
-        }
+      }] && ![self imagesAreLoading]) {
+        [self startFiltering];
         
         [[[self parseConfig:_jsonConfig] continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
           return [self filterImage:[task result]];
           
         } cancellationToken:[_filtering token]] continueWithExecutor:[IFKExecutor mainThreadExecutor] successBlock:^id _Nullable(IFKTask * _Nonnull t) {
-          if (_onIFKFilteringFinish) {
-            _onIFKFilteringFinish(nil);
-          }
+          [self finishFiltering];
           
           return nil;
         } cancellationToken:[_filtering token]];
@@ -305,7 +318,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
     }] continueWithExecutor:[IFKExecutor mainThreadExecutor] successBlock:^id _Nullable(IFKTask<UIImage *> * _Nonnull task) {
       UIImage *image = [task result];
       
-      if ([target valueForKey:@"_pendingImageSource"] == nil) {
+      if (![self imagesAreLoading]) {
         if (![filterableImage isCacheDisabled] && image != nil) {
           [[IFKImageCache instance] setImage:image forKey:safeCacheKey];
         }
