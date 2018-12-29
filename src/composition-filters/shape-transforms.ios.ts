@@ -19,11 +19,7 @@ interface CompositionConfig {
   readonly swapImages?: boolean
 }
 
-const asNativeCompositionConfig = (
-  name: string,
-  srcPlaceholder?: unknown,
-  dstPlaceholder?: unknown
-) => ({
+const asNativeCompositionConfig = (name: string) => ({
   dstImage,
   srcImage,
   dstResizeMode,
@@ -34,11 +30,11 @@ const asNativeCompositionConfig = (
   srcPosition,
   ...config
 }: CompositionConfig) => ({
-  inputImage: srcPlaceholder || srcImage,
+  inputImage: srcImage,
   inputImageResizeMode: srcResizeMode,
   inputImageAnchor: srcAnchor,
   inputImagePosition: srcPosition,
-  inputBackgroundImage: dstPlaceholder || dstImage,
+  inputBackgroundImage: dstImage,
   inputBackgroundImageResizeMode: dstResizeMode,
   inputBackgroundImageAnchor: dstAnchor,
   inputBackgroundImagePosition: dstPosition,
@@ -46,35 +42,10 @@ const asNativeCompositionConfig = (
   name
 })
 
-const asInvertedNativeCompositionConfig = (name: string) => ({
-  dstImage,
-  srcImage,
-  dstResizeMode,
-  srcResizeMode,
-  dstAnchor,
-  srcAnchor,
-  dstPosition,
-  srcPosition,
-  resizeCanvasTo,
-  ...config
-}: CompositionConfig) => {
-  // console.warn(resizeCanvasTo)
-  return ({
-    inputImage: dstImage,
-    inputImageResizeMode: dstResizeMode,
-    inputImageAnchor: dstAnchor,
-    inputImagePosition: dstPosition,
-    inputBackgroundImage: srcImage,
-    inputBackgroundImageResizeMode: srcResizeMode,
-    inputBackgroundImageAnchor: srcAnchor,
-    inputBackgroundImagePosition: srcPosition,
-    resizeCanvasTo: resizeCanvasTo !== undefined
-      ? resizeCanvasTo === 'dstImage' ? 'srcImage' : 'dstImage'
-      : resizeCanvasTo,
-    ...config,
-    name
-  })
-}
+const asInvertedNativeCompositionConfig = (name: string) => (config: CompositionConfig) => ({
+  ...asNativeCompositionConfig(name)(config),
+  swapImages: !config.swapImages
+})
 
 export const shapeTransforms = {
   SrcATopComposition: asNativeCompositionConfig('IosCISourceAtopCompositing'),
