@@ -26,7 +26,6 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.ReactConstants;
-import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.facebook.react.views.image.ReactImageView;
 import com.facebook.react.views.view.ReactViewGroup;
@@ -108,13 +107,6 @@ public class ImageFilter extends ReactViewGroup {
         @Override
         public FilterableImage then(Task<FilterableImage> task) {
           final FilterableImage result = task.getResult();
-          final int measuredWidth = result.getImage().getMeasuredWidth();
-          final int measuredHeight = result.getImage().getMeasuredHeight();
-          final int width = measuredWidth == 0 ? mDefaultWidth : measuredWidth;
-          final int height = measuredHeight == 0 ? mDefaultHeight : measuredHeight;
-          final Size size = new InputConverter(0, 0)
-            .convertSize(config.optJSONObject("size"), new Size(width, height));
-
           final ArrayList<Postprocessor> postProcessors =
             new ArrayList<>(result.getPostProcessors());
 
@@ -122,8 +114,8 @@ public class ImageFilter extends ReactViewGroup {
             PostProcessorRegistry.getInstance()
               .createSingular(
                 name,
-                Math.round(PixelUtil.toPixelFromDIP(size.width)),
-                Math.round(PixelUtil.toPixelFromDIP(size.height)),
+                mDefaultWidth,
+                mDefaultHeight,
                 config,
                 getContext()
               )
@@ -159,13 +151,6 @@ public class ImageFilter extends ReactViewGroup {
                 final ReactImageView result = task.getResult();
 
                 if (result != null && result.getController() != null) {
-                  final int measuredWidth = result.getMeasuredWidth();
-                  final int measuredHeight = result.getMeasuredHeight();
-                  final int width = measuredWidth == 0 ? mDefaultWidth : measuredWidth;
-                  final int height = measuredHeight == 0 ? mDefaultHeight : measuredHeight;
-                  final Size size = new InputConverter(0, 0)
-                    .convertSize(config.optJSONObject("size"), new Size(width, height));
-
                   final DataSource<CloseableReference<CloseableImage>> ds = ReactImageViewUtils
                     .getDataSource(result);
 
@@ -184,9 +169,9 @@ public class ImageFilter extends ReactViewGroup {
                             try {
                               postProcessors.add(
                                 PostProcessorRegistry.getInstance().createComposition(
-                                  name, //width, height,
-                                  Math.round(PixelUtil.toPixelFromDIP(size.width)),
-                                  Math.round(PixelUtil.toPixelFromDIP(size.height)),
+                                  name,
+                                  mDefaultWidth,
+                                  mDefaultHeight,
                                   config,
                                   ref,
                                   src.generatedCacheKey(),

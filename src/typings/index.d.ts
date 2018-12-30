@@ -127,6 +127,13 @@ interface ColorConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
   readonly color: string
 }
 
+interface TextImageConfig<Rest = never> extends CommonConfig<Rest> {
+  readonly text: string
+  readonly fontName?: string
+  readonly fontSize?: number
+  readonly color?: string
+}
+
 interface ConfigWithIntermediates<Rest = never> extends CommonConfig<Rest> {
   /** Should be used only when defining custom filters */
   readonly disableIntermediateCaches?: boolean
@@ -278,6 +285,7 @@ export type Config<Rest = never> =
   | ConfigCase<'LinearGradient', LinearGradientConfig<Rest>>
   | ConfigCase<'RadialGradient', RadialGradientConfig<Rest>>
   | ConfigCase<'SweepGradient', SweepGradientConfig<Rest>>
+  | ConfigCase<'TextImage', TextImageConfig<Rest>>
   | Rest
 
 export type ImageFilterProps<Rest> = ViewProps & Rest & {
@@ -435,6 +443,7 @@ export declare class Color extends React.Component<ImageFilterProps<ColorConfig>
 export declare class LinearGradient extends React.Component<ImageFilterProps<LinearGradientConfig>> { }
 export declare class RadialGradient extends React.Component<ImageFilterProps<RadialGradientConfig>> { }
 export declare class SweepGradient extends React.Component<ImageFilterProps<SweepGradientConfig>> { }
+export declare class TextImage extends React.Component<ImageFilterProps<TextImageConfig>> { }
 
 export declare class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> { }
 export declare class ImageBackgroundPlaceholder extends React.Component<Omit<ImageBackgroundProps, 'source'>> { }

@@ -52,8 +52,7 @@
       @"srcAnchor",
       @"srcPosition",
       @"swapImages",
-      @"clampToExtent",
-      @"size"
+      @"clampToExtent"
     ];
   });
 
@@ -69,20 +68,15 @@
 
 - (nonnull UIImage *)process:(nonnull UIImage *)image
                   resizeMode:(RCTResizeMode)resizeMode
-                   viewFrame:(CGRect)viewFrame
+                  canvasSize:(CGSize)canvasSize
 {
   return _isGenerator
-    ? [self processGenerator:image resizeMode:resizeMode viewFrame:viewFrame]
+    ? [self processGenerator:image resizeMode:resizeMode canvasSize:canvasSize]
     : [self processFilter:image resizeMode:resizeMode];
 }
 
 - (nonnull UIImage *)processFilter:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
 {
-//  BOOL isSlow = arc4random() % 2 == 0;
-//  NSLog(@"filter: %@", isSlow ? @"slow" : @"fast");
-//  if (isSlow) {
-//    [NSThread sleepForTimeInterval:5];
-//  }
   CIImage *tmp = [[CIImage alloc] initWithImage:image];
   [self initFilter:tmp.extent.size];
   
@@ -96,14 +90,11 @@
 
 - (nonnull UIImage *)processGenerator:(nonnull UIImage *)image
                            resizeMode:(RCTResizeMode)resizeMode
-                            viewFrame:(CGRect)viewFrame
+                           canvasSize:(CGSize)canvasSize
 {
-  CGRect frame = CGRectMake(viewFrame.origin.x,
-                            viewFrame.origin.y,
-                            viewFrame.size.width,
-                            viewFrame.size.height);
+  CGRect frame = CGRectMake(0, 0, canvasSize.width, canvasSize.height);
   
-  [self initFilter:frame.size];
+  [self initFilter:canvasSize];
   
   if ([[_filter inputKeys] containsObject:@"inputExtent"]) {
     [_filter setValue:[CIVector vectorWithCGRect:frame] forKey:@"inputExtent"];
@@ -112,7 +103,7 @@
   return [self filteredImageWithScale:image.scale
                            resizeMode:resizeMode
                             viewFrame:frame
-                             destSize:frame.size];
+                             destSize:canvasSize];
 }
 
 - (nonnull UIImage *)filteredImageWithScale:(CGFloat)scale

@@ -185,11 +185,6 @@
 
 - (nonnull UIImage *)processFilter:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
 {
-  //  BOOL isSlow = arc4random() % 2 == 0;
-  //  NSLog(@"filter: %@", isSlow ? @"slow" : @"fast");
-  //  if (isSlow) {
-  //    [NSThread sleepForTimeInterval:5];
-  //  }
   CIImage *srcImage = [[CIImage alloc] initWithImage:image];
   CIImage *dstImage = ((CIImage *)[self inputs][[self dstImageName]][@"image"]);
   CGRect srcFrame = srcImage.extent;

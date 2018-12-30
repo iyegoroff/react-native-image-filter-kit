@@ -33,7 +33,8 @@
     return nil;
   }
   
-  UIFont *font = [UIFont fontWithName:self.inputFontName size:[self.inputFontSize floatValue]];
+  UIFont *font = [UIFont fontWithName:self.inputFontName
+                                 size:[self.inputFontSize floatValue] * RCTScreenScale()];
   CGRect frame = CGRectMake(0, 0, self.inputExtent.Z, self.inputExtent.W);
   NSDictionary *attrs = @{NSFontAttributeName: font,
                           NSForegroundColorAttributeName: [UIColor colorWithCIColor:_inputColor]};

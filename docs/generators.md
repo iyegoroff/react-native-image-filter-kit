@@ -157,6 +157,49 @@
 
 ***
 
+#### TextImage
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
+  </tr>
+  <tr>
+    <td>text</td>
+    <td>string</td>
+    <td>-</td>
+    <td><strong>required</strong></td>
+  </tr>
+  <tr>
+    <td>fontName</td>
+    <td>string</td>
+    <td>-</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>fontSize</td>
+    <td>number</td>
+    <td>16</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>color</td>
+    <td>string</td>
+    <td>'black'</td>
+    <td></td>
+  </tr>
+</table>
+
+***
+
 ## Setting the size of generated image
 Three options available:
 - setting the size via `style` prop

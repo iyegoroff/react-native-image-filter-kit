@@ -50,8 +50,6 @@
   
   [args addObject:self.inputCenter];
   
-  NSLog(@"IFK: %@", args);
-  
   return [kernel applyWithExtent:[self.inputExtent CGRectValue]
                      roiCallback:^CGRect(int index, CGRect destRect) {
                        return destRect;

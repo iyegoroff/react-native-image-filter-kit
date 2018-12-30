@@ -175,15 +175,6 @@ export const extractConfigAndImages = (filterProps: Config) => {
               inputValue || <ImagePlaceholder key={`ifk_placeholder_${images.length}`} />
             )
 
-            if (inputValue && inputValue.props && inputValue.props.style) {
-              const style = StyleSheet.flatten<ViewStyle>(inputValue.props.style)
-              const { width, height } = style
-
-              if (typeof width === 'number' && typeof height === 'number') {
-                acc['size'] = { width: width / PixelRatio.get(), height: height / PixelRatio.get() }
-              }
-            }
-
           } else if (inputType === marker) {
             acc[key] = true
 

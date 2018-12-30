@@ -7,6 +7,6 @@
 
 - (nonnull UIImage *)process:(nonnull UIImage *)image
                   resizeMode:(RCTResizeMode)resizeMode
-                   viewFrame:(CGRect)viewFrame;
+                  canvasSize:(CGSize)canvasSize;
 
 @end

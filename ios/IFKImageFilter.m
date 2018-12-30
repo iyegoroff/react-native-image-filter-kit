@@ -51,7 +51,6 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   _config = config;
   NSData* data = [config dataUsingEncoding:NSUTF8StringEncoding];
   _jsonConfig = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-  NSLog(@"filter: set config");
   [self runFilterPipelineAndInvalidate:NO onlyCheckCache:NO];
 }
 
@@ -80,7 +79,6 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
     [self addOnChangeObserver:target keyPath:@"imageSources"];
   }
   
-  NSLog(@"filter: link targets");
   [self runFilterPipelineAndInvalidate:YES onlyCheckCache:NO];
 }
 
@@ -101,7 +99,6 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   } init:[NSMutableArray array]];
 }
 
-
 - (void)layoutSubviews
 {
   [super layoutSubviews];
@@ -113,6 +110,15 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   } init:@NO] boolValue]) {
     [self linkTargets:foundTargets];
   }
+}
+
+- (CGSize)canvasSize
+{
+  CGSize canvasSize = [self frame].size;
+  canvasSize.width *= RCTScreenScale();
+  canvasSize.height *= RCTScreenScale();
+
+  return canvasSize;
 }
 
 - (nonnull DeferredImage *)createImageComposition:(nonnull NSDictionary *)config
@@ -148,13 +154,9 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
         return acc;
       } init:[NSMutableDictionary dictionaryWithDictionary:config]];
       
-      CGSize canvasSize = [self frame].size;
-      canvasSize.width *= RCTScreenScale();
-      canvasSize.height *= RCTScreenScale();
-      
       [postProcessors addObject:[[IFKCompositionPostProcessor alloc] initWithName:name
                                                                            inputs:completeConfig
-                                                                       canvasSize:canvasSize]];
+                                                                       canvasSize:[self canvasSize]]];
       
       return [[IFKFilterableImage alloc] initWithTarget:[mainImage target]
                                           originalImage:[mainImage originalImage]
@@ -290,14 +292,12 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 {
   [_filtering cancel];
   _filtering = [IFKCancellationTokenSource cancellationTokenSource];
-  NSLog(@"filter: cancel");
 }
 
 - (IFKTask<RCTImageView *> *)filterImage:(IFKFilterableImage *)filterableImage
 {
   RCTImageView *target = [filterableImage target];
   UIImage *originalImage = [filterableImage originalImage];
-  CGRect viewFrame = [target frame];
   NSString *fastCacheKey = [self fastCacheKey:[filterableImage config]];
   UIImage *cachedImage = [[IFKImageCache instance] imageForKey:fastCacheKey];
   
@@ -312,7 +312,7 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
     
     return [[IFKTask taskFromExecutor:executor withBlock:^id _Nonnull{
       return [[filterableImage postProcessors] reduce:^id(UIImage *acc, IFKPostProcessor *val, int idx) {
-        return [val process:acc resizeMode:[target resizeMode] viewFrame:viewFrame];
+        return [val process:acc resizeMode:[target resizeMode] canvasSize:[self canvasSize]];
       } init:originalImage];
       
     }] continueWithExecutor:[IFKExecutor mainThreadExecutor] successBlock:^id _Nullable(IFKTask<UIImage *> * _Nonnull task) {
@@ -360,11 +360,9 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
       return acc;
     } init:_originalImages];
     
-    NSLog(@"filter: update cache");
     [self runFilterPipelineAndInvalidate:YES onlyCheckCache:NO];
     
   } else if ([keyPath isEqualToString:@"imageSources"]) {
-    NSLog(@"filter: only check cache");
     [self runFilterPipelineAndInvalidate:YES onlyCheckCache:YES];
   }
 }

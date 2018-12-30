@@ -1,4 +1,4 @@
-import { bool, image, resizeMode, color, offset, text, marker, size } from './inputs'
+import { bool, image, resizeMode, color, offset, text, marker } from './inputs'
 
 export const Composition = {
   dstImage: image,
@@ -11,21 +11,18 @@ export const Composition = {
   srcResizeMode: resizeMode,
   resizeCanvasTo: text,
   disableCache: bool,
-  swapImages: bool,
-  size: size
+  swapImages: bool
 }
 
 export const Common = {
   image: image,
-  disableCache: bool,
-  size: size
+  disableCache: bool
 }
 
 export const BlendColor = {
   dstImage: image,
   srcColor: color,
-  disableCache: bool,
-  size: size
+  disableCache: bool
 }
 
 export const Generator = {
@@ -45,15 +42,13 @@ export const CompositionIos = {
   inputBackgroundImagePosition: offset,
   clampToExtent: bool,
   disableCache: bool,
-  swapImages: bool,
-  size: size
+  swapImages: bool
 }
 
 export const CommonIos = {
   inputImage: image,
   clampToExtent: bool,
-  disableCache: bool,
-  size: size
+  disableCache: bool
 }
 
 export const GeneratorIos = {

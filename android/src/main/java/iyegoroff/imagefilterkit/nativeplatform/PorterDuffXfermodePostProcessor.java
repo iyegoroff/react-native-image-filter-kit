@@ -10,7 +10,6 @@ import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableImage;
-import com.facebook.react.uimanager.PixelUtil;
 
 import org.json.JSONObject;
 
@@ -54,8 +53,8 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
     PlatformBitmapFactory bitmapFactory
   ) {
     final CloseableReference<Bitmap> outRef = bitmapFactory.createBitmap(
-      canvasExtent(dst.getWidth(), src.getWidth(), Math.round(PixelUtil.toPixelFromDIP(mWidth))),
-      canvasExtent(dst.getHeight(), src.getHeight(), Math.round(PixelUtil.toPixelFromDIP(mHeight)))
+      canvasExtent(dst.getWidth(), src.getWidth(), mWidth),
+      canvasExtent(dst.getHeight(), src.getHeight(), mHeight)
     );
 
     try {

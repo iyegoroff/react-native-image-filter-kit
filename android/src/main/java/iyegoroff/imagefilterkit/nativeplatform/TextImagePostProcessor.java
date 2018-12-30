@@ -61,7 +61,7 @@ public class TextImagePostProcessor extends GeneratorPostProcessor {
     paint.setAntiAlias(true);
     paint.setColor(mColor);
     paint.setTextAlign(Paint.Align.LEFT);
-    paint.setTextSize(mFontSize);
+    paint.setTextSize(PixelUtil.toPixelFromDIP(mFontSize));
 
     Rect bounds = new Rect();
     paint.getTextBounds(mText, 0, mText.length(), bounds);
