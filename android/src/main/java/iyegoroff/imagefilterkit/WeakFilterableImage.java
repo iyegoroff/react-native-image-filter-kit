@@ -1,18 +1,12 @@
 package iyegoroff.imagefilterkit;
 
-import com.facebook.cache.common.CacheKey;
-import com.facebook.cache.common.MultiCacheKey;
 import com.facebook.imagepipeline.request.Postprocessor;
-import com.facebook.react.views.image.ReactImageView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import iyegoroff.imagefilterkit.utility.CacheablePostProcessor;
 
 public class WeakFilterableImage {
 

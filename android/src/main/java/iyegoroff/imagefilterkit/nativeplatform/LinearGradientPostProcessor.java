@@ -1,6 +1,5 @@
 package iyegoroff.imagefilterkit.nativeplatform;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;

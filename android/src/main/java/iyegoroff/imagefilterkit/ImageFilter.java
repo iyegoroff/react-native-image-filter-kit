@@ -2,7 +2,6 @@ package iyegoroff.imagefilterkit;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -116,16 +115,13 @@ public class ImageFilter extends ReactViewGroup {
           final Size size = new InputConverter(0, 0)
             .convertSize(config.optJSONObject("size"), new Size(width, height));
 
-          Log.d(ReactConstants.TAG, "IFK_ sing: " + name + " " + String.valueOf(Math.round(PixelUtil.toPixelFromDIP(size.width))) + "-" + String.valueOf(Math.round(PixelUtil.toPixelFromDIP(size.height))));
-          Log.d(ReactConstants.TAG, "IFK_ sing meas: " + name + " " + String.valueOf(measuredWidth) + "-" + String.valueOf(measuredHeight));
-
           final ArrayList<Postprocessor> postProcessors =
             new ArrayList<>(result.getPostProcessors());
 
           postProcessors.add(
             PostProcessorRegistry.getInstance()
               .createSingular(
-                name, //width, height,
+                name,
                 Math.round(PixelUtil.toPixelFromDIP(size.width)),
                 Math.round(PixelUtil.toPixelFromDIP(size.height)),
                 config,
@@ -156,15 +152,6 @@ public class ImageFilter extends ReactViewGroup {
           final FilterableImage src = result.get(1);
           final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
 
-          Log.d(ReactConstants.TAG, String.format((Locale)null,
-            "IFK_ def(%d %d) dst(%d %d) src(%d %d)",
-            mDefaultWidth,
-            mDefaultHeight,
-            dst.getImage().getMeasuredWidth(),
-            dst.getImage().getMeasuredHeight(),
-            src.getImage().getMeasuredWidth(),
-            src.getImage().getMeasuredHeight()
-          ));
           ImageFilter.filterImage(src, mImageListeners.get(src.getImage()))
             .onSuccess(new Continuation<ReactImageView, Void>() {
               @Override
@@ -193,9 +180,6 @@ public class ImageFilter extends ReactViewGroup {
                           if (ref != null) {
                             ArrayList<Postprocessor> postProcessors =
                               new ArrayList<>(dst.getPostProcessors());
-
-                            Log.d(ReactConstants.TAG, "IFK_ multi: " + name + " " + String.valueOf(Math.round(PixelUtil.toPixelFromDIP(size.width))) + "-" + String.valueOf(Math.round(PixelUtil.toPixelFromDIP(size.height))));
-                            Log.d(ReactConstants.TAG, "IFK_ multi meas: " + name + " " + String.valueOf(measuredWidth) + "-" + String.valueOf(measuredHeight));
 
                             try {
                               postProcessors.add(

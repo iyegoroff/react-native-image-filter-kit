@@ -3,7 +3,6 @@ package iyegoroff.imagefilterkit.utility;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.util.Log;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.MultiCacheKey;
@@ -13,8 +12,6 @@ import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableBitmap;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.infer.annotation.Assertions;
-import com.facebook.react.common.ReactConstants;
-import com.facebook.react.uimanager.PixelUtil;
 
 import org.json.JSONObject;
 
@@ -184,9 +181,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     width += x;
     height += y;
 
-    Log.d(ReactConstants.TAG, String.format((Locale)null, "IFK_ (%f %f) -> (%d %d %d %d)", bitmapWidth, bitmapHeight, Math.round(x), Math.round(y), Math.round(width), Math.round(height)));
-
-    return new RectF(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
+    return new RectF(x, y, width, height);
   }
 
   @Nonnull
