@@ -11,7 +11,7 @@ This is the main filter component, all other filters like `ColorMatrix`, `BoxBlu
   </tr>
   <tr>
     <td>config</td>
-    <td><a href="https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/typings/index.d.ts#L124">Config</a></td>
+    <td><a href="https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/typings/index.d.ts#L144">Config</a></td>
     <td>-</td>
     <td><strong>required</strong></td>
   </tr>
@@ -91,7 +91,7 @@ const result = (
 
 `React.ReactElement<unknown> | Config`
 
-Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually this is just `Image`, `ImageBackground`, `ImagePlaceholder`, `ImageBackgroundPlaceholder`, `ImageFilter` or [Config](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/typings/index.d.ts#L124)
+Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually this is just `Image`, `ImageBackground`, `ImagePlaceholder`, `ImageBackgroundPlaceholder`, `ImageFilter` or [Config](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/typings/index.d.ts#L144)
 
 ***
 
