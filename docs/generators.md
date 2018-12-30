@@ -4,6 +4,7 @@
 - [LinearGradient](#LinearGradient)
 - [RadialGradient](#RadialGradient)
 - [SweepGradient](#SweepGradient)
+- [TextImage](#TextImage)
 ----
 - [Setting the size of generated image](#Setting-the-size-of-generated-image)
 
