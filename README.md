@@ -24,6 +24,15 @@ Various image filters for iOS & Android.
 
 `$ react-native link react-native-image-filter-kit`
 
+### Installation with Cocoapods
+
+If you use Cocoapods add the following line to your Podfile:
+
+```sh
+pod 'React', :path => '../node_modules/react-native'
+pod 'RNImageFilterKit', :path => '../node_modules/react-native-image-filter-kit'
+```
+
 ### Manual installation
 
 [link](docs/manual_installation.md)
