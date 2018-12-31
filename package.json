@@ -2,7 +2,10 @@
   "description": "Various image filters for iOS & Android",
   "keywords": [
     "react-native",
-    "image-filter"
+    "image-filters",
+    "image-effects",
+    "image-mask",
+    "cssgram"
   ],
   "license": "MIT",
   "main": "dist/index.js",
