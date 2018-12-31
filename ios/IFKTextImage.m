@@ -27,6 +27,11 @@
   return _inputFontName ?: @"Helvetica";
 }
 
+- (CIColor *)inputColor
+{
+  return _inputColor ?: [CIColor blackColor];
+}
+
 - (CIImage *)outputImage
 {
   if (self.inputExtent == nil || self.inputText == nil) {
@@ -37,7 +42,7 @@
                                  size:[self.inputFontSize floatValue] * RCTScreenScale()];
   CGRect frame = CGRectMake(0, 0, self.inputExtent.Z, self.inputExtent.W);
   NSDictionary *attrs = @{NSFontAttributeName: font,
-                          NSForegroundColorAttributeName: [UIColor colorWithCIColor:_inputColor]};
+                          NSForegroundColorAttributeName: [UIColor colorWithCIColor:[self inputColor]]};
   
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
   
