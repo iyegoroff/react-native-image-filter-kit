@@ -30,16 +30,12 @@ export const Generator = {
   isGenerator: marker
 }
 
-export const CompositionIos = {
+export const CompositionBaseIos = {
   resizeCanvasTo: text,
   inputImage: image,
   inputImageResizeMode: resizeMode,
   inputImageAnchor: offset,
   inputImagePosition: offset,
-  inputBackgroundImage: image,
-  inputBackgroundImageResizeMode: resizeMode,
-  inputBackgroundImageAnchor: offset,
-  inputBackgroundImagePosition: offset,
   clampToExtent: bool,
   disableCache: bool,
   swapImages: bool

@@ -149,6 +149,10 @@
     return @"inputDisplacementImage";
   }
   
+  if ([inputKeys containsObject:@"inputTexture"]) {
+    return @"inputTexture";
+  }
+  
   RCTAssert(false, @"ImageFilterKit: unknown filter input - %@", [self filter].name);
   
   return @"";

@@ -5,12 +5,15 @@ import {
   distance,
   colorVector,
   scalarVector,
-  text
+  text,
+  image,
+  resizeMode,
+  offset
 } from '../common/inputs'
 import {
   GeneratorIos as Generator,
   CommonIos as Common,
-  CompositionIos as Composition
+  CompositionBaseIos as CompositionBase
 } from '../common/shapes'
 
 const Gradient = {
@@ -44,7 +47,13 @@ export const shapes = {
     ...Gradient
   },
 
-  IosIFKXorCompositing: Composition,
+  IosIFKXorCompositing: {
+    inputBackgroundImage: image,
+    inputBackgroundImageResizeMode: resizeMode,
+    inputBackgroundImageAnchor: offset,
+    inputBackgroundImagePosition: offset,
+    ...CompositionBase
+  },
 
   IosIFKTextImage: {
     inputText: text,

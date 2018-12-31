@@ -20,8 +20,16 @@ import {
 import {
   GeneratorIos as Generator,
   CommonIos as Common,
-  CompositionIos as Composition
+  CompositionBaseIos as CompositionBase
 } from '../common/shapes'
+
+const BackgroundImageComposition = {
+  inputBackgroundImage: image,
+  inputBackgroundImageResizeMode: resizeMode,
+  inputBackgroundImageAnchor: offset,
+  inputBackgroundImagePosition: offset,
+  ...CompositionBase
+}
 
 export const shapes = {
   ImageFilter: {
@@ -48,19 +56,12 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMaskedVariableBlur
   IosCIMaskedVariableBlur: {
-    resizeCanvasTo: text,
-    inputImage: image,
-    inputImageResizeMode: resizeMode,
-    inputImageAnchor: offset,
-    inputImagePosition: offset,
     inputMask: image,
     inputMaskResizeMode: resizeMode,
     inputMaskAnchor: offset,
     inputMaskPosition: offset,
-    clampToExtent: bool,
-    disableCache: bool,
-    swapImages: bool,
-    inputRadius: distance
+    inputRadius: distance,
+    ...CompositionBase
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMedianFilter
@@ -114,13 +115,9 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorPolynomial
   IosCIColorPolynomial: {
-    // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/inputRedCoefficients
     inputRedCoefficients: scalarVector,
-    // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/inputGreenCoefficients
     inputGreenCoefficients: scalarVector,
-    // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/inputBlueCoefficients
     inputBlueCoefficients: scalarVector,
-    // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/inputAlphaCoefficients
     inputAlphaCoefficients: scalarVector,
     ...Common
   },
@@ -192,18 +189,11 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorMap
   IosCIColorMap: {
-    resizeCanvasTo: text,
-    inputImage: image,
-    inputImageResizeMode: resizeMode,
-    inputImageAnchor: offset,
-    inputImagePosition: offset,
     inputGradientImage: image,
     inputGradientImageResizeMode: resizeMode,
     inputGradientImageAnchor: offset,
     inputGradientImagePosition: offset,
-    clampToExtent: bool,
-    disableCache: bool,
-    swapImages: bool
+    ...CompositionBase
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorMonochrome
@@ -282,88 +272,88 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIAdditionCompositing
-  IosCIAdditionCompositing: Composition,
+  IosCIAdditionCompositing: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorBlendMode
-  IosCIColorBlendMode: Composition,
+  IosCIColorBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorBurnBlendMode
-  IosCIColorBurnBlendMode: Composition,
+  IosCIColorBurnBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorDodgeBlendMode
-  IosCIColorDodgeBlendMode: Composition,
+  IosCIColorDodgeBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDarkenBlendMode
-  IosCIDarkenBlendMode: Composition,
+  IosCIDarkenBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDifferenceBlendMode
-  IosCIDifferenceBlendMode: Composition,
+  IosCIDifferenceBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDivideBlendMode
-  IosCIDivideBlendMode: Composition,
+  IosCIDivideBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIExclusionBlendMode
-  IosCIExclusionBlendMode: Composition,
+  IosCIExclusionBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIHardLightBlendMode
-  IosCIHardLightBlendMode: Composition,
+  IosCIHardLightBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIHueBlendMode
-  IosCIHueBlendMode: Composition,
+  IosCIHueBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILightenBlendMode
-  IosCILightenBlendMode: Composition,
+  IosCILightenBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILinearBurnBlendMode
-  IosCILinearBurnBlendMode: Composition,
+  IosCILinearBurnBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILinearDodgeBlendMode
-  IosCILinearDodgeBlendMode: Composition,
+  IosCILinearDodgeBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILuminosityBlendMode
-  IosCILuminosityBlendMode: Composition,
+  IosCILuminosityBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMaximumCompositing
-  IosCIMaximumCompositing: Composition,
+  IosCIMaximumCompositing: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMinimumCompositing
-  IosCIMinimumCompositing: Composition,
+  IosCIMinimumCompositing: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMultiplyBlendMode
-  IosCIMultiplyBlendMode: Composition,
+  IosCIMultiplyBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMultiplyCompositing
-  IosCIMultiplyCompositing: Composition,
+  IosCIMultiplyCompositing: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIOverlayBlendMode
-  IosCIOverlayBlendMode: Composition,
+  IosCIOverlayBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIPinLightBlendMode
-  IosCIPinLightBlendMode: Composition,
+  IosCIPinLightBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISaturationBlendMode
-  IosCISaturationBlendMode: Composition,
+  IosCISaturationBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIScreenBlendMode
-  IosCIScreenBlendMode: Composition,
+  IosCIScreenBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISoftLightBlendMode
-  IosCISoftLightBlendMode: Composition,
+  IosCISoftLightBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISourceAtopCompositing
-  IosCISourceAtopCompositing: Composition,
+  IosCISourceAtopCompositing: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISourceInCompositing
-  IosCISourceInCompositing: Composition,
+  IosCISourceInCompositing: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISourceOutCompositing
-  IosCISourceOutCompositing: Composition,
+  IosCISourceOutCompositing: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISourceOverCompositing
-  IosCISourceOverCompositing: Composition,
+  IosCISourceOverCompositing: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISubtractBlendMode
-  IosCISubtractBlendMode: Composition,
+  IosCISubtractBlendMode: BackgroundImageComposition,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIBumpDistortion
   IosCIBumpDistortion: {
@@ -400,22 +390,25 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDroste,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDisplacementDistortion
   IosCIDisplacementDistortion: {
-    resizeCanvasTo: text,
-    inputImage: image,
-    inputImageResizeMode: resizeMode,
-    inputImageAnchor: offset,
-    inputImagePosition: offset,
     inputDisplacementImage: image,
     inputDisplacementImageResizeMode: resizeMode,
     inputDisplacementImageAnchor: offset,
     inputDisplacementImagePosition: offset,
-    clampToExtent: bool,
-    disableCache: bool,
-    swapImages: bool,
-    inputScale: distance
+    inputScale: distance,
+    ...CompositionBase
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIGlassDistortion,
+  IosCIGlassDistortion: {
+    inputTexture: image,
+    inputTextureResizeMode: resizeMode,
+    inputTextureAnchor: offset,
+    inputTexturePosition: offset,
+    inputScale: distance,
+    inputCenter: position,
+    ...CompositionBase
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIGlassLozenge,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIHoleDistortion
   IosCIHoleDistortion: {
@@ -510,7 +503,6 @@ export const shapes = {
     inputRadius: distance,
     inputCrossScale: scalar,
     inputCrossAngle: scalar,
-    // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/inputCrossOpacity
     inputCrossOpacity: scalar,
     inputCrossWidth: distance,
     inputEpsilon: scalar,
@@ -844,7 +836,7 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMix
   IosCIMix: {
     inputAmount: scalar,
-    ...Composition
+    ...BackgroundImageComposition
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDepthToDisparity
