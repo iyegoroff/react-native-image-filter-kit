@@ -1,5 +1,5 @@
 #import "IFKImageFilter.h"
-#import "Image/RCTImageView.h"
+#import "RCTImageView.h"
 #import "React/RCTImageSource.h"
 #import "RCTImageView+CacheKey.h"
 #import "NSArray+FilterMapReduce.h"

@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreText/CoreText.h>
 #import <React/RCTUtils.h>
-#import "Image/RCTImageUtils.h"
+#import "RCTImageUtils.h"
 #import "IFKFilterConstructor.h"
 
 @implementation IFKTextImage
