@@ -309,10 +309,11 @@ typedef IFKTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   } else {
     NSString *safeCacheKey = [self safeCacheKey:[filterableImage config]];
     IFKExecutor *executor = [IFKExecutor executorWithDispatchQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
+    CGSize canvasSize = [self canvasSize];
     
     return [[IFKTask taskFromExecutor:executor withBlock:^id _Nonnull{
       return [[filterableImage postProcessors] reduce:^id(UIImage *acc, IFKPostProcessor *val, int idx) {
-        return [val process:acc resizeMode:[target resizeMode] canvasSize:[self canvasSize]];
+        return [val process:acc resizeMode:[target resizeMode] canvasSize:canvasSize];
       } init:originalImage];
       
     }] continueWithExecutor:[IFKExecutor mainThreadExecutor] successBlock:^id _Nullable(IFKTask<UIImage *> * _Nonnull task) {
