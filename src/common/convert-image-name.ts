@@ -11,6 +11,7 @@ type InputImageNames =
   | 'inputTargetImage'
   | 'inputDisplacementImage'
   | 'inputTexture'
+  | 'inputShadingImage'
 
 type OutputImageNames =
   | 'srcImage'
@@ -46,6 +47,10 @@ const convertMap = Platform.select<ConvertMap>({
     IosCIGlassDistortion: {
       inputImage: srcImage,
       inputTexture: dstImage
+    },
+    IosCIShadedMaterial: {
+      inputImage: srcImage,
+      inputShadingImage: dstImage
     },
     IosCIMix: toBackground,
     IosCIAdditionCompositing: toBackground,

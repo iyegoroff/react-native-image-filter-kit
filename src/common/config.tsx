@@ -69,7 +69,10 @@ const iosKeyConvertMap: { [key: string]: string } = {
   inputDisplacementImagePosition: dstPosition,
   inputTextureResizeMode: dstResizeMode,
   inputTextureAnchor: dstAnchor,
-  inputTexturePosition: dstPosition
+  inputTexturePosition: dstPosition,
+  inputShadingImageResizeMode: dstResizeMode,
+  inputShadingImageAnchor: dstAnchor,
+  inputShadingImagePosition: dstPosition
 }
 
 const srcImage = 'srcImage'
@@ -82,7 +85,8 @@ const iosMatchMap: { [key: string]: string } = {
   inputMask: dstImage,
   inputTargetImage: dstImage,
   inputDisplacementImage: dstImage,
-  inputTexture: dstImage
+  inputTexture: dstImage,
+  inputShadingImage: dstImage
 }
 
 const convertKey = Platform.select({

@@ -1,5 +1,6 @@
 #import "IFKInputConverter.h"
 #import "IFKCompositionPostProcessor.h"
+#import "NSArray+FilterMapReduce.h"
 
 @interface IFKPostProcessor ()
 
@@ -127,35 +128,32 @@
 
 - (nonnull NSString *)dstImageName
 {
+  static NSArray<NSString *> *dstImageNames;
+  
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    dstImageNames = @[
+      @"inputBackgroundImage",
+      @"inputMask",
+      @"inputGradientImage",
+      @"inputTargetImage",
+      @"inputDisplacementImage",
+      @"inputTexture",
+      @"inputShadingImage"
+    ];
+  });
+  
   NSArray *inputKeys = [[self filter] inputKeys];
-                        
-  if ([inputKeys containsObject:@"inputBackgroundImage"]) {
-    return @"inputBackgroundImage";
-  }
   
-  if ([inputKeys containsObject:@"inputMask"]) {
-    return @"inputMask";
-  }
+  NSString *name = [dstImageNames reduce:^id(id acc, NSString *val, int idx) {
+    return [inputKeys containsObject:val] ? val : acc;
+  } init:@""];
   
-  if ([inputKeys containsObject:@"inputGradientImage"]) {
-    return @"inputGradientImage";
-  }
+  RCTAssert(![name isEqualToString:@""],
+            @"ImageFilterKit: unknown filter input - %@",
+            [self filter].name);
   
-  if ([inputKeys containsObject:@"inputTargetImage"]) {
-    return @"inputTargetImage";
-  }
-  
-  if ([inputKeys containsObject:@"inputDisplacementImage"]) {
-    return @"inputDisplacementImage";
-  }
-  
-  if ([inputKeys containsObject:@"inputTexture"]) {
-    return @"inputTexture";
-  }
-  
-  RCTAssert(false, @"ImageFilterKit: unknown filter input - %@", [self filter].name);
-  
-  return @"";
+  return name;
 }
 
 - (CGFloat)canvasExtentWithDstExtent:(CGFloat)dstExtent

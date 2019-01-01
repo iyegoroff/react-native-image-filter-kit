@@ -24,11 +24,11 @@ import {
 } from '../common/shapes'
 
 const BackgroundImageComposition = {
+  ...CompositionBase,
   inputBackgroundImage: image,
   inputBackgroundImageResizeMode: resizeMode,
   inputBackgroundImageAnchor: offset,
-  inputBackgroundImagePosition: offset,
-  ...CompositionBase
+  inputBackgroundImagePosition: offset
 }
 
 export const shapes = {
@@ -56,12 +56,12 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMaskedVariableBlur
   IosCIMaskedVariableBlur: {
+    ...CompositionBase,
     inputMask: image,
     inputMaskResizeMode: resizeMode,
     inputMaskAnchor: offset,
     inputMaskPosition: offset,
-    inputRadius: distance,
-    ...CompositionBase
+    inputRadius: distance
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMedianFilter
@@ -189,11 +189,11 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorMap
   IosCIColorMap: {
+    ...CompositionBase,
     inputGradientImage: image,
     inputGradientImageResizeMode: resizeMode,
     inputGradientImageAnchor: offset,
-    inputGradientImagePosition: offset,
-    ...CompositionBase
+    inputGradientImagePosition: offset
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorMonochrome
@@ -390,23 +390,23 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDroste,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDisplacementDistortion
   IosCIDisplacementDistortion: {
+    ...CompositionBase,
     inputDisplacementImage: image,
     inputDisplacementImageResizeMode: resizeMode,
     inputDisplacementImageAnchor: offset,
     inputDisplacementImagePosition: offset,
-    inputScale: distance,
-    ...CompositionBase
+    inputScale: distance
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIGlassDistortion,
   IosCIGlassDistortion: {
+    ...CompositionBase,
     inputTexture: image,
     inputTextureResizeMode: resizeMode,
     inputTextureAnchor: offset,
     inputTexturePosition: offset,
     inputScale: distance,
-    inputCenter: position,
-    ...CompositionBase
+    inputCenter: position
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIGlassLozenge,
@@ -738,6 +738,15 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIShadedMaterial,
+  IosCIShadedMaterial: {
+    ...CompositionBase,
+    inputShadingImage: image,
+    inputShadingImageResizeMode: resizeMode,
+    inputShadingImageAnchor: offset,
+    inputShadingImagePosition: offset,
+    inputScale: scalar
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISpotColor
   IosCISpotColor: {
     inputCenterColor1: color,
@@ -769,7 +778,21 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIAffineTile,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIEightfoldReflectedTile,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIFourfoldReflectedTile,
+  IosCIFourfoldReflectedTile: {
+    inputAngle: scalar,
+    inputCenter: position,
+    inputWidth: distance,
+    ...Common
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIFourfoldRotatedTile,
+  IosCIFourfoldRotatedTile: {
+    inputAngle: scalar,
+    inputCenter: position,
+    inputWidth: distance,
+    ...Common
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIFourfoldTranslatedTile,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIGlideReflectedTile,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIKaleidoscope
@@ -792,9 +815,30 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIParallelogramTile,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIPerspectiveTile,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISixfoldReflectedTile,
+  IosCISixfoldReflectedTile: {
+    inputAngle: scalar,
+    inputCenter: position,
+    inputWidth: distance,
+    ...Common
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISixfoldRotatedTile,
+  IosCISixfoldRotatedTile: {
+    inputAngle: scalar,
+    inputCenter: position,
+    inputWidth: distance,
+    ...Common
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CITriangleKaleidoscope,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CITriangleTile,
+  IosCITriangleTile: {
+    inputAngle: scalar,
+    inputCenter: position,
+    inputWidth: distance,
+    ...Common
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CITwelvefoldReflectedTile
   IosCITwelvefoldReflectedTile: {
     inputCenter: position,

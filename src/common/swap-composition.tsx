@@ -10,7 +10,8 @@ const dstImageNames = [
   'inputGradientImage',
   'inputTargetImage',
   'inputDisplacementImage',
-  'inputTexture'
+  'inputTexture',
+  'inputShadingImage'
 ]
 
 export const swapComposition = (config: Config, resizeCanvasTo: string) => {

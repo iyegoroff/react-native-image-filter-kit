@@ -6,9 +6,9 @@ import {
   colorVector,
   scalarVector,
   text,
+  offset,
   image,
-  resizeMode,
-  offset
+  resizeMode
 } from '../common/inputs'
 import {
   GeneratorIos as Generator,
@@ -48,11 +48,11 @@ export const shapes = {
   },
 
   IosIFKXorCompositing: {
+    ...CompositionBase,
     inputBackgroundImage: image,
     inputBackgroundImageResizeMode: resizeMode,
     inputBackgroundImageAnchor: offset,
-    inputBackgroundImagePosition: offset,
-    ...CompositionBase
+    inputBackgroundImagePosition: offset
   },
 
   IosIFKTextImage: {
