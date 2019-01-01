@@ -1,6 +1,6 @@
 # react-native-image-filter-kit
 [![npm version](https://badge.fury.io/js/react-native-image-filter-kit.svg)](https://badge.fury.io/js/react-native-image-filter-kit)
-[![js-semistandard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/standard/standard)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/standard/standard)
 [![Dependency Status](https://david-dm.org/iyegoroff/react-native-image-filter-kit.svg)](https://david-dm.org/iyegoroff/react-native-image-filter-kit)
 [![devDependencies Status](https://david-dm.org/iyegoroff/react-native-image-filter-kit/dev-status.svg)](https://david-dm.org/iyegoroff/react-native-image-filter-kit?type=dev)
 [![npm](https://img.shields.io/npm/l/express.svg)](https://www.npmjs.com/package/react-native-image-filter-kit)
@@ -13,7 +13,7 @@ Various image filters for iOS & Android.
   - filter components work as combinable wrappers for standard `Image` and `ImageBackground` components
   - resulting images are being cached in memory
   - <strong>Minimum Android SDK version - 17</strong>
-- React-Native:
+- react-native:
   - with rn >= 0.57.1 use latest version
 
 ## Getting started
