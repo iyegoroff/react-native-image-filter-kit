@@ -1,4 +1,4 @@
-#import "Image/RCTImageView.h"
+#import "RCTImageView.h"
 #import "IFKPostProcessor.h"
 
 @interface IFKFilterableImage : NSObject
