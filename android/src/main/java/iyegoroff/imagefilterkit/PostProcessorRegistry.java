@@ -45,6 +45,8 @@ import iyegoroff.imagefilterkit.nativeplatform.TextImagePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic.ScriptIntrinsicBlurPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic.ScriptIntrinsicConvolve3x3PostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic.ScriptIntrinsicConvolve5x5PostProcessor;
+import iyegoroff.imagefilterkit.nativeplatform.shape.CirclePostProcessor;
+import iyegoroff.imagefilterkit.nativeplatform.shape.OvalPostProcessor;
 
 public class PostProcessorRegistry {
 
@@ -237,6 +239,30 @@ public class PostProcessorRegistry {
         @Nonnull Context context
       ) {
         return new TextImagePostProcessor(width, height, config, context);
+      }
+    });
+
+    addSingular("Circle", new CreateSingular() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
+        return new CirclePostProcessor(width, height, config, context);
+      }
+    });
+
+    addSingular("Oval", new CreateSingular() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
+        return new OvalPostProcessor(width, height, config, context);
       }
     });
 

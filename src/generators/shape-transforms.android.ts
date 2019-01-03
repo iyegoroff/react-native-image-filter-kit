@@ -2,7 +2,9 @@ import {
   LinearGradientConfig,
   RadialGradientConfig,
   SweepGradientConfig,
-  TextImageConfig
+  TextImageConfig,
+  CircleConfig,
+  OvalConfig
 } from './shapes'
 
 export const shapeTransforms = {
@@ -61,5 +63,15 @@ export const shapeTransforms = {
   TextImage: (config: TextImageConfig) => ({
     ...config,
     name: 'AndroidTextImage'
+  }),
+
+  Circle: (config: CircleConfig) => ({
+    ...config,
+    name: 'AndroidCircle'
+  }),
+
+  Oval: (config: OvalConfig) => ({
+    ...config,
+    name: 'AndroidOval'
   })
 }

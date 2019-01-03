@@ -5,6 +5,8 @@
 - [RadialGradient](#RadialGradient)
 - [SweepGradient](#SweepGradient)
 - [TextImage](#TextImage)
+- [Circle](#Circle)
+- [Oval](#Oval)
 ----
 - [Setting the size of generated image](#Setting-the-size-of-generated-image)
 
@@ -190,6 +192,80 @@
     <td>number</td>
     <td>16</td>
     <td></td>
+  </tr>
+  <tr>
+    <td>color</td>
+    <td>string</td>
+    <td>'black'</td>
+    <td></td>
+  </tr>
+</table>
+
+***
+
+#### Circle
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
+  </tr>
+  <tr>
+    <td>radius</td>
+    <td><a href="types.md#Distance">Distance</a></td>
+    <td>'50min'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>color</td>
+    <td>string</td>
+    <td>'black'</td>
+    <td></td>
+  </tr>
+</table>
+
+***
+
+#### Oval
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
+  </tr>
+  <tr>
+    <td>radiusX</td>
+    <td><a href="types.md#Distance">Distance</a></td>
+    <td>'50w'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>radiusY</td>
+    <td><a href="types.md#Distance">Distance</a></td>
+    <td>'25h'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>rotation</td>
+    <td>number</td>
+    <td>0</td>
+    <td>angle in <a href="functions.md#degToRad">radians</a></td>
   </tr>
   <tr>
     <td>color</td>

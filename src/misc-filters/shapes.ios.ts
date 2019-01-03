@@ -62,5 +62,19 @@ export const shapes = {
     inputFontSize: distance,
     inputColor: color,
     ...Generator
+  },
+
+  IosIFKCircle: {
+    inputRadius: distance,
+    inputColor: color,
+    ...Generator
+  },
+
+  IosIFKOval: {
+    inputRadiusX: distance,
+    inputRadiusY: distance,
+    inputRotation: scalar,
+    inputColor: color,
+    ...Generator
   }
 }

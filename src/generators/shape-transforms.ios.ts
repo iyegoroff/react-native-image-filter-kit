@@ -2,7 +2,9 @@ import {
   LinearGradientConfig,
   RadialGradientConfig,
   SweepGradientConfig,
-  TextImageConfig
+  TextImageConfig,
+  CircleConfig,
+  OvalConfig
 } from './shapes'
 
 export const shapeTransforms = {
@@ -70,5 +72,30 @@ export const shapeTransforms = {
     inputFontName: fontName,
     inputFontSize: fontSize,
     inputColor: color
+  }),
+
+  Circle: ({ radius = '50min', color = 'black', image, ...config }: CircleConfig) => ({
+    ...config,
+    name: 'IosIFKCircle',
+    inputRadius: radius,
+    inputColor: color,
+    inputImage: image
+  }),
+
+  Oval: ({
+    radiusX = '50w',
+    radiusY = '25h',
+    color = 'black',
+    image,
+    rotation,
+    ...config
+  }: OvalConfig) => ({
+    ...config,
+    name: 'IosIFKOval',
+    inputRadiusX: radiusX,
+    inputRadiusY: radiusY,
+    inputColor: color,
+    inputRotation: rotation,
+    inputImage: image
   })
 }

@@ -1,4 +1,5 @@
-import { Composition } from '../common/shapes'
+import { Composition, Generator } from '../common/shapes'
+import { distance, color, scalar } from '../common/inputs'
 
 export const shapes = {
   AndroidDestinationATopCompositing: Composition,
@@ -7,5 +8,19 @@ export const shapes = {
 
   AndroidDestinationInCompositing: Composition,
 
-  AndroidSourceInCompositing: Composition
+  AndroidSourceInCompositing: Composition,
+
+  AndroidCircle: {
+    radius: distance,
+    color: color,
+    ...Generator
+  },
+
+  AndroidOval: {
+    radiusX: distance,
+    radiusY: distance,
+    rotation: scalar,
+    color: color,
+    ...Generator
+  }
 }

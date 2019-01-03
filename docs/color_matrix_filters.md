@@ -275,7 +275,7 @@
     <td>amount</td>
     <td>number</td>
     <td>0</td>
-    <td>angle in radians</td>
+    <td>angle in <a href="functions.md#degToRad">radians</a></td>
   </tr>
 </table>
 

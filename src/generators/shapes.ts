@@ -1,4 +1,12 @@
-import { color, colorVector, scalarVector, position, distance, text } from '../common/inputs'
+import {
+  color,
+  colorVector,
+  scalarVector,
+  position,
+  distance,
+  text,
+  scalar
+} from '../common/inputs'
 import { Generator } from '../common/shapes'
 import { Position } from '../common/configs'
 
@@ -28,6 +36,20 @@ export interface TextImageConfig {
   readonly fontSize?: string
   readonly image: object
   readonly color?: string
+}
+
+export interface CircleConfig {
+  readonly radius?: string
+  readonly color?: string
+  readonly image: object
+}
+
+export interface OvalConfig {
+  readonly radiusX?: string
+  readonly radiusY?: string
+  readonly rotation?: string
+  readonly color?: string
+  readonly image: object
 }
 
 export const shapes = {
@@ -63,6 +85,20 @@ export const shapes = {
     text: text,
     fontName: text,
     fontSize: distance,
+    color: color,
+    ...Generator
+  },
+
+  Circle: {
+    radius: distance,
+    color: color,
+    ...Generator
+  },
+
+  Oval: {
+    radiusX: distance,
+    radiusY: distance,
+    rotation: scalar,
     color: color,
     ...Generator
   }
