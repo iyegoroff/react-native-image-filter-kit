@@ -34,6 +34,10 @@
                                 bounds:(CGSize)bounds
                           defaultValue:(nullable CIVector *)defaultValue;
 
++ (nullable UIBezierPath *)convertPath:(nullable NSDictionary *)path
+                                bounds:(CGSize)bounds
+                          defaultValue:(nullable UIBezierPath *)defaultValue;
+
 + (nullable CIVector *)convertDistanceVector:(nullable NSDictionary *)distanceVector
                                       bounds:(CGSize)bounds
                                 defaultValue:(nullable CIVector *)defaultValue;

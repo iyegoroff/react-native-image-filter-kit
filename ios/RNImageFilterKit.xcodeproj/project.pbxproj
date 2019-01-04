@@ -15,8 +15,11 @@
 		74076F53219B549A0015E836 /* IFKTaskCompletionSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 74076F4B219B549A0015E836 /* IFKTaskCompletionSource.m */; };
 		74076F54219B549A0015E836 /* IFKBolts.m in Sources */ = {isa = PBXBuildFile; fileRef = 74076F4D219B549A0015E836 /* IFKBolts.m */; };
 		7412B1132123FCF500FB00FF /* NSArray+FilterMapReduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 7412B1122123FCF500FB00FF /* NSArray+FilterMapReduce.m */; };
-		7421720121DD73F300E24F6E /* IFKCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7421720021DD73F300E24F6E /* IFKCircle.m */; };
-		7421720421DD845F00E24F6E /* IFKOval.m in Sources */ = {isa = PBXBuildFile; fileRef = 7421720321DD845F00E24F6E /* IFKOval.m */; };
+		741D779D21DFCCD20056AE59 /* IFKPathShape.m in Sources */ = {isa = PBXBuildFile; fileRef = 741D779C21DFCCD20056AE59 /* IFKPathShape.m */; };
+		741D77A021DFCE290056AE59 /* IFKShape.m in Sources */ = {isa = PBXBuildFile; fileRef = 741D779F21DFCE290056AE59 /* IFKShape.m */; };
+		741D77A321E0096D0056AE59 /* IFKRegularPolygonShape.m in Sources */ = {isa = PBXBuildFile; fileRef = 741D77A221E0096D0056AE59 /* IFKRegularPolygonShape.m */; };
+		7421720121DD73F300E24F6E /* IFKCircleShape.m in Sources */ = {isa = PBXBuildFile; fileRef = 7421720021DD73F300E24F6E /* IFKCircleShape.m */; };
+		7421720421DD845F00E24F6E /* IFKOvalShape.m in Sources */ = {isa = PBXBuildFile; fileRef = 7421720321DD845F00E24F6E /* IFKOvalShape.m */; };
 		7425EBFD219C5C9400E93C3A /* IFKFilterableImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7425EBFC219C5C9400E93C3A /* IFKFilterableImage.m */; };
 		7425EC00219C62B200E93C3A /* IFKPostProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7425EBFF219C62B200E93C3A /* IFKPostProcessor.m */; };
 		74538BDE213406AF00F1FDD0 /* IFKOutputExtentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 74538BDD213406AF00F1FDD0 /* IFKOutputExtentHandler.m */; };
@@ -70,10 +73,16 @@
 		74076F4D219B549A0015E836 /* IFKBolts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKBolts.m; sourceTree = "<group>"; };
 		7412B1112123FCF400FB00FF /* NSArray+FilterMapReduce.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+FilterMapReduce.h"; sourceTree = "<group>"; };
 		7412B1122123FCF500FB00FF /* NSArray+FilterMapReduce.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+FilterMapReduce.m"; sourceTree = "<group>"; };
-		742171FF21DD73F300E24F6E /* IFKCircle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKCircle.h; sourceTree = "<group>"; };
-		7421720021DD73F300E24F6E /* IFKCircle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKCircle.m; sourceTree = "<group>"; };
-		7421720221DD845F00E24F6E /* IFKOval.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKOval.h; sourceTree = "<group>"; };
-		7421720321DD845F00E24F6E /* IFKOval.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKOval.m; sourceTree = "<group>"; };
+		741D779B21DFCCD20056AE59 /* IFKPathShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKPathShape.h; sourceTree = "<group>"; };
+		741D779C21DFCCD20056AE59 /* IFKPathShape.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKPathShape.m; sourceTree = "<group>"; };
+		741D779E21DFCE290056AE59 /* IFKShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKShape.h; sourceTree = "<group>"; };
+		741D779F21DFCE290056AE59 /* IFKShape.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKShape.m; sourceTree = "<group>"; };
+		741D77A121E0096D0056AE59 /* IFKRegularPolygonShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKRegularPolygonShape.h; sourceTree = "<group>"; };
+		741D77A221E0096D0056AE59 /* IFKRegularPolygonShape.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKRegularPolygonShape.m; sourceTree = "<group>"; };
+		742171FF21DD73F300E24F6E /* IFKCircleShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKCircleShape.h; sourceTree = "<group>"; };
+		7421720021DD73F300E24F6E /* IFKCircleShape.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKCircleShape.m; sourceTree = "<group>"; };
+		7421720221DD845F00E24F6E /* IFKOvalShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKOvalShape.h; sourceTree = "<group>"; };
+		7421720321DD845F00E24F6E /* IFKOvalShape.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKOvalShape.m; sourceTree = "<group>"; };
 		7425EBFB219C5C9400E93C3A /* IFKFilterableImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKFilterableImage.h; sourceTree = "<group>"; };
 		7425EBFC219C5C9400E93C3A /* IFKFilterableImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKFilterableImage.m; sourceTree = "<group>"; };
 		7425EBFE219C62B200E93C3A /* IFKPostProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKPostProcessor.h; sourceTree = "<group>"; };
@@ -176,10 +185,16 @@
 		742171FE21DD73A500E24F6E /* Shapes */ = {
 			isa = PBXGroup;
 			children = (
-				742171FF21DD73F300E24F6E /* IFKCircle.h */,
-				7421720021DD73F300E24F6E /* IFKCircle.m */,
-				7421720221DD845F00E24F6E /* IFKOval.h */,
-				7421720321DD845F00E24F6E /* IFKOval.m */,
+				741D779E21DFCE290056AE59 /* IFKShape.h */,
+				741D779F21DFCE290056AE59 /* IFKShape.m */,
+				742171FF21DD73F300E24F6E /* IFKCircleShape.h */,
+				7421720021DD73F300E24F6E /* IFKCircleShape.m */,
+				7421720221DD845F00E24F6E /* IFKOvalShape.h */,
+				7421720321DD845F00E24F6E /* IFKOvalShape.m */,
+				741D779B21DFCCD20056AE59 /* IFKPathShape.h */,
+				741D779C21DFCCD20056AE59 /* IFKPathShape.m */,
+				741D77A121E0096D0056AE59 /* IFKRegularPolygonShape.h */,
+				741D77A221E0096D0056AE59 /* IFKRegularPolygonShape.m */,
 			);
 			name = Shapes;
 			sourceTree = "<group>";
@@ -328,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74AEEEBA21989B8300DAA02F /* IFKResize.m in Sources */,
+				741D779D21DFCCD20056AE59 /* IFKPathShape.m in Sources */,
 				74538BDE213406AF00F1FDD0 /* IFKOutputExtentHandler.m in Sources */,
 				7425EBFD219C5C9400E93C3A /* IFKFilterableImage.m in Sources */,
 				74D0D692219EEA8500EC6551 /* IFKConfigHelper.m in Sources */,
@@ -342,6 +358,7 @@
 				74AEAD0E2199A44800DC563B /* IFKInputConverter.m in Sources */,
 				74BF08B320B258E300D93AFC /* IFKImageFilterManager.m in Sources */,
 				74076F4F219B549A0015E836 /* IFKCancellationTokenRegistration.m in Sources */,
+				741D77A021DFCE290056AE59 /* IFKShape.m in Sources */,
 				74076F53219B549A0015E836 /* IFKTaskCompletionSource.m in Sources */,
 				74938E4A21B1DB0B006BCF26 /* IFKImage.m in Sources */,
 				74DCA32F21BAB3FC00561C80 /* IFKGradient.m in Sources */,
@@ -355,8 +372,9 @@
 				74076F52219B549A0015E836 /* IFKTask.m in Sources */,
 				74DCA3D921BADD1F00561C80 /* IFKSweepGradient.m in Sources */,
 				74BF08B420B258E300D93AFC /* IFKImageFilter.m in Sources */,
-				7421720421DD845F00E24F6E /* IFKOval.m in Sources */,
-				7421720121DD73F300E24F6E /* IFKCircle.m in Sources */,
+				7421720421DD845F00E24F6E /* IFKOvalShape.m in Sources */,
+				741D77A321E0096D0056AE59 /* IFKRegularPolygonShape.m in Sources */,
+				7421720121DD73F300E24F6E /* IFKCircleShape.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

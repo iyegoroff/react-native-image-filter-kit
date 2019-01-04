@@ -1,12 +1,12 @@
-#import "IFKCircle.h"
+#import "IFKCircleShape.h"
 #import "IFKFilterConstructor.h"
 #import <UIKit/UIKit.h>
 
-@implementation IFKCircle
+@implementation IFKCircleShape
 
 + (void)initialize
 {
-  [CIFilter registerFilterName:NSStringFromClass([IFKCircle class])
+  [CIFilter registerFilterName:NSStringFromClass([IFKCircleShape class])
                    constructor:[IFKFilterConstructor constructor]
                classAttributes:@{kCIAttributeFilterDisplayName:@"Circle",
                                  kCIAttributeFilterCategories:@[kCICategoryGenerator,
@@ -17,11 +17,6 @@
 - (NSNumber *)inputRadius
 {
   return _inputRadius ?: @(100);
-}
-
-- (CIColor *)inputColor
-{
-  return _inputColor ?: [CIColor blackColor];
 }
 
 - (CIImage *)outputImage

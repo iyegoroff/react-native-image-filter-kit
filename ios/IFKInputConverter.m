@@ -20,7 +20,8 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
           self convertArea:any bounds:bounds defaultValue:(id)[
           self convertText:any defaultValue:(id)[
           self convertBoolean:any defaultValue:(id)[
-          self convertColorVector:any defaultValue:nil]]]]]]]]]]]]];
+          self convertColorVector:any defaultValue:(id)[
+          self convertPath:any bounds:bounds defaultValue:nil]]]]]]]]]]]]]];
 }
 
 + (nullable UIImage *)convertImage:(nullable NSDictionary *)image
@@ -151,6 +152,65 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
   }
   
   return defaultValue;
+}
+
++ (nullable UIBezierPath *)convertPath:(nullable NSDictionary *)path
+                                bounds:(CGSize)bounds
+                          defaultValue:(nullable UIBezierPath *)defaultValue
+{
+  NSArray *steps = path != nil ? [path objectForKey:@"path"] : nil;
+  
+  if (steps == nil) {
+    return defaultValue;
+  }
+  
+  UIBezierPath *p = [UIBezierPath bezierPath];
+  
+  [p moveToPoint:CGPointZero];
+  
+  for (NSDictionary *step in steps) {
+    NSArray *args;
+    
+    if ([step objectForKey:@"moveTo"]) {
+      args = [self convertPathStep:step name:@"moveTo" bounds:bounds];
+      
+      [p moveToPoint:CGPointMake([args[0] floatValue], [args[1] floatValue])];
+      
+    } else if ([step objectForKey:@"lineTo"]) {
+      args = [self convertPathStep:step name:@"lineTo" bounds:bounds];
+      
+      [p addLineToPoint:CGPointMake([args[0] floatValue], [args[1] floatValue])];
+      
+    } else if ([step objectForKey:@"quadTo"]) {
+      args = [self convertPathStep:step name:@"quadTo" bounds:bounds];
+      
+      [p addQuadCurveToPoint:CGPointMake([args[2] floatValue], [args[3] floatValue])
+                controlPoint:CGPointMake([args[0] floatValue], [args[1] floatValue])];
+
+    } else if ([step objectForKey:@"cubicTo"]) {
+      args = [self convertPathStep:step name:@"cubicTo" bounds:bounds];
+      
+      [p addCurveToPoint:CGPointMake([args[4] floatValue], [args[5] floatValue])
+           controlPoint1:CGPointMake([args[0] floatValue], [args[1] floatValue])
+           controlPoint2:CGPointMake([args[2] floatValue], [args[3] floatValue])];
+
+    } else if ([step objectForKey:@"closePath"]) {
+      [p closePath];
+    }
+  }
+  
+  [p closePath];
+  
+  return p;
+}
+
++ (NSArray<NSNumber *> *)convertPathStep:(nonnull NSDictionary *)step
+                                    name:(nonnull NSString *)name
+                                  bounds:(CGSize)bounds
+{
+  return [[step objectForKey:name] map:^id(id val, int idx) {
+    return [self convertRelativeExpr:val bounds:bounds defaultValue:@(0)];
+  }];
 }
 
 + (nullable CIVector *)convertDistanceVector:(nullable NSDictionary *)distanceVector

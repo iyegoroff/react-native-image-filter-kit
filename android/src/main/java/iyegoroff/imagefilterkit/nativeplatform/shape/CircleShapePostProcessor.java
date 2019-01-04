@@ -1,16 +1,11 @@
 package iyegoroff.imagefilterkit.nativeplatform.shape;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
-import com.facebook.react.uimanager.PixelUtil;
-import com.facebook.react.views.text.ReactFontManager;
 
 import org.json.JSONObject;
 
@@ -22,17 +17,12 @@ import javax.annotation.Nullable;
 import iyegoroff.imagefilterkit.InputConverter;
 import iyegoroff.imagefilterkit.utility.GeneratorPostProcessor;
 
-public class CirclePostProcessor extends GeneratorPostProcessor {
+public class CircleShapePostProcessor extends GeneratorPostProcessor {
 
   private final float mRadius;
   private final int mColor;
 
-  public CirclePostProcessor(
-    int width,
-    int height,
-    @Nullable JSONObject config,
-    final Context context
-  ) {
+  public CircleShapePostProcessor(int width, int height, @Nullable JSONObject config) {
     super(width, height, config);
 
     InputConverter converter = new InputConverter(width, height);
@@ -43,7 +33,7 @@ public class CirclePostProcessor extends GeneratorPostProcessor {
 
   @Override
   public String getName () {
-    return "CirclePostProcessor";
+    return "CircleShapePostProcessor";
   }
 
   @Override
@@ -58,7 +48,7 @@ public class CirclePostProcessor extends GeneratorPostProcessor {
   @Override
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(
-      String.format((Locale) null, "circle_%f_%d_%d_%d", mRadius, mColor, mWidth, mHeight)
+      String.format((Locale) null, "circle_shape_%f_%d_%d_%d", mRadius, mColor, mWidth, mHeight)
     );
   }
 }

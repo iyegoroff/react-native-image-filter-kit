@@ -21,6 +21,10 @@ type ResizeMode = 'COVER' | 'CONTAIN' | 'STRETCH' | {
   readonly height?: number
 }
 
+type PathStep = never
+
+type Path = ReadonlyArray<PathStep>
+
 export type Filterable<Rest> = React.ReactElement<unknown> | Config<Rest>
 
 interface CacheableConfig {
@@ -132,6 +136,31 @@ interface TextImageConfig<Rest = never> extends CommonConfig<Rest> {
   readonly fontName?: string
   readonly fontSize?: number
   readonly color?: string
+}
+
+interface ShapeConfig<Rest = never> extends CommonConfig<Rest> {
+  readonly color?: string
+}
+
+interface CircleShapeConfig<Rest = never> extends ShapeConfig<Rest> {
+  readonly radius?: Distance
+}
+
+interface OvalShapeConfig<Rest = never> extends ShapeConfig<Rest> {
+  readonly radiusX?: Distance
+  readonly radiusY?: Distance
+  readonly rotation?: number
+}
+
+interface PathShapeConfig<Rest = never> extends ShapeConfig<Rest> {
+  readonly path: Path
+  readonly rotation?: number
+}
+
+interface RegularPolygonShapeConfig<Rest = never> extends ShapeConfig<Rest> {
+  readonly borderRadiuses?: ReadonlyArray<Distance>
+  readonly circumradius?: Distance
+  readonly rotation?: number
 }
 
 interface ConfigWithIntermediates<Rest = never> extends CommonConfig<Rest> {
@@ -286,6 +315,10 @@ export type Config<Rest = never> =
   | ConfigCase<'RadialGradient', RadialGradientConfig<Rest>>
   | ConfigCase<'SweepGradient', SweepGradientConfig<Rest>>
   | ConfigCase<'TextImage', TextImageConfig<Rest>>
+  | ConfigCase<'CircleShape', CircleShapeConfig<Rest>>
+  | ConfigCase<'OvalShape', OvalShapeConfig<Rest>>
+  | ConfigCase<'PathShape', PathShapeConfig<Rest>>
+  | ConfigCase<'RegularPolygonShape', RegularPolygonShapeConfig<Rest>>
   | Rest
 
 export type ImageFilterProps<Rest> = ViewProps & Rest & {
@@ -444,6 +477,10 @@ export declare class LinearGradient extends React.Component<ImageFilterProps<Lin
 export declare class RadialGradient extends React.Component<ImageFilterProps<RadialGradientConfig>> { }
 export declare class SweepGradient extends React.Component<ImageFilterProps<SweepGradientConfig>> { }
 export declare class TextImage extends React.Component<ImageFilterProps<TextImageConfig>> { }
+export declare class CircleShape extends React.Component<ImageFilterProps<CircleShapeConfig>> { }
+export declare class OvalShape extends React.Component<ImageFilterProps<OvalShapeConfig>> { }
+export declare class PathShape extends React.Component<ImageFilterProps<PathShapeConfig>> { }
+export declare class RegularPolygonShape extends React.Component<ImageFilterProps<RegularPolygonShapeConfig>> { }
 
 export declare class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> { }
 export declare class ImageBackgroundPlaceholder extends React.Component<Omit<ImageBackgroundProps, 'source'>> { }
@@ -513,6 +550,7 @@ type Input =
   | 'binaryData'
   | 'ISOLatin1EncodedText'
   | 'marker'
+  | 'path'
 
 type Shape = { [key: string]: Input }
 
@@ -521,3 +559,16 @@ export function registerFilter<T, U>(
   shape: Shape,
   transform: (config: T) => Config<U>
 ): React.FC<ViewProps & T>
+
+export function moveTo(x: Distance, y: Distance): PathStep
+export function lineTo(x: Distance, y: Distance): PathStep
+export function quadTo(x1: Distance, y1: Distance, x2: Distance, y2: Distance): PathStep
+export function cubicTo(
+  x1: Distance,
+  y1: Distance,
+  x2: Distance,
+  y2: Distance,
+  x3: Distance,
+  y3: Distance
+): PathStep
+export function closePath(): PathStep

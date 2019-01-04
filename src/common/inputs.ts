@@ -17,6 +17,7 @@ export const area = 'area'
 export const binaryData = 'binaryData'
 export const ISOLatin1EncodedText = 'ISOLatin1EncodedText'
 export const marker = 'marker'
+export const path = 'path'
 
 export type Input =
   | typeof config
@@ -38,3 +39,4 @@ export type Input =
   | typeof binaryData
   | typeof ISOLatin1EncodedText
   | typeof marker
+  | typeof path

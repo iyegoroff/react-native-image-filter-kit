@@ -1,27 +1,16 @@
-#import "IFKOval.h"
+#import "IFKPathShape.h"
 #import "IFKFilterConstructor.h"
-#import <UIKit/UIKit.h>
 
-@implementation IFKOval
+@implementation IFKPathShape
 
 + (void)initialize
 {
-  [CIFilter registerFilterName:NSStringFromClass([IFKOval class])
+  [CIFilter registerFilterName:NSStringFromClass([IFKPathShape class])
                    constructor:[IFKFilterConstructor constructor]
-               classAttributes:@{kCIAttributeFilterDisplayName:@"Oval",
+               classAttributes:@{kCIAttributeFilterDisplayName:@"Path shape",
                                  kCIAttributeFilterCategories:@[kCICategoryGenerator,
                                                                 kCICategoryVideo,
                                                                 kCICategoryStillImage]}];
-}
-
-- (NSNumber *)inputRadiusX
-{
-  return _inputRadiusX ?: @(200);
-}
-
-- (NSNumber *)inputRadiusY
-{
-  return _inputRadiusY ?: @(100);
 }
 
 - (NSNumber *)inputRotation
@@ -29,9 +18,9 @@
   return _inputRotation ?: @(0);
 }
 
-- (CIColor *)inputColor
+- (UIBezierPath *)inputPath
 {
-  return _inputColor ?: [CIColor blackColor];
+  return _inputPath ?: [UIBezierPath bezierPath];
 }
 
 - (CIImage *)outputImage
@@ -41,35 +30,29 @@
   }
   
   CGRect frame = CGRectMake(0, 0, self.inputExtent.Z, self.inputExtent.W);
-  
-  CGFloat radiusX = [[self inputRadiusX] floatValue];
-  CGFloat radiusY = [[self inputRadiusY] floatValue];
+
   CGFloat centerX = frame.size.width / 2.0f;
   CGFloat centerY = frame.size.height / 2.0f;
-
-  UIBezierPath *oval = [UIBezierPath bezierPathWithOvalInRect:
-                        CGRectMake(centerX - radiusX,
-                                   centerY - radiusY,
-                                   radiusX * 2.0f,
-                                   radiusY * 2.0f)];
+  
+  UIBezierPath *path = [self inputPath];
   
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
   
   CGContextRef ctx = UIGraphicsGetCurrentContext();
   
   CGContextTranslateCTM(ctx, centerX, centerY);
+  CGContextScaleCTM(ctx, 1.0f, -1.0f);
   CGContextRotateCTM(ctx, [[self inputRotation] floatValue]);
-  CGContextTranslateCTM(ctx, -centerX, -centerY);
   
   [[UIColor colorWithCIColor:[self inputColor]] setFill];
   
-  [oval fill];
+  [path fill];
   
-  UIImage *ovalImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIImage *pathImage = UIGraphicsGetImageFromCurrentImageContext();
   
   UIGraphicsEndImageContext();
   
-  return [[CIImage alloc] initWithImage:ovalImage];
+  return [[CIImage alloc] initWithImage:pathImage];
 }
 
 @end

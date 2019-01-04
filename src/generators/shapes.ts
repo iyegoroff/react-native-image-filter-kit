@@ -5,7 +5,9 @@ import {
   position,
   distance,
   text,
-  scalar
+  scalar,
+  distanceVector,
+  path
 } from '../common/inputs'
 import { Generator } from '../common/shapes'
 import { Position } from '../common/configs'
@@ -38,18 +40,30 @@ export interface TextImageConfig {
   readonly color?: string
 }
 
-export interface CircleConfig {
-  readonly radius?: string
+interface ShapeConfig {
   readonly color?: string
   readonly image: object
 }
 
-export interface OvalConfig {
+export interface CircleShapeConfig extends ShapeConfig {
+  readonly radius?: string
+}
+
+export interface OvalShapeConfig extends ShapeConfig {
   readonly radiusX?: string
   readonly radiusY?: string
-  readonly rotation?: string
-  readonly color?: string
-  readonly image: object
+  readonly rotation?: number
+}
+
+export interface PathShapeConfig extends ShapeConfig {
+  readonly path: unknown[]
+  readonly rotation?: number
+}
+
+export interface RegularPolygonShapeConfig extends ShapeConfig {
+  readonly borderRadiuses: number[]
+  readonly circumradius?: string
+  readonly rotation?: number
 }
 
 export const shapes = {
@@ -89,15 +103,30 @@ export const shapes = {
     ...Generator
   },
 
-  Circle: {
+  CircleShape: {
     radius: distance,
     color: color,
     ...Generator
   },
 
-  Oval: {
+  OvalShape: {
     radiusX: distance,
     radiusY: distance,
+    rotation: scalar,
+    color: color,
+    ...Generator
+  },
+
+  PathShape: {
+    path: path,
+    rotation: scalar,
+    color: color,
+    ...Generator
+  },
+
+  RegularPolygonShape: {
+    circumradius: distance,
+    borderRadiuses: distanceVector,
     rotation: scalar,
     color: color,
     ...Generator

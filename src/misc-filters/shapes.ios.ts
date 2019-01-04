@@ -8,7 +8,9 @@ import {
   text,
   offset,
   image,
-  resizeMode
+  resizeMode,
+  path,
+  distanceVector
 } from '../common/inputs'
 import {
   GeneratorIos as Generator,
@@ -64,15 +66,30 @@ export const shapes = {
     ...Generator
   },
 
-  IosIFKCircle: {
+  IosIFKCircleShape: {
     inputRadius: distance,
     inputColor: color,
     ...Generator
   },
 
-  IosIFKOval: {
+  IosIFKOvalShape: {
     inputRadiusX: distance,
     inputRadiusY: distance,
+    inputRotation: scalar,
+    inputColor: color,
+    ...Generator
+  },
+
+  IosIFKPathShape: {
+    inputPath: path,
+    inputRotation: scalar,
+    inputColor: color,
+    ...Generator
+  },
+
+  IosIFKRegularPolygonShape: {
+    inputCircumradius: distance,
+    inputBorderRadiuses: distanceVector,
     inputRotation: scalar,
     inputColor: color,
     ...Generator

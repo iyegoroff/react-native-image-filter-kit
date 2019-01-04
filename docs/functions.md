@@ -9,12 +9,10 @@ export function registerFilter<Config>(
 
 Should be used to create [custom filters](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/examples/CustomFilter/App.tsx).
 
-#### rgbaToRgb
+#### [rgbaToRgb](https://github.com/iyegoroff/rgba-to-rgb)
 ```ts
 function rgbaToRgb(RGB_background: string, RGBA_color: string): string
 ```
-
-https://github.com/iyegoroff/rgba-to-rgb
 
 ***
 
@@ -26,17 +24,50 @@ function degToRad(deg: number): number
 Converts degrees to radians
 
 ***
-#### concatColorMatrices
+#### [concatColorMatrices](https://github.com/iyegoroff/concat-color-matrices)
 ```ts
 function concatColorMatrices(matrices: Matrix[]): Matrix
 ```
 
-https://github.com/iyegoroff/concat-color-matrices
+***
+
+## [PathStep](types.md#PathStep) generation
+
+#### [moveTo](https://developer.android.com/reference/android/graphics/Path.html#moveTo(float,%20float))
+```ts
+function moveTo(x: Distance, y: Distance): PathStep
+```
+
+#### [lineTo](https://developer.android.com/reference/android/graphics/Path.html#lineTo(float,%20float))
+```ts
+function lineTo(x: Distance, y: Distance): PathStep
+```
+
+#### [quadTo](https://developer.android.com/reference/android/graphics/Path#quadTo(float,%20float,%20float,%20float))
+```ts
+function quadTo(x1: Distance, y1: Distance, x2: Distance, y2: Distance): PathStep
+```
+
+#### [cubicTo](https://developer.android.com/reference/android/graphics/Path#cubicTo(float,%20float,%20float,%20float,%20float,%20float))
+```ts
+function cubicTo(
+  x1: Distance,
+  y1: Distance,
+  x2: Distance,
+  y2: Distance,
+  x3: Distance,
+  y3: Distance
+): PathStep
+```
+
+#### [closePath](https://developer.android.com/reference/android/graphics/Path.html#close())
+```ts
+function closePath(): PathStep
+```
 
 ***
 
-## Color matrices
-https://github.com/iyegoroff/rn-color-matrices
+## [Color matrices](https://github.com/iyegoroff/rn-color-matrices)
 
 #### normal
 ```ts

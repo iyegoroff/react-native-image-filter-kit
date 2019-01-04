@@ -1,6 +1,5 @@
 package iyegoroff.imagefilterkit.nativeplatform.shape;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,19 +18,14 @@ import javax.annotation.Nullable;
 import iyegoroff.imagefilterkit.InputConverter;
 import iyegoroff.imagefilterkit.utility.GeneratorPostProcessor;
 
-public class OvalPostProcessor extends GeneratorPostProcessor {
+public class OvalShapePostProcessor extends GeneratorPostProcessor {
 
   private final float mRadiusX;
   private final float mRadiusY;
   private final float mRotation;
   private final int mColor;
 
-  public OvalPostProcessor(
-    int width,
-    int height,
-    @Nullable JSONObject config,
-    final Context context
-  ) {
+  public OvalShapePostProcessor(int width, int height, @Nullable JSONObject config) {
     super(width, height, config);
 
     InputConverter converter = new InputConverter(width, height);
@@ -44,7 +38,7 @@ public class OvalPostProcessor extends GeneratorPostProcessor {
 
   @Override
   public String getName () {
-    return "OvalPostProcessor";
+    return "OvalShapePostProcessor";
   }
 
   @Override
@@ -70,7 +64,7 @@ public class OvalPostProcessor extends GeneratorPostProcessor {
     return new SimpleCacheKey(
       String.format(
         (Locale) null,
-        "oval_%f_%f_%f_%d_%d_%d",
+        "oval_shape_%f_%f_%f_%d_%d_%d",
         mRadiusX,
         mRadiusY,
         mRotation,

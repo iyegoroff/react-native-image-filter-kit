@@ -1,12 +1,16 @@
 # Generators
 
 - [Color](#Color)
+- [TextImage](#TextImage)
+---
 - [LinearGradient](#LinearGradient)
 - [RadialGradient](#RadialGradient)
 - [SweepGradient](#SweepGradient)
-- [TextImage](#TextImage)
-- [Circle](#Circle)
-- [Oval](#Oval)
+----
+- [CircleShape](#CircleShape)
+- [OvalShape](#OvalShape)
+- [PathShape](#PathShape)
+- [RegularPolygonShape](#RegularPolygonShape)
 ----
 - [Setting the size of generated image](#Setting-the-size-of-generated-image)
 
@@ -203,7 +207,7 @@
 
 ***
 
-#### Circle
+#### CircleShape
 
 <table>
   <tr>
@@ -234,7 +238,7 @@
 
 ***
 
-#### Oval
+#### OvalShape
 
 <table>
   <tr>
@@ -260,6 +264,86 @@
     <td><a href="types.md#Distance">Distance</a></td>
     <td>'25h'</td>
     <td></td>
+  </tr>
+  <tr>
+    <td>rotation</td>
+    <td>number</td>
+    <td>0</td>
+    <td>angle in <a href="functions.md#degToRad">radians</a></td>
+  </tr>
+  <tr>
+    <td>color</td>
+    <td>string</td>
+    <td>'black'</td>
+    <td></td>
+  </tr>
+</table>
+
+***
+
+#### PathShape
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
+  </tr>
+  <tr>
+    <td>path</td>
+    <td><a href="types.md#PathStep">PathStep</a>[]</td>
+    <td>-</td>
+    <td><strong>required</strong></td>
+  </tr>
+  <tr>
+    <td>rotation</td>
+    <td>number</td>
+    <td>0</td>
+    <td>angle in <a href="functions.md#degToRad">radians</a></td>
+  </tr>
+  <tr>
+    <td>color</td>
+    <td>string</td>
+    <td>'black'</td>
+    <td></td>
+  </tr>
+</table>
+
+***
+
+#### [RegularPolygonShape](https://en.wikipedia.org/wiki/Regular_polygon)
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
+  </tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/Regular_polygon#Circumradius">circumradius</a></td>
+    <td><a href="types.md#Distance">Distance</a></td>
+    <td>'50min'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>borderRadiuses</td>
+    <td><a href="types.md#Distance">Distance</a>[]</td>
+    <td>[0, 0, 0]</td>
+    <td><code>borderRadiuses.length</code> specifies the number of vertices; e.g. <code>Array(6).fill(0)</code> - hexagon with edgy corners, <code>[25,&nbsp;'10min',&nbsp;50]</code> - triangle with differently smoothed corners</td>
   </tr>
   <tr>
     <td>rotation</td>

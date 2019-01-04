@@ -45,8 +45,10 @@ import iyegoroff.imagefilterkit.nativeplatform.TextImagePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic.ScriptIntrinsicBlurPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic.ScriptIntrinsicConvolve3x3PostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic.ScriptIntrinsicConvolve5x5PostProcessor;
-import iyegoroff.imagefilterkit.nativeplatform.shape.CirclePostProcessor;
-import iyegoroff.imagefilterkit.nativeplatform.shape.OvalPostProcessor;
+import iyegoroff.imagefilterkit.nativeplatform.shape.CircleShapePostProcessor;
+import iyegoroff.imagefilterkit.nativeplatform.shape.OvalShapePostProcessor;
+import iyegoroff.imagefilterkit.nativeplatform.shape.PathShapePostProcessor;
+import iyegoroff.imagefilterkit.nativeplatform.shape.RegularPolygonShapePostProcessor;
 
 public class PostProcessorRegistry {
 
@@ -242,7 +244,7 @@ public class PostProcessorRegistry {
       }
     });
 
-    addSingular("Circle", new CreateSingular() {
+    addSingular("CircleShape", new CreateSingular() {
       @Override
       public Postprocessor create(
         int width,
@@ -250,11 +252,11 @@ public class PostProcessorRegistry {
         @Nullable JSONObject config,
         @Nonnull Context context
       ) {
-        return new CirclePostProcessor(width, height, config, context);
+        return new CircleShapePostProcessor(width, height, config);
       }
     });
 
-    addSingular("Oval", new CreateSingular() {
+    addSingular("OvalShape", new CreateSingular() {
       @Override
       public Postprocessor create(
         int width,
@@ -262,7 +264,31 @@ public class PostProcessorRegistry {
         @Nullable JSONObject config,
         @Nonnull Context context
       ) {
-        return new OvalPostProcessor(width, height, config, context);
+        return new OvalShapePostProcessor(width, height, config);
+      }
+    });
+
+    addSingular("PathShape", new CreateSingular() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
+        return new PathShapePostProcessor(width, height, config);
+      }
+    });
+
+    addSingular("RegularPolygonShape", new CreateSingular() {
+      @Override
+      public Postprocessor create(
+        int width,
+        int height,
+        @Nullable JSONObject config,
+        @Nonnull Context context
+      ) {
+        return new RegularPolygonShapePostProcessor(width, height, config);
       }
     });
 

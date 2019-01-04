@@ -1,11 +1,9 @@
-#import <CoreImage/CoreImage.h>
+#import "IFKShape.h"
 
-@interface IFKOval : CIFilter
+@interface IFKOvalShape : IFKShape
 
-@property (nonatomic, copy) CIVector *inputExtent;
 @property (nonatomic, copy) NSNumber *inputRadiusX;
 @property (nonatomic, copy) NSNumber *inputRadiusY;
 @property (nonatomic, copy) NSNumber *inputRotation;
-@property (nonatomic, copy) CIColor *inputColor;
 
 @end

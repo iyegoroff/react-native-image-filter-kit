@@ -1,5 +1,6 @@
 package iyegoroff.imagefilterkit;
 
+import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
@@ -7,6 +8,8 @@ import android.graphics.Shader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,6 +74,60 @@ public class InputConverter {
     );
   }
 
+  public Path convertPath(@Nullable JSONObject path, @Nonnull Path defaultPath) {
+    JSONArray steps = path != null ? path.optJSONArray("path") : null;
+
+    if (steps == null) {
+      return defaultPath;
+    }
+
+    Path p = new Path();
+
+    for (int i = 0; i < steps.length(); i++) {
+      JSONObject step = steps.optJSONObject(i);
+      List<Float> args;
+
+      if (step.has("moveTo")) {
+        args = convertPathStep(step, "moveTo");
+
+        p.moveTo(args.get(0), args.get(1));
+
+      } else if (step.has("lineTo")) {
+        args = convertPathStep(step, "lineTo");
+
+        p.lineTo(args.get(0), args.get(1));
+
+      } else if (step.has("quadTo")) {
+        args = convertPathStep(step, "quadTo");
+
+        p.quadTo(args.get(0), args.get(1), args.get(2), args.get(3));
+
+      } else if (step.has("cubicTo")) {
+        args = convertPathStep(step, "cubicTo");
+
+        p.cubicTo(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+
+      } else if (step.has("closePath")) {
+        p.close();
+      }
+    }
+
+    p.close();
+
+    return p;
+  }
+
+  private List<Float> convertPathStep(@Nonnull JSONObject step, @Nonnull String name) {
+    JSONArray packedArgs = step.optJSONArray(name);
+    List<Float> args = new ArrayList<>();
+
+    for (int i = 0; i < packedArgs.length(); i++) {
+      args.add(convertRelativeExpr(packedArgs.optString(i, "0")));
+    }
+
+    return args;
+  }
+
   public String convertText(@Nullable JSONObject text, @Nullable String defaultValue) {
     return text != null ? text.optString("text", defaultValue) : defaultValue;
   }
@@ -96,6 +153,21 @@ public class InputConverter {
 
       for (int i = 0; i < vector.length; i++) {
         vector[i] = (float) sv.optDouble(i);
+      }
+
+      return vector;
+    }
+
+    return defaultValue;
+  }
+
+  public float[] convertDistanceVector(@Nullable JSONObject distanceVector, float[] defaultValue) {
+    if (distanceVector != null && distanceVector.has("distanceVector")) {
+      JSONArray dv = distanceVector.optJSONArray("distanceVector");
+      float[] vector = new float[dv.length()];
+
+      for (int i = 0; i < vector.length; i++) {
+        vector[i] = convertRelativeExpr(dv.optString(i, "0"));
       }
 
       return vector;

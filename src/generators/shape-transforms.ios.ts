@@ -3,8 +3,10 @@ import {
   RadialGradientConfig,
   SweepGradientConfig,
   TextImageConfig,
-  CircleConfig,
-  OvalConfig
+  CircleShapeConfig,
+  OvalShapeConfig,
+  PathShapeConfig,
+  RegularPolygonShapeConfig
 } from './shapes'
 
 export const shapeTransforms = {
@@ -74,28 +76,60 @@ export const shapeTransforms = {
     inputColor: color
   }),
 
-  Circle: ({ radius = '50min', color = 'black', image, ...config }: CircleConfig) => ({
+  CircleShape: ({ radius = '50min', color = 'black', image, ...config }: CircleShapeConfig) => ({
     ...config,
-    name: 'IosIFKCircle',
+    name: 'IosIFKCircleShape',
     inputRadius: radius,
     inputColor: color,
     inputImage: image
   }),
 
-  Oval: ({
+  OvalShape: ({
     radiusX = '50w',
     radiusY = '25h',
     color = 'black',
     image,
     rotation,
     ...config
-  }: OvalConfig) => ({
+  }: OvalShapeConfig) => ({
     ...config,
-    name: 'IosIFKOval',
+    name: 'IosIFKOvalShape',
     inputRadiusX: radiusX,
     inputRadiusY: radiusY,
     inputColor: color,
     inputRotation: rotation,
     inputImage: image
+  }),
+
+  PathShape: ({
+    color = 'black',
+    image,
+    rotation,
+    path,
+    ...config
+  }: PathShapeConfig) => ({
+    ...config,
+    name: 'IosIFKPathShape',
+    inputColor: color,
+    inputRotation: rotation,
+    inputImage: image,
+    inputPath: path
+  }),
+
+  RegularPolygonShape: ({
+    color = 'black',
+    image,
+    rotation,
+    circumradius = '50min',
+    borderRadiuses = [0, 0, 0],
+    ...config
+  }: RegularPolygonShapeConfig) => ({
+    ...config,
+    name: 'IosIFKRegularPolygonShape',
+    inputColor: color,
+    inputRotation: rotation,
+    inputImage: image,
+    inputCircumradius: circumradius,
+    inputBorderRadiuses: borderRadiuses
   })
 }

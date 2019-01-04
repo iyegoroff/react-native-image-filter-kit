@@ -13,6 +13,7 @@ import { degToRad } from './common/util'
 import colorMatrices from 'rn-color-matrices'
 import { concatColorMatrices } from 'concat-color-matrices'
 import rgbaToRgb from 'rgba-to-rgb'
+import { cubicTo, lineTo, quadTo, moveTo, closePath } from './common/path'
 
 const exports = {
   ...blurFilters,
@@ -31,7 +32,12 @@ const exports = {
   ImagePlaceholder,
   ImageBackgroundPlaceholder,
   registerFilter,
-  GenericImageFilter: nativePlatformFilters.ImageFilter
+  GenericImageFilter: nativePlatformFilters.ImageFilter,
+  cubicTo,
+  lineTo,
+  quadTo,
+  moveTo,
+  closePath
 }
 
 declare const module: { exports: typeof exports }
