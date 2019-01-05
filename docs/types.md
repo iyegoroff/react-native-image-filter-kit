@@ -111,7 +111,7 @@ Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually t
 
 `number | RelativeUnit | Expression`
 
-`Distance` can be a `number` representing actual pixels, a [RelativeUnit](#RelativeUnit) representing a value that depends on the image size or a [Expression](#Expression).
+`Distance` can be a `number` representing actual pixels, a [RelativeUnit](#RelativeUnit) representing a value that depends on the image size or an [Expression](#Expression).
 
 ***
 #### Position
@@ -146,6 +146,6 @@ A [4x5 matrix](https://developer.android.com/reference/android/graphics/ColorMat
 
 ***
 #### PathStep
-An object created by [moveTo](functions.md#moveTo), [lineTo](functions.md#lineTo), [quadTo](functions.md#quadTo), [cubicTo](functions.md#cubicTo), [closePath](functions.md#closePath) functions. Coordinate system of a path generated with array of `PathStep`s starts in the center point of image canvas: 
+An object created by [moveTo](functions.md#moveTo), [lineTo](functions.md#lineTo), [quadTo](functions.md#quadTo), [cubicTo](functions.md#cubicTo) and [closePath](functions.md#closePath) functions. Coordinate system of a path generated with array of `PathStep`s starts in the center point of image canvas: 
 
 <img src="../img/coordinates.png">
