@@ -1,5 +1,5 @@
 #### Description
-Example shows how to create and use a set of JS-only custom filters.
+Example shows how to create and use a set of JS/TS-only custom filters.
 
 ### Run debug version
 ```bash

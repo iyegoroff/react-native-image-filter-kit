@@ -58,7 +58,9 @@
   "scripts": {
     "build": "rm -rf dist && tsc -p ./src",
     "watch": "tsc -p ./src -w",
-    "lint": "tslint --fix -p ./src && tslint --fix -p ./examples/CustomFilter/src",
+    "lint": "tslint --fix -p ./src && npm run lint:examples && npm run lint:haze-removal",
+    "lint:examples": "tslint --fix -p ./examples/CustomFilter/src && tslint --fix -p ./examples/CustomNativeFilter/src",
+    "lint:haze-removal": "tslint --fix -p ./examples/CustomNativeFilter/local_modules/react-native-image-filter-kit-haze-removal/src",
     "update:typings": "cp src/typings/index.d.ts dist/index.d.ts",
     "build:all": "npm run lint && npm run build && npm run update:typings && :"
   },

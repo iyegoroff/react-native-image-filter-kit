@@ -98,7 +98,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.customfilter"
+        applicationId "com.customnativefilter"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -155,7 +155,7 @@ android {
 
     aaptOptions {
         cruncherEnabled false
-    } 
+    }
 }
 
 dependencies {
