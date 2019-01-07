@@ -1,6 +1,6 @@
 #import <CoreImage/CoreImage.h>
 
-@interface IFKHazeRemoval : CIFilter
+@interface IFKHRHazeRemoval : CIFilter
 
 @property (nonatomic, strong) CIImage *inputImage;
 @property (nonatomic, copy) CIColor *inputColor;

@@ -5,7 +5,7 @@
 #import <React/RCTBridgeModule.h>
 #endif
 
-@interface RNImageFilterKitHazeRemoval : NSObject <RCTBridgeModule>
+@interface IFKHRHazeRemovalModule : NSObject <RCTBridgeModule>
 
 @end
   

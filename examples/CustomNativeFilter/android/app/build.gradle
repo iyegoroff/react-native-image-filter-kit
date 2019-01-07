@@ -159,6 +159,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-filter-kit-haze-removal')
     compile project(':react-native-image-filter-kit')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"

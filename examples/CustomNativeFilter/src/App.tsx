@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { GenericImageFilter, ImageFilter } from 'react-native-image-filter-kit'
+import { GenericImageFilter } from 'react-native-image-filter-kit'
 import { Image, ScrollView } from 'react-native'
+import { HazeRemoval, HazeRemovalExtensionConfig } from 'react-native-image-filter-kit-haze-removal'
 
 const uri = 'https://picturepan2.github.io/instagram.css/assets/img/instagram.jpg'
 
@@ -15,12 +16,18 @@ const image = (
 
 const app = () => (
   <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-    <ImageFilter
+    <HazeRemoval
+      image={image}
+      distance={1}
+      slope={1}
+    />
+
+    {/* <GenericImageFilter<HazeRemovalExtensionConfig>
       config={{
-        name: 'Grayscale',
+        name: 'HazeRemoval',
         image
       }}
-    />
+    /> */}
   </ScrollView>
 )
 

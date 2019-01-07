@@ -1,12 +1,12 @@
-#import "IFKHazeRemoval.h"
-#import "IFKFilterConstructor.h"
+#import "IFKHRHazeRemoval.h"
+#import "IFKHRFilterConstructor.h"
 
-@implementation IFKHazeRemoval
+@implementation IFKHRHazeRemoval
 
 + (void)initialize
 {
-  [CIFilter registerFilterName:NSStringFromClass([IFKHazeRemoval class])
-                   constructor:[IFKFilterConstructor constructor]
+  [CIFilter registerFilterName:NSStringFromClass([IFKHRHazeRemoval class])
+                   constructor:[IFKHRFilterConstructor constructor]
                classAttributes:@{kCIAttributeFilterDisplayName:@"Haze Removal",
                                  kCIAttributeFilterCategories:@[kCICategoryColorAdjustment,
                                                                 kCICategoryVideo,
@@ -20,7 +20,7 @@
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     NSBundle *bundle = [NSBundle bundleForClass:self];
-    NSString *resource = [bundle pathForResource:NSStringFromClass([IFKHazeRemoval class])
+    NSString *resource = [bundle pathForResource:NSStringFromClass([IFKHRHazeRemoval class])
                                           ofType:@"cikernel"];
     NSString *code = [NSString stringWithContentsOfFile:resource
                                                encoding:NSUTF8StringEncoding
@@ -51,7 +51,7 @@
     return nil;
   }
   
-  return [[IFKHazeRemoval filterKernel] applyWithExtent:_inputImage.extent
+  return [[IFKHRHazeRemoval filterKernel] applyWithExtent:_inputImage.extent
                                             roiCallback:^CGRect(int index, CGRect destRect) {
                                               return destRect;
                                             } arguments:@[self.inputImage,

@@ -1,7 +1,7 @@
 
-#import "RNImageFilterKitHazeRemoval.h"
+#import "IFKHRHazeRemovalModule.h"
 
-@implementation RNImageFilterKitHazeRemoval
+@implementation IFKHRHazeRemovalModule
 
 - (dispatch_queue_t)methodQueue
 {

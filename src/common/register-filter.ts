@@ -4,7 +4,7 @@ import shapesToComponents from './shapes-to-components'
 
 type Shape = { [key: string]: Input }
 
-export default (name: string, shape: Shape, transform: (from: object) => object) => {
+export default (name: string, shape: Shape, transform?: (from: object) => object) => {
   const shapes = {
     [name]: {
       disableCache: bool,
@@ -13,7 +13,10 @@ export default (name: string, shape: Shape, transform: (from: object) => object)
   }
 
   ShapeRegistry.addShapes(shapes)
-  ShapeRegistry.addTransforms({ [name]: transform })
+
+  if (transform !== undefined) {
+    ShapeRegistry.addTransforms({ [name]: transform })
+  }
 
   return shapesToComponents(shapes)[name]
 }

@@ -7,6 +7,7 @@
     "jsx": "react-native",
     "lib": ["es2016"],
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "declaration": true
   }
 }

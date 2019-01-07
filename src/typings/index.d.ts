@@ -557,7 +557,7 @@ type Shape = { [key: string]: Input }
 export function registerFilter<T, U>(
   name: string,
   shape: Shape,
-  transform: (config: T) => Config<U>
+  transform?: (config: T) => Config<U>
 ): React.FC<ViewProps & T>
 
 export function moveTo(x: Distance, y: Distance): PathStep
