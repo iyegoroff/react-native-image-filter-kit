@@ -54,10 +54,10 @@
   return [[IFKHRHazeRemoval filterKernel] applyWithExtent:_inputImage.extent
                                             roiCallback:^CGRect(int index, CGRect destRect) {
                                               return destRect;
-                                            } arguments:@[self.inputImage,
-                                                          self.inputColor,
-                                                          self.inputDistance,
-                                                          self.inputSlope]];
+                                            } arguments:@[[self inputImage],
+                                                          [self inputColor],
+                                                          [self inputDistance],
+                                                          [self inputSlope]]];
 }
 
 @end

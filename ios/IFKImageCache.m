@@ -52,7 +52,7 @@ static double asMB(unsigned long long bytes) {
       : (NSUInteger)maxCacheSizeInBytes;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(clearCache)
+                                             selector:@selector(recievedMemoryWarning)
                                                  name:UIApplicationDidReceiveMemoryWarningNotification
                                                object:nil];
 
@@ -75,9 +75,21 @@ static double asMB(unsigned long long bytes) {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)recievedMemoryWarning
+{
+#if RCT_DEBUG
+  NSLog(@"ImageFilterKit: recieved memory warning !!!");
+#endif
+  [self clearCache];
+}
+
 - (void)clearCache
 {
   [_cache removeAllObjects];
+#if RCT_DEBUG
+  NSLog(@"ImageFilterKit: clear cache");
+  _cacheSize = 0;
+#endif
 }
 
 - (NSUInteger)costFor:(nonnull UIImage *)image
@@ -92,14 +104,20 @@ static double asMB(unsigned long long bytes) {
 
 - (void)setImage:(nonnull UIImage *)image forKey:(nonnull NSString *)key
 {
-  NSLog(@"filter: image %@", image);
   NSUInteger size = [self costFor:image];
   [_cache setObject:image forKey:key cost:size];
 
 #if RCT_DEBUG
   _cacheSize += size;
+  
+  if (_cacheSize > _cache.totalCostLimit) {
+    [self clearCache];
+  }
+  
   NSLog(@"ImageFilterKit: added %.3f MB sized image to cache", asMB(size));
-  NSLog(@"ImageFilterKit: used cache size %.3f MB", asMB(_cacheSize));
+  NSLog(@"ImageFilterKit: used cache size %.3f MB, %.3f %%",
+        asMB(_cacheSize),
+        (float)(_cacheSize / (float)_cache.totalCostLimit) * 100.0f);
 #endif
 }
 

@@ -25,6 +25,11 @@
       "key": "react-native-image-filter-kit",
       "path": "node_modules/react-native-image-filter-kit/ios/Resources/IFKXorCompositing.cikernel",
       "sha1": "6ae62d81d9bd7f17c0184aa74fc1cb89160bf96f"
+    },
+    {
+      "key": "react-native-image-filter-kit-haze-removal",
+      "path": "node_modules/react-native-image-filter-kit-haze-removal/ios/Resources/IFKHRHazeRemoval.cikernel",
+      "sha1": "cb1bb68528a5fb3513da08b6c4d22822cc092b50"
     }
   ]
 }

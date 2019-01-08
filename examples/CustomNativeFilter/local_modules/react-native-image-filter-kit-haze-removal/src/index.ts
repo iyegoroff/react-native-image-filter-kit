@@ -80,3 +80,9 @@ export const HazeRemoval = registerFilter(
     })
   )
 )
+
+export const init = () => {
+  if (__DEV__) {
+    console.log('ImageFilterKitHazeRemoval: init')
+  }
+}

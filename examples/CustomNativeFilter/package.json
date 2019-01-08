@@ -22,6 +22,7 @@
   "dependencies": {
     "react": "16.6.3",
     "react-native": "0.57.8",
+    "react-native-color-wheel": "^0.1.6",
     "react-native-image-filter-kit": "file:../../",
     "react-native-image-filter-kit-haze-removal": "file:local_modules/react-native-image-filter-kit-haze-removal"
   },

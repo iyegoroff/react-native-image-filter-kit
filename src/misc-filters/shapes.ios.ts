@@ -12,11 +12,7 @@ import {
   path,
   distanceVector
 } from '../common/inputs'
-import {
-  GeneratorIos as Generator,
-  CommonIos as Common,
-  CompositionBaseIos as CompositionBase
-} from '../common/shapes'
+import { GeneratorIos as Generator, CompositionBaseIos as CompositionBase } from '../common/shapes'
 
 const Gradient = {
   inputColors: colorVector,
@@ -25,13 +21,6 @@ const Gradient = {
 }
 
 export const shapes = {
-  IosIFKHazeRemoval: {
-    inputDistance: scalar,
-    inputSlope: scalar,
-    inputColor: color,
-    ...Common
-  },
-
   IosIFKLinearGradient: {
     inputStart: position,
     inputEnd: position,
