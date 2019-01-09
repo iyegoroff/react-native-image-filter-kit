@@ -44,7 +44,7 @@ public class Resize {
 
     if (this instanceof WithSize) {
       return String.format(
-        (Locale) null,
+        Locale.ROOT,
         "Resize.WithSize(%f, %f)",
         ((WithSize) this).width,
         ((WithSize) this).height

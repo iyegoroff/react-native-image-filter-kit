@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { GenericImageFilter } from 'react-native-image-filter-kit'
-import { Image, View, Slider, StatusBar } from 'react-native'
+import { Image, View, Slider, StatusBar, Text, StyleSheet } from 'react-native'
 import { HazeRemovalExtensionConfig, init } from 'react-native-image-filter-kit-haze-removal'
 const { ColorWheel } = require('react-native-color-wheel')
 const colorsys = require('colorsys')
@@ -18,6 +18,14 @@ const image = (
     source={{ uri }}
   />
 )
+
+const styles = StyleSheet.create({
+  container: { alignItems: 'center', height: '100%' },
+  slider: { width: '95%' },
+  colorWheel: { width: '100%', flex: 1 },
+  info: { position: 'absolute', left: 0, bottom: 0, backgroundColor: '#00000080', padding: 5 },
+  text: { color: 'white', fontSize: 18, fontWeight: 'bold' }
+})
 
 class App extends React.Component<{}, { distance: number, color: string }> {
 
@@ -38,32 +46,42 @@ class App extends React.Component<{}, { distance: number, color: string }> {
     this.setState({ color: colorsys.hsvToHex(color) })
   }
 
+  roundedDistance = (distance: number) => Math.trunc(distance * 100) / 100
+
   render() {
     const { distance, color } = this.state
+    const roundedDistance = this.roundedDistance(distance)
 
     return (
-      <View style={{ alignItems: 'center', height: '100%' }}>
+      <View style={styles.container}>
         <StatusBar hidden={true} />
         <GenericImageFilter<HazeRemovalExtensionConfig>
           config={{
             name: 'HazeRemoval',
             image: image,
             color,
-            distance: Math.trunc(distance * 100) / 100
+            distance: roundedDistance
           }}
         />
         <Slider
-          style={{ width: '95%', height: 50 }}
+          style={styles.slider}
           minimumValue={0}
           maximumValue={1}
           value={distance}
-          onValueChange={this.setDistance}
+          onSlidingComplete={this.setDistance}
         />
         <ColorWheel
           initialColor={color}
           onColorChange={this.setColor}
-          style={{ width: '100%', flex: 1 }}
+          style={styles.colorWheel}
         />
+        <View
+          pointerEvents={'none'}
+          style={styles.info}
+        >
+          <Text style={styles.text}>{`distance: ${roundedDistance}`}</Text>
+          <Text style={styles.text}>{`color: ${color}`}</Text>
+        </View>
       </View>
     )
   }

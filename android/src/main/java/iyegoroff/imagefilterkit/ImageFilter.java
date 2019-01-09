@@ -535,7 +535,7 @@ public class ImageFilter extends ReactViewGroup {
       FLog.d(
         ReactConstants.TAG,
         String.format(
-          (Locale)null,
+          Locale.ROOT,
           "ImageFilterKit: bitmap pool %s - %d/%d images, %d/%d MB",
           stateLabel,
           counter.getCount(),

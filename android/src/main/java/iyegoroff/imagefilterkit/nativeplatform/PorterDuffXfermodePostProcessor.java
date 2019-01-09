@@ -122,7 +122,7 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
   @Override
   public CacheKey generateCacheKey() {
     return compositionCacheKey(String.format(
-      (Locale) null,
+      Locale.ROOT,
       "porter_duff_xfermode_%s",
       mMode.toString())
     );

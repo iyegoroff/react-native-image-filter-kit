@@ -63,7 +63,7 @@ public class OvalShapePostProcessor extends GeneratorPostProcessor {
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(
       String.format(
-        (Locale) null,
+        Locale.ROOT,
         "oval_shape_%f_%f_%f_%d_%d_%d",
         mRadiusX,
         mRadiusY,

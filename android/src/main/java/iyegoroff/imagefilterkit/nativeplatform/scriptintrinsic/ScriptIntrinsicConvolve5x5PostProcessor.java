@@ -72,7 +72,7 @@ public class ScriptIntrinsicConvolve5x5PostProcessor extends RenderscriptSingula
   @Override
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(String.format(
-      (Locale) null,
+      Locale.ROOT,
       "script_intrinsic_convolve_5x5_%s",
       Arrays.toString(mCoefficients))
     );

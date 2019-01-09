@@ -48,7 +48,7 @@ public class CircleShapePostProcessor extends GeneratorPostProcessor {
   @Override
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(
-      String.format((Locale) null, "circle_shape_%f_%d_%d_%d", mRadius, mColor, mWidth, mHeight)
+      String.format(Locale.ROOT, "circle_shape_%f_%d_%d_%d", mRadius, mColor, mWidth, mHeight)
     );
   }
 }

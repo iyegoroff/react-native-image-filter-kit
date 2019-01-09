@@ -79,7 +79,7 @@ public class TextImagePostProcessor extends GeneratorPostProcessor {
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(
       String.format(
-        (Locale) null,
+        Locale.ROOT,
         "text_image_%s_%s_%f_%d_%d_%d",
         mText,
         mFontName,

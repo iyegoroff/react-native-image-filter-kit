@@ -63,7 +63,7 @@ public class LinearGradientPostProcessor extends GeneratorPostProcessor {
   @Override
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(String.format(
-      (Locale) null,
+      Locale.ROOT,
       "linear_gradient_%d_%d_%f_%f_%f_%f_%s_%s_%s",
       mWidth,
       mHeight,

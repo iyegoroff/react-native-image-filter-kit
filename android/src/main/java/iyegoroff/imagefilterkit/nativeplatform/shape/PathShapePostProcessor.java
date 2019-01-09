@@ -60,7 +60,7 @@ public class PathShapePostProcessor extends GeneratorPostProcessor {
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(
       String.format(
-        (Locale) null,
+        Locale.ROOT,
         "path_shape_%s_%f_%d_%d_%d",
         mPathAsString,
         mRotation,

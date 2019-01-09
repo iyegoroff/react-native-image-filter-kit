@@ -37,5 +37,6 @@ android {
 dependencies {
     //noinspection GradleDynamicVersion
     compileOnly "com.facebook.react:react-native:${_reactNativeVersion}"
+    implementation project(':react-native-image-filter-kit')
     implementation fileTree(dir: "libs", include: ["*.jar"])
 }

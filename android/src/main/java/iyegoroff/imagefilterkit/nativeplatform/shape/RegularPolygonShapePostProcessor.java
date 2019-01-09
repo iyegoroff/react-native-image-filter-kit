@@ -117,7 +117,7 @@ public class RegularPolygonShapePostProcessor extends GeneratorPostProcessor {
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(
       String.format(
-        (Locale) null,
+        Locale.ROOT,
         "regular_polygon_shape_%f_%s_%f_%d_%d_%d",
         mCircumradius,
         Arrays.toString(mBorderRadiuses),

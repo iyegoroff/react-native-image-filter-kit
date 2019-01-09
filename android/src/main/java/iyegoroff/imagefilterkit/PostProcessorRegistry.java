@@ -52,7 +52,7 @@ import iyegoroff.imagefilterkit.nativeplatform.shape.RegularPolygonShapePostProc
 
 public class PostProcessorRegistry {
 
-  public class CreateSingular {
+  public static class CreateSingular {
 
     public Postprocessor create(
       int width,
@@ -64,7 +64,7 @@ public class PostProcessorRegistry {
     }
   }
 
-  public class CreateComposition {
+  public static class CreateComposition {
 
     public Postprocessor create(
       int width,
@@ -518,11 +518,11 @@ public class PostProcessorRegistry {
 
   }
 
-  private void addSingular(@Nonnull String name, @Nonnull CreateSingular functor) {
+  public void addSingular(@Nonnull String name, @Nonnull CreateSingular functor) {
     mSingulars.put(name, functor);
   }
 
-  private void addComposition(@Nonnull String name, @Nonnull CreateComposition functor) {
+  public void addComposition(@Nonnull String name, @Nonnull CreateComposition functor) {
     mCompositions.put(name, functor);
   }
 

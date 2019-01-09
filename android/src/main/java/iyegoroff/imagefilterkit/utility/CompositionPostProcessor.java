@@ -188,7 +188,7 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   protected CacheKey compositionCacheKey(@Nonnull String prefix) {
     return new MultiCacheKey(Arrays.asList(
       new SimpleCacheKey(String.format(
-        (Locale) null,
+        Locale.ROOT,
         "%s_%s_%s_%s_%s_%s_%s_%s_%b",
         prefix,
         mSrcResizeMode.toString(),

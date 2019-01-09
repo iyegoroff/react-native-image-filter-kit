@@ -1435,6 +1435,11 @@ color-support@^1.1.3:
   resolved "https://registry.yarnpkg.com/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
   integrity sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==
 
+colorsys@^1.0.17:
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/colorsys/-/colorsys-1.0.22.tgz#e08459b297de7d4da4a53c26c3555f5a9609ad88"
+  integrity sha512-KCqF23oqkOD0IUCTLCl0obwGIMyeGFlNWuJ4oRRVKmawvKQeb3x5UvajVeH9AShZWU9hNaIhjXeTGw3iPNtl/Q==
+
 combined-stream@^1.0.6, combined-stream@~1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.7.tgz#2d1d24317afb8abe95d6d2c0b07b57813539d828"
@@ -4566,6 +4571,13 @@ react-is@^16.5.2, react-is@^16.6.3:
   version "16.7.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.7.0.tgz#c1bd21c64f1f1364c6f70695ec02d69392f41bfa"
   integrity sha512-Z0VRQdF4NPDoI0tsXVMLkJLiwEBa+RP66g0xDHxgxysxSoCUccSten4RTF/UFvZF1dZvZ9Zu1sx+MDXwcOR34g==
+
+react-native-color-wheel@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/react-native-color-wheel/-/react-native-color-wheel-0.1.6.tgz#57215e7ac2326f4bdc297aa51a03023aa1504f00"
+  integrity sha512-TIZwDskkK8xI0QV312gpZBk6h0lyaOtDNwH5xSUlLkhxJkr8YPXNFFNtIqy+t+R0d7JA1clFQZUbww8vWqU00g==
+  dependencies:
+    colorsys "^1.0.17"
 
 "react-native-image-filter-kit-haze-removal@file:local_modules/react-native-image-filter-kit-haze-removal":
   version "0.0.1"

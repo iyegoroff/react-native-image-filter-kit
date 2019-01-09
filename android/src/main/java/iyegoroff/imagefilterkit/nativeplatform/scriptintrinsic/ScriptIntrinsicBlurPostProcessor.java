@@ -63,6 +63,6 @@ public class ScriptIntrinsicBlurPostProcessor extends RenderscriptSingularPostPr
   @Nonnull
   @Override
   public CacheKey generateCacheKey() {
-    return new SimpleCacheKey(String.format((Locale) null, "script_intrinsic_blur_%d", mRadius));
+    return new SimpleCacheKey(String.format(Locale.ROOT, "script_intrinsic_blur_%d", mRadius));
   }
 }
