@@ -12,7 +12,7 @@ public class DummyPostProcessor extends BasePostprocessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "DummyPostProcessor";
   }
 

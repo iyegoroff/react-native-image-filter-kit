@@ -45,7 +45,7 @@ public class ScriptIntrinsicConvolve3x3PostProcessor extends RenderscriptSingula
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "ScriptIntrinsicConvolve3x3PostProcessor";
   }
 

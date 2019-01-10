@@ -20,7 +20,7 @@ public class RoundAsCirclePostProcessor extends RoundAsCirclePostprocessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "RoundAsCirclePostProcessor";
   }
 

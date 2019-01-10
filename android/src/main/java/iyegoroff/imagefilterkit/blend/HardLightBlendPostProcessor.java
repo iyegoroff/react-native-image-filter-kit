@@ -29,7 +29,7 @@ public class HardLightBlendPostProcessor extends RenderscriptCompositionPostProc
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "HardLightBlendPostProcessor";
   }
 

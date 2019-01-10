@@ -42,7 +42,7 @@ public class ColorMatrixColorFilterPostProcessor extends CacheablePostProcessor 
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "ColorMatrixColorFilterPostProcessor";
   }
 

@@ -29,7 +29,7 @@ public class HueBlendPostProcessor extends RenderscriptCompositionPostProcessor 
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "HueBlendPostProcessor";
   }
 

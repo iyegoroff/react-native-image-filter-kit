@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "preinstall": "cd ../.. && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd examples/CustomFilter && which yarn && yarn link react-native-image-filter-kit || :",
-    "postinstall": "metro-with-symlinks",
+    "postinstall": "metro-with-symlinks && npm run build:release",
     "run:android": "cd android && ./gradlew clean && cd .. && react-native run-android",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
     "start:packager": "react-native start",
-    "watch": "../../node_modules/.bin/tsc -p ./src -w",
+    "watch": "rm -rf build && ../../node_modules/.bin/tsc -p ./src -w",
     "build:release": "rm -rf build && ../../node_modules/.bin/tsc -p ./src",
     "generate:android:signing-key": "keytool -genkey -v -keystore example.keystore -alias example -keyalg RSA -keysize 2048 -validity 10000 && mv example.keystore android/app",
     "generate:android:apk": "npm run generate:android:bundle && cd android && ./gradlew assembleRelease",

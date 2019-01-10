@@ -32,7 +32,7 @@ public class CircleShapePostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "CircleShapePostProcessor";
   }
 

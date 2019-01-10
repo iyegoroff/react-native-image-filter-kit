@@ -29,7 +29,7 @@ public class ColorBlendPostProcessor extends RenderscriptCompositionPostProcesso
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "ColorBlendPostProcessor";
   }
 

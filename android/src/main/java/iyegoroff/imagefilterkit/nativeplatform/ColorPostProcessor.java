@@ -29,7 +29,7 @@ public class ColorPostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "ColorPostProcessor";
   }
 

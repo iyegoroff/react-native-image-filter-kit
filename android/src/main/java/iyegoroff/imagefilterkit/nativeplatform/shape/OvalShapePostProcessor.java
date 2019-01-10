@@ -37,7 +37,7 @@ public class OvalShapePostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "OvalShapePostProcessor";
   }
 

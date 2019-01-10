@@ -40,7 +40,7 @@ public class HazeRemovalPostProcessor extends RenderscriptSingularPostProcessor 
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "HazeRemovalPostProcessor";
   }
 

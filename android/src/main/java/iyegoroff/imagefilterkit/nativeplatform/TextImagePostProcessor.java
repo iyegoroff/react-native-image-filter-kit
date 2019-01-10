@@ -51,7 +51,7 @@ public class TextImagePostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "TextImagePostProcessor";
   }
 

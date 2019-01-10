@@ -29,7 +29,7 @@ public class ExclusionBlendPostProcessor extends RenderscriptCompositionPostProc
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "ExclusionBlendPostProcessor";
   }
 

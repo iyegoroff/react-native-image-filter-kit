@@ -29,7 +29,7 @@ public class SaturationBlendPostProcessor extends RenderscriptCompositionPostPro
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "SaturationBlendPostProcessor";
   }
 

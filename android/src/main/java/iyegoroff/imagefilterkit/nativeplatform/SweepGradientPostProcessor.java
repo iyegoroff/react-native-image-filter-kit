@@ -40,7 +40,7 @@ public class SweepGradientPostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "SweepGradientPostProcessor";
   }
 

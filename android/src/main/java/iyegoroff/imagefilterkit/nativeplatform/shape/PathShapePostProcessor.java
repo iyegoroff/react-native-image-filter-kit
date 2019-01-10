@@ -37,7 +37,7 @@ public class PathShapePostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "PathShapePostProcessor";
   }
 

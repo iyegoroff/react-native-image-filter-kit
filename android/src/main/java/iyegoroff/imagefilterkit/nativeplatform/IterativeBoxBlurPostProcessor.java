@@ -38,7 +38,7 @@ public class IterativeBoxBlurPostProcessor extends com.facebook.imagepipeline.po
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "IterativeBoxBlurPostProcessor";
   }
 

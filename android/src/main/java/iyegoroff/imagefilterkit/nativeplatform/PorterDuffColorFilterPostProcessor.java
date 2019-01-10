@@ -36,7 +36,7 @@ public class PorterDuffColorFilterPostProcessor extends CacheablePostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "PorterDuffColorFilterPostProcessor";
   }
 

@@ -45,7 +45,7 @@ public class RadialGradientPostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "RadialGradientPostProcessor";
   }
 

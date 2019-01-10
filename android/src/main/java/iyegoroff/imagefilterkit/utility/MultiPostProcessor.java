@@ -28,7 +28,7 @@ public class MultiPostProcessor extends IterativeBoxBlurPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     StringBuilder name = new StringBuilder();
     for (Postprocessor p: mPostProcessors) {
       if (name.length() > 0) {

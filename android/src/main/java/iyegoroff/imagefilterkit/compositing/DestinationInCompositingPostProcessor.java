@@ -29,7 +29,7 @@ public class DestinationInCompositingPostProcessor extends RenderscriptCompositi
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "DestinationInCompositingPostProcessor";
   }
 

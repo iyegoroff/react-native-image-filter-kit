@@ -29,7 +29,7 @@ public class MultiplyBlendPostProcessor extends RenderscriptCompositionPostProce
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "MultiplyBlendPostProcessor";
   }
 

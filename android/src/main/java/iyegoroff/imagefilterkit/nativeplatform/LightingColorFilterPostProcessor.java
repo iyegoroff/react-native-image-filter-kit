@@ -33,7 +33,7 @@ public class LightingColorFilterPostProcessor extends CacheablePostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "LightingColorFilterPostProcessor";
   }
 

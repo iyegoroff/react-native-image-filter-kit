@@ -29,7 +29,7 @@ static inline float4 unpremultiply(const float4 col) {
 static inline float4 hazeRemoval(const float4 src, uint32_t y) {
   float d = y * slope + dist;
 
-  return premultiply((unpremultiply(src) - d * color) / (1.0f - d));
+  return clamp(premultiply((unpremultiply(src) - d * color) / (1.0f - d)), 0.0f, 1.0f);
 }
 
 uchar4 RS_KERNEL filterImage(uchar4 src, uint32_t x, uint32_t y) {

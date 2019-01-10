@@ -43,7 +43,7 @@ public class RegularPolygonShapePostProcessor extends GeneratorPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "RegularPolygonShapePostProcessor";
   }
 

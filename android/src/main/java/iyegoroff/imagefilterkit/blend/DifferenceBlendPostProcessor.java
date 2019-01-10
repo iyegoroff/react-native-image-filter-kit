@@ -29,7 +29,7 @@ public class DifferenceBlendPostProcessor extends RenderscriptCompositionPostPro
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "DifferenceBlendPostProcessor";
   }
 

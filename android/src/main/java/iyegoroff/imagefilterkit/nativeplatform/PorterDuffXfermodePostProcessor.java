@@ -42,7 +42,7 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "PorterDuffXfermodePostProcessor";
   }
 

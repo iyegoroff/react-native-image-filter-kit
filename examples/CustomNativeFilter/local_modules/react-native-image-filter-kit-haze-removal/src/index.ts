@@ -28,6 +28,10 @@ export type HazeRemovalExtensionConfig<Rest = never> =
   | ConfigCase<'AndroidHazeRemoval', AndroidHazeRemovalConfig<Rest>>
   | ConfigCase<'IosIFKHRHazeRemoval', IosIFKHRHazeRemovalConfig<Rest>>
 
+/**
+ * In the native code you should register corresponding filter as 'HazeRemoval' since 'Android'
+ * prefix will be dropped
+ */
 registerFilter(
   'AndroidHazeRemoval',
   {
@@ -39,6 +43,10 @@ registerFilter(
   }
 )
 
+/**
+ * In the native code you should register corresponding filter as 'IFKHRHazeRemoval' since 'Ios'
+ * prefix will be dropped
+ */
 registerFilter(
   'IosIFKHRHazeRemoval',
   {
@@ -50,6 +58,9 @@ registerFilter(
   }
 )
 
+/**
+ * This is an umbrella filter that is used in the example app
+ */
 export const HazeRemoval = registerFilter(
   'HazeRemoval',
   {
@@ -81,6 +92,11 @@ export const HazeRemoval = registerFilter(
   )
 )
 
+/**
+ * In order to use `<ImageFilter config={{ name: 'HazeRemoval', ... }} />` something from this file
+ * should be exported in order to run 'registerFilter' calls. This is not required if you are going
+ * to use a filter as a regular React element: `<HazeRemoval ... />`.
+ */
 export const init = () => {
   if (__DEV__) {
     console.log('ImageFilterKitHazeRemoval: init')

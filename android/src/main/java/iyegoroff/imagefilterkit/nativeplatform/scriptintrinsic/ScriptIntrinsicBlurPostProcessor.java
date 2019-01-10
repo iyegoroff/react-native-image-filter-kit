@@ -39,7 +39,7 @@ public class ScriptIntrinsicBlurPostProcessor extends RenderscriptSingularPostPr
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "ScriptIntrinsicBlurPostProcessor";
   }
 

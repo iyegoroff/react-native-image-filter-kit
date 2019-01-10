@@ -29,7 +29,7 @@ public class SourceOutCompositingPostProcessor extends RenderscriptCompositionPo
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "SourceOutCompositingPostProcessor";
   }
 

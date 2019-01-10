@@ -29,7 +29,7 @@ public class SoftLightBlendPostProcessor extends RenderscriptCompositionPostProc
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "SoftLightBlendPostProcessor";
   }
 

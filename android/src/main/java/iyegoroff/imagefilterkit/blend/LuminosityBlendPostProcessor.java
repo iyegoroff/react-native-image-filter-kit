@@ -29,7 +29,7 @@ public class LuminosityBlendPostProcessor extends RenderscriptCompositionPostPro
   }
 
   @Override
-  public String getName () {
+  public String getName() {
     return "LuminosityBlendPostProcessor";
   }
 
