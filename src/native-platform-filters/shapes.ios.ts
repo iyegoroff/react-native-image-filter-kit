@@ -59,6 +59,11 @@ const Perspective = {
   ...Common
 }
 
+const Area = {
+  inputExtent: area,
+  ...Common
+}
+
 export const shapes = {
   ImageFilter: {
     config: config
@@ -447,6 +452,14 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIGlassLozenge,
+  IosCIGlassLozenge: {
+    inputPoint0: position,
+    inputPoint1: position,
+    inputRadius: distance,
+    inputRefraction: scalar,
+    ...Common
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIHoleDistortion
   IosCIHoleDistortion: {
     inputCenter: position,
@@ -471,6 +484,13 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIStretchCrop,
+  IosCIStretchCrop: {
+    inputSize: distanceVector,
+    inputCropAmount: scalar,
+    inputCenterStretchAmount: scalar,
+    ...Common
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CITorusLensDistortion
   IosCITorusLensDistortion: {
     inputCenter: position,
@@ -501,7 +521,7 @@ export const shapes = {
     inputMessage: ISOLatin1EncodedText,
     inputCorrectionLevel: scalar,
     inputLayers: scalar,
-    inputCompactStyle: scalar,
+    inputCompactStyle: bool,
     ...Generator
   },
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CICheckerboardGenerator
@@ -515,6 +535,12 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CICode128BarcodeGenerator,
+  // IosCICode128BarcodeGenerator: {
+  //   inputMessage: text,
+  //   inputQuietSpace: scalar,
+  //   inputBarcodeHeight: distance,
+  //   ...Generator
+  // },
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIConstantColorGenerator
   IosCIConstantColorGenerator: {
     inputColor: color,
@@ -603,7 +629,17 @@ export const shapes = {
   IosCIPerspectiveTransform: Perspective,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIPerspectiveTransformWithExtent,
+  IosCIPerspectiveTransformWithExtent: {
+    inputExtent: area,
+    ...Perspective
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIStraightenFilter,
+  IosCIStraightenFilter: {
+    inputAngle: scalar,
+    ...Common
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIGaussianGradient
   IosCIGaussianGradient: {
     inputCenter: position,
@@ -650,6 +686,16 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CICMYKHalftone,
+  IosCICMYKHalftone: {
+    inputCenter: position,
+    inputWidth: distance,
+    inputAngle: scalar,
+    inputSharpness: scalar,
+    inputGCR: scalar,
+    inputUCR: scalar,
+    ...Common
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDotScreen
   IosCIDotScreen: {
     inputCenter: position,
@@ -678,7 +724,15 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIAreaAverage,
+  IosCIAreaAverage: Area,
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIAreaHistogram,
+  IosCIAreaHistogram: {
+    inputScale: scalar,
+    inputCount: scalar,
+    ...Area
+  },
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIRowAverage
   IosCIRowAverage: {
     inputExtent: area,
@@ -695,9 +749,17 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIAreaMaximum,
+  IosCIAreaMaximum: Area,
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIAreaMinimum,
+  IosCIAreaMinimum: Area,
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIAreaMaximumAlpha,
+  IosCIAreaMaximumAlpha: Area,
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIAreaMinimumAlpha,
+  IosCIAreaMinimumAlpha: Area,
+
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISharpenLuminance
   IosCISharpenLuminance: {
     inputSharpness: scalar,
@@ -989,6 +1051,104 @@ export const shapes = {
   IosCIMirror: {
     inputPoint: position,
     inputAngle: scalar,
+    ...Common
+  },
+
+  IosCIAreaMinMaxRed: Area,
+
+  IosCIAreaMinMax: Area,
+
+  IosCICheatBlur: {
+    inputAmount: distance,
+    ...Common
+  },
+
+  IosCICheapMorphology: {
+    inputRadius: distance,
+    ...Common
+  },
+
+  IosCIMorphology: {
+    inputRadius: distance,
+    ...Common
+  },
+
+  IosCICheapBlur: {
+    inputPasses: scalar,
+    inputSampling: scalar,
+    ...Common
+  },
+
+  IosCIDither: {
+    inputIntensity: scalar,
+    ...Common
+  },
+
+  IosCIVividLightBlendMode: BackgroundImageComposition,
+
+  IosCISkyAndGrassAdjust: {
+    inputSkyAmount: scalar,
+    inputGrassAmount: scalar,
+    ...Common
+  },
+
+  IosCIRingBlur: {
+    inputRadius: distance,
+    inputPointCount: scalar,
+    ...Common
+  },
+
+  IosCIPremultiply: Common,
+
+  IosCIPhotoGrain: {
+    inputAmount: scalar,
+    inputISO: scalar,
+    inputSeed: scalar,
+    ...Common
+  },
+
+  IosCIUnpremultiply: Common,
+
+  IosCILocalContrast: {
+    inputStrength: scalar,
+    inputScale: scalar,
+    ...Common
+  },
+
+  IosCILinearBlur: {
+    inputRadius: distance,
+    ...Common
+  },
+
+  IosCIGaussianBlurXY: {
+    inputSigmaX: distance,
+    inputSigmaY: distance,
+    ...Common
+  },
+
+  IosCIDocumentEnhancer: {
+    inputAmount: scalar,
+    ...Common
+  },
+
+  IosCIClamp: {
+    inputExtent: area,
+    ...Common
+  },
+
+  IosCIASG50Percent: Common,
+
+  IosCIASG60Percent: Common,
+
+  IosCIASG66Percent: Common,
+
+  IosCIASG75Percent: Common,
+
+  IosCIASG80Percent: Common,
+
+  IosCIPaperWash: {
+    inputSaturation: scalar,
+    inputGreyscale: scalar,
     ...Common
   }
 }
