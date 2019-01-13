@@ -19,14 +19,12 @@ export const shapes = {
   AndroidOvalShape: {
     radiusX: distance,
     radiusY: distance,
-    rotation: scalar,
     color: color,
     ...Generator
   },
 
   AndroidPathShape: {
     path: path,
-    rotation: scalar,
     color: color,
     ...Generator
   },
@@ -34,7 +32,6 @@ export const shapes = {
   AndroidRegularPolygonShape: {
     circumradius: distance,
     borderRadiuses: distanceVector,
-    rotation: scalar,
     color: color,
     ...Generator
   }

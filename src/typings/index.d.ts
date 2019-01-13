@@ -151,18 +151,15 @@ interface CircleShapeConfig<Rest = never> extends ShapeConfig<Rest> {
 interface OvalShapeConfig<Rest = never> extends ShapeConfig<Rest> {
   readonly radiusX?: Distance
   readonly radiusY?: Distance
-  readonly rotation?: number
 }
 
 interface PathShapeConfig<Rest = never> extends ShapeConfig<Rest> {
   readonly path: Path
-  readonly rotation?: number
 }
 
 interface RegularPolygonShapeConfig<Rest = never> extends ShapeConfig<Rest> {
   readonly borderRadiuses?: ReadonlyArray<Distance>
   readonly circumradius?: Distance
-  readonly rotation?: number
 }
 
 interface ConfigWithIntermediates<Rest = never> extends CommonConfig<Rest> {

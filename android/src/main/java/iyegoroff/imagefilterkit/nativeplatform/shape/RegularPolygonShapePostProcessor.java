@@ -28,7 +28,6 @@ public class RegularPolygonShapePostProcessor extends GeneratorPostProcessor {
 
   private final float mCircumradius;
   private @Nonnull final float[] mBorderRadiuses;
-  private final float mRotation;
   private final int mColor;
 
   public RegularPolygonShapePostProcessor(int width, int height, @Nullable JSONObject config) {
@@ -38,7 +37,6 @@ public class RegularPolygonShapePostProcessor extends GeneratorPostProcessor {
 
     mCircumradius = converter.convertDistance(config != null ? config.optJSONObject("circumradius") : null, "50min");
     mBorderRadiuses = converter.convertDistanceVector(config != null ? config.optJSONObject("borderRadiuses") : null, new float[3]);
-    mRotation = converter.convertScalar(config != null ? config.optJSONObject("rotation") : null, 0);
     mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
   }
 
@@ -56,7 +54,6 @@ public class RegularPolygonShapePostProcessor extends GeneratorPostProcessor {
 
     canvas.scale(1.0f, -1.0f, centerX, centerY);
     canvas.translate(centerX, centerY);
-    canvas.rotate((float) -Math.toDegrees(mRotation));
 
     final List<PointF> points = new ArrayList<>();
     points.add(new PointF(mCircumradius, 0));
@@ -118,10 +115,9 @@ public class RegularPolygonShapePostProcessor extends GeneratorPostProcessor {
     return new SimpleCacheKey(
       String.format(
         Locale.ROOT,
-        "regular_polygon_shape_%f_%s_%f_%d_%d_%d",
+        "regular_polygon_shape_%f_%s_%d_%d_%d",
         mCircumradius,
         Arrays.toString(mBorderRadiuses),
-        mRotation,
         mColor,
         mWidth,
         mHeight

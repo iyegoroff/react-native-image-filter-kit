@@ -65,14 +65,12 @@ export const shapes = {
   IosIFKOvalShape: {
     inputRadiusX: distance,
     inputRadiusY: distance,
-    inputRotation: scalar,
     inputColor: color,
     ...Generator
   },
 
   IosIFKPathShape: {
     inputPath: path,
-    inputRotation: scalar,
     inputColor: color,
     ...Generator
   },
@@ -80,7 +78,6 @@ export const shapes = {
   IosIFKRegularPolygonShape: {
     inputCircumradius: distance,
     inputBorderRadiuses: distanceVector,
-    inputRotation: scalar,
     inputColor: color,
     ...Generator
   }

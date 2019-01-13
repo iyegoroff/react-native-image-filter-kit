@@ -39,8 +39,6 @@
   if ((self = [super initWithName:name inputs:inputs])) {
     CIVector *center = [CIVector vectorWithCGPoint:CGPointMake(0.5f, 0.5f)];
     CGPoint noScale =CGPointMake(1.0f, 1.0f);
-    
-    NSLog(@"IFK inputs %@", inputs);
 
     _dstScale = [IFKInputConverter convertScale:[[self inputs] objectForKey:@"dstScale"]
                                     defaultMode:COVER

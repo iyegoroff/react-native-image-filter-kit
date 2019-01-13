@@ -14,11 +14,6 @@
                                                                 kCICategoryStillImage]}];
 }
 
-- (NSNumber *)inputRotation
-{
-  return _inputRotation ?: @(0);
-}
-
 - (NSNumber *)inputCircumradius
 {
   return _inputCircumradius ?: @(150);
@@ -88,12 +83,6 @@
   [path closePath];
   
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
-  
-  CGContextRef ctx = UIGraphicsGetCurrentContext();
-  
-  CGContextTranslateCTM(ctx, centerX, centerY);
-  CGContextScaleCTM(ctx, 1.0f, -1.0f);
-  CGContextRotateCTM(ctx, -[[self inputRotation] floatValue]);
   
   [[UIColor colorWithCIColor:[self inputColor]] setFill];
   

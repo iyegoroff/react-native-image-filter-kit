@@ -22,7 +22,6 @@ public class PathShapePostProcessor extends GeneratorPostProcessor {
 
   private @Nonnull final Path mPath;
   private @Nonnull final String mPathAsString;
-  private final float mRotation;
   private final int mColor;
 
   public PathShapePostProcessor(int width, int height, @Nullable JSONObject config) {
@@ -32,7 +31,6 @@ public class PathShapePostProcessor extends GeneratorPostProcessor {
 
     mPath = converter.convertPath(config != null ? config.optJSONObject("path") : null, new Path());
     mPathAsString = config != null ? config.optJSONObject("path").toString() : "";
-    mRotation = converter.convertScalar(config != null ? config.optJSONObject("rotation") : null, 0);
     mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
   }
 
@@ -50,7 +48,6 @@ public class PathShapePostProcessor extends GeneratorPostProcessor {
 
     canvas.scale(1.0f, -1.0f, centerX, centerY);
     canvas.translate(centerX, centerY);
-    canvas.rotate((float) Math.toDegrees(mRotation));
 
     canvas.drawPath(mPath, paint);
   }
@@ -59,15 +56,7 @@ public class PathShapePostProcessor extends GeneratorPostProcessor {
   @Override
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(
-      String.format(
-        Locale.ROOT,
-        "path_shape_%s_%f_%d_%d_%d",
-        mPathAsString,
-        mRotation,
-        mColor,
-        mWidth,
-        mHeight
-      )
+      String.format(Locale.ROOT, "path_shape_%s_%d_%d_%d", mPathAsString, mColor, mWidth, mHeight)
     );
   }
 }

@@ -4,6 +4,5 @@
 
 @property (nonatomic, copy) NSNumber *inputRadiusX;
 @property (nonatomic, copy) NSNumber *inputRadiusY;
-@property (nonatomic, copy) NSNumber *inputRotation;
 
 @end

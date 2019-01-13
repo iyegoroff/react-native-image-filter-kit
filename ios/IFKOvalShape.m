@@ -24,11 +24,6 @@
   return _inputRadiusY ?: @(100);
 }
 
-- (NSNumber *)inputRotation
-{
-  return _inputRotation ?: @(0);
-}
-
 - (CIImage *)outputImage
 {
   if (self.inputExtent == nil) {
@@ -49,12 +44,6 @@
                                    radiusY * 2.0f)];
   
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
-  
-  CGContextRef ctx = UIGraphicsGetCurrentContext();
-  
-  CGContextTranslateCTM(ctx, centerX, centerY);
-  CGContextRotateCTM(ctx, [[self inputRotation] floatValue]);
-  CGContextTranslateCTM(ctx, -centerX, -centerY);
   
   [[UIColor colorWithCIColor:[self inputColor]] setFill];
   

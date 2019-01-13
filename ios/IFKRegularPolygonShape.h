@@ -2,7 +2,6 @@
 
 @interface IFKRegularPolygonShape : IFKShape
 
-@property (nonatomic, copy) NSNumber *inputRotation;
 @property (nonatomic, copy) NSNumber *inputCircumradius;
 @property (nonatomic, copy) CIVector *inputBorderRadiuses;
 

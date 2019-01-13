@@ -36,6 +36,8 @@ export const swapComposition = (config: Config, resizeCanvasTo: string) => {
       [src + 'Anchor']: config[dst + 'Anchor'],
       [dst + 'Position']: config[src + 'Position'],
       [src + 'Position']: config[dst + 'Position'],
+      [dst + 'Rotate']: config[src + 'Rotate'],
+      [src + 'Rotate']: config[dst + 'Rotate'],
       resizeCanvasTo,
       swapImages: true
     }

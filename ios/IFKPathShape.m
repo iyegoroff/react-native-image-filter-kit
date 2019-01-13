@@ -13,11 +13,6 @@
                                                                 kCICategoryStillImage]}];
 }
 
-- (NSNumber *)inputRotation
-{
-  return _inputRotation ?: @(0);
-}
-
 - (UIBezierPath *)inputPath
 {
   return _inputPath ?: [UIBezierPath bezierPath];
@@ -37,12 +32,6 @@
   UIBezierPath *path = [self inputPath];
   
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
-  
-  CGContextRef ctx = UIGraphicsGetCurrentContext();
-  
-  CGContextTranslateCTM(ctx, centerX, centerY);
-  CGContextScaleCTM(ctx, 1.0f, -1.0f);
-  CGContextRotateCTM(ctx, [[self inputRotation] floatValue]);
   
   [[UIColor colorWithCIColor:[self inputColor]] setFill];
   

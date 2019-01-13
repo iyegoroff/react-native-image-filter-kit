@@ -52,18 +52,15 @@ export interface CircleShapeConfig extends ShapeConfig {
 export interface OvalShapeConfig extends ShapeConfig {
   readonly radiusX?: string
   readonly radiusY?: string
-  readonly rotation?: number
 }
 
 export interface PathShapeConfig extends ShapeConfig {
   readonly path: unknown[]
-  readonly rotation?: number
 }
 
 export interface RegularPolygonShapeConfig extends ShapeConfig {
   readonly borderRadiuses: number[]
   readonly circumradius?: string
-  readonly rotation?: number
 }
 
 export const shapes = {
@@ -112,14 +109,12 @@ export const shapes = {
   OvalShape: {
     radiusX: distance,
     radiusY: distance,
-    rotation: scalar,
     color: color,
     ...Generator
   },
 
   PathShape: {
     path: path,
-    rotation: scalar,
     color: color,
     ...Generator
   },
@@ -127,7 +122,6 @@ export const shapes = {
   RegularPolygonShape: {
     circumradius: distance,
     borderRadiuses: distanceVector,
-    rotation: scalar,
     color: color,
     ...Generator
   }

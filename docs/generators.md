@@ -266,12 +266,6 @@
     <td></td>
   </tr>
   <tr>
-    <td>rotation</td>
-    <td>number</td>
-    <td>0</td>
-    <td>angle in <a href="functions.md#degToRad">radians</a></td>
-  </tr>
-  <tr>
     <td>color</td>
     <td>string</td>
     <td>'black'</td>
@@ -301,12 +295,6 @@
     <td><a href="types.md#PathStep">PathStep</a>[]</td>
     <td>-</td>
     <td><strong>required</strong></td>
-  </tr>
-  <tr>
-    <td>rotation</td>
-    <td>number</td>
-    <td>0</td>
-    <td>angle in <a href="functions.md#degToRad">radians</a></td>
   </tr>
   <tr>
     <td>color</td>
@@ -344,12 +332,6 @@
     <td><a href="types.md#Distance">Distance</a>[]</td>
     <td>[0, 0, 0]</td>
     <td><code>borderRadiuses.length</code> specifies the number of vertices; e.g. <code>Array(6).fill(0)</code> - hexagon with edgy corners, <code>[25,&nbsp;'10min',&nbsp;50]</code> - triangle with differently smoothed corners</td>
-  </tr>
-  <tr>
-    <td>rotation</td>
-    <td>number</td>
-    <td>0</td>
-    <td>angle in <a href="functions.md#degToRad">radians</a></td>
   </tr>
   <tr>
     <td>color</td>

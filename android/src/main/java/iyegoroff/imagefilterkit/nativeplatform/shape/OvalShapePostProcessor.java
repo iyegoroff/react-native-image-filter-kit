@@ -22,7 +22,6 @@ public class OvalShapePostProcessor extends GeneratorPostProcessor {
 
   private final float mRadiusX;
   private final float mRadiusY;
-  private final float mRotation;
   private final int mColor;
 
   public OvalShapePostProcessor(int width, int height, @Nullable JSONObject config) {
@@ -32,7 +31,6 @@ public class OvalShapePostProcessor extends GeneratorPostProcessor {
 
     mRadiusX = converter.convertDistance(config != null ? config.optJSONObject("radiusX") : null, "50w");
     mRadiusY = converter.convertDistance(config != null ? config.optJSONObject("radiusY") : null, "25h");
-    mRotation = converter.convertScalar(config != null ? config.optJSONObject("rotation") : null, 0);
     mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
   }
 
@@ -48,10 +46,6 @@ public class OvalShapePostProcessor extends GeneratorPostProcessor {
     final float centerX = mWidth / 2.0f;
     final float centerY = mHeight / 2.0f;
 
-    canvas.translate(centerX, centerY);
-    canvas.rotate((float) Math.toDegrees(mRotation));
-    canvas.translate(-centerX, -centerY);
-
     canvas.drawOval(
       new RectF(centerX - mRadiusX, centerY + mRadiusY, centerX + mRadiusX, centerY - mRadiusY),
       paint
@@ -63,14 +57,7 @@ public class OvalShapePostProcessor extends GeneratorPostProcessor {
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(
       String.format(
-        Locale.ROOT,
-        "oval_shape_%f_%f_%f_%d_%d_%d",
-        mRadiusX,
-        mRadiusY,
-        mRotation,
-        mColor,
-        mWidth,
-        mHeight
+        Locale.ROOT, "oval_shape_%f_%f_%d_%d_%d", mRadiusX, mRadiusY, mColor, mWidth, mHeight
       )
     );
   }

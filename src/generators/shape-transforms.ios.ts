@@ -84,34 +84,21 @@ export const shapeTransforms = {
     inputImage: image
   }),
 
-  OvalShape: ({
-    radiusX = '50w',
-    radiusY = '25h',
-    color = 'black',
-    image,
-    rotation,
-    ...config
-  }: OvalShapeConfig) => ({
+  OvalShape: (
+    { radiusX = '50w', radiusY = '25h', color = 'black', image, ...config }: OvalShapeConfig
+  ) => ({
     ...config,
     name: 'IosIFKOvalShape',
     inputRadiusX: radiusX,
     inputRadiusY: radiusY,
     inputColor: color,
-    inputRotation: rotation,
     inputImage: image
   }),
 
-  PathShape: ({
-    color = 'black',
-    image,
-    rotation,
-    path,
-    ...config
-  }: PathShapeConfig) => ({
+  PathShape: ({ color = 'black', image, path, ...config }: PathShapeConfig) => ({
     ...config,
     name: 'IosIFKPathShape',
     inputColor: color,
-    inputRotation: rotation,
     inputImage: image,
     inputPath: path
   }),
@@ -119,7 +106,6 @@ export const shapeTransforms = {
   RegularPolygonShape: ({
     color = 'black',
     image,
-    rotation,
     circumradius = '50min',
     borderRadiuses = [0, 0, 0],
     ...config
@@ -127,7 +113,6 @@ export const shapeTransforms = {
     ...config,
     name: 'IosIFKRegularPolygonShape',
     inputColor: color,
-    inputRotation: rotation,
     inputImage: image,
     inputCircumradius: circumradius,
     inputBorderRadiuses: borderRadiuses
