@@ -25,12 +25,13 @@
 		74538BDE213406AF00F1FDD0 /* IFKOutputExtentHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 74538BDD213406AF00F1FDD0 /* IFKOutputExtentHandler.m */; };
 		74615B4B21BDE78E006A1F22 /* IFKXorCompositing.m in Sources */ = {isa = PBXBuildFile; fileRef = 74615B4A21BDE78E006A1F22 /* IFKXorCompositing.m */; };
 		7467490021B9807200433619 /* IFKLinearGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 746748FF21B9807200433619 /* IFKLinearGradient.m */; };
+		74700F5321EBC09A00FF37E4 /* IFKTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 74700F5221EBC09A00FF37E4 /* IFKTransform.m */; };
 		74938E4A21B1DB0B006BCF26 /* IFKImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 74938E4921B1DB0B006BCF26 /* IFKImage.m */; };
 		7494575121AA2CFB005AD9F1 /* IFKCompositionPostProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7494575021AA2CFB005AD9F1 /* IFKCompositionPostProcessor.m */; };
 		749468FF21A34A7300D4805E /* RCTImageView+CacheKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 749468FE21A34A7300D4805E /* RCTImageView+CacheKey.m */; };
 		749C22A321D23B4800320EC4 /* IFKTextImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 749C22A221D23B4800320EC4 /* IFKTextImage.m */; };
 		74AEAD0E2199A44800DC563B /* IFKInputConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74AEAD0D2199A44800DC563B /* IFKInputConverter.m */; };
-		74AEEEBA21989B8300DAA02F /* IFKResize.m in Sources */ = {isa = PBXBuildFile; fileRef = 74AEEEB921989B8300DAA02F /* IFKResize.m */; };
+		74AEEEBA21989B8300DAA02F /* IFKScale.m in Sources */ = {isa = PBXBuildFile; fileRef = 74AEEEB921989B8300DAA02F /* IFKScale.m */; };
 		74B28F9721B87522001E6AAE /* IFKFilterConstructor.m in Sources */ = {isa = PBXBuildFile; fileRef = 74B28F9621B87522001E6AAE /* IFKFilterConstructor.m */; };
 		74BF08B320B258E300D93AFC /* IFKImageFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08AF20B258E200D93AFC /* IFKImageFilterManager.m */; };
 		74BF08B420B258E300D93AFC /* IFKImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BF08B220B258E300D93AFC /* IFKImageFilter.m */; };
@@ -93,6 +94,8 @@
 		74615B4A21BDE78E006A1F22 /* IFKXorCompositing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKXorCompositing.m; sourceTree = "<group>"; };
 		746748FE21B9807200433619 /* IFKLinearGradient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKLinearGradient.h; sourceTree = "<group>"; };
 		746748FF21B9807200433619 /* IFKLinearGradient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKLinearGradient.m; sourceTree = "<group>"; };
+		74700F5121EBC09A00FF37E4 /* IFKTransform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKTransform.h; sourceTree = "<group>"; };
+		74700F5221EBC09A00FF37E4 /* IFKTransform.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKTransform.m; sourceTree = "<group>"; };
 		74938E4821B1DB0B006BCF26 /* IFKImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKImage.h; sourceTree = "<group>"; };
 		74938E4921B1DB0B006BCF26 /* IFKImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKImage.m; sourceTree = "<group>"; };
 		7494574F21AA2CFB005AD9F1 /* IFKCompositionPostProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKCompositionPostProcessor.h; sourceTree = "<group>"; };
@@ -103,8 +106,8 @@
 		749C22A221D23B4800320EC4 /* IFKTextImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKTextImage.m; sourceTree = "<group>"; };
 		74AEAD0C2199A44800DC563B /* IFKInputConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKInputConverter.h; sourceTree = "<group>"; };
 		74AEAD0D2199A44800DC563B /* IFKInputConverter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKInputConverter.m; sourceTree = "<group>"; };
-		74AEEEB821989B8300DAA02F /* IFKResize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKResize.h; sourceTree = "<group>"; };
-		74AEEEB921989B8300DAA02F /* IFKResize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKResize.m; sourceTree = "<group>"; };
+		74AEEEB821989B8300DAA02F /* IFKScale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKScale.h; sourceTree = "<group>"; };
+		74AEEEB921989B8300DAA02F /* IFKScale.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKScale.m; sourceTree = "<group>"; };
 		74B28F8C21B80377001E6AAE /* IFKCacheable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKCacheable.h; sourceTree = "<group>"; };
 		74B28F9521B87522001E6AAE /* IFKFilterConstructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFKFilterConstructor.h; sourceTree = "<group>"; };
 		74B28F9621B87522001E6AAE /* IFKFilterConstructor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFKFilterConstructor.m; sourceTree = "<group>"; };
@@ -209,8 +212,8 @@
 				7412B1122123FCF500FB00FF /* NSArray+FilterMapReduce.m */,
 				74538BDC213406AF00F1FDD0 /* IFKOutputExtentHandler.h */,
 				74538BDD213406AF00F1FDD0 /* IFKOutputExtentHandler.m */,
-				74AEEEB821989B8300DAA02F /* IFKResize.h */,
-				74AEEEB921989B8300DAA02F /* IFKResize.m */,
+				74AEEEB821989B8300DAA02F /* IFKScale.h */,
+				74AEEEB921989B8300DAA02F /* IFKScale.m */,
 				74AEAD0C2199A44800DC563B /* IFKInputConverter.h */,
 				74AEAD0D2199A44800DC563B /* IFKInputConverter.m */,
 				7425EBFB219C5C9400E93C3A /* IFKFilterableImage.h */,
@@ -226,6 +229,8 @@
 				74938E4821B1DB0B006BCF26 /* IFKImage.h */,
 				74938E4921B1DB0B006BCF26 /* IFKImage.m */,
 				74B28F8C21B80377001E6AAE /* IFKCacheable.h */,
+				74700F5121EBC09A00FF37E4 /* IFKTransform.h */,
+				74700F5221EBC09A00FF37E4 /* IFKTransform.m */,
 			);
 			name = RNImageFilter;
 			sourceTree = "<group>";
@@ -335,7 +340,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74AEEEBA21989B8300DAA02F /* IFKResize.m in Sources */,
+				74AEEEBA21989B8300DAA02F /* IFKScale.m in Sources */,
 				741D779D21DFCCD20056AE59 /* IFKPathShape.m in Sources */,
 				74538BDE213406AF00F1FDD0 /* IFKOutputExtentHandler.m in Sources */,
 				7425EBFD219C5C9400E93C3A /* IFKFilterableImage.m in Sources */,
@@ -364,6 +369,7 @@
 				74076F52219B549A0015E836 /* IFKTask.m in Sources */,
 				74DCA3D921BADD1F00561C80 /* IFKSweepGradient.m in Sources */,
 				74BF08B420B258E300D93AFC /* IFKImageFilter.m in Sources */,
+				74700F5321EBC09A00FF37E4 /* IFKTransform.m in Sources */,
 				7421720421DD845F00E24F6E /* IFKOvalShape.m in Sources */,
 				741D77A321E0096D0056AE59 /* IFKRegularPolygonShape.m in Sources */,
 				7421720121DD73F300E24F6E /* IFKCircleShape.m in Sources */,

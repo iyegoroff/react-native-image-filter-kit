@@ -48,8 +48,8 @@ All image blends have the same props
     <td>dst image position, relative to canvas size</td>
   </tr>
   <tr>
-    <td>dstResizeMode</td>
-    <td><a href="types.md#ResizeMode">ResizeMode</a></td>
+    <td>dstScale</td>
+    <td><a href="types.md#Scale">Scale</a></td>
     <td>'COVER'</td>
     <td></td>
   </tr>
@@ -72,8 +72,8 @@ All image blends have the same props
     <td>src image position, relative to canvas size</td>
   </tr>
   <tr>
-    <td>srcResizeMode</td>
-    <td><a href="types.md#ResizeMode">ResizeMode</a></td>
+    <td>srcScale</td>
+    <td><a href="types.md#Scale">Scale</a></td>
     <td>'COVER'</td>
     <td></td>
   </tr>

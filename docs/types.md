@@ -56,7 +56,7 @@ const result = (
       image: {
         name: 'SoftLightBlend',
         resizeCanvasTo: 'dstImage',
-        dstResizeMode: 'CONTAIN',
+        dstScale: 'CONTAIN',
         dstImage: {
           name: 'Emboss',
           image: (
@@ -126,11 +126,11 @@ Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually t
 `Offset` usually represents relative values, not actual pixels.
 
 ***
-#### ResizeMode
+#### Scale
 
 `'COVER' | 'CONTAIN' | 'STRETCH' | { width?: number; height?: number }`
 
-`ResizeMode` is used by [blend](blend_filters.md) and [composition](composition_filters.md) filters for resizing images on a canvas. Using an object, for example, <code>{&nbsp;width:&nbsp;0.5;&nbsp;height:&nbsp;2&nbsp;}</code> means that image width will be scaled down and height scaled up two times.
+`Scale` is used by [blend](blend_filters.md) and [composition](composition_filters.md) filters for resizing images on a canvas. Using an object, for example, <code>{&nbsp;width:&nbsp;0.5;&nbsp;height:&nbsp;2&nbsp;}</code> means that image width will be scaled down and height scaled up two times.
 
 ***
 #### RelativeUnit

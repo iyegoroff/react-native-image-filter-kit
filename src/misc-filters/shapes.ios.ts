@@ -8,7 +8,7 @@ import {
   text,
   offset,
   image,
-  resizeMode,
+  scale,
   path,
   distanceVector
 } from '../common/inputs'
@@ -41,7 +41,7 @@ export const shapes = {
   IosIFKXorCompositing: {
     ...CompositionBase,
     inputBackgroundImage: image,
-    inputBackgroundImageResizeMode: resizeMode,
+    inputBackgroundImageScale: scale,
     inputBackgroundImageAnchor: offset,
     inputBackgroundImagePosition: offset,
     inputBackgroundImageRotate: scalar

@@ -11,7 +11,7 @@ import {
   image,
   config,
   bool,
-  resizeMode,
+  scale,
   text,
   area,
   ISOLatin1EncodedText,
@@ -26,7 +26,7 @@ import {
 const BackgroundImageComposition = {
   ...CompositionBase,
   inputBackgroundImage: image,
-  inputBackgroundImageResizeMode: resizeMode,
+  inputBackgroundImageScale: scale,
   inputBackgroundImageAnchor: offset,
   inputBackgroundImagePosition: offset,
   inputBackgroundImageRotate: scalar
@@ -92,7 +92,7 @@ export const shapes = {
   IosCIMaskedVariableBlur: {
     ...CompositionBase,
     inputMask: image,
-    inputMaskResizeMode: resizeMode,
+    inputMaskScale: scale,
     inputMaskAnchor: offset,
     inputMaskPosition: offset,
     inputMaskRotate: scalar,
@@ -225,7 +225,7 @@ export const shapes = {
   IosCIColorMap: {
     ...CompositionBase,
     inputGradientImage: image,
-    inputGradientImageResizeMode: resizeMode,
+    inputGradientImageScale: scale,
     inputGradientImageAnchor: offset,
     inputGradientImagePosition: offset,
     inputGradientImageRotate: scalar
@@ -437,7 +437,7 @@ export const shapes = {
   IosCIDisplacementDistortion: {
     ...CompositionBase,
     inputDisplacementImage: image,
-    inputDisplacementImageResizeMode: resizeMode,
+    inputDisplacementImageScale: scale,
     inputDisplacementImageAnchor: offset,
     inputDisplacementImagePosition: offset,
     inputDisplacementImageRotate: scalar,
@@ -448,7 +448,7 @@ export const shapes = {
   IosCIGlassDistortion: {
     ...CompositionBase,
     inputTexture: image,
-    inputTextureResizeMode: resizeMode,
+    inputTextureScale: scale,
     inputTextureAnchor: offset,
     inputTexturePosition: offset,
     inputTextureRotate: scalar,
@@ -880,7 +880,7 @@ export const shapes = {
   IosCIShadedMaterial: {
     ...CompositionBase,
     inputShadingImage: image,
-    inputShadingImageResizeMode: resizeMode,
+    inputShadingImageScale: scale,
     inputShadingImageAnchor: offset,
     inputShadingImagePosition: offset,
     inputShadingImageRotate: scalar,

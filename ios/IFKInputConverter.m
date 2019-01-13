@@ -63,8 +63,9 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
     : defaultValue;
 }
 
-+ (nonnull IFKResize *)convertResize:(nullable NSDictionary *)resize
-                        defaultValue:(IFKResizeMode)defaultValue
++ (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
+                       defaultMode:(IFKScaleMode)defaultMode
+                      defaultScale:(CGPoint)defaultScale
 {
   static NSDictionary *convert;
   static dispatch_once_t onceToken;
@@ -76,19 +77,26 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
     };
   });
   
-  if (resize != nil && [resize objectForKey:@"resizeMode"]) {
-    id resizeMode = [resize objectForKey:@"resizeMode"];
+  if (scale != nil && [scale objectForKey:@"scale"]) {
+    id scaleMode = [scale objectForKey:@"scale"];
     
-    if ([resizeMode isKindOfClass:[NSString class]] && [convert objectForKey:resizeMode]) {
-      return [[IFKResizeWithMode alloc] initWithMode:[[convert objectForKey:resizeMode] intValue]];
+    if ([scaleMode isKindOfClass:[NSString class]] && [convert objectForKey:scaleMode]) {
+      return [[IFKScaleWithMode alloc] initWithMode:[[convert objectForKey:scaleMode] intValue]];
     }
     
-    if ([resizeMode isKindOfClass:[NSDictionary class]]) {
-      return [[IFKResizeWithSize alloc] initWithSize:resizeMode];
+    if ([scaleMode isKindOfClass:[NSDictionary class]]) {
+      CGFloat x = [scaleMode objectForKey:@"x"] != nil
+        ? [[scaleMode objectForKey:@"x"] floatValue]
+        : defaultScale.x;
+      CGFloat y = [scaleMode objectForKey:@"y"] != nil
+        ? [[scaleMode objectForKey:@"y"] floatValue]
+        : defaultScale.y;
+
+      return [[IFKScaleWithSize alloc] initWithX:x andY:y];
     }
   }
   
-  return [[IFKResizeWithMode alloc] initWithMode:defaultValue];
+  return [[IFKScaleWithMode alloc] initWithMode:defaultMode];
 }
 
 + (nullable CIVector *)convertScalarVector:(nullable NSDictionary *)scalarVector

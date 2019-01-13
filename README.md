@@ -65,7 +65,7 @@ const result = (
     image={
       <SoftLightBlend
         resizeCanvasTo={'dstImage'}
-        dstResizeMode={'CONTAIN'}
+        dstScale={'CONTAIN'}
         dstImage={
           <Emboss
             image={

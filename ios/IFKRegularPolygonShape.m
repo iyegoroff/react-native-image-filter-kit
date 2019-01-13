@@ -26,7 +26,7 @@
 
 - (CIVector *)inputBorderRadiuses
 {
-  float radiuses[3] = {0, 0, 0};
+  CGFloat radiuses[3] = {0, 0, 0};
   return _inputBorderRadiuses ?: [CIVector vectorWithValues:radiuses count:3];
 }
 

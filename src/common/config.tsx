@@ -41,45 +41,45 @@ const paramConvertMap: { [key: string]: Function } = {
   [area]: convertArea
 }
 
-const srcResizeMode = 'srcResizeMode'
+const srcScale = 'srcScale'
 const srcAnchor = 'srcAnchor'
 const srcPosition = 'srcPosition'
 const srcRotate = 'srcRotate'
-const dstResizeMode = 'dstResizeMode'
+const dstScale = 'dstScale'
 const dstAnchor = 'dstAnchor'
 const dstPosition = 'dstPosition'
 const dstRotate = 'dstRotate'
 
 const iosKeyConvertMap: { [key: string]: string } = {
-  inputImageResizeMode: srcResizeMode,
+  inputImageScale: srcScale,
   inputImageAnchor: srcAnchor,
   inputImagePosition: srcPosition,
   inputImageRotate: srcRotate,
-  inputBackgroundImageResizeMode: dstResizeMode,
+  inputBackgroundImageScale: dstScale,
   inputBackgroundImageAnchor: dstAnchor,
   inputBackgroundImagePosition: dstPosition,
   inputBackgroundImageRotate: dstRotate,
-  inputMaskResizeMode: dstResizeMode,
+  inputMaskScale: dstScale,
   inputMaskAnchor: dstAnchor,
   inputMaskPosition: dstPosition,
   inputMaskRotate: dstRotate,
-  inputGradientImageResizeMode: dstResizeMode,
+  inputGradientImageScale: dstScale,
   inputGradientImageAnchor: dstAnchor,
   inputGradientImagePosition: dstPosition,
   inputGradientImageRotate: dstRotate,
-  inputTargetImageResizeMode: dstResizeMode,
+  inputTargetImageScale: dstScale,
   inputTargetImageAnchor: dstAnchor,
   inputTargetImagePosition: dstPosition,
   inputTargetImageRotate: dstRotate,
-  inputDisplacementImageResizeMode: dstResizeMode,
+  inputDisplacementImageScale: dstScale,
   inputDisplacementImageAnchor: dstAnchor,
   inputDisplacementImagePosition: dstPosition,
   inputDisplacementImageRotate: dstRotate,
-  inputTextureResizeMode: dstResizeMode,
+  inputTextureScale: dstScale,
   inputTextureAnchor: dstAnchor,
   inputTexturePosition: dstPosition,
   inputTextureRotate: dstRotate,
-  inputShadingImageResizeMode: dstResizeMode,
+  inputShadingImageScale: dstScale,
   inputShadingImageAnchor: dstAnchor,
   inputShadingImagePosition: dstPosition,
   inputShadingImageRotate: dstRotate

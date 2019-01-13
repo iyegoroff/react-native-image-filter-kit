@@ -16,11 +16,11 @@
 
 @interface IFKCompositionPostProcessor ()
 
-@property (nonatomic, strong) IFKResize *dstResizeMode;
+@property (nonatomic, strong) IFKScale *dstScale;
 @property (nonatomic, assign) CGPoint dstAnchor;
 @property (nonatomic, assign) CGPoint dstPosition;
 @property (nonatomic, assign) CGFloat dstRotate;
-@property (nonatomic, strong) IFKResize *srcResizeMode;
+@property (nonatomic, strong) IFKScale *srcScale;
 @property (nonatomic, assign) CGPoint srcAnchor;
 @property (nonatomic, assign) CGPoint srcPosition;
 @property (nonatomic, assign) CGFloat srcRotate;
@@ -38,11 +38,16 @@
 {
   if ((self = [super initWithName:name inputs:inputs])) {
     CIVector *center = [CIVector vectorWithCGPoint:CGPointMake(0.5f, 0.5f)];
+    CGPoint noScale =CGPointMake(1.0f, 1.0f);
+    
+    NSLog(@"IFK inputs %@", inputs);
 
-    _dstResizeMode = [IFKInputConverter convertResize:[[self inputs] objectForKey:@"dstResizeMode"]
-                                         defaultValue:COVER];
-    _srcResizeMode = [IFKInputConverter convertResize:[[self inputs] objectForKey:@"srcResizeMode"]
-                                         defaultValue:COVER];
+    _dstScale = [IFKInputConverter convertScale:[[self inputs] objectForKey:@"dstScale"]
+                                    defaultMode:COVER
+                                   defaultScale:noScale];
+    _srcScale = [IFKInputConverter convertScale:[[self inputs] objectForKey:@"srcScale"]
+                                    defaultMode:COVER
+                                   defaultScale:noScale];
     _dstAnchor = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"dstAnchor"]
                                       defaultValue:center] CGPointValue];
     _srcAnchor = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcAnchor"]
@@ -60,6 +65,9 @@
     _resizeCanvasTo = [IFKInputConverter convertText:[[self inputs] objectForKey:@"resizeCanvasTo"]
                                         defaultValue:nil];
     _canvasSize = canvasSize;
+    
+    NSLog(@"IFK srcScale %@", _srcScale);
+    NSLog(@"IFK dstScale %@", _dstScale);
   }
   
   return self;
@@ -69,7 +77,7 @@
                                       canvasHeight:(CGFloat)canvasHeight
                                         imageWidth:(CGFloat)bitmapWidth
                                        imageHeight:(CGFloat)bitmapHeight
-                                        resizeMode:(nonnull IFKResize *)resizeMode
+                                        scale:(nonnull IFKScale *)scale
                                             anchor:(CGPoint)anchor
                                           position:(CGPoint)position
                                             rotate:(CGFloat)rotate
@@ -77,8 +85,8 @@
   CGFloat width = 0;
   CGFloat height = 0;
   
-  if ([resizeMode isKindOfClass:[IFKResizeWithMode class]]) {
-    IFKResizeMode mode = ((IFKResizeWithMode *)resizeMode).mode;
+  if ([scale isKindOfClass:[IFKScaleWithMode class]]) {
+    IFKScaleMode mode = ((IFKScaleWithMode *)scale).mode;
     CGFloat bitmapAspect = bitmapWidth / bitmapHeight;
     CGFloat canvasAspect = canvasWidth / canvasHeight;
     
@@ -105,26 +113,9 @@
       height = canvasHeight;
     }
     
-  } else if ([resizeMode isKindOfClass:[IFKResizeWithSize class]]) {
-    NSNumber *resizeWidth = ((IFKResizeWithSize *) resizeMode).width;
-    NSNumber *resizeHeight = ((IFKResizeWithSize *) resizeMode).height;
-    
-    if (resizeHeight != nil && resizeWidth != nil) {
-      width = canvasWidth * [resizeWidth floatValue];
-      height = canvasHeight * [resizeHeight floatValue];
-      
-    } else if (resizeHeight == nil && resizeWidth == nil) {
-      width = canvasWidth;
-      height = canvasHeight;
-      
-    } else if (resizeHeight == nil) {
-      width = canvasWidth * [resizeWidth floatValue];
-      height = bitmapHeight * width / bitmapWidth;
-      
-    } else {
-      height = canvasHeight * [resizeHeight floatValue];
-      width = bitmapWidth * height / bitmapHeight;
-    }
+  } else if ([scale isKindOfClass:[IFKScaleWithSize class]]) {
+    width = canvasWidth * ((IFKScaleWithSize *) scale).scale.x;
+    height = canvasHeight * ((IFKScaleWithSize *) scale).scale.y;
   }
   
   CGRect frame = CGRectMake(canvasWidth * position.x - width * anchor.x,
@@ -223,7 +214,7 @@
                                     canvasHeight:outSize.height
                                     imageWidth:dstFrame.size.width
                                     imageHeight:dstFrame.size.height
-                                    resizeMode:_dstResizeMode
+                                    scale:_dstScale
                                     anchor:_dstAnchor
                                     position:_dstPosition
                                     rotate:_dstRotate];
@@ -233,7 +224,7 @@
                                     canvasHeight:outSize.height
                                     imageWidth:srcFrame.size.width
                                     imageHeight:srcFrame.size.height
-                                    resizeMode:_srcResizeMode
+                                    scale:_srcScale
                                     anchor:_srcAnchor
                                     position:_srcPosition
                                     rotate:_srcRotate];

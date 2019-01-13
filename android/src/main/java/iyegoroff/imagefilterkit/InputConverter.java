@@ -61,16 +61,12 @@ public class InputConverter {
 //    );
 //  }
 
-  public PointF convertOffset(
-    @Nullable JSONObject position,
-    float defaultX,
-    float defaultY
-  ) {
+  public PointF convertOffset(@Nullable JSONObject position, @Nonnull PointF defaultValue) {
     JSONObject pos = position != null ? position.optJSONObject("offset") : null;
 
     return new PointF(
-      pos != null ? (float) pos.optDouble("x", defaultX) : defaultX,
-      pos != null ? (float) pos.optDouble("y", defaultY) : defaultY
+      pos != null ? (float) pos.optDouble("x", defaultValue.x) : defaultValue.x,
+      pos != null ? (float) pos.optDouble("y", defaultValue.y) : defaultValue.y
     );
   }
 
@@ -132,18 +128,22 @@ public class InputConverter {
     return text != null ? text.optString("text", defaultValue) : defaultValue;
   }
 
-  public Resize convertResize(@Nullable JSONObject resizeMode, @Nonnull Resize.Mode defaultMode) {
-    JSONObject size = resizeMode != null ? resizeMode.optJSONObject("resizeMode") : null;
-    String mode = resizeMode != null ? resizeMode.optString("resizeMode") : null;
+  public Scale convertScale(
+    @Nullable JSONObject scale,
+    @Nonnull Scale.Mode defaultMode,
+    @Nonnull PointF defaultScale
+  ) {
+    JSONObject size = scale != null ? scale.optJSONObject("scale") : null;
+    String mode = scale != null ? scale.optString("scale") : null;
 
     if (size != null) {
-      return new Resize.WithSize(
-        size.has("width") ? (float) size.optDouble("width") : null,
-        size.has("height") ? (float) size.optDouble("height") : null
+      return new Scale.WithSize(
+        size.has("x") ? (float) size.optDouble("x", defaultScale.x) : defaultScale.x,
+        size.has("y") ? (float) size.optDouble("y", defaultScale.y) : defaultScale.y
       );
     }
 
-    return new Resize.WithMode(convertEnumeration(mode, defaultMode, Resize.Mode.class));
+    return new Scale.WithMode(convertEnumeration(mode, defaultMode, Scale.Mode.class));
   }
 
   public float[] convertScalarVector(@Nullable JSONObject scalarVector, float[] defaultValue) {

@@ -92,7 +92,7 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
         canvas.getHeight(),
         dst.getWidth(),
         dst.getHeight(),
-        mDstResizeMode,
+        mDstScale,
         mDstAnchor,
         mDstPosition,
         mDstRotate
@@ -109,7 +109,7 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
         canvas.getHeight(),
         src.getWidth(),
         src.getHeight(),
-        mSrcResizeMode,
+        mSrcScale,
         mSrcAnchor,
         mSrcPosition,
         mSrcRotate

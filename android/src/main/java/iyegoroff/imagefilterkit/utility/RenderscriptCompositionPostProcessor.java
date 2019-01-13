@@ -118,7 +118,7 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
           height,
           dstImage.getWidth(),
           dstImage.getHeight(),
-          mDstResizeMode,
+          mDstScale,
           mDstAnchor,
           mDstPosition,
           mDstRotate
@@ -133,7 +133,7 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
           height,
           srcImage.getWidth(),
           srcImage.getHeight(),
-          mSrcResizeMode,
+          mSrcScale,
           mSrcAnchor,
           mSrcPosition,
           mSrcRotate

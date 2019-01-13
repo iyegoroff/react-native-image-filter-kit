@@ -16,7 +16,7 @@ type Offset = {
   readonly y: number
 }
 
-type ResizeMode = 'COVER' | 'CONTAIN' | 'STRETCH' | {
+type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | {
   readonly width?: number
   readonly height?: number
 }
@@ -90,12 +90,12 @@ interface CompositionConfig<Rest = never> extends CacheableConfig {
   readonly dstAnchor?: Offset
   readonly dstPosition?: Offset
   readonly dstRotate?: number
-  readonly dstResizeMode?: ResizeMode
+  readonly dstScale?: Scale
   readonly srcImage: Filterable<Rest>
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
   readonly srcRotate?: Offset
-  readonly srcResizeMode?: ResizeMode
+  readonly srcScale?: Scale
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }
 
@@ -544,7 +544,7 @@ type Input =
   | 'porterDuffMode'
   | 'colorVector'
   | 'image'
-  | 'resizeMode'
+  | 'scale'
   | 'bool'
   | 'distanceVector'
   | 'text'

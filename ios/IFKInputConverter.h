@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-#import "IFKResize.h"
+#import "IFKScale.h"
 
 @interface IFKInputConverter : NSObject
 
@@ -18,8 +18,9 @@
                                 bounds:(CGSize)bounds
                           defaultValue:(nullable NSNumber *)defaultValue;
 
-+ (nonnull IFKResize *)convertResize:(nullable NSDictionary *)resize
-                        defaultValue:(IFKResizeMode)defaultValue;
++ (nonnull IFKScale *)convertScale:(nullable NSDictionary *)scale
+                       defaultMode:(IFKScaleMode)defaultMode
+                      defaultScale:(CGPoint)defaultScale;
 
 + (nullable CIVector *)convertScalarVector:(nullable NSDictionary *)scalarVector
                               defaultValue:(nullable CIVector *)defaultValue;

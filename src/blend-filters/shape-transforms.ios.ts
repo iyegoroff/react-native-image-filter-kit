@@ -10,16 +10,16 @@ interface Offset {
   readonly y?: number
 }
 
-type ResizeMode = 'COVER' | 'CONTAIN' | 'STRETCH' | { width?: number; height?: number }
+type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | { width?: number; height?: number }
 
 interface BlendConfig {
   readonly dstImage: unknown
   readonly srcImage: unknown
-  readonly dstResizeMode?: ResizeMode
+  readonly dstScale?: Scale
   readonly dstAnchor?: Offset
   readonly dstPosition?: Offset
   readonly dstRotate?: number
-  readonly srcResizeMode?: ResizeMode
+  readonly srcScale?: Scale
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
   readonly srcRotate?: number
@@ -31,8 +31,8 @@ interface BlendConfig {
 const asNativeBlendConfig = (name: string) => ({
   dstImage,
   srcImage,
-  dstResizeMode,
-  srcResizeMode,
+  dstScale,
+  srcScale,
   dstAnchor,
   srcAnchor,
   dstPosition,
@@ -42,12 +42,12 @@ const asNativeBlendConfig = (name: string) => ({
   ...config
 }: BlendConfig) => ({
   inputImage: srcImage,
-  inputImageResizeMode: srcResizeMode,
+  inputImageScale: srcScale,
   inputImageAnchor: srcAnchor,
   inputImagePosition: srcPosition,
   inputImageRotate: srcRotate,
   inputBackgroundImage: dstImage,
-  inputBackgroundImageResizeMode: dstResizeMode,
+  inputBackgroundImageScale: dstScale,
   inputBackgroundImageAnchor: dstAnchor,
   inputBackgroundImagePosition: dstPosition,
   inputBackgroundImageRotate: dstRotate,
