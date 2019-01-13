@@ -19,9 +19,11 @@
 @property (nonatomic, strong) IFKResize *dstResizeMode;
 @property (nonatomic, assign) CGPoint dstAnchor;
 @property (nonatomic, assign) CGPoint dstPosition;
+@property (nonatomic, assign) CGFloat dstRotate;
 @property (nonatomic, strong) IFKResize *srcResizeMode;
 @property (nonatomic, assign) CGPoint srcAnchor;
 @property (nonatomic, assign) CGPoint srcPosition;
+@property (nonatomic, assign) CGFloat srcRotate;
 @property (nonatomic, assign) BOOL swapImages;
 @property (nonatomic, assign) CGSize canvasSize;
 @property (nonatomic, strong) NSString *resizeCanvasTo;
@@ -45,6 +47,10 @@
                                       defaultValue:center] CGPointValue];
     _srcAnchor = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcAnchor"]
                                       defaultValue:center] CGPointValue];
+    _dstRotate = [[IFKInputConverter convertScalar:[[self inputs] objectForKey:@"dstRotate"]
+                                      defaultValue:0] floatValue];
+    _srcRotate = [[IFKInputConverter convertScalar:[[self inputs] objectForKey:@"srcRotate"]
+                                      defaultValue:0] floatValue];
     _dstPosition = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"dstPosition"]
                                         defaultValue:center] CGPointValue];
     _srcPosition = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcPosition"]
@@ -59,13 +65,14 @@
   return self;
 }
 
-+ (CGRect)imageFrameWithCanvasWidth:(CGFloat)canvasWidth
-                       canvasHeight:(CGFloat)canvasHeight
-                         imageWidth:(CGFloat)bitmapWidth
-                        imageHeight:(CGFloat)bitmapHeight
-                         resizeMode:(nonnull IFKResize *)resizeMode
-                             anchor:(CGPoint)anchor
-                           position:(CGPoint)position
++ (CGAffineTransform)imageTransformWithCanvasWidth:(CGFloat)canvasWidth
+                                      canvasHeight:(CGFloat)canvasHeight
+                                        imageWidth:(CGFloat)bitmapWidth
+                                       imageHeight:(CGFloat)bitmapHeight
+                                        resizeMode:(nonnull IFKResize *)resizeMode
+                                            anchor:(CGPoint)anchor
+                                          position:(CGPoint)position
+                                            rotate:(CGFloat)rotate
 {
   CGFloat width = 0;
   CGFloat height = 0;
@@ -120,10 +127,18 @@
     }
   }
   
-  return CGRectMake(canvasWidth * position.x - width * anchor.x,
-                    canvasHeight * position.y - height * anchor.y,
-                    width,
-                    height);
+  CGRect frame = CGRectMake(canvasWidth * position.x - width * anchor.x,
+                            canvasHeight * position.y - height * anchor.y,
+                            width,
+                            height);
+  
+  CGAffineTransform transform = CGAffineTransformMakeScale(frame.size.width / bitmapWidth, frame.size.height / bitmapHeight);
+  transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(-frame.size.width / 2.0f, -frame.size.height / 2.0f));
+  transform = CGAffineTransformConcat(transform, CGAffineTransformMakeRotation(-rotate));
+  transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(frame.size.width / 2.0f, frame.size.height / 2.0f));
+  transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(frame.origin.x, frame.origin.y));
+  
+  return transform;
 }
 
 - (nonnull NSString *)dstImageName
@@ -203,46 +218,25 @@
   
   [self initFilter:outSize];
   
-  CGRect dst = [IFKCompositionPostProcessor imageFrameWithCanvasWidth:outSize.width
-                                                         canvasHeight:outSize.height
-                                                           imageWidth:dstFrame.size.width
-                                                          imageHeight:dstFrame.size.height
-                                                           resizeMode:_dstResizeMode
-                                                               anchor:_dstAnchor
-                                                             position:_dstPosition];
+  CGAffineTransform dstTransform = [IFKCompositionPostProcessor
+                                    imageTransformWithCanvasWidth:outSize.width
+                                    canvasHeight:outSize.height
+                                    imageWidth:dstFrame.size.width
+                                    imageHeight:dstFrame.size.height
+                                    resizeMode:_dstResizeMode
+                                    anchor:_dstAnchor
+                                    position:_dstPosition
+                                    rotate:_dstRotate];
   
-  CGRect src = [IFKCompositionPostProcessor imageFrameWithCanvasWidth:outSize.width
-                                                         canvasHeight:outSize.height
-                                                           imageWidth:srcFrame.size.width
-                                                          imageHeight:srcFrame.size.height
-                                                           resizeMode:_srcResizeMode
-                                                               anchor:_srcAnchor
-                                                             position:_srcPosition];
-  
-//  NSLog(@"IFK: DST %@ %f %f", [NSValue valueWithCGRect:dst], dstFrame.size.width, dstFrame.size.height);
-//  NSLog(@"IFK: SRC %@ %f %f", [NSValue valueWithCGRect:src], srcFrame.size.width, srcFrame.size.height);
-  
-//  NSLog(@"IFK: DST {%f, %f, %@}; SRC {%f, %f, %@}; Canvas {%f, %f}",
-//        dstFrame.size.width, dstFrame.size.height, _dstResizeMode,
-//        srcFrame.size.width, srcFrame.size.height, _srcResizeMode,
-//        outSize.width, outSize.height);
-  
-//  NSLog(@"post: inputImage %@ -> %@", [NSValue valueWithCGRect:srcFrame], [NSValue valueWithCGRect:src]);
-//  NSLog(@"post: inputBackgroundImage %@ -> %@", [NSValue valueWithCGRect:dstFrame], [NSValue valueWithCGRect:dst]);
-  
-  CGAffineTransform srcTransform = CGAffineTransformMake(src.size.width / srcFrame.size.width,
-                                                         0,
-                                                         0,
-                                                         src.size.height / srcFrame.size.height,
-                                                         src.origin.x,
-                                                         src.origin.y);
-  
-  CGAffineTransform dstTransform = CGAffineTransformMake(dst.size.width / dstFrame.size.width,
-                                                         0,
-                                                         0,
-                                                         dst.size.height / dstFrame.size.height,
-                                                         dst.origin.x,
-                                                         dst.origin.y);
+  CGAffineTransform srcTransform = [IFKCompositionPostProcessor
+                                    imageTransformWithCanvasWidth:outSize.width
+                                    canvasHeight:outSize.height
+                                    imageWidth:srcFrame.size.width
+                                    imageHeight:srcFrame.size.height
+                                    resizeMode:_srcResizeMode
+                                    anchor:_srcAnchor
+                                    position:_srcPosition
+                                    rotate:_srcRotate];
   
   [[self filter] setValue:[srcImage imageByApplyingTransform:srcTransform]
                    forKey:_swapImages ? [self dstImageName] : @"inputImage"];

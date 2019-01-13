@@ -11,7 +11,6 @@ import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.image.CloseableImage;
-import com.facebook.react.uimanager.PixelUtil;
 
 import org.json.JSONObject;
 
@@ -91,12 +90,12 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
 
   @Override
   protected CloseableReference<Bitmap> processComposition(
-    Bitmap dst,
-    Bitmap src,
+    Bitmap dstImage,
+    Bitmap srcImage,
     PlatformBitmapFactory bitmapFactory
   ) {
-    final int width = canvasExtent(dst.getWidth(), src.getWidth(), mWidth);
-    final int height = canvasExtent(dst.getHeight(), src.getHeight(), mHeight);
+    final int width = canvasExtent(dstImage.getWidth(), srcImage.getWidth(), mWidth);
+    final int height = canvasExtent(dstImage.getHeight(), srcImage.getHeight(), mHeight);
 
     final CloseableReference<Bitmap> tmpDstRef = bitmapFactory.createBitmap(width, height);
     final CloseableReference<Bitmap> tmpSrcRef = bitmapFactory.createBitmap(width, height);
@@ -113,31 +112,31 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
       final Paint paint = new Paint(flags);
 
       dstCanvas.drawBitmap(
-        dst,
-        null,
-        bitmapFrame(
+        dstImage,
+        bitmapTransform(
           width,
           height,
-          dst.getWidth(),
-          dst.getHeight(),
+          dstImage.getWidth(),
+          dstImage.getHeight(),
           mDstResizeMode,
           mDstAnchor,
-          mDstPosition
+          mDstPosition,
+          mDstRotate
         ),
         paint
       );
 
       srcCanvas.drawBitmap(
-        src,
-        null,
-        bitmapFrame(
+        srcImage,
+        bitmapTransform(
           width,
           height,
-          src.getWidth(),
-          src.getHeight(),
+          srcImage.getWidth(),
+          srcImage.getHeight(),
           mSrcResizeMode,
           mSrcAnchor,
-          mSrcPosition
+          mSrcPosition,
+          mSrcRotate
         ),
         paint
       );

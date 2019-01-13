@@ -89,10 +89,12 @@ interface CompositionConfig<Rest = never> extends CacheableConfig {
   readonly dstImage: Filterable<Rest>
   readonly dstAnchor?: Offset
   readonly dstPosition?: Offset
+  readonly dstRotate?: number
   readonly dstResizeMode?: ResizeMode
   readonly srcImage: Filterable<Rest>
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
+  readonly srcRotate?: Offset
   readonly srcResizeMode?: ResizeMode
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }

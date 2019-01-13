@@ -44,35 +44,45 @@ const paramConvertMap: { [key: string]: Function } = {
 const srcResizeMode = 'srcResizeMode'
 const srcAnchor = 'srcAnchor'
 const srcPosition = 'srcPosition'
+const srcRotate = 'srcRotate'
 const dstResizeMode = 'dstResizeMode'
 const dstAnchor = 'dstAnchor'
 const dstPosition = 'dstPosition'
+const dstRotate = 'dstRotate'
 
 const iosKeyConvertMap: { [key: string]: string } = {
   inputImageResizeMode: srcResizeMode,
   inputImageAnchor: srcAnchor,
   inputImagePosition: srcPosition,
+  inputImageRotate: srcRotate,
   inputBackgroundImageResizeMode: dstResizeMode,
   inputBackgroundImageAnchor: dstAnchor,
   inputBackgroundImagePosition: dstPosition,
+  inputBackgroundImageRotate: dstRotate,
   inputMaskResizeMode: dstResizeMode,
   inputMaskAnchor: dstAnchor,
   inputMaskPosition: dstPosition,
+  inputMaskRotate: dstRotate,
   inputGradientImageResizeMode: dstResizeMode,
   inputGradientImageAnchor: dstAnchor,
   inputGradientImagePosition: dstPosition,
+  inputGradientImageRotate: dstRotate,
   inputTargetImageResizeMode: dstResizeMode,
   inputTargetImageAnchor: dstAnchor,
   inputTargetImagePosition: dstPosition,
+  inputTargetImageRotate: dstRotate,
   inputDisplacementImageResizeMode: dstResizeMode,
   inputDisplacementImageAnchor: dstAnchor,
   inputDisplacementImagePosition: dstPosition,
+  inputDisplacementImageRotate: dstRotate,
   inputTextureResizeMode: dstResizeMode,
   inputTextureAnchor: dstAnchor,
   inputTexturePosition: dstPosition,
+  inputTextureRotate: dstRotate,
   inputShadingImageResizeMode: dstResizeMode,
   inputShadingImageAnchor: dstAnchor,
-  inputShadingImagePosition: dstPosition
+  inputShadingImagePosition: dstPosition,
+  inputShadingImageRotate: dstRotate
 }
 
 const srcImage = 'srcImage'

@@ -1,13 +1,15 @@
-import { bool, image, resizeMode, color, offset, text, marker } from './inputs'
+import { bool, image, resizeMode, color, offset, text, marker, scalar } from './inputs'
 
 export const Composition = {
   dstImage: image,
   dstAnchor: offset,
   dstPosition: offset,
+  dstRotate: scalar,
   dstResizeMode: resizeMode,
   srcImage: image,
   srcAnchor: offset,
   srcPosition: offset,
+  srcRotate: scalar,
   srcResizeMode: resizeMode,
   resizeCanvasTo: text,
   disableCache: bool,
@@ -36,6 +38,7 @@ export const CompositionBaseIos = {
   inputImageResizeMode: resizeMode,
   inputImageAnchor: offset,
   inputImagePosition: offset,
+  inputImageRotate: scalar,
   clampToExtent: bool,
   disableCache: bool,
   swapImages: bool

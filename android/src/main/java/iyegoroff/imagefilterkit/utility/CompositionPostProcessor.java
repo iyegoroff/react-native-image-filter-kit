@@ -1,6 +1,7 @@
 package iyegoroff.imagefilterkit.utility;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
@@ -33,9 +34,11 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   protected final @Nonnull Resize mSrcResizeMode;
   protected final @Nonnull PointF mSrcAnchor;
   protected final @Nonnull PointF mSrcPosition;
+  protected final float mSrcRotate;
   protected final @Nonnull Resize mDstResizeMode;
   protected final @Nonnull PointF mDstAnchor;
   protected final @Nonnull PointF mDstPosition;
+  protected final float mDstRotate;
   protected final int mWidth;
   protected final int mHeight;
 
@@ -58,9 +61,11 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     mSrcResizeMode = converter.convertResize(config != null ? config.optJSONObject("srcResizeMode") : null, Resize.Mode.COVER);
     mSrcAnchor = converter.convertOffset(config != null ? config.optJSONObject("srcAnchor") : null, 0.5f, 0.5f);
     mSrcPosition = converter.convertOffset(config != null ? config.optJSONObject("srcPosition") : null, 0.5f, 0.5f);
+    mSrcRotate = converter.convertScalar(config != null ? config.optJSONObject("srcRotate") : null, 0);
     mDstResizeMode = converter.convertResize(config != null ? config.optJSONObject("dstResizeMode") : null, Resize.Mode.COVER);
     mDstAnchor = converter.convertOffset(config != null ? config.optJSONObject("dstAnchor") : null, 0.5f, 0.5f);
     mDstPosition = converter.convertOffset(config != null ? config.optJSONObject("dstPosition") : null, 0.5f, 0.5f);
+    mDstRotate = converter.convertScalar(config != null ? config.optJSONObject("dstRotate") : null, 0);
     mResizeCanvasTo = converter.convertText(config != null ? config.optJSONObject("resizeCanvasTo") : null, null);
     mSwapImages = converter.convertBool(config != null ? config.optJSONObject("swapImages") : null, false);
   }
@@ -72,8 +77,8 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   }
 
   protected abstract CloseableReference<Bitmap> processComposition(
-    Bitmap dst,
-    Bitmap src,
+    Bitmap dstImage,
+    Bitmap srcImage,
     PlatformBitmapFactory bitmapFactory
   );
 
@@ -113,14 +118,15 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     );
   }
 
-  protected static RectF bitmapFrame(
+  protected static Matrix bitmapTransform(
     float canvasWidth,
     float canvasHeight,
     float bitmapWidth,
     float bitmapHeight,
     @Nonnull Resize resizeMode,
     @Nonnull PointF anchor,
-    @Nonnull PointF position
+    @Nonnull PointF position,
+    float rotate
   ) {
     float width = 0;
     float height = 0;
@@ -181,7 +187,16 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     width += x;
     height += y;
 
-    return new RectF(x, y, width, height);
+    final RectF frame = new RectF(x, y, width, height);
+
+    final Matrix transform = new Matrix();
+    transform.setScale(frame.width() / bitmapWidth, frame.height() / bitmapHeight);
+    transform.postTranslate(-frame.width() / 2.0f, -frame.height() / 2.0f);
+    transform.postRotate((float) Math.toDegrees(rotate));
+    transform.postTranslate(frame.width() / 2.0f, frame.height() / 2.0f);
+    transform.postTranslate(frame.left, frame.top);
+
+    return transform;
   }
 
   @Nonnull
@@ -189,14 +204,16 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     return new MultiCacheKey(Arrays.asList(
       new SimpleCacheKey(String.format(
         Locale.ROOT,
-        "%s_%s_%s_%s_%s_%s_%s_%s_%b",
+        "%s_%s_%s_%s_%f_%s_%s_%s_%f_%s_%b",
         prefix,
         mSrcResizeMode.toString(),
         mSrcAnchor.toString(),
         mSrcPosition.toString(),
+        mSrcRotate,
         mDstResizeMode.toString(),
         mDstAnchor.toString(),
         mDstPosition.toString(),
+        mDstRotate,
         mResizeCanvasTo,
         mSwapImages
       )),

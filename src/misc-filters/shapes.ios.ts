@@ -43,7 +43,8 @@ export const shapes = {
     inputBackgroundImage: image,
     inputBackgroundImageResizeMode: resizeMode,
     inputBackgroundImageAnchor: offset,
-    inputBackgroundImagePosition: offset
+    inputBackgroundImagePosition: offset,
+    inputBackgroundImageRotate: scalar
   },
 
   IosIFKTextImage: {

@@ -28,7 +28,8 @@ const BackgroundImageComposition = {
   inputBackgroundImage: image,
   inputBackgroundImageResizeMode: resizeMode,
   inputBackgroundImageAnchor: offset,
-  inputBackgroundImagePosition: offset
+  inputBackgroundImagePosition: offset,
+  inputBackgroundImageRotate: scalar
 }
 
 const Tile = {
@@ -94,6 +95,7 @@ export const shapes = {
     inputMaskResizeMode: resizeMode,
     inputMaskAnchor: offset,
     inputMaskPosition: offset,
+    inputMaskRotate: scalar,
     inputRadius: distance
   },
 
@@ -225,7 +227,8 @@ export const shapes = {
     inputGradientImage: image,
     inputGradientImageResizeMode: resizeMode,
     inputGradientImageAnchor: offset,
-    inputGradientImagePosition: offset
+    inputGradientImagePosition: offset,
+    inputGradientImageRotate: scalar
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorMonochrome
@@ -437,6 +440,7 @@ export const shapes = {
     inputDisplacementImageResizeMode: resizeMode,
     inputDisplacementImageAnchor: offset,
     inputDisplacementImagePosition: offset,
+    inputDisplacementImageRotate: scalar,
     inputScale: distance
   },
 
@@ -447,6 +451,7 @@ export const shapes = {
     inputTextureResizeMode: resizeMode,
     inputTextureAnchor: offset,
     inputTexturePosition: offset,
+    inputTextureRotate: scalar,
     inputScale: distance,
     inputCenter: position
   },
@@ -878,6 +883,7 @@ export const shapes = {
     inputShadingImageResizeMode: resizeMode,
     inputShadingImageAnchor: offset,
     inputShadingImagePosition: offset,
+    inputShadingImageRotate: scalar,
     inputScale: scalar
   },
 

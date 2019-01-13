@@ -18,9 +18,11 @@ interface BlendConfig {
   readonly dstResizeMode?: ResizeMode
   readonly dstAnchor?: Offset
   readonly dstPosition?: Offset
+  readonly dstRotate?: number
   readonly srcResizeMode?: ResizeMode
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
+  readonly srcRotate?: number
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
@@ -35,16 +37,20 @@ const asNativeBlendConfig = (name: string) => ({
   srcAnchor,
   dstPosition,
   srcPosition,
+  srcRotate,
+  dstRotate,
   ...config
 }: BlendConfig) => ({
   inputImage: srcImage,
   inputImageResizeMode: srcResizeMode,
   inputImageAnchor: srcAnchor,
   inputImagePosition: srcPosition,
+  inputImageRotate: srcRotate,
   inputBackgroundImage: dstImage,
   inputBackgroundImageResizeMode: dstResizeMode,
   inputBackgroundImageAnchor: dstAnchor,
   inputBackgroundImagePosition: dstPosition,
+  inputBackgroundImageRotate: dstRotate,
   ...config,
   name
 })

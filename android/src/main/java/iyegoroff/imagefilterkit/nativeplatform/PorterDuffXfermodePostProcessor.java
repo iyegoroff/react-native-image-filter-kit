@@ -48,13 +48,13 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
 
   @Override
   protected CloseableReference<Bitmap> processComposition(
-    Bitmap dst,
-    Bitmap src,
+    Bitmap dstImage,
+    Bitmap srcImage,
     PlatformBitmapFactory bitmapFactory
   ) {
     final CloseableReference<Bitmap> outRef = bitmapFactory.createBitmap(
-      canvasExtent(dst.getWidth(), src.getWidth(), mWidth),
-      canvasExtent(dst.getHeight(), src.getHeight(), mHeight)
+      canvasExtent(dstImage.getWidth(), srcImage.getWidth(), mWidth),
+      canvasExtent(dstImage.getHeight(), srcImage.getHeight(), mHeight)
     );
 
     try {
@@ -63,19 +63,19 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
       final Paint paint = new Paint(flags);
 
       if (mSwapImages) {
-        drawSrc(canvas, src, paint);
+        drawSrc(canvas, srcImage, paint);
 
       } else {
-        drawDst(canvas, dst, paint);
+        drawDst(canvas, dstImage, paint);
       }
 
       paint.setXfermode(new PorterDuffXfermode(mMode));
 
       if (mSwapImages) {
-        drawDst(canvas, dst, paint);
+        drawDst(canvas, dstImage, paint);
 
       } else {
-        drawSrc(canvas, src, paint);
+        drawSrc(canvas, srcImage, paint);
       }
 
       return CloseableReference.cloneOrNull(outRef);
@@ -87,15 +87,15 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
   private void drawDst(@Nonnull Canvas canvas, @Nonnull Bitmap dst, @Nonnull Paint paint) {
     canvas.drawBitmap(
       dst,
-      null,
-      bitmapFrame(
+      bitmapTransform(
         canvas.getWidth(),
         canvas.getHeight(),
         dst.getWidth(),
         dst.getHeight(),
         mDstResizeMode,
         mDstAnchor,
-        mDstPosition
+        mDstPosition,
+        mDstRotate
       ),
       paint
     );
@@ -104,15 +104,15 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
   private void drawSrc(@Nonnull Canvas canvas, @Nonnull Bitmap src, @Nonnull Paint paint) {
     canvas.drawBitmap(
       src,
-      null,
-      bitmapFrame(
+      bitmapTransform(
         canvas.getWidth(),
         canvas.getHeight(),
         src.getWidth(),
         src.getHeight(),
         mSrcResizeMode,
         mSrcAnchor,
-        mSrcPosition
+        mSrcPosition,
+        mSrcRotate
       ),
       paint
     );

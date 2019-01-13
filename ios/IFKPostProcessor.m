@@ -48,9 +48,11 @@
       @"dstResizeMode",
       @"dstAnchor",
       @"dstPosition",
+      @"dstRotate",
       @"srcResizeMode",
       @"srcAnchor",
       @"srcPosition",
+      @"srcRotate",
       @"swapImages",
       @"clampToExtent"
     ];
