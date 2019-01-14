@@ -48,6 +48,30 @@ public class InputConverter {
     );
   }
 
+  public float convertAngle(@Nullable JSONObject angle, float defaultValue) {
+    if (angle != null) {
+      String value = angle.optString("angle");
+
+      if (value != null) {
+        String matcher = "-?\\d+(\\.\\d+)?";
+
+        if (value.matches(matcher + "")) {
+          return Float.parseFloat(value);
+        }
+
+        if (value.matches(matcher + "deg")) {
+          return (float) Math.toRadians(Float.parseFloat(value.split("deg")[0]));
+        }
+
+        if (value.matches(matcher + "rad")) {
+          return Float.parseFloat(value.split("rad")[0]);
+        }
+      }
+    }
+
+    return defaultValue;
+  }
+
 //  public PointF convertPosition(
 //    @Nullable JSONObject position,
 //    @Nonnull String defaultX,

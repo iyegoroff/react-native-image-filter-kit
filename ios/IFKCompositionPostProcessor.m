@@ -39,6 +39,8 @@
   if ((self = [super initWithName:name inputs:inputs])) {
     CIVector *center = [CIVector vectorWithCGPoint:CGPointMake(0.5f, 0.5f)];
     CGPoint noScale =CGPointMake(1.0f, 1.0f);
+    
+    NSLog(@"IFK inputs %@", inputs);
 
     _dstScale = [IFKInputConverter convertScale:[[self inputs] objectForKey:@"dstScale"]
                                     defaultMode:COVER
@@ -50,10 +52,10 @@
                                       defaultValue:center] CGPointValue];
     _srcAnchor = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcAnchor"]
                                       defaultValue:center] CGPointValue];
-    _dstRotate = [[IFKInputConverter convertScalar:[[self inputs] objectForKey:@"dstRotate"]
-                                      defaultValue:0] floatValue];
-    _srcRotate = [[IFKInputConverter convertScalar:[[self inputs] objectForKey:@"srcRotate"]
-                                      defaultValue:0] floatValue];
+    _dstRotate = [[IFKInputConverter convertAngle:[[self inputs] objectForKey:@"dstRotate"]
+                                      defaultValue:@(0)] floatValue];
+    _srcRotate = [[IFKInputConverter convertAngle:[[self inputs] objectForKey:@"srcRotate"]
+                                      defaultValue:@(0)] floatValue];
     _dstPosition = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"dstPosition"]
                                         defaultValue:center] CGPointValue];
     _srcPosition = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcPosition"]
@@ -63,9 +65,6 @@
     _resizeCanvasTo = [IFKInputConverter convertText:[[self inputs] objectForKey:@"resizeCanvasTo"]
                                         defaultValue:nil];
     _canvasSize = canvasSize;
-    
-    NSLog(@"IFK srcScale %@", _srcScale);
-    NSLog(@"IFK dstScale %@", _dstScale);
   }
   
   return self;

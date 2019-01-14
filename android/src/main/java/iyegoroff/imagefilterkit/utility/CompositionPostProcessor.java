@@ -66,11 +66,11 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     mSrcScale = converter.convertScale(config != null ? config.optJSONObject("srcScale") : null, Scale.Mode.COVER, noScale);
     mSrcAnchor = converter.convertOffset(config != null ? config.optJSONObject("srcAnchor") : null, center);
     mSrcPosition = converter.convertOffset(config != null ? config.optJSONObject("srcPosition") : null, center);
-    mSrcRotate = converter.convertScalar(config != null ? config.optJSONObject("srcRotate") : null, 0);
+    mSrcRotate = converter.convertAngle(config != null ? config.optJSONObject("srcRotate") : null, 0);
     mDstScale = converter.convertScale(config != null ? config.optJSONObject("dstScale") : null, Scale.Mode.COVER, noScale);
     mDstAnchor = converter.convertOffset(config != null ? config.optJSONObject("dstAnchor") : null, center);
     mDstPosition = converter.convertOffset(config != null ? config.optJSONObject("dstPosition") : null, center);
-    mDstRotate = converter.convertScalar(config != null ? config.optJSONObject("dstRotate") : null, 0);
+    mDstRotate = converter.convertAngle(config != null ? config.optJSONObject("dstRotate") : null, 0);
     mResizeCanvasTo = converter.convertText(config != null ? config.optJSONObject("resizeCanvasTo") : null, null);
     mSwapImages = converter.convertBool(config != null ? config.optJSONObject("swapImages") : null, false);
   }

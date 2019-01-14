@@ -1,5 +1,5 @@
 import React from 'react'
-import { processColor, Platform, StyleSheet, ViewStyle, PixelRatio } from 'react-native'
+import { processColor, Platform } from 'react-native'
 import {
   distance,
   scalar,
@@ -10,7 +10,8 @@ import {
   position,
   distanceVector,
   area,
-  marker
+  marker,
+  angle
 } from './inputs'
 import { ShapeRegistry } from './shape-registry'
 import { id } from './util'
@@ -36,6 +37,7 @@ const paramConvertMap: { [key: string]: Function } = {
   [distance]: anyToString,
   [distanceVector]: convertDistances,
   [scalar]: anyToString,
+  [angle]: anyToString,
   [color]: convertColor,
   [colorVector]: convertColors,
   [area]: convertArea

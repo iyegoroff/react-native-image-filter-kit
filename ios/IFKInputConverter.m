@@ -21,7 +21,8 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
           self convertText:any defaultValue:(id)[
           self convertBoolean:any defaultValue:(id)[
           self convertColorVector:any defaultValue:(id)[
-          self convertPath:any bounds:bounds defaultValue:nil]]]]]]]]]]]]]];
+          self convertPath:any bounds:bounds defaultValue:(id)[
+          self convertAngle:any defaultValue:nil]]]]]]]]]]]]]]];
 }
 
 + (nullable UIImage *)convertImage:(nullable NSDictionary *)image
@@ -40,6 +41,38 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
     : [scalar objectForKey:@"scalar"]
     ? @([[scalar objectForKey:@"scalar"] floatValue])
     : defaultValue;
+}
+
++ (nullable NSNumber *)convertAngle:(nullable NSDictionary *)angle
+                       defaultValue:(nullable NSNumber *)defaultValue
+{
+  if (angle != nil) {
+    id value = [angle objectForKey:@"angle"];
+    
+    if ([value isKindOfClass:[NSNumber class]]) {
+      return value;
+    }
+    
+    if ([value isKindOfClass:[NSString class]]) {
+      double ang;
+      NSScanner *scanner = [NSScanner scannerWithString:value];
+      
+      [scanner scanDouble:&ang];
+      NSString *unit = [value substringFromIndex:[scanner scanLocation]];
+      
+      if ([unit isEqualToString:@"deg"]) {
+        return @(M_PI * ang / 180.0f);
+      }
+      
+      if ([unit isEqualToString:@"rad"]) {
+        return @(ang);
+      }
+      
+      return @(ang);
+    }
+  }
+  
+  return defaultValue;
 }
 
 + (nullable CIColor *)convertColor:(nullable NSDictionary *)color
@@ -383,6 +416,16 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
                          green:((color >> 8) & 0xFF) / 255.0
                           blue:(color & 0xFF) / 255.0
                          alpha:((color >> 24) & 0xFF) / 255.0];
+}
+
++ (nullable IFKTransform *)convertTransform:(nullable NSDictionary *)transform
+                               defaultValue:(nullable IFKTransform *)defaultValue
+{
+  if (transform != nil && [transform objectForKey:@"transform"]) {
+    
+  }
+  
+  return defaultValue;
 }
 
 @end

@@ -3,6 +3,8 @@ interface Offset {
   readonly y?: number
 }
 
+type Angle = number | string
+
 type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | { width?: number; height?: number }
 
 interface CompositionConfig {
@@ -11,11 +13,11 @@ interface CompositionConfig {
   readonly dstScale?: Scale
   readonly dstAnchor?: Offset
   readonly dstPosition?: Offset
-  readonly dstRotate?: number
+  readonly dstRotate?: Angle
   readonly srcScale?: Scale
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
-  readonly srcRotate?: number
+  readonly srcRotate?: Angle
   readonly disableCache?: boolean
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
   readonly swapImages?: boolean

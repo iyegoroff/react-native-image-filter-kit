@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "IFKScale.h"
+#import "IFKTransform.h"
 
 @interface IFKInputConverter : NSObject
 
@@ -9,6 +10,9 @@
                       defaultValue:(nullable UIImage *)defaultValue;
 
 + (nullable NSNumber *)convertScalar:(nullable NSDictionary *)scalar
+                        defaultValue:(nullable NSNumber *)defaultValue;
+
++ (nullable NSNumber *)convertAngle:(nullable NSDictionary *)angle
                         defaultValue:(nullable NSNumber *)defaultValue;
 
 + (nullable CIColor *)convertColor:(nullable NSDictionary *)color
@@ -55,5 +59,8 @@
 
 + (nullable NSNumber *)convertBoolean:(nullable NSDictionary *)boolean
                          defaultValue:(nullable NSNumber *)defaultValue;
+
++ (nullable IFKTransform *)convertTransform:(nullable NSDictionary *)transform
+                               defaultValue:(nullable IFKTransform *)defaultValue;
 
 @end

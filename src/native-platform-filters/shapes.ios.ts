@@ -15,7 +15,8 @@ import {
   text,
   area,
   ISOLatin1EncodedText,
-  distanceVector
+  distanceVector,
+  angle
 } from '../common/inputs'
 import {
   GeneratorIos as Generator,
@@ -29,11 +30,11 @@ const BackgroundImageComposition = {
   inputBackgroundImageScale: scale,
   inputBackgroundImageAnchor: offset,
   inputBackgroundImagePosition: offset,
-  inputBackgroundImageRotate: scalar
+  inputBackgroundImageRotate: angle
 }
 
 const Tile = {
-  inputAngle: scalar,
+  inputAngle: angle,
   inputCenter: position,
   inputWidth: distance,
   ...Common
@@ -95,7 +96,7 @@ export const shapes = {
     inputMaskScale: scale,
     inputMaskAnchor: offset,
     inputMaskPosition: offset,
-    inputMaskRotate: scalar,
+    inputMaskRotate: angle,
     inputRadius: distance
   },
 
@@ -105,7 +106,7 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMotionBlur
   IosCIMotionBlur: {
     inputRadius: distance,
-    inputAngle: scalar,
+    inputAngle: angle,
     ...Common
   },
 
@@ -168,7 +169,7 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIHueAdjust
   IosCIHueAdjust: {
-    inputAngle: scalar,
+    inputAngle: angle,
     ...Common
   },
 
@@ -228,7 +229,7 @@ export const shapes = {
     inputGradientImageScale: scale,
     inputGradientImageAnchor: offset,
     inputGradientImagePosition: offset,
-    inputGradientImageRotate: scalar
+    inputGradientImageRotate: angle
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorMonochrome
@@ -403,7 +404,7 @@ export const shapes = {
     inputCenter: position,
     inputRadius: distance,
     inputScale: scalar,
-    inputAngle: scalar,
+    inputAngle: angle,
     ...Common
   },
 
@@ -418,7 +419,7 @@ export const shapes = {
   IosCICircularWrap: {
     inputCenter: position,
     inputRadius: distance,
-    inputAngle: scalar,
+    inputAngle: angle,
     ...Common
   },
 
@@ -440,7 +441,7 @@ export const shapes = {
     inputDisplacementImageScale: scale,
     inputDisplacementImageAnchor: offset,
     inputDisplacementImagePosition: offset,
-    inputDisplacementImageRotate: scalar,
+    inputDisplacementImageRotate: angle,
     inputScale: distance
   },
 
@@ -451,7 +452,7 @@ export const shapes = {
     inputTextureScale: scale,
     inputTextureAnchor: offset,
     inputTexturePosition: offset,
-    inputTextureRotate: scalar,
+    inputTextureRotate: angle,
     inputScale: distance,
     inputCenter: position
   },
@@ -475,7 +476,7 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILightTunnel
   IosCILightTunnel: {
     inputCenter: position,
-    inputRotation: scalar,
+    inputRotation: angle,
     inputRadius: distance,
     ...Common
   },
@@ -509,7 +510,7 @@ export const shapes = {
   IosCITwirlDistortion: {
     inputCenter: position,
     inputRadius: distance,
-    inputAngle: scalar,
+    inputAngle: angle,
     ...Common
   },
 
@@ -517,7 +518,7 @@ export const shapes = {
   IosCIVortexDistortion: {
     inputCenter: position,
     inputRadius: distance,
-    inputAngle: scalar,
+    inputAngle: angle,
     ...Common
   },
 
@@ -582,7 +583,7 @@ export const shapes = {
     inputColor: color,
     inputRadius: distance,
     inputCrossScale: scalar,
-    inputCrossAngle: scalar,
+    inputCrossAngle: angle,
     inputCrossOpacity: scalar,
     inputCrossWidth: distance,
     inputEpsilon: scalar,
@@ -641,7 +642,7 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIStraightenFilter,
   IosCIStraightenFilter: {
-    inputAngle: scalar,
+    inputAngle: angle,
     ...Common
   },
 
@@ -694,7 +695,7 @@ export const shapes = {
   IosCICMYKHalftone: {
     inputCenter: position,
     inputWidth: distance,
-    inputAngle: scalar,
+    inputAngle: angle,
     inputSharpness: scalar,
     inputGCR: scalar,
     inputUCR: scalar,
@@ -704,7 +705,7 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDotScreen
   IosCIDotScreen: {
     inputCenter: position,
-    inputAngle: scalar,
+    inputAngle: angle,
     inputWidth: distance,
     inputSharpness: scalar,
     ...Common
@@ -713,7 +714,7 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIHatchedScreen
   IosCIHatchedScreen: {
     inputCenter: position,
-    inputAngle: scalar,
+    inputAngle: angle,
     inputWidth: distance,
     inputSharpness: scalar,
     ...Common
@@ -722,7 +723,7 @@ export const shapes = {
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILineScreen
   IosCILineScreen: {
     inputCenter: position,
-    inputAngle: scalar,
+    inputAngle: angle,
     inputWidth: distance,
     inputSharpness: scalar,
     ...Common
@@ -883,7 +884,7 @@ export const shapes = {
     inputShadingImageScale: scale,
     inputShadingImageAnchor: offset,
     inputShadingImagePosition: offset,
-    inputShadingImageRotate: scalar,
+    inputShadingImageRotate: angle,
     inputScale: scalar
   },
 
@@ -927,7 +928,7 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIFourfoldTranslatedTile,
   IosCIFourfoldTranslatedTile: {
-    inputAcuteAngle: scalar,
+    inputAcuteAngle: angle,
     ...Tile
   },
 
@@ -936,7 +937,7 @@ export const shapes = {
   IosCIKaleidoscope: {
     inputCount: scalar,
     inputCenter: position,
-    inputAngle: scalar,
+    inputAngle: angle,
     ...Common
   },
 
@@ -948,7 +949,7 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIParallelogramTile,
   IosCIParallelogramTile : {
-    inputAcuteAngle: scalar,
+    inputAcuteAngle: angle,
     ...Tile
   },
 
@@ -965,7 +966,7 @@ export const shapes = {
   IosCITriangleKaleidoscope: {
     inputPoint: position,
     inputSize: distance,
-    inputRotation: scalar,
+    inputRotation: angle,
     inputDecay: scalar,
     ...Common
   },
@@ -1056,7 +1057,7 @@ export const shapes = {
 
   IosCIMirror: {
     inputPoint: position,
-    inputAngle: scalar,
+    inputAngle: angle,
     ...Common
   },
 

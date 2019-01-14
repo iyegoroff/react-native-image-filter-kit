@@ -18,6 +18,7 @@ export const binaryData = 'binaryData'
 export const ISOLatin1EncodedText = 'ISOLatin1EncodedText'
 export const marker = 'marker'
 export const path = 'path'
+export const angle = 'angle'
 
 export type Input =
   | typeof config
@@ -40,3 +41,4 @@ export type Input =
   | typeof ISOLatin1EncodedText
   | typeof marker
   | typeof path
+  | typeof angle

@@ -1,7 +1,7 @@
 // tslint:disable:max-file-line-count
 
 import { Platform } from 'react-native'
-import matrices, { Matrix } from 'rn-color-matrices'
+import matrices from 'rn-color-matrices'
 import { FilterConfig, MatrixFilterConfig, Config, AmountFilterConfig } from '../common/configs'
 
 export interface RGBAFilterConfig extends FilterConfig {

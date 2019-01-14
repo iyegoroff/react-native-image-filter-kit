@@ -17,9 +17,11 @@ type Offset = {
 }
 
 type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | {
-  readonly width?: number
-  readonly height?: number
+  readonly x?: number
+  readonly y?: number
 }
+
+type Angle = number | string
 
 type PathStep = never
 
@@ -89,12 +91,12 @@ interface CompositionConfig<Rest = never> extends CacheableConfig {
   readonly dstImage: Filterable<Rest>
   readonly dstAnchor?: Offset
   readonly dstPosition?: Offset
-  readonly dstRotate?: number
+  readonly dstRotate?: Angle
   readonly dstScale?: Scale
   readonly srcImage: Filterable<Rest>
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
-  readonly srcRotate?: Offset
+  readonly srcRotate?: Angle
   readonly srcScale?: Scale
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }
