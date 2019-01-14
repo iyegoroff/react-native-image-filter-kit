@@ -27,6 +27,8 @@
 @property (nonatomic, assign) BOOL swapImages;
 @property (nonatomic, assign) CGSize canvasSize;
 @property (nonatomic, strong) NSString *resizeCanvasTo;
+@property (nonatomic, strong) IFKTransform *dstTransform;
+@property (nonatomic, strong) IFKTransform *srcTransform;
 
 @end
 
@@ -38,7 +40,11 @@
 {
   if ((self = [super initWithName:name inputs:inputs])) {
     CIVector *center = [CIVector vectorWithCGPoint:CGPointMake(0.5f, 0.5f)];
-    CGPoint noScale =CGPointMake(1.0f, 1.0f);
+    CGPoint noScale = CGPointMake(1.0f, 1.0f);
+    IFKTransform *transform = [[IFKTransform alloc] initWithAnchor:CGPointMake(0.5f, 0.5f)
+                                                         translate:CGPointMake(0.5f, 0.5f)
+                                                             scale:[[IFKScaleWithMode alloc] initWithMode:COVER]
+                                                            rotate:0];
     
     NSLog(@"IFK inputs %@", inputs);
 
@@ -64,6 +70,10 @@
                                         defaultValue:@(NO)] boolValue];
     _resizeCanvasTo = [IFKInputConverter convertText:[[self inputs] objectForKey:@"resizeCanvasTo"]
                                         defaultValue:nil];
+    _dstTransform = [IFKInputConverter convertTransform:[[self inputs] objectForKey:@"dstTransform"]
+                                           defaultValue:transform];
+    _srcTransform = [IFKInputConverter convertTransform:[[self inputs] objectForKey:@"srcTransform"]
+                                           defaultValue:transform];
     _canvasSize = canvasSize;
   }
   
@@ -74,16 +84,13 @@
                                       canvasHeight:(CGFloat)canvasHeight
                                         imageWidth:(CGFloat)bitmapWidth
                                        imageHeight:(CGFloat)bitmapHeight
-                                        scale:(nonnull IFKScale *)scale
-                                            anchor:(CGPoint)anchor
-                                          position:(CGPoint)position
-                                            rotate:(CGFloat)rotate
+                                         transform:(IFKTransform *)transform
 {
   CGFloat width = 0;
   CGFloat height = 0;
   
-  if ([scale isKindOfClass:[IFKScaleWithMode class]]) {
-    IFKScaleMode mode = ((IFKScaleWithMode *)scale).mode;
+  if ([transform.scale isKindOfClass:[IFKScaleWithMode class]]) {
+    IFKScaleMode mode = ((IFKScaleWithMode *)transform.scale).mode;
     CGFloat bitmapAspect = bitmapWidth / bitmapHeight;
     CGFloat canvasAspect = canvasWidth / canvasHeight;
     
@@ -110,23 +117,23 @@
       height = canvasHeight;
     }
     
-  } else if ([scale isKindOfClass:[IFKScaleWithSize class]]) {
-    width = canvasWidth * ((IFKScaleWithSize *) scale).scale.x;
-    height = canvasHeight * ((IFKScaleWithSize *) scale).scale.y;
+  } else if ([transform.scale isKindOfClass:[IFKScaleWithSize class]]) {
+    width = canvasWidth * ((IFKScaleWithSize *) transform.scale).scale.x;
+    height = canvasHeight * ((IFKScaleWithSize *) transform.scale).scale.y;
   }
   
-  CGRect frame = CGRectMake(canvasWidth * position.x - width * anchor.x,
-                            canvasHeight * position.y - height * anchor.y,
-                            width,
-                            height);
+  CGRect f = CGRectMake(canvasWidth * transform.translate.x - width * transform.anchor.x,
+                        canvasHeight * transform.translate.y - height * transform.anchor.y,
+                        width,
+                        height);
   
-  CGAffineTransform transform = CGAffineTransformMakeScale(frame.size.width / bitmapWidth, frame.size.height / bitmapHeight);
-  transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(-frame.size.width / 2.0f, -frame.size.height / 2.0f));
-  transform = CGAffineTransformConcat(transform, CGAffineTransformMakeRotation(-rotate));
-  transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(frame.size.width / 2.0f, frame.size.height / 2.0f));
-  transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(frame.origin.x, frame.origin.y));
+  CGAffineTransform t = CGAffineTransformMakeScale(f.size.width / bitmapWidth, f.size.height / bitmapHeight);
+  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(-f.size.width / 2.0f, -f.size.height / 2.0f));
+  t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(-transform.rotate));
+  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(f.size.width / 2.0f, f.size.height / 2.0f));
+  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(f.origin.x, f.origin.y));
   
-  return transform;
+  return t;
 }
 
 - (nonnull NSString *)dstImageName
@@ -211,20 +218,14 @@
                                     canvasHeight:outSize.height
                                     imageWidth:dstFrame.size.width
                                     imageHeight:dstFrame.size.height
-                                    scale:_dstScale
-                                    anchor:_dstAnchor
-                                    position:_dstPosition
-                                    rotate:_dstRotate];
+                                    transform:_dstTransform];
   
   CGAffineTransform srcTransform = [IFKCompositionPostProcessor
                                     imageTransformWithCanvasWidth:outSize.width
                                     canvasHeight:outSize.height
                                     imageWidth:srcFrame.size.width
                                     imageHeight:srcFrame.size.height
-                                    scale:_srcScale
-                                    anchor:_srcAnchor
-                                    position:_srcPosition
-                                    rotate:_srcRotate];
+                                    transform:_srcTransform];
   
   [[self filter] setValue:[srcImage imageByApplyingTransform:srcTransform]
                    forKey:_swapImages ? [self dstImageName] : @"inputImage"];

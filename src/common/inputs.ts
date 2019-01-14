@@ -19,6 +19,7 @@ export const ISOLatin1EncodedText = 'ISOLatin1EncodedText'
 export const marker = 'marker'
 export const path = 'path'
 export const angle = 'angle'
+export const transform = 'transform'
 
 export type Input =
   | typeof config
@@ -42,3 +43,4 @@ export type Input =
   | typeof marker
   | typeof path
   | typeof angle
+  | typeof transform

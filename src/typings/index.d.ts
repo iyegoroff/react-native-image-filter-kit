@@ -23,6 +23,13 @@ type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | {
 
 type Angle = number | string
 
+interface Transform {
+  readonly anchor?: Offset
+  readonly translate?: Offset
+  readonly scale?: Scale
+  readonly rotate?: Angle
+}
+
 type PathStep = never
 
 type Path = ReadonlyArray<PathStep>
@@ -92,11 +99,13 @@ interface CompositionConfig<Rest = never> extends CacheableConfig {
   readonly dstAnchor?: Offset
   readonly dstPosition?: Offset
   readonly dstRotate?: Angle
+  readonly dstTransform?: Transform
   readonly dstScale?: Scale
   readonly srcImage: Filterable<Rest>
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
   readonly srcRotate?: Angle
+  readonly srcTransform?: Transform
   readonly srcScale?: Scale
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }

@@ -11,7 +11,8 @@ import {
   scale,
   path,
   distanceVector,
-  angle
+  angle,
+  transform
 } from '../common/inputs'
 import { GeneratorIos as Generator, CompositionBaseIos as CompositionBase } from '../common/shapes'
 
@@ -45,7 +46,8 @@ export const shapes = {
     inputBackgroundImageScale: scale,
     inputBackgroundImageAnchor: offset,
     inputBackgroundImagePosition: offset,
-    inputBackgroundImageRotate: angle
+    inputBackgroundImageRotate: angle,
+    inputBackgroundImageTransform: transform
   },
 
   IosIFKTextImage: {

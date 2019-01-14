@@ -54,7 +54,9 @@
       @"srcPosition",
       @"srcRotate",
       @"swapImages",
-      @"clampToExtent"
+      @"clampToExtent",
+      @"dstTransform",
+      @"srcTransform"
     ];
   });
 

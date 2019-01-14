@@ -47,44 +47,54 @@ const srcScale = 'srcScale'
 const srcAnchor = 'srcAnchor'
 const srcPosition = 'srcPosition'
 const srcRotate = 'srcRotate'
+const srcTransform = 'srcTransform'
 const dstScale = 'dstScale'
 const dstAnchor = 'dstAnchor'
 const dstPosition = 'dstPosition'
 const dstRotate = 'dstRotate'
+const dstTransform = 'dstTransform'
 
 const iosKeyConvertMap: { [key: string]: string } = {
   inputImageScale: srcScale,
   inputImageAnchor: srcAnchor,
   inputImagePosition: srcPosition,
   inputImageRotate: srcRotate,
+  inputImageTransform: srcTransform,
   inputBackgroundImageScale: dstScale,
   inputBackgroundImageAnchor: dstAnchor,
   inputBackgroundImagePosition: dstPosition,
   inputBackgroundImageRotate: dstRotate,
+  inputBackgroundImageTransform: dstTransform,
   inputMaskScale: dstScale,
   inputMaskAnchor: dstAnchor,
   inputMaskPosition: dstPosition,
   inputMaskRotate: dstRotate,
+  inputMaskTransform: dstTransform,
   inputGradientImageScale: dstScale,
   inputGradientImageAnchor: dstAnchor,
   inputGradientImagePosition: dstPosition,
   inputGradientImageRotate: dstRotate,
+  inputGradientImageTransform: dstTransform,
   inputTargetImageScale: dstScale,
   inputTargetImageAnchor: dstAnchor,
   inputTargetImagePosition: dstPosition,
   inputTargetImageRotate: dstRotate,
+  inputTargetImageTransform: dstTransform,
   inputDisplacementImageScale: dstScale,
   inputDisplacementImageAnchor: dstAnchor,
   inputDisplacementImagePosition: dstPosition,
   inputDisplacementImageRotate: dstRotate,
+  inputDisplacementImageTransform: dstTransform,
   inputTextureScale: dstScale,
   inputTextureAnchor: dstAnchor,
   inputTexturePosition: dstPosition,
   inputTextureRotate: dstRotate,
+  inputTextureTransform: dstTransform,
   inputShadingImageScale: dstScale,
   inputShadingImageAnchor: dstAnchor,
   inputShadingImagePosition: dstPosition,
-  inputShadingImageRotate: dstRotate
+  inputShadingImageRotate: dstRotate,
+  inputShadingImageTransform: dstTransform
 }
 
 const srcImage = 'srcImage'

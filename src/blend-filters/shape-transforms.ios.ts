@@ -12,7 +12,14 @@ interface Offset {
 
 type Angle = number | string
 
-type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | { width?: number; height?: number }
+type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | { x?: number; y?: number }
+
+interface Transform {
+  readonly anchor?: Offset
+  readonly translate?: Offset
+  readonly scale?: Scale
+  readonly rotate?: Angle
+}
 
 interface BlendConfig {
   readonly dstImage: unknown
@@ -21,10 +28,12 @@ interface BlendConfig {
   readonly dstAnchor?: Offset
   readonly dstPosition?: Offset
   readonly dstRotate?: Angle
+  readonly dstTransform?: Transform
   readonly srcScale?: Scale
   readonly srcAnchor?: Offset
   readonly srcPosition?: Offset
   readonly srcRotate?: Angle
+  readonly srcTransform?: Transform
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
@@ -41,6 +50,8 @@ const asNativeBlendConfig = (name: string) => ({
   srcPosition,
   srcRotate,
   dstRotate,
+  srcTransform,
+  dstTransform,
   ...config
 }: BlendConfig) => ({
   inputImage: srcImage,
@@ -48,11 +59,13 @@ const asNativeBlendConfig = (name: string) => ({
   inputImageAnchor: srcAnchor,
   inputImagePosition: srcPosition,
   inputImageRotate: srcRotate,
+  inputImageTransform: srcTransform,
   inputBackgroundImage: dstImage,
   inputBackgroundImageScale: dstScale,
   inputBackgroundImageAnchor: dstAnchor,
   inputBackgroundImagePosition: dstPosition,
   inputBackgroundImageRotate: dstRotate,
+  inputBackgroundImageTransform: dstTransform,
   ...config,
   name
 })

@@ -16,7 +16,8 @@ import {
   area,
   ISOLatin1EncodedText,
   distanceVector,
-  angle
+  angle,
+  transform
 } from '../common/inputs'
 import {
   GeneratorIos as Generator,
@@ -30,7 +31,8 @@ const BackgroundImageComposition = {
   inputBackgroundImageScale: scale,
   inputBackgroundImageAnchor: offset,
   inputBackgroundImagePosition: offset,
-  inputBackgroundImageRotate: angle
+  inputBackgroundImageRotate: angle,
+  inputBackgroundImageTransform: transform
 }
 
 const Tile = {
@@ -97,6 +99,7 @@ export const shapes = {
     inputMaskAnchor: offset,
     inputMaskPosition: offset,
     inputMaskRotate: angle,
+    inputMaskTransform: transform,
     inputRadius: distance
   },
 
@@ -229,7 +232,8 @@ export const shapes = {
     inputGradientImageScale: scale,
     inputGradientImageAnchor: offset,
     inputGradientImagePosition: offset,
-    inputGradientImageRotate: angle
+    inputGradientImageRotate: angle,
+    inputGradientImageTransform: transform
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorMonochrome
@@ -442,6 +446,7 @@ export const shapes = {
     inputDisplacementImageAnchor: offset,
     inputDisplacementImagePosition: offset,
     inputDisplacementImageRotate: angle,
+    inputDisplacementImageTransform: transform,
     inputScale: distance
   },
 
@@ -453,6 +458,7 @@ export const shapes = {
     inputTextureAnchor: offset,
     inputTexturePosition: offset,
     inputTextureRotate: angle,
+    inputTextureTransform: transform,
     inputScale: distance,
     inputCenter: position
   },
@@ -885,6 +891,7 @@ export const shapes = {
     inputShadingImageAnchor: offset,
     inputShadingImagePosition: offset,
     inputShadingImageRotate: angle,
+    inputShadingImageTransform: transform,
     inputScale: scalar
   },
 

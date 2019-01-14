@@ -422,7 +422,37 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
                                defaultValue:(nullable IFKTransform *)defaultValue
 {
   if (transform != nil && [transform objectForKey:@"transform"]) {
+    NSDictionary *value = [transform objectForKey:@"transform"];
     
+    CGPoint anchor = [value objectForKey:@"anchor"] != nil
+      ? [[self convertOffset:@{ @"offset": [value objectForKey:@"anchor"] }
+                defaultValue:[CIVector vectorWithCGPoint:defaultValue.anchor]] CGPointValue]
+      : defaultValue.anchor;
+    
+    CGPoint translate = [value objectForKey:@"translate"] != nil
+      ? [[self convertOffset:@{ @"offset": [value objectForKey:@"translate"] }
+                defaultValue:[CIVector vectorWithCGPoint:defaultValue.translate]] CGPointValue]
+      : defaultValue.translate;
+    
+    IFKScale *scale = [value objectForKey:@"scale"] != nil
+      ? [self convertScale:@{ @"scale": [value objectForKey:@"scale"] }
+               defaultMode:[defaultValue.scale isKindOfClass:[IFKScaleWithMode class]]
+                             ? ((IFKScaleWithMode *)defaultValue.scale).mode
+                             : COVER
+              defaultScale:[defaultValue.scale isKindOfClass:[IFKScaleWithSize class]]
+                             ? ((IFKScaleWithSize *)defaultValue.scale).scale
+                             : CGPointMake(1.0f, 1.0f)]
+      : defaultValue.scale;
+    
+    CGFloat rotate = [value objectForKey:@"rotate"] != nil
+      ? [[self convertAngle:@{ @"angle": [value objectForKey:@"rotate"] }
+               defaultValue:@(defaultValue.rotate)] floatValue]
+      : defaultValue.rotate;
+
+    return [[IFKTransform alloc] initWithAnchor:anchor
+                                      translate:translate
+                                          scale:scale
+                                         rotate:rotate];
   }
   
   return defaultValue;
