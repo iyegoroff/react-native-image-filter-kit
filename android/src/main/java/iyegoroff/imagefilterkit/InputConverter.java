@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,23 +50,23 @@ public class InputConverter {
   }
 
   public float convertAngle(@Nullable JSONObject angle, float defaultValue) {
+    return extractAngle(angle != null ? angle.optString("angle") : null, defaultValue);
+  }
+
+  private float extractAngle(@Nullable String angle, float defaultValue) {
     if (angle != null) {
-      String value = angle.optString("angle");
+      String matcher = "-?\\d+(\\.\\d+)?";
 
-      if (value != null) {
-        String matcher = "-?\\d+(\\.\\d+)?";
+      if (angle.matches(matcher + "")) {
+        return Float.parseFloat(angle);
+      }
 
-        if (value.matches(matcher + "")) {
-          return Float.parseFloat(value);
-        }
+      if (angle.matches(matcher + "deg")) {
+        return (float) Math.toRadians(Float.parseFloat(angle.split("deg")[0]));
+      }
 
-        if (value.matches(matcher + "deg")) {
-          return (float) Math.toRadians(Float.parseFloat(value.split("deg")[0]));
-        }
-
-        if (value.matches(matcher + "rad")) {
-          return Float.parseFloat(value.split("rad")[0]);
-        }
+      if (angle.matches(matcher + "rad")) {
+        return Float.parseFloat(angle.split("rad")[0]);
       }
     }
 
@@ -85,12 +86,14 @@ public class InputConverter {
 //    );
 //  }
 
-  public PointF convertOffset(@Nullable JSONObject position, @Nonnull PointF defaultValue) {
-    JSONObject pos = position != null ? position.optJSONObject("offset") : null;
+  public PointF convertOffset(@Nullable JSONObject offset, @Nonnull PointF defaultValue) {
+    return extractOffset(offset != null ? offset.optJSONObject("offset") : null, defaultValue);
+  }
 
+  private PointF extractOffset(@Nullable JSONObject offset, @Nonnull PointF defaultValue) {
     return new PointF(
-      pos != null ? (float) pos.optDouble("x", defaultValue.x) : defaultValue.x,
-      pos != null ? (float) pos.optDouble("y", defaultValue.y) : defaultValue.y
+      offset != null ? (float) offset.optDouble("x", defaultValue.x) : defaultValue.x,
+      offset != null ? (float) offset.optDouble("y", defaultValue.y) : defaultValue.y
     );
   }
 
@@ -148,6 +151,39 @@ public class InputConverter {
     return args;
   }
 
+  public Transform convertTransform(
+    @Nullable JSONObject transform,
+    @Nonnull Transform defaultValue
+  ) {
+    JSONObject value = transform != null ? transform.optJSONObject("transform") : null;
+
+    if (value != null) {
+      PointF anchor = value.opt("anchor") != null
+        ? extractOffset(value.optJSONObject("anchor"), defaultValue.anchor)
+        : defaultValue.anchor;
+
+      PointF translate = value.opt("translate") != null
+        ? extractOffset(value.optJSONObject("translate"), defaultValue.translate)
+        : defaultValue.translate;
+
+      Scale scale = value.opt("scale") != null
+        ? extractScale(
+            value.opt("scale"),
+            defaultValue.scale instanceof Scale.WithMode ? ((Scale.WithMode) defaultValue.scale).mode : Scale.Mode.COVER,
+            defaultValue.scale instanceof Scale.WithSize ? ((Scale.WithSize) defaultValue.scale).scale : new PointF(1.0f, 1.0f)
+          )
+        : defaultValue.scale;
+
+      float rotate = value.opt("rotate") != null
+        ? extractAngle(value.optString("rotate"), defaultValue.rotate)
+        : defaultValue.rotate;
+
+      return new Transform(anchor, translate, scale, rotate);
+    }
+
+    return defaultValue;
+  }
+
   public String convertText(@Nullable JSONObject text, @Nullable String defaultValue) {
     return text != null ? text.optString("text", defaultValue) : defaultValue;
   }
@@ -157,17 +193,24 @@ public class InputConverter {
     @Nonnull Scale.Mode defaultMode,
     @Nonnull PointF defaultScale
   ) {
-    JSONObject size = scale != null ? scale.optJSONObject("scale") : null;
-    String mode = scale != null ? scale.optString("scale") : null;
+    return extractScale(scale != null ? scale.opt("scale") : null, defaultMode, defaultScale);
+  }
 
-    if (size != null) {
+  private Scale extractScale(
+    @Nullable Object scale,
+    @Nonnull Scale.Mode defaultMode,
+    @Nonnull PointF defaultScale
+  ) {
+    if (scale instanceof JSONObject) {
+      JSONObject size = (JSONObject) scale;
+
       return new Scale.WithSize(
         size.has("x") ? (float) size.optDouble("x", defaultScale.x) : defaultScale.x,
         size.has("y") ? (float) size.optDouble("y", defaultScale.y) : defaultScale.y
       );
     }
 
-    return new Scale.WithMode(convertEnumeration(mode, defaultMode, Scale.Mode.class));
+    return new Scale.WithMode(convertEnumeration((String) scale, defaultMode, Scale.Mode.class));
   }
 
   public float[] convertScalarVector(@Nullable JSONObject scalarVector, float[] defaultValue) {

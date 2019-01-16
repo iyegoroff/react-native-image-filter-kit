@@ -56,7 +56,9 @@ const result = (
       image: {
         name: 'SoftLightBlend',
         resizeCanvasTo: 'dstImage',
-        dstScale: 'CONTAIN',
+        dstTransform: {
+          scale: 'CONTAIN'
+        },
         dstImage: {
           name: 'Emboss',
           image: (
@@ -67,8 +69,10 @@ const result = (
             /&gt;
           )
         },
-        srcAnchor: { x: 0.5, y: 1 },
-        srcPosition: { x: 0.5, y: 1 },
+        srcTransform: {
+          anchor: { x: 0.5, y: 1 },
+          translate: { x: 0.5, y: 1 }
+        },
         srcImage: {
           name: 'Invert',
           image: {
@@ -121,17 +125,31 @@ Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually t
 ***
 #### Offset
 
-`{ x: number; y: number }`
+`{ x?: number; y?: number }`
 
 `Offset` usually represents relative values, not actual pixels.
 
 ***
 #### Scale
 
-`'COVER' | 'CONTAIN' | 'STRETCH' | { width?: number; height?: number }`
+`'COVER' | 'CONTAIN' | 'STRETCH' | Offset`
 
-`Scale` is used by [blend](blend_filters.md) and [composition](composition_filters.md) filters for resizing images on a canvas. Using an object, for example, <code>{&nbsp;width:&nbsp;0.5;&nbsp;height:&nbsp;2&nbsp;}</code> means that image width will be scaled down and height scaled up two times.
+`Scale` is used by [blend](blend_filters.md) and [composition](composition_filters.md) filters for resizing images on a canvas. Using an object, for example, <code>{&nbsp;x:&nbsp;0.5;&nbsp;y:&nbsp;2&nbsp;}</code> means that image width will be scaled down and height scaled up two times.
 
+***
+#### Angle
+
+`number | string`
+
+`Angle` can be specified with strings like `'45deg'` or `` `${Math.PI / 4}rad` ``, or with numbers as radians - `Math.PI`.
+
+***
+#### Transform
+
+`{ anchor?: Offset; translate?: Offset; scale?: Scale; rotate?: Angle }`
+
+- `anchor` is an origin for transforms;
+- all `Offset` values are relative to canvas size.
 ***
 #### RelativeUnit
 Relative units are values similar to CSS [viewport units](https://css-tricks.com/fun-viewport-units/#article-header-id-0). There are 4 suffixes: 'h', 'w', 'min' and 'max'. For example `'50w'` means <i>50% of image width</i> and `'100min'` - <i>100% of minimum image dimension</i>.

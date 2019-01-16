@@ -16,10 +16,7 @@ type Offset = {
   readonly y: number
 }
 
-type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | {
-  readonly x?: number
-  readonly y?: number
-}
+type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | Offset
 
 type Angle = number | string
 
@@ -96,17 +93,9 @@ interface BlurConfig<Rest = never> extends CommonConfig<Rest> {
 
 interface CompositionConfig<Rest = never> extends CacheableConfig {
   readonly dstImage: Filterable<Rest>
-  readonly dstAnchor?: Offset
-  readonly dstPosition?: Offset
-  readonly dstRotate?: Angle
   readonly dstTransform?: Transform
-  readonly dstScale?: Scale
   readonly srcImage: Filterable<Rest>
-  readonly srcAnchor?: Offset
-  readonly srcPosition?: Offset
-  readonly srcRotate?: Angle
   readonly srcTransform?: Transform
-  readonly srcScale?: Scale
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
 }
 
@@ -495,7 +484,6 @@ export declare class RegularPolygonShape extends React.Component<ImageFilterProp
 export declare class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> { }
 export declare class ImageBackgroundPlaceholder extends React.Component<Omit<ImageBackgroundProps, 'source'>> { }
 
-export function degToRad(deg: number): number
 export function rgbaToRgb(RGB_background: string, RGBA_color: string): string
 export function concatColorMatrices(matrices: Matrix[]): Matrix
 
@@ -561,6 +549,7 @@ type Input =
   | 'ISOLatin1EncodedText'
   | 'marker'
   | 'path'
+  | 'transform'
 
 type Shape = { [key: string]: Input }
 

@@ -113,31 +113,13 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
 
       dstCanvas.drawBitmap(
         dstImage,
-        bitmapTransform(
-          width,
-          height,
-          dstImage.getWidth(),
-          dstImage.getHeight(),
-          mDstScale,
-          mDstAnchor,
-          mDstPosition,
-          mDstRotate
-        ),
+        bitmapTransform(width, height, dstImage.getWidth(), dstImage.getHeight(), mDstTransform),
         paint
       );
 
       srcCanvas.drawBitmap(
         srcImage,
-        bitmapTransform(
-          width,
-          height,
-          srcImage.getWidth(),
-          srcImage.getHeight(),
-          mSrcScale,
-          mSrcAnchor,
-          mSrcPosition,
-          mSrcRotate
-        ),
+        bitmapTransform(width, height, srcImage.getWidth(), srcImage.getHeight(), mSrcTransform),
         paint
       );
 

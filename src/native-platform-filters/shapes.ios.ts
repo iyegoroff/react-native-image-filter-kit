@@ -11,7 +11,6 @@ import {
   image,
   config,
   bool,
-  scale,
   text,
   area,
   ISOLatin1EncodedText,
@@ -28,10 +27,6 @@ import {
 const BackgroundImageComposition = {
   ...CompositionBase,
   inputBackgroundImage: image,
-  inputBackgroundImageScale: scale,
-  inputBackgroundImageAnchor: offset,
-  inputBackgroundImagePosition: offset,
-  inputBackgroundImageRotate: angle,
   inputBackgroundImageTransform: transform
 }
 
@@ -95,10 +90,6 @@ export const shapes = {
   IosCIMaskedVariableBlur: {
     ...CompositionBase,
     inputMask: image,
-    inputMaskScale: scale,
-    inputMaskAnchor: offset,
-    inputMaskPosition: offset,
-    inputMaskRotate: angle,
     inputMaskTransform: transform,
     inputRadius: distance
   },
@@ -229,10 +220,6 @@ export const shapes = {
   IosCIColorMap: {
     ...CompositionBase,
     inputGradientImage: image,
-    inputGradientImageScale: scale,
-    inputGradientImageAnchor: offset,
-    inputGradientImagePosition: offset,
-    inputGradientImageRotate: angle,
     inputGradientImageTransform: transform
   },
 
@@ -442,10 +429,6 @@ export const shapes = {
   IosCIDisplacementDistortion: {
     ...CompositionBase,
     inputDisplacementImage: image,
-    inputDisplacementImageScale: scale,
-    inputDisplacementImageAnchor: offset,
-    inputDisplacementImagePosition: offset,
-    inputDisplacementImageRotate: angle,
     inputDisplacementImageTransform: transform,
     inputScale: distance
   },
@@ -454,10 +437,6 @@ export const shapes = {
   IosCIGlassDistortion: {
     ...CompositionBase,
     inputTexture: image,
-    inputTextureScale: scale,
-    inputTextureAnchor: offset,
-    inputTexturePosition: offset,
-    inputTextureRotate: angle,
     inputTextureTransform: transform,
     inputScale: distance,
     inputCenter: position
@@ -887,10 +866,6 @@ export const shapes = {
   IosCIShadedMaterial: {
     ...CompositionBase,
     inputShadingImage: image,
-    inputShadingImageScale: scale,
-    inputShadingImageAnchor: offset,
-    inputShadingImagePosition: offset,
-    inputShadingImageRotate: angle,
     inputShadingImageTransform: transform,
     inputScale: scalar
   },

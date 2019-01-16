@@ -9,7 +9,6 @@ import convolveMatrixFilters from './convolve-matrix-filters'
 import nativePlatformFilters from './native-platform-filters'
 import { ImagePlaceholder, ImageBackgroundPlaceholder } from './common/image-placeholder'
 import registerFilter from './common/register-filter'
-import { degToRad } from './common/util'
 import colorMatrices from 'rn-color-matrices'
 import { concatColorMatrices } from 'concat-color-matrices'
 import rgbaToRgb from 'rgba-to-rgb'
@@ -27,7 +26,6 @@ const exports = {
   ...miscFilters,
   ...compositionFilters,
   rgbaToRgb,
-  degToRad,
   concatColorMatrices,
   ImagePlaceholder,
   ImageBackgroundPlaceholder,

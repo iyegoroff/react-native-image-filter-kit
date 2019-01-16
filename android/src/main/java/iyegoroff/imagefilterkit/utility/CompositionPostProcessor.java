@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 
 import iyegoroff.imagefilterkit.InputConverter;
 import iyegoroff.imagefilterkit.Scale;
+import iyegoroff.imagefilterkit.Transform;
 
 public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
@@ -31,16 +32,8 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
   private final @Nonnull CacheKey mSrcCacheKey;
   private final @Nullable String mResizeCanvasTo;
   protected final boolean mSwapImages;
-  protected final @Nonnull
-  Scale mSrcScale;
-  protected final @Nonnull PointF mSrcAnchor;
-  protected final @Nonnull PointF mSrcPosition;
-  protected final float mSrcRotate;
-  protected final @Nonnull
-  Scale mDstScale;
-  protected final @Nonnull PointF mDstAnchor;
-  protected final @Nonnull PointF mDstPosition;
-  protected final float mDstRotate;
+  protected final @Nonnull Transform mDstTransform;
+  protected final @Nonnull Transform mSrcTransform;
   protected final int mWidth;
   protected final int mHeight;
 
@@ -59,18 +52,12 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     mHeight = height;
 
     final PointF center = new PointF(0.5f, 0.5f);
-    final PointF noScale = new PointF(1.0f, 1.0f);
+    final Transform transform = new Transform(center, center, new Scale.WithMode(Scale.Mode.COVER), 0);
 
     mSrc = src.clone();
     mSrcCacheKey = srcCacheKey;
-    mSrcScale = converter.convertScale(config != null ? config.optJSONObject("srcScale") : null, Scale.Mode.COVER, noScale);
-    mSrcAnchor = converter.convertOffset(config != null ? config.optJSONObject("srcAnchor") : null, center);
-    mSrcPosition = converter.convertOffset(config != null ? config.optJSONObject("srcPosition") : null, center);
-    mSrcRotate = converter.convertAngle(config != null ? config.optJSONObject("srcRotate") : null, 0);
-    mDstScale = converter.convertScale(config != null ? config.optJSONObject("dstScale") : null, Scale.Mode.COVER, noScale);
-    mDstAnchor = converter.convertOffset(config != null ? config.optJSONObject("dstAnchor") : null, center);
-    mDstPosition = converter.convertOffset(config != null ? config.optJSONObject("dstPosition") : null, center);
-    mDstRotate = converter.convertAngle(config != null ? config.optJSONObject("dstRotate") : null, 0);
+    mSrcTransform = converter.convertTransform(config != null ? config.optJSONObject("srcTransform") : null, transform);
+    mDstTransform = converter.convertTransform(config != null ? config.optJSONObject("dstTransform") : null, transform);
     mResizeCanvasTo = converter.convertText(config != null ? config.optJSONObject("resizeCanvasTo") : null, null);
     mSwapImages = converter.convertBool(config != null ? config.optJSONObject("swapImages") : null, false);
   }
@@ -128,16 +115,13 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     float canvasHeight,
     float bitmapWidth,
     float bitmapHeight,
-    @Nonnull Scale scaleMode,
-    @Nonnull PointF anchor,
-    @Nonnull PointF position,
-    float rotate
+    @Nonnull Transform transform
   ) {
     float width = 0;
     float height = 0;
 
-    if (scaleMode instanceof Scale.WithMode) {
-      Scale.Mode mode = ((Scale.WithMode) scaleMode).mode;
+    if (transform.scale instanceof Scale.WithMode) {
+      Scale.Mode mode = ((Scale.WithMode) transform.scale).mode;
       float bitmapAspect = bitmapWidth / bitmapHeight;
       float canvasAspect = canvasWidth / canvasHeight;
 
@@ -164,27 +148,27 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
         height = canvasHeight;
       }
 
-    } else if (scaleMode instanceof Scale.WithSize) {
-      width = canvasWidth * ((Scale.WithSize) scaleMode).scale.x;
-      height = canvasHeight * ((Scale.WithSize) scaleMode).scale.y;
+    } else if (transform.scale instanceof Scale.WithSize) {
+      width = canvasWidth * ((Scale.WithSize) transform.scale).scale.x;
+      height = canvasHeight * ((Scale.WithSize) transform.scale).scale.y;
     }
 
-    float x = canvasWidth * position.x - width * anchor.x;
-    float y = canvasHeight * (1 - position.y) - height * (1 - anchor.y);
+    float x = canvasWidth * transform.translate.x - width * transform.anchor.x;
+    float y = canvasHeight * (1 - transform.translate.y) - height * (1 - transform.anchor.y);
 
     width += x;
     height += y;
 
     final RectF frame = new RectF(x, y, width, height);
 
-    final Matrix transform = new Matrix();
-    transform.setScale(frame.width() / bitmapWidth, frame.height() / bitmapHeight);
-    transform.postTranslate(-frame.width() / 2.0f, -frame.height() / 2.0f);
-    transform.postRotate((float) Math.toDegrees(rotate));
-    transform.postTranslate(frame.width() / 2.0f, frame.height() / 2.0f);
-    transform.postTranslate(frame.left, frame.top);
+    final Matrix t = new Matrix();
+    t.setScale(frame.width() / bitmapWidth, frame.height() / bitmapHeight);
+    t.postTranslate(-frame.width() * transform.anchor.x, -frame.height() * transform.anchor.y);
+    t.postRotate((float) Math.toDegrees(transform.rotate));
+    t.postTranslate(frame.width() * transform.anchor.x, frame.height() * transform.anchor.y);
+    t.postTranslate(frame.left, frame.top);
 
-    return transform;
+    return t;
   }
 
   @Nonnull
@@ -192,16 +176,10 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
     return new MultiCacheKey(Arrays.asList(
       new SimpleCacheKey(String.format(
         Locale.ROOT,
-        "%s_%s_%s_%s_%f_%s_%s_%s_%f_%s_%b",
+        "%s_%s_%s_%s_%b",
         prefix,
-        mSrcScale.toString(),
-        mSrcAnchor.toString(),
-        mSrcPosition.toString(),
-        mSrcRotate,
-        mDstScale.toString(),
-        mDstAnchor.toString(),
-        mDstPosition.toString(),
-        mDstRotate,
+        mSrcTransform.toString(),
+        mDstTransform.toString(),
         mResizeCanvasTo,
         mSwapImages
       )),

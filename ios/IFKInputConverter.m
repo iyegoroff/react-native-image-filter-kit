@@ -46,30 +46,33 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
 + (nullable NSNumber *)convertAngle:(nullable NSDictionary *)angle
                        defaultValue:(nullable NSNumber *)defaultValue
 {
-  if (angle != nil) {
-    id value = [angle objectForKey:@"angle"];
+  return [self extractAngle:angle != nil ? [angle objectForKey:@"angle"] : nil
+               defaultValue:defaultValue];
+}
+
++ (nullable NSNumber *)extractAngle:(nullable NSObject *)angle
+                       defaultValue:(nullable NSNumber *)defaultValue
+{
+  if ([angle isKindOfClass:[NSNumber class]]) {
+    return (NSNumber *)angle;
+  }
+  
+  if ([angle isKindOfClass:[NSString class]]) {
+    double ang;
+    NSScanner *scanner = [NSScanner scannerWithString:(NSString *)angle];
     
-    if ([value isKindOfClass:[NSNumber class]]) {
-      return value;
+    [scanner scanDouble:&ang];
+    NSString *unit = [(NSString *)angle substringFromIndex:[scanner scanLocation]];
+    
+    if ([unit isEqualToString:@"deg"]) {
+      return @(M_PI * ang / 180.0f);
     }
     
-    if ([value isKindOfClass:[NSString class]]) {
-      double ang;
-      NSScanner *scanner = [NSScanner scannerWithString:value];
-      
-      [scanner scanDouble:&ang];
-      NSString *unit = [value substringFromIndex:[scanner scanLocation]];
-      
-      if ([unit isEqualToString:@"deg"]) {
-        return @(M_PI * ang / 180.0f);
-      }
-      
-      if ([unit isEqualToString:@"rad"]) {
-        return @(ang);
-      }
-      
+    if ([unit isEqualToString:@"rad"]) {
       return @(ang);
     }
+    
+    return @(ang);
   }
   
   return defaultValue;
@@ -100,6 +103,15 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
                        defaultMode:(IFKScaleMode)defaultMode
                       defaultScale:(CGPoint)defaultScale
 {
+  return [self extractScale:scale != nil ? [scale objectForKey:@"scale"] : nil
+                defaultMode:defaultMode
+               defaultScale:defaultScale];
+}
+
++ (nonnull IFKScale *)extractScale:(nullable NSObject *)scale
+                       defaultMode:(IFKScaleMode)defaultMode
+                      defaultScale:(CGPoint)defaultScale
+{
   static NSDictionary *convert;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -110,23 +122,21 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
     };
   });
   
-  if (scale != nil && [scale objectForKey:@"scale"]) {
-    id scaleMode = [scale objectForKey:@"scale"];
+  if ([scale isKindOfClass:[NSString class]] && [convert objectForKey:(NSString *)scale]) {
+    return [[IFKScaleWithMode alloc] initWithMode:[[convert objectForKey:(NSString *)scale] intValue]];
+  }
+  
+  if ([scale isKindOfClass:[NSDictionary class]]) {
+    NSDictionary *scaleSize = (NSDictionary *)scale;
     
-    if ([scaleMode isKindOfClass:[NSString class]] && [convert objectForKey:scaleMode]) {
-      return [[IFKScaleWithMode alloc] initWithMode:[[convert objectForKey:scaleMode] intValue]];
-    }
+    CGFloat x = [scaleSize objectForKey:@"x"] != nil
+      ? [[scaleSize objectForKey:@"x"] floatValue]
+      : defaultScale.x;
+    CGFloat y = [scaleSize objectForKey:@"y"] != nil
+      ? [[scaleSize objectForKey:@"y"] floatValue]
+      : defaultScale.y;
     
-    if ([scaleMode isKindOfClass:[NSDictionary class]]) {
-      CGFloat x = [scaleMode objectForKey:@"x"] != nil
-        ? [[scaleMode objectForKey:@"x"] floatValue]
-        : defaultScale.x;
-      CGFloat y = [scaleMode objectForKey:@"y"] != nil
-        ? [[scaleMode objectForKey:@"y"] floatValue]
-        : defaultScale.y;
-
-      return [[IFKScaleWithSize alloc] initWithX:x andY:y];
-    }
+    return [[IFKScaleWithSize alloc] initWithX:x andY:y];
   }
   
   return [[IFKScaleWithMode alloc] initWithMode:defaultMode];
@@ -164,16 +174,19 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
 + (nullable CIVector *)convertOffset:(nullable NSDictionary *)offset
                         defaultValue:(nullable CIVector *)defaultValue
 {
-  if (offset != nil && [offset objectForKey:@"offset"]) {
-    NSDictionary *vector = [offset objectForKey:@"offset"];
-    
-    return [CIVector vectorWithCGPoint:CGPointMake(
-      vector[@"x"] ? [vector[@"x"] floatValue] : [defaultValue valueAtIndex:0],
-      vector[@"y"] ? [vector[@"y"] floatValue] : [defaultValue valueAtIndex:1]
-    )];
-  }
-  
-  return defaultValue;
+  return [self extractOffset:offset != nil ? [offset objectForKey:@"offset"] : nil
+                defaultValue:defaultValue];
+}
+
++ (nullable CIVector *)extractOffset:(nullable NSDictionary *)offset
+                        defaultValue:(nullable CIVector *)defaultValue
+{
+  return offset != nil
+    ? [CIVector vectorWithCGPoint:CGPointMake(
+        offset[@"x"] ? [offset[@"x"] floatValue] : [defaultValue valueAtIndex:0],
+        offset[@"y"] ? [offset[@"y"] floatValue] : [defaultValue valueAtIndex:1]
+      )]
+    : defaultValue;
 }
 
 + (nullable CIVector *)convertPosition:(nullable NSDictionary *)position
@@ -425,17 +438,17 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
     NSDictionary *value = [transform objectForKey:@"transform"];
     
     CGPoint anchor = [value objectForKey:@"anchor"] != nil
-      ? [[self convertOffset:@{ @"offset": [value objectForKey:@"anchor"] }
+      ? [[self extractOffset:[value objectForKey:@"anchor"]
                 defaultValue:[CIVector vectorWithCGPoint:defaultValue.anchor]] CGPointValue]
       : defaultValue.anchor;
     
     CGPoint translate = [value objectForKey:@"translate"] != nil
-      ? [[self convertOffset:@{ @"offset": [value objectForKey:@"translate"] }
+      ? [[self extractOffset:[value objectForKey:@"translate"]
                 defaultValue:[CIVector vectorWithCGPoint:defaultValue.translate]] CGPointValue]
       : defaultValue.translate;
     
     IFKScale *scale = [value objectForKey:@"scale"] != nil
-      ? [self convertScale:@{ @"scale": [value objectForKey:@"scale"] }
+      ? [self extractScale:[value objectForKey:@"scale"]
                defaultMode:[defaultValue.scale isKindOfClass:[IFKScaleWithMode class]]
                              ? ((IFKScaleWithMode *)defaultValue.scale).mode
                              : COVER
@@ -445,7 +458,7 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
       : defaultValue.scale;
     
     CGFloat rotate = [value objectForKey:@"rotate"] != nil
-      ? [[self convertAngle:@{ @"angle": [value objectForKey:@"rotate"] }
+      ? [[self extractAngle:[value objectForKey:@"rotate"]
                defaultValue:@(defaultValue.rotate)] floatValue]
       : defaultValue.rotate;
 

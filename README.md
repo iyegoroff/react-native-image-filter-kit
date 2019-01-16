@@ -65,7 +65,9 @@ const result = (
     image={
       <SoftLightBlend
         resizeCanvasTo={'dstImage'}
-        dstScale={'CONTAIN'}
+        dstTransform={{
+          scale: 'CONTAIN'
+        }}
         dstImage={
           <Emboss
             image={
@@ -77,8 +79,10 @@ const result = (
             }
           />
         }
-        srcAnchor={{ x: 0.5, y: 1 }}
-        srcPosition={{ x: 0.5, y: 1 }}
+        srcTransform={{
+          anchor: { x: 0.5, y: 1 },
+          translate: { x: 0.5, y: 1 }
+        }}
         srcImage={
           <Invert
             image={

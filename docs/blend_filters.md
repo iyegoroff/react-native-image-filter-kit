@@ -36,21 +36,16 @@ All image blends have the same props
     <td><strong>required</strong></td>
   </tr>
   <tr>
-    <td>dstAnchor</td>
-    <td><a href="types.md#Offset">Offset</a></td>
-    <td>{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;}</td>
-    <td>dst image anchor, relative to dst image size</td>
-  </tr>
-  <tr>
-    <td>dstPosition</td>
-    <td><a href="types.md#Offset">Offset</a></td>
-    <td>{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;}</td>
-    <td>dst image position, relative to canvas size</td>
-  </tr>
-  <tr>
-    <td>dstScale</td>
-    <td><a href="types.md#Scale">Scale</a></td>
-    <td>'COVER'</td>
+    <td>dstTransform</td>
+    <td><a href="types.md#Transform">Transform</a></td>
+    <td>
+<pre>
+{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
+&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
+&nbsp;&nbsp;scale:&nbsp;'COVER',
+&nbsp;&nbsp;rotate:&nbsp;0&nbsp;}
+</pre>
+    </td>
     <td></td>
   </tr>
   <tr>
@@ -60,21 +55,16 @@ All image blends have the same props
     <td><strong>required</strong></td>
   </tr>
   <tr>
-    <td>srcAnchor</td>
-    <td><a href="types.md#Offset">Offset</a></td>
-    <td>{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;}</td>
-    <td>src image anchor, relative to src image size</td>
-  </tr>
-  <tr>
-    <td>srcPosition</td>
-    <td><a href="types.md#Offset">Offset</a></td>
-    <td>{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;}</td>
-    <td>src image position, relative to canvas size</td>
-  </tr>
-  <tr>
-    <td>srcScale</td>
-    <td><a href="types.md#Scale">Scale</a></td>
-    <td>'COVER'</td>
+    <td>srcTransform</td>
+    <td><a href="types.md#Transform">Transform</a></td>
+    <td>
+<pre>
+{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
+&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
+&nbsp;&nbsp;scale:&nbsp;'COVER',
+&nbsp;&nbsp;rotate:&nbsp;0&nbsp;}
+</pre>
+    </td>
     <td></td>
   </tr>
   <tr>

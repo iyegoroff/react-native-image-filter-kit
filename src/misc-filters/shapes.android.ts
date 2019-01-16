@@ -1,5 +1,5 @@
 import { Composition, Generator } from '../common/shapes'
-import { distance, color, scalar, path, distanceVector } from '../common/inputs'
+import { distance, color, path, distanceVector } from '../common/inputs'
 
 export const shapes = {
   AndroidDestinationATopCompositing: Composition,

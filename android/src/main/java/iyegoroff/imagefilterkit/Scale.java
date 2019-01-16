@@ -1,14 +1,12 @@
 package iyegoroff.imagefilterkit;
 
 import android.graphics.PointF;
-import android.support.annotation.NonNull;
 
 import com.facebook.infer.annotation.Assertions;
 
 import java.util.Locale;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class Scale {
 
@@ -25,7 +23,7 @@ public class Scale {
   public static class WithMode extends Scale {
     public final Mode mode;
 
-    WithMode(Mode mode) {
+    public WithMode(Mode mode) {
       this.mode = mode;
     }
   }
@@ -38,11 +36,11 @@ public class Scale {
     }
   }
 
-  @NonNull
+  @Nonnull
   @Override
   public String toString() {
     if (this instanceof WithMode) {
-      return String.format("Scale.WithMode(%s)", ((WithMode) this).mode.toString());
+      return String.format(Locale.ROOT, "Scale.WithMode(%s)", ((WithMode) this).mode.toString());
     }
 
     if (this instanceof WithSize) {

@@ -24,15 +24,7 @@ interface Transform {
 interface BlendConfig {
   readonly dstImage: unknown
   readonly srcImage: unknown
-  readonly dstScale?: Scale
-  readonly dstAnchor?: Offset
-  readonly dstPosition?: Offset
-  readonly dstRotate?: Angle
   readonly dstTransform?: Transform
-  readonly srcScale?: Scale
-  readonly srcAnchor?: Offset
-  readonly srcPosition?: Offset
-  readonly srcRotate?: Angle
   readonly srcTransform?: Transform
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean
@@ -42,29 +34,13 @@ interface BlendConfig {
 const asNativeBlendConfig = (name: string) => ({
   dstImage,
   srcImage,
-  dstScale,
-  srcScale,
-  dstAnchor,
-  srcAnchor,
-  dstPosition,
-  srcPosition,
-  srcRotate,
-  dstRotate,
   srcTransform,
   dstTransform,
   ...config
 }: BlendConfig) => ({
   inputImage: srcImage,
-  inputImageScale: srcScale,
-  inputImageAnchor: srcAnchor,
-  inputImagePosition: srcPosition,
-  inputImageRotate: srcRotate,
   inputImageTransform: srcTransform,
   inputBackgroundImage: dstImage,
-  inputBackgroundImageScale: dstScale,
-  inputBackgroundImageAnchor: dstAnchor,
-  inputBackgroundImagePosition: dstPosition,
-  inputBackgroundImageRotate: dstRotate,
   inputBackgroundImageTransform: dstTransform,
   ...config,
   name

@@ -6,12 +6,9 @@ import {
   colorVector,
   scalarVector,
   text,
-  offset,
   image,
-  scale,
   path,
   distanceVector,
-  angle,
   transform
 } from '../common/inputs'
 import { GeneratorIos as Generator, CompositionBaseIos as CompositionBase } from '../common/shapes'
@@ -43,10 +40,6 @@ export const shapes = {
   IosIFKXorCompositing: {
     ...CompositionBase,
     inputBackgroundImage: image,
-    inputBackgroundImageScale: scale,
-    inputBackgroundImageAnchor: offset,
-    inputBackgroundImagePosition: offset,
-    inputBackgroundImageRotate: angle,
     inputBackgroundImageTransform: transform
   },
 

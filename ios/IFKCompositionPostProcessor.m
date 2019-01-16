@@ -16,14 +16,6 @@
 
 @interface IFKCompositionPostProcessor ()
 
-@property (nonatomic, strong) IFKScale *dstScale;
-@property (nonatomic, assign) CGPoint dstAnchor;
-@property (nonatomic, assign) CGPoint dstPosition;
-@property (nonatomic, assign) CGFloat dstRotate;
-@property (nonatomic, strong) IFKScale *srcScale;
-@property (nonatomic, assign) CGPoint srcAnchor;
-@property (nonatomic, assign) CGPoint srcPosition;
-@property (nonatomic, assign) CGFloat srcRotate;
 @property (nonatomic, assign) BOOL swapImages;
 @property (nonatomic, assign) CGSize canvasSize;
 @property (nonatomic, strong) NSString *resizeCanvasTo;
@@ -39,33 +31,11 @@
                           canvasSize:(CGSize)canvasSize
 {
   if ((self = [super initWithName:name inputs:inputs])) {
-    CIVector *center = [CIVector vectorWithCGPoint:CGPointMake(0.5f, 0.5f)];
-    CGPoint noScale = CGPointMake(1.0f, 1.0f);
     IFKTransform *transform = [[IFKTransform alloc] initWithAnchor:CGPointMake(0.5f, 0.5f)
                                                          translate:CGPointMake(0.5f, 0.5f)
                                                              scale:[[IFKScaleWithMode alloc] initWithMode:COVER]
                                                             rotate:0];
     
-    NSLog(@"IFK inputs %@", inputs);
-
-    _dstScale = [IFKInputConverter convertScale:[[self inputs] objectForKey:@"dstScale"]
-                                    defaultMode:COVER
-                                   defaultScale:noScale];
-    _srcScale = [IFKInputConverter convertScale:[[self inputs] objectForKey:@"srcScale"]
-                                    defaultMode:COVER
-                                   defaultScale:noScale];
-    _dstAnchor = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"dstAnchor"]
-                                      defaultValue:center] CGPointValue];
-    _srcAnchor = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcAnchor"]
-                                      defaultValue:center] CGPointValue];
-    _dstRotate = [[IFKInputConverter convertAngle:[[self inputs] objectForKey:@"dstRotate"]
-                                      defaultValue:@(0)] floatValue];
-    _srcRotate = [[IFKInputConverter convertAngle:[[self inputs] objectForKey:@"srcRotate"]
-                                      defaultValue:@(0)] floatValue];
-    _dstPosition = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"dstPosition"]
-                                        defaultValue:center] CGPointValue];
-    _srcPosition = [[IFKInputConverter convertOffset:[[self inputs] objectForKey:@"srcPosition"]
-                                        defaultValue:center] CGPointValue];
     _swapImages = [[IFKInputConverter convertBoolean:[[self inputs] objectForKey:@"swapImages"]
                                         defaultValue:@(NO)] boolValue];
     _resizeCanvasTo = [IFKInputConverter convertText:[[self inputs] objectForKey:@"resizeCanvasTo"]
@@ -128,9 +98,9 @@
                         height);
   
   CGAffineTransform t = CGAffineTransformMakeScale(f.size.width / bitmapWidth, f.size.height / bitmapHeight);
-  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(-f.size.width / 2.0f, -f.size.height / 2.0f));
-  t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(-transform.rotate));
-  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(f.size.width / 2.0f, f.size.height / 2.0f));
+//  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(-f.size.width * transform.anchor.x, -f.size.height * transform.anchor.y));
+//  t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(-transform.rotate));
+//  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(f.size.width * transform.anchor.x, f.size.height * transform.anchor.y));
   t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(f.origin.x, f.origin.y));
   
   return t;
