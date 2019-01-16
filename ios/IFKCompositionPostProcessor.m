@@ -98,9 +98,9 @@
                         height);
   
   CGAffineTransform t = CGAffineTransformMakeScale(f.size.width / bitmapWidth, f.size.height / bitmapHeight);
-//  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(-f.size.width * transform.anchor.x, -f.size.height * transform.anchor.y));
-//  t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(-transform.rotate));
-//  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(f.size.width * transform.anchor.x, f.size.height * transform.anchor.y));
+  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(-f.size.width * transform.anchor.x, -f.size.height * transform.anchor.y));
+  t = CGAffineTransformConcat(t, CGAffineTransformMakeRotation(-transform.rotate));
+  t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(f.size.width * transform.anchor.x, f.size.height * transform.anchor.y));
   t = CGAffineTransformConcat(t, CGAffineTransformMakeTranslation(f.origin.x, f.origin.y));
   
   return t;

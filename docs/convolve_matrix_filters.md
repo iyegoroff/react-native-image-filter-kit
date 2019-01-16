@@ -28,11 +28,11 @@
     <td>matrix</td>
     <td>number[]</td>
     <td>
-<pre>
-[0,&nbsp;0,&nbsp;0,
- 0,&nbsp;1,&nbsp;0,
- 0,&nbsp;0,&nbsp;0]
-</pre>
+<code>
+[0,&nbsp;0,&nbsp;0,<br>
+ &nbsp;0,&nbsp;1,&nbsp;0,<br>
+ &nbsp;0,&nbsp;0,&nbsp;0]
+</code>
     </td>
   <td>
     <a href="https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIConvolution3X3">docs</a>
@@ -61,13 +61,13 @@
     <td>matrix</td>
     <td>number[]</td>
     <td>
-<pre>
-[0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,
- 0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,
- 0,&nbsp;0,&nbsp;1,&nbsp;0,&nbsp;0,
- 0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,
- 0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0]
-</pre>
+<code>
+[0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,<br>
+ &nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,<br>
+ &nbsp;0,&nbsp;0,&nbsp;1,&nbsp;0,&nbsp;0,<br>
+ &nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,<br>
+ &nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0]
+</code>
     </td>
     <td>
       <a href="https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIConvolution5x5">docs</a>

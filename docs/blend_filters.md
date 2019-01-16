@@ -39,12 +39,12 @@ All image blends have the same props
     <td>dstTransform</td>
     <td><a href="types.md#Transform">Transform</a></td>
     <td>
-<pre>
-{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
-&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
-&nbsp;&nbsp;scale:&nbsp;'COVER',
+<code>
+{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},<br>
+&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},<br>
+&nbsp;&nbsp;scale:&nbsp;'COVER',<br>
 &nbsp;&nbsp;rotate:&nbsp;0&nbsp;}
-</pre>
+</code>
     </td>
     <td></td>
   </tr>
@@ -58,12 +58,12 @@ All image blends have the same props
     <td>srcTransform</td>
     <td><a href="types.md#Transform">Transform</a></td>
     <td>
-<pre>
-{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
-&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
-&nbsp;&nbsp;scale:&nbsp;'COVER',
+<code>
+{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},<br>
+&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},<br>
+&nbsp;&nbsp;scale:&nbsp;'COVER',<br>
 &nbsp;&nbsp;rotate:&nbsp;0&nbsp;}
-</pre>
+</code>
     </td>
     <td></td>
   </tr>

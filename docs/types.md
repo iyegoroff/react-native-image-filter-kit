@@ -146,7 +146,12 @@ Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually t
 ***
 #### Transform
 
-`{ anchor?: Offset; translate?: Offset; scale?: Scale; rotate?: Angle }`
+<code>
+ {&nbsp;anchor?:&nbsp;Offset<br>
+  &nbsp;&nbsp;translate?:&nbsp;Offset<br>
+  &nbsp;&nbsp;scale?:&nbsp;Scale<br>
+  &nbsp;&nbsp;rotate?:&nbsp;Angle&nbsp;}
+</code>
 
 - `anchor` is an origin for transforms;
 - all `Offset` values are relative to canvas size.

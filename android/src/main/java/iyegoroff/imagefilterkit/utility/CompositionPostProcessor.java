@@ -163,9 +163,9 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
     final Matrix t = new Matrix();
     t.setScale(frame.width() / bitmapWidth, frame.height() / bitmapHeight);
-    t.postTranslate(-frame.width() * transform.anchor.x, -frame.height() * transform.anchor.y);
+    t.postTranslate(-frame.width() * transform.anchor.x, -frame.height() * (1 - transform.anchor.y));
     t.postRotate((float) Math.toDegrees(transform.rotate));
-    t.postTranslate(frame.width() * transform.anchor.x, frame.height() * transform.anchor.y);
+    t.postTranslate(frame.width() * transform.anchor.x, frame.height() * (1 - transform.anchor.y));
     t.postTranslate(frame.left, frame.top);
 
     return t;
