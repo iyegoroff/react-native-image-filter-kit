@@ -167,8 +167,8 @@ number | string
   rotate?: Angle }
 ```
 
-- `anchor` (an origin for transforms) is relative to image size;
-- `translate` and `scale` are relative to canvas size.
+- `anchor` (an origin for transforms) and `Offset` `scale` are relative to image size;
+- `translate` is relative to canvas size.
 ***
 #### RelativeUnit
 Relative units are values similar to CSS [viewport units](https://css-tricks.com/fun-viewport-units/#article-header-id-0). There are 4 suffixes: 'h', 'w', 'min' and 'max'. For example `'50w'` means <i>50% of image width</i> and `'100min'` - <i>100% of minimum image dimension</i>.
