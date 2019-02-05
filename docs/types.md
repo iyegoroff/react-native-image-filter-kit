@@ -93,7 +93,9 @@ const result = (
 
 #### Filterable
 
-`React.ReactElement<unknown> | Config`
+```ts
+React.ReactElement<unknown> | Config
+```
 
 Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually this is just `Image`, `ImageBackground`, `ImagePlaceholder`, `ImageBackgroundPlaceholder`, `ImageFilter` or [Config](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/typings/index.d.ts#L144)
 
@@ -101,60 +103,72 @@ Can be any `ReactElement` that has `Image` or `ImageBackground` child. Usually t
 
 #### ImagePlaceholder
 
-`Image` with predefined `source` prop. Intended for use with [Generators](generators.md). Default `style` prop: `{ width: '100%', height: '100%' }`.
+`Image` with predefined `source` prop. Intended for use with [Generators](generators.md). Default `style` prop: <code>{&nbsp;width:&nbsp;'100%',&nbsp;height:&nbsp;'100%'&nbsp;}</code>.
 
 ***
 
 #### ImageBackgroundPlaceholder
 
-`ImageBackground` with predefined `source` prop. Intended for use with [Generators](generators.md). Default `style` prop: `{ width: '100%', height: '100%' }`.
+`ImageBackground` with predefined `source` prop. Intended for use with [Generators](generators.md). Default `style` prop: <code>{&nbsp;width:&nbsp;'100%',&nbsp;height:&nbsp;'100%'&nbsp;}</code>.
 
 ***
 
 #### Distance
 
-`number | RelativeUnit | Expression`
+```ts
+number | RelativeUnit | Expression
+```
 
 `Distance` can be a `number` representing actual pixels, a [RelativeUnit](#RelativeUnit) representing a value that depends on the image size or an [Expression](#Expression).
 
 ***
 #### Position
 
-`{ x: Distance; y: Distance }`
+```ts
+{ x: Distance
+  y: Distance }
+```
 
 ***
 #### Offset
 
-`{ x?: number; y?: number }`
+```ts
+{ x?: number
+  y?: number }
+```
 
 `Offset` usually represents relative values, not actual pixels.
 
 ***
 #### Scale
 
-`'COVER' | 'CONTAIN' | 'STRETCH' | Offset`
+```ts
+'COVER' | 'CONTAIN' | 'STRETCH' | Offset
+```
 
 `Scale` is used by [blend](blend_filters.md) and [composition](composition_filters.md) filters for resizing images on a canvas. Using an object, for example, <code>{&nbsp;x:&nbsp;0.5;&nbsp;y:&nbsp;2&nbsp;}</code> means that image width will be scaled down and height scaled up two times.
 
 ***
 #### Angle
 
-`number | string`
+```ts
+number | string
+```
 
 `Angle` can be specified with strings like `'45deg'` or `` `${Math.PI / 4}rad` ``, or with numbers as radians - `Math.PI`.
 
 ***
 #### Transform
 
-<code>
- {&nbsp;anchor?:&nbsp;Offset<br>
-  &nbsp;&nbsp;translate?:&nbsp;Offset<br>
-  &nbsp;&nbsp;scale?:&nbsp;Scale<br>
-  &nbsp;&nbsp;rotate?:&nbsp;Angle&nbsp;}
-</code>
+```ts
+{ anchor?: Offset
+  translate?: Offset
+  scale?: Scale
+  rotate?: Angle }
+```
 
-- `anchor` is an origin for transforms;
-- all `Offset` values are relative to canvas size.
+- `anchor` (an origin for transforms) and `Offset` `scale` are relative to image size;
+- `translate` is relative to canvas size.
 ***
 #### RelativeUnit
 Relative units are values similar to CSS [viewport units](https://css-tricks.com/fun-viewport-units/#article-header-id-0). There are 4 suffixes: 'h', 'w', 'min' and 'max'. For example `'50w'` means <i>50% of image width</i> and `'100min'` - <i>100% of minimum image dimension</i>.

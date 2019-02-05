@@ -33,12 +33,12 @@ All composition filters have the same props
     <td>dstTransform</td>
     <td><a href="types.md#Transform">Transform</a></td>
     <td>
-<code>
-{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},<br>
-&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},<br>
-&nbsp;&nbsp;scale:&nbsp;'COVER',<br>
+<pre>
+{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
+&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
+&nbsp;&nbsp;scale:&nbsp;'COVER',
 &nbsp;&nbsp;rotate:&nbsp;0&nbsp;}
-</code>
+</pre>
     </td>
     <td></td>
   </tr>
@@ -52,12 +52,12 @@ All composition filters have the same props
     <td>srcTransform</td>
     <td><a href="types.md#Transform">Transform</a></td>
     <td>
-<code>
-{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},<br>
-&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},<br>
-&nbsp;&nbsp;scale:&nbsp;'COVER',<br>
+<pre>
+{&nbsp;anchor:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
+&nbsp;&nbsp;translate:&nbsp;{&nbsp;x:&nbsp;0.5,&nbsp;y:&nbsp;0.5&nbsp;},
+&nbsp;&nbsp;scale:&nbsp;'COVER',
 &nbsp;&nbsp;rotate:&nbsp;0&nbsp;}
-</code>
+</pre>
     </td>
     <td></td>
   </tr>
