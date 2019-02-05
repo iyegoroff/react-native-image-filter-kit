@@ -27,11 +27,8 @@
     "react-native-image-filter-kit-haze-removal": "file:local_modules/react-native-image-filter-kit-haze-removal"
   },
   "devDependencies": {
-    "babel-jest": "23.6.0",
-    "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.51.1",
-    "metro-with-symlinks": "1.3.0",
-    "react-test-renderer": "16.6.3"
+    "metro-with-symlinks": "1.3.0"
   },
   "jest": {
     "preset": "react-native"

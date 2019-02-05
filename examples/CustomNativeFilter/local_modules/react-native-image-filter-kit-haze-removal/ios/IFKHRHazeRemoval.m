@@ -1,12 +1,12 @@
 #import "IFKHRHazeRemoval.h"
-#import "IFKHRFilterConstructor.h"
+#import <IFKFilterConstructor.h>
 
 @implementation IFKHRHazeRemoval
 
 + (void)initialize
 {
   [CIFilter registerFilterName:NSStringFromClass([IFKHRHazeRemoval class])
-                   constructor:[IFKHRFilterConstructor constructor]
+                   constructor:[IFKFilterConstructor constructor]
                classAttributes:@{kCIAttributeFilterDisplayName:@"Haze Removal",
                                  kCIAttributeFilterCategories:@[kCICategoryColorAdjustment,
                                                                 kCICategoryVideo,
