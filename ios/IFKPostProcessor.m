@@ -1,6 +1,6 @@
 #import "IFKPostProcessor.h"
 #import "IFKInputConverter.h"
-#import "RCTImageUtils.h"
+#import <Image/RCTImageUtils.h>
 #import "NSArray+FilterMapReduce.h"
 
 @interface UIImage (React)

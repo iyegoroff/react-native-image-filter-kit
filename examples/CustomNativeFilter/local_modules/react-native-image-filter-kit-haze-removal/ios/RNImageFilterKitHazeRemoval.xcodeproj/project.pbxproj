@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		740C34B221E4191C00C9A52F /* IFKHRHazeRemoval.m in Sources */ = {isa = PBXBuildFile; fileRef = 740C34AA21E4191C00C9A52F /* IFKHRHazeRemoval.m */; };
-		740C34B321E4191C00C9A52F /* IFKHRHazeRemovalModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 740C34AB21E4191C00C9A52F /* IFKHRHazeRemovalModule.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,8 +25,6 @@
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libRNImageFilterKitHazeRemoval.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNImageFilterKitHazeRemoval.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		740C34AA21E4191C00C9A52F /* IFKHRHazeRemoval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKHRHazeRemoval.m; sourceTree = "<group>"; };
-		740C34AB21E4191C00C9A52F /* IFKHRHazeRemovalModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFKHRHazeRemovalModule.m; sourceTree = "<group>"; };
-		740C34AD21E4191C00C9A52F /* IFKHRHazeRemovalModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKHRHazeRemovalModule.h; sourceTree = "<group>"; };
 		740C34AF21E4191C00C9A52F /* IFKHRHazeRemoval.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IFKHRHazeRemoval.cikernel; sourceTree = "<group>"; };
 		740C34B121E4191C00C9A52F /* IFKHRHazeRemoval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFKHRHazeRemoval.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,8 +54,6 @@
 				740C34AE21E4191C00C9A52F /* Resources */,
 				740C34B121E4191C00C9A52F /* IFKHRHazeRemoval.h */,
 				740C34AA21E4191C00C9A52F /* IFKHRHazeRemoval.m */,
-				740C34AD21E4191C00C9A52F /* IFKHRHazeRemovalModule.h */,
-				740C34AB21E4191C00C9A52F /* IFKHRHazeRemovalModule.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -128,7 +123,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				740C34B221E4191C00C9A52F /* IFKHRHazeRemoval.m in Sources */,
-				740C34B321E4191C00C9A52F /* IFKHRHazeRemovalModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,10 +216,11 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../../../React",
-					"$(SRCROOT)/../../react-native/React",
-					"$(SRCROOT)/../../../node_modules/react-native-image-filter-kit/ios",
-					"$(SRCROOT)/../../react-native-image-filter-kit/ios",
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../../node_modules/react-native/React/**",
+					"$(SRCROOT)/../../react-native-image-filter-kit/ios/**",
+					"$(SRCROOT)/../../../node_modules/react-native-image-filter-kit/ios/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
@@ -240,10 +235,11 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/../../../React",
-					"$(SRCROOT)/../../react-native/React",
-					"$(SRCROOT)/../../../node_modules/react-native-image-filter-kit/ios",
-					"$(SRCROOT)/../../react-native-image-filter-kit/ios",
+					"$(SRCROOT)/../../../React/**",
+					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../../../node_modules/react-native/React/**",
+					"$(SRCROOT)/../../react-native-image-filter-kit/ios/**",
+					"$(SRCROOT)/../../../node_modules/react-native-image-filter-kit/ios/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
