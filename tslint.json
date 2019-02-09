@@ -1,6 +1,8 @@
 {
-  "extends": "tslint-config-standard",
+  "extends": ["tslint-config-standard", "tslint-react"],
   "rules": {
+    "jsx-no-multiline-js": false,
+    "jsx-space-before-trailing-slash": true,
     "no-parameter-reassignment": true,
     "no-shadowed-variable": true,
     "max-line-length": [true, 100],
