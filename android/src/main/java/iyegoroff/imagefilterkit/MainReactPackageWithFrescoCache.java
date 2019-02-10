@@ -79,10 +79,8 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
 
     ArrayList<ModuleSpec> patchedModules = new ArrayList<>();
     for (int i = 0; i < modules.size(); i++) {
-      boolean isFresco = "com.facebook.react.modules.fresco.FrescoModule"
-        .equals(modules.get(i).getClass().getName());
 
-      if (isFresco) {
+      if ("FrescoModule".equals(modules.get(i).getName())) {
         patchedModules.add(ModuleSpec.nativeModuleSpec(
           FrescoModule.class,
           new Provider<NativeModule>() {
