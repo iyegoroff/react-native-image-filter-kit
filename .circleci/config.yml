@@ -1,0 +1,116 @@
+version: 2
+jobs:
+  test-android:
+    docker:
+      - image: circleci/android:api-28-node
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          command: |
+            cd RNIFKTest
+            yarn
+            cd android
+            ./gradlew androidDependencies
+
+      - run:
+          command: |
+            VERSION=0.15.0; \
+            curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | sudo tar -C /opt -xJ && \
+            sudo ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+
+      - run:
+          command: |
+            cd RNIFKTest
+            yarn infer:android
+            # yarn clean:android
+            # yarn build:android
+      #       PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools;
+      #       yes | sdkmanager --licenses
+      #       sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
+      #       avdmanager create avd --force -n Nexus_5X_API_25 -k "system-images;android-25;google_apis;armeabi-v7a" -d 9
+
+      # - run:
+      #     command: |
+      #       cd RNIFKTest
+      #       yarn reset:packager & yarn test:android
+
+  test-ios:
+    macos:
+      xcode: "10.1.0"
+    working_directory: /Users/distiller/project
+
+    steps:
+      - checkout
+
+      - run:
+          command: |
+            npm i -g dot-json
+            cd RNIFKTest
+            dot-json package.json scripts.preinstall -d
+            dot-json package.json scripts.postinstall -d
+            yarn remove react-native-color-matrix-image-filters
+            yarn add iyegoroff/react-native-color-matrix-image-filters
+            yarn
+
+      - run:
+          command: |
+            brew tap wix/brew
+            brew install applesimutils
+            brew install infer
+            npm i -g detox-cli@10.0.2
+            sudo pip install pbxproj
+            cd RNIFKTest
+            yarn patch:pbxproj
+
+      - run:
+          command: |
+            cd RNIFKTest
+            yarn infer:ios
+
+      # - run:
+      #     command: |
+      #       cd RNIFKTest
+      #       yarn start:ios:simulator
+      #       yarn build:ios
+      #       killall node -9 || true
+      #       yarn start:packager & yarn test:ios
+
+  publish:
+    docker:
+      - image: circleci/node:10.10
+
+    steps:
+      - checkout
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run: npm publish
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-android:
+          filters:
+            tags:
+              only: /.*/
+
+      - test-ios:
+          filters:
+            tags:
+              only: /.*/
+
+      - publish:
+          requires:
+            - test-android
+            - test-ios
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
