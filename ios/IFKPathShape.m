@@ -25,9 +25,6 @@
   }
   
   CGRect frame = CGRectMake(0, 0, self.inputExtent.Z, self.inputExtent.W);
-
-  CGFloat centerX = frame.size.width / 2.0f;
-  CGFloat centerY = frame.size.height / 2.0f;
   
   UIBezierPath *path = [self inputPath];
   

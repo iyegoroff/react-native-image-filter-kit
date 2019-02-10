@@ -32,7 +32,7 @@
   
 - (NSNumber *)inputRadius
 {
-  if (_inputRadius) {
+  if (_inputRadius != nil) {
     return _inputRadius;
   }
   

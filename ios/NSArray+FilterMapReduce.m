@@ -2,7 +2,7 @@
 
 @implementation NSArray (FilterMapReduce)
 
-- (NSArray *)map:(id (^)(id val, int idx))block
+- (NSArray *)map:(id (^ __nonnull)(id val, int idx))block
 {
   NSMutableArray *arr = [NSMutableArray array];
   
@@ -13,7 +13,7 @@
   return arr;
 }
 
-- (NSArray *)filter:(BOOL (^)(id val, int idx))block
+- (NSArray *)filter:(BOOL (^ __nonnull)(id val, int idx))block
 {
   NSMutableArray *arr = [NSMutableArray array];
   
@@ -26,7 +26,7 @@
   return arr;
 }
 
-- (id)reduce:(id (^)(id acc, id val, int idx))block init:(id)initial
+- (id)reduce:(id (^ __nonnull)(id acc, id val, int idx))block init:(id)initial
 {
   id acc = initial;
   
@@ -37,7 +37,7 @@
   return acc;
 }
 
-- (BOOL)every:(BOOL (^)(id val, int idx))block
+- (BOOL)every:(BOOL (^ __nonnull)(id val, int idx))block
 {
   for (int i = 0; i < self.count; i++) {
     if (!block([self objectAtIndex:i], i)) {
@@ -48,7 +48,7 @@
   return YES;
 }
 
-- (BOOL)some:(BOOL (^)(id val, int idx))block
+- (BOOL)some:(BOOL (^ __nonnull)(id val, int idx))block
 {
   for (int i = 0; i < self.count; i++) {
     if (block([self objectAtIndex:i], i)) {

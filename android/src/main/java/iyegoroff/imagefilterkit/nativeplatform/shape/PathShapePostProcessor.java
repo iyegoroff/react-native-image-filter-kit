@@ -30,7 +30,7 @@ public class PathShapePostProcessor extends GeneratorPostProcessor {
     InputConverter converter = new InputConverter(width, height);
 
     mPath = converter.convertPath(config != null ? config.optJSONObject("path") : null, new Path());
-    mPathAsString = config != null ? config.optJSONObject("path").toString() : "";
+    mPathAsString = ((config != null && config.optJSONObject("path") != null) ? config.optJSONObject("path") : "").toString();
     mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
   }
 
