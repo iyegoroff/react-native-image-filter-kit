@@ -67,7 +67,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "postversion": "git push && git push --tags"
     }
   },
   "lint-staged": {

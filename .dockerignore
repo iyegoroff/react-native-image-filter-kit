@@ -33,3 +33,4 @@ fable-typed/.paket
 **/infer-out
 **/compile_commands.json
 **/xcodebuild.log
+RNIFKTest
