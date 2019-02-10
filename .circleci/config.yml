@@ -19,6 +19,8 @@ jobs:
             cd android
             ./gradlew androidDependencies
 
+      - run: yarn lint
+
       - run:
           command: |
             VERSION=0.15.0; \
