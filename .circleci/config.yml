@@ -55,8 +55,8 @@ jobs:
             cd RNIFKTest
             dot-json package.json scripts.preinstall -d
             dot-json package.json scripts.postinstall -d
-            yarn remove react-native-color-matrix-image-filters
-            yarn add iyegoroff/react-native-color-matrix-image-filters
+            yarn remove react-native-image-filter-kit
+            yarn add iyegoroff/react-native-image-filter-kit
             yarn
 
       - run:
