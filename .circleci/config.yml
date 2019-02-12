@@ -19,7 +19,7 @@ jobs:
             cd android
             ./gradlew androidDependencies
 
-      - run: yarn lint
+      - run: yarn lint && yarn build
 
       - run:
           command: |
@@ -42,6 +42,11 @@ jobs:
       #     command: |
       #       cd RNIFKTest
       #       yarn reset:packager & yarn test:android
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist/*
 
   test-ios:
     macos:
@@ -90,6 +95,8 @@ jobs:
 
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run: npm publish
 
