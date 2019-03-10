@@ -47,7 +47,7 @@ public class RegularPolygonShapePostProcessor extends GeneratorPostProcessor {
 
   @Override
   public void processGenerated(@Nonnull Paint paint, @Nonnull Canvas canvas) {
-    paint.setAntiAlias(true);
+    paint.setFlags(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);
     paint.setColor(mColor);
     final float centerX = mWidth / 2.0f;
     final float centerY = mHeight / 2.0f;
