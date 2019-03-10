@@ -14,7 +14,7 @@ export const lineTo = (x: Distance, y: Distance) => ({
 
 // https://developer.android.com/reference/android/graphics/Path#quadTo(float,%20float,%20float,%20float)
 export const quadTo = (x1: Distance, y1: Distance, x2: Distance, y2: Distance) => ({
-  quadTo: [`${x1}`, `${y2}`, `${x1}`, `${y1}`]
+  quadTo: [`${x1}`, `${y1}`, `${x2}`, `${y2}`]
 })
 
 // https://developer.android.com/reference/android/graphics/Path#cubicTo(float,%20float,%20float,%20float,%20float,%20float)

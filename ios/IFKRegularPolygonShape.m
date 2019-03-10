@@ -80,6 +80,9 @@
   
   [path closePath];
   
+  [path applyTransform:CGAffineTransformMakeTranslation(frame.size.width / 2.0,
+                                                        frame.size.height / 2.0)];
+  
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
   
   [[UIColor colorWithCIColor:[self inputColor]] setFill];

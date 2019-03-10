@@ -28,6 +28,10 @@
   
   UIBezierPath *path = [self inputPath];
   
+  [path applyTransform:CGAffineTransformConcat(CGAffineTransformMakeScale(1.0, -1.0),
+                                               CGAffineTransformMakeTranslation(frame.size.width / 2.0,
+                                                                                frame.size.height / 2.0))];
+  
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
   
   [[UIColor colorWithCIColor:[self inputColor]] setFill];

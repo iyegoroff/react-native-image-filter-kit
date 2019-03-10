@@ -52,7 +52,6 @@ public class RegularPolygonShapePostProcessor extends GeneratorPostProcessor {
     final float centerX = mWidth / 2.0f;
     final float centerY = mHeight / 2.0f;
 
-    canvas.scale(1.0f, -1.0f, centerX, centerY);
     canvas.translate(centerX, centerY);
 
     final List<PointF> points = new ArrayList<>();
