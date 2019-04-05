@@ -28,6 +28,7 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
   private @Nullable final Integer mMaxCacheSizeInBytes;
   private static @Nonnull Bitmap.Config sBitmapsConfig = Bitmap.Config.ARGB_8888;
 
+  @SuppressWarnings("WeakerAccess")
   public MainReactPackageWithFrescoCache(
     @Nullable Integer maxCacheEntries,
     @Nullable Integer maxCacheSizeInBytes,
@@ -41,12 +42,20 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
     sBitmapsConfig = bitmapsConfig == null ? sBitmapsConfig : bitmapsConfig;
   }
 
+  @SuppressWarnings("UnusedDeclaration")
   public MainReactPackageWithFrescoCache() {
     this(null, null, null);
   }
 
   public static Bitmap.Config bitmapsConfig() {
     return sBitmapsConfig;
+  }
+
+  private static boolean isFresco(ModuleSpec module) {
+    @Nullable String name = ReflectUtils.invokeMethod(module, "getName");
+    name = name == null ? ReflectUtils.<String>invokeMethod(module, "getClassName") : name;
+
+    return name != null && name.endsWith("FrescoModule");
   }
 
   @Override
@@ -80,7 +89,7 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
     ArrayList<ModuleSpec> patchedModules = new ArrayList<>();
     for (int i = 0; i < modules.size(); i++) {
 
-      if ("FrescoModule".equals(modules.get(i).getName())) {
+      if (isFresco(modules.get(i))) {
         patchedModules.add(ModuleSpec.nativeModuleSpec(
           FrescoModule.class,
           new Provider<NativeModule>() {

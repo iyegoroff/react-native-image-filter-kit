@@ -16,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-__attribute__ ((noinline)) void warnBlockingOperationOnMainThread() {
+__attribute__ ((noinline)) void ifk_warnBlockingOperationOnMainThread() {
     NSLog(@"Warning: A long-running operation is being executed on the main thread. \n"
           " Break on warnBlockingOperationOnMainThread() to debug.");
 }
@@ -411,7 +411,7 @@ NSString *const IFKTaskMultipleErrorsUserInfoKey = @"errors";
 #pragma mark - Syncing Task (Avoid it)
 
 - (void)warnOperationOnMainThread {
-    warnBlockingOperationOnMainThread();
+    ifk_warnBlockingOperationOnMainThread();
 }
 
 - (void)waitUntilFinished {
