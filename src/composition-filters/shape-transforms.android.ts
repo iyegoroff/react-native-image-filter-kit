@@ -1,4 +1,4 @@
-const asNativeCompositionConfig = (mode: String) => (config: Object) => ({
+const asNativeCompositionConfig = (mode: string) => (config: Object) => ({
   ...config,
   mode,
   name: 'AndroidPorterDuffXfermode'
