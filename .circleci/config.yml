@@ -19,7 +19,7 @@ jobs:
             cd android
             ./gradlew androidDependencies
 
-      - run: yarn lint && yarn build
+      - run: yarn build:all
 
       - run:
           command: |
