@@ -28,7 +28,9 @@ android {
 dependencies {
     if (GradleVersion.current() >= GradleVersion.version('4.1')) {
         compileOnly "com.facebook.react:react-native:${_reactNativeVersion}"
+        compileOnly "com.parse.bolts:bolts-tasks:+"
     } else {
         compile "com.facebook.react:react-native:${_reactNativeVersion}"
+        compile "com.parse.bolts:bolts-tasks:+"
     }
 }
