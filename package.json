@@ -37,9 +37,8 @@
   "devDependencies": {
     "@types/invariant": "^2.2.29",
     "@types/lodash.pick": "^4.4.4",
-    "@types/react": "^16.7.17",
-    "@types/react-is": "^16.5.0",
-    "@types/react-native": "^0.57.34",
+    "@types/react-is": "16.7.1",
+    "@types/react-native": "0.57.62",
     "husky": "^2.3.0",
     "lint-staged": "^8.1.0",
     "tslint": "^5.12.1",
