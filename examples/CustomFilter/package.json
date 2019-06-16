@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "preinstall": "cd ../.. && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd examples/CustomFilter && which yarn && yarn link react-native-image-filter-kit || :",
-    "postinstall": "metro-with-symlinks && npm run build:release",
+    "postinstall": "npm run build:release",
     "run:android": "cd android && ./gradlew clean && cd .. && react-native run-android",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
     "start:packager": "react-native start",
@@ -18,12 +18,11 @@
     "build:release:docker": "npm run build:docker:image && npm run extract:docker:apk"
   },
   "dependencies": {
-    "react": "16.6.3",
-    "react-native": "0.58.4",
+    "react": "16.8.3",
+    "react-native": "0.59.9",
     "react-native-image-filter-kit": "file:../../"
   },
   "devDependencies": {
-    "metro-react-native-babel-preset": "0.51.1",
-    "metro-with-symlinks": "1.3.0"
+    "metro-react-native-babel-preset": "0.54.1"
   }
 }

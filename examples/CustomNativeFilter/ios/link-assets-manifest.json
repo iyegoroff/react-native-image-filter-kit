@@ -3,11 +3,6 @@
   "data": [
     {
       "key": "react-native-image-filter-kit",
-      "path": "node_modules/react-native-image-filter-kit/ios/Resources/IFKHazeRemoval.cikernel",
-      "sha1": "cb1bb68528a5fb3513da08b6c4d22822cc092b50"
-    },
-    {
-      "key": "react-native-image-filter-kit",
       "path": "node_modules/react-native-image-filter-kit/ios/Resources/IFKLinearGradient.cikernel",
       "sha1": "02691f02e151baa75ab24054cfb0a0c39829e3f4"
     },
@@ -29,7 +24,7 @@
     {
       "key": "react-native-image-filter-kit-haze-removal",
       "path": "node_modules/react-native-image-filter-kit-haze-removal/ios/Resources/IFKHRHazeRemoval.cikernel",
-      "sha1": "cb1bb68528a5fb3513da08b6c4d22822cc092b50"
+      "sha1": "cf3910bf2d7eb49eec016bc8ec0054687dced574"
     }
   ]
 }
