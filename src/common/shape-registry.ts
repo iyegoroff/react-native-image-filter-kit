@@ -1,5 +1,5 @@
 import { Platform } from 'react-native'
-import invariant from 'invariant'
+import invariant from 'tiny-invariant'
 import { id } from './util'
 import { Input } from './inputs'
 
@@ -43,7 +43,7 @@ export class ShapeRegistry {
   public static shape = (name: string) => {
     const shape = ShapeRegistry.shapes[name]
 
-    invariant(shape, `ImageFilterKit: '${name}' filter doesn't exist on ${Platform.OS}.`)
+    invariant(!!shape, `ImageFilterKit: '${name}' filter doesn't exist on ${Platform.OS}.`)
 
     return shape
   }

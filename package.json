@@ -22,29 +22,28 @@
   },
   "version": "0.3.8",
   "peerDependencies": {
+    "@babel/runtime": "*",
     "react": "*",
-    "react-native": "*",
-    "@babel/runtime": "*"
+    "react-native": "*"
   },
   "dependencies": {
     "concat-color-matrices": "^1.0.0",
-    "invariant": "^2.2.4",
     "lodash.pick": "^4.4.0",
     "react-is": "^16.5.2",
     "rgba-to-rgb": "^1.0.2",
-    "rn-color-matrices": "^4.1.0"
+    "rn-color-matrices": "^4.1.0",
+    "tiny-invariant": "^1.0.4"
   },
   "devDependencies": {
-    "@types/invariant": "^2.2.29",
-    "@types/lodash.pick": "^4.4.4",
-    "@types/react-is": "16.7.1",
-    "@types/react-native": "0.57.62",
-    "husky": "^2.3.0",
-    "lint-staged": "^8.1.0",
-    "tslint": "^5.12.1",
+    "@types/lodash.pick": "^4.4.6",
+    "@types/react-is": "^16.7.1",
+    "@types/react-native": "^0.57.63",
+    "husky": "^2.4.1",
+    "lint-staged": "^8.2.1",
+    "tslint": "^5.17.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.3.3"
+    "typescript": "^3.5.2"
   },
   "standard": {
     "globals": [
