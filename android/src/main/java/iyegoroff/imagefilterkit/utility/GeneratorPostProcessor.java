@@ -33,16 +33,16 @@ public abstract class GeneratorPostProcessor extends CacheablePostProcessor {
 
   @Override
   public CloseableReference<Bitmap> process(
-    Bitmap sourceBitmap,
+    Bitmap src,
     PlatformBitmapFactory bitmapFactory
   ) {
     final CloseableReference<Bitmap> bitmapRef = bitmapFactory
       .createBitmap(mWidth, mHeight, MainReactPackageWithFrescoCache.bitmapsConfig());
 
     try {
-      final Bitmap destBitmap = bitmapRef.get();
-      final Canvas canvas = new Canvas(destBitmap);
-      Paint paint = new Paint();
+      final Bitmap dst = bitmapRef.get();
+      final Canvas canvas = new Canvas(dst);
+      final Paint paint = new Paint();
 
       processGenerated(paint, canvas);
 

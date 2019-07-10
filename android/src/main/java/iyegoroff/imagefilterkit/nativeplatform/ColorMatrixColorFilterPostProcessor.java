@@ -2,9 +2,11 @@ package iyegoroff.imagefilterkit.nativeplatform;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
@@ -47,14 +49,17 @@ public class ColorMatrixColorFilterPostProcessor extends CacheablePostProcessor 
   }
 
   @Override
-  public void process(Bitmap destBitmap, Bitmap sourceBitmap) {
-    super.process(destBitmap, sourceBitmap);
+  public void process(Bitmap dst, Bitmap src) {
+    super.process(dst, src);
 
-    Canvas canvas = new Canvas(destBitmap);
-    ColorMatrix matrix = new ColorMatrix(mMatrix);
-    Paint paint = new Paint();
+    final Canvas canvas = new Canvas(dst);
+    final ColorMatrix matrix = new ColorMatrix(mMatrix);
+    final Paint paint = new Paint();
+
     paint.setColorFilter(new ColorMatrixColorFilter(matrix));
-    canvas.drawBitmap(sourceBitmap, 0, 0, paint);
+
+    canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+    canvas.drawBitmap(src, 0, 0, paint);
   }
 
   @Nonnull

@@ -44,13 +44,13 @@ public class ScriptIntrinsicBlurPostProcessor extends RenderscriptSingularPostPr
   }
 
   @Override
-  protected void processSingularRenderscript(Bitmap dst, Bitmap out) {
-    RenderscriptContext ctx = new RenderscriptContext(dst, out, getContext());
+  protected void processSingularRenderscript(Bitmap src, Bitmap out) {
+    RenderscriptContext ctx = new RenderscriptContext(src, out, getContext());
 
     final ScriptIntrinsicBlur script = ScriptIntrinsicBlur
       .create(ctx.getScript(), Element.U8_4(ctx.getScript()));
 
-    script.setInput(ctx.getDstAlloc());
+    script.setInput(ctx.getSrcAlloc());
     script.setRadius(mRadius);
     script.forEach(ctx.getOutAlloc());
 

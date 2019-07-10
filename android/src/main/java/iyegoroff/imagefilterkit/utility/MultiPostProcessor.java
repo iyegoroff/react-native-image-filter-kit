@@ -58,19 +58,19 @@ public class MultiPostProcessor extends IterativeBoxBlurPostProcessor {
 
   @Override
   public CloseableReference<Bitmap> process(
-    Bitmap sourceBitmap,
+    Bitmap src,
     PlatformBitmapFactory bitmapFactory
   ) {
     CloseableReference<Bitmap> prevBitmap = null, nextBitmap = null;
 
     try {
       for (Postprocessor p : mPostProcessors) {
-        nextBitmap = p.process(prevBitmap != null ? prevBitmap.get() : sourceBitmap, bitmapFactory);
+        nextBitmap = p.process(prevBitmap != null ? prevBitmap.get() : src, bitmapFactory);
         CloseableReference.closeSafely(prevBitmap);
         prevBitmap = nextBitmap.clone();
       }
 
-      return nextBitmap == null ? super.process(sourceBitmap, bitmapFactory) : nextBitmap.clone();
+      return nextBitmap == null ? super.process(src, bitmapFactory) : nextBitmap.clone();
     } finally {
       CloseableReference.closeSafely(nextBitmap);
     }

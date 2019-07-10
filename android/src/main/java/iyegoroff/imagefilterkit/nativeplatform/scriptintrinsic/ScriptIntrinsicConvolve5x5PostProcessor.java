@@ -52,13 +52,13 @@ public class ScriptIntrinsicConvolve5x5PostProcessor extends RenderscriptSingula
   }
 
   @Override
-  protected void processSingularRenderscript(Bitmap dst, Bitmap out) {
-    RenderscriptContext ctx = new RenderscriptContext(dst, out, getContext());
+  protected void processSingularRenderscript(Bitmap src, Bitmap out) {
+    RenderscriptContext ctx = new RenderscriptContext(src, out, getContext());
 
     final ScriptIntrinsicConvolve5x5 script = ScriptIntrinsicConvolve5x5
       .create(ctx.getScript(), Element.U8_4(ctx.getScript()));
 
-    script.setInput(ctx.getDstAlloc());
+    script.setInput(ctx.getSrcAlloc());
     script.setCoefficients(mCoefficients);
     script.forEach(ctx.getOutAlloc());
 

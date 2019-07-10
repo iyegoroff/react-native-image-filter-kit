@@ -17,14 +17,14 @@ public abstract class RenderscriptSingularPostProcessor extends CacheablePostPro
 
   protected static class RenderscriptContext {
     private final RenderScript mScript;
-    private final Allocation mDstAlloc;
+    private final Allocation mSrcAlloc;
     private final Allocation mOutAlloc;
 
-    public RenderscriptContext(final Bitmap dst, final Bitmap out, final Context context) {
+    public RenderscriptContext(final Bitmap src, final Bitmap out, final Context context) {
       final Allocation.MipmapControl mips = Allocation.MipmapControl.MIPMAP_NONE;
       final int usage = Allocation.USAGE_SCRIPT;
       mScript = RenderScript.create(context);
-      mDstAlloc = Allocation.createFromBitmap(mScript, dst, mips, usage);
+      mSrcAlloc = Allocation.createFromBitmap(mScript, src, mips, usage);
       mOutAlloc = Allocation.createFromBitmap(mScript, out, mips, usage);
     }
 
@@ -32,8 +32,8 @@ public abstract class RenderscriptSingularPostProcessor extends CacheablePostPro
       mOutAlloc.copyTo(out);
     }
 
-    public Allocation getDstAlloc() {
-      return mDstAlloc;
+    public Allocation getSrcAlloc() {
+      return mSrcAlloc;
     }
 
     public Allocation getOutAlloc() {
@@ -45,7 +45,7 @@ public abstract class RenderscriptSingularPostProcessor extends CacheablePostPro
     }
 
     public void destroy() {
-      mDstAlloc.destroy();
+      mSrcAlloc.destroy();
       mOutAlloc.destroy();
       mScript.destroy();
     }
@@ -63,26 +63,12 @@ public abstract class RenderscriptSingularPostProcessor extends CacheablePostPro
     return mContext;
   }
 
-  protected abstract void processSingularRenderscript(Bitmap dst, Bitmap out);
+  protected abstract void processSingularRenderscript(Bitmap src, Bitmap out);
 
   @Override
-  public CloseableReference<Bitmap> process(
-    Bitmap dst,
-    PlatformBitmapFactory bitmapFactory
-  ) {
-    final CloseableReference<Bitmap> outRef = bitmapFactory.createBitmap(
-      dst.getWidth(),
-      dst.getHeight()
-    );
+  public void process(Bitmap dst, Bitmap src) {
+    super.process(dst, src);
 
-    try {
-      final Bitmap out = outRef.get();
-
-      processSingularRenderscript(dst, out);
-
-      return CloseableReference.cloneOrNull(outRef);
-    } finally {
-      CloseableReference.closeSafely(outRef);
-    }
+    processSingularRenderscript(src, dst);
   }
 }
