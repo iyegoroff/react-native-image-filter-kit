@@ -9,7 +9,7 @@
     "clean:android": "cd android && ./gradlew clean",
     "infer:android": "cd android && infer --fail-on-issue -- ./gradlew build -x :app:bundleReleaseJsAndAssets",
     "clean:ios": "cd ios && xcodebuild clean -project RNIFKTest.xcodeproj -configuration Debug -scheme RNIFKTest -derivedDataPath build",
-    "infer:ios": "cd ios && infer --fail-on-issue -- xcodebuild -project RNIFKTest.xcodeproj -configuration Debug -scheme RNIFKTest -destination 'platform:iOS Simulator,name=Generic iOS Simulator Device' -derivedDataPath build",
+    "infer:ios": "cd ios && infer --fail-on-issue -- xcodebuild -project RNIFKTest.xcodeproj -configuration Debug -scheme RNIFKTest -destination 'platform=iOS Simulator,name=Generic iOS Simulator Device' -derivedDataPath build",
     "patch:pbxproj": "python ./patch-tvos.py"
   },
   "dependencies": {
