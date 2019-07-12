@@ -26,9 +26,9 @@ Various image filters for iOS & Android.
 <details style="border: 1px solid; border-radius: 5px; padding: 5px">
   <summary>with react-native "<strong>>=0.58.0 <0.60.0</strong>"</summary>
 
-### 1. Install v0.4.1 from npm
+### 1. Install v0.4.2 from npm
 
-`$ npm i react-native-image-filter-kit@0.4.1 -S`
+`$ npm i react-native-image-filter-kit@0.4.2 -S`
 
 ### 2-a. Link native modules
 
@@ -47,7 +47,7 @@ pod 'RNImageFilterKit', :path => '../node_modules/react-native-image-filter-kit'
 
 ### 2-c. Manual installation
 
-[link](docs/manual_installation.md)
+Install manually if `react-native link` failed - [link](docs/manual_installation.md)
 
 ### 3. Final steps
 
@@ -91,7 +91,7 @@ pod 'RNImageFilterKit', :path => '../node_modules/react-native-image-filter-kit'
 
 ### 2-c. Manual installation
 
-[link](docs/manual_installation.md)
+Install manually if `react-native link` failed - [link](docs/manual_installation.md)
 
 ### 3. Final step
 

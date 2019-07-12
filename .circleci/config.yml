@@ -30,7 +30,7 @@ jobs:
       - run:
           command: |
             cd RNIFKTest
-            sudo npm run infer:android
+            npm run infer:android
 
       - persist_to_workspace:
           root: .
