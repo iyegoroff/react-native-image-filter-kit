@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.imagefilterkit.R;
 import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 
 public class ColorBurnBlendPostProcessor extends RenderscriptCompositionPostProcessor {
@@ -41,8 +40,7 @@ public class ColorBurnBlendPostProcessor extends RenderscriptCompositionPostProc
   ) {
     RenderscriptContext ctx = new RenderscriptContext(dst, src, out, getContext());
 
-    final ScriptC_ColorBurnBlend script =
-      new ScriptC_ColorBurnBlend(ctx.getScript(), getContext().getResources(), R.raw.colorburnblend);
+    final ScriptC_ColorBurnBlend script = new ScriptC_ColorBurnBlend(ctx.getScript());
 
     script.set_srcImage(ctx.getSrcAlloc());
     script.forEach_blendImage(ctx.getDstAlloc(), ctx.getOutAlloc());

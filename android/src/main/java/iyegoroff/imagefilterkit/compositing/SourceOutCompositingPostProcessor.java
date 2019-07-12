@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.imagefilterkit.R;
 import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 
 public class SourceOutCompositingPostProcessor extends RenderscriptCompositionPostProcessor {
@@ -42,9 +41,7 @@ public class SourceOutCompositingPostProcessor extends RenderscriptCompositionPo
     RenderscriptContext ctx = new RenderscriptContext(dst, src, out, getContext());
 
     final ScriptC_SourceOutCompositing script = new ScriptC_SourceOutCompositing(
-      ctx.getScript(),
-      getContext().getResources(),
-      R.raw.sourceoutcompositing
+      ctx.getScript()
     );
 
     script.set_srcImage(ctx.getSrcAlloc());

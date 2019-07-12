@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.imagefilterkit.R;
 import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 
 public class DestinationATopCompositingPostProcessor extends RenderscriptCompositionPostProcessor {
@@ -42,9 +41,7 @@ public class DestinationATopCompositingPostProcessor extends RenderscriptComposi
     RenderscriptContext ctx = new RenderscriptContext(dst, src, out, getContext());
 
     final ScriptC_DestinationATopCompositing script = new ScriptC_DestinationATopCompositing(
-      ctx.getScript(),
-      getContext().getResources(),
-      R.raw.destinationatopcompositing
+      ctx.getScript()
     );
 
     script.set_srcImage(ctx.getSrcAlloc());

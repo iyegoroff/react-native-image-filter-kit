@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.imagefilterkit.R;
 import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 
 public class HardLightBlendPostProcessor extends RenderscriptCompositionPostProcessor {
@@ -41,8 +40,7 @@ public class HardLightBlendPostProcessor extends RenderscriptCompositionPostProc
   ) {
     RenderscriptContext ctx = new RenderscriptContext(dst, src, out, getContext());
 
-    final ScriptC_HardLightBlend script =
-      new ScriptC_HardLightBlend(ctx.getScript(), getContext().getResources(), R.raw.hardlightblend);
+    final ScriptC_HardLightBlend script = new ScriptC_HardLightBlend(ctx.getScript());
 
     script.set_srcImage(ctx.getSrcAlloc());
     script.forEach_blendImage(ctx.getDstAlloc(), ctx.getOutAlloc());
