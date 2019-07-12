@@ -12,6 +12,8 @@ jobs:
     steps:
       - checkout
 
+      - run: sudo chown -R $USER:$GROUP ~/.gnupg
+
       - run:
           command: |
             cd RNIFKTest
