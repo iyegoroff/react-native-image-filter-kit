@@ -15,19 +15,26 @@ Various image filters for iOS & Android.
   - filter components work as combinable wrappers for standard `Image` and `ImageBackground` components
   - resulting images are being cached in memory
   - [additional filters](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples) can be developed as separate modules
-  - <strong>Minimum Android SDK version - 17</strong>
 - react-native:
-  - with rn >= 0.57.1 use latest version
+  - supported versions: "<strong>>=0.57.1</strong>"
+  - when targeting react-native "<strong>>=0.57.1 <0.58.0</strong>" minimum Android SDK version is <strong>17</strong>
 
-## Getting started
+## Installation
 
-`$ npm install react-native-image-filter-kit --save`
+<table>
+<td>
+<details style="border: 1px solid; border-radius: 5px; padding: 5px">
+  <summary>with react-native "<strong>>=0.57.1 <0.58.0</strong>"</summary>
 
-### Mostly automatic installation
+### 1. Install v0.3.9 from npm
+
+`$ npm i react-native-image-filter-kit@0.3.9 -S`
+
+### 2-a. Link native modules
 
 `$ react-native link react-native-image-filter-kit`
 
-### Installation with Cocoapods
+### 2-b. Install pods
 
 If you use Cocoapods add the following line to your Podfile:
 
@@ -36,13 +43,19 @@ pod 'React', :path => '../node_modules/react-native'
 pod 'RNImageFilterKit', :path => '../node_modules/react-native-image-filter-kit'
 ```
 
-### Manual installation
+`$ cd ios && pod install && cd ..`
+
+### 2-c. Manual installation
 
 [link](docs/manual_installation.md)
 
-### Final step
+### 3. Final step
 
 Open `android/build.gradle` and change `minSdkVersion` to 17.
+
+</details>
+</td>
+</table>
 
 ## Scope
 

@@ -37,9 +37,7 @@
   "devDependencies": {
     "@types/lodash.pick": "^4.4.6",
     "@types/react-is": "^16.7.1",
-    "@types/react-native": "^0.57.63",
-    "husky": "^2.4.1",
-    "lint-staged": "^8.2.1",
+    "@types/react-native": "^0.60.0",
     "tslint": "^5.17.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-react": "^4.0.0",
@@ -63,23 +61,6 @@
     "update:typings": "cp src/typings/index.d.ts dist/index.d.ts",
     "build:all": "npm run lint && npm run build && npm run update:typings && :",
     "postversion": "git push && git push --tags"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "postversion": "git push && git push --tags"
-    }
-  },
-  "lint-staged": {
-    "linters": {
-      "*.ts": [
-        "npm run build:all",
-        "git add"
-      ]
-    },
-    "ignore": [
-      "dist/*"
-    ]
   },
   "files": [
     ".dockerignore",
