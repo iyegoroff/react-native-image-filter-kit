@@ -60,6 +60,7 @@
     "lint:haze-removal": "tslint --fix -p ./examples/CustomNativeFilter/local_modules/react-native-image-filter-kit-haze-removal/src",
     "update:typings": "cp src/typings/index.d.ts dist/index.d.ts",
     "build:all": "npm run lint && npm run build && npm run update:typings && :",
+    "preversion": "npm run build:all",
     "postversion": "git push && git push --tags"
   },
   "files": [
