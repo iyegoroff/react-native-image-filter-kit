@@ -26,9 +26,9 @@ Various image filters for iOS & Android.
 <details style="border: 1px solid; border-radius: 5px; padding: 5px">
   <summary>with react-native "<strong>>=0.58.0 <0.60.0</strong>"</summary>
 
-### 1. Install v0.4.4 from npm
+### 1. Install v0.4.5 from npm
 
-`$ npm i react-native-image-filter-kit@0.4.4 -S`
+`$ npm i react-native-image-filter-kit@0.4.5 -S`
 
 ### 2-a. Link native modules
 

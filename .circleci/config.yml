@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo chown -R $USER:$GROUP /home/circleci/.gnupg
+      - run: sudo chown -R $USER /home/circleci/.gnupg
 
       - run:
           command: |
