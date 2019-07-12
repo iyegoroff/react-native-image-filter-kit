@@ -12,8 +12,6 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo chown -R $USER:$GROUP /home/circleci
-
       - run:
           command: |
             cd RNIFKTest
