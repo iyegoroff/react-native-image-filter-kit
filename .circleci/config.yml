@@ -15,11 +15,11 @@ jobs:
       - run:
           command: |
             cd RNIFKTest
-            yarn
+            npm i
             cd android
             ./gradlew androidDependencies
 
-      - run: yarn build:all
+      - run: npm run build:all
 
       - run:
           command: |
@@ -30,18 +30,7 @@ jobs:
       - run:
           command: |
             cd RNIFKTest
-            yarn infer:android
-            # yarn clean:android
-            # yarn build:android
-      #       PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools;
-      #       yes | sdkmanager --licenses
-      #       sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
-      #       avdmanager create avd --force -n Nexus_5X_API_25 -k "system-images;android-25;google_apis;armeabi-v7a" -d 9
-
-      # - run:
-      #     command: |
-      #       cd RNIFKTest
-      #       yarn reset:packager & yarn test:android
+            npm run infer:android
 
       - persist_to_workspace:
           root: .
@@ -62,9 +51,9 @@ jobs:
             cd RNIFKTest
             dot-json package.json scripts.preinstall -d
             dot-json package.json scripts.postinstall -d
-            yarn remove react-native-image-filter-kit
-            yarn add iyegoroff/react-native-image-filter-kit
-            yarn
+            npm un react-native-image-filter-kit
+            npm i iyegoroff/react-native-image-filter-kit
+            npm i
 
       - run:
           command: |
@@ -74,20 +63,12 @@ jobs:
             npm i -g detox-cli@10.0.2
             sudo pip install pbxproj
             cd RNIFKTest
-            yarn patch:pbxproj
+            npm run patch:pbxproj
 
       - run:
           command: |
             cd RNIFKTest
-            yarn infer:ios
-
-      # - run:
-      #     command: |
-      #       cd RNIFKTest
-      #       yarn start:ios:simulator
-      #       yarn build:ios
-      #       killall node -9 || true
-      #       yarn start:packager & yarn test:ios
+            npm run infer:ios
 
   publish:
     docker:

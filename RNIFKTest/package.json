@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "preinstall": "cd .. && yarn link && yarn && cd RNIFKTest && yarn link react-native-image-filter-kit",
+    "preinstall": "cd .. && npm i",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
     "start:packager": "node node_modules/react-native/local-cli/cli.js start",
     "clean:android": "cd android && ./gradlew clean",
