@@ -34,4 +34,4 @@ fable-typed/.paket
 **/compile_commands.json
 **/xcodebuild.log
 RNIFKTest
-examples/Simple
+examples/Sim*
