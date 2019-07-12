@@ -17,10 +17,54 @@ Various image filters for iOS & Android.
   - [additional filters](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples) can be developed as separate modules
 - react-native:
   - supported versions: "<strong>>=0.57.1</strong>"
-  - when targeting react-native "<strong>>=0.57.1 <0.58.0</strong>" minimum Android SDK version is <strong>17</strong>
+  - when targeting react-native "<strong>>=0.57.1 <0.60.0</strong>" minimum Android SDK version is <strong>17</strong>
 
 ## Installation
 
+<table>
+<td>
+<details style="border: 1px solid; border-radius: 5px; padding: 5px">
+  <summary>with react-native "<strong>>=0.58.0 <0.60.0</strong>"</summary>
+
+### 1. Install v0.4.0 from npm
+
+`$ npm i react-native-image-filter-kit@0.4.0 -S`
+
+### 2-a. Link native modules
+
+`$ react-native link react-native-image-filter-kit`
+
+### 2-b. Install pods
+
+If you use Cocoapods add the following line to your Podfile:
+
+```sh
+pod 'React', :path => '../node_modules/react-native'
+pod 'RNImageFilterKit', :path => '../node_modules/react-native-image-filter-kit'
+```
+
+`$ cd ios && pod install && cd ..`
+
+### 2-c. Manual installation
+
+[link](docs/manual_installation.md)
+
+### 3. Final steps
+
+- Open `android/build.gradle` and change `minSdkVersion` to 17.
+- Open `android/app/build.gradle` and change `defaultConfig`:
+
+  ```sh
+  defaultConfig {
+      ...
+      renderscriptTargetApi 21
+      renderscriptSupportModeEnabled true
+  }
+  ```
+
+</details>
+</td>
+</table>
 <table>
 <td>
 <details style="border: 1px solid; border-radius: 5px; padding: 5px">

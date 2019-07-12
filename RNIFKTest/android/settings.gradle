@@ -1,6 +1,4 @@
 rootProject.name = 'RNIFKTest'
-include ':detox'
-project(':detox').projectDir = new File(rootProject.projectDir, '../node_modules/detox/android/detox')
 include ':react-native-image-filter-kit'
 project(':react-native-image-filter-kit').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-filter-kit/android')
 
