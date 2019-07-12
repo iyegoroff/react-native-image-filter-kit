@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.imagefilterkit.R;
 import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 
 public class ExclusionBlendPostProcessor extends RenderscriptCompositionPostProcessor {
@@ -41,8 +40,7 @@ public class ExclusionBlendPostProcessor extends RenderscriptCompositionPostProc
   ) {
     RenderscriptContext ctx = new RenderscriptContext(dst, src, out, getContext());
 
-    final ScriptC_ExclusionBlend script =
-      new ScriptC_ExclusionBlend(ctx.getScript(), getContext().getResources(), R.raw.exclusionblend);
+    final ScriptC_ExclusionBlend script = new ScriptC_ExclusionBlend(ctx.getScript());
 
     script.set_srcImage(ctx.getSrcAlloc());
     script.forEach_blendImage(ctx.getDstAlloc(), ctx.getOutAlloc());

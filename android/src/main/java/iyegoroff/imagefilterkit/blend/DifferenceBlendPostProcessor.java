@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.imagefilterkit.R;
 import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 
 public class DifferenceBlendPostProcessor extends RenderscriptCompositionPostProcessor {
@@ -41,8 +40,7 @@ public class DifferenceBlendPostProcessor extends RenderscriptCompositionPostPro
   ) {
     RenderscriptContext ctx = new RenderscriptContext(dst, src, out, getContext());
 
-    final ScriptC_DifferenceBlend script =
-      new ScriptC_DifferenceBlend(ctx.getScript(), getContext().getResources(), R.raw.differenceblend);
+    final ScriptC_DifferenceBlend script = new ScriptC_DifferenceBlend(ctx.getScript());
 
     script.set_srcImage(ctx.getSrcAlloc());
     script.forEach_blendImage(ctx.getDstAlloc(), ctx.getOutAlloc());

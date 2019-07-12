@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import iyegoroff.imagefilterkit.R;
 import iyegoroff.imagefilterkit.utility.RenderscriptCompositionPostProcessor;
 
 public class ColorDodgeBlendPostProcessor extends RenderscriptCompositionPostProcessor {
@@ -41,8 +40,7 @@ public class ColorDodgeBlendPostProcessor extends RenderscriptCompositionPostPro
   ) {
     RenderscriptContext ctx = new RenderscriptContext(dst, src, out, getContext());
 
-    final ScriptC_ColorDodgeBlend script =
-      new ScriptC_ColorDodgeBlend(ctx.getScript(), getContext().getResources(), R.raw.colordodgeblend);
+    final ScriptC_ColorDodgeBlend script = new ScriptC_ColorDodgeBlend(ctx.getScript());
 
     script.set_srcImage(ctx.getSrcAlloc());
     script.forEach_blendImage(ctx.getDstAlloc(), ctx.getOutAlloc());
