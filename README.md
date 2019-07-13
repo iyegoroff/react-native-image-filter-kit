@@ -16,12 +16,11 @@ Various image filters for iOS & Android.
   - resulting images are being cached in memory
   - [additional filters](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples) can be developed as separate modules
 - react-native:
-  - supported versions: "<strong>&gt;=0.57.1</strong>"
-  -
-    | react-native     | min Android SDK |
-    |------------------|-----------------|
-    | >=0.60.0         | 21              |
-    | >=0.57.1 <0.60.0 | 17              |
+  - supported versions:
+    | react-native     | min Android SDK | min iOS version |
+    |------------------|-----------------|-----------------|
+    | >=0.60.0         | 21              | 9.0             |
+    | >=0.57.1 <0.60.0 | 17              | 9.0             |
 
 ## Installation
 
