@@ -1,15 +1,15 @@
 {
   "infer-blacklist-path-regex": [
-    ".*/react-native/.*",
-    ".*/ScriptC_.*",
-    ".*/Bolts/.*",
-    ".*/yoga/.*",
-    ".*/React/.*",
-    ".*/React-\\w+/.*",
-    ".*/Folly/.*",
-    ".*/glog/.*",
-    ".*/DoubleConversion/.*",
-    ".*/boost-for-react-native/.*",
-    ".*/NSMutableArray.m"
+    ".*\\/react-native\\/.*",
+    ".*\\/ScriptC_.*",
+    ".*\\/Bolts\\/.*",
+    ".*\\/yoga\\/.*",
+    ".*\\/React\\/.*",
+    ".*\\/React-\\w+\\/.*",
+    ".*\\/Folly\\/.*",
+    ".*\\/glog\\/.*",
+    ".*\\/DoubleConversion\\/.*",
+    ".*\\/boost-for-react-native\\/.*",
+    ".*\\/NSMutableArray.m"
   ]
 }
