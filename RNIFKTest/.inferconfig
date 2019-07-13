@@ -3,6 +3,13 @@
     ".*/react-native/.*",
     ".*/ScriptC_.*",
     ".*/Bolts/.*",
+    ".*/yoga/.*",
+    ".*/React/.*",
+    ".*/React-\w+/.*",
+    ".*/Folly/.*",
+    ".*/glog/.*",
+    ".*/DoubleConversion/.*",
+    ".*/boost-for-react-native/.*",
     ".*/NSMutableArray.m"
   ]
 }
