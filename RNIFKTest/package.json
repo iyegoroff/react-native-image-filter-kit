@@ -7,7 +7,7 @@
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
     "start:packager": "node node_modules/react-native/local-cli/cli.js start",
     "clean:android": "cd android && ./gradlew clean",
-    "infer:android": "cd android && infer --fail-on-issue -- ./gradlew build -x :app:bundleReleaseJsAndAssets",
+    "infer:android": "cd android && infer --fail-on-issue -- ./gradlew build -x :app:bundleReleaseJsAndAssets :app:validateSigningDebug",
     "clean:ios": "cd ios && xcodebuild clean -project RNIFKTest.xcodeproj -configuration Debug -scheme RNIFKTest -derivedDataPath build",
     "infer:ios": "cd ios && infer --fail-on-issue -- xcodebuild -project RNIFKTest.xcodeproj -configuration Debug -scheme RNIFKTest -destination 'platform=iOS Simulator,OS=12.1,name=iPhone 7' -derivedDataPath build",
     "patch:pbxproj": "python ./patch-tvos.py"
