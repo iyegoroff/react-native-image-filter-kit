@@ -16,15 +16,43 @@ Various image filters for iOS & Android.
   - resulting images are being cached in memory
   - [additional filters](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples) can be developed as separate modules
 - react-native:
-  - supported versions: "<strong>>=0.57.1</strong>"
-  - when targeting react-native "<strong>>=0.57.1 <0.60.0</strong>" minimum Android SDK version is <strong>17</strong>
+  - supported versions: "<strong>&gt;=0.57.1</strong>"
+  -
+    | react-native     | min Android SDK |
+    |------------------|-----------------|
+    | >=0.60.0         | 21              |
+    | >=0.57.1 <0.60.0 | 17              |
 
 ## Installation
 
 <table>
 <td>
 <details style="border: 1px solid; border-radius: 5px; padding: 5px">
-  <summary>with react-native "<strong>>=0.58.0 <0.60.0</strong>"</summary>
+  <summary>with react-native "<strong>&gt;=0.60.0</strong>"</summary>
+
+### 1. Install v0.5.0 from npm
+
+`$ npm i react-native-image-filter-kit@0.5.0 -S`
+
+### 2. Install pods
+
+`$ cd ios && pod install && cd ..`
+
+### 3. Final steps
+
+- Open `android/build.gradle` and change `minSdkVersion` to 21.
+- If you are upgrading from rnifk v0.4.x open `android/app/build.gradle` and disable
+  renderscript support mode in `defaultConfig`. Currently it is impossible to use support mode
+  with `androidx` package because of bugs - [1](https://issuetracker.google.com/issues/119582492), [2](https://issuetracker.google.com/issues/133169129)
+
+
+</details>
+</td>
+</table>
+<table>
+<td>
+<details style="border: 1px solid; border-radius: 5px; padding: 5px">
+  <summary>with react-native "<strong>&gt;=0.58.0 &lt;0.60.0</strong>"</summary>
 
 ### 1. Install v0.4.14 from npm
 
@@ -68,7 +96,7 @@ Install manually if `react-native link` failed - [link](docs/manual_installation
 <table>
 <td>
 <details style="border: 1px solid; border-radius: 5px; padding: 5px">
-  <summary>with react-native "<strong>>=0.57.1 <0.58.0</strong>"</summary>
+  <summary>with react-native "<strong>&gt;=0.57.1 &lt;0.58.0</strong>"</summary>
 
 ### 1. Install v0.3.9 from npm
 

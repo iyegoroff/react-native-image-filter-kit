@@ -1,6 +1,6 @@
 #import "IFKPostProcessor.h"
 #import "IFKInputConverter.h"
-#import <RCTImageUtils.h>
+#import "RCTImageUtils.h"
 #import "NSArray+FilterMapReduce.h"
 
 @interface UIImage (React)
@@ -53,7 +53,7 @@
   });
 
   NSArray *names = [[_inputs allKeys] filter:^BOOL(NSString *val, int idx) {
-    return ![skippedInputs containsObject:val] && ![_inputs[val] objectForKey:@"marker"];
+    return ![skippedInputs containsObject:val] && ![self->_inputs[val] objectForKey:@"marker"];
   }];
   
   for (NSString *inputName in names) {
@@ -177,7 +177,7 @@
   });
   
   if ([filtersWithColorManagement some:^BOOL(NSString *val, int idx) {
-    return [val isEqualToString:_filter.name];
+    return [val isEqualToString:self->_filter.name];
   }]) {
     dispatch_once(&contextToken, ^{
       context = [CIContext contextWithEAGLContext:eaglContext

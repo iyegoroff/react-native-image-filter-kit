@@ -20,7 +20,9 @@
   static CIKernel *kernel;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    NSBundle *bundle = [NSBundle bundleForClass:self];
+    NSBundle *podBundle = [NSBundle bundleForClass:self];
+    NSBundle *bundle = [NSBundle bundleWithURL:[podBundle URLForResource:@"RNImageFilterKitBundle"
+                                                           withExtension:@"bundle"]];
     NSString *resource = [bundle pathForResource:NSStringFromClass([IFKXorCompositing class])
                                           ofType:@"cikernel"];
     NSString *code = [NSString stringWithContentsOfFile:resource

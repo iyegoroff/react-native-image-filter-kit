@@ -6,12 +6,15 @@ Pod::Spec.new do |s|
   s.name             = 'RNImageFilterKit'
   s.version          = package['version']
   s.summary          = package['description']
+  s.homepage         = package['homepage']
   s.license          = package['license']
-  s.homepage         = 'https://github.com/iyegoroff/react-native-image-filter-kit'
-  s.authors          = 'iyegoroff'
-  s.source           = { :git => 'https://github.com/iyegoroff/react-native-image-filter-kit.git', :tag => s.version }
+  s.author           = package['author']
+  s.platform         = :ios, '9.0'
+  s.source           = { :git => 'https://github.com/iyegoroff/react-native-image-filter-kit.git', :tag => 'v#{s.version}' }
   s.source_files     = 'ios/**/*.{h,m}'
+  s.resource_bundles = { 'RNImageFilterKitBundle' => ['ios/Resources/*.cikernel'] }
   s.requires_arc     = true
-  s.platforms        = { :ios => "9.0", :tvos => "9.2" }
-  s.dependency         'React'  
+
+  s.dependency 'React'
+  s.dependency 'Bolts', '1.9.0'
 end

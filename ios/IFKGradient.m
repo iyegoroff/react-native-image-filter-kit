@@ -18,7 +18,9 @@ static CGFloat defaultStops[5] = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
   
 + (NSArray<CIKernel *> *)loadKernels:(Class)gradientClass
 {
-  NSBundle *bundle = [NSBundle bundleForClass:self];
+  NSBundle *podBundle = [NSBundle bundleForClass:self];
+  NSBundle *bundle = [NSBundle bundleWithURL:[podBundle URLForResource:@"RNImageFilterKitBundle"
+                                                         withExtension:@"bundle"]];
   NSString *resource = [bundle pathForResource:NSStringFromClass(gradientClass)
                                         ofType:@"cikernel"];
   NSString *code = [NSString stringWithContentsOfFile:resource
@@ -29,11 +31,11 @@ static CGFloat defaultStops[5] = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
 
 - (NSArray<CIColor *> *)inputColors
 {
-  return _inputColors ?: @[[CIColor yellowColor],
-                           [CIColor blueColor],
-                           [CIColor greenColor],
-                           [CIColor redColor],
-                           [CIColor cyanColor]];
+  return _inputColors ?: @[[CIColor colorWithRed:1.0f green:1.0f blue:0.0f],
+                           [CIColor colorWithRed:0.0f green:0.0f blue:1.0f],
+                           [CIColor colorWithRed:0.0f green:1.0f blue:0.0f],
+                           [CIColor colorWithRed:1.0f green:0.0f blue:0.0f],
+                           [CIColor colorWithRed:0.0f green:1.0f blue:1.0f]];
 }
 
 - (CIVector *)inputStops

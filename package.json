@@ -74,11 +74,5 @@
     "tslint.json",
     "*.md",
     "*.podspec"
-  ],
-  "rnpm": {
-    "commands": {
-      "postlink": "npx iyegoroff/react-native-asset#with-key -ios-a ./node_modules/react-native-image-filter-kit/ios/Resources -k react-native-image-filter-kit",
-      "postunlink": "npx iyegoroff/react-native-asset#with-key -ios-a -k react-native-image-filter-kit"
-    }
-  }
+  ]
 }
