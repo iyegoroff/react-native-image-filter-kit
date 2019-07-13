@@ -20,7 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/iyegoroff/react-native-image-filter-kit.git"
   },
-  "version": "0.5.3",
+  "version": "0.5.4",
   "peerDependencies": {
     "@babel/runtime": "*",
     "react": "*",
