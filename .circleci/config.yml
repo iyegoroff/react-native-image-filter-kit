@@ -54,6 +54,7 @@ jobs:
             npm un react-native-image-filter-kit
             npm i iyegoroff/react-native-image-filter-kit
             npm i
+            npm run install:pods
 
       - run:
           command: |
