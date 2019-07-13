@@ -99,7 +99,7 @@
 				F13B88B1EF3750FDE0524AE0 /* Pods-RNIFKTest.debug.xcconfig */,
 				646A91918AB7D09E36311C0A /* Pods-RNIFKTest.release.xcconfig */,
 			);
-			path = Pods;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

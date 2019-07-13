@@ -87,7 +87,7 @@ PODS:
   - React-RCTWebSocket (0.60.3):
     - React-Core (= 0.60.3)
     - React-fishhook (= 0.60.3)
-  - RNImageFilterKit (0.4.14):
+  - RNImageFilterKit (0.5.4):
     - Bolts (= 1.9.0)
     - React
   - yoga (0.60.3.React)
@@ -194,7 +194,7 @@ SPEC CHECKSUMS:
   React-RCTText: b026f8350c2cbe0daeb9880dd9c6e018fce0daf7
   React-RCTVibration: 5d9ed4a968e9d42880ddcc7c29bee3417c745408
   React-RCTWebSocket: 69d8565d66043f244b4129f3d7154c5689fb7d3e
-  RNImageFilterKit: ec6db7432ec2610c5cf602a32a4a32721f62dc4a
+  RNImageFilterKit: 26900941ff6b815df1fa2935ab89189d9f9be7fa
   yoga: 843fe25849b56131275bf3e5da2c468e96f68aff
 
 PODFILE CHECKSUM: 04d9ed71cc1eae6cedc8e2e1f240d1e0d33f391f
