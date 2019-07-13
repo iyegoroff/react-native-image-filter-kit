@@ -14,6 +14,10 @@
   ],
 
   "skip-analysis-in-path": [
-    "Pods/Folly"
+    "Pods/Folly",
+    "Pods/Bolts",
+    "Pods/bolts-for-react-native",
+    "Pods/DoubleConversion",
+    "Pods/glog"
   ]
 }
