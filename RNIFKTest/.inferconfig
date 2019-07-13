@@ -5,7 +5,7 @@
     ".*/Bolts/.*",
     ".*/yoga/.*",
     ".*/React/.*",
-    ".*/React-\w+/.*",
+    ".*/React-\\w+/.*",
     ".*/Folly/.*",
     ".*/glog/.*",
     ".*/DoubleConversion/.*",
