@@ -2,8 +2,7 @@
   "infer-blacklist-path-regex": [
     ".*/react-native/.*",
     ".*/ScriptC_.*",
-    ".*/ios/Bolts/.*",
-    ".*/detox/.*",
+    ".*/Bolts/.*",
     ".*/NSMutableArray.m"
   ]
 }

@@ -13,8 +13,8 @@
     "patch:pbxproj": "python ./patch-tvos.py"
   },
   "dependencies": {
-    "react": "16.8.3",
-    "react-native": "0.59.10",
+    "react": "16.8.6",
+    "react-native": "0.60.3",
     "react-native-image-filter-kit": "file:../"
   },
   "devDependencies": {
