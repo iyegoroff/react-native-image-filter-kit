@@ -17,6 +17,7 @@ Various image filters for iOS & Android.
   - [additional filters](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples) can be developed as separate modules
 - react-native:
   - supported versions:
+
     | react-native     | min Android SDK | min iOS version |
     |------------------|-----------------|-----------------|
     | >=0.60.0         | 21              | 9.0             |
