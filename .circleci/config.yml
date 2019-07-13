@@ -47,6 +47,8 @@ jobs:
 
       - run:
           command: |
+            pod --version
+            sudo gem install cocoapods
             npm i -g dot-json
             cd RNIFKTest
             dot-json package.json scripts.preinstall -d
