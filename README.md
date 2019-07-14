@@ -43,7 +43,7 @@ Various image filters for iOS & Android.
 - Open `android/build.gradle` and change `minSdkVersion` to 21.
 - If you are upgrading from rnifk v0.4.x open `android/app/build.gradle` and disable
   renderscript support mode in `defaultConfig`. Currently it is impossible to use support mode
-  with `androidx` package because of bugs - [1](https://issuetracker.google.com/issues/119582492), [2](https://issuetracker.google.com/issues/133169129)
+  with `androidx` package due to bugs - [1](https://issuetracker.google.com/issues/119582492), [2](https://issuetracker.google.com/issues/133169129)
 
 
 </details>
