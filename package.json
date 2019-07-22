@@ -32,7 +32,7 @@
     "react-is": "^16.5.2",
     "rgba-to-rgb": "^1.0.2",
     "rn-color-matrices": "^4.1.0",
-    "tiny-invariant": "^1.0.4"
+    "ts-tiny-invariant": "0.0.1"
   },
   "devDependencies": {
     "@types/lodash.pick": "^4.4.6",

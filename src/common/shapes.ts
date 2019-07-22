@@ -26,19 +26,17 @@ export const Generator = {
   isGenerator: marker
 }
 
-export const CompositionBaseIos = {
-  resizeCanvasTo: text,
-  inputImage: image,
-  inputImageTransform: transform,
-  clampToExtent: bool,
-  disableCache: bool,
-  swapImages: bool
-}
-
 export const CommonIos = {
   inputImage: image,
   clampToExtent: bool,
   disableCache: bool
+}
+
+export const CompositionBaseIos = {
+  ...CommonIos,
+  resizeCanvasTo: text,
+  inputImageTransform: transform,
+  swapImages: bool
 }
 
 export const GeneratorIos = {

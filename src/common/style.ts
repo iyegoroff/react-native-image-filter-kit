@@ -1,7 +1,7 @@
 import React from 'react'
 import * as ReactIs from 'react-is'
 import { processColor, ViewStyle, ViewProps, StyleProp } from 'react-native'
-import invariant from 'tiny-invariant'
+import invariant from 'ts-tiny-invariant'
 
 // For some reason RNImageMatrixFilter draw method is not called when component's backgroundColor
 // is not set or transparent

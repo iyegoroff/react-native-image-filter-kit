@@ -1,5 +1,5 @@
 import { Platform } from 'react-native'
-import invariant from 'tiny-invariant'
+import invariant from 'ts-tiny-invariant'
 import { id } from './util'
 import { Input } from './inputs'
 

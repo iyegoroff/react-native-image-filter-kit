@@ -27,9 +27,43 @@ interface Transform {
   readonly rotate?: Angle
 }
 
-type PathStep = never
+type PathStep =
+  | { moveTo: [Distance, Distance] }
+  | { lineTo: [Distance, Distance] }
+  | { quadTo: [Distance, Distance, Distance, Distance] }
+  | { cubicTo: [Distance, Distance, Distance, Distance, Distance, Distance] }
+  | { closePath: [] }
 
 type Path = ReadonlyArray<PathStep>
+
+type Area = {
+  readonly x: Distance
+  readonly y: Distance
+  readonly width: Distance
+  readonly height: Distance
+}
+
+type TileMode = 'CLAMP' | 'MIRROR' | 'REPEAT'
+
+type PorterDuffMode =
+  | 'ADD'
+  | 'CLEAR'
+  | 'DARKEN'
+  | 'DST'
+  | 'DST_ATOP'
+  | 'DST_IN'
+  | 'DST_OUT'
+  | 'DST_OVER'
+  | 'LIGHTEN'
+  | 'MULTIPLY'
+  | 'OVERLAY'
+  | 'SCREEN'
+  | 'SRC'
+  | 'SRC_ATOP'
+  | 'SRC_IN'
+  | 'SRC_OUT'
+  | 'SRC_OVER'
+  | 'XOR'
 
 export type Filterable<Rest> = React.ReactElement<unknown> | Config<Rest>
 
@@ -133,14 +167,14 @@ interface ColorConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
   readonly color: string
 }
 
-interface TextImageConfig<Rest = never> extends CommonConfig<Rest> {
+interface TextImageConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
   readonly text: string
   readonly fontName?: string
   readonly fontSize?: number
   readonly color?: string
 }
 
-interface ShapeConfig<Rest = never> extends CommonConfig<Rest> {
+interface ShapeConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
   readonly color?: string
 }
 
@@ -165,6 +199,636 @@ interface RegularPolygonShapeConfig<Rest = never> extends ShapeConfig<Rest> {
 interface ConfigWithIntermediates<Rest = never> extends CommonConfig<Rest> {
   /** Should be used only when defining custom filters */
   readonly disableIntermediateCaches?: boolean
+}
+
+interface IosCommonConfig<Rest = never> extends CacheableConfig {
+  readonly inputImage: Filterable<Rest>
+  readonly clampToExtent?: boolean
+}
+
+interface IosRadiusConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputRadius?: Distance
+}
+
+interface IosCompositionBaseConfig<ResizeTo, Rest = never> extends IosCommonConfig<Rest> {
+  readonly resizeCanvasTo?: ResizeTo
+  readonly inputImageTransform?: Transform
+}
+
+interface IosCIMaskedVariableBlurConfig<Rest = never> extends IosCompositionBaseConfig<
+  'inputImage' | 'inputMask',
+  Rest
+> {
+  readonly inputMask: Filterable<Rest>
+  readonly inputMaskTransform?: Transform
+  readonly inputRadius?: Distance
+}
+
+interface IosCIMotionBlurConfig<Rest = never> extends IosRadiusConfig<Rest> {
+  readonly inputAngle?: Angle
+}
+
+interface IosCINoiseReductionConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputNoiseLevel?: number
+  readonly inputSharpness?: number
+}
+
+interface IosAmountConfig<Amount, Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputAmount?: Amount
+}
+
+interface IosDistanceAmountConfig<Rest = never> extends IosAmountConfig<Distance, Rest> { }
+
+interface IosCIZoomBlurConfig<Rest = never> extends IosDistanceAmountConfig<Rest> {
+  readonly inputCenter?: Position
+}
+
+interface IosCIColorClampConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputMinComponents?: [number, number, number, number]
+  readonly inputMaxComponents?: [number, number, number, number]
+}
+
+interface IosCIColorControlsConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputSaturation?: number
+  readonly inputBrightness?: number
+  readonly inputContrast?: number
+}
+
+interface IosCIColorMatrixConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputRVector?: [number, number, number, number]
+  readonly inputGVector?: [number, number, number, number]
+  readonly inputBVector?: [number, number, number, number]
+  readonly inputAVector?: [number, number, number, number]
+  readonly inputBiasVector?: [number, number, number, number]
+}
+
+interface IosCIColorPolynomialBaseConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputRedCoefficients?: [number, number, number, number]
+  readonly inputGreenCoefficients?: [number, number, number, number]
+  readonly inputBlueCoefficients?: [number, number, number, number]
+}
+
+interface IosCIColorPolynomialConfig<Rest = never> extends IosCIColorPolynomialBaseConfig<Rest> {
+  readonly inputAlphaCoefficients?: [number, number, number, number]
+}
+
+interface IosCIExposureAdjustConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputEV?: number
+}
+
+interface IosCIGammaAdjustConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputPower?: number
+}
+
+interface IosAngleConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputAngle?: Angle
+}
+
+interface IosCITemperatureAndTintConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputNeutral?: Offset
+  readonly inputTargetNeutral?: Offset
+}
+
+interface IosCIToneCurveConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputPoint0?: Offset
+  readonly inputPoint1?: Offset
+  readonly inputPoint2?: Offset
+  readonly inputPoint3?: Offset
+  readonly inputPoint4?: Offset
+}
+
+interface IosColorConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputColor?: string
+}
+
+interface IosCIColorCubeConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputCubeDimension?: number
+  readonly inputCubeData?: string
+}
+
+interface IosScalarAmountConfig<Rest = never> extends IosAmountConfig<number, Rest> { }
+
+interface IosCIColorMapConfig<Rest = never> extends IosCompositionBaseConfig<
+  'inputImage' | 'inputGradientImage',
+  Rest
+> {
+  readonly inputGradientImage: Filterable<Rest>
+  readonly inputGradientImageTransform?: Transform
+}
+
+interface IosCIColorMonochromeConfig<Rest = never> extends IosColorConfig<Rest> {
+  readonly inputIntensity?: number
+}
+
+interface IosCIColorPosterizeConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputLevels?: number
+}
+
+interface IosCIFalseColorConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputColor0?: string
+  readonly inputColor1?: string
+}
+
+interface IosCISepiaToneConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputIntensity?: number
+}
+
+interface IosCIVignetteConfig<Rest = never> extends IosRadiusConfig<Rest> {
+  readonly inputIntensity?: number
+}
+
+interface IosCIVignetteEffectConfig<Rest = never> extends IosCIVignetteConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputFalloff?: number
+}
+
+interface IosCIBackgroundImageCompositionConfig<Rest = never> extends IosCompositionBaseConfig<
+  'inputImage' | 'inputBackgroundImage',
+  Rest
+> {
+  readonly inputBackgroundImage: Filterable<Rest>
+  readonly inputBackgroundImageTransform?: Transform
+}
+
+interface IosCenterRadiusConfig<Rest = never> extends IosRadiusConfig<Rest> {
+  readonly inputCenter?: Position
+}
+
+interface IosScaleCenterRadiusConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+  readonly inputScale?: number
+}
+
+interface IosCIBumpDistortionLinearConfig<Rest = never> extends IosScaleCenterRadiusConfig<Rest> {
+  readonly inputAngle?: Angle
+}
+
+interface IosAngleCenterRadiusConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+  readonly inputAngle?: Angle
+}
+
+interface IosCIDrosteConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputInsetPoint0?: Position
+  readonly inputInsetPoint1?: Position
+  readonly inputStrands?: Distance
+  readonly inputPeriodicity?: Distance
+  readonly inputRotation?: Distance
+  readonly inputZoom?: number
+}
+
+interface IosCIDisplacementDistortionConfig<Rest = never> extends IosCompositionBaseConfig<
+  'inputImage' | 'inputDisplacementImage',
+  Rest
+> {
+  readonly inputDisplacementImage: Filterable<Rest>
+  readonly inputDisplacementImageTransform?: Transform
+  readonly inputScale?: Distance
+}
+
+interface IosCIGlassDistortionConfig<Rest = never> extends IosCompositionBaseConfig<
+  'inputImage' | 'inputTexture',
+  Rest
+> {
+  readonly inputTexture: Filterable<Rest>
+  readonly inputTextureTransform?: Transform
+  readonly inputScale?: Distance
+  readonly inputCenter?: Position
+}
+
+interface IosCIGlassLozengeConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputPoint0?: Position
+  readonly inputPoint1?: Position
+  readonly inputRadius?: Distance
+  readonly inputRefraction?: number
+}
+
+interface IosCILightTunnelConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+  readonly inputRotation?: Angle
+}
+
+interface IosCIStretchCropConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputSize?: [Distance, Distance]
+  readonly inputCropAmount?: number
+  readonly inputCenterStretchAmount?: number
+}
+
+interface IosCITorusLensDistortionConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+  readonly inputWidth?: Distance
+  readonly inputRefraction?: number
+}
+
+interface IosCITorusLensDistortionConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputWidth?: Distance
+  readonly inputRefraction?: number
+}
+
+interface IosCIAztecCodeGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputMessage: string
+  readonly inputCorrectionLevel?: number
+  readonly inputLayers?: number
+  readonly inputCompactStyle?: boolean
+}
+
+interface IosCICheckerboardGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputColor0?: string
+  readonly inputColor1?: string
+  readonly inputWidth?: Distance
+  readonly inputShaprness?: number
+}
+
+interface IosCILenticularHaloGeneratorConfig<Rest = never> extends IosColorConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputHaloRadius?: Distance
+  readonly inputHaloWidth?: Distance
+  readonly inputHaloOverlap?: number
+  readonly inputStriationStrength?: number
+  readonly inputStriationContrast?: number
+  readonly inputTime?: number
+}
+
+interface IosCIQRCodeGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputMessage: string
+  readonly inputCorrectionLevel?: 'L' | 'M' | 'Q' | 'H'
+}
+
+interface IosCIStarShineGeneratorConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+  readonly inputColor?: string
+  readonly inputCrossScale?: number
+  readonly inputCrossAngle?: Angle
+  readonly inputCrossOpacity?: number
+  readonly inputCrossWidth?: Distance
+  readonly inputEpsilon?: number
+}
+
+interface IosCIStripesGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputColor0?: string
+  readonly inputColor1?: string
+  readonly inputWidth?: Distance
+  readonly inputSharpness?: number
+}
+
+interface IosCISunbeamsGeneratorConfig<Rest = never> extends IosColorConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputSunRadius?: Distance
+  readonly inputMaxStriationRadius?: number
+  readonly inputStriationStrength?: number
+  readonly inputStriationContrast?: number
+  readonly inputTime?: number
+}
+
+interface IosCICropConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputRectangle?: Area
+}
+
+interface IosCILanczosScaleTransformConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputScale?: number
+  readonly inputAspectRatio?: number
+}
+
+interface IosPerspectiveConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputTopLeft?: Position
+  readonly inputTopRight?: Position
+  readonly inputBottomLeft?: Position
+  readonly inputBottomRight?: Position
+}
+
+interface IosCIPerspectiveCorrectionConfig<Rest = never> extends IosPerspectiveConfig<Rest> {
+  readonly inputCrop?: boolean
+}
+
+interface IosCIPerspectiveTransformWithExtentConfig<Rest = never> extends IosPerspectiveConfig<Rest> {
+  readonly inputExtent?: Area
+}
+
+interface IosCIStraightenFilterConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputAngle?: Angle
+}
+
+interface IosGradientConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputColor0?: string
+  readonly inputColor1?: string
+}
+
+interface IosCIGaussianGradientConfig<Rest = never> extends IosGradientConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputRadius?: Distance
+}
+
+interface IosCILinearGradientConfig<Rest = never> extends IosGradientConfig<Rest> {
+  readonly inputPoint0?: Position
+  readonly inputPoint1?: Position
+}
+
+interface IosCIRadialGradientConfig<Rest = never> extends IosGradientConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputRadius0?: Position
+  readonly inputRadius1?: Position
+}
+
+interface IosHalftoneEffectConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputWidth?: Distance
+  readonly inputSharpness?: number
+}
+
+interface IosAngleHalftoneEffectConfig<Rest = never> extends IosHalftoneEffectConfig<Rest> {
+  readonly inputAngle?: Angle
+}
+
+interface IosCICMYKHalftoneConfig<Rest = never> extends IosAngleHalftoneEffectConfig<Rest> {
+  readonly inputGCR?: number
+  readonly inputUCR?: number
+}
+
+interface IosAreaConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputExtent?: Area
+}
+
+interface IosCIAreaHistogramConfig<Rest = never> extends IosAreaConfig<Rest> {
+  readonly inputScale?: number
+  readonly inputCount?: number
+}
+
+interface IosCIHistogramDisplayFilterConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputHeight?: number
+  readonly inputHighLimit?: number
+  readonly inputLowLimit?: number
+}
+
+interface IosCISharpenLuminanceConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputSharpness?: number
+}
+
+interface IosCIUnsharpMaskConfig<Rest = never> extends IosRadiusConfig<Rest> {
+  readonly inputIntensity?: number
+}
+
+interface IosCIBloomConfig<Rest = never> extends IosRadiusConfig<Rest> {
+  readonly inputIntensity?: number
+}
+
+interface IosConvolutionConfig<
+  Weights = [number, number, number, number, number, number, number, number, number],
+  Rest = never
+> extends IosCommonConfig<Rest> {
+  readonly inputWeights?: Weights
+  readonly inputBias?: number
+}
+
+interface IosCIConvolution5X5Config<Rest = never> extends IosConvolutionConfig<
+  [
+    number, number, number, number, number,
+    number, number, number, number, number,
+    number, number, number, number, number,
+    number, number, number, number, number,
+    number, number, number, number, number
+  ],
+  Rest
+> { }
+
+interface IosCIConvolution7X7Config<Rest = never> extends IosConvolutionConfig<
+  [
+    number, number, number, number, number, number, number,
+    number, number, number, number, number, number, number,
+    number, number, number, number, number, number, number,
+    number, number, number, number, number, number, number,
+    number, number, number, number, number, number, number,
+    number, number, number, number, number, number, number,
+    number, number, number, number, number, number, number
+  ],
+  Rest
+> { }
+
+interface IosCIEdgesConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputIntensity?: number
+}
+
+interface IosCIGloomConfig<Rest = never> extends IosRadiusConfig<Rest> {
+  readonly inputIntensity?: number
+}
+
+interface IosCIHexagonalPixellateConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputScale?: Distance
+}
+
+interface IosCIHighlightShadowAdjustConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputHighlightAmount?: number
+  readonly inputShadowAmount?: number
+}
+
+interface IosCILineOverlayConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputNRNoiseLevel?: number
+  readonly inputNRSharpness?: number
+  readonly inputEdgeIntensity?: number
+  readonly inputThreshold?: number
+  readonly inputContrast?: number
+}
+
+interface IosCIPixellateConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputCenter?: Position
+  readonly inputScale?: Distance
+}
+
+interface IosCIShadedMaterialConfig<Rest = never> extends IosCompositionBaseConfig<
+  'inputImage' | 'inputShadingImage',
+  Rest
+> {
+  readonly inputShadingImage: Filterable<Rest>
+  readonly inputShadingImageTransform?: Transform
+  readonly inputScale?: number
+}
+
+interface IosCISpotColorConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputCenterColor1?: string
+  readonly inputReplacementColor1?: string
+  readonly inputCloseness1?: number
+  readonly inputContrast1?: number
+  readonly inputCenterColor2?: string
+  readonly inputReplacementColor2?: string
+  readonly inputCloseness2?: number
+  readonly inputContrast2?: number
+  readonly inputCenterColor3?: string
+  readonly inputReplacementColor3?: string
+  readonly inputCloseness3?: number
+  readonly inputContrast3?: number
+}
+
+interface IosCISpotLightConfig<Rest = never> extends IosColorConfig<Rest> {
+  readonly inputLightPosition?: [Distance, Distance, Distance]
+  readonly inputLightPointsAt?: [Distance, Distance, Distance]
+  readonly inputBrightness?: number
+  readonly inputConcentration?: number
+}
+
+interface IosTileConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputAngle?: Angle
+  readonly inputCenter?: Position
+  readonly inputWidth?: Distance
+}
+
+interface IosCIFourfoldTranslatedTileConfig<Rest = never> extends IosTileConfig<Rest> {
+  readonly inputAcuteAngle?: Angle
+}
+
+interface IosCIKaleidoscopeConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputAngle?: Angle
+  readonly inputCenter?: Position
+  readonly inputCount?: number
+}
+
+interface IosCIOpTileConfig<Rest = never> extends IosTileConfig<Rest> {
+  readonly inputScale?: number
+}
+
+interface IosCITriangleKaleidoscopeConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputPoint?: Position
+  readonly inputSize?: Distance
+  readonly inputRotation?: Angle
+  readonly inputDecay?: number
+}
+
+interface IosCIBokehBlurConfig<Rest = never> extends IosRadiusConfig<Rest> {
+  readonly inputRingAmount?: number
+  readonly inputRingSize?: number
+  readonly inputSoftness?: number
+}
+
+interface IosCIMixConfig<Rest = never> extends IosCIBackgroundImageCompositionConfig<Rest> {
+  readonly inputAmount?: number
+}
+
+interface IosCITextImageGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputText: string
+  readonly inputFontName?: string
+  readonly inputFontSize?: Distance
+  readonly inputScaleFactor?: number
+}
+
+interface IosCIHueSaturationValueGradientConfig<Rest = never> extends IosRadiusConfig<Rest> {
+  readonly inputValue?: number
+  readonly inputSoftness?: number
+  readonly inputDither?: number
+}
+
+interface IosCINinePartStretchedConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputBreakpoint0?: Position
+  readonly inputBreakpoint1?: Position
+  readonly inputGrowAmount?: Position
+}
+
+interface IosCIMirrorConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputPoint?: Position
+  readonly inputAngle?: Angle
+}
+
+interface IosCICheapBlurConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputPasses?: number
+  readonly inputSampling?: number
+}
+
+interface IosCIDitherConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputIntensity?: number
+}
+
+interface IosCISkyAndGrassAdjustConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputSkyAmount?: number
+  readonly inputGrassAmount?: number
+}
+
+interface IosCIRingBlurConfig<Rest = never> extends IosRadiusConfig<Rest> {
+  readonly inputPointCount?: number
+}
+
+interface IosCIPhotoGrainConfig<Rest = never> extends IosScalarAmountConfig<Rest> {
+  readonly inputISO?: number
+  readonly inputSeed?: number
+}
+
+interface IosCILocalContrastConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputStrength?: number
+  readonly inputScale?: number
+}
+
+interface IosCIGaussianBlurXYConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputSigmaX?: Distance
+  readonly inputSigmaY?: Distance
+}
+
+interface IosCIPaperWashConfig<Rest = never> extends IosCommonConfig<Rest> {
+  readonly inputSaturation?: number
+  readonly inputGreyscale?: number
+}
+
+interface AndroidIterativeBoxBlurConfig<Rest = never> extends CommonConfig<Rest> {
+  readonly blurRadius?: number
+  readonly iterations?: number
+}
+
+interface AndroidLightingColorFilterConfig<Rest = never> extends CommonConfig<Rest> {
+  readonly mul?: string
+  readonly add?: string
+}
+
+interface AndroidLinearGradientConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+  readonly x0?: Distance
+  readonly y0?: Distance
+  readonly x1?: Distance
+  readonly y1?: Distance
+  readonly colors?: ReadonlyArray<string>
+  readonly locations?: ReadonlyArray<number>
+  readonly tile?: TileMode
+}
+
+interface AndroidRadialGradientConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+  readonly centerX?: Distance
+  readonly centerY?: Distance
+  readonly radius?: Distance
+  readonly colors?: ReadonlyArray<string>
+  readonly stops?: ReadonlyArray<number>
+  readonly tileMode?: TileMode
+}
+
+interface AndroidSweepGradientConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+  readonly cx?: Distance
+  readonly cy?: Distance
+  readonly colors?: ReadonlyArray<string>
+  readonly positions?: ReadonlyArray<number>
+}
+
+interface AndroidPorterDuffColorFilterConfig<Rest = never> extends CommonConfig<Rest> {
+  readonly color?: string
+  readonly mode?: PorterDuffMode
+}
+
+interface AndroidPorterDuffXfermodeConfig<Rest = never> extends CompositionConfig<Rest> {
+  readonly mode?: PorterDuffMode
+}
+
+interface AndroidScriptIntrinsicBlurConfig<Rest = never> extends CommonConfig<Rest> {
+  readonly radius?: number
+}
+
+interface AndroidScriptIntrinsicConvolve3x3Config<Rest = never> extends CommonConfig<Rest> {
+  readonly coefficients?: [number, number, number, number, number, number, number, number, number]
+}
+
+interface AndroidScriptIntrinsicConvolve5x5Config<Rest = never> extends CommonConfig<Rest> {
+  readonly coefficients?: [
+    number, number, number, number, number,
+    number, number, number, number, number,
+    number, number, number, number, number,
+    number, number, number, number, number,
+    number, number, number, number, number
+  ]
+}
+
+interface AndroidTextImageConfig<Rest = never> extends CommonConfig<Rest> {
+  readonly text: string
+  readonly fontName?: string
+  readonly fontSize?: Distance
+  readonly color?: string
 }
 
 export type ConfigCase<Name, Config> = { readonly name: Name } & Config
@@ -318,6 +982,217 @@ export type Config<Rest = never> =
   | ConfigCase<'OvalShape', OvalShapeConfig<Rest>>
   | ConfigCase<'PathShape', PathShapeConfig<Rest>>
   | ConfigCase<'RegularPolygonShape', RegularPolygonShapeConfig<Rest>>
+
+  | ConfigCase<'IosCIBoxBlur', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCIDiscBlur', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCIGaussianBlur', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCIMaskedVariableBlur', IosCIMaskedVariableBlurConfig<Rest>>
+  | ConfigCase<'IosCIMedianFilter', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIMotionBlur', IosCIMotionBlurConfig<Rest>>
+  | ConfigCase<'IosCINoiseReduction', IosCINoiseReductionConfig<Rest>>
+  | ConfigCase<'IosCIZoomBlur', IosCIZoomBlurConfig<Rest>>
+  | ConfigCase<'IosCIColorClamp', IosCIColorClampConfig<Rest>>
+  | ConfigCase<'IosCIColorControls', IosCIColorControlsConfig<Rest>>
+  | ConfigCase<'IosCIColorMatrix', IosCIColorMatrixConfig<Rest>>
+  | ConfigCase<'IosCIColorPolynomial', IosCIColorPolynomialConfig<Rest>>
+  | ConfigCase<'IosCIExposureAdjust', IosCIExposureAdjustConfig<Rest>>
+  | ConfigCase<'IosCIGammaAdjust', IosCIGammaAdjustConfig<Rest>>
+  | ConfigCase<'IosCIHueAdjust', IosAngleConfig<Rest>>
+  | ConfigCase<'IosCISRGBToneCurveToLinear', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCILinearToSRGBToneCurve', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCITemperatureAndTint', IosCITemperatureAndTintConfig<Rest>>
+  | ConfigCase<'IosCIToneCurve', IosCIToneCurveConfig<Rest>>
+  | ConfigCase<'IosCIVibrance', IosScalarAmountConfig<Rest>>
+  | ConfigCase<'IosCIWhitePointAdjust', IosColorConfig<Rest>>
+  | ConfigCase<'IosCIColorCrossPolynomial', IosCIColorPolynomialBaseConfig<Rest>>
+  | ConfigCase<'IosCIColorCube', IosCIColorCubeConfig<Rest>>
+  | ConfigCase<'IosCIColorInvert', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIColorMap', IosCIColorMapConfig<Rest>>
+  | ConfigCase<'IosCIColorMonochrome', IosCIColorMonochromeConfig<Rest>>
+  | ConfigCase<'IosCIColorPosterize', IosCIColorPosterizeConfig<Rest>>
+  | ConfigCase<'IosCIFalseColor', IosCIFalseColorConfig<Rest>>
+  | ConfigCase<'IosCIMaskToAlpha', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIMaximumComponent', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIMinimumComponent', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPhotoEffectChrome', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPhotoEffectFade', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPhotoEffectInstant', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPhotoEffectMono', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPhotoEffectNoir', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPhotoEffectProcess', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPhotoEffectTonal', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPhotoEffectTransfer', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCISepiaTone', IosCISepiaToneConfig<Rest>>
+  | ConfigCase<'IosCIVignete', IosCIVignetteConfig<Rest>>
+  | ConfigCase<'IosCIVigneteEffect', IosCIVignetteEffectConfig<Rest>>
+  | ConfigCase<'IosCIAdditionCompositing', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIColorBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIColorBurnBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIColorDodgeBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIDarkenBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIDifferenceBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIDivideBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIExclusionBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIHardLightBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIHueBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCILightenBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCILinearBurnBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCILinearDodgeBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCILuminosityBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIMaximumCompositing', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIMinimumCompositing', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIMultiplyBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIMultiplyCompositing', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIOverlayBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIPinLightBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCISaturationBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIScreenBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCISoftLightBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCISourceAtopCompositing', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCISourceInCompositing', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCISourceOutCompositing', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCISourceOverCompositing', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCISubtractBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCIBumpDistortion', IosScaleCenterRadiusConfig<Rest>>
+  | ConfigCase<'IosCIBumpDistortionLinear', IosCIBumpDistortionLinearConfig<Rest>>
+  | ConfigCase<'IosCICircleSplashDistortion', IosCenterRadiusConfig<Rest>>
+  | ConfigCase<'IosCICircularWrap', IosAngleCenterRadiusConfig<Rest>>
+  | ConfigCase<'IosCIDroste', IosCIDrosteConfig<Rest>>
+  | ConfigCase<'IosCIDisplacementDistortion', IosCIDisplacementDistortionConfig<Rest>>
+  | ConfigCase<'IosCIGlassDistortion', IosCIGlassDistortionConfig<Rest>>
+  | ConfigCase<'IosCIGlassLozenge', IosCIGlassLozengeConfig<Rest>>
+  | ConfigCase<'IosCIHoleDistortion', IosCenterRadiusConfig<Rest>>
+  | ConfigCase<'IosCILightTunnel', IosCILightTunnelConfig<Rest>>
+  | ConfigCase<'IosCIPinchDistortion', IosScaleCenterRadiusConfig<Rest>>
+  | ConfigCase<'IosCIStretchCrop', IosCIStretchCropConfig<Rest>>
+  | ConfigCase<'IosCITorusLensDistortion', IosCITorusLensDistortionConfig<Rest>>
+  | ConfigCase<'IosCITwirlDistortion', IosAngleCenterRadiusConfig<Rest>>
+  | ConfigCase<'IosCIVortexDistortion', IosAngleCenterRadiusConfig<Rest>>
+  | ConfigCase<'IosCIAztecCodeGenerator', IosCIAztecCodeGeneratorConfig<Rest>>
+  | ConfigCase<'IosCICheckerboardGenerator', IosCICheckerboardGeneratorConfig<Rest>>
+  | ConfigCase<'IosCIConstantColorGenerator', IosColorConfig<Rest>>
+  | ConfigCase<'IosCILenticularHaloGenerator', IosCILenticularHaloGeneratorConfig<Rest>>
+  | ConfigCase<'IosCIQRCodeGenerator', IosCIQRCodeGeneratorConfig<Rest>>
+  | ConfigCase<'IosCIRandomGenerator', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIStarShineGenerator', IosCIStarShineGeneratorConfig<Rest>>
+  | ConfigCase<'IosCIStripesGenerator', IosCIStripesGeneratorConfig<Rest>>
+  | ConfigCase<'IosCISunbeamsGenerator', IosCISunbeamsGeneratorConfig<Rest>>
+  | ConfigCase<'IosCICrop', IosCICropConfig<Rest>>
+  | ConfigCase<'IosCILanczosScaleTransform', IosCILanczosScaleTransformConfig<Rest>>
+  | ConfigCase<'IosCIPerspectiveCorrection', IosCIPerspectiveCorrectionConfig<Rest>>
+  | ConfigCase<'IosCIPerspectiveTransform', IosPerspectiveConfig<Rest>>
+  | ConfigCase<'IosCIPerspectiveTransformWithExtent', IosCIPerspectiveTransformWithExtentConfig<Rest>>
+  | ConfigCase<'IosCIStraightenFilter', IosCIStraightenFilterConfig<Rest>>
+  | ConfigCase<'IosCIGaussianGradient', IosCIGaussianGradientConfig<Rest>>
+  | ConfigCase<'IosCILinearGradient', IosCILinearGradientConfig<Rest>>
+  | ConfigCase<'IosCIRadialGradient', IosCIRadialGradientConfig<Rest>>
+  | ConfigCase<'IosCISmoothLinearGradient', IosCILinearGradientConfig<Rest>>
+  | ConfigCase<'IosCICircularScreen', IosHalftoneEffectConfig<Rest>>
+  | ConfigCase<'IosCICMYKHalftone', IosCICMYKHalftoneConfig<Rest>>
+  | ConfigCase<'IosCIDotScreen', IosAngleHalftoneEffectConfig<Rest>>
+  | ConfigCase<'IosCIHatchedScreen', IosAngleHalftoneEffectConfig<Rest>>
+  | ConfigCase<'IosCILineScreen', IosAngleHalftoneEffectConfig<Rest>>
+  | ConfigCase<'IosCIAreaAverage', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCIAreaHistogram', IosCIAreaHistogramConfig<Rest>>
+  | ConfigCase<'IosCIRowAverage', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCIColumnAverage', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCIHistogramDisplayFilter', IosCIHistogramDisplayFilterConfig<Rest>>
+  | ConfigCase<'IosCIAreaMaximum', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCIAreaMinimum', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCIAreaMaximumAlpha', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCIAreaMinimumAlpha', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCISharpenLuminance', IosCISharpenLuminanceConfig<Rest>>
+  | ConfigCase<'IosCIUnsharpMask', IosCIUnsharpMaskConfig<Rest>>
+  | ConfigCase<'IosCIBloom', IosCIBloomConfig<Rest>>
+  | ConfigCase<'IosCIComicEffect', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIConvolution3X3', IosConvolutionConfig<Rest>>
+  | ConfigCase<'IosCIConvolution5X5', IosCIConvolution5X5Config<Rest>>
+  | ConfigCase<'IosCIConvolution7X7', IosCIConvolution7X7Config<Rest>>
+  | ConfigCase<'IosCIConvolution9Horizontal', IosConvolutionConfig<Rest>>
+  | ConfigCase<'IosCIConvolution9Vertical', IosConvolutionConfig<Rest>>
+  | ConfigCase<'IosCICrystallize', IosCenterRadiusConfig<Rest>>
+  | ConfigCase<'IosCIEdges', IosCIEdgesConfig<Rest>>
+  | ConfigCase<'IosCIEdgeWork', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCIGloom', IosCIGloomConfig<Rest>>
+  | ConfigCase<'IosCIHeightFieldFromMask', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCIHexagonalPixellate', IosCIHexagonalPixellateConfig<Rest>>
+  | ConfigCase<'IosCIHighlightShadowAdjust', IosCIHighlightShadowAdjustConfig<Rest>>
+  | ConfigCase<'IosCILineOverlay', IosCILineOverlayConfig<Rest>>
+  | ConfigCase<'IosCIPixellate', IosCIPixellateConfig<Rest>>
+  | ConfigCase<'IosCIPointillize', IosCenterRadiusConfig<Rest>>
+  | ConfigCase<'IosCIShadedMaterial', IosCIShadedMaterialConfig<Rest>>
+  | ConfigCase<'IosCISpotColor', IosCISpotColorConfig<Rest>>
+  | ConfigCase<'IosCISpotLight', IosCISpotLightConfig<Rest>>
+  | ConfigCase<'IosCIEightfoldReflectedTile', IosTileConfig<Rest>>
+  | ConfigCase<'IosCIFourfoldReflectedTile', IosTileConfig<Rest>>
+  | ConfigCase<'IosCIFourfoldRotatedTile', IosTileConfig<Rest>>
+  | ConfigCase<'IosCIFourfoldTranslatedTile', IosCIFourfoldTranslatedTileConfig<Rest>>
+  | ConfigCase<'IosCIGlideReflectedTile', IosTileConfig<Rest>>
+  | ConfigCase<'IosCIKaleidoscope', IosCIKaleidoscopeConfig<Rest>>
+  | ConfigCase<'IosCIOpTile', IosCIOpTileConfig<Rest>>
+  | ConfigCase<'IosCIParallelogramTile', IosCIFourfoldTranslatedTileConfig<Rest>>
+  | ConfigCase<'IosCIPerspectiveTile', IosPerspectiveConfig<Rest>>
+  | ConfigCase<'IosCISixfoldReflectedTile', IosTileConfig<Rest>>
+  | ConfigCase<'IosCISixfoldRotatedTile', IosTileConfig<Rest>>
+  | ConfigCase<'IosCITriangleKaleidoscope', IosCITriangleKaleidoscopeConfig<Rest>>
+  | ConfigCase<'IosCITriangleTile', IosTileConfig<Rest>>
+  | ConfigCase<'IosCITwelvefoldReflectedTile', IosTileConfig<Rest>>
+  | ConfigCase<'IosCIXRay', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIThermal', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIMorphologyGradient', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCIDisparityToDepth', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIBokehBlur', IosCIBokehBlurConfig<Rest>>
+  | ConfigCase<'IosCISaliencyMapFilter', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCISampleNearest', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIMix', IosCIMixConfig<Rest>>
+  | ConfigCase<'IosCIDepthToDisparity', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCITextImageGenerator', IosCITextImageGeneratorConfig<Rest>>
+  | ConfigCase<'IosCIHueSaturationValueGradient', IosCIHueSaturationValueGradientConfig<Rest>>
+  | ConfigCase<'IosCIMorphologyMaximum', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCIMorphologyMinimum', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCINinePartStretched', IosCINinePartStretchedConfig<Rest>>
+  | ConfigCase<'IosCIWrapMirror', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIMirror', IosCIMirrorConfig<Rest>>
+  | ConfigCase<'IosCIAreaMinMaxRed', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCIAreaMinMax', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCICheatBlur', IosDistanceAmountConfig<Rest>>
+  | ConfigCase<'IosCICheapMorphology', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCIMorphology', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCICheapBlur', IosCICheapBlurConfig<Rest>>
+  | ConfigCase<'IosCIDither', IosCIDitherConfig<Rest>>
+  | ConfigCase<'IosCIVividLightBlendMode', IosCIBackgroundImageCompositionConfig<Rest>>
+  | ConfigCase<'IosCISkyAndGrassAdjust', IosCISkyAndGrassAdjustConfig<Rest>>
+  | ConfigCase<'IosCIRingBlur', IosCIRingBlurConfig<Rest>>
+  | ConfigCase<'IosCIPremultiply', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPhotoGrain', IosCIPhotoGrainConfig<Rest>>
+  | ConfigCase<'IosCIUnpremultiply', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCILocalContrast', IosCILocalContrastConfig<Rest>>
+  | ConfigCase<'IosCILinearBlur', IosRadiusConfig<Rest>>
+  | ConfigCase<'IosCIGaussianBlurXY', IosCIGaussianBlurXYConfig<Rest>>
+  | ConfigCase<'IosCIDocumentEnhancer', IosScalarAmountConfig<Rest>>
+  | ConfigCase<'IosCIClamp', IosAreaConfig<Rest>>
+  | ConfigCase<'IosCIASG50Percent', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIASG60Percent', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIASG66Percent', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIASG75Percent', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIASG80Percent', IosCommonConfig<Rest>>
+  | ConfigCase<'IosCIPaperWash', IosCIPaperWashConfig<Rest>>
+
+  | ConfigCase<'AndroidColorMatrixColorFilter', ColorMatrixConfig<Rest>>
+  | ConfigCase<'AndroidIterativeBoxBlur', AndroidIterativeBoxBlurConfig<Rest>>
+  | ConfigCase<'AndroidLightingColorFilter', AndroidLightingColorFilterConfig<Rest>>
+  | ConfigCase<'AndroidRoundAsCircle', CommonConfig<Rest>>
+  | ConfigCase<'AndroidColor', ColorConfig<Rest>>
+  | ConfigCase<'AndroidLinearGradient', AndroidLinearGradientConfig<Rest>>
+  | ConfigCase<'AndroidRadialGradient', AndroidRadialGradientConfig<Rest>>
+  | ConfigCase<'AndroidSweepGradient', AndroidSweepGradientConfig<Rest>>
+  | ConfigCase<'AndroidPorterDuffColorFilter', AndroidPorterDuffColorFilterConfig<Rest>>
+  | ConfigCase<'AndroidPorterDuffXfermode', AndroidPorterDuffXfermodeConfig<Rest>>
+  | ConfigCase<'AndroidScriptIntrinsicBlur', AndroidScriptIntrinsicBlurConfig<Rest>>
+  | ConfigCase<'AndroidScriptIntrinsicConvolve3x3', AndroidScriptIntrinsicConvolve3x3Config<Rest>>
+  | ConfigCase<'AndroidScriptIntrinsicConvolve5x5', AndroidScriptIntrinsicConvolve5x5Config<Rest>>
+  | ConfigCase<'AndroidTextImage', AndroidTextImageConfig<Rest>>
+
   | Rest
 
 export type ImageFilterProps<Rest> = ViewProps & Rest & {
@@ -480,6 +1355,216 @@ export declare class CircleShape extends React.Component<ImageFilterProps<Circle
 export declare class OvalShape extends React.Component<ImageFilterProps<OvalShapeConfig>> { }
 export declare class PathShape extends React.Component<ImageFilterProps<PathShapeConfig>> { }
 export declare class RegularPolygonShape extends React.Component<ImageFilterProps<RegularPolygonShapeConfig>> { }
+
+export declare class IosCIBoxBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCIDiscBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCIGaussianBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCIMaskedVariableBlur extends React.Component<ImageFilterProps<IosCIMaskedVariableBlurConfig>> { }
+export declare class IosCIMedianFilter extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIMotionBlur extends React.Component<ImageFilterProps<IosCIMotionBlurConfig>> { }
+export declare class IosCINoiseReduction extends React.Component<ImageFilterProps<IosCINoiseReductionConfig>> { }
+export declare class IosCIZoomBlur extends React.Component<ImageFilterProps<IosCIZoomBlurConfig>> { }
+export declare class IosCIColorClamp extends React.Component<ImageFilterProps<IosCIColorClampConfig>> { }
+export declare class IosCIColorControls extends React.Component<ImageFilterProps<IosCIColorControlsConfig>> { }
+export declare class IosCIColorMatrix extends React.Component<ImageFilterProps<IosCIColorMatrixConfig>> { }
+export declare class IosCIColorPolynomial extends React.Component<ImageFilterProps<IosCIColorPolynomialConfig>> { }
+export declare class IosCIExposureAdjust extends React.Component<ImageFilterProps<IosCIExposureAdjustConfig>> { }
+export declare class IosCIGammaAdjust extends React.Component<ImageFilterProps<IosCIGammaAdjustConfig>> { }
+export declare class IosCIHueAdjust extends React.Component<ImageFilterProps<IosAngleConfig>> { }
+export declare class IosCILinearToSRGBToneCurve extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCISRGBToneCurveToLinear extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCITemperatureAndTint extends React.Component<ImageFilterProps<IosCITemperatureAndTintConfig>> { }
+export declare class IosCIToneCurve extends React.Component<ImageFilterProps<IosCIToneCurveConfig>> { }
+export declare class IosCIVibrance extends React.Component<ImageFilterProps<IosScalarAmountConfig>> { }
+export declare class IosCIWhitePointAdjust extends React.Component<ImageFilterProps<IosColorConfig>> { }
+export declare class IosCIColorCrossPolynomial extends React.Component<ImageFilterProps<IosCIColorPolynomialBaseConfig>> { }
+export declare class IosCIColorCube extends React.Component<ImageFilterProps<IosCIColorCubeConfig>> { }
+export declare class IosCIColorInvert extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIColorMap extends React.Component<ImageFilterProps<IosCIColorMapConfig>> { }
+export declare class IosCIColorMonochrome extends React.Component<ImageFilterProps<IosCIColorMonochromeConfig>> { }
+export declare class IosCIColorPosterize extends React.Component<ImageFilterProps<IosCIColorPosterizeConfig>> { }
+export declare class IosCIFalseColor extends React.Component<ImageFilterProps<IosCIFalseColorConfig>> { }
+export declare class IosCIMaskToAlpha extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIMaximumComponent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIMinimumComponent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPhotoEffectChrome extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPhotoEffectFade extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPhotoEffectInstant extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPhotoEffectMono extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPhotoEffectNoir extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPhotoEffectProcess extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPhotoEffectTonal extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPhotoEffectTransfer extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCISepiaTone extends React.Component<ImageFilterProps<IosCISepiaToneConfig>> { }
+export declare class IosCIVignette extends React.Component<ImageFilterProps<IosCIVignetteConfig>> { }
+export declare class IosCIVignetteEffect extends React.Component<ImageFilterProps<IosCIVignetteEffectConfig>> { }
+export declare class IosCIAdditionCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIColorBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIColorBurnBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIColorDodgeBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIDarkenBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIDifferenceBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIDivideBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIExclusionBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIHardLightBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIHueBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCILightenBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCILinearBurnBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCILinearDodgeBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCILuminosityBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIMaximumCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIMinimumCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIMultiplyBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIMultiplyCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIOverlayBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIPinLightBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCISaturationBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIScreenBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCISoftLightBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCISourceAtopCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCISourceInCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCISourceOutCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCISourceOverCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCISubtractBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCIBumpDistortion extends React.Component<ImageFilterProps<IosScaleCenterRadiusConfig>> { }
+export declare class IosCIBumpDistortionLinear extends React.Component<ImageFilterProps<IosCIBumpDistortionLinearConfig>> { }
+export declare class IosCICircleSplashDistortion extends React.Component<ImageFilterProps<IosCenterRadiusConfig>> { }
+export declare class IosCICircularWrap extends React.Component<ImageFilterProps<IosAngleCenterRadiusConfig>> { }
+export declare class IosCIDroste extends React.Component<ImageFilterProps<IosCIDrosteConfig>> { }
+export declare class IosCIDisplacementDistortion extends React.Component<ImageFilterProps<IosCIDisplacementDistortionConfig>> { }
+export declare class IosCIGlassDistortion extends React.Component<ImageFilterProps<IosCIGlassDistortionConfig>> { }
+export declare class IosCIGlassLozenge extends React.Component<ImageFilterProps<IosCIGlassLozengeConfig>> { }
+export declare class IosCIHoleDistortion extends React.Component<ImageFilterProps<IosCenterRadiusConfig>> { }
+export declare class IosCILightTunnel extends React.Component<ImageFilterProps<IosCILightTunnelConfig>> { }
+export declare class IosCIPinchDistortion extends React.Component<ImageFilterProps<IosScaleCenterRadiusConfig>> { }
+export declare class IosCIStretchCrop extends React.Component<ImageFilterProps<IosCIStretchCropConfig>> { }
+export declare class IosCITorusLensDistortion extends React.Component<ImageFilterProps<IosCITorusLensDistortionConfig>> { }
+export declare class IosCITwirlDistortion extends React.Component<ImageFilterProps<IosAngleCenterRadiusConfig>> { }
+export declare class IosCIVortexDistortion extends React.Component<ImageFilterProps<IosAngleCenterRadiusConfig>> { }
+export declare class IosCIAztecCodeGenerator extends React.Component<ImageFilterProps<IosCIAztecCodeGeneratorConfig>> { }
+export declare class IosCICheckerboardGenerator extends React.Component<ImageFilterProps<IosCICheckerboardGeneratorConfig>> { }
+export declare class IosCIConstantColorGenerator extends React.Component<ImageFilterProps<IosColorConfig>> { }
+export declare class IosCILenticularHaloGenerator extends React.Component<ImageFilterProps<IosCILenticularHaloGeneratorConfig>> { }
+export declare class IosCIQRCodeGenerator extends React.Component<ImageFilterProps<IosCIQRCodeGeneratorConfig>> { }
+export declare class IosCIRandomGenerator extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIStarShineGenerator extends React.Component<ImageFilterProps<IosCIStarShineGeneratorConfig>> { }
+export declare class IosCIStripesGenerator extends React.Component<ImageFilterProps<IosCIStripesGeneratorConfig>> { }
+export declare class IosCISunbeamsGenerator extends React.Component<ImageFilterProps<IosCISunbeamsGeneratorConfig>> { }
+export declare class IosCICrop extends React.Component<ImageFilterProps<IosCICropConfig>> { }
+export declare class IosCILanczosScaleTransform extends React.Component<ImageFilterProps<IosCILanczosScaleTransformConfig>> { }
+export declare class IosCIPerspectiveCorrection extends React.Component<ImageFilterProps<IosCIPerspectiveCorrectionConfig>> { }
+export declare class IosCIPerspectiveTransform extends React.Component<ImageFilterProps<IosPerspectiveConfig>> { }
+export declare class IosCIPerspectiveTransformWithExtent extends React.Component<ImageFilterProps<IosCIPerspectiveTransformWithExtentConfig>> { }
+export declare class IosCIStraightenFilter extends React.Component<ImageFilterProps<IosCIStraightenFilterConfig>> { }
+export declare class IosCIGaussianGradient extends React.Component<ImageFilterProps<IosCIGaussianGradientConfig>> { }
+export declare class IosCILinearGradient extends React.Component<ImageFilterProps<IosCILinearGradientConfig>> { }
+export declare class IosCIRadialGradient extends React.Component<ImageFilterProps<IosCIRadialGradientConfig>> { }
+export declare class IosCISmoothLinearGradient extends React.Component<ImageFilterProps<IosCILinearGradientConfig>> { }
+export declare class IosCICircularScreen extends React.Component<ImageFilterProps<IosHalftoneEffectConfig>> { }
+export declare class IosCICMYKHalftone extends React.Component<ImageFilterProps<IosCICMYKHalftoneConfig>> { }
+export declare class IosCIDotScreen extends React.Component<ImageFilterProps<IosAngleHalftoneEffectConfig>> { }
+export declare class IosCIHatchedScreen extends React.Component<ImageFilterProps<IosAngleHalftoneEffectConfig>> { }
+export declare class IosCILineScreen extends React.Component<ImageFilterProps<IosAngleHalftoneEffectConfig>> { }
+export declare class IosCIAreaAverage extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCIAreaHistogram extends React.Component<ImageFilterProps<IosCIAreaHistogramConfig>> { }
+export declare class IosCIRowAverage extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCIColumnAverage extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCIHistogramDisplayFilter extends React.Component<ImageFilterProps<IosCIHistogramDisplayFilterConfig>> { }
+export declare class IosCIAreaMaximum extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCIAreaMinimum extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCIAreaMaximumAlpha extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCIAreaMinimumAlpha extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCISharpenLuminance extends React.Component<ImageFilterProps<IosCISharpenLuminanceConfig>> { }
+export declare class IosCIUnsharpMask extends React.Component<ImageFilterProps<IosCIUnsharpMaskConfig>> { }
+export declare class IosCIBloom extends React.Component<ImageFilterProps<IosCIBloomConfig>> { }
+export declare class IosCIComicEffect extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIConvolution3X3 extends React.Component<ImageFilterProps<IosConvolutionConfig>> { }
+export declare class IosCIConvolution5X5 extends React.Component<ImageFilterProps<IosCIConvolution5X5Config>> { }
+export declare class IosCIConvolution7X7 extends React.Component<ImageFilterProps<IosCIConvolution7X7Config>> { }
+export declare class IosCIConvolution9Horizontal extends React.Component<ImageFilterProps<IosConvolutionConfig>> { }
+export declare class IosCIConvolution9Vertical extends React.Component<ImageFilterProps<IosConvolutionConfig>> { }
+export declare class IosCICrystallize extends React.Component<ImageFilterProps<IosCenterRadiusConfig>> { }
+export declare class IosCIEdges extends React.Component<ImageFilterProps<IosCIEdgesConfig>> { }
+export declare class IosCIEdgeWork extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCIGloom extends React.Component<ImageFilterProps<IosCIGloomConfig>> { }
+export declare class IosCIHeightFieldFromMask extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCIHexagonalPixellate extends React.Component<ImageFilterProps<IosCIHexagonalPixellateConfig>> { }
+export declare class IosCIHighlightShadowAdjust extends React.Component<ImageFilterProps<IosCIHighlightShadowAdjustConfig>> { }
+export declare class IosCILineOverlay extends React.Component<ImageFilterProps<IosCILineOverlayConfig>> { }
+export declare class IosCIPixellate extends React.Component<ImageFilterProps<IosCIPixellateConfig>> { }
+export declare class IosCIPointillize extends React.Component<ImageFilterProps<IosCenterRadiusConfig>> { }
+export declare class IosCIShadedMaterial extends React.Component<ImageFilterProps<IosCIShadedMaterialConfig>> { }
+export declare class IosCISpotColor extends React.Component<ImageFilterProps<IosCISpotColorConfig>> { }
+export declare class IosCISpotLight extends React.Component<ImageFilterProps<IosCISpotLightConfig>> { }
+export declare class IosCIEightfoldReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
+export declare class IosCIFourfoldReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
+export declare class IosCIFourfoldRotatedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
+export declare class IosCIFourfoldTranslatedTile extends React.Component<ImageFilterProps<IosCIFourfoldTranslatedTileConfig>> { }
+export declare class IosCIGlideReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
+export declare class IosCIKaleidoscope extends React.Component<ImageFilterProps<IosCIKaleidoscopeConfig>> { }
+export declare class IosCIOpTile extends React.Component<ImageFilterProps<IosCIOpTileConfig>> { }
+export declare class IosCIParallelogramTile extends React.Component<ImageFilterProps<IosCIFourfoldTranslatedTileConfig>> { }
+export declare class IosCIPerspectiveTile extends React.Component<ImageFilterProps<IosPerspectiveConfig>> { }
+export declare class IosCISixfoldReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
+export declare class IosCISixfoldRotatedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
+export declare class IosCITriangleKaleidoscope extends React.Component<ImageFilterProps<IosCITriangleKaleidoscopeConfig>> { }
+export declare class IosCITriangleTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
+export declare class IosCITwelvefoldReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
+export declare class IosCIXRay extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIThermal extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIMorphologyGradient extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCIDisparityToDepth extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIBokehBlur extends React.Component<ImageFilterProps<IosCIBokehBlurConfig>> { }
+export declare class IosCISaliencyMapFilter extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCISampleNearest extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIMix extends React.Component<ImageFilterProps<IosCIMixConfig>> { }
+export declare class IosCIDepthToDisparity extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCITextImageGenerator extends React.Component<ImageFilterProps<IosCITextImageGeneratorConfig>> { }
+export declare class IosCIHueSaturationValueGradient extends React.Component<ImageFilterProps<IosCIHueSaturationValueGradientConfig>> { }
+export declare class IosCIMorphologyMaximum extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCIMorphologyMinimum extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCINinePartStretched extends React.Component<ImageFilterProps<IosCINinePartStretchedConfig>> { }
+export declare class IosCIWrapMirror extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIMirror extends React.Component<ImageFilterProps<IosCIMirrorConfig>> { }
+export declare class IosCIAreaMinMaxRed extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCIAreaMinMax extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCICheatBlur extends React.Component<ImageFilterProps<IosDistanceAmountConfig>> { }
+export declare class IosCICheapMorphology extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCIMorphology extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCICheapBlur extends React.Component<ImageFilterProps<IosCICheapBlurConfig>> { }
+export declare class IosCIDither extends React.Component<ImageFilterProps<IosCIDitherConfig>> { }
+export declare class IosCIVividLightBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
+export declare class IosCISkyAndGrassAdjust extends React.Component<ImageFilterProps<IosCISkyAndGrassAdjustConfig>> { }
+export declare class IosCIRingBlur extends React.Component<ImageFilterProps<IosCIRingBlurConfig>> { }
+export declare class IosCIPremultiply extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPhotoGrain extends React.Component<ImageFilterProps<IosCIPhotoGrainConfig>> { }
+export declare class IosCIUnpremultiply extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCILocalContrast extends React.Component<ImageFilterProps<IosCILocalContrastConfig>> { }
+export declare class IosCILinearBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
+export declare class IosCIGaussianBlurXY extends React.Component<ImageFilterProps<IosCIGaussianBlurXYConfig>> { }
+export declare class IosCIDocumentEnhancer extends React.Component<ImageFilterProps<IosScalarAmountConfig>> { }
+export declare class IosCIClamp extends React.Component<ImageFilterProps<IosAreaConfig>> { }
+export declare class IosCIASG50Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIASG60Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIASG66Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIASG75Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIASG80Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
+export declare class IosCIPaperWash extends React.Component<ImageFilterProps<IosCIPaperWashConfig>> { }
+
+export declare class AndroidColorMatrixColorFilter extends React.Component<ImageFilterProps<ColorMatrixConfig>> { }
+export declare class AndroidIterativeBoxBlur extends React.Component<ImageFilterProps<AndroidIterativeBoxBlurConfig>> { }
+export declare class AndroidLightingColorFilter extends React.Component<ImageFilterProps<AndroidLightingColorFilterConfig>> { }
+export declare class AndroidRoundAsCircle extends React.Component<ImageFilterProps<CommonConfig>> { }
+export declare class AndroidColor extends React.Component<ImageFilterProps<ColorConfig>> { }
+export declare class AndroidLinearGradient extends React.Component<ImageFilterProps<AndroidLinearGradientConfig>> { }
+export declare class AndroidRadialGradient extends React.Component<ImageFilterProps<AndroidRadialGradientConfig>> { }
+export declare class AndroidSweepGradient extends React.Component<ImageFilterProps<AndroidSweepGradientConfig>> { }
+export declare class AndroidPorterDuffColorFilter extends React.Component<ImageFilterProps<AndroidPorterDuffColorFilterConfig>> { }
+export declare class AndroidPorterDuffXfermode extends React.Component<ImageFilterProps<AndroidPorterDuffXfermodeConfig>> { }
+export declare class AndroidScriptIntrinsicBlur extends React.Component<ImageFilterProps<AndroidScriptIntrinsicBlurConfig>> { }
+export declare class AndroidScriptIntrinsicConvolve3x3 extends React.Component<ImageFilterProps<AndroidScriptIntrinsicConvolve3x3Config>> { }
+export declare class AndroidScriptIntrinsicConvolve5x5 extends React.Component<ImageFilterProps<AndroidScriptIntrinsicConvolve5x5Config>> { }
+export declare class AndroidTextImage extends React.Component<ImageFilterProps<AndroidTextImageConfig>> { }
 
 export declare class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> { }
 export declare class ImageBackgroundPlaceholder extends React.Component<Omit<ImageBackgroundProps, 'source'>> { }

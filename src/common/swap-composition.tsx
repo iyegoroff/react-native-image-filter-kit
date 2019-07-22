@@ -1,4 +1,4 @@
-import invariant from 'tiny-invariant'
+import invariant from 'ts-tiny-invariant'
 import { Config } from './configs'
 import { ShapeRegistry } from './shape-registry'
 
