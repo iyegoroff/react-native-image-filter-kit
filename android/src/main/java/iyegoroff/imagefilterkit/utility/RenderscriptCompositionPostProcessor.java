@@ -4,8 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
+import androidx.renderscript.Allocation;
+import androidx.renderscript.RenderScript;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;

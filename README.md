@@ -20,8 +20,7 @@ Various image filters for iOS & Android.
 
     | react-native     | min Android SDK | min iOS version |
     |------------------|-----------------|-----------------|
-    | >=0.60.0         | 21              | 9.0             |
-    | >=0.57.1 <0.60.0 | 17              | 9.0             |
+    | >=0.57.1         | 17              | 9.0             |
 
 ## Installation
 
@@ -29,6 +28,12 @@ Various image filters for iOS & Android.
 <td>
 <details style="border: 1px solid; border-radius: 5px; padding: 5px">
   <summary>with react-native "<strong>&gt;=0.60.0</strong>"</summary>
+
+### 0. Check Android SDK build tools version
+
+`$ adb --version`
+
+`Version` should be at least `29.0.2`.
 
 ### 1. Install latest version from npm
 
@@ -40,10 +45,16 @@ Various image filters for iOS & Android.
 
 ### 3. Final steps
 
-- Open `android/build.gradle` and change `minSdkVersion` to 21.
-- If you are upgrading from rnifk v0.4.x open `android/app/build.gradle` and disable
-  renderscript support mode in `defaultConfig`. Currently it is impossible to use support mode
-  with `androidx` package due to bugs - [1](https://issuetracker.google.com/issues/119582492), [2](https://issuetracker.google.com/issues/133169129)
+- Open `android/build.gradle` and change `minSdkVersion` to 17.
+- Open `android/app/build.gradle` and change `defaultConfig`:
+
+  ```sh
+  defaultConfig {
+      ...
+      renderscriptTargetApi 21
+      renderscriptSupportModeEnabled true
+  }
+  ```
 
 
 </details>
