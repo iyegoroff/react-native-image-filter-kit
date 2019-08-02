@@ -3,7 +3,7 @@ package iyegoroff.imagefilterkit.hazeremoval;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import androidx.renderscript.Float4;
+import android.renderscript.Float4;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
