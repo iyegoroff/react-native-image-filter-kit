@@ -7,6 +7,11 @@
     "outDir": "../build",
     "jsx": "react-native",
     "lib": ["es6"],
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": [
+      "react",
+      "react-native",
+      "react-native-image-filter-kit"
+    ]
   }
 }

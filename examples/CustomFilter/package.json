@@ -3,11 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "preinstall": "cd ../.. && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd examples/CustomFilter && which yarn && yarn link react-native-image-filter-kit || :",
+    "preinstall": "cd ../.. && npm i && npm run build:all",
     "postinstall": "npm run build:release",
-    "run:android": "cd android && ./gradlew clean && cd .. && react-native run-android",
-    "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
-    "start:packager": "react-native start",
+    "run:android": "react-native run-android --no-jetifier",
+    "reset:packager": "react-native start --reset-cache",
     "watch": "rm -rf build && ../../node_modules/.bin/tsc -p ./src -w",
     "build:release": "rm -rf build && ../../node_modules/.bin/tsc -p ./src",
     "generate:android:signing-key": "keytool -genkey -v -keystore example.keystore -alias example -keyalg RSA -keysize 2048 -validity 10000 && mv example.keystore android/app",
@@ -18,11 +17,16 @@
     "build:release:docker": "npm run build:docker:image && npm run extract:docker:apk"
   },
   "dependencies": {
-    "react": "16.8.3",
-    "react-native": "0.59.9",
+    "react": "16.8.6",
+    "react-native": "0.60.4",
     "react-native-image-filter-kit": "file:../../"
   },
   "devDependencies": {
-    "metro-react-native-babel-preset": "0.54.1"
+    "@babel/core": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
+    "metro-react-native-babel-preset": "^0.55.0"
+  },
+  "jest": {
+    "preset": "react-native"
   }
 }

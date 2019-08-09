@@ -19,3 +19,4 @@ project.xcworkspace
 compile_commands.json
 xcodebuild.log
 .DS_Store
+Pods
