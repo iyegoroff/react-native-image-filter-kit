@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,9 +48,9 @@ public class InputConverter {
     );
   }
 
-  public float convertAngle(@Nullable JSONObject angle, float defaultValue) {
-    return extractAngle(angle != null ? angle.optString("angle") : null, defaultValue);
-  }
+//  public float convertAngle(@Nullable JSONObject angle, float defaultValue) {
+//    return extractAngle(angle != null ? angle.optString("angle") : null, defaultValue);
+//  }
 
   private float extractAngle(@Nullable String angle, float defaultValue) {
     if (angle != null) {
@@ -86,9 +85,9 @@ public class InputConverter {
 //    );
 //  }
 
-  public PointF convertOffset(@Nullable JSONObject offset, @Nonnull PointF defaultValue) {
-    return extractOffset(offset != null ? offset.optJSONObject("offset") : null, defaultValue);
-  }
+//  public PointF convertOffset(@Nullable JSONObject offset, @Nonnull PointF defaultValue) {
+//    return extractOffset(offset != null ? offset.optJSONObject("offset") : null, defaultValue);
+//  }
 
   private PointF extractOffset(@Nullable JSONObject offset, @Nonnull PointF defaultValue) {
     return new PointF(
@@ -144,7 +143,7 @@ public class InputConverter {
     JSONArray packedArgs = step.optJSONArray(name);
     List<Float> args = new ArrayList<>();
 
-    for (int i = 0; i < packedArgs.length(); i++) {
+    for (int i = 0; i < (packedArgs != null ? packedArgs.length() : 0); i++) {
       args.add(convertRelativeExpr(packedArgs.optString(i, "0")));
     }
 
@@ -185,16 +184,18 @@ public class InputConverter {
   }
 
   public String convertText(@Nullable JSONObject text, @Nullable String defaultValue) {
-    return text != null ? text.optString("text", defaultValue) : defaultValue;
+    return text != null
+      ? text.optString("text", defaultValue != null ? defaultValue : "")
+      : defaultValue;
   }
 
-  public Scale convertScale(
-    @Nullable JSONObject scale,
-    @Nonnull Scale.Mode defaultMode,
-    @Nonnull PointF defaultScale
-  ) {
-    return extractScale(scale != null ? scale.opt("scale") : null, defaultMode, defaultScale);
-  }
+//  public Scale convertScale(
+//    @Nullable JSONObject scale,
+//    @Nonnull Scale.Mode defaultMode,
+//    @Nonnull PointF defaultScale
+//  ) {
+//    return extractScale(scale != null ? scale.opt("scale") : null, defaultMode, defaultScale);
+//  }
 
   private Scale extractScale(
     @Nullable Object scale,
@@ -216,7 +217,7 @@ public class InputConverter {
   public float[] convertScalarVector(@Nullable JSONObject scalarVector, float[] defaultValue) {
     if (scalarVector != null && scalarVector.has("scalarVector")) {
       JSONArray sv = scalarVector.optJSONArray("scalarVector");
-      float[] vector = new float[sv.length()];
+      float[] vector = new float[sv != null ? sv.length() : 0];
 
       for (int i = 0; i < vector.length; i++) {
         vector[i] = (float) sv.optDouble(i);
@@ -231,7 +232,7 @@ public class InputConverter {
   public float[] convertDistanceVector(@Nullable JSONObject distanceVector, float[] defaultValue) {
     if (distanceVector != null && distanceVector.has("distanceVector")) {
       JSONArray dv = distanceVector.optJSONArray("distanceVector");
-      float[] vector = new float[dv.length()];
+      float[] vector = new float[dv != null ? dv.length() : 0];
 
       for (int i = 0; i < vector.length; i++) {
         vector[i] = convertRelativeExpr(dv.optString(i, "0"));
@@ -246,7 +247,7 @@ public class InputConverter {
   public int[] convertColorVector(@Nullable JSONObject colorVector, int[] defaultValue) {
     if (colorVector != null && colorVector.has("colorVector")) {
       JSONArray cv = colorVector.optJSONArray("colorVector");
-      int[] vector = new int[cv.length()];
+      int[] vector = new int[cv != null ? cv.length() : 0];
 
       for (int i = 0; i < vector.length; i++) {
         vector[i] = cv.optInt(i);

@@ -13,7 +13,7 @@ public class RoundAsCirclePostProcessor extends RoundAsCirclePostprocessor {
 
   private final boolean mCacheDisabled;
 
-  public RoundAsCirclePostProcessor(int width, int height, @Nullable JSONObject config) {
+  public RoundAsCirclePostProcessor(@Nullable JSONObject config) {
     super();
 
     mCacheDisabled = CacheablePostProcessor.cacheDisabled(config);

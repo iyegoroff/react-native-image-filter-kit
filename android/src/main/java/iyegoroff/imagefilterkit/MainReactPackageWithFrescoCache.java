@@ -22,6 +22,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.inject.Provider;
 
+import iyegoroff.reflectutils.ReflectUtils;
+
 public class MainReactPackageWithFrescoCache extends MainReactPackage {
 
   private @Nullable final Integer mMaxCacheEntries;

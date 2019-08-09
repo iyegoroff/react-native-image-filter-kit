@@ -12,7 +12,7 @@ public class MemoryTrimmer implements MemoryTrimmableRegistry {
   private static final MemoryTrimmer sInstance =
     new MemoryTrimmer();
 
-  public static MemoryTrimmer getInstance() {
+  static MemoryTrimmer getInstance() {
     return sInstance;
   }
 
@@ -31,13 +31,13 @@ public class MemoryTrimmer implements MemoryTrimmableRegistry {
     mTrimmables.remove(trimmable);
   }
 
-  public synchronized void trim(final MemoryTrimType trimType) {
+  synchronized void trim() {
     for (MemoryTrimmable trimmable : mTrimmables) {
-      trimmable.trim(trimType);
+      trimmable.trim(MemoryTrimType.OnCloseToDalvikHeapLimit);
     }
   }
 
-  public boolean isUsed() {
+  boolean isUsed() {
     return !mTrimmables.isEmpty();
   }
 }

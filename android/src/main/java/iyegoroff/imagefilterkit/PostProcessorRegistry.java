@@ -50,6 +50,7 @@ import iyegoroff.imagefilterkit.nativeplatform.shape.OvalShapePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.shape.PathShapePostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.shape.RegularPolygonShapePostProcessor;
 
+@SuppressWarnings("WeakerAccess")
 public class PostProcessorRegistry {
 
   public static class CreateSingular {
@@ -180,7 +181,7 @@ public class PostProcessorRegistry {
         @Nullable JSONObject config,
         @Nonnull Context context
       ) {
-        return new RoundAsCirclePostProcessor(width, height, config);
+        return new RoundAsCirclePostProcessor(config);
       }
     });
 

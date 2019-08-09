@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.executors.UiThreadImmediateExecutorService;
 import com.facebook.common.logging.FLog;
-import com.facebook.common.memory.MemoryTrimType;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.BaseDataSubscriber;
 import com.facebook.datasource.DataSource;
@@ -68,7 +67,7 @@ public class ImageFilter extends ReactViewGroup {
 
   public void setConfig(@Nullable String config) {
     try {
-      mConfig = new JSONObject(config);
+      mConfig = config != null ? new JSONObject(config) : null;
     } catch (JSONException exc) {
       Assertions.assertCondition(
         false,
@@ -239,7 +238,7 @@ public class ImageFilter extends ReactViewGroup {
       );
     }
 
-    final JSONObject jsonConfig = JSONObject.class.cast(config);
+    final JSONObject jsonConfig = (JSONObject) config;
     final String name = jsonConfig.getString("name");
 
     if (PostProcessorRegistry.getInstance().isComposition(name)) {
@@ -463,7 +462,7 @@ public class ImageFilter extends ReactViewGroup {
 
     if (error instanceof TooManyBitmapsException && trimmer.isUsed() && retries < mClearCachesMaxRetries) {
       FLog.d(ReactConstants.TAG, "ImageFilterKit: clearing caches ...");
-      trimmer.trim(MemoryTrimType.OnCloseToDalvikHeapLimit);
+      trimmer.trim();
       Fresco.getImagePipeline().clearCaches();
 
       Task.delay(1, mFiltering.getToken()).continueWith(new Continuation<Void, Object>() {
@@ -500,7 +499,7 @@ public class ImageFilter extends ReactViewGroup {
     );
 
     if (listener != null) {
-      listener.setEnabled(false);
+      listener.setDisabled();
     }
 
     final ControllerListener<ImageInfo> prevListener = ReactImageViewUtils

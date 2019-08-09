@@ -12,6 +12,8 @@ import com.facebook.react.views.imagehelper.ImageSource;
 
 import javax.annotation.Nullable;
 
+import iyegoroff.reflectutils.ReflectUtils;
+
 class ReactImageViewUtils {
 
   @Nullable

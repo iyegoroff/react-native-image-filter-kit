@@ -8,6 +8,7 @@ import com.facebook.react.uimanager.ThemedReactContext;
 
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @ReactModule(name = ImageFilterManager.REACT_CLASS)
@@ -19,20 +20,22 @@ public class ImageFilterManager extends ReactViewManager {
   private static final String PROP_CLEAR_CACHES_MAX_RETRIES = "clearCachesMaxRetries";
 
   @Override
-  public String getName() {
+  public @Nonnull String getName() {
     return REACT_CLASS;
   }
 
   @Override
-  public ImageFilter createViewInstance(ThemedReactContext reactContext) {
+  public @Nonnull ImageFilter createViewInstance(ThemedReactContext reactContext) {
     return new ImageFilter(reactContext);
   }
 
+  @SuppressWarnings("unused")
   @ReactProp(name = PROP_CONFIG)
   public void setConfig(ImageFilter view, @Nullable String config) {
     view.setConfig(config);
   }
 
+  @SuppressWarnings("unused")
   @ReactProp(name = PROP_CLEAR_CACHES_MAX_RETRIES, defaultInt = 10)
   public void setClearCachesMaxRetries(ImageFilter view, int retries) {
     view.setClearCachesMaxRetries(retries);

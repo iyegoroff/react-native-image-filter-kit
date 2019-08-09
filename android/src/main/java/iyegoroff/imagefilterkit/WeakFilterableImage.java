@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class WeakFilterableImage {
+class WeakFilterableImage {
 
   private final @Nonnull ArrayList<WeakReference<Postprocessor>> mPostProcessors;
   private final boolean mCacheDisabled;
@@ -41,7 +41,7 @@ public class WeakFilterableImage {
     return ps;
   }
 
-  public boolean isCacheDisabled() {
+  boolean isCacheDisabled() {
     return mCacheDisabled;
   }
 }

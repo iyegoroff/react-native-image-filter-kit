@@ -2,8 +2,8 @@ package iyegoroff.imagefilterkit.nativeplatform.scriptintrinsic;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.renderscript.Element;
-import android.renderscript.ScriptIntrinsicBlur;
+import androidx.renderscript.Element;
+import androidx.renderscript.ScriptIntrinsicBlur;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;

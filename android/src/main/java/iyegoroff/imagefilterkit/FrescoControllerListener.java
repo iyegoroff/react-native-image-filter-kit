@@ -70,12 +70,8 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
     }
   }
 
-  public void setEnabled(final boolean isEnabled) {
-    mIsEnabled = isEnabled;
-  }
-
-  public boolean isEnabled() {
-    return mIsEnabled;
+  void setDisabled() {
+    mIsEnabled = false;
   }
 
   @Nullable

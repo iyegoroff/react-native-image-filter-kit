@@ -20,8 +20,7 @@ Various image filters for iOS & Android.
 
     | react-native     | min Android SDK | min iOS version |
     |------------------|-----------------|-----------------|
-    | >=0.60.0         | 21              | 9.0             |
-    | >=0.57.1 <0.60.0 | 17              | 9.0             |
+    | >=0.57.1         | 17              | 9.0             |
 
 ## Installation
 
@@ -40,10 +39,43 @@ Various image filters for iOS & Android.
 
 ### 3. Final steps
 
-- Open `android/build.gradle` and change `minSdkVersion` to 21.
-- If you are upgrading from rnifk v0.4.x open `android/app/build.gradle` and disable
-  renderscript support mode in `defaultConfig`. Currently it is impossible to use support mode
-  with `androidx` package due to bugs - [1](https://issuetracker.google.com/issues/119582492), [2](https://issuetracker.google.com/issues/133169129)
+- Modify `android/build.gradle`:
+
+  ```diff
+  buildscript {
+    ext {
+  -     buildToolsVersion = "28.0.3"
+  -     minSdkVersion = 16
+  -     compileSdkVersion = 28
+  -     targetSdkVersion = 28
+  +     buildToolsVersion = "29.0.2"
+  +     minSdkVersion = 17
+  +     compileSdkVersion = 29
+  +     targetSdkVersion = 29
+  ...
+
+  allprojects {
+    repositories {
+      ...
+  +   maven { url 'https://jitpack.io' }
+    }
+  }
+  ```
+- Modify `android/app/build.gradle`:
+
+  ```diff
+  android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+  + buildToolsVersion rootProject.ext.buildToolsVersion
+
+    ...
+
+    defaultConfig {
+        ...
+  +    renderscriptTargetApi 21
+  +    renderscriptSupportModeEnabled true
+    }
+  ```
 
 
 </details>
@@ -79,14 +111,21 @@ Install manually if `react-native link` failed - [link](docs/manual_installation
 
 ### 3. Final steps
 
-- Open `android/build.gradle` and change `minSdkVersion` to 17.
-- Open `android/app/build.gradle` and change `defaultConfig`:
+- Modify `android/build.gradle`:
+  ```diff
+  buildscript {
+    ext {
+        ...
+  -     minSdkVersion = 16
+  +     minSdkVersion = 17
+  ```
+- Modify `android/app/build.gradle`:
 
-  ```sh
+  ```diff
   defaultConfig {
       ...
-      renderscriptTargetApi 21
-      renderscriptSupportModeEnabled true
+  +   renderscriptTargetApi 21
+  +   renderscriptSupportModeEnabled true
   }
   ```
 

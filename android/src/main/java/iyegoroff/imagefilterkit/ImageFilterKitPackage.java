@@ -8,14 +8,20 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 
+import javax.annotation.Nonnull;
+
 public class ImageFilterKitPackage implements ReactPackage {
   @Override
-  public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+  public @Nonnull List<ViewManager> createViewManagers(
+    @Nonnull ReactApplicationContext reactContext
+  ) {
     return Collections.<ViewManager>singletonList(new ImageFilterManager());
   }
 
   @Override
-  public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
+  public @Nonnull List<NativeModule> createNativeModules(
+    @Nonnull ReactApplicationContext reactContext
+  ) {
     return Collections.emptyList();
   }
 }

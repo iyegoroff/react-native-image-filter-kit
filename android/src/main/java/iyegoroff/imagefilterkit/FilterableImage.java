@@ -52,7 +52,7 @@ public class FilterableImage {
     return mPostProcessors;
   }
 
-  public boolean isCacheDisabled() {
+  boolean isCacheDisabled() {
     return mCacheDisabled;
   }
 }
