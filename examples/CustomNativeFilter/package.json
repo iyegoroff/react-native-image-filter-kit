@@ -3,25 +3,32 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "react-native start",
-    "test": "jest",
-    "lint": "eslint ."
+    "preinstall": "npm run build:image-filter-kit && npm run build:image-filter-kit-haze-removal",
+    "build:image-filter-kit": "cd ../.. && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd examples/CustomNativeFilter && which yarn && yarn link react-native-image-filter-kit || :",
+    "build:image-filter-kit-haze-removal": "cd local_modules/react-native-image-filter-kit-haze-removal && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd ../.. && which yarn && yarn link react-native-image-filter-kit-haze-removal || :",
+    "postinstall": "npm run build:release",
+    "run:android": "cd android && ./gradlew clean && cd .. && react-native run-android",
+    "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
+    "start:packager": "react-native start",
+    "watch": "rm -rf build && ../../node_modules/.bin/tsc -p ./src -w",
+    "build:release": "rm -rf build && ../../node_modules/.bin/tsc -p ./src",
+    "generate:android:signing-key": "keytool -genkey -v -keystore example.keystore -alias example -keyalg RSA -keysize 2048 -validity 10000 && mv example.keystore android/app",
+    "generate:android:apk": "npm run generate:android:bundle && cd android && ./gradlew assembleRelease",
+    "generate:android:bundle": "npm run build:release && react-native bundle --platform android --dev false --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle",
+    "build:docker:image": "docker build -t custom-native-filter.image -f ./Dockerfile ../..",
+    "extract:docker:apk": "docker create -ti --name custom-native-filter-container custom-native-filter.image /bin/bash && docker cp custom-native-filter-container:/package/examples/CustomNativeFilter/android/app/build/outputs/apk/release/app-release.apk custom-native-filter.apk && docker rm -fv custom-native-filter-container",
+    "build:release:docker": "npm run build:docker:image && npm run extract:docker:apk"
   },
   "dependencies": {
     "react": "16.8.6",
-    "react-native": "0.60.4"
+    "react-native": "0.60.4",
+    "react-native-color-wheel": "iyegoroff/react-native-color-wheel#radius-fix",
+    "react-native-image-filter-kit": "file:../../",
+    "react-native-image-filter-kit-haze-removal": "file:local_modules/react-native-image-filter-kit-haze-removal"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/runtime": "^7.5.5",
-    "@react-native-community/eslint-config": "^0.0.5",
-    "babel-jest": "^24.8.0",
-    "eslint": "^6.1.0",
-    "jest": "^24.8.0",
-    "metro-react-native-babel-preset": "^0.55.0",
-    "react-test-renderer": "16.8.6"
-  },
-  "jest": {
-    "preset": "react-native"
+    "metro-react-native-babel-preset": "^0.55.0"
   }
 }

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es6",
+    "strict": true,
+    "outDir": "../dist",
+    "jsx": "react-native",
+    "lib": ["es2016"],
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "declaration": true
+  }
+}

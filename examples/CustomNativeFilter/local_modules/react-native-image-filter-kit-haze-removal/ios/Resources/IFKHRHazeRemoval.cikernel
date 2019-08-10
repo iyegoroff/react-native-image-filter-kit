@@ -1,0 +1,6 @@
+kernel vec4 hazeRemovalKernel(sampler srcImage, __color color, float distance, float slope) {
+  vec4 src = sample(srcImage, samplerCoord(srcImage));
+  float d = destCoord().y * slope + distance;
+
+  return clamp(premultiply((unpremultiply(src) - d * color) / (1.0 - d)), 0.0, 1.0);
+}
