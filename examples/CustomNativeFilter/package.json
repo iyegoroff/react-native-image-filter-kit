@@ -7,7 +7,7 @@
     "build:image-filter-kit": "cd ../.. && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd examples/CustomNativeFilter && which yarn && yarn link react-native-image-filter-kit || :",
     "build:image-filter-kit-haze-removal": "cd local_modules/react-native-image-filter-kit-haze-removal && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd ../.. && which yarn && yarn link react-native-image-filter-kit-haze-removal || :",
     "postinstall": "npm run build:release",
-    "run:android": "cd android && ./gradlew clean && cd .. && react-native run-android",
+    "run:android": "react-native run-android --no-jetifier",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
     "start:packager": "react-native start",
     "watch": "rm -rf build && ../../node_modules/.bin/tsc -p ./src -w",

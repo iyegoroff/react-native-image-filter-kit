@@ -3,7 +3,7 @@ package iyegoroff.imagefilterkit.hazeremoval;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.renderscript.Float4;
+import androidx.renderscript.Float4;
 
 import com.facebook.cache.common.CacheKey;
 import com.facebook.cache.common.SimpleCacheKey;
@@ -55,16 +55,12 @@ public class HazeRemovalPostProcessor extends RenderscriptSingularPostProcessor 
       Color.alpha(mColor) / 255.0f
     );
 
-    final ScriptC_HazeRemoval script = new ScriptC_HazeRemoval(
-      ctx.getScript(),
-      getContext().getResources(),
-      R.raw.hazeremoval
-    );
+    final ScriptC_HazeRemoval script = new ScriptC_HazeRemoval(ctx.getScript());
 
     script.set_dist(mDistance);
     script.set_slope(mSlope);
     script.set_color(color);
-    script.forEach_filterImage(ctx.getDstAlloc(), ctx.getOutAlloc());
+    script.forEach_filterImage(ctx.getSrcAlloc(), ctx.getOutAlloc());
 
     ctx.copyTo(out);
 

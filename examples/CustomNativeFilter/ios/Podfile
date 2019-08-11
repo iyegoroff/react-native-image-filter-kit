@@ -28,20 +28,7 @@ target 'CustomNativeFilter' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'CustomNativeFilterTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  pod 'RNImageFilterKit', :path => '../../../'
 
   use_native_modules!
-end
-
-target 'CustomNativeFilter-tvOS' do
-  # Pods for CustomNativeFilter-tvOS
-
-  target 'CustomNativeFilter-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end

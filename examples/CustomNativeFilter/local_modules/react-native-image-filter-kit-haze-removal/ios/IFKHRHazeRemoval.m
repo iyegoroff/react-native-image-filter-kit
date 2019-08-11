@@ -19,7 +19,9 @@
   static CIKernel *kernel;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    NSBundle *bundle = [NSBundle bundleForClass:self];
+    NSBundle *podBundle = [NSBundle bundleForClass:self];
+    NSBundle *bundle = [NSBundle bundleWithURL:[podBundle URLForResource:@"RNHazeRemovalBundle"
+                                                          withExtension:@"bundle"]];
     NSString *resource = [bundle pathForResource:NSStringFromClass([IFKHRHazeRemoval class])
                                           ofType:@"cikernel"];
     NSString *code = [NSString stringWithContentsOfFile:resource
@@ -50,7 +52,7 @@
   if (self.inputImage == nil) {
     return nil;
   }
-  
+
   return [[IFKHRHazeRemoval filterKernel] applyWithExtent:_inputImage.extent
                                             roiCallback:^CGRect(int index, CGRect destRect) {
                                               return destRect;

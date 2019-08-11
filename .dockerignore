@@ -48,6 +48,6 @@ examples/*old
 
 blueprint-templates
 docs
-ios
+**/ios
 RNIFKTest
 ios-filters.txt
