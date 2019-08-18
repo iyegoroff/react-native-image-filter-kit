@@ -13,6 +13,7 @@ jobs:
       - checkout
 
       - run: sudo apt-get install libncurses5-dev libncursesw5-dev
+      - run: ls -1 /usr/lib/libncurses*
       - run:
           command: |
             cd RNIFKTest
