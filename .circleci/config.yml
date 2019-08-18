@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo apt-get install ia32-libs
+      - run: sudo apt-get install lib32z1
       - run:
           command: |
             cd RNIFKTest
