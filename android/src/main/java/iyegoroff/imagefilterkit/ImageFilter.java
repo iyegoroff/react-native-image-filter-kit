@@ -87,6 +87,15 @@ public class ImageFilter extends ReactViewGroup {
   }
 
   @Override
+  public void onViewAdded(View child) {
+    super.onViewAdded(child);
+
+    sendJSEvent(ImageFilterEvent.ON_FILTERING_START, null);
+    reset();
+    runFilterPipeline();
+  }
+
+  @Override
   protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
 
