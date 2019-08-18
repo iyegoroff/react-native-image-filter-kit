@@ -73,6 +73,7 @@
     "examples/CustomNativeFilter",
     "tslint.json",
     "*.md",
-    "*.podspec"
+    "*.podspec",
+    "LICENSE"
   ]
 }

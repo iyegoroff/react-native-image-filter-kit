@@ -44,14 +44,14 @@ Various image filters for iOS & Android.
   ```diff
   buildscript {
     ext {
-  -     buildToolsVersion = "28.0.3"
-  -     minSdkVersion = 16
-  -     compileSdkVersion = 28
-  -     targetSdkVersion = 28
-  +     buildToolsVersion = "29.0.2"
-  +     minSdkVersion = 17
-  +     compileSdkVersion = 29
-  +     targetSdkVersion = 29
+  -   buildToolsVersion = "28.0.3"
+  -   minSdkVersion = 16
+  -   compileSdkVersion = 28
+  -   targetSdkVersion = 28
+  +   buildToolsVersion = "29.0.2"
+  +   minSdkVersion = 17
+  +   compileSdkVersion = 29
+  +   targetSdkVersion = 29
   ...
 
   allprojects {
@@ -71,9 +71,9 @@ Various image filters for iOS & Android.
     ...
 
     defaultConfig {
-        ...
-  +    renderscriptTargetApi 21
-  +    renderscriptSupportModeEnabled true
+      ...
+  +   renderscriptTargetApi 21
+  +   renderscriptSupportModeEnabled true
     }
   ```
 
@@ -115,17 +115,17 @@ Install manually if `react-native link` failed - [link](docs/manual_installation
   ```diff
   buildscript {
     ext {
-        ...
-  -     minSdkVersion = 16
-  +     minSdkVersion = 17
+      ...
+  -   minSdkVersion = 16
+  +   minSdkVersion = 17
   ```
 - Modify `android/app/build.gradle`:
 
   ```diff
   defaultConfig {
-      ...
-  +   renderscriptTargetApi 21
-  +   renderscriptSupportModeEnabled true
+    ...
+  + renderscriptTargetApi 21
+  + renderscriptSupportModeEnabled true
   }
   ```
 
