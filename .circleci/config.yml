@@ -12,7 +12,11 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo apt-get install lib32z1
+      - run:
+          command: |
+            sudo cp ./lib/x86_64-linux-gnu/libncurses.so.6.1 /usr/lib/libncurses.so.5
+            sudo cp ./lib/x86_64-linux-gnu/libtinfo.so.6.1 /usr/lib/libtinfo.so.5
+
       - run:
           command: |
             cd RNIFKTest
