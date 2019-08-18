@@ -12,6 +12,8 @@ jobs:
     steps:
       - checkout
 
+      - run: sudo apt-get install libncurses5:i386
+
       - run:
           command: |
             cd RNIFKTest
