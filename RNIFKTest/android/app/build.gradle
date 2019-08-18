@@ -134,6 +134,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
     }
     splits {
         abi {
@@ -198,7 +200,7 @@ dependencies {
       releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
       implementation jscFlavor
-    }
+     }
 }
 
 // Run this once to be able to run the application with BUCK
