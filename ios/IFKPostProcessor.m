@@ -30,14 +30,14 @@
                                            defaultValue:@NO] boolValue];
     _isGenerator = [[_inputs objectForKey:@"isGenerator"] objectForKey:@"marker"] != nil;
   }
-  
+
   return self;
 }
 
 - (void)initFilter:(CGSize)size
 {
   static NSArray<NSString *> *skippedInputs;
-  
+
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     skippedInputs = @[
@@ -55,7 +55,7 @@
   NSArray *names = [[_inputs allKeys] filter:^BOOL(NSString *val, int idx) {
     return ![skippedInputs containsObject:val] && ![self->_inputs[val] objectForKey:@"marker"];
   }];
-  
+
   for (NSString *inputName in names) {
     [_filter setValue:[IFKInputConverter convertAny:[_inputs objectForKey:inputName] bounds:size]
                forKey:inputName];
@@ -75,13 +75,10 @@
 {
   CIImage *tmp = [[CIImage alloc] initWithImage:image];
   [self initFilter:tmp.extent.size];
-  
+
   [_filter setValue:_clampToExtent ? [tmp imageByClampingToExtent] : tmp forKey:@"inputImage"];
-  
-  return [self filteredImageWithScale:image.scale
-                           resizeMode:resizeMode
-                            viewFrame:tmp.extent
-                             destSize:image.size];
+
+  return [self filteredImage:image resizeMode:resizeMode viewFrame:tmp.extent];
 }
 
 - (nonnull UIImage *)processGenerator:(nonnull UIImage *)image
@@ -89,34 +86,28 @@
                            canvasSize:(CGSize)canvasSize
 {
   CGRect frame = CGRectMake(0, 0, canvasSize.width, canvasSize.height);
-  
+
   [self initFilter:canvasSize];
-  
+
   if ([[_filter inputKeys] containsObject:@"inputExtent"]) {
     [_filter setValue:[CIVector vectorWithCGRect:frame] forKey:@"inputExtent"];
   }
-  
-  return [self filteredImageWithScale:image.scale
-                           resizeMode:resizeMode
-                            viewFrame:frame
-                             destSize:canvasSize];
+
+  return [self filteredImage:image resizeMode:resizeMode viewFrame:frame];
 }
 
-- (nonnull UIImage *)filteredImageWithScale:(CGFloat)scale
-                                 resizeMode:(RCTResizeMode)resizeMode
-                                  viewFrame:(CGRect)viewFrame
-                                   destSize:(CGSize)destSize
+- (nonnull UIImage *)filteredImage:(UIImage *)image
+                        resizeMode:(RCTResizeMode)resizeMode
+                         viewFrame:(CGRect)viewFrame
 {
   CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:viewFrame];
-  
-  UIImage *filteredImage = [IFKPostProcessor resizeImageIfNeeded:[UIImage imageWithCGImage:cgim]
-                                                         srcSize:viewFrame.size
-                                                        destSize:destSize
-                                                           scale:scale
-                                                      resizeMode:resizeMode];
-  
+
+  UIImage *filteredImage = [UIImage imageWithCGImage:cgim
+                                               scale:image.scale
+                                         orientation:image.imageOrientation];
+
   CGImageRelease(cgim);
-  
+
   return filteredImage;
 }
 
@@ -126,12 +117,12 @@
   static dispatch_once_t initToken;
   static dispatch_once_t contextWithColorManagementToken;
   static dispatch_once_t contextToken;
-  
+
   static EAGLContext *eaglContext;
   static NSArray<NSString *> *filtersWithColorManagement;
   static CIContext *context;
   static CIContext *contextWithColorManagement;
-  
+
   dispatch_once(&initToken, ^{
     filtersWithColorManagement = @[
       @"CIColorMatrix",
@@ -171,11 +162,11 @@
       @"CIConvolution5X5",
       @"CIConvolution7X7"
     ];
-    
+
     eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3]
       ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
   });
-  
+
   if ([filtersWithColorManagement some:^BOOL(NSString *val, int idx) {
     return [val isEqualToString:self->_filter.name];
   }]) {
@@ -185,38 +176,16 @@
                                                     kCIImageProperties: [NSNull null],
                                                     kCIContextWorkingColorSpace: [NSNull null]}];
     });
-    
+
     return context;
-    
+
   } else {
     dispatch_once(&contextWithColorManagementToken, ^{
       contextWithColorManagement = [CIContext contextWithEAGLContext:eaglContext options:nil];
     });
-    
+
     return contextWithColorManagement;
   }
-}
-
-
-+ (nonnull UIImage *)resizeImageIfNeeded:(nonnull UIImage *)image
-                                 srcSize:(CGSize)srcSize
-                                destSize:(CGSize)destSize
-                                   scale:(CGFloat)scale
-                              resizeMode:(RCTResizeMode)resizeMode
-{
-  if (CGSizeEqualToSize(destSize, CGSizeZero) ||
-      CGSizeEqualToSize(srcSize, CGSizeZero) ||
-      CGSizeEqualToSize(srcSize, destSize)) {
-    return image;
-  }
-  
-  CAKeyframeAnimation *animation = image.reactKeyframeAnimation;
-  CGRect targetRect = RCTTargetRect(srcSize, destSize, scale, resizeMode);
-  CGAffineTransform transform = RCTTransformFromTargetRect(srcSize, targetRect);
-  image = RCTTransformImage(image, destSize, scale, transform);
-  image.reactKeyframeAnimation = animation;
-  
-  return image;
 }
 
 @end
