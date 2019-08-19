@@ -58,8 +58,8 @@ export const shapeTransforms = {
     name: 'AndroidSweepGradient',
     colors: Array.from(colors).reverse(),
     positions: stops.map(stop => 1 - stop).reverse(),
-    centerX: center.x,
-    centerY: `100h - ${center.y}`
+    cx: center.x,
+    cy: `100h - ${center.y}`
   }),
 
   TextImage: (config: TextImageConfig) => ({
