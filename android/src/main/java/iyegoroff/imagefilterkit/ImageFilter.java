@@ -90,9 +90,11 @@ public class ImageFilter extends ReactViewGroup {
   public void onViewAdded(View child) {
     super.onViewAdded(child);
 
-    sendJSEvent(ImageFilterEvent.ON_FILTERING_START, null);
-    reset();
-    runFilterPipeline();
+    if (mIsReady) {
+      sendJSEvent(ImageFilterEvent.ON_FILTERING_START, null);
+      reset();
+      runFilterPipeline();
+    }
   }
 
   @Override
