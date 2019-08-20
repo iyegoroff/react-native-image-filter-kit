@@ -15,7 +15,7 @@ public class ImageFilterKitPackage implements ReactPackage {
   public @Nonnull List<ViewManager> createViewManagers(
     @Nonnull ReactApplicationContext reactContext
   ) {
-    return Collections.<ViewManager>singletonList(new ImageFilterManager());
+    return Collections.singletonList(new ImageFilterManager());
   }
 
   @Override

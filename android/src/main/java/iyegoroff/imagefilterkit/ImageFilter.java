@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -87,17 +88,6 @@ public class ImageFilter extends ReactViewGroup {
   }
 
   @Override
-  public void onViewAdded(View child) {
-    super.onViewAdded(child);
-
-    if (mIsReady) {
-      sendJSEvent(ImageFilterEvent.ON_FILTERING_START, null);
-      reset();
-      runFilterPipeline();
-    }
-  }
-
-  @Override
   protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
 
@@ -113,28 +103,25 @@ public class ImageFilter extends ReactViewGroup {
     final String name = config.getString("name");
 
     return prevImage
-      .onSuccess(new Continuation<FilterableImage, FilterableImage>() {
-        @Override
-        public FilterableImage then(Task<FilterableImage> task) {
-          final FilterableImage result = task.getResult();
-          final ArrayList<Postprocessor> postProcessors =
-            new ArrayList<>(result.getPostProcessors());
+      .onSuccess(task -> {
+        final FilterableImage result = task.getResult();
+        final ArrayList<Postprocessor> postProcessors =
+          new ArrayList<>(result.getPostProcessors());
 
-          postProcessors.add(
-            PostProcessorRegistry.getInstance()
-              .createSingular(
-                name,
-                mDefaultWidth,
-                mDefaultHeight,
-                config,
-                getContext()
-              )
-          );
+        postProcessors.add(
+          PostProcessorRegistry.getInstance()
+            .createSingular(
+              name,
+              mDefaultWidth,
+              mDefaultHeight,
+              config,
+              getContext()
+            )
+        );
 
-          final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
+        final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
 
-          return new FilterableImage(result.getImage(), postProcessors, cacheDisabled);
-        }
+        return new FilterableImage(result.getImage(), postProcessors, cacheDisabled);
       }, mFiltering.getToken());
   }
 
@@ -145,92 +132,86 @@ public class ImageFilter extends ReactViewGroup {
     final String name = config.getString("name");
 
     return prevImages
-      .onSuccessTask(new Continuation<List<FilterableImage>, Task<FilterableImage>>() {
-        @Override
-        public Task<FilterableImage> then(Task<List<FilterableImage>> task) {
-          final TaskCompletionSource<FilterableImage> deferred = new TaskCompletionSource<>();
-          final List<FilterableImage> result = task.getResult();
-          final FilterableImage dst = result.get(0);
-          final FilterableImage src = result.get(1);
-          final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
+      .onSuccessTask(task -> {
+        final TaskCompletionSource<FilterableImage> deferred = new TaskCompletionSource<>();
+        final List<FilterableImage> result = task.getResult();
+        final FilterableImage dst = result.get(0);
+        final FilterableImage src = result.get(1);
+        final boolean cacheDisabled = CacheablePostProcessor.cacheDisabled(config);
 
-          ImageFilter.filterImage(src, mImageListeners.get(src.getImage()))
-            .onSuccess(new Continuation<ReactImageView, Void>() {
-              @Override
-              public Void then(Task<ReactImageView> task) {
-                final ReactImageView result = task.getResult();
+        ImageFilter.filterImage(src, mImageListeners.get(src.getImage()), mFiltering)
+          .onSuccess((Continuation<ReactImageView, Void>) task1 -> {
+            final ReactImageView result1 = task1.getResult();
 
-                if (result != null && result.getController() != null) {
-                  final DataSource<CloseableReference<CloseableImage>> ds = ReactImageViewUtils
-                    .getDataSource(result);
+            if (result1 != null && result1.getController() != null) {
+              final DataSource<CloseableReference<CloseableImage>> ds = ReactImageViewUtils
+                .getDataSource(result1);
 
-                  if (ds != null) {
-                    ds.subscribe(new BaseDataSubscriber<CloseableReference<CloseableImage>>() {
-                      @Override
-                      protected void onNewResultImpl(
-                        DataSource<CloseableReference<CloseableImage>> dataSource
-                      ) {
-                        if (dataSource.isFinished()) {
-                          CloseableReference<CloseableImage> ref = dataSource.getResult();
-                          if (ref != null) {
-                            ArrayList<Postprocessor> postProcessors =
-                              new ArrayList<>(dst.getPostProcessors());
+              if (ds != null) {
+                ds.subscribe(new BaseDataSubscriber<CloseableReference<CloseableImage>>() {
+                  @Override
+                  protected void onNewResultImpl(
+                    DataSource<CloseableReference<CloseableImage>> dataSource
+                  ) {
+                    if (dataSource.isFinished()) {
+                      CloseableReference<CloseableImage> ref = dataSource.getResult();
+                      if (ref != null) {
+                        ArrayList<Postprocessor> postProcessors =
+                          new ArrayList<>(dst.getPostProcessors());
 
-                            try {
-                              postProcessors.add(
-                                PostProcessorRegistry.getInstance().createComposition(
-                                  name,
-                                  mDefaultWidth,
-                                  mDefaultHeight,
-                                  config,
-                                  ref,
-                                  src.generatedCacheKey(),
-                                  getContext()
-                                )
-                              );
-
-                            } finally {
-                              CloseableReference.closeSafely(ref);
-                            }
-
-                            deferred.setResult(
-                              new FilterableImage(dst.getImage(), postProcessors, cacheDisabled)
-                            );
-
-                          } else {
-                            deferred.setError(
-                              new Exception(
-                                "ImageFilterKit: ImageFilter error: image composition - no intermediate image."
-                              )
-                            );
-                          }
-                        }
-                      }
-
-                      @Override
-                      protected void onFailureImpl(
-                        DataSource<CloseableReference<CloseableImage>> dataSource
-                      ) {
-                        Throwable throwable = dataSource.getFailureCause();
-
-                        if (throwable != null) {
-                          deferred.setError(
-                            throwable instanceof Exception
-                              ? (Exception) throwable
-                              : new Exception(throwable)
+                        try {
+                          postProcessors.add(
+                            PostProcessorRegistry.getInstance().createComposition(
+                              name,
+                              mDefaultWidth,
+                              mDefaultHeight,
+                              config,
+                              ref,
+                              src.generatedCacheKey(),
+                              getContext()
+                            )
                           );
+
+                        } finally {
+                          CloseableReference.closeSafely(ref);
                         }
+
+                        deferred.setResult(
+                          new FilterableImage(dst.getImage(), postProcessors, cacheDisabled)
+                        );
+
+                      } else {
+                        deferred.setError(
+                          new Exception(
+                            "ImageFilterKit: ImageFilter error: image composition - no intermediate image."
+                          )
+                        );
                       }
-                    }, UiThreadImmediateExecutorService.getInstance());
+                    }
                   }
-                }
 
-                return null;
+                  @Override
+                  protected void onFailureImpl(
+                    DataSource<CloseableReference<CloseableImage>> dataSource
+                  ) {
+                    Throwable throwable = dataSource.getFailureCause();
+
+                    if (throwable != null) {
+                      deferred.setError(
+                        throwable instanceof Exception
+                          ? (Exception) throwable
+                          : new Exception(throwable)
+                      );
+                    }
+                  }
+                }, UiThreadImmediateExecutorService.getInstance());
               }
-            }, mFiltering.getToken());
+            }
 
-          return deferred.getTask();
-        }
+            return null;
+          }, mFiltering.getToken());
+
+        return deferred.getTask();
       }, mFiltering.getToken());
   }
 
@@ -241,11 +222,7 @@ public class ImageFilter extends ReactViewGroup {
   ) throws JSONException {
     if (config instanceof Integer) {
       return Task.forResult(
-        new FilterableImage(
-          images.get((int) config),
-          new ArrayList<Postprocessor>(),
-          false
-        )
+        new FilterableImage(images.get((int) config), new ArrayList<>(), false)
       );
     }
 
@@ -282,7 +259,7 @@ public class ImageFilter extends ReactViewGroup {
     for (int i = 0; i < getChildCount(); i++) {
       View child = getChildAt(i);
 
-      while (!(child instanceof ReactImageView) && (child instanceof ViewGroup)) {
+      while (child instanceof ViewGroup) {
         child = ((ViewGroup) child).getChildAt(0);
       }
 
@@ -317,27 +294,18 @@ public class ImageFilter extends ReactViewGroup {
 
       FrescoControllerListener nextListener = new FrescoControllerListener(
         FrescoControllerListener.originalListener(prevListener),
-        new Functor.Arity0() {
-          public void call() {
-            sendJSEvent(ImageFilterEvent.ON_FILTERING_START, null);
-            runFilterPipeline();
-          }
+        () -> {
+          sendJSEvent(ImageFilterEvent.ON_FILTERING_START, null);
+          runFilterPipeline();
         },
-        new Functor.Arity1<Throwable>() {
-          public void call(Throwable error) {
-            handleError(
-              error,
-              new Functor.Arity1<Integer>() {
-                @Override
-                public void call(Integer rs) {
-                  reset(rs);
-                  runFilterPipeline();
-                }
-              },
-              retries
-            );
-          }
-        }
+        error -> handleError(
+          error,
+          rs -> {
+            reset(rs);
+            runFilterPipeline();
+          },
+          retries
+        )
       );
 
       mImageListeners.put(image, nextListener);
@@ -378,62 +346,51 @@ public class ImageFilter extends ReactViewGroup {
               postProcessors,
               target.isCacheDisabled()
             ),
-            mImageListeners.get(mainImage)
-          ).onSuccess(new Continuation<ReactImageView, Object>() {
-            @Override
-            public Object then(Task<ReactImageView> task) {
-              sendJSEvent(ImageFilterEvent.ON_FILTERING_FINISH, null);
-              return null;
-            }
+            mImageListeners.get(mainImage),
+            mFiltering
+          ).onSuccess(task -> {
+            sendJSEvent(ImageFilterEvent.ON_FILTERING_FINISH, null);
+            return null;
           }, mFiltering.getToken());
 
         } else {
           parseConfig(mConfig, images)
-            .onSuccess(new Continuation<FilterableImage, Void>() {
-              @Override
-              public Void then(Task<FilterableImage> task) {
-                if (!self.mIsReady && getChildCount() > 0) {
-                  getChildAt(0).setVisibility(View.VISIBLE);
-                  self.mIsReady = true;
-                }
-
-                final FilterableImage result = task.getResult();
-
-                ImageFilter.filterImage(result, mImageListeners.get(result.getImage()))
-                  .onSuccess(new Continuation<ReactImageView, Void>() {
-                    @Override
-                    public Void then(Task<ReactImageView> task) {
-                      if (!result.isCacheDisabled()) {
-                        AuxCache.put(
-                          auxKey,
-                          new WeakFilterableImage(
-                            result.getPostProcessors(),
-                            result.isCacheDisabled()
-                          )
-                        );
-                      }
-
-                      ImageFilter.ashmemInfo("after filtering");
-
-                      sendJSEvent(ImageFilterEvent.ON_FILTERING_FINISH, null);
-
-                      return null;
-                    }
-                  }, mFiltering.getToken());
-
-                return null;
+            .onSuccess((Continuation<FilterableImage, Void>) task -> {
+              if (!self.mIsReady && getChildCount() > 0) {
+                getChildAt(0).setVisibility(View.VISIBLE);
+                self.mIsReady = true;
               }
+
+              final FilterableImage result = task.getResult();
+
+              ImageFilter.filterImage(result, mImageListeners.get(result.getImage()), mFiltering)
+                .onSuccess((Continuation<ReactImageView, Void>) task1 -> {
+                  if (!result.isCacheDisabled()) {
+                    AuxCache.put(
+                      auxKey,
+                      new WeakFilterableImage(
+                        result.getPostProcessors(),
+                        result.isCacheDisabled()
+                      )
+                    );
+                  }
+
+                  ImageFilter.ashmemInfo("after filtering");
+
+                  sendJSEvent(ImageFilterEvent.ON_FILTERING_FINISH, null);
+
+                  return null;
+                }, mFiltering.getToken());
+
+              return null;
             }, mFiltering.getToken())
-            .continueWith(new Continuation<Void, Void>() {
-              @Override
-              public Void then(Task<Void> task) {
-                if (task.isFaulted()) {
-                  handleError(task.getError());
-                }
-
-                return null;
+            .continueWith((Continuation<Void, Void>) task -> {
+              if (task.isFaulted()) {
+                handleError(task.getError());
               }
-          });
+
+              return null;
+            });
         }
 
       } catch (JSONException exc) {
@@ -476,14 +433,11 @@ public class ImageFilter extends ReactViewGroup {
       trimmer.trim();
       Fresco.getImagePipeline().clearCaches();
 
-      Task.delay(1, mFiltering.getToken()).continueWith(new Continuation<Void, Object>() {
-        @Override
-        public Object then(Task<Void> task) {
-          if (retry != null) {
-            retry.call(retries + 1);
-          }
-          return null;
+      Task.delay(1, mFiltering.getToken()).continueWith(task -> {
+        if (retry != null) {
+          retry.call(retries + 1);
         }
+        return null;
       }, UiThreadImmediateExecutorService.getInstance(), mFiltering.getToken());
 
     } else {
@@ -493,7 +447,8 @@ public class ImageFilter extends ReactViewGroup {
 
   private static Task<ReactImageView> filterImage(
     final @Nonnull FilterableImage filterableImage,
-    final @Nullable FrescoControllerListener listener
+    final @Nullable FrescoControllerListener listener,
+    final @Nonnull CancellationTokenSource cancellationTokenSource
   ) {
     final ReactImageView image = filterableImage.getImage();
     final TaskCompletionSource<ReactImageView> deferred = new TaskCompletionSource<>();
@@ -518,12 +473,10 @@ public class ImageFilter extends ReactViewGroup {
 
     FrescoControllerListener nextListener = new FrescoControllerListener(
       prevListener,
-      new Functor.Arity0() {
-        public void call() {
-          if (!deferred.getTask().isCompleted()) {
-            ReactImageViewUtils.setControllerListener(image, prevListener);
-            deferred.setResult(image);
-          }
+      () -> {
+        if (!deferred.getTask().isCompleted()) {
+          ReactImageViewUtils.setControllerListener(image, prevListener);
+          deferred.setResult(image);
         }
       }
     );
@@ -531,9 +484,13 @@ public class ImageFilter extends ReactViewGroup {
     ReactImageViewUtils.setControllerListener(image, nextListener);
 
     ReactImageViewUtils.setPostProcessor(image, next);
+
     ReactImageViewUtils.setDirty(image);
 
-    image.maybeUpdateView();
+    Task.call((Callable<Void>) () -> {
+      image.maybeUpdateView();
+      return null;
+    }, UiThreadImmediateExecutorService.getInstance(), cancellationTokenSource.getToken());
 
     return deferred.getTask();
   }

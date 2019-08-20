@@ -19,7 +19,7 @@ class ReactImageViewUtils {
   @Nullable
   static ControllerListener<ImageInfo> getControllerListener(@Nullable ReactImageView target) {
     return target != null
-      ? ReflectUtils.<ControllerListener<ImageInfo>>getFieldValue(target, "mControllerListener")
+      ? ReflectUtils.getFieldValue(target, "mControllerListener")
       : null;
   }
 
@@ -50,7 +50,7 @@ class ReactImageViewUtils {
   @Nullable
   static CacheKey getCacheKey(@Nullable ReactImageView target) {
     return target != null && target.getController() != null
-      ? ReflectUtils.<CacheKey>invokeMethod(target.getController(), "getCacheKey")
+      ? ReflectUtils.invokeMethod(target.getController(), "getCacheKey")
       : null;
   }
 
@@ -59,14 +59,14 @@ class ReactImageViewUtils {
     @Nullable ReactImageView target
   ) {
     return target != null && target.getController() != null
-      ? ReflectUtils.<DataSource<CloseableReference<CloseableImage>>>invokeMethod(target.getController(), "getDataSource")
+      ? ReflectUtils.invokeMethod(target.getController(), "getDataSource")
       : null;
   }
 
   @Nullable
   static ImageSource getImageSource(@Nullable ReactImageView target) {
     return target != null
-      ? ReflectUtils.<ImageSource>getFieldValue(target, "mImageSource")
+      ? ReflectUtils.getFieldValue(target, "mImageSource")
       : null;
   }
 }

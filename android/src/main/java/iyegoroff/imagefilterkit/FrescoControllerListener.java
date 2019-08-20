@@ -31,10 +31,7 @@ public class FrescoControllerListener extends BaseControllerListener<ImageInfo> 
     final @Nullable ControllerListener<ImageInfo> originalListener,
     final @Nonnull Functor.Arity0 onImageUpdated
   ) {
-    this(originalListener, onImageUpdated, new Functor.Arity1<Throwable>() {
-      @Override
-      public void call(Throwable arg1) { }
-    });
+    this(originalListener, onImageUpdated, arg1 -> { });
   }
 
 

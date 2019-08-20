@@ -89,10 +89,19 @@ const removePlatformPrefixes = (name: string) => (
   name.replace(/^(?:Android|Ios)/, '')
 )
 
-export const finalizeConfig = ({ name, ...values }: Config) => {
+export const finalizeConfig = (
+  { name, ...values }: Config,
+  images: ReadonlyArray<React.ReactElement<any>> = []
+) => {
   const shape = ShapeRegistry.shape(name)
 
   return ({
+    key: images.reduce(
+      (acc, { props }) => (
+        props !== undefined && props.source !== undefined ? `${acc}:${props.source}` : acc
+      ),
+      ''
+    ),
     name: removePlatformPrefixes(name),
     ...(Object.keys(shape).reduce(
       (acc, key) => {
@@ -126,12 +135,12 @@ const patchComposition = (config: Config) => {
 }
 
 export const extractConfigAndImages = (filterProps: Config) => {
-  const images: React.ReactElement<any>[] = []
+  const images: React.ReactElement<unknown>[] = []
 
-  const parseFilter = (filter: Config | React.ReactElement<any>) => {
+  const parseFilter = (filter: Config | React.ReactElement<unknown>) => {
     if (filter.type && !filter.type.isImageFilter) {
       const idx = images.length
-      const elem = filter as React.ReactElement<any>
+      const elem = filter as React.ReactElement<unknown>
 
       images.push(elem)
 
@@ -174,12 +183,12 @@ export const extractConfigAndImages = (filterProps: Config) => {
 
           return acc
         },
-        {} as { [key: string]: any }
+        {} as { [key: string]: unknown }
       ))
     })
   }
 
   const config = parseFilter(filterProps)
 
-  return { config, images } as { config: Config; images: React.ReactElement<any>[] }
+  return { config, images } as { config: Config; images: React.ReactElement<unknown>[] }
 }

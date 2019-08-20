@@ -9,7 +9,6 @@ import com.facebook.common.logging.FLog;
 import com.facebook.imagepipeline.cache.DefaultBitmapMemoryCacheParamsSupplier;
 import com.facebook.imagepipeline.cache.MemoryCacheParams;
 import com.facebook.react.bridge.ModuleSpec;
-import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.modules.fresco.FrescoModule;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.inject.Provider;
 
 import iyegoroff.reflectutils.ReflectUtils;
 
@@ -55,7 +53,7 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
 
   private static boolean isFresco(ModuleSpec module) {
     @Nullable String name = ReflectUtils.invokeMethod(module, "getName");
-    name = name == null ? ReflectUtils.<String>invokeMethod(module, "getClassName") : name;
+    name = name == null ? ReflectUtils.invokeMethod(module, "getClassName") : name;
 
     return name != null && name.endsWith("FrescoModule");
   }
@@ -94,20 +92,15 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
       if (isFresco(modules.get(i))) {
         patchedModules.add(ModuleSpec.nativeModuleSpec(
           FrescoModule.class,
-          new Provider<NativeModule>() {
-            @Override
-            public NativeModule get() {
-              return new FrescoModule(
-                context,
-                true,
-                FrescoModule.getDefaultConfigBuilder(context)
-                  .setMemoryTrimmableRegistry(MemoryTrimmer.getInstance())
-                  .setBitmapMemoryCacheParamsSupplier(cacheParamsSupplier)
-                  .setBitmapsConfig(sBitmapsConfig)
-                  .build()
-              );
-            }
-          }));
+          () -> new FrescoModule(
+            context,
+            true,
+            FrescoModule.getDefaultConfigBuilder(context)
+              .setMemoryTrimmableRegistry(MemoryTrimmer.getInstance())
+              .setBitmapMemoryCacheParamsSupplier(cacheParamsSupplier)
+              .setBitmapsConfig(sBitmapsConfig)
+              .build()
+          )));
 
       } else {
         patchedModules.add(modules.get(i));

@@ -53,30 +53,26 @@ import iyegoroff.imagefilterkit.nativeplatform.shape.RegularPolygonShapePostProc
 @SuppressWarnings("WeakerAccess")
 public class PostProcessorRegistry {
 
-  public static class CreateSingular {
+  public interface CreateSingular {
 
-    public Postprocessor create(
+    Postprocessor create(
       int width,
       int height,
       @Nullable JSONObject config,
       @Nonnull Context context
-    ) {
-      throw new RuntimeException("Stub!");
-    }
+    );
   }
 
-  public static class CreateComposition {
+  public interface CreateComposition {
 
-    public Postprocessor create(
+    Postprocessor create(
       int width,
       int height,
       @Nullable JSONObject config,
       @Nonnull CloseableReference<CloseableImage> imageRef,
       @Nonnull CacheKey imageKey,
       @Nonnull Context context
-    ) {
-      throw new RuntimeException("Stub!");
-    }
+    );
   }
 
   private final Map<String, CreateSingular> mSingulars = new HashMap<>();
@@ -89,434 +85,113 @@ public class PostProcessorRegistry {
   }
 
   private PostProcessorRegistry() {
-    addSingular("ColorMatrixColorFilter", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new ColorMatrixColorFilterPostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "ColorMatrixColorFilter",
+      (width, height, config, context) -> new ColorMatrixColorFilterPostProcessor(width, height, config)
+    );
 
-    addSingular("Color", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new ColorPostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "Color",
+      (width, height, config, context) -> new ColorPostProcessor(width, height, config)
+    );
 
-    addSingular("IterativeBoxBlur", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new IterativeBoxBlurPostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "IterativeBoxBlur",
+      (width, height, config, context) -> new IterativeBoxBlurPostProcessor(width, height, config)
+    );
 
-    addSingular("LightingColorFilter", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new LightingColorFilterPostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "LightingColorFilter",
+      (width, height, config, context) -> new LightingColorFilterPostProcessor(width, height, config)
+    );
 
-    addSingular("LinearGradient", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new LinearGradientPostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "LinearGradient",
+      (width, height, config, context) -> new LinearGradientPostProcessor(width, height, config)
+    );
 
-    addSingular("PorterDuffColorFilter", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new PorterDuffColorFilterPostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "PorterDuffColorFilter",
+      (width, height, config, context) -> new PorterDuffColorFilterPostProcessor(width, height, config)
+    );
 
-    addSingular("RadialGradient", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new RadialGradientPostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "RadialGradient",
+      (width, height, config, context) -> new RadialGradientPostProcessor(width, height, config)
+    );
 
-    addSingular("RoundAsCircle", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new RoundAsCirclePostProcessor(config);
-      }
-    });
+    addSingular(
+      "RoundAsCircle",
+      (width, height, config, context) -> new RoundAsCirclePostProcessor(config)
+    );
 
-    addSingular("SweepGradient", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new SweepGradientPostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "SweepGradient",
+      (width, height, config, context) -> new SweepGradientPostProcessor(width, height, config)
+    );
 
-    addSingular("ScriptIntrinsicBlur", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new ScriptIntrinsicBlurPostProcessor(width, height, config, context);
-      }
-    });
+    addSingular("ScriptIntrinsicBlur", ScriptIntrinsicBlurPostProcessor::new);
 
-    addSingular("ScriptIntrinsicConvolve3x3", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new ScriptIntrinsicConvolve3x3PostProcessor(width, height, config, context);
-      }
-    });
+    addSingular("ScriptIntrinsicConvolve3x3", ScriptIntrinsicConvolve3x3PostProcessor::new);
 
-    addSingular("ScriptIntrinsicConvolve5x5", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new ScriptIntrinsicConvolve5x5PostProcessor(width, height, config, context);
-      }
-    });
+    addSingular("ScriptIntrinsicConvolve5x5", ScriptIntrinsicConvolve5x5PostProcessor::new);
 
-    addSingular("TextImage", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new TextImagePostProcessor(width, height, config, context);
-      }
-    });
+    addSingular("TextImage", TextImagePostProcessor::new);
 
-    addSingular("CircleShape", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new CircleShapePostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "CircleShape",
+      (width, height, config, context) -> new CircleShapePostProcessor(width, height, config)
+    );
 
-    addSingular("OvalShape", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new OvalShapePostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "OvalShape",
+      (width, height, config, context) -> new OvalShapePostProcessor(width, height, config)
+    );
 
-    addSingular("PathShape", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new PathShapePostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "PathShape",
+      (width, height, config, context) -> new PathShapePostProcessor(width, height, config)
+    );
 
-    addSingular("RegularPolygonShape", new CreateSingular() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull Context context
-      ) {
-        return new RegularPolygonShapePostProcessor(width, height, config);
-      }
-    });
+    addSingular(
+      "RegularPolygonShape",
+      (width, height, config, context) -> new RegularPolygonShapePostProcessor(width, height, config)
+    );
 
-    addComposition("PorterDuffXfermode", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new PorterDuffXfermodePostProcessor(width, height, config, imageRef, imageKey);
-      }
-    });
+    addComposition(
+      "PorterDuffXfermode",
+      (width, height, config, imageRef, imageKey, context) -> new PorterDuffXfermodePostProcessor(width, height, config, imageRef, imageKey)
+    );
 
-    addComposition("ColorDodgeBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new ColorDodgeBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("ColorDodgeBlend", ColorDodgeBlendPostProcessor::new);
 
-    addComposition("ExclusionBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new ExclusionBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("ExclusionBlend", ExclusionBlendPostProcessor::new);
 
-    addComposition("ColorBurnBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new ColorBurnBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("ColorBurnBlend", ColorBurnBlendPostProcessor::new);
 
-    addComposition("SoftLightBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new SoftLightBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("SoftLightBlend", SoftLightBlendPostProcessor::new);
 
-    addComposition("HueBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new HueBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("HueBlend", HueBlendPostProcessor::new);
 
-    addComposition("ColorBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new ColorBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("ColorBlend", ColorBlendPostProcessor::new);
 
-    addComposition("SaturationBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new SaturationBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("SaturationBlend", SaturationBlendPostProcessor::new);
 
-    addComposition("LuminosityBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new LuminosityBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("LuminosityBlend", LuminosityBlendPostProcessor::new);
 
-    addComposition("DifferenceBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new DifferenceBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("DifferenceBlend", DifferenceBlendPostProcessor::new);
 
-    addComposition("HardLightBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new HardLightBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("HardLightBlend", HardLightBlendPostProcessor::new);
 
-    addComposition("MultiplyBlend", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new MultiplyBlendPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("MultiplyBlend", MultiplyBlendPostProcessor::new);
 
-    addComposition("DestinationATopCompositing", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new DestinationATopCompositingPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("DestinationATopCompositing", DestinationATopCompositingPostProcessor::new);
 
-    addComposition("SourceOutCompositing", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new SourceOutCompositingPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("SourceOutCompositing", SourceOutCompositingPostProcessor::new);
 
-    addComposition("DestinationInCompositing", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new DestinationInCompositingPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
+    addComposition("DestinationInCompositing", DestinationInCompositingPostProcessor::new);
 
-    addComposition("SourceInCompositing", new CreateComposition() {
-      @Override
-      public Postprocessor create(
-        int width,
-        int height,
-        @Nullable JSONObject config,
-        @Nonnull CloseableReference<CloseableImage> imageRef,
-        @Nonnull CacheKey imageKey,
-        @Nonnull Context context
-      ) {
-        return new SourceInCompositingPostProcessor(width, height, config, imageRef, imageKey, context);
-      }
-    });
-
+    addComposition("SourceInCompositing", SourceInCompositingPostProcessor::new);
   }
 
   public void addSingular(@Nonnull String name, @Nonnull CreateSingular functor) {

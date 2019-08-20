@@ -44,7 +44,7 @@ export const createImageFilter = (
     return (
       <IFKImageFilter
         style={[defaultStyle, style]}
-        config={JSON.stringify(finalizeConfig(config))}
+        config={JSON.stringify(finalizeConfig(config, images))}
         onIFKFilteringError={onFilteringError || id}
         onIFKFilteringStart={onFilteringStart || id}
         onIFKFilteringFinish={onFilteringFinish || id}

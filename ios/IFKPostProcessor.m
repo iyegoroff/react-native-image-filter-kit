@@ -43,6 +43,7 @@
     skippedInputs = @[
       @"disableCache",
       @"name",
+      @"key",
       @"inputImage",
       @"resizeCanvasTo",
       @"swapImages",
