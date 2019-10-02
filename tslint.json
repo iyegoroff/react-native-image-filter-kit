@@ -2,6 +2,7 @@
   "extends": ["tslint-config-standard", "tslint-react"],
   "rules": {
     "jsx-no-multiline-js": false,
+    "jsx-wrap-multiline": false,
     "jsx-space-before-trailing-slash": true,
     "no-parameter-reassignment": true,
     "no-shadowed-variable": true,
@@ -12,6 +13,12 @@
       "anonymous": "always",
       "named": "never",
       "asyncArrow": "always"
-    }]
+    }],
+    "no-any": true,
+    "ban-ts-ignore": true,
+    "no-non-null-assertion": true,
+    "no-null-keyword": true,
+    "prefer-const": true,
+    "no-import-side-effect": true
   }
 }

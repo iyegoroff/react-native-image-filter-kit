@@ -79,7 +79,7 @@ export const HazeRemoval = registerFilter(
         inputDistance: distance,
         inputSlope: slope,
         inputColor: color
-      } as any,
+      } as unknown,
       android: {
         name: 'AndroidHazeRemoval',
         image,
@@ -87,7 +87,7 @@ export const HazeRemoval = registerFilter(
         distance,
         slope,
         color
-      } as any
+      } as unknown
     })
   )
 )

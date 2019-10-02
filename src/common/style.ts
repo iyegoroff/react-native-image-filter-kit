@@ -43,7 +43,7 @@ export const hidden = (item: React.ReactElement<ViewProps & { children?: React.R
     })
   }
 
-  const it = item as React.ReactElement<any>
+  const it = item as React.ReactElement<{ style?: unknown }>
 
   return React.cloneElement(it, {
     ...it.props,

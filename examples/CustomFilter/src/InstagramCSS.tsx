@@ -6,7 +6,8 @@ import {
   Sepia,
   ScreenBlend,
   RadialGradient,
-  ConfigWithIntermediates
+  ConfigWithIntermediates,
+  Config
 } from 'react-native-image-filter-kit'
 
 interface InstagramCSSConfig<Rest = never>
@@ -29,14 +30,14 @@ export type InstagramCSSExtensionConfig<Rest = never> =
  *       }
  *     }
  */
-export const Ashby = registerFilter(
+export const Ashby = registerFilter<InstagramCSSConfig, Config>(
   'Ashby',
   {
     image: 'image',
     disableCache: 'bool',
     disableIntermediateCaches: 'bool'
   },
-  ({ image, disableCache, disableIntermediateCaches = true }: InstagramCSSConfig) => ({
+  ({ image, disableCache, disableIntermediateCaches = true }) => ({
     name: 'Saturate',
     disableCache,
     amount: 1.8,
@@ -54,7 +55,7 @@ export const Ashby = registerFilter(
           disableIntermediateCaches,
           dstImage: image,
           srcColor: 'rgba(125, 105, 24, 0.35)'
-        }
+        } as Config
       }
     }
   })
@@ -77,14 +78,14 @@ export const Ashby = registerFilter(
  *       }
  *     }
  */
-export const Poprocket = registerFilter(
+export const Poprocket = registerFilter<InstagramCSSConfig, Config>(
   'Poprocket',
   {
     image: 'image',
     disableCache: 'bool',
     disableIntermediateCaches: 'bool'
   },
-  ({ image, disableCache, disableIntermediateCaches = true }: InstagramCSSConfig) => ({
+  ({ image, disableCache, disableIntermediateCaches = true }) => ({
     name: 'Brightness',
     disableCache,
     amount: 1.2,
@@ -104,7 +105,7 @@ export const Poprocket = registerFilter(
           stops: [0.4, 0.8],
           radius: '70min'
         }
-      }
+      } as Config
     }
   })
 )

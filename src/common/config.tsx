@@ -78,8 +78,8 @@ const convertKey = Platform.select({
 
 const convertValue = Platform.select({
   android: id,
-  ios: (value: any) => (
-    typeof (value as { match: Function | string }).match === 'string'
+  ios: (value: { match: Function | string }) => (
+    typeof value.match === 'string'
       ? { match: iosMatchMap[value.match] || value.match }
       : value
   )
@@ -91,6 +91,7 @@ const removePlatformPrefixes = (name: string) => (
 
 export const finalizeConfig = (
   { name, ...values }: Config,
+  // tslint:disable-next-line: no-any
   images: ReadonlyArray<React.ReactElement<any>> = []
 ) => {
   const shape = ShapeRegistry.shape(name)
