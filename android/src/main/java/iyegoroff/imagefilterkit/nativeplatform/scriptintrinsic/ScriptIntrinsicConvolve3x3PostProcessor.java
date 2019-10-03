@@ -38,10 +38,7 @@ public class ScriptIntrinsicConvolve3x3PostProcessor extends RenderscriptSingula
 
     InputConverter converter = new InputConverter(width, height);
 
-    mCoefficients = converter.convertScalarVector(
-      config != null ? config.optJSONObject("coefficients") : null,
-      mDefaultCoefficients
-    );
+    mCoefficients = converter.convertScalarVector(config, "coefficients", mDefaultCoefficients);
   }
 
   @Override

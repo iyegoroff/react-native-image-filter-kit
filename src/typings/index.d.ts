@@ -45,6 +45,8 @@ type Area = {
 
 type TileMode = 'CLAMP' | 'MIRROR' | 'REPEAT'
 
+type MixStep = 'CLAMP' | 'SMOOTH'
+
 type PorterDuffMode =
   | 'ADD'
   | 'CLEAR'
@@ -164,6 +166,7 @@ interface LinearGradientConfig<Rest = never> extends GradientConfig<Rest> {
 interface RadialGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly center?: Position
   readonly radius?: Distance
+  readonly mixStep?: MixStep
 }
 
 interface SweepGradientConfig<Rest = never> extends GradientConfig<Rest> {
@@ -1644,6 +1647,7 @@ type Input =
   | 'marker'
   | 'path'
   | 'transform'
+  | 'mixStep'
 
 type Shape = { [key: string]: Input }
 

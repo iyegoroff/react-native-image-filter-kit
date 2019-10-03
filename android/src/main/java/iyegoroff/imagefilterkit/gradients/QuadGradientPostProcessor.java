@@ -34,10 +34,10 @@ public class QuadGradientPostProcessor extends RenderscriptGeneratorPostProcesso
 
     InputConverter converter = new InputConverter(width, height);
 
-    mBottomLeftColor = converter.convertColor(config != null ? config.optJSONObject("bottomLeftColor") : null, 0);
-    mBottomRightColor = converter.convertColor(config != null ? config.optJSONObject("bottomRightColor") : null, 0);
-    mTopLeftColor = converter.convertColor(config != null ? config.optJSONObject("topLeftColor") : null, 0);
-    mTopRightColor = converter.convertColor(config != null ? config.optJSONObject("topRightColor") : null, 0);
+    mBottomLeftColor = converter.convertColor(config, "bottomLeftColor", 0);
+    mBottomRightColor = converter.convertColor(config, "bottomRightColor", 0);
+    mTopLeftColor = converter.convertColor(config, "topLeftColor", 0);
+    mTopRightColor = converter.convertColor(config, "topRightColor", 0);
   }
 
   @Override

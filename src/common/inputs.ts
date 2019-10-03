@@ -20,6 +20,7 @@ export const marker = 'marker'
 export const path = 'path'
 export const angle = 'angle'
 export const transform = 'transform'
+export const mixStep = 'mixStep'
 
 export type Input =
   | typeof config
@@ -44,3 +45,4 @@ export type Input =
   | typeof path
   | typeof angle
   | typeof transform
+  | typeof mixStep

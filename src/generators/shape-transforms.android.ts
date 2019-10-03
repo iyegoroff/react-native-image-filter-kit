@@ -40,10 +40,11 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     stops = [0, 1],
     center = { x: '50w', y: '50h' },
     radius = '50min',
+    mixStep = 'CLAMP',
     ...config
   }: RadialGradientConfig) => ({
     ...config,
-    name: 'AndroidRadialGradient',
+    name: mixStep === 'CLAMP' ? 'AndroidRadialGradient' : 'AndroidSmoothRadialGradient',
     colors,
     stops,
     radius,

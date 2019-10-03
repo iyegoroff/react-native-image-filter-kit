@@ -27,8 +27,8 @@ public class CircleShapePostProcessor extends GeneratorPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mRadius = converter.convertDistance(config != null ? config.optJSONObject("radius") : null, "50min");
-    mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
+    mRadius = converter.convertDistance(config, "radius", "50min");
+    mColor = converter.convertColor(config, "color", Color.BLACK);
   }
 
   @Override

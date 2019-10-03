@@ -36,9 +36,7 @@ public class PorterDuffXfermodePostProcessor extends CompositionPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mMode = converter.convertPorterDuffMode(
-      config != null ? config.optJSONObject("mode") : null, PorterDuff.Mode.ADD
-    );
+    mMode = converter.convertPorterDuffMode(config, "mode", PorterDuff.Mode.ADD);
   }
 
   @Override

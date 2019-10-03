@@ -33,10 +33,10 @@ public class SweepGradientPostProcessor extends GeneratorPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mCx = converter.convertDistance(config != null ? config.optJSONObject("cx") : null, "50w");
-    mCy = converter.convertDistance(config != null ? config.optJSONObject("cy") : null, "50h");
-    mColors = converter.convertColorVector(config != null ? config.optJSONObject("colors") : null, defaultColors);
-    mPositions = converter.convertScalarVector(config != null ? config.optJSONObject("positions") : null, defaultPositions);
+    mCx = converter.convertDistance(config, "cx", "50w");
+    mCy = converter.convertDistance(config, "cy", "50h");
+    mColors = converter.convertColorVector(config, "colors", defaultColors);
+    mPositions = converter.convertScalarVector(config, "positions", defaultPositions);
   }
 
   @Override

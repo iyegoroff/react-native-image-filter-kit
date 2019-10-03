@@ -56,10 +56,10 @@ public abstract class CompositionPostProcessor extends CacheablePostProcessor {
 
     mSrc = src.clone();
     mSrcCacheKey = srcCacheKey;
-    mSrcTransform = converter.convertTransform(config != null ? config.optJSONObject("srcTransform") : null, transform);
-    mDstTransform = converter.convertTransform(config != null ? config.optJSONObject("dstTransform") : null, transform);
-    mResizeCanvasTo = converter.convertText(config != null ? config.optJSONObject("resizeCanvasTo") : null, null);
-    mSwapImages = converter.convertBool(config != null ? config.optJSONObject("swapImages") : null, false);
+    mSrcTransform = converter.convertTransform(config, "srcTransform", transform);
+    mDstTransform = converter.convertTransform(config, "dstTransform", transform);
+    mResizeCanvasTo = converter.convertText(config, "resizeCanvasTo", null);
+    mSwapImages = converter.convertBool(config, "swapImages", false);
   }
 
   @Override

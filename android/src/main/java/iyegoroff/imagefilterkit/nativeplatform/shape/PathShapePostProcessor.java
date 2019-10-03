@@ -11,6 +11,7 @@ import com.facebook.cache.common.SimpleCacheKey;
 import org.json.JSONObject;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,9 +30,11 @@ public class PathShapePostProcessor extends GeneratorPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mPath = converter.convertPath(config != null ? config.optJSONObject("path") : null, new Path());
-    mPathAsString = ((config != null && config.optJSONObject("path") != null) ? config.optJSONObject("path") : "").toString();
-    mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
+    mPath = converter.convertPath(config, "path", new Path());
+    mPathAsString = Objects.requireNonNull(
+      (config != null && config.optJSONObject("path") != null) ? config.optJSONObject("path") : ""
+    ).toString();
+    mColor = converter.convertColor(config, "color", Color.BLACK);
   }
 
   @Override

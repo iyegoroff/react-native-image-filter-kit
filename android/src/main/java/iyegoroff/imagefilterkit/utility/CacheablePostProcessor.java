@@ -5,6 +5,8 @@ import com.facebook.imagepipeline.request.BasePostprocessor;
 
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import javax.annotation.Nullable;
 
 public abstract class CacheablePostProcessor extends BasePostprocessor {
@@ -13,8 +15,8 @@ public abstract class CacheablePostProcessor extends BasePostprocessor {
   private final boolean mCacheDisabled;
 
   public static boolean cacheDisabled(@Nullable JSONObject config) {
-    return (config != null && config.optJSONObject("disableCache") != null)
-      && config.optJSONObject("disableCache").optBoolean("bool", false);
+    return (config != null && config.optJSONObject("disableCache") != null) &&
+      Objects.requireNonNull(config.optJSONObject("disableCache")).optBoolean("bool", false);
   }
 
   public CacheablePostProcessor(@Nullable JSONObject config) {

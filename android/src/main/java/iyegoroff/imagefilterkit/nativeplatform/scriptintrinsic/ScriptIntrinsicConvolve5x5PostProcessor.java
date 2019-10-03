@@ -40,10 +40,7 @@ public class ScriptIntrinsicConvolve5x5PostProcessor extends RenderscriptSingula
 
     InputConverter converter = new InputConverter(width, height);
 
-    mCoefficients = converter.convertScalarVector(
-      config != null ? config.optJSONObject("coefficients") : null,
-      mDefaultCoefficients
-    );
+    mCoefficients = converter.convertScalarVector(config, "coefficients", mDefaultCoefficients);
   }
 
   @Override

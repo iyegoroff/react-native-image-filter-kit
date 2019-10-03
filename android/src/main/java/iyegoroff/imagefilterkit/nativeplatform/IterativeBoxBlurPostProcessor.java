@@ -18,14 +18,14 @@ public class IterativeBoxBlurPostProcessor extends com.facebook.imagepipeline.po
     @Nullable JSONObject config,
     @Nonnull InputConverter converter
   ) {
-    return (int) converter.convertScalar(config != null ? config.optJSONObject("iterations") : null, 3);
+    return (int) converter.convertScalar(config, "iterations", 3);
   }
 
   private static int blurRadius(
     @Nullable JSONObject config,
     @Nonnull InputConverter converter
   ) {
-    return (int) converter.convertScalar(config != null ? config.optJSONObject("blurRadius") : null, 3);
+    return (int) converter.convertScalar(config, "blurRadius", 3);
   }
 
   public IterativeBoxBlurPostProcessor(int width, int height, @Nullable JSONObject config) {

@@ -25,7 +25,7 @@ public class ColorPostProcessor extends GeneratorPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, 0);
+    mColor = converter.convertColor(config, "color", 0);
   }
 
   @Override

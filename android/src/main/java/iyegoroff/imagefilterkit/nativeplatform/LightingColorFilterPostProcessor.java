@@ -30,8 +30,8 @@ public class LightingColorFilterPostProcessor extends CacheablePostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mMul = converter.convertColor(config != null ? config.optJSONObject("mul") : null, 0);
-    mAdd = converter.convertColor(config != null ? config.optJSONObject("add") : null, 0);
+    mMul = converter.convertColor(config, "mul", 0);
+    mAdd = converter.convertColor(config, "add", 0);
   }
 
   @Override
@@ -55,6 +55,8 @@ public class LightingColorFilterPostProcessor extends CacheablePostProcessor {
   @Nonnull
   @Override
   public CacheKey generateCacheKey() {
-    return new SimpleCacheKey(String.format(Locale.ROOT, "lighting_color_filter_%d_%d", mMul, mAdd));
+    return new SimpleCacheKey(
+      String.format(Locale.ROOT, "lighting_color_filter_%d_%d", mMul, mAdd)
+    );
   }
 }

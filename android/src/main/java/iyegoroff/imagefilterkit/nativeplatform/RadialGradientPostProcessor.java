@@ -36,12 +36,12 @@ public class RadialGradientPostProcessor extends GeneratorPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mCenterX = converter.convertDistance(config != null ? config.optJSONObject("centerX") : null, "50w");
-    mCenterY = converter.convertDistance(config != null ? config.optJSONObject("centerY") : null, "50h");
-    mRadius = converter.convertDistance(config != null ? config.optJSONObject("radius") : null, "50min");
-    mColors = converter.convertColorVector(config != null ? config.optJSONObject("colors") : null, defaultColors);
-    mStops = converter.convertScalarVector(config != null ? config.optJSONObject("stops") : null, defaultStops);
-    mTileMode = converter.convertTileMode(config != null ? config.optJSONObject("tileMode"): null, Shader.TileMode.CLAMP);
+    mCenterX = converter.convertDistance(config, "centerX", "50w");
+    mCenterY = converter.convertDistance(config, "centerY", "50h");
+    mRadius = converter.convertDistance(config, "radius", "50min");
+    mColors = converter.convertColorVector(config, "colors", defaultColors);
+    mStops = converter.convertScalarVector(config, "stops", defaultStops);
+    mTileMode = converter.convertTileMode(config, "tileMode", Shader.TileMode.CLAMP);
   }
 
   @Override

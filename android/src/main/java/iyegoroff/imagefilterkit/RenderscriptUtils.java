@@ -4,9 +4,9 @@ import android.graphics.Color;
 
 import androidx.renderscript.Float4;
 
-import java.util.List;
-
 public class RenderscriptUtils {
+
+  private static int sMaxColors = 10;
 
   public static Float4 toRenderscriptColor(final int color) {
     return new Float4(
@@ -17,13 +17,23 @@ public class RenderscriptUtils {
     );
   }
 
-//  public static List<Float4> renderscriptColors(List<Integer> colors, int max) {
-//    colors.
-//  }
+  public static Float4[] renderscriptColors(int[] colors) {
+    Float4[] converted = new Float4[sMaxColors];
 
-//  protected fun renderScriptColors() =
-//  colors.map { toRenderScriptColor(it) }.toTypedArray().plus(Array(10) { Float4() })
+    for (int i = 0; i < sMaxColors; i++) {
+      converted[i] = toRenderscriptColor(colors.length > i ? colors[i] : Color.TRANSPARENT);
+    }
 
-//  protected fun renderScriptPositions() =
-//    positions.plus(FloatArray(10))
+    return converted;
+  }
+
+  public static float[] renderscriptPositions(float[] positions) {
+    float[] converted = new float[sMaxColors];
+
+    for (int i = 0; i < sMaxColors; i++) {
+      converted[i] = positions.length > i ? positions[i] : 0.0f;
+    }
+
+    return converted;
+  }
 }

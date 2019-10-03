@@ -37,10 +37,7 @@ public class ColorMatrixColorFilterPostProcessor extends CacheablePostProcessor 
 
     InputConverter converter = new InputConverter(width, height);
 
-    mMatrix = converter.convertScalarVector(
-      config != null ? config.optJSONObject("matrix") : null,
-      mNormalMatrix
-    );
+    mMatrix = converter.convertScalarVector(config, "matrix", mNormalMatrix);
   }
 
   @Override

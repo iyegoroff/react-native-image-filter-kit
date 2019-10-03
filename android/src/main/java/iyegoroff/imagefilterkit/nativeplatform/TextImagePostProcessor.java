@@ -41,10 +41,10 @@ public class TextImagePostProcessor extends GeneratorPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mText = converter.convertText(config != null ? config.optJSONObject("text") : null, "");
-    mFontName = converter.convertText(config != null ? config.optJSONObject("fontName") : null, null);
-    mFontSize = converter.convertDistance(config != null ? config.optJSONObject("fontSize") : null, "16");
-    mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
+    mText = converter.convertText(config, "text", "");
+    mFontName = converter.convertText(config, "fontName", null);
+    mFontSize = converter.convertDistance(config, "fontSize", "16");
+    mColor = converter.convertColor(config, "color", Color.BLACK);
 
     mTypeface = ReactFontManager.getInstance()
       .getTypeface(mFontName, Typeface.NORMAL, context.getAssets());

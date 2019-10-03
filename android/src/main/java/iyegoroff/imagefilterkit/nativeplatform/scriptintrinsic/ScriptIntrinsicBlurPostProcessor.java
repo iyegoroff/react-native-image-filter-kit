@@ -32,10 +32,7 @@ public class ScriptIntrinsicBlurPostProcessor extends RenderscriptSingularPostPr
 
     InputConverter converter = new InputConverter(width, height);
 
-    mRadius = (int)converter.convertScalar(
-      config != null ? config.optJSONObject("radius") : null,
-      5.0f
-    );
+    mRadius = (int)converter.convertScalar(config, "radius", 5.0f);
   }
 
   @Override

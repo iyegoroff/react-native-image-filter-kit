@@ -1,5 +1,5 @@
 import { Composition, Generator } from '../common/shapes'
-import { distance, color, path, distanceVector } from '../common/inputs'
+import { distance, color, path, distanceVector, colorVector, scalarVector } from '../common/inputs'
 
 export const shapes = {
   AndroidDestinationATopCompositing: Composition,
@@ -41,6 +41,15 @@ export const shapes = {
     bottomRightColor: color,
     topLeftColor: color,
     topRightColor: color,
+    ...Generator
+  },
+
+  AndroidSmoothRadialGradient: {
+    centerX: distance,
+    centerY: distance,
+    radius: distance,
+    colors: colorVector,
+    stops: scalarVector,
     ...Generator
   }
 }

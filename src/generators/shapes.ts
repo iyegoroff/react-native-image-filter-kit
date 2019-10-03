@@ -5,12 +5,12 @@ import {
   position,
   distance,
   text,
-  scalar,
   distanceVector,
-  path
+  path,
+  mixStep
 } from '../common/inputs'
 import { Generator } from '../common/shapes'
-import { Position } from '../common/configs'
+import { Position, MixStep } from '../common/configs'
 
 interface GradientConfig {
   readonly colors?: ReadonlyArray<string>
@@ -26,6 +26,7 @@ export interface LinearGradientConfig extends GradientConfig {
 export interface RadialGradientConfig extends GradientConfig {
   readonly center?: Position
   readonly radius?: string
+  readonly mixStep?: MixStep
 }
 
 export interface SweepGradientConfig extends GradientConfig {
@@ -89,6 +90,7 @@ export const shapes = {
     stops: scalarVector,
     center: position,
     radius: distance,
+    mixStep: mixStep,
     ...Generator
   },
 

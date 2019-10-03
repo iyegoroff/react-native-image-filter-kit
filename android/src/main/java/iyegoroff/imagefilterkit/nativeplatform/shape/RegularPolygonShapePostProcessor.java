@@ -33,9 +33,9 @@ public class RegularPolygonShapePostProcessor extends GeneratorPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mCircumradius = converter.convertDistance(config != null ? config.optJSONObject("circumradius") : null, "50min");
-    mBorderRadiuses = converter.convertDistanceVector(config != null ? config.optJSONObject("borderRadiuses") : null, new float[3]);
-    mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
+    mCircumradius = converter.convertDistance(config, "circumradius", "50min");
+    mBorderRadiuses = converter.convertDistanceVector(config , "borderRadiuses", new float[3]);
+    mColor = converter.convertColor(config, "color", Color.BLACK);
   }
 
   @Override

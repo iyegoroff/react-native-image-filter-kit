@@ -34,7 +34,7 @@ dependencies {
     compileOnly "com.facebook.react:react-native:${_reactNativeVersion}"
     //noinspection GradleDynamicVersion
     compileOnly "com.parse.bolts:bolts-tasks:+"
-    implementation 'com.github.iyegoroff:ReflectUtils:1.0.0'
+    implementation 'com.github.iyegoroff:ReflectUtils:1.2.1'
 }
 
 repositories {

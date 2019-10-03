@@ -29,9 +29,9 @@ public class OvalShapePostProcessor extends GeneratorPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mRadiusX = converter.convertDistance(config != null ? config.optJSONObject("radiusX") : null, "50w");
-    mRadiusY = converter.convertDistance(config != null ? config.optJSONObject("radiusY") : null, "25h");
-    mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, Color.BLACK);
+    mRadiusX = converter.convertDistance(config, "radiusX", "50w");
+    mRadiusY = converter.convertDistance(config, "radiusY", "25h");
+    mColor = converter.convertColor(config, "color", Color.BLACK);
   }
 
   @Override

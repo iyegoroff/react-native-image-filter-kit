@@ -23,3 +23,5 @@ export interface Position {
   readonly x: string | number
   readonly y: string | number
 }
+
+export type MixStep = 'CLAMP' | 'SMOOTH'

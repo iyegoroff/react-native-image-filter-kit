@@ -37,13 +37,13 @@ public class LinearGradientPostProcessor extends GeneratorPostProcessor {
 
     InputConverter converter = new InputConverter(width, height);
 
-    mX0 = converter.convertDistance(config != null ? config.optJSONObject("x0") : null, "0");
-    mY0 = converter.convertDistance(config != null ? config.optJSONObject("y0") : null, "0");
-    mX1 = converter.convertDistance(config != null ? config.optJSONObject("x1") : null, "100w");
-    mY1 = converter.convertDistance(config != null ? config.optJSONObject("y1") : null, "0");
-    mColors = converter.convertColorVector(config != null ? config.optJSONObject("colors") : null, defaultColors);
-    mLocations = converter.convertScalarVector(config != null ? config.optJSONObject("locations") : null, defaultLocations);
-    mTileMode = converter.convertTileMode(config != null ? config.optJSONObject("tileMode"): null, Shader.TileMode.CLAMP);
+    mX0 = converter.convertDistance(config, "x0", "0");
+    mY0 = converter.convertDistance(config, "y0", "0");
+    mX1 = converter.convertDistance(config, "x1", "100w");
+    mY1 = converter.convertDistance(config, "y1", "0");
+    mColors = converter.convertColorVector(config, "colors", defaultColors);
+    mLocations = converter.convertScalarVector(config, "locations", defaultLocations);
+    mTileMode = converter.convertTileMode(config, "tileMode", Shader.TileMode.CLAMP);
   }
 
   @Override

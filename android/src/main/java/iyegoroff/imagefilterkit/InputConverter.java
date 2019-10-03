@@ -30,19 +30,47 @@ public class InputConverter {
     mBoundsHeight = boundsHeight;
   }
 
-  public boolean convertBool(@Nullable JSONObject bool, boolean defaultValue) {
+  public boolean convertBool(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    boolean defaultValue
+  ) {
+    return convertBool(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private boolean convertBool(@Nullable JSONObject bool, boolean defaultValue) {
     return bool != null ? bool.optBoolean("bool", defaultValue) : defaultValue;
   }
 
-  public float convertScalar(@Nullable JSONObject scalar, float defaultValue) {
+  public float convertScalar(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    float defaultValue
+  ) {
+    return convertScalar(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private float convertScalar(@Nullable JSONObject scalar, float defaultValue) {
     return scalar != null ? (float) scalar.optDouble("scalar", defaultValue) : defaultValue;
   }
 
-  public int convertColor(@Nullable JSONObject color, int defaultValue) {
+  public int convertColor(@Nullable JSONObject config, @Nonnull String name, int defaultValue) {
+    return convertColor(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private int convertColor(@Nullable JSONObject color, int defaultValue) {
     return color != null ? color.optInt("color", defaultValue) : defaultValue;
   }
 
-  public float convertDistance(@Nullable JSONObject distance, @Nonnull String defaultValue) {
+  public float convertDistance(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    @Nonnull String defaultValue
+  ) {
+    return convertDistance(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private float convertDistance(@Nullable JSONObject distance, @Nonnull String defaultValue) {
     return convertRelativeExpr(
       distance != null ? distance.optString("distance", defaultValue) : defaultValue
     );
@@ -96,7 +124,15 @@ public class InputConverter {
     );
   }
 
-  public Path convertPath(@Nullable JSONObject path, @Nonnull Path defaultPath) {
+  public Path convertPath(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    @Nonnull Path defaultPath
+  ) {
+    return convertPath(config != null ? config.optJSONObject(name) : null, defaultPath);
+  }
+
+  private Path convertPath(@Nullable JSONObject path, @Nonnull Path defaultPath) {
     JSONArray steps = path != null ? path.optJSONArray("path") : null;
 
     if (steps == null) {
@@ -151,6 +187,14 @@ public class InputConverter {
   }
 
   public Transform convertTransform(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    @Nonnull Transform defaultValue
+  ) {
+    return convertTransform(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private Transform convertTransform(
     @Nullable JSONObject transform,
     @Nonnull Transform defaultValue
   ) {
@@ -183,7 +227,15 @@ public class InputConverter {
     return defaultValue;
   }
 
-  public String convertText(@Nullable JSONObject text, @Nullable String defaultValue) {
+  public String convertText(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    @Nullable String defaultValue
+  ) {
+    return convertText(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private String convertText(@Nullable JSONObject text, @Nullable String defaultValue) {
     return text != null
       ? text.optString("text", defaultValue != null ? defaultValue : "")
       : defaultValue;
@@ -214,7 +266,15 @@ public class InputConverter {
     return new Scale.WithMode(convertEnumeration((String) scale, defaultMode, Scale.Mode.class));
   }
 
-  public float[] convertScalarVector(@Nullable JSONObject scalarVector, float[] defaultValue) {
+  public float[] convertScalarVector(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    float[] defaultValue
+  ) {
+    return convertScalarVector(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private float[] convertScalarVector(@Nullable JSONObject scalarVector, float[] defaultValue) {
     if (scalarVector != null && scalarVector.has("scalarVector")) {
       JSONArray sv = scalarVector.optJSONArray("scalarVector");
       float[] vector = new float[sv != null ? sv.length() : 0];
@@ -229,7 +289,15 @@ public class InputConverter {
     return defaultValue;
   }
 
-  public float[] convertDistanceVector(@Nullable JSONObject distanceVector, float[] defaultValue) {
+  public float[] convertDistanceVector(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    float[] defaultValue
+  ) {
+    return convertDistanceVector(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private float[] convertDistanceVector(@Nullable JSONObject distanceVector, float[] defaultValue) {
     if (distanceVector != null && distanceVector.has("distanceVector")) {
       JSONArray dv = distanceVector.optJSONArray("distanceVector");
       float[] vector = new float[dv != null ? dv.length() : 0];
@@ -244,7 +312,15 @@ public class InputConverter {
     return defaultValue;
   }
 
-  public int[] convertColorVector(@Nullable JSONObject colorVector, int[] defaultValue) {
+  public int[] convertColorVector(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    int[] defaultValue
+  ) {
+    return convertColorVector(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private int[] convertColorVector(@Nullable JSONObject colorVector, int[] defaultValue) {
     if (colorVector != null && colorVector.has("colorVector")) {
       JSONArray cv = colorVector.optJSONArray("colorVector");
       int[] vector = new int[cv != null ? cv.length() : 0];
@@ -268,6 +344,14 @@ public class InputConverter {
   }
 
   public PorterDuff.Mode convertPorterDuffMode(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    PorterDuff.Mode defaultValue
+  ) {
+    return convertPorterDuffMode(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private PorterDuff.Mode convertPorterDuffMode(
     @Nullable JSONObject porterDuffMode,
     PorterDuff.Mode defaultValue
   ) {
@@ -279,6 +363,14 @@ public class InputConverter {
   }
 
   public Shader.TileMode convertTileMode(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    Shader.TileMode defaultValue
+  ) {
+    return convertTileMode(config != null ? config.optJSONObject(name): null, defaultValue);
+  }
+
+  private Shader.TileMode convertTileMode(
     @Nullable JSONObject tileMode,
     Shader.TileMode defaultValue
   ) {
