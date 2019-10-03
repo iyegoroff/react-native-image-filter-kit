@@ -20,10 +20,10 @@ const app = () => (
   <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
     <QuadGradient
       style={style}
-      bottomLeftColor={'red'}
-      bottomRightColor={'blue'}
-      topLeftColor={'blue'}
-      topRightColor={'red'}
+      bottomLeftColor={'black'}
+      bottomRightColor={'green'}
+      topLeftColor={'red'}
+      topRightColor={'black'}
     />
     <Text style={textStyle}>{'Ashby'}</Text>
     <Ashby image={image} />

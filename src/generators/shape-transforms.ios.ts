@@ -7,11 +7,12 @@ import {
   OvalShapeConfig,
   PathShapeConfig,
   RegularPolygonShapeConfig,
-  shapes
+  shapes,
+  QuadGradientConfig
 } from './shapes'
 import { TransformMap } from '../common/shapes'
 
-export const shapeTransforms /*: TransformMap<typeof shapes> */= {
+export const shapeTransforms: TransformMap<typeof shapes> = {
   Color: ({ color, image, ...config }: { color: string, image: object }) => ({
     ...config,
     name: 'IosCIConstantColorGenerator',
@@ -66,6 +67,23 @@ export const shapeTransforms /*: TransformMap<typeof shapes> */= {
     inputColors: colors,
     inputStops: stops,
     inputCenter: center
+  }),
+
+  QuadGradient: ({
+    bottomLeftColor,
+    bottomRightColor,
+    topLeftColor,
+    topRightColor,
+    image,
+    ...config
+  }: QuadGradientConfig) => ({
+    ...config,
+    name: 'IosIFKQuadGradient',
+    inputImage: image,
+    inputBottomLeftColor: bottomLeftColor,
+    inputBottomRightColor: bottomRightColor,
+    inputTopLeftColor: topLeftColor,
+    inputTopRightColor: topRightColor
   }),
 
   TextImage: ({ color, text, fontSize, fontName, image, ...config }: TextImageConfig) => ({

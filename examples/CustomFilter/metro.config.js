@@ -5,23 +5,27 @@
  * @format
  */
 
-const path = require('path');
+const path = require('path')
+const blacklist = require('metro-config/src/defaults/blacklist')
+
+const packagePath = path.resolve(__dirname, '../../')
 
 const extraNodeModules = {
   'react': path.resolve(__dirname, 'node_modules/react'),
   'react-native': path.resolve(__dirname, 'node_modules/react-native'),
   '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
-  'react-native-image-filter-kit': path.resolve(__dirname, '../../')
+  'react-native-image-filter-kit': packagePath
 };
-const watchFolders = [
-  path.resolve(__dirname, '../../')
-];
 
 module.exports = {
   resolver: {
     extraNodeModules,
+    blacklistRE: blacklist([
+      /^src[/\\].*/,
+      /^examples[/\\]\w+[/\\]src[/\\].*/
+    ])
   },
-  watchFolders,
+  watchFolders: [packagePath],
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -30,4 +34,4 @@ module.exports = {
       },
     }),
   },
-};
+}

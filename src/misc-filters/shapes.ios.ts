@@ -37,6 +37,14 @@ export const shapes = {
     ...Gradient
   },
 
+  IosIFKQuadGradient: {
+    inputBottomLeftColor: color,
+    inputBottomRightColor: color,
+    inputTopLeftColor: color,
+    inputTopRightColor: color,
+    ...Gradient
+  },
+
   IosIFKXorCompositing: {
     ...CompositionBase,
     inputBackgroundImage: image,

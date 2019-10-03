@@ -1,0 +1,17 @@
+kernel vec4 generate(
+  __color bottomLeftColor,
+  __color bottomRightColor,
+  __color topLeftColor,
+  __color topRightColor,
+  float width,
+  float height
+) {
+  vec2 fragCoord = destCoord();
+  vec2 uv = vec2(min(fragCoord.x, width) / width, min(fragCoord.y, height) / height);
+
+  return mix(
+    mix(bottomLeftColor, bottomRightColor, uv.x),
+    mix(topLeftColor, topRightColor, uv.x),
+    uv.y
+  );
+}
