@@ -34,5 +34,13 @@ export const shapes = {
     borderRadiuses: distanceVector,
     color: color,
     ...Generator
+  },
+
+  AndroidQuadGradient: {
+    bottomLeftColor: color,
+    bottomRightColor: color,
+    topLeftColor: color,
+    topRightColor: color,
+    ...Generator
   }
 }

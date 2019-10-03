@@ -32,6 +32,13 @@ export interface SweepGradientConfig extends GradientConfig {
   readonly center?: Position
 }
 
+export interface QuadGradientConfig extends GradientConfig {
+  readonly bottomLeftColor: string
+  readonly bottomRightColor: string
+  readonly topLeftColor: string
+  readonly topRightColor: string
+}
+
 export interface TextImageConfig {
   readonly text: string
   readonly fontName?: string
@@ -89,6 +96,14 @@ export const shapes = {
     colors: colorVector,
     stops: scalarVector,
     center: position,
+    ...Generator
+  },
+
+  QuadGradient: {
+    bottomLeftColor: color,
+    bottomRightColor: color,
+    topLeftColor: color,
+    topRightColor: color,
     ...Generator
   },
 

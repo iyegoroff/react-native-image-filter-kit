@@ -1,11 +1,13 @@
 import { Platform } from 'react-native'
 import { FilterConfig } from '../common/configs'
+import { TransformMap } from '../common/shapes'
+import { shapes } from './shapes'
 
 interface BlurConfig extends FilterConfig {
   readonly radius: number
 }
 
-export const shapeTransforms = {
+export const shapeTransforms: TransformMap<typeof shapes> = {
   BoxBlur: Platform.select({
     ios: ({ radius = 5, image, disableCache }: BlurConfig) => ({
       name: 'IosCIBoxBlur',

@@ -1,3 +1,6 @@
+import { TransformMap } from '../common/shapes'
+import { shapes } from './shapes'
+
 const asNativeCompositionConfig = (mode: string) => (config: Object) => ({
   ...config,
   mode,
@@ -9,10 +12,7 @@ const asRenderscriptCompositingConfig = (name: string) => (config: Object) => ({
   name
 })
 
-export const shapeTransforms = {
-  // ClearComposition: asNativeCompositionConfig('CLEAR'),
-
-  // DstComposition: asNativeCompositionConfig('DST'),
+export const shapeTransforms: TransformMap<typeof shapes> = {
 
   DstATopComposition: asRenderscriptCompositingConfig('AndroidDestinationATopCompositing'),
 
@@ -21,8 +21,6 @@ export const shapeTransforms = {
   DstOutComposition: asNativeCompositionConfig('DST_OUT'),
 
   DstOverComposition: asNativeCompositionConfig('DST_OVER'),
-
-  // SrcComposition: asNativeCompositionConfig('SRC'),
 
   SrcATopComposition: asNativeCompositionConfig('SRC_ATOP'),
 

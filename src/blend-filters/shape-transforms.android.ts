@@ -1,3 +1,7 @@
+import { TransformMap } from '../common/shapes'
+import { shapes } from './shapes'
+import { id } from '../common/util'
+
 interface ColorBlendConfig {
   readonly dstImage: unknown
   readonly srcColor: string
@@ -36,7 +40,7 @@ const asRenderscriptBlendColorConfig = (name: string) => (
   }
 })
 
-export const shapeTransforms = {
+export const shapeTransforms: TransformMap<typeof shapes> = {
   PlusBlend: asNativeBlendConfig('ADD'),
 
   DarkenBlend: asNativeBlendConfig('DARKEN'),
@@ -56,6 +60,28 @@ export const shapeTransforms = {
   LightenBlendColor: asNativeBlendColorConfig('LIGHTEN'),
 
   ModulateBlendColor: asNativeBlendColorConfig('MULTIPLY'),
+
+  MultiplyBlend: id,
+
+  ColorDodgeBlend: id,
+
+  ExclusionBlend: id,
+
+  ColorBurnBlend: id,
+
+  SoftLightBlend: id,
+
+  HueBlend: id,
+
+  DifferenceBlend: id,
+
+  SaturationBlend: id,
+
+  LuminosityBlend: id,
+
+  ColorBlend: id,
+
+  HardLightBlend: id,
 
   OverlayBlendColor: asNativeBlendColorConfig('OVERLAY'),
 

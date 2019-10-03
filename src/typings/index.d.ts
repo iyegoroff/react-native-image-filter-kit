@@ -149,6 +149,13 @@ interface GradientConfig<Rest> extends Partial<CommonConfig<Rest>> {
   ]
 }
 
+interface QuadGradientConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+  readonly bottomLeftColor: string
+  readonly bottomRightColor: string
+  readonly topLeftColor: string
+  readonly topRightColor: string
+}
+
 interface LinearGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly start?: Position
   readonly end?: Position
@@ -982,6 +989,7 @@ export type Config<Rest = never> =
   | ConfigCase<'OvalShape', OvalShapeConfig<Rest>>
   | ConfigCase<'PathShape', PathShapeConfig<Rest>>
   | ConfigCase<'RegularPolygonShape', RegularPolygonShapeConfig<Rest>>
+  | ConfigCase<'QuadGradient', QuadGradientConfig<Rest>>
 
   | ConfigCase<'IosCIBoxBlur', IosRadiusConfig<Rest>>
   | ConfigCase<'IosCIDiscBlur', IosRadiusConfig<Rest>>
@@ -1355,6 +1363,7 @@ export declare class CircleShape extends React.Component<ImageFilterProps<Circle
 export declare class OvalShape extends React.Component<ImageFilterProps<OvalShapeConfig>> { }
 export declare class PathShape extends React.Component<ImageFilterProps<PathShapeConfig>> { }
 export declare class RegularPolygonShape extends React.Component<ImageFilterProps<RegularPolygonShapeConfig>> { }
+export declare class QuadGradient extends React.Component<ImageFilterProps<QuadGradientConfig>> { }
 
 export declare class IosCIBoxBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
 export declare class IosCIDiscBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }

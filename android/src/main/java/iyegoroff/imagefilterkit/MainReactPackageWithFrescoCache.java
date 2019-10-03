@@ -9,13 +9,11 @@ import com.facebook.common.logging.FLog;
 import com.facebook.imagepipeline.cache.DefaultBitmapMemoryCacheParamsSupplier;
 import com.facebook.imagepipeline.cache.MemoryCacheParams;
 import com.facebook.react.bridge.ModuleSpec;
+import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.modules.fresco.FrescoModule;
 import com.facebook.react.shell.MainReactPackage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -59,54 +57,43 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
   }
 
   @Override
-  public List<ModuleSpec> getNativeModules(final ReactApplicationContext context) {
-    List<ModuleSpec> modules = super.getNativeModules(context);
+  public NativeModule getModule(String name, ReactApplicationContext context) {
+    if (FrescoModule.NAME.equals(name)) {
+      ActivityManager manager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+      final Supplier<MemoryCacheParams> cacheParamsSupplier =
+        new DefaultBitmapMemoryCacheParamsSupplier(manager) {
+          @Override
+          public MemoryCacheParams get() {
+            MemoryCacheParams params = super.get();
 
-    ActivityManager manager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
-    final Supplier<MemoryCacheParams> cacheParamsSupplier =
-      new DefaultBitmapMemoryCacheParamsSupplier(manager) {
-        @Override
-        public MemoryCacheParams get() {
-          MemoryCacheParams params = super.get();
+            return new MemoryCacheParams(
+              mMaxCacheSizeInBytes == null ? params.maxCacheSize : mMaxCacheSizeInBytes,
+              mMaxCacheEntries == null ? params.maxCacheEntries : mMaxCacheEntries,
+              params.maxEvictionQueueSize,
+              params.maxEvictionQueueEntries,
+              params.maxCacheEntrySize
+            );
+          }
+        };
 
-          return new MemoryCacheParams(
-            mMaxCacheSizeInBytes == null ? params.maxCacheSize : mMaxCacheSizeInBytes,
-            mMaxCacheEntries == null ? params.maxCacheEntries : mMaxCacheEntries,
-            params.maxEvictionQueueSize,
-            params.maxEvictionQueueEntries,
-            params.maxCacheEntrySize
-          );
-        }
-      };
+      String size = String.valueOf(cacheParamsSupplier.get().maxCacheSize / 1024 / 1024);
+      String entries = String.valueOf(cacheParamsSupplier.get().maxCacheEntries);
+      FLog.d(
+        ReactConstants.TAG,
+        "ImageFilterKit: Fresco cache size - " + entries + " entries, " + size + " MB overall"
+      );
 
-    String size = String.valueOf(cacheParamsSupplier.get().maxCacheSize / 1024 / 1024);
-    String entries = String.valueOf(cacheParamsSupplier.get().maxCacheEntries);
-    FLog.d(
-      ReactConstants.TAG,
-      "ImageFilterKit: Fresco cache size - " + entries + " entries, " + size + " MB overall"
-    );
-
-    ArrayList<ModuleSpec> patchedModules = new ArrayList<>();
-    for (int i = 0; i < modules.size(); i++) {
-
-      if (isFresco(modules.get(i))) {
-        patchedModules.add(ModuleSpec.nativeModuleSpec(
-          FrescoModule.class,
-          () -> new FrescoModule(
-            context,
-            true,
-            FrescoModule.getDefaultConfigBuilder(context)
-              .setMemoryTrimmableRegistry(MemoryTrimmer.getInstance())
-              .setBitmapMemoryCacheParamsSupplier(cacheParamsSupplier)
-              .setBitmapsConfig(sBitmapsConfig)
-              .build()
-          )));
-
-      } else {
-        patchedModules.add(modules.get(i));
-      }
+      return new FrescoModule(
+        context,
+        true,
+        FrescoModule.getDefaultConfigBuilder(context)
+          .setMemoryTrimmableRegistry(MemoryTrimmer.getInstance())
+          .setBitmapMemoryCacheParamsSupplier(cacheParamsSupplier)
+          .setBitmapsConfig(sBitmapsConfig)
+          .build()
+      );
     }
 
-    return patchedModules;
+    return super.getModule(name, context);
   }
 }

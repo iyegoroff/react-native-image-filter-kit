@@ -3,6 +3,8 @@
 import { Platform } from 'react-native'
 import matrices from 'rn-color-matrices'
 import { FilterConfig, MatrixFilterConfig, Config, AmountFilterConfig } from '../common/configs'
+import { TransformMap } from '../common/shapes'
+import { shapes } from './shapes'
 
 export interface RGBAFilterConfig extends FilterConfig {
   readonly red?: number
@@ -43,19 +45,7 @@ const asNativeFilterConfig = Platform.select({
   } as Config)
 })
 
-// const luminanceToAlphaAndroidFix: Matrix = [
-//   -0.299, -0.587, -0.114, 0, 255,
-//   -0.299, -0.587, -0.114, 0, 255,
-//   -0.299, -0.587, -0.114, 0, 255,
-//   0, 0, 0, 1, 255
-// ]
-
-// export const luminanceToAlpha = Platform.select({
-//   ios: matrices.luminanceToAlpha,
-//   android: () => luminanceToAlphaAndroidFix
-// })
-
-export const shapeTransforms = {
+export const shapeTransforms: TransformMap<typeof shapes> = {
   ColorMatrix: asNativeFilterConfig,
 
   Normal: (config: FilterConfig) => (

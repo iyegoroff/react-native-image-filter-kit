@@ -6,10 +6,13 @@ import {
   CircleShapeConfig,
   OvalShapeConfig,
   PathShapeConfig,
-  RegularPolygonShapeConfig
+  RegularPolygonShapeConfig,
+  QuadGradientConfig,
+  shapes
 } from './shapes'
+import { TransformMap } from '../common/shapes'
 
-export const shapeTransforms = {
+export const shapeTransforms: TransformMap<typeof shapes> = {
   Color: (config: Object) => ({
     ...config,
     name: 'AndroidColor'
@@ -60,6 +63,11 @@ export const shapeTransforms = {
     positions: stops.map(stop => 1 - stop).reverse(),
     cx: center.x,
     cy: `100h - ${center.y}`
+  }),
+
+  QuadGradient: (config: QuadGradientConfig) => ({
+    ...config,
+    name: 'AndroidQuadGradient'
   }),
 
   TextImage: (config: TextImageConfig) => ({

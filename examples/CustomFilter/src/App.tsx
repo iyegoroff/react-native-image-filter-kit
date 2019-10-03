@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { GenericImageFilter } from 'react-native-image-filter-kit'
+import { GenericImageFilter, QuadGradient } from 'react-native-image-filter-kit'
 import { Image, ScrollView, Text } from 'react-native'
 import { Ashby, Poprocket, InstagramCSSExtensionConfig, PoprocketStandalone } from './InstagramCSS'
 
@@ -18,6 +18,13 @@ const image = (
 
 const app = () => (
   <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+    <QuadGradient
+      style={style}
+      bottomLeftColor={'red'}
+      bottomRightColor={'blue'}
+      topLeftColor={'blue'}
+      topRightColor={'red'}
+    />
     <Text style={textStyle}>{'Ashby'}</Text>
     <Ashby image={image} />
 

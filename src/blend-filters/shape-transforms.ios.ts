@@ -1,3 +1,6 @@
+import { TransformMap } from '../common/shapes'
+import { shapes } from './shapes'
+
 interface ColorBlendConfig {
   readonly dstImage: unknown
   readonly srcColor: string
@@ -60,7 +63,7 @@ const asNativeBlendColorConfig = (name: string) => (
   inputBackgroundImage: dstImage
 })
 
-export const shapeTransforms = {
+export const shapeTransforms: TransformMap<typeof shapes> = {
   PlusBlend: asNativeBlendConfig('IosCIAdditionCompositing'),
 
   DarkenBlend: asNativeBlendConfig('IosCIDarkenBlendMode'),

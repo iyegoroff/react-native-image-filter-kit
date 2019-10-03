@@ -1,3 +1,6 @@
+import { TransformMap } from '../common/shapes'
+import { shapes } from './shapes'
+
 interface Offset {
   readonly x?: number
   readonly y?: number
@@ -44,7 +47,7 @@ const asInvertedNativeCompositionConfig = (name: string) => (config: Composition
   swapImages: !config.swapImages
 })
 
-export const shapeTransforms = {
+export const shapeTransforms: TransformMap<typeof shapes> = {
   SrcATopComposition: asNativeCompositionConfig('IosCISourceAtopCompositing'),
 
   DstATopComposition: asInvertedNativeCompositionConfig('IosCISourceAtopCompositing'),

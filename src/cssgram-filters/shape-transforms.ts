@@ -4,6 +4,8 @@ import rgbaToRgb from 'rgba-to-rgb'
 import { concatColorMatrices } from 'concat-color-matrices'
 import matrices from 'rn-color-matrices'
 import { degToRad } from '../common/util'
+import { TransformMap } from '../common/shapes'
+import { shapes } from './shapes'
 const { brightness, contrast, saturate, grayscale, hueRotate, sepia } = matrices
 
 export interface CSSGramConfig {
@@ -14,7 +16,7 @@ export interface CSSGramConfig {
 
 const background = 'rgb(255, 255, 255)'
 
-export const shapeTransforms = {
+export const shapeTransforms: TransformMap<typeof shapes> = {
   _1977Compat: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Saturate',
     disableCache,

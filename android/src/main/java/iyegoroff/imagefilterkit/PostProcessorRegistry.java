@@ -31,6 +31,7 @@ import iyegoroff.imagefilterkit.compositing.DestinationATopCompositingPostProces
 import iyegoroff.imagefilterkit.compositing.DestinationInCompositingPostProcessor;
 import iyegoroff.imagefilterkit.compositing.SourceInCompositingPostProcessor;
 import iyegoroff.imagefilterkit.compositing.SourceOutCompositingPostProcessor;
+import iyegoroff.imagefilterkit.gradients.QuadGradientPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.ColorMatrixColorFilterPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.ColorPostProcessor;
 import iyegoroff.imagefilterkit.nativeplatform.LightingColorFilterPostProcessor;
@@ -162,6 +163,8 @@ public class PostProcessorRegistry {
       "PorterDuffXfermode",
       (width, height, config, imageRef, imageKey, context) -> new PorterDuffXfermodePostProcessor(width, height, config, imageRef, imageKey)
     );
+
+    addSingular("QuadGradient", QuadGradientPostProcessor::new);
 
     addComposition("ColorDodgeBlend", ColorDodgeBlendPostProcessor::new);
 

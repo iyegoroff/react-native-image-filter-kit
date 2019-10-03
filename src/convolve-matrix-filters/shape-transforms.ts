@@ -1,5 +1,7 @@
 import { Platform } from 'react-native'
 import { MatrixFilterConfig, Config, AmountFilterConfig, FilterConfig } from '../common/configs'
+import { TransformMap } from '../common/shapes'
+import { shapes } from './shapes'
 
 export interface EdgeDetectionConfig extends FilterConfig {
   readonly disableIntermediateCaches?: boolean
@@ -55,7 +57,7 @@ const asNative5x5FilterConfig = Platform.select({
   } as Config)
 })
 
-export const shapeTransforms = {
+export const shapeTransforms: TransformMap<typeof shapes> = {
   ConvolveMatrix3x3: asNative3x3FilterConfig,
 
   ConvolveMatrix5x5: asNative5x5FilterConfig,

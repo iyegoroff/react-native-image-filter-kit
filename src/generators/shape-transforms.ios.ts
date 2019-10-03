@@ -6,10 +6,12 @@ import {
   CircleShapeConfig,
   OvalShapeConfig,
   PathShapeConfig,
-  RegularPolygonShapeConfig
+  RegularPolygonShapeConfig,
+  shapes
 } from './shapes'
+import { TransformMap } from '../common/shapes'
 
-export const shapeTransforms = {
+export const shapeTransforms /*: TransformMap<typeof shapes> */= {
   Color: ({ color, image, ...config }: { color: string, image: object }) => ({
     ...config,
     name: 'IosCIConstantColorGenerator',

@@ -1,5 +1,7 @@
 import { bool, image, color, text, marker, transform } from './inputs'
 
+export type TransformMap<Shapes> = { [P in keyof Shapes]: unknown }
+
 export const Composition = {
   dstImage: image,
   dstTransform: transform,
