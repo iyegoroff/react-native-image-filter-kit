@@ -171,6 +171,7 @@ interface RadialGradientConfig<Rest = never> extends GradientConfig<Rest> {
 
 interface SweepGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly center?: Position
+  readonly mixStep?: MixStep
 }
 
 interface ColorConfig<Rest = never> extends Partial<CommonConfig<Rest>> {

@@ -7,14 +7,11 @@
 int amount;
 float centerX;
 float centerY;
-uint32_t width;
-uint32_t height;
 float positions[MAX_COLORS];
 float4 colors[MAX_COLORS];
 
 uchar4 RS_KERNEL generate(uchar4 src, uint32_t x, uint32_t y) {
-  float d = (atan2(-(float)y + height * centerY, -(float)x + width * centerX) + M_PI) /
-    (2.0f * M_PI);
+  float d = (atan2(-(float)y + centerY, -(float)x + centerX) + M_PI) / (2.0f * M_PI);
   float4 color = colors[0];
 
   for (int i = 1; i < amount; i++) {

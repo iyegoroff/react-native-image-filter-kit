@@ -31,6 +31,7 @@ export interface RadialGradientConfig extends GradientConfig {
 
 export interface SweepGradientConfig extends GradientConfig {
   readonly center?: Position
+  readonly mixStep?: MixStep
 }
 
 export interface QuadGradientConfig extends GradientConfig {
@@ -98,6 +99,7 @@ export const shapes = {
     colors: colorVector,
     stops: scalarVector,
     center: position,
+    mixStep: mixStep,
     ...Generator
   },
 

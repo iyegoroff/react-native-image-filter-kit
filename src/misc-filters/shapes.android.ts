@@ -51,5 +51,13 @@ export const shapes = {
     colors: colorVector,
     stops: scalarVector,
     ...Generator
+  },
+
+  AndroidSmoothSweepGradient: {
+    cx: distance,
+    cy: distance,
+    colors: colorVector,
+    positions: scalarVector,
+    ...Generator
   }
 }
