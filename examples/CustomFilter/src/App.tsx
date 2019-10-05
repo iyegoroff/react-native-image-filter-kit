@@ -37,16 +37,16 @@ const center: Position = {
 const app = () => (
   <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
     <RectangularGradient
-      halfWidth={'25min'}
-      halfHeight={'25min'}
+      halfWidth={'50min'}
+      halfHeight={'50min'}
       center={center}
       colors={colors}
       stops={stops}
       style={style}
     />
     <RectangularGradient
-      halfWidth={'25max'}
-      halfHeight={'25max'}
+      halfWidth={'50max'}
+      halfHeight={'50max'}
       center={center}
       colors={colors}
       stops={stops}

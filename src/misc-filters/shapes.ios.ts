@@ -34,6 +34,20 @@ export const shapes = {
     ...Gradient
   },
 
+  IosIFKEllipticalGradient: {
+    inputCenter: position,
+    inputRadiusX: distance,
+    inputRadiusY: distance,
+    ...Gradient
+  },
+
+  IosIFKRectangularGradient: {
+    inputCenter: position,
+    inputHalfWidth: distance,
+    inputHalfHeight: distance,
+    ...Gradient
+  },
+
   IosIFKSweepGradient: {
     inputCenter: position,
     ...Gradient

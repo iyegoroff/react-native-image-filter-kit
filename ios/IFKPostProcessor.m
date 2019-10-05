@@ -158,6 +158,8 @@
       @"CISubtractBlendMode",
       @"IFKRadialGradient",
       @"IFKLinearGradient",
+      @"IFKEllipticalGradient",
+      @"IFKRectangularGradient",
       @"IFKSweepGradient",
       @"CIConvolution3X3",
       @"CIConvolution5X5",

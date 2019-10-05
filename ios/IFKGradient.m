@@ -26,7 +26,7 @@ static CGFloat defaultStops[5] = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
   NSString *code = [NSString stringWithContentsOfFile:resource
                                              encoding:NSUTF8StringEncoding
                                                 error:nil];
-  return [CIKernel kernelsWithString:code];
+  return [CIColorKernel kernelsWithString:code];
 }
 
 - (NSArray<CIColor *> *)inputColors
