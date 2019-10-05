@@ -47,6 +47,12 @@ export interface EllipticalGradientConfig extends GradientConfig {
   readonly center?: Position
 }
 
+export interface RectangularGradientConfig extends GradientConfig {
+  readonly halfWidth?: string
+  readonly halfHeight?: string
+  readonly center?: Position
+}
+
 export interface TextImageConfig {
   readonly text: string
   readonly fontName?: string
@@ -120,6 +126,13 @@ export const shapes = {
     center: position,
     radiusX: distance,
     radiusY: distance,
+    ...Gradient
+  },
+
+  RectangularGradient: {
+    center: position,
+    halfWidth: distance,
+    halfHeight: distance,
     ...Gradient
   },
 

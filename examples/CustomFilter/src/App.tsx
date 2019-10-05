@@ -7,14 +7,15 @@ import {
   SweepGradient,
   LinearGradient,
   EllipticalGradient,
-  Position
+  Position,
+  RectangularGradient
 } from 'react-native-image-filter-kit'
 import { Image, ScrollView, Text } from 'react-native'
 import { Ashby, Poprocket, InstagramCSSExtensionConfig, PoprocketStandalone } from './InstagramCSS'
 
 const uri = 'https://picturepan2.github.io/instagram.css/assets/img/instagram.jpg'
 
-const style = { width: 320, height: 320, marginBottom: 25 }
+const style = { width: 320, height: 500, marginBottom: 25 }
 
 const textStyle = { fontSize: 20 }
 
@@ -35,6 +36,23 @@ const center: Position = {
 
 const app = () => (
   <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+    <RectangularGradient
+      halfWidth={'25min'}
+      halfHeight={'25min'}
+      center={center}
+      colors={colors}
+      stops={stops}
+      style={style}
+    />
+    <RectangularGradient
+      halfWidth={'25max'}
+      halfHeight={'25max'}
+      center={center}
+      colors={colors}
+      stops={stops}
+      style={style}
+      mixStep={'SMOOTH'}
+    />
     <EllipticalGradient
       radiusX={'25w'}
       radiusY={'50h'}

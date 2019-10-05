@@ -10,13 +10,11 @@ float halfWidth;
 float halfHeight;
 float centerX;
 float centerY;
-uint32_t width;
-uint32_t height;
 float positions[MAX_COLORS];
 float4 colors[MAX_COLORS];
 
 uchar4 RS_KERNEL generate(uchar4 src, uint32_t x, uint32_t y) {
-  float2 uv = (float2){x / (float)width, y / (float)height};
+  float2 uv = (float2){x, y};
   float d = fmax(
     fabs(uv.x - centerX) / (halfWidth * 2.0f),
     fabs(uv.y - centerY) / (halfHeight * 2.0f)

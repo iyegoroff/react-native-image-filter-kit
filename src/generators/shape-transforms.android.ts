@@ -9,7 +9,8 @@ import {
   RegularPolygonShapeConfig,
   QuadGradientConfig,
   shapes,
-  EllipticalGradientConfig
+  EllipticalGradientConfig,
+  RectangularGradientConfig
 } from './shapes'
 import { TransformMap } from '../common/shapes'
 
@@ -70,6 +71,26 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     stops,
     radiusX,
     radiusY,
+    centerX: center.x,
+    centerY: `100h - ${center.y}`
+  }),
+
+  RectangularGradient: ({
+    colors = ['red', 'blue'],
+    stops = [0, 1],
+    center = { x: '50w', y: '50h' },
+    halfWidth = '50w',
+    halfHeight = '50h',
+    mixStep = 'CLAMP',
+    ...config
+  }: RectangularGradientConfig) => ({
+    ...config,
+    name: 'AndroidRectangularGradient',
+    mixStep,
+    colors,
+    stops,
+    halfWidth,
+    halfHeight,
     centerX: center.x,
     centerY: `100h - ${center.y}`
   }),

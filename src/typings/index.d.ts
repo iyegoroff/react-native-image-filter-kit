@@ -175,6 +175,12 @@ interface EllipticalGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly radiusY?: Distance
 }
 
+interface RectangularGradientConfig<Rest = never> extends GradientConfig<Rest> {
+  readonly center?: Position
+  readonly halfWidth?: Distance
+  readonly halfHeight?: Distance
+}
+
 interface SweepGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly center?: Position
 }
@@ -993,6 +999,7 @@ export type Config<Rest = never> =
   | ConfigCase<'LinearGradient', LinearGradientConfig<Rest>>
   | ConfigCase<'RadialGradient', RadialGradientConfig<Rest>>
   | ConfigCase<'EllipticalGradient', EllipticalGradientConfig<Rest>>
+  | ConfigCase<'RectangularGradient', RectangularGradientConfig<Rest>>
   | ConfigCase<'SweepGradient', SweepGradientConfig<Rest>>
   | ConfigCase<'TextImage', TextImageConfig<Rest>>
   | ConfigCase<'CircleShape', CircleShapeConfig<Rest>>
@@ -1368,6 +1375,7 @@ export declare class Color extends React.Component<ImageFilterProps<ColorConfig>
 export declare class LinearGradient extends React.Component<ImageFilterProps<LinearGradientConfig>> { }
 export declare class RadialGradient extends React.Component<ImageFilterProps<RadialGradientConfig>> { }
 export declare class EllipticalGradient extends React.Component<ImageFilterProps<EllipticalGradientConfig>> { }
+export declare class RectangularGradient extends React.Component<ImageFilterProps<RectangularGradientConfig>> { }
 export declare class SweepGradient extends React.Component<ImageFilterProps<SweepGradientConfig>> { }
 export declare class TextImage extends React.Component<ImageFilterProps<TextImageConfig>> { }
 export declare class CircleShape extends React.Component<ImageFilterProps<CircleShapeConfig>> { }

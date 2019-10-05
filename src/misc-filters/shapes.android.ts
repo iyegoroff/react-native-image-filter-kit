@@ -9,6 +9,13 @@ import {
   mixStep
 } from '../common/inputs'
 
+const Gradient = {
+  mixStep: mixStep,
+  colors: colorVector,
+  stops: scalarVector,
+  ...Generator
+}
+
 export const shapes = {
   AndroidDestinationATopCompositing: Composition,
 
@@ -84,9 +91,14 @@ export const shapes = {
     centerY: distance,
     radiusX: distance,
     radiusY: distance,
-    mixStep: mixStep,
-    colors: colorVector,
-    stops: scalarVector,
-    ...Generator
+    ...Gradient
+  },
+
+  AndroidRectangularGradient: {
+    centerX: distance,
+    centerY: distance,
+    halfWidth: distance,
+    halfHeight: distance,
+    ...Gradient
   }
 }

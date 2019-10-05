@@ -9,7 +9,8 @@ import {
   RegularPolygonShapeConfig,
   shapes,
   QuadGradientConfig,
-  EllipticalGradientConfig
+  EllipticalGradientConfig,
+  RectangularGradientConfig
 } from './shapes'
 import { TransformMap } from '../common/shapes'
 
@@ -78,6 +79,27 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     inputCenter: center,
     inputRadiusX: radiusX,
     inputRadiusY: radiusY
+  }),
+
+  RectangularGradient: ({
+    colors = ['red', 'blue'],
+    stops = [0, 1],
+    center = { x: '50w', y: '50h' },
+    halfWidth = '50w',
+    halfHeight = '50h',
+    image,
+    mixStep,
+    ...config
+  }: RectangularGradientConfig) => ({
+    ...config,
+    name: 'IosIFKRectangularGradient',
+    inputMixStep: mixStep,
+    inputImage: image,
+    inputColors: colors,
+    inputStops: stops,
+    inputCenter: center,
+    inputHalfWidth: halfWidth,
+    inputHalfHeight: halfHeight
   }),
 
   SweepGradient: ({
