@@ -5,7 +5,7 @@
   "scripts": {
     "preinstall": "cd ../.. && npm i && npm run build:all",
     "postinstall": "npm run build:release",
-    "install:pods": "cd ios && pod installa",
+    "install:pods": "cd ios && pod install",
     "run:android": "react-native run-android --no-jetifier",
     "reset:packager": "react-native start --reset-cache",
     "watch": "rm -rf build && ../../node_modules/.bin/tsc -p ./src -w",

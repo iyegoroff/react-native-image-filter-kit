@@ -59,6 +59,7 @@
 
   [args addObject:self.inputCenter];
   [args addObject:self.inputRadius];
+  [args addObject:self.inputMixStep];
 
   return [kernel applyWithExtent:[self.inputExtent CGRectValue]
                      roiCallback:^CGRect(int index, CGRect destRect) {

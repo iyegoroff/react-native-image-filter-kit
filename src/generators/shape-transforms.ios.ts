@@ -26,10 +26,12 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     start = { x: 0, y: '0h' },
     end = { x: '100w', y: '0h' },
     image,
+    mixStep,
     ...config
   }: LinearGradientConfig) => ({
     ...config,
     name: 'IosIFKLinearGradient',
+    inputMixStep: mixStep,
     inputImage: image,
     inputColors: colors,
     inputStops: stops,
@@ -43,10 +45,12 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     center = { x: '50w', y: '50h' },
     radius = '50min',
     image,
+    mixStep,
     ...config
   }: RadialGradientConfig) => ({
     ...config,
     name: 'IosIFKRadialGradient',
+    inputMixStep: mixStep,
     inputImage: image,
     inputColors: colors,
     inputStops: stops,
@@ -59,10 +63,12 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     stops = [0, 1],
     center = { x: '50w', y: '50h' },
     image,
+    mixStep,
     ...config
   }: SweepGradientConfig) => ({
     ...config,
     name: 'IosIFKSweepGradient',
+    inputMixStep: mixStep,
     inputImage: image,
     inputColors: colors,
     inputStops: stops,

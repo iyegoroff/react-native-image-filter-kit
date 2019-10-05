@@ -15,6 +15,7 @@ import { Position, MixStep } from '../common/configs'
 interface GradientConfig {
   readonly colors?: ReadonlyArray<string>
   readonly stops?: ReadonlyArray<number>
+  readonly mixStep?: MixStep
   readonly image: object
 }
 
@@ -26,19 +27,18 @@ export interface LinearGradientConfig extends GradientConfig {
 export interface RadialGradientConfig extends GradientConfig {
   readonly center?: Position
   readonly radius?: string
-  readonly mixStep?: MixStep
 }
 
 export interface SweepGradientConfig extends GradientConfig {
   readonly center?: Position
-  readonly mixStep?: MixStep
 }
 
-export interface QuadGradientConfig extends GradientConfig {
+export interface QuadGradientConfig {
   readonly bottomLeftColor: string
   readonly bottomRightColor: string
   readonly topLeftColor: string
   readonly topRightColor: string
+  readonly image: object
 }
 
 export interface TextImageConfig {
@@ -72,6 +72,13 @@ export interface RegularPolygonShapeConfig extends ShapeConfig {
   readonly circumradius?: string
 }
 
+const Gradient = {
+  colors: colorVector,
+  stops: scalarVector,
+  mixStep: mixStep,
+  ...Generator
+}
+
 export const shapes = {
   Color: {
     color: color,
@@ -79,28 +86,20 @@ export const shapes = {
   },
 
   LinearGradient: {
-    colors: colorVector,
-    stops: scalarVector,
     start: position,
     end: position,
-    ...Generator
+    ...Gradient
   },
 
   RadialGradient: {
-    colors: colorVector,
-    stops: scalarVector,
     center: position,
     radius: distance,
-    mixStep: mixStep,
-    ...Generator
+    ...Gradient
   },
 
   SweepGradient: {
-    colors: colorVector,
-    stops: scalarVector,
     center: position,
-    mixStep: mixStep,
-    ...Generator
+    ...Gradient
   },
 
   QuadGradient: {

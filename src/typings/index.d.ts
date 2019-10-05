@@ -149,6 +149,7 @@ interface GradientConfig<Rest> extends Partial<CommonConfig<Rest>> {
   readonly stops?: [
     number, number?, number?, number?, number?, number?, number?, number?, number?, number?
   ]
+  readonly mixStep?: MixStep
 }
 
 interface QuadGradientConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
@@ -166,12 +167,10 @@ interface LinearGradientConfig<Rest = never> extends GradientConfig<Rest> {
 interface RadialGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly center?: Position
   readonly radius?: Distance
-  readonly mixStep?: MixStep
 }
 
 interface SweepGradientConfig<Rest = never> extends GradientConfig<Rest> {
   readonly center?: Position
-  readonly mixStep?: MixStep
 }
 
 interface ColorConfig<Rest = never> extends Partial<CommonConfig<Rest>> {

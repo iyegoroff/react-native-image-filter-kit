@@ -2,6 +2,11 @@
 #import "NSArray+FilterMapReduce.h"
 #import <React/RCTAssert.h>
 
+typedef enum {
+  CLAMP = 0,
+  SMOOTH = 1
+} IFKMixStep;
+
 static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\s*(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?))?(?:\\s*([-+])\\s*(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?))?";
 
 @implementation IFKInputConverter
@@ -22,7 +27,8 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
           self convertBoolean:any defaultValue:(id)[
           self convertColorVector:any defaultValue:(id)[
           self convertPath:any bounds:bounds defaultValue:(id)[
-          self convertAngle:any defaultValue:nil]]]]]]]]]]]]]]];
+          self convertAngle:any defaultValue:(id)[
+          self convertMixStep:any defaultValue:nil]]]]]]]]]]]]]]]];
 }
 
 + (nullable UIImage *)convertImage:(nullable NSDictionary *)image
@@ -330,6 +336,18 @@ static NSString *pattern = @"(-?\\d+(?:\\.\\d+)?(?:h|w|min|max)?)(?:\\s*([-+])\\
     ? defaultValue
     : [boolean objectForKey:@"bool"]
     ? @([[boolean objectForKey:@"bool"] boolValue])
+    : defaultValue;
+}
+
++ (nullable NSNumber *)convertMixStep:(nullable NSDictionary *)mixStep
+                         defaultValue:(nullable NSNumber *)defaultValue
+{
+  return mixStep == nil
+    ? defaultValue
+    : [@"SMOOTH" isEqualToString:[mixStep objectForKey:@"mixStep"]]
+    ? @(SMOOTH)
+    : [@"CLAMP" isEqualToString:[mixStep objectForKey:@"mixStep"]]
+    ? @(CLAMP)
     : defaultValue;
 }
 

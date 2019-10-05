@@ -9,13 +9,15 @@ import {
   image,
   path,
   distanceVector,
-  transform
+  transform,
+  mixStep
 } from '../common/inputs'
 import { GeneratorIos as Generator, CompositionBaseIos as CompositionBase } from '../common/shapes'
 
 const Gradient = {
   inputColors: colorVector,
   inputStops: scalarVector,
+  inputMixStep: mixStep,
   ...Generator
 }
 
@@ -42,7 +44,7 @@ export const shapes = {
     inputBottomRightColor: color,
     inputTopLeftColor: color,
     inputTopRightColor: color,
-    ...Gradient
+    ...Generator
   },
 
   IosIFKXorCompositing: {

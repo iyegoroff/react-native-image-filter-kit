@@ -43,6 +43,11 @@ static CGFloat defaultStops[5] = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
   return _inputStops ?: [CIVector vectorWithValues:defaultStops count:5];
 }
 
+- (NSNumber *)inputMixStep
+{
+  return _inputMixStep ?: @(0);
+}
+
 - (int)inputAmount
 {
   return MIN((int)[self.inputColors count], (int)[self.inputStops count]);

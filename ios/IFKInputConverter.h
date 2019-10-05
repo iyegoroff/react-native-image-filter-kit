@@ -60,6 +60,9 @@
 + (nullable NSNumber *)convertBoolean:(nullable NSDictionary *)boolean
                          defaultValue:(nullable NSNumber *)defaultValue;
 
++ (nullable NSNumber *)convertMixStep:(nullable NSDictionary *)mixStep
+                         defaultValue:(nullable NSNumber *)defaultValue;
+
 + (nullable IFKTransform *)convertTransform:(nullable NSDictionary *)transform
                                defaultValue:(nullable IFKTransform *)defaultValue;
 

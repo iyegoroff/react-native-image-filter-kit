@@ -10,5 +10,6 @@
 @property (nonatomic, copy) CIVector *inputExtent;
 @property (nonatomic, copy) NSArray<CIColor *> *inputColors;
 @property (nonatomic, copy) CIVector *inputStops;
+@property (nonatomic, copy) NSNumber *inputMixStep;
 
 @end
