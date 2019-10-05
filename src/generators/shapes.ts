@@ -41,6 +41,12 @@ export interface QuadGradientConfig {
   readonly image: object
 }
 
+export interface EllipticalGradientConfig extends GradientConfig {
+  readonly radiusX?: string
+  readonly radiusY?: string
+  readonly center?: Position
+}
+
 export interface TextImageConfig {
   readonly text: string
   readonly fontName?: string
@@ -108,6 +114,13 @@ export const shapes = {
     topLeftColor: color,
     topRightColor: color,
     ...Generator
+  },
+
+  EllipticalGradient: {
+    center: position,
+    radiusX: distance,
+    radiusY: distance,
+    ...Gradient
   },
 
   TextImage: {

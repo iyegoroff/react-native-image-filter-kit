@@ -15,18 +15,21 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.imagefilterkit.InputConverter;
+import iyegoroff.imagefilterkit.MixStep;
 import iyegoroff.imagefilterkit.RenderscriptUtils;
 import iyegoroff.imagefilterkit.utility.RenderscriptGeneratorPostProcessor;
 
-public class SmoothRadialGradientPostProcessor extends RenderscriptGeneratorPostProcessor {
+public class EllipticalGradientPostProcessor extends RenderscriptGeneratorPostProcessor {
 
-  private final float mRadius;
+  private final MixStep mMixStep;
+  private final float mRadiusX;
+  private final float mRadiusY;
   private final float mCenterX;
   private final float mCenterY;
   private final @Nonnull int[] mColors;
   private final @Nonnull float[] mStops;
 
-  public SmoothRadialGradientPostProcessor(
+  public EllipticalGradientPostProcessor(
     int width,
     int height,
     @Nullable JSONObject config,
@@ -39,7 +42,9 @@ public class SmoothRadialGradientPostProcessor extends RenderscriptGeneratorPost
 
     InputConverter converter = new InputConverter(width, height);
 
-    mRadius = converter.convertDistance(config, "radius", "50min");
+    mMixStep = converter.convertMixStep(config, "mixStep", MixStep.CLAMP);
+    mRadiusX = converter.convertDistance(config, "radiusX", "50w");
+    mRadiusY = converter.convertDistance(config, "radiusY", "50h");
     mCenterX = converter.convertDistance(config, "centerX", "50w");
     mCenterY = converter.convertDistance(config, "centerY", "50h");
     mColors = converter.convertColorVector(config, "colors", defaultColors);
@@ -48,19 +53,21 @@ public class SmoothRadialGradientPostProcessor extends RenderscriptGeneratorPost
 
   @Override
   public String getName() {
-    return "SmoothRadialGradientPostProcessor";
+    return "EllipticalGradientPostProcessor";
   }
 
   @Override
   protected void processGeneratorRenderscript(Bitmap bitmap) {
     RenderscriptContext ctx = new RenderscriptContext(bitmap, getContext());
 
-    final ScriptC_SmoothRadialGradient script = new ScriptC_SmoothRadialGradient(ctx.getScript());
+    final ScriptC_EllipticalGradient script = new ScriptC_EllipticalGradient(ctx.getScript());
 
     script.set_amount(mColors.length);
+    script.set_mixStep(mMixStep.ordinal());
     script.set_centerX(mCenterX);
     script.set_centerY(mCenterY);
-    script.set_radius(mRadius);
+    script.set_radiusX(mRadiusX);
+    script.set_radiusY(mRadiusY);
     script.set_positions(RenderscriptUtils.renderscriptPositions(mStops));
     script.set_colors(RenderscriptUtils.renderscriptColors(mColors));
 
@@ -77,12 +84,14 @@ public class SmoothRadialGradientPostProcessor extends RenderscriptGeneratorPost
   public CacheKey generateCacheKey() {
     return new SimpleCacheKey(String.format(
       Locale.ROOT,
-      "smooth_radial_gradient_%d_%d_%f_%f_%f_%s_%s",
+      "elliptical_gradient_%d_%d_%s_%f_%f_%f_%f_%s_%s",
       mWidth,
       mHeight,
+      mMixStep.toString(),
       mCenterX,
       mCenterY,
-      mRadius,
+      mRadiusX,
+      mRadiusY,
       Arrays.toString(mColors),
       Arrays.toString(mStops)
     ));

@@ -5,7 +5,9 @@ import {
   RadialGradient,
   RadialGradientConfig,
   SweepGradient,
-  LinearGradient
+  LinearGradient,
+  EllipticalGradient,
+  Position
 } from 'react-native-image-filter-kit'
 import { Image, ScrollView, Text } from 'react-native'
 import { Ashby, Poprocket, InstagramCSSExtensionConfig, PoprocketStandalone } from './InstagramCSS'
@@ -26,8 +28,30 @@ const image = (
 const colors = ['red', 'blue', 'green', 'blue', 'red'] as RadialGradientConfig['colors']
 const stops = [0, 0.25, 0.5, 0.75, 1] as RadialGradientConfig['stops']
 
+const center: Position = {
+  x: '50w',
+  y: '50h'
+}
+
 const app = () => (
   <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+    <EllipticalGradient
+      radiusX={'25w'}
+      radiusY={'50h'}
+      center={center}
+      colors={colors}
+      stops={stops}
+      style={style}
+    />
+    <EllipticalGradient
+      radiusX={'50w'}
+      radiusY={'25h'}
+      center={center}
+      colors={colors}
+      stops={stops}
+      style={style}
+      mixStep={'SMOOTH'}
+    />
     <LinearGradient
       colors={colors}
       stops={stops}
@@ -51,11 +75,13 @@ const app = () => (
       mixStep={'SMOOTH'}
     />
     <RadialGradient
+      center={center}
       colors={colors}
       stops={stops}
       style={style}
     />
     <RadialGradient
+      center={center}
       style={style}
       colors={colors}
       stops={stops}

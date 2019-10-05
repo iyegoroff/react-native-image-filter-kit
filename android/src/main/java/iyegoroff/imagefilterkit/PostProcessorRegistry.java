@@ -31,6 +31,7 @@ import iyegoroff.imagefilterkit.compositing.DestinationATopCompositingPostProces
 import iyegoroff.imagefilterkit.compositing.DestinationInCompositingPostProcessor;
 import iyegoroff.imagefilterkit.compositing.SourceInCompositingPostProcessor;
 import iyegoroff.imagefilterkit.compositing.SourceOutCompositingPostProcessor;
+import iyegoroff.imagefilterkit.gradients.EllipticalGradientPostProcessor;
 import iyegoroff.imagefilterkit.gradients.QuadGradientPostProcessor;
 import iyegoroff.imagefilterkit.gradients.SmoothLinearGradientPostProcessor;
 import iyegoroff.imagefilterkit.gradients.SmoothRadialGradientPostProcessor;
@@ -174,6 +175,8 @@ public class PostProcessorRegistry {
     addSingular("SmoothSweepGradient", SmoothSweepGradientPostProcessor::new);
 
     addSingular("SmoothLinearGradient", SmoothLinearGradientPostProcessor::new);
+
+    addSingular("EllipticalGradient", EllipticalGradientPostProcessor::new);
 
     addComposition("ColorDodgeBlend", ColorDodgeBlendPostProcessor::new);
 

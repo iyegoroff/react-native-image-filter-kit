@@ -343,6 +343,25 @@ public class InputConverter {
     return value != null ? T.valueOf(type, value) : defaultValue;
   }
 
+  public MixStep convertMixStep(
+    @Nullable JSONObject config,
+    @Nonnull String name,
+    MixStep defaultValue
+  ) {
+    return convertMixStep(config != null ? config.optJSONObject(name) : null, defaultValue);
+  }
+
+  private MixStep convertMixStep(
+    @Nullable JSONObject mixStep,
+    MixStep defaultValue
+  ) {
+    return convertEnumeration(
+      mixStep != null ? mixStep.optString("mixStep") : null,
+      defaultValue,
+      MixStep.class
+    );
+  }
+
   public PorterDuff.Mode convertPorterDuffMode(
     @Nullable JSONObject config,
     @Nonnull String name,

@@ -8,7 +8,8 @@ import {
   PathShapeConfig,
   RegularPolygonShapeConfig,
   QuadGradientConfig,
-  shapes
+  shapes,
+  EllipticalGradientConfig
 } from './shapes'
 import { TransformMap } from '../common/shapes'
 
@@ -49,6 +50,26 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     colors,
     stops,
     radius,
+    centerX: center.x,
+    centerY: `100h - ${center.y}`
+  }),
+
+  EllipticalGradient: ({
+    colors = ['red', 'blue'],
+    stops = [0, 1],
+    center = { x: '50w', y: '50h' },
+    radiusX = '50w',
+    radiusY = '50h',
+    mixStep = 'CLAMP',
+    ...config
+  }: EllipticalGradientConfig) => ({
+    ...config,
+    name: 'AndroidEllipticalGradient',
+    mixStep,
+    colors,
+    stops,
+    radiusX,
+    radiusY,
     centerX: center.x,
     centerY: `100h - ${center.y}`
   }),

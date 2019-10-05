@@ -1,5 +1,13 @@
 import { Composition, Generator } from '../common/shapes'
-import { distance, color, path, distanceVector, colorVector, scalarVector } from '../common/inputs'
+import {
+  distance,
+  color,
+  path,
+  distanceVector,
+  colorVector,
+  scalarVector,
+  mixStep
+} from '../common/inputs'
 
 export const shapes = {
   AndroidDestinationATopCompositing: Composition,
@@ -68,6 +76,17 @@ export const shapes = {
     cy: distance,
     colors: colorVector,
     positions: scalarVector,
+    ...Generator
+  },
+
+  AndroidEllipticalGradient: {
+    centerX: distance,
+    centerY: distance,
+    radiusX: distance,
+    radiusY: distance,
+    mixStep: mixStep,
+    colors: colorVector,
+    stops: scalarVector,
     ...Generator
   }
 }
