@@ -23,10 +23,11 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     stops = [0, 1],
     start = { x: 0, y: '0h' },
     end = { x: '100w', y: '0h' },
+    mixStep = 'CLAMP',
     ...config
   }: LinearGradientConfig) => ({
     ...config,
-    name: 'AndroidLinearGradient',
+    name: mixStep === 'CLAMP' ? 'AndroidLinearGradient' : 'AndroidSmoothLinearGradient',
     colors,
     locations: stops,
     x0: start.x,

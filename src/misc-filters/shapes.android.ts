@@ -44,6 +44,16 @@ export const shapes = {
     ...Generator
   },
 
+  AndroidSmoothLinearGradient: {
+    x0: distance,
+    y0: distance,
+    x1: distance,
+    y1: distance,
+    colors: colorVector,
+    locations: scalarVector,
+    ...Generator
+  },
+
   AndroidSmoothRadialGradient: {
     centerX: distance,
     centerY: distance,

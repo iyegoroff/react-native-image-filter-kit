@@ -23,7 +23,7 @@ const image = (
   />
 )
 
-const colors = ['red', 'blue', 'green', 'white', 'red'] as RadialGradientConfig['colors']
+const colors = ['red', 'blue', 'green', 'blue', 'red'] as RadialGradientConfig['colors']
 const stops = [0, 0.25, 0.5, 0.75, 1] as RadialGradientConfig['stops']
 
 const app = () => (
@@ -38,6 +38,60 @@ const app = () => (
       stops={stops}
       style={style}
       mixStep={'SMOOTH'}
+    />
+    <SweepGradient
+      colors={colors}
+      stops={stops}
+      style={style}
+    />
+    <SweepGradient
+      colors={colors}
+      stops={stops}
+      style={style}
+      mixStep={'SMOOTH'}
+    />
+    <RadialGradient
+      colors={colors}
+      stops={stops}
+      style={style}
+    />
+    <RadialGradient
+      style={style}
+      colors={colors}
+      stops={stops}
+      mixStep={'SMOOTH'}
+    />
+    <QuadGradient
+      style={style}
+      bottomLeftColor={'black'}
+      bottomRightColor={'green'}
+      topLeftColor={'red'}
+      topRightColor={'black'}
+    />
+
+    {image}
+
+    <Text style={textStyle}>{'Ashby'}</Text>
+    <Ashby image={image} />
+
+    <Text style={textStyle}>{'Poprocket'}</Text>
+    <Poprocket image={image} />
+
+    <Text style={textStyle}>{'PoprocketStandalone'}</Text>
+    <PoprocketStandalone image={image} />
+
+    <Text style={textStyle}>{'Poprocket + Ashby'}</Text>
+    <Poprocket image={<Ashby image={image} />} />
+
+    <Text style={textStyle}>{'Ashby + Poprocket'}</Text>
+    <GenericImageFilter<InstagramCSSExtensionConfig> /* in JS this can be just ImageFilter */
+      config={{
+        name: 'Poprocket',
+        image: {
+          name: 'Ashby',
+          image
+        }
+      }}
     />
   </ScrollView>
 )

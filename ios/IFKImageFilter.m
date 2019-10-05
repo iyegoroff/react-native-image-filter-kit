@@ -176,7 +176,6 @@ typedef BFTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 - (nonnull DeferredImage *)createSingularImage:(nonnull NSDictionary *)config
                                   wrappedImage:(nonnull DeferredImage *)wrappedImage
 {
-  NSLog(@"%@", config);
   NSString *name = [IFKConfigHelper name:config];
   
   return [wrappedImage continueWithSuccessBlock:^id _Nullable(DeferredImage * _Nonnull task) {
