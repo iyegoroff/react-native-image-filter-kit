@@ -27,7 +27,7 @@ Various image filters for iOS & Android.
 <table>
 <td>
 <details style="border: 1px solid; border-radius: 5px; padding: 5px">
-  <summary>with react-native "<strong>&gt;=0.60.0</strong>"</summary>
+  <summary>with react-native "<strong>&gt;=0.61.0</strong>"</summary>
 
 ### 1. Install latest version from npm
 
@@ -37,7 +37,58 @@ Various image filters for iOS & Android.
 
 `$ cd ios && pod install && cd ..`
 
-### 3. Final steps
+### 3. Enable renderscript
+
+- Modify `android/build.gradle`:
+
+  ```diff
+  buildscript {
+    ext {
+  -   buildToolsVersion = "28.0.3"
+  -   minSdkVersion = 16
+  -   compileSdkVersion = 28
+  -   targetSdkVersion = 28
+  +   buildToolsVersion = "29.0.2"
+  +   minSdkVersion = 17
+  +   compileSdkVersion = 29
+  +   targetSdkVersion = 29
+  +   renderscriptVersion = 21
+  ...
+  ```
+- Modify `android/app/build.gradle`:
+
+  ```diff
+  android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+  + buildToolsVersion rootProject.ext.buildToolsVersion
+
+    ...
+
+    defaultConfig {
+      ...
+  +   renderscriptTargetApi rootProject.ext.renderscriptVersion
+  +   renderscriptSupportModeEnabled true
+    }
+  ```
+
+
+</details>
+</td>
+</table>
+<table>
+<td>
+<details style="border: 1px solid; border-radius: 5px; padding: 5px">
+  <summary>with react-native "<strong>&gt;=0.60.0 &lt;0.61.0</strong>"</summary>
+
+### 1. Install v0.5.18 from npm
+
+`$ npm i react-native-image-filter-kit@0.5.18 -S`
+
+### 2. Install pods
+
+`$ cd ios && pod install && cd ..`
+
+### 3. Enable renderscript
 
 - Modify `android/build.gradle`:
 
@@ -109,7 +160,7 @@ pod 'RNImageFilterKit', :path => '../node_modules/react-native-image-filter-kit'
 
 Install manually if `react-native link` failed - [link](docs/manual_installation.md)
 
-### 3. Final steps
+### 3. Enable renderscript
 
 - Modify `android/build.gradle`:
   ```diff
