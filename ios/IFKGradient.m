@@ -5,7 +5,7 @@
 static CGFloat defaultStops[5] = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
 
 @implementation IFKGradient
-  
+
 + (void)initializeWithGradientClass:(Class)gradientClass displayName:(NSString *)displayName
 {
   [CIFilter registerFilterName:NSStringFromClass(gradientClass)
@@ -15,11 +15,11 @@ static CGFloat defaultStops[5] = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
                                                                 kCICategoryVideo,
                                                                 kCICategoryStillImage]}];
 }
-  
+
 + (NSArray<CIKernel *> *)loadKernels:(Class)gradientClass
 {
   NSBundle *podBundle = [NSBundle bundleForClass:self];
-  NSBundle *bundle = [NSBundle bundleWithURL:[podBundle URLForResource:@"RNImageFilterKitBundle"
+  NSBundle *bundle = [NSBundle bundleWithURL:[podBundle URLForResource:@"bundle"
                                                          withExtension:@"bundle"]];
   NSString *resource = [bundle pathForResource:NSStringFromClass(gradientClass)
                                         ofType:@"cikernel"];

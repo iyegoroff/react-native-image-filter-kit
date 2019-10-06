@@ -21,7 +21,7 @@
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     NSBundle *podBundle = [NSBundle bundleForClass:self];
-    NSBundle *bundle = [NSBundle bundleWithURL:[podBundle URLForResource:@"RNImageFilterKitBundle"
+    NSBundle *bundle = [NSBundle bundleWithURL:[podBundle URLForResource:@"bundle"
                                                            withExtension:@"bundle"]];
     NSString *resource = [bundle pathForResource:NSStringFromClass([IFKXorCompositing class])
                                           ofType:@"cikernel"];
@@ -38,9 +38,9 @@
   if (self.inputImage == nil || self.inputBackgroundImage == nil) {
     return nil;
   }
-  
+
   CGRect extent = CGRectUnion(self.inputImage.extent, self.inputBackgroundImage.extent);
-  
+
   return [[IFKXorCompositing filterKernel] applyWithExtent:extent
                                                roiCallback:^CGRect(int index, CGRect destRect) {
                                                  return destRect;

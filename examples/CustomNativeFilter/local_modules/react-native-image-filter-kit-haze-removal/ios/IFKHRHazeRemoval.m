@@ -20,7 +20,7 @@
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     NSBundle *podBundle = [NSBundle bundleForClass:self];
-    NSBundle *bundle = [NSBundle bundleWithURL:[podBundle URLForResource:@"RNHazeRemovalBundle"
+    NSBundle *bundle = [NSBundle bundleWithURL:[podBundle URLForResource:@"bundle"
                                                           withExtension:@"bundle"]];
     NSString *resource = [bundle pathForResource:NSStringFromClass([IFKHRHazeRemoval class])
                                           ofType:@"cikernel"];

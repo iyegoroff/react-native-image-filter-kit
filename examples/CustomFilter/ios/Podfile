@@ -34,7 +34,7 @@ target 'CustomFilter' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'RNImageFilterKit', :path => '../../../'
+  pod 'react-native-image-filter-kit', :path => '../../../'
 
   use_native_modules!
 end

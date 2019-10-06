@@ -18,6 +18,8 @@ def _compileSdkVersion = _ext.has('compileSdkVersion') ? _ext.compileSdkVersion 
 def _buildToolsVersion = _ext.has('buildToolsVersion') ? _ext.buildToolsVersion : '29.0.2';
 def _minSdkVersion = _ext.has('minSdkVersion') && _ext.minSdkVersion > 16 ? _ext.minSdkVersion : 17;
 def _targetSdkVersion = _ext.has('targetSdkVersion') ? _ext.targetSdkVersion : 29;
+def _renderscriptVersion =
+  _ext.has('renderscriptVersion') && _ext.renderscriptVersion > 20 ? _ext.renderscriptVersion : 21;
 
 android {
     compileSdkVersion _compileSdkVersion
@@ -33,7 +35,7 @@ android {
         targetSdkVersion _targetSdkVersion
         versionCode 1
         versionName "1.0"
-        renderscriptTargetApi 21
+        renderscriptTargetApi _renderscriptVersion
         renderscriptSupportModeEnabled true
     }
     lintOptions {
