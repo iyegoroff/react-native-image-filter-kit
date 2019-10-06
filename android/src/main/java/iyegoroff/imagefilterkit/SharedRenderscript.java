@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.renderscript.RenderScript;
 
 public class SharedRenderscript {
-  private static SharedRenderscript sInstance = null;
+  private static volatile SharedRenderscript sInstance = null;
 
   private final RenderScript mRenderscript;
 
@@ -23,12 +23,9 @@ public class SharedRenderscript {
         if (sInstance == null) {
           sInstance = new SharedRenderscript(context);
         }
-
-        return sInstance;
       }
-      
-    } else {
-      return sInstance;
     }
+
+    return sInstance;
   }
 }
