@@ -17,6 +17,8 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import iyegoroff.imagefilterkit.SharedRenderscript;
+
 public abstract class RenderscriptCompositionPostProcessor extends CompositionPostProcessor {
 
   protected static class RenderscriptContext {
@@ -33,7 +35,7 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
     ) {
       final Allocation.MipmapControl mips = Allocation.MipmapControl.MIPMAP_NONE;
       final int usage = Allocation.USAGE_SCRIPT;
-      mScript = RenderScript.create(context);
+      mScript = SharedRenderscript.getInstance(context).script();
       mDstAlloc = Allocation.createFromBitmap(mScript, dst, mips, usage);
       mSrcAlloc = Allocation.createFromBitmap(mScript, src, mips, usage);
       mOutAlloc = Allocation.createFromBitmap(mScript, out, mips, usage);
@@ -63,7 +65,6 @@ public abstract class RenderscriptCompositionPostProcessor extends CompositionPo
       mDstAlloc.destroy();
       mSrcAlloc.destroy();
       mOutAlloc.destroy();
-      mScript.destroy();
     }
   }
 

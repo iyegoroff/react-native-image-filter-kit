@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import iyegoroff.imagefilterkit.SharedRenderscript;
+
 public abstract class RenderscriptSingularPostProcessor extends CacheablePostProcessor {
 
   protected static class RenderscriptContext {
@@ -20,7 +22,7 @@ public abstract class RenderscriptSingularPostProcessor extends CacheablePostPro
     public RenderscriptContext(final Bitmap src, final Bitmap out, final Context context) {
       final Allocation.MipmapControl mips = Allocation.MipmapControl.MIPMAP_NONE;
       final int usage = Allocation.USAGE_SCRIPT;
-      mScript = RenderScript.create(context);
+      mScript = SharedRenderscript.getInstance(context).script();
       mSrcAlloc = Allocation.createFromBitmap(mScript, src, mips, usage);
       mOutAlloc = Allocation.createFromBitmap(mScript, out, mips, usage);
     }
@@ -44,7 +46,6 @@ public abstract class RenderscriptSingularPostProcessor extends CacheablePostPro
     public void destroy() {
       mSrcAlloc.destroy();
       mOutAlloc.destroy();
-      mScript.destroy();
     }
   }
 

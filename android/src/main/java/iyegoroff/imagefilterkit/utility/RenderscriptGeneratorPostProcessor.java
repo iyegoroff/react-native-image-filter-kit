@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
+import iyegoroff.imagefilterkit.SharedRenderscript;
 
 public abstract class RenderscriptGeneratorPostProcessor extends CacheablePostProcessor {
 
@@ -25,7 +26,7 @@ public abstract class RenderscriptGeneratorPostProcessor extends CacheablePostPr
     public RenderscriptContext(final Bitmap bitmap, final Context context) {
       final Allocation.MipmapControl mips = Allocation.MipmapControl.MIPMAP_NONE;
       final int usage = Allocation.USAGE_SCRIPT;
-      mScript = RenderScript.create(context);
+      mScript = SharedRenderscript.getInstance(context).script();
       mAlloc = Allocation.createFromBitmap(mScript, bitmap, mips, usage);
     }
 
@@ -43,7 +44,6 @@ public abstract class RenderscriptGeneratorPostProcessor extends CacheablePostPr
 
     public void destroy() {
       mAlloc.destroy();
-      mScript.destroy();
     }
   }
 
