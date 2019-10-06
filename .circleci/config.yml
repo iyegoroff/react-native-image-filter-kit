@@ -65,9 +65,9 @@ jobs:
       - run:
           command: |
             brew install infer
-            sudo pip install pbxproj
-            cd RNIFKTest
-            npm run patch:pbxproj
+            # sudo pip install pbxproj
+            # cd RNIFKTest
+            # npm run patch:pbxproj
 
       - run:
           command: |
