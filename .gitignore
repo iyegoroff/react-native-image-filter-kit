@@ -42,6 +42,7 @@ dist/
 
 examples/Sim*
 examples/*old
+RNIFKTest_old
 Sim60
 index.tmp
 ios-filters.txt

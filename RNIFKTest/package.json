@@ -14,13 +14,13 @@
     "install:pods": "cd ios && pod install"
   },
   "dependencies": {
-    "react": "16.8.6",
-    "react-native": "0.60.3",
+    "react": "16.9.0",
+    "react-native": "0.61.2",
     "react-native-image-filter-kit": "file:../"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.4",
-    "@babel/runtime": "^7.5.4",
-    "metro-react-native-babel-preset": "^0.55.0"
+    "@babel/core": "^7.6.2",
+    "@babel/runtime": "^7.6.2",
+    "metro-react-native-babel-preset": "^0.56.0"
   }
 }
