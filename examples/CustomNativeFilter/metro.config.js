@@ -4,25 +4,30 @@
  *
  * @format
  */
-const path = require('path');
+
+const path = require('path')
+const blacklist = require('metro-config/src/defaults/blacklist')
+
+const packagePath = path.resolve(__dirname, '../../')
+const hazeRemovalPath = path.resolve(__dirname, 'local_modules/react-native-image-filter-kit-haze-removal')
 
 const extraNodeModules = {
   'react': path.resolve(__dirname, 'node_modules/react'),
   'react-native': path.resolve(__dirname, 'node_modules/react-native'),
   '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
-  'react-native-image-filter-kit': path.resolve(__dirname, '../../'),
-  'react-native-image-filter-kit-haze-removal': path.resolve(__dirname, 'local_modules/react-native-image-filter-kit-haze-removal')
-};
-const watchFolders = [
-  path.resolve(__dirname, '../../'),
-  path.resolve(__dirname, 'local_modules/react-native-image-filter-kit-haze-removal')
-];
+  'react-native-image-filter-kit': packagePath,
+  'react-native-image-filter-kit-haze-removal': hazeRemovalPath
+}
 
 module.exports = {
   resolver: {
     extraNodeModules,
+    blacklistRE: blacklist([
+      /^src[/\\].*/,
+      /^examples[/\\]\w+[/\\]src[/\\].*/
+    ])
   },
-  watchFolders,
+  watchFolders: [packagePath, hazeRemovalPath],
   transformer: {
     getTransformOptions: async () => ({
       transform: {
@@ -31,4 +36,4 @@ module.exports = {
       },
     }),
   },
-};
+}

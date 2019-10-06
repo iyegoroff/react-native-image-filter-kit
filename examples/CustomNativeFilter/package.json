@@ -20,15 +20,15 @@
     "build:release:docker": "npm run build:docker:image && npm run extract:docker:apk"
   },
   "dependencies": {
-    "react": "16.8.6",
-    "react-native": "0.60.4",
+    "react": "16.9.0",
+    "react-native": "0.61.2",
     "react-native-color-wheel": "iyegoroff/react-native-color-wheel#radius-fix",
     "react-native-image-filter-kit": "file:../../",
     "react-native-image-filter-kit-haze-removal": "file:local_modules/react-native-image-filter-kit-haze-removal"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/runtime": "^7.5.5",
-    "metro-react-native-babel-preset": "^0.55.0"
+    "@babel/core": "^7.6.2",
+    "@babel/runtime": "^7.6.2",
+    "metro-react-native-babel-preset": "^0.56.0"
   }
 }
