@@ -183,6 +183,15 @@ A [4x5 matrix](https://developer.android.com/reference/android/graphics/ColorMat
 
 ***
 #### PathStep
-An object created by [moveTo](functions.md#moveTo), [lineTo](functions.md#lineTo), [quadTo](functions.md#quadTo), [cubicTo](functions.md#cubicTo) and [closePath](functions.md#closePath) functions. Coordinate system of a path generated with array of `PathStep`s starts in the center point of image canvas: 
+An object created by [moveTo](functions.md#moveTo), [lineTo](functions.md#lineTo), [quadTo](functions.md#quadTo), [cubicTo](functions.md#cubicTo) and [closePath](functions.md#closePath) functions. Coordinate system of a path generated with array of `PathStep`s starts in the center point of image canvas:
 
 <img src="../img/coordinates.png">
+
+***
+#### MixStep
+
+```ts
+'CLAMP' | 'SMOOTH'
+```
+
+Specifies a function that will be used to mix colors in gradients - `clamp` or `smoothstep`.

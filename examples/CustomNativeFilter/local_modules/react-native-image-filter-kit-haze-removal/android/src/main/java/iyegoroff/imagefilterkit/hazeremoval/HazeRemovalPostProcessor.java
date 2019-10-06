@@ -34,9 +34,9 @@ public class HazeRemovalPostProcessor extends RenderscriptSingularPostProcessor 
 
     InputConverter converter = new InputConverter(width, height);
 
-    mDistance = converter.convertScalar(config != null ? config.optJSONObject("distance") : null, 0.2f);
-    mSlope = converter.convertScalar(config != null ? config.optJSONObject("slope") : null, 0);
-    mColor = converter.convertColor(config != null ? config.optJSONObject("color") : null, 0);
+    mDistance = converter.convertScalar(config, "distance", 0.2f);
+    mSlope = converter.convertScalar(config, "slope", 0);
+    mColor = converter.convertColor(config, "color", 0);
   }
 
   @Override

@@ -307,16 +307,17 @@ const result = (
 ) one provided by this module:
     ```diff
       ...
-    - import com.facebook.react.shell.MainReactPackage;
     + import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
-      import com.facebook.soloader.SoLoader;
-
-      import java.util.Arrays;
-      import java.util.List;
 
       public class MainApplication extends Application implements ReactApplication {
 
-    +   private class MainReactPackage extends MainReactPackageWithFrescoCache {}
+      ...
+          List<ReactPackage> packages = new PackageList(this).getPackages();
+          // Packages that cannot be autolinked yet can be added manually here, for example:
+          // packages.add(new MyReactNativePackage());
+    -     return packages;
+    +     return MainReactPackageWithFrescoCache.inject(packages);
+        }
       ...
     ```
     After this change `ImageFilter` will not throw `TooManyBitmapsException` immediately and will clear Fresco image caches, trim bitmap pool memory and try to filter the image again several times until succeed or reach the limit of retries, specified by [clearCachesMaxRetries](docs/types.md#ImageFilter) prop.

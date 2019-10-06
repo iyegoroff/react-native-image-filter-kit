@@ -8,6 +8,7 @@
     "jsx": "react-native",
     "lib": ["es6"],
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "types": [
       "react",
       "react-native",

@@ -8,6 +8,11 @@
     "jsx": "react-native",
     "lib": ["es6"],
     "moduleResolution": "node",
-    "allowJs": true
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "react",
+      "react-native",
+      "react-native-image-filter-kit"
+    ]
   }
 }

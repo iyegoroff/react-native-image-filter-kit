@@ -6,6 +6,9 @@
 - [LinearGradient](#LinearGradient)
 - [RadialGradient](#RadialGradient)
 - [SweepGradient](#SweepGradient)
+- [EllipticalGradient](#EllipticalGradient)
+- [RectangularGradient](#RectangularGradient)
+- [QuadGradient](#QuadGradient)
 ----
 - [CircleShape](#CircleShape)
 - [OvalShape](#OvalShape)
@@ -80,6 +83,12 @@
     <td>{&nbsp;x:&nbsp;'100w',&nbsp;y:&nbsp;'0h'&nbsp;}</td>
     <td></td>
   </tr>
+  <tr>
+    <td>mixStep</td>
+    <td><a href="types.md#MixStep">MixStep</a></td>
+    <td>'CLAMP'</td>
+    <td></td>
+  </tr>
 </table>
 
 ***
@@ -123,6 +132,12 @@
     <td>'50min'</td>
     <td></td>
   </tr>
+  <tr>
+    <td>mixStep</td>
+    <td><a href="types.md#MixStep">MixStep</a></td>
+    <td>'CLAMP'</td>
+    <td></td>
+  </tr>
 </table>
 
 ***
@@ -159,6 +174,165 @@
     <td><a href="types.md#Position">Position</a></td>
     <td>{&nbsp;x:&nbsp;'50w',&nbsp;y:&nbsp;'50h'&nbsp;}</td>
     <td></td>
+  </tr>
+  <tr>
+    <td>mixStep</td>
+    <td><a href="types.md#MixStep">MixStep</a></td>
+    <td>'CLAMP'</td>
+    <td></td>
+  </tr>
+</table>
+
+***
+
+#### EllipticalGradient
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
+  </tr>
+  <tr>
+    <td>colors</td>
+    <td>string[]</td>
+    <td>['red',&nbsp;'blue']</td>
+    <td>up to 10 colors</td>
+  </tr>
+  <tr>
+    <td>stops</td>
+    <td>number[]</td>
+    <td>[0,&nbsp;1]</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>center</td>
+    <td><a href="types.md#Position">Position</a></td>
+    <td>{&nbsp;x:&nbsp;'50w',&nbsp;y:&nbsp;'50h'&nbsp;}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>radiusX</td>
+    <td><a href="types.md#Distance">Distance</a></td>
+    <td>'50w'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>radiusY</td>
+    <td><a href="types.md#Distance">Distance</a></td>
+    <td>'50h'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>mixStep</td>
+    <td><a href="types.md#MixStep">MixStep</a></td>
+    <td>'CLAMP'</td>
+    <td></td>
+  </tr>
+</table>
+
+***
+
+#### RectangularGradient
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
+  </tr>
+  <tr>
+    <td>colors</td>
+    <td>string[]</td>
+    <td>['red',&nbsp;'blue']</td>
+    <td>up to 10 colors</td>
+  </tr>
+  <tr>
+    <td>stops</td>
+    <td>number[]</td>
+    <td>[0,&nbsp;1]</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>center</td>
+    <td><a href="types.md#Position">Position</a></td>
+    <td>{&nbsp;x:&nbsp;'50w',&nbsp;y:&nbsp;'50h'&nbsp;}</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>halfWidth</td>
+    <td><a href="types.md#Distance">Distance</a></td>
+    <td>'50w'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>halfHeight</td>
+    <td><a href="types.md#Distance">Distance</a></td>
+    <td>'50h'</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>mixStep</td>
+    <td><a href="types.md#MixStep">MixStep</a></td>
+    <td>'CLAMP'</td>
+    <td></td>
+  </tr>
+</table>
+
+***
+
+#### QuadGradient
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
+  </tr>
+  <tr>
+    <td>bottomLeftColor</td>
+    <td>string</td>
+    <td>-</td>
+    <td><strong>required</strong></td>
+  </tr>
+  <tr>
+    <td>bottomRightColor</td>
+    <td>string</td>
+    <td>-</td>
+    <td><strong>required</strong></td>
+  </tr>
+  <tr>
+    <td>topLeftColor</td>
+    <td>string</td>
+    <td>-</td>
+    <td><strong>required</strong></td>
+  </tr>
+  <tr>
+    <td>topRightColor</td>
+    <td>string</td>
+    <td>-</td>
+    <td><strong>required</strong></td>
   </tr>
 </table>
 

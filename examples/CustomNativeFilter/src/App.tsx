@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { GenericImageFilter } from 'react-native-image-filter-kit'
-import { Image, View, Slider, StatusBar, Text, StyleSheet } from 'react-native'
+import { Image, View, StatusBar, Text, StyleSheet } from 'react-native'
+import Slider from '@react-native-community/slider'
 import { HazeRemovalExtensionConfig, init } from 'react-native-image-filter-kit-haze-removal'
-const { ColorWheel } = require('react-native-color-wheel')
-const colorsys = require('colorsys')
+import { HueSaturationWheel, HSV } from 'react-native-reanimated-color-picker'
+import chroma from 'chroma-js'
 
 init()
 
@@ -29,21 +30,19 @@ const styles = StyleSheet.create({
 
 class App extends React.Component<{}, { distance: number, color: string }> {
 
-  constructor(props: {}) {
-    super(props)
-
-    this.state = {
-      distance: 0.2,
-      color: '#ff0000'
-    }
+  state = {
+    distance: 0.2,
+    color: '#ff0000'
   }
 
   setDistance = (distance: number) => {
     this.setState({ distance })
   }
 
-  setColor = (color: object) => {
-    this.setState({ color: colorsys.hsvToHex(color) })
+  setColor = ({ h, s, v }: HSV) => {
+    this.setState({
+      color: chroma.hsv(h, s, v).hex()
+    })
   }
 
   roundedDistance = (distance: number) => Math.trunc(distance * 100) / 100
@@ -70,10 +69,9 @@ class App extends React.Component<{}, { distance: number, color: string }> {
           value={distance}
           onSlidingComplete={this.setDistance}
         />
-        <ColorWheel
-          initialColor={color}
-          onColorChange={this.setColor}
+        <HueSaturationWheel
           style={styles.colorWheel}
+          onColorChangeComplete={this.setColor}
         />
         <View
           pointerEvents={'none'}
