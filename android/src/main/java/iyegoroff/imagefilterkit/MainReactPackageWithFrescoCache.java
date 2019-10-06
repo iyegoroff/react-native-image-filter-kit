@@ -8,6 +8,7 @@ import com.facebook.common.internal.Supplier;
 import com.facebook.common.logging.FLog;
 import com.facebook.imagepipeline.cache.DefaultBitmapMemoryCacheParamsSupplier;
 import com.facebook.imagepipeline.cache.MemoryCacheParams;
+import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.ModuleSpec;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -15,7 +16,6 @@ import com.facebook.react.common.ReactConstants;
 import com.facebook.react.modules.fresco.FrescoModule;
 import com.facebook.react.shell.MainReactPackage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -43,9 +43,21 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
     sBitmapsConfig = bitmapsConfig == null ? sBitmapsConfig : bitmapsConfig;
   }
 
-  @SuppressWarnings("UnusedDeclaration")
+  @SuppressWarnings("WeakerAccess")
   public MainReactPackageWithFrescoCache() {
     this(null, null, null);
+  }
+
+  @SuppressWarnings("UnusedDeclaration")
+  public static List<ReactPackage> inject(List<ReactPackage> packages) {
+    for (int i = 0; i < packages.size(); i++) {
+      if (packages.get(i).getClass() == MainReactPackage.class) {
+        packages.set(i, new MainReactPackageWithFrescoCache());
+        break;
+      }
+    }
+
+    return packages;
   }
 
   public static Bitmap.Config bitmapsConfig() {
@@ -101,46 +113,9 @@ public class MainReactPackageWithFrescoCache extends MainReactPackage {
     );
   }
 
-  // for RN 0.60
-  @SuppressWarnings("UnusedDeclaration")
-  public List<ModuleSpec> getNativeModules(final ReactApplicationContext context) {
-    List<ModuleSpec> modules = ReflectUtils.invokeMethod(
-      MainReactPackage.class,
-      this,
-      "getNativeModules",
-      context
-    );
-
-    ArrayList<ModuleSpec> patchedModules = new ArrayList<>();
-    int size = modules == null ? 0 : modules.size();
-
-    for (int i = 0; i < size; i++) {
-
-      if (isFresco(modules.get(i))) {
-        patchedModules.add(ModuleSpec.nativeModuleSpec(
-          FrescoModule.class,
-          () -> createFrescoModule(context))
-        );
-
-      } else {
-        patchedModules.add(modules.get(i));
-      }
-    }
-
-    return patchedModules;
-  }
-
-  // for RN 0.61
   public NativeModule getModule(String name, ReactApplicationContext context) {
     return FrescoModule.NAME.equals(name)
       ? createFrescoModule(context)
-      : (
-        ReflectUtils.invokeMethod(
-          MainReactPackage.class,
-          this,
-          "getModule",
-          new Object[]{name, context}
-        )
-      );
+      : super.getModule(name, context);
   }
 }
