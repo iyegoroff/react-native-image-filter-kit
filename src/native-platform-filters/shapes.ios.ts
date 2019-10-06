@@ -16,7 +16,8 @@ import {
   ISOLatin1EncodedText,
   distanceVector,
   angle,
-  transform
+  transform,
+  marker
 } from '../common/inputs'
 import {
   GeneratorIos as Generator,
@@ -140,6 +141,7 @@ export const shapes = {
     inputBVector: scalarVector,
     inputAVector: scalarVector,
     inputBiasVector: scalarVector,
+    hasColorManagement: marker,
     ...Common
   },
 
@@ -214,7 +216,10 @@ export const shapes = {
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorCubeWithColorSpace,
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorInvert
-  IosCIColorInvert: Common,
+  IosCIColorInvert: {
+    hasColorManagement: marker,
+    ...Common
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorMap
   IosCIColorMap: {
@@ -299,88 +304,172 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIAdditionCompositing
-  IosCIAdditionCompositing: BackgroundImageComposition,
+  IosCIAdditionCompositing: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorBlendMode
-  IosCIColorBlendMode: BackgroundImageComposition,
+  IosCIColorBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorBurnBlendMode
-  IosCIColorBurnBlendMode: BackgroundImageComposition,
+  IosCIColorBurnBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIColorDodgeBlendMode
-  IosCIColorDodgeBlendMode: BackgroundImageComposition,
+  IosCIColorDodgeBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDarkenBlendMode
-  IosCIDarkenBlendMode: BackgroundImageComposition,
+  IosCIDarkenBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDifferenceBlendMode
-  IosCIDifferenceBlendMode: BackgroundImageComposition,
+  IosCIDifferenceBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIDivideBlendMode
-  IosCIDivideBlendMode: BackgroundImageComposition,
+  IosCIDivideBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIExclusionBlendMode
-  IosCIExclusionBlendMode: BackgroundImageComposition,
+  IosCIExclusionBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIHardLightBlendMode
-  IosCIHardLightBlendMode: BackgroundImageComposition,
+  IosCIHardLightBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIHueBlendMode
-  IosCIHueBlendMode: BackgroundImageComposition,
+  IosCIHueBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILightenBlendMode
-  IosCILightenBlendMode: BackgroundImageComposition,
+  IosCILightenBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILinearBurnBlendMode
-  IosCILinearBurnBlendMode: BackgroundImageComposition,
+  IosCILinearBurnBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILinearDodgeBlendMode
-  IosCILinearDodgeBlendMode: BackgroundImageComposition,
+  IosCILinearDodgeBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CILuminosityBlendMode
-  IosCILuminosityBlendMode: BackgroundImageComposition,
+  IosCILuminosityBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMaximumCompositing
-  IosCIMaximumCompositing: BackgroundImageComposition,
+  IosCIMaximumCompositing: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMinimumCompositing
-  IosCIMinimumCompositing: BackgroundImageComposition,
+  IosCIMinimumCompositing: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMultiplyBlendMode
-  IosCIMultiplyBlendMode: BackgroundImageComposition,
+  IosCIMultiplyBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIMultiplyCompositing
-  IosCIMultiplyCompositing: BackgroundImageComposition,
+  IosCIMultiplyCompositing: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIOverlayBlendMode
-  IosCIOverlayBlendMode: BackgroundImageComposition,
+  IosCIOverlayBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIPinLightBlendMode
-  IosCIPinLightBlendMode: BackgroundImageComposition,
+  IosCIPinLightBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISaturationBlendMode
-  IosCISaturationBlendMode: BackgroundImageComposition,
+  IosCISaturationBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIScreenBlendMode
-  IosCIScreenBlendMode: BackgroundImageComposition,
+  IosCIScreenBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISoftLightBlendMode
-  IosCISoftLightBlendMode: BackgroundImageComposition,
+  IosCISoftLightBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISourceAtopCompositing
-  IosCISourceAtopCompositing: BackgroundImageComposition,
+  IosCISourceAtopCompositing: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISourceInCompositing
-  IosCISourceInCompositing: BackgroundImageComposition,
+  IosCISourceInCompositing: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISourceOutCompositing
-  IosCISourceOutCompositing: BackgroundImageComposition,
+  IosCISourceOutCompositing: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISourceOverCompositing
-  IosCISourceOverCompositing: BackgroundImageComposition,
+  IosCISourceOverCompositing: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CISubtractBlendMode
-  IosCISubtractBlendMode: BackgroundImageComposition,
+  IosCISubtractBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIBumpDistortion
   IosCIBumpDistortion: {
@@ -777,19 +866,34 @@ export const shapes = {
   IosCIComicEffect: Common,
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIConvolution3X3
-  IosCIConvolution3X3: Convolution,
+  IosCIConvolution3X3: {
+    hasColorManagement: marker,
+    ...Convolution
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIConvolution5X5
-  IosCIConvolution5X5: Convolution,
+  IosCIConvolution5X5: {
+    hasColorManagement: marker,
+    ...Convolution
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIConvolution7X7
-  IosCIConvolution7X7: Convolution,
+  IosCIConvolution7X7: {
+    hasColorManagement: marker,
+    ...Convolution
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIConvolution9Horizontal,
-  IosCIConvolution9Horizontal: Convolution,
+  IosCIConvolution9Horizontal: {
+    hasColorManagement: marker,
+    ...Convolution
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIConvolution9Vertical,
-  IosCIConvolution9Vertical: Convolution,
+  IosCIConvolution9Vertical: {
+    hasColorManagement: marker,
+    ...Convolution
+  },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CICrystallize
   IosCICrystallize: {
@@ -1073,7 +1177,10 @@ export const shapes = {
     ...Common
   },
 
-  IosCIVividLightBlendMode: BackgroundImageComposition,
+  IosCIVividLightBlendMode: {
+    hasColorManagement: marker,
+    ...BackgroundImageComposition
+  },
 
   IosCISkyAndGrassAdjust: {
     inputSkyAmount: scalar,

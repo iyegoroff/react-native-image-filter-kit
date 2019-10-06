@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSDictionary *inputs;
 @property (nonatomic, assign) BOOL clampToExtent;
 @property (nonatomic, assign) BOOL isGenerator;
+@property (nonatomic, assign) BOOL hasColorManagement;
 
 @end
 
@@ -29,6 +30,7 @@
     _clampToExtent = [[IFKInputConverter convertBoolean:[_inputs objectForKey:@"clampToExtent"]
                                            defaultValue:@NO] boolValue];
     _isGenerator = [[_inputs objectForKey:@"isGenerator"] objectForKey:@"marker"] != nil;
+    _hasColorManagement = [[_inputs objectForKey:@"hasColorManagement"] objectForKey:@"marker"] != nil;
   }
 
   return self;
@@ -120,59 +122,15 @@
   static dispatch_once_t contextToken;
 
   static EAGLContext *eaglContext;
-  static NSArray<NSString *> *filtersWithColorManagement;
   static CIContext *context;
   static CIContext *contextWithColorManagement;
 
   dispatch_once(&initToken, ^{
-    filtersWithColorManagement = @[
-      @"CIColorMatrix",
-      @"CIColorInvert",
-      @"CIAdditionCompositing",
-      @"CIColorBlendMode",
-      @"CIColorBurnBlendMode",
-      @"CIColorDodgeBlendMode",
-      @"CIDarkenBlendMode",
-      @"CIDifferenceBlendMode",
-      @"CIDivideBlendMode",
-      @"CIExclusionBlendMode",
-      @"CIHardLightBlendMode",
-      @"CIHueBlendMode",
-      @"CILightenBlendMode",
-      @"CILinearBurnBlendMode",
-      @"CILinearDodgeBlendMode",
-      @"CILuminosityBlendMode",
-      @"CIMaximumCompositing",
-      @"CIMinimumCompositing",
-      @"CIMultiplyBlendMode",
-      @"CIMultiplyCompositing",
-      @"CIOverlayBlendMode",
-      @"CIPinLightBlendMode",
-      @"CISaturationBlendMode",
-      @"CIScreenBlendMode",
-      @"CISoftLightBlendMode",
-      @"CISourceAtopCompositing",
-      @"CISourceInCompositing",
-      @"CISourceOutCompositing",
-      @"CISourceOverCompositing",
-      @"CISubtractBlendMode",
-      @"IFKRadialGradient",
-      @"IFKLinearGradient",
-      @"IFKEllipticalGradient",
-      @"IFKRectangularGradient",
-      @"IFKSweepGradient",
-      @"CIConvolution3X3",
-      @"CIConvolution5X5",
-      @"CIConvolution7X7"
-    ];
-
     eaglContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3]
       ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
   });
 
-  if ([filtersWithColorManagement some:^BOOL(NSString *val, int idx) {
-    return [val isEqualToString:self->_filter.name];
-  }]) {
+  if (_hasColorManagement) {
     dispatch_once(&contextToken, ^{
       context = [CIContext contextWithEAGLContext:eaglContext
                                           options:@{kCIImageColorSpace: [NSNull null],

@@ -110,9 +110,19 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     cy: `100h - ${center.y}`
   }),
 
-  QuadGradient: (config: QuadGradientConfig) => ({
+  QuadGradient: ({
+    bottomLeftColor,
+    bottomRightColor,
+    topLeftColor,
+    topRightColor,
+    ...config
+  }: QuadGradientConfig) => ({
     ...config,
-    name: 'AndroidQuadGradient'
+    name: 'AndroidQuadGradient',
+    bottomLeftColor: topLeftColor,
+    bottomRightColor: topRightColor,
+    topLeftColor: bottomLeftColor,
+    topRightColor: bottomRightColor
   }),
 
   TextImage: (config: TextImageConfig) => ({

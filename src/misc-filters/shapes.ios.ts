@@ -10,7 +10,8 @@ import {
   path,
   distanceVector,
   transform,
-  mixStep
+  mixStep,
+  marker
 } from '../common/inputs'
 import { GeneratorIos as Generator, CompositionBaseIos as CompositionBase } from '../common/shapes'
 
@@ -18,6 +19,7 @@ const Gradient = {
   inputColors: colorVector,
   inputStops: scalarVector,
   inputMixStep: mixStep,
+  hasColorManagement: marker,
   ...Generator
 }
 
@@ -58,6 +60,7 @@ export const shapes = {
     inputBottomRightColor: color,
     inputTopLeftColor: color,
     inputTopRightColor: color,
+    hasColorManagement: marker,
     ...Generator
   },
 
