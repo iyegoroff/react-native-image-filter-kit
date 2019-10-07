@@ -182,12 +182,6 @@ Expression allows to perform one arithmetic operation with numbers and relative 
 A [4x5 matrix](https://developer.android.com/reference/android/graphics/ColorMatrix) for color transformations represented by `number[]`.
 
 ***
-#### PathStep
-An object created by [moveTo](functions.md#moveTo), [lineTo](functions.md#lineTo), [quadTo](functions.md#quadTo), [cubicTo](functions.md#cubicTo) and [closePath](functions.md#closePath) functions. Coordinate system of a path generated with array of `PathStep`s starts in the center point of image canvas:
-
-<img src="../img/coordinates.png">
-
-***
 #### MixStep
 
 ```ts
@@ -195,3 +189,9 @@ An object created by [moveTo](functions.md#moveTo), [lineTo](functions.md#lineTo
 ```
 
 Specifies a function that will be used to mix colors in gradients - `clamp` or `smoothstep`.
+
+***
+#### PathStep
+An object created by [moveTo](functions.md#moveTo), [lineTo](functions.md#lineTo), [quadTo](functions.md#quadTo), [cubicTo](functions.md#cubicTo) and [closePath](functions.md#closePath) functions. Coordinate system of a path generated with array of `PathStep`s starts in the center point of image canvas:
+
+<img src="../img/coordinates.png">
