@@ -1,5 +1,7 @@
 # Generators
 
+- [Setting the size of generated image](#Setting-the-size-of-generated-image)
+----
 - [Color](#Color)
 - [TextImage](#TextImage)
 ---
@@ -14,10 +16,33 @@
 - [OvalShape](#OvalShape)
 - [PathShape](#PathShape)
 - [RegularPolygonShape](#RegularPolygonShape)
-----
-- [Setting the size of generated image](#Setting-the-size-of-generated-image)
-
 ---
+***
+
+## Setting the size of generated image
+Three options available:
+- setting the size via `style` prop
+  ```ts
+  <LinearGradient style={{ width: 320, height: 320 }} />
+  ```
+- setting the size directly for placeholder image
+  ```ts
+  <LinearGradient
+    image={
+      <ImageBackgroundPlaceholder style={{ width: 320, height: 320 }} />
+    }
+  />
+  ```
+- when used inside [blend](blend_filters.md) or [composition](composition_filters.md), size can be specified by `resizeCanvasTo` prop
+  ```ts
+  <PlusBlend
+    resizeCanvasTo={'dstImage'}
+    dstImage={<Image source={require('./parrot.png')} />}
+    srcImage={<LinearGradient />}
+  />
+  ```
+  
+***
 
 #### Color
 
@@ -38,6 +63,49 @@
     <td>color</td>
     <td>string</td>
     <td>-</td>
+    <td></td>
+  </tr>
+</table>
+
+***
+
+#### TextImage
+
+<table>
+  <tr>
+    <th>prop</th>
+    <th>type</th>
+    <th>default</th>
+    <th>desc</th>
+  </tr>
+  <tr>
+    <td>image</td>
+    <td><a href="types.md#Filterable">Filterable</a></td>
+    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
+    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
+  </tr>
+  <tr>
+    <td>text</td>
+    <td>string</td>
+    <td>-</td>
+    <td><strong>required</strong></td>
+  </tr>
+  <tr>
+    <td>fontName</td>
+    <td>string</td>
+    <td>-</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>fontSize</td>
+    <td>number</td>
+    <td>16</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>color</td>
+    <td>string</td>
+    <td>'black'</td>
     <td></td>
   </tr>
 </table>
@@ -338,49 +406,6 @@
 
 ***
 
-#### TextImage
-
-<table>
-  <tr>
-    <th>prop</th>
-    <th>type</th>
-    <th>default</th>
-    <th>desc</th>
-  </tr>
-  <tr>
-    <td>image</td>
-    <td><a href="types.md#Filterable">Filterable</a></td>
-    <td>&lt;ImagePlaceholder&nbsp;/&gt;</td>
-    <td>usually <a href="types.md#ImagePlaceholder">ImagePlaceholder</a> or <a href="types.md#ImageBackgroundPlaceholder">ImageBackgroundPlaceholder</a></td>
-  </tr>
-  <tr>
-    <td>text</td>
-    <td>string</td>
-    <td>-</td>
-    <td><strong>required</strong></td>
-  </tr>
-  <tr>
-    <td>fontName</td>
-    <td>string</td>
-    <td>-</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>fontSize</td>
-    <td>number</td>
-    <td>16</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>color</td>
-    <td>string</td>
-    <td>'black'</td>
-    <td></td>
-  </tr>
-</table>
-
-***
-
 #### CircleShape
 
 <table>
@@ -514,28 +539,3 @@
     <td></td>
   </tr>
 </table>
-
-***
-
-## Setting the size of generated image
-Three options available:
-- setting the size via `style` prop
-  ```ts
-  <LinearGradient style={{ width: 320, height: 320 }} />
-  ```
-- setting the size directly for placeholder image
-  ```ts
-  <LinearGradient
-    image={
-      <ImageBackgroundPlaceholder style={{ width: 320, height: 320 }} />
-    }
-  />
-  ```
-- when used inside [blend](blend_filters.md) or [composition](composition_filters.md), size can be specified by `resizeCanvasTo` prop
-  ```ts
-  <PlusBlend
-    resizeCanvasTo={'dstImage'}
-    dstImage={<Image source={require('./parrot.png')} />}
-    srcImage={<LinearGradient />}
-  />
-  ```
