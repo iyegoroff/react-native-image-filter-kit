@@ -17,7 +17,6 @@
 - [PathShape](#PathShape)
 - [RegularPolygonShape](#RegularPolygonShape)
 ---
-***
 
 ## Setting the size of generated image
 Three options available:
