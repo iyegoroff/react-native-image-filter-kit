@@ -1,5 +1,5 @@
 #import "IFKTextImage.h"
-#import <UIKit/UIKit.h>
+#import "UIColor+CIColorComponents.h"
 #import <CoreText/CoreText.h>
 #import <React/RCTUtils.h>
 #import "IFKFilterConstructor.h"
@@ -31,22 +31,28 @@
   return _inputColor ?: [CIColor colorWithRed:0.0f green:0.0f blue:0.0f];
 }
 
+- (UIFont *)font: (NSString *)name
+{
+  return [UIFont fontWithName:name
+                         size:[self.inputFontSize floatValue] * RCTScreenScale()];
+}
+
 - (CIImage *)outputImage
 {
   if (self.inputExtent == nil || self.inputText == nil) {
     return nil;
   }
-  
-  UIFont *font = [UIFont fontWithName:self.inputFontName
-                                 size:[self.inputFontSize floatValue] * RCTScreenScale()];
+
+  UIFont *font = [self font:self.inputFontName];
   CGRect frame = CGRectMake(0, 0, self.inputExtent.Z, self.inputExtent.W);
-  NSDictionary *attrs = @{NSFontAttributeName: font,
-                          NSForegroundColorAttributeName: [UIColor colorWithCIColor:[self inputColor]]};
-  
+  UIColor *color = [UIColor colorWithCIColorComponents:[self inputColor]];
+  NSDictionary *attrs = @{NSFontAttributeName: font ?: [self font:@"Helvetica"],
+                          NSForegroundColorAttributeName: color};
+
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
-  
+
   CGSize size = [self.inputText sizeWithAttributes:attrs];
-  
+
   CGRect bounds = [self.inputText boundingRectWithSize:size
                                                options:NSStringDrawingUsesLineFragmentOrigin
                                             attributes:attrs
@@ -55,17 +61,17 @@
                                                   options:NSStringDrawingUsesDeviceMetrics
                                                attributes:attrs
                                                   context:nil];
-  
+
   [self.inputText drawInRect:CGRectMake(frame.size.width / 2.0f - altBounds.size.width / 2.0f - altBounds.origin.x,
                                         frame.size.height / 2.0f - bounds.size.height / 2.0f - bounds.origin.y,
                                         size.width,
                                         size.height)
               withAttributes:attrs];
-  
+
   UIImage *textImage = UIGraphicsGetImageFromCurrentImageContext();
-  
+
   UIGraphicsEndImageContext();
-  
+
   return [[CIImage alloc] initWithImage:textImage];
 }
 

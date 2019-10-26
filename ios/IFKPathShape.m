@@ -1,5 +1,6 @@
 #import "IFKPathShape.h"
 #import "IFKFilterConstructor.h"
+#import "UIColor+CIColorComponents.h"
 
 @implementation IFKPathShape
 
@@ -23,25 +24,25 @@
   if (self.inputExtent == nil) {
     return nil;
   }
-  
+
   CGRect frame = CGRectMake(0, 0, self.inputExtent.Z, self.inputExtent.W);
-  
+
   UIBezierPath *path = [self inputPath];
-  
+
   [path applyTransform:CGAffineTransformConcat(CGAffineTransformMakeScale(1.0, -1.0),
                                                CGAffineTransformMakeTranslation(frame.size.width / 2.0,
                                                                                 frame.size.height / 2.0))];
-  
+
   UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0f);
-  
-  [[UIColor colorWithCIColor:[self inputColor]] setFill];
-  
+
+  [[UIColor colorWithCIColorComponents:[self inputColor]] setFill];
+
   [path fill];
-  
+
   UIImage *pathImage = UIGraphicsGetImageFromCurrentImageContext();
-  
+
   UIGraphicsEndImageContext();
-  
+
   return [[CIImage alloc] initWithImage:pathImage];
 }
 
