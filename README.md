@@ -372,7 +372,7 @@ const result = (
       ...
     ```
     After this change `ImageFilter` will not throw `TooManyBitmapsException` immediately and will clear Fresco image caches, trim bitmap pool memory and try to filter the image again several times until succeed or reach the limit of retries, specified by [clearCachesMaxRetries](docs/types.md#ImageFilter) prop.
-- If you are using `react-native-asset` - switch to `iyegoroff/react-native-asset#with-key`. In order to prevent unlinking of `.cikernel` files provided by `react-native-image-filter-kit` use `react-native-asset` the following way: `npx iyegoroff/react-native-asset#with-key -a YOUR-OWN-ASSETS -k YOUR-APP-ID`
+- If you are using `react-native-asset` with "<strong>&lt;=0.14.4</strong>" version of this library - switch to `iyegoroff/react-native-asset#with-key`. In order to prevent unlinking of `.cikernel` files provided by `react-native-image-filter-kit` use `react-native-asset` the following way: `npx iyegoroff/react-native-asset#with-key -a YOUR-OWN-ASSETS -k YOUR-APP-ID`
 
 ## Credits
 - CSSGram filters are taken from [cssgram](https://github.com/una/cssgram) project by @una
