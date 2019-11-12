@@ -3,9 +3,10 @@
 
 @interface IFKImage : NSObject <IFKCacheable>
 
-- (nonnull instancetype)initWithImage:(UIImage *)image cacheKey:(NSString *)cacheKey;
+- (nonnull instancetype)initWithImage:(nonnull UIImage *)image
+                             cacheKey:(nonnull NSString *)cacheKey;
 
-@property (nonatomic, strong) UIImage *image;
-@property (nonatomic, strong) NSString *cacheKey;
+@property (nonatomic, strong) UIImage * _Nonnull image;
+@property (nonatomic, strong) NSString * _Nonnull cacheKey;
 
 @end

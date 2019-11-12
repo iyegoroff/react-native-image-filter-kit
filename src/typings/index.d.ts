@@ -1224,7 +1224,9 @@ export type ImageFilterProps<Rest> = ViewProps & Rest & {
   readonly onFilteringStart?: (event: NativeSyntheticEvent<{}>) => void
   readonly onFilteringFinish?: (event: NativeSyntheticEvent<{}>) => void
   readonly onFilteringError?: (event: NativeSyntheticEvent<{ message: string }>) => void
+  readonly onExtractImage?: (event: NativeSyntheticEvent<{ uri: string }>) => void
   readonly clearCachesMaxRetries?: number
+  readonly extractImageEnabled?: boolean
 }
 
 export declare class GenericImageFilter<Rest>

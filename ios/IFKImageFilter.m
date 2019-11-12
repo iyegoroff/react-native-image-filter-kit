@@ -13,6 +13,7 @@
 
 typedef BFTask<IFKFilterableImage *> DeferredImage;
 typedef BFTask<NSArray<IFKFilterableImage *> *> DeferredImages;
+typedef BFTask<NSString *> DeferredExtractedImagePath;
 
 @interface RCTImageView (Private)
 
@@ -26,11 +27,14 @@ typedef BFTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 @property (nonatomic, copy) RCTBubblingEventBlock onIFKFilteringStart;
 @property (nonatomic, copy) RCTBubblingEventBlock onIFKFilteringFinish;
 @property (nonatomic, copy) RCTBubblingEventBlock onIFKFilteringError;
+@property (nonatomic, copy) RCTBubblingEventBlock onIFKExtractImage;
 
 @property (nonatomic, strong) NSDictionary* jsonConfig;
 @property (nonatomic, strong) NSArray<IFKImage *> *originalImages;
 @property (nonatomic, strong) NSArray<RCTImageView *> *targets;
 @property (nonatomic, strong) BFCancellationTokenSource *filtering;
+@property (nonatomic, strong) NSString *tmpImagePath;
+@property (nonatomic, strong) NSDictionary *tmpImageConfig;
 
 @end
 
@@ -51,6 +55,7 @@ typedef BFTask<NSArray<IFKFilterableImage *> *> DeferredImages;
 {
   [self unlinkTargets];
   [_filtering cancel];
+//  [self removeFile:_tmpImagePath];
 }
 
 - (void)setConfig:(NSString *)config
@@ -59,6 +64,16 @@ typedef BFTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   NSData* data = [config dataUsingEncoding:NSUTF8StringEncoding];
   _jsonConfig = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
   [self runFilterPipelineAndInvalidate:NO onlyCheckCache:NO];
+}
+
+- (void)setExtractImageEnabled:(BOOL)extractImageEnabled
+{
+  BOOL shouldExtractImage = !_extractImageEnabled && extractImageEnabled;
+  _extractImageEnabled = extractImageEnabled;
+
+  if (shouldExtractImage && [_targets count] > 0) {
+    [self extractImage:_targets[0].image];
+  }
 }
 
 - (void)unlinkTargets
@@ -253,6 +268,13 @@ typedef BFTask<NSArray<IFKFilterableImage *> *> DeferredImages;
   }
 }
 
+- (void)filteringError:(NSString *)message
+{
+  if (_onIFKFilteringError) {
+    _onIFKFilteringError(@{ @"message": message });
+  }
+}
+
 - (void)runFilterPipelineAndInvalidate:(BOOL)shouldInvalidate onlyCheckCache:(BOOL)onlyCheckCache
 {
   if (_targets.count > [IFKConfigHelper maxImageIndex:_jsonConfig]) {
@@ -347,10 +369,72 @@ typedef BFTask<NSArray<IFKFilterableImage *> *> DeferredImages;
     [self removeOnChangeObserver:target keyPath:@"image"];
   }
 
+  if (target == _targets[0]) {
+    [self extractImage:image];
+  }
+
   [target setImage:image];
   
   if (isObserved) {
     [self addOnChangeObserver:target keyPath:@"image"];
+  }
+}
+
+- (void)extractImage:(nullable UIImage *)image
+{
+  if (
+    image != nil &&
+    _extractImageEnabled &&
+    _onIFKExtractImage != nil &&
+    ![_jsonConfig isEqual:_tmpImageConfig]
+  ) {
+    _tmpImageConfig = [_jsonConfig copy];
+    __weak IFKImageFilter *weakSelf = self;
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      IFKImageFilter *innerSelf = weakSelf;
+
+      if (
+        innerSelf != nil &&
+        innerSelf->_onIFKExtractImage != nil &&
+        [innerSelf->_jsonConfig isEqual:innerSelf->_tmpImageConfig]
+      ) {
+        [innerSelf removeFile:innerSelf->_tmpImagePath];
+
+        NSData *data = UIImagePNGRepresentation(image);
+
+        NSError *error = nil;
+        NSString *path = RCTTempFilePath(@"rnifk.png", &error);
+
+        if (path && !error && data != nil) {
+          if ([data writeToFile:path options:(NSDataWritingOptions)0 error:&error]) {
+#if RCT_DEBUG
+            NSLog(@"ImageFilterKit: created tmp file %@", path);
+#endif
+            innerSelf->_tmpImagePath = path;
+            innerSelf->_onIFKExtractImage(@{ @"uri": path });
+
+            return;
+          }
+        }
+
+        [innerSelf filteringError:!error ? @"unknown error" : error.description];
+      }
+    });
+  }
+}
+
+- (void)removeFile:(NSString *)path
+{
+  NSString *directory = [NSTemporaryDirectory() stringByAppendingPathComponent:@"ReactNative"];
+  if ([path hasPrefix:directory] && ![path isEqualToString:directory]) {
+    NSFileManager *fileManager = [NSFileManager new];
+    if ([fileManager fileExistsAtPath:path]) {
+      [fileManager removeItemAtPath:path error:NULL];
+#if RCT_DEBUG
+      NSLog(@"ImageFilterKit: removed tmp file %@", path);
+#endif
+    }
   }
 }
 

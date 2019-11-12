@@ -55,6 +55,7 @@ public class ImageFilter extends ReactViewGroup {
 
   private @Nullable JSONObject mConfig = null;
   private int mClearCachesMaxRetries = 10;
+  private boolean mExtractImageEnabled = false;
   private boolean mIsReady = false;
   private int mDefaultWidth = 0;
   private int mDefaultHeight = 0;
@@ -87,6 +88,20 @@ public class ImageFilter extends ReactViewGroup {
     mClearCachesMaxRetries = retries;
   }
 
+  public void setExtractImageEnabled(boolean extractImageEnabled) {
+    boolean shouldExtractImage = !mExtractImageEnabled && extractImageEnabled;
+
+    mExtractImageEnabled = extractImageEnabled;
+
+    if (shouldExtractImage) {
+      List<ReactImageView> images = this.images();
+
+      if (images.size() > 0) {
+        this.extractImage(images.get(0));
+      }
+    }
+  }
+
   @Override
   protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
     super.onLayout(changed, left, top, right, bottom);
@@ -105,8 +120,7 @@ public class ImageFilter extends ReactViewGroup {
     return prevImage
       .onSuccess(task -> {
         final FilterableImage result = task.getResult();
-        final ArrayList<Postprocessor> postProcessors =
-          new ArrayList<>(result.getPostProcessors());
+        final ArrayList<Postprocessor> postProcessors = new ArrayList<>(result.getPostProcessors());
 
         postProcessors.add(
           PostProcessorRegistry.getInstance()
@@ -314,6 +328,59 @@ public class ImageFilter extends ReactViewGroup {
     }
   }
 
+  private void extractImage(ReactImageView mainImage) {
+    if (!mExtractImageEnabled) {
+      return;
+    }
+
+    DataSource<CloseableReference<CloseableImage>> ds = ReactImageViewUtils
+      .getDataSource(mainImage);
+
+    if (ds != null) {
+      ds.subscribe(
+        new BaseDataSubscriber<CloseableReference<CloseableImage>>() {
+          @Override
+          protected void onNewResultImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+            if (dataSource.isFinished()) {
+              CloseableReference<CloseableImage> ref = dataSource.getResult();
+
+              if (ref != null) {
+                try {
+                  TempFileUtils.writeTmpFile(
+                    (ReactContext) getContext(),
+                    ref,
+                    uri -> sendJSEvent(ImageFilterEvent.ON_EXTRACT_IMAGE, uri),
+                    error -> sendJSEvent(ImageFilterEvent.ON_FILTERING_ERROR, error)
+                  );
+
+                } finally {
+                  CloseableReference.closeSafely(ref);
+                }
+
+              } else {
+                handleError(new Error("Can't extract image"));
+              }
+            }
+          }
+
+          @Override
+          protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
+            Throwable throwable = dataSource.getFailureCause();
+
+            if (throwable != null) {
+              handleError(
+                throwable instanceof Exception
+                  ? (Exception) throwable
+                  : new Exception(throwable)
+              );
+            }
+          }
+        },
+        UiThreadImmediateExecutorService.getInstance()
+      );
+    }
+  }
+
   private void runFilterPipeline() {
     ImageFilter.ashmemInfo("before filtering");
     final ArrayList<ReactImageView> images = images();
@@ -338,7 +405,7 @@ public class ImageFilter extends ReactViewGroup {
             self.mIsReady = true;
           }
 
-          ReactImageView mainImage = images.get(0);
+          final ReactImageView mainImage = images.get(0);
 
           ImageFilter.filterImage(
             new FilterableImage(
@@ -350,6 +417,7 @@ public class ImageFilter extends ReactViewGroup {
             mFiltering
           ).onSuccess(task -> {
             sendJSEvent(ImageFilterEvent.ON_FILTERING_FINISH, null);
+            self.extractImage(task.getResult());
             return null;
           }, mFiltering.getToken());
 
@@ -378,6 +446,7 @@ public class ImageFilter extends ReactViewGroup {
                   ImageFilter.ashmemInfo("after filtering");
 
                   sendJSEvent(ImageFilterEvent.ON_FILTERING_FINISH, null);
+                  self.extractImage(task1.getResult());
 
                   return null;
                 }, mFiltering.getToken());
@@ -402,10 +471,13 @@ public class ImageFilter extends ReactViewGroup {
     }
   }
 
-  private void sendJSEvent(final @Nonnull String eventName, final @Nullable String message) {
+  private void sendJSEvent(final @Nonnull String eventName, final @Nullable String arg) {
     WritableMap event = Arguments.createMap();
-    if (message != null) {
-      event.putString("message", message);
+    if (arg != null) {
+      event.putString(
+        eventName.equals(ImageFilterEvent.ON_FILTERING_ERROR) ? "message" : "uri",
+        arg
+      );
     }
 
     ((ReactContext)getContext()).getJSModule(RCTEventEmitter.class).receiveEvent(
@@ -428,7 +500,11 @@ public class ImageFilter extends ReactViewGroup {
 
     MemoryTrimmer trimmer = MemoryTrimmer.getInstance();
 
-    if (error instanceof TooManyBitmapsException && trimmer.isUsed() && retries < mClearCachesMaxRetries) {
+    if (
+      error instanceof TooManyBitmapsException &&
+      trimmer.isUsed() &&
+      retries < mClearCachesMaxRetries
+    ) {
       FLog.d(ReactConstants.TAG, "ImageFilterKit: clearing caches ...");
       trimmer.trim();
       Fresco.getImagePipeline().clearCaches();

@@ -10,6 +10,7 @@ type NativeProps = ViewProps & {
   readonly onIFKFilteringError?: (event: NativeSyntheticEvent<{ message: string }>) => void
   readonly onIFKFilteringStart?: (event: NativeSyntheticEvent<{}>) => void
   readonly onIFKFilteringFinish?: (event: NativeSyntheticEvent<{}>) => void
+  readonly onIFKExtractImage?: (event: NativeSyntheticEvent<{ uri: string }>) => void
 }
 
 type Props = ViewProps & {
@@ -17,6 +18,7 @@ type Props = ViewProps & {
   readonly onFilteringError?: NativeProps['onIFKFilteringError']
   readonly onFilteringStart?: NativeProps['onIFKFilteringStart']
   readonly onFilteringFinish?: NativeProps['onIFKFilteringFinish']
+  readonly onExtractImage?: NativeProps['onIFKExtractImage']
 }
 
 const IFKImageFilter = requireNativeComponent('IFKImageFilter')
@@ -29,7 +31,14 @@ export const createImageFilter = (
   name: string,
   shape: object
 ): React.FunctionComponent<Props> => (
-  ({ style, onFilteringError, onFilteringStart, onFilteringFinish, ...props }: Props) => {
+  ({
+    style,
+    onFilteringError,
+    onFilteringStart,
+    onFilteringFinish,
+    onExtractImage,
+    ...props
+  }: Props) => {
     const shapePropKeys = Object.keys(shape)
     const restPropKeys = Object.keys(props).filter(key => !shapePropKeys.includes(key))
 
@@ -48,6 +57,7 @@ export const createImageFilter = (
         onIFKFilteringError={onFilteringError || id}
         onIFKFilteringStart={onFilteringStart || id}
         onIFKFilteringFinish={onFilteringFinish || id}
+        onIFKExtractImage={onExtractImage || id}
         {...pick(props, restPropKeys) as object}
       >
         {React.Children.map(images, hideEveryTailChild)}

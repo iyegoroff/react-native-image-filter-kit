@@ -4,5 +4,6 @@
 @interface IFKImageFilter : RCTView
 
 @property (nonatomic, strong) NSString* config;
+@property (nonatomic, assign) BOOL extractImageEnabled;
 
 @end

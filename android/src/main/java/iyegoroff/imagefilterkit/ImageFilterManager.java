@@ -1,11 +1,18 @@
 package iyegoroff.imagefilterkit;
 
+import android.content.Context;
+import android.os.AsyncTask;
+
+import androidx.annotation.NonNull;
+
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.views.view.ReactViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 
+import java.lang.ref.WeakReference;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -18,6 +25,13 @@ public class ImageFilterManager extends ReactViewManager {
 
   private static final String PROP_CONFIG = "config";
   private static final String PROP_CLEAR_CACHES_MAX_RETRIES = "clearCachesMaxRetries";
+  private static final String PROP_EXTRACT_IMAGE_ENABLED = "extractImageEnabled";
+
+  private @Nullable WeakReference<ReactContext> mContext = null;
+
+  ImageFilterManager() {
+    super();
+  }
 
   @Override
   public @Nonnull String getName() {
@@ -26,6 +40,7 @@ public class ImageFilterManager extends ReactViewManager {
 
   @Override
   public @Nonnull ImageFilter createViewInstance(ThemedReactContext reactContext) {
+    mContext = new WeakReference<>(reactContext);
     return new ImageFilter(reactContext);
   }
 
@@ -39,6 +54,22 @@ public class ImageFilterManager extends ReactViewManager {
   @ReactProp(name = PROP_CLEAR_CACHES_MAX_RETRIES, defaultInt = 10)
   public void setClearCachesMaxRetries(ImageFilter view, int retries) {
     view.setClearCachesMaxRetries(retries);
+  }
+
+  @SuppressWarnings("unused")
+  @ReactProp(name = PROP_EXTRACT_IMAGE_ENABLED)
+  public void setExtractImageEnabled(ImageFilter view, boolean extractImageEnabled) {
+    view.setExtractImageEnabled(extractImageEnabled);
+  }
+
+  @Override
+  public void onCatalystInstanceDestroy() {
+    super.onCatalystInstanceDestroy();
+    ReactContext context = mContext != null ? mContext.get() : null;
+
+    if (context != null) {
+      new TempFileUtils.CleanTask(context).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
   }
 
   public Map<String, Object> getExportedCustomBubblingEventTypeConstants() {
@@ -62,6 +93,13 @@ public class ImageFilterManager extends ReactViewManager {
         MapBuilder.of(
           "phasedRegistrationNames",
           MapBuilder.of("bubbled", ImageFilterEvent.ON_FILTERING_ERROR)
+        )
+      )
+      .put(
+        ImageFilterEvent.ON_EXTRACT_IMAGE,
+        MapBuilder.of(
+          "phasedRegistrationNames",
+          MapBuilder.of("bubbled", ImageFilterEvent.ON_EXTRACT_IMAGE)
         )
       )
       .build();

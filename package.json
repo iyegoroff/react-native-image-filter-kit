@@ -32,16 +32,16 @@
     "react-is": "^16.10.1",
     "rgba-to-rgb": "^1.0.2",
     "rn-color-matrices": "^4.1.0",
-    "ts-tiny-invariant": "0.0.2"
+    "ts-tiny-invariant": "0.0.3"
   },
   "devDependencies": {
     "@types/lodash.pick": "^4.4.6",
     "@types/react-is": "^16.7.1",
     "@types/react-native": "^0.60.17",
-    "tslint": "^5.20.0",
-    "tslint-config-standard": "^8.0.1",
+    "tslint": "^5.20.1",
+    "tslint-config-standard": "^9.0.0",
     "tslint-react": "^4.1.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.7.2"
   },
   "standard": {
     "globals": [

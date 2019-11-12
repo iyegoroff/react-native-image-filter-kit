@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
   s.requires_arc     = true
 
   s.dependency 'React'
-  s.dependency 'Bolts', '1.9.0'
+  s.dependency 'Bolts/Tasks', '1.9.0'
 end
