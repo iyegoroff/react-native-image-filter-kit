@@ -346,7 +346,7 @@ public class ImageFilter extends ReactViewGroup {
 
               if (ref != null) {
                 try {
-                  TempFileUtils.writeTmpFile(
+                  TempFileUtils.writeFile(
                     (ReactContext) getContext(),
                     ref,
                     uri -> sendJSEvent(ImageFilterEvent.ON_EXTRACT_IMAGE, uri),

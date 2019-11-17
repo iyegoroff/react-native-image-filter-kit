@@ -25,17 +25,24 @@ import bolts.Task;
 
 class TempFileUtils {
 
-  private static final String TEMP_FILE_PREFIX = "rnifk_";
+  private static final String TEMP_FILE_SUFFIX = ".rnifk.png";
 
   static class CleanTask extends GuardedAsyncTask<Void, Void> implements FilenameFilter {
     private final File cacheDir;
     private final File externalCacheDir;
+    private final String mSuffix;
 
-    CleanTask(ReactContext context) {
+    CleanTask(@NonNull ReactContext context, @NonNull String suffix) {
+      //noinspection deprecation
       super(context);
 
       cacheDir = context.getCacheDir();
       externalCacheDir = context.getExternalCacheDir();
+      mSuffix = suffix;
+    }
+
+    CleanTask(@NonNull ReactContext context) {
+      this(context, TEMP_FILE_SUFFIX);
     }
 
     @Override
@@ -51,7 +58,7 @@ class TempFileUtils {
 
     @Override
     public final boolean accept(File dir, String filename) {
-      return filename.startsWith(TEMP_FILE_PREFIX);
+      return filename.endsWith(mSuffix);
     }
 
     private void cleanDirectory(@NonNull final File directory) {
@@ -70,7 +77,7 @@ class TempFileUtils {
     }
   }
 
-  static void writeTmpFile(
+  static void writeFile(
     @NonNull final ReactContext context,
     @NonNull final CloseableReference<CloseableImage> ref,
     @NonNull final Functor.Arity1<String> sendUri,
@@ -80,7 +87,7 @@ class TempFileUtils {
 
     Task.callInBackground((Callable<Void>) () -> {
       try {
-        final File outputFile = createTempFile(context);
+        final File outputFile = createFile(context);
         final FileOutputStream fos = new FileOutputStream(outputFile);
         final Bitmap bitmap = ((CloseableBitmap) cloned.get()).getUnderlyingBitmap();
 
@@ -108,7 +115,7 @@ class TempFileUtils {
   }
 
   @NonNull
-  private static File createTempFile(@NonNull final Context context) throws IOException {
+  private static File createFile(@NonNull final Context context) throws IOException {
     final File externalCacheDir = context.getExternalCacheDir();
     final File internalCacheDir = context.getCacheDir();
     final File cacheDir;
@@ -126,6 +133,6 @@ class TempFileUtils {
         externalCacheDir : internalCacheDir;
     }
 
-    return File.createTempFile(TEMP_FILE_PREFIX, ".rnifk.png", cacheDir);
+    return File.createTempFile("tmp", TEMP_FILE_SUFFIX, cacheDir);
   }
 }

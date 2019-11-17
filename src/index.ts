@@ -13,6 +13,7 @@ import colorMatrices from 'rn-color-matrices'
 import { concatColorMatrices } from 'concat-color-matrices'
 import rgbaToRgb from 'rgba-to-rgb'
 import { cubicTo, lineTo, quadTo, moveTo, closePath } from './common/path'
+import { cleanExtractedImagesCache } from './common/extracted-images-cache'
 
 const exports = {
   ...blurFilters,
@@ -35,7 +36,8 @@ const exports = {
   lineTo,
   quadTo,
   moveTo,
-  closePath
+  closePath,
+  cleanExtractedImagesCache
 }
 
 declare const module: { exports: typeof exports }

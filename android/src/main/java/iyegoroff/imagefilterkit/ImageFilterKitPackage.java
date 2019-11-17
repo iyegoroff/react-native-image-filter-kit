@@ -22,6 +22,6 @@ public class ImageFilterKitPackage implements ReactPackage {
   public @Nonnull List<NativeModule> createNativeModules(
     @Nonnull ReactApplicationContext reactContext
   ) {
-    return Collections.emptyList();
+    return Collections.singletonList(new ExtractedImagesCacheModule(reactContext));
   }
 }

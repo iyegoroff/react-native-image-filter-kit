@@ -1687,3 +1687,4 @@ export function cubicTo(
   y3: Distance
 ): PathStep
 export function closePath(): PathStep
+export function cleanExtractedImagesCache(): void

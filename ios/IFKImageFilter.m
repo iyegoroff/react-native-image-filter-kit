@@ -33,7 +33,6 @@ typedef BFTask<NSString *> DeferredExtractedImagePath;
 @property (nonatomic, strong) NSArray<IFKImage *> *originalImages;
 @property (nonatomic, strong) NSArray<RCTImageView *> *targets;
 @property (nonatomic, strong) BFCancellationTokenSource *filtering;
-@property (nonatomic, strong) NSString *tmpImagePath;
 @property (nonatomic, strong) NSDictionary *tmpImageConfig;
 
 @end
@@ -55,7 +54,6 @@ typedef BFTask<NSString *> DeferredExtractedImagePath;
 {
   [self unlinkTargets];
   [_filtering cancel];
-//  [self removeFile:_tmpImagePath];
 }
 
 - (void)setConfig:(NSString *)config
@@ -399,8 +397,6 @@ typedef BFTask<NSString *> DeferredExtractedImagePath;
         innerSelf->_onIFKExtractImage != nil &&
         [innerSelf->_jsonConfig isEqual:innerSelf->_tmpImageConfig]
       ) {
-        [innerSelf removeFile:innerSelf->_tmpImagePath];
-
         NSData *data = UIImagePNGRepresentation(image);
 
         NSError *error = nil;
@@ -411,7 +407,6 @@ typedef BFTask<NSString *> DeferredExtractedImagePath;
 #if RCT_DEBUG
             NSLog(@"ImageFilterKit: created tmp file %@", path);
 #endif
-            innerSelf->_tmpImagePath = path;
             innerSelf->_onIFKExtractImage(@{ @"uri": path });
 
             return;
@@ -421,20 +416,6 @@ typedef BFTask<NSString *> DeferredExtractedImagePath;
         [innerSelf filteringError:!error ? @"unknown error" : error.description];
       }
     });
-  }
-}
-
-- (void)removeFile:(NSString *)path
-{
-  NSString *directory = [NSTemporaryDirectory() stringByAppendingPathComponent:@"ReactNative"];
-  if ([path hasPrefix:directory] && ![path isEqualToString:directory]) {
-    NSFileManager *fileManager = [NSFileManager new];
-    if ([fileManager fileExistsAtPath:path]) {
-      [fileManager removeItemAtPath:path error:NULL];
-#if RCT_DEBUG
-      NSLog(@"ImageFilterKit: removed tmp file %@", path);
-#endif
-    }
   }
 }
 
