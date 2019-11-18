@@ -17,25 +17,25 @@ This is the main filter component, all other filters like `ColorMatrix`, `BoxBlu
   </tr>
   <tr>
     <td>onFilteringStart</td>
-    <td>(event:&nbsp;NativeSyntheticEvent<{}>)&nbsp;=>&nbsp;void</td>
+    <td>(event:&nbsp;NativeSyntheticEvent<{<br/>}>)&nbsp;=>&nbsp;void</td>
     <td>-</td>
     <td></td>
   </tr>
   <tr>
     <td>onFilteringFinish</td>
-    <td>(event:&nbsp;NativeSyntheticEvent<{}>)&nbsp;=>&nbsp;void</td>
+    <td>(event:&nbsp;NativeSyntheticEvent<{<br/>}>)&nbsp;=>&nbsp;void</td>
     <td>-</td>
     <td></td>
   </tr>
   <tr>
     <td>onFilteringError</td>
-    <td>(event:&nbsp;NativeSyntheticEvent<{&nbsp;message:&nbsp;string&nbsp;}>)&nbsp;=>&nbsp;void</td>
+    <td>(event:&nbsp;NativeSyntheticEvent<{<br/>&nbsp;&nbsp;message:&nbsp;string<br/>}>)&nbsp;=>&nbsp;void</td>
     <td>-</td>
     <td></td>
   </tr>
   <tr>
     <td>onExtractImage</td>
-    <td>(event:&nbsp;NativeSyntheticEvent<{&nbsp;uri:&nbsp;string&nbsp;}>)&nbsp;=>&nbsp;void</td>
+    <td>(event:&nbsp;NativeSyntheticEvent<{<br/>&nbsp;&nbsp;uri:&nbsp;string<br/>}>)&nbsp;=>&nbsp;void</td>
     <td>-</td>
     <td>
     Returns path to a temporary file inside cache folder that contains filtering result. Triggers when
