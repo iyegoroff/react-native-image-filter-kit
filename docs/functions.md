@@ -1,6 +1,14 @@
+#### cleanExtractedImagesCache
+```ts
+function cleanExtractedImagesCache(): void
+```
+
+Removes temporary files created with `onExtractImage` [ImageFilter](types.md#ImageFilter) prop.
+
+***
 #### registerFilter
 ```ts
-export function registerFilter<Config>(
+function registerFilter<Config>(
   name: string,
   shape: Shape,
   transform: (config: Config) => object

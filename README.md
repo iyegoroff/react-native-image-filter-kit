@@ -13,7 +13,8 @@ Various image filters for iOS & Android.
 
 - iOS & Android:
   - filter components work as combinable wrappers for standard `Image` and `ImageBackground` components
-  - resulting images are being cached in memory
+  - resulting images are being cached in memory and can be
+  [extracted into temporary files](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples/ImageExtraction) of original size
   - [additional filters](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples) can be developed as separate modules
 - react-native:
   - supported versions:
@@ -380,3 +381,4 @@ const result = (
 - Parrot [image](https://commons.wikimedia.org/wiki/File:Ara_macao_-flying_away-8a.jpg) by
   [Robert01](https://de.wikipedia.org/wiki/Benutzer:Robert01)
 - Blend filters are based on `skia` [sources](https://github.com/google/skia/blob/master/src/gpu/glsl/GrGLSLBlend.cpp)
+- File save functionality is based on [react-native-view-shot](https://github.com/gre/react-native-view-shot) project by @gre

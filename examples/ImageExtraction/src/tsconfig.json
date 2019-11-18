@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "baseUrl": ".",
+    "target": "es6",
+    "strict": true,
+    "outDir": "../build",
+    "jsx": "react-native",
+    "lib": ["es6"],
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "react",
+      "react-native",
+      "react-native-image-filter-kit"
+    ]
+  }
+}

@@ -93,8 +93,12 @@ class TempFileUtils {
 
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 
+        final String path = Uri.fromFile(outputFile).toString();
+
+        FLog.w(ReactConstants.TAG, "ImageFilterKit: created file " + path);
+
         Task.call((Callable<Void>) () -> {
-          sendUri.call(Uri.fromFile(outputFile).toString());
+          sendUri.call(path);
 
           return null;
         }, UiThreadImmediateExecutorService.getInstance());
