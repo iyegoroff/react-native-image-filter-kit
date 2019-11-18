@@ -14,7 +14,7 @@ Various image filters for iOS & Android.
 - iOS & Android:
   - filter components work as combinable wrappers for standard `Image` and `ImageBackground` components
   - resulting images are being cached in memory and can be
-  [extracted into temporary files](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples/ImageExtraction) of original size
+  [extracted into temporary files](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples/ImageExtraction#description) of original size
   - [additional filters](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples) can be developed as separate modules
 - react-native:
   - supported versions:
