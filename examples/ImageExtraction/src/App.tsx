@@ -55,7 +55,7 @@ const update: Reducer<State, Action> = (_, action) => {
     case 'save-photo': {
       const effect = Effects.fromPromise(() => (
         saveImage(action[1])
-          .then(() => showMessage('Success', 'Filtered image was saved to photos'))
+          .then(() => showMessage('Success', 'Filtered image was saved to camera roll'))
           .then<Action>(() => ['set-uri', undefined])
           .catch<Action>(error => ['show-error', error])
       ))
