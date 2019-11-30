@@ -26,7 +26,7 @@ type Action =
   | ['take-photo']
   | ['set-uri', string | undefined]
   | ['save-photo', string]
-  | ['show-error', string]
+  | ['show-error', Error]
 
 const init = (): [State, Effect<Action>] => (
   [['ready'], Effects.none()]
@@ -35,11 +35,11 @@ const init = (): [State, Effect<Action>] => (
 const update: Reducer<State, Action> = (_, action) => {
   switch (action[0]) {
     case 'take-photo': {
-      const effect = Effects.fromPromise(() => (
-        takePhoto()
-          .then<Action>(uri => ['set-uri', uri])
-          .catch<Action>(error => ['show-error', error])
-      ))
+      const effect = Effects.fromPromise<Action, string>(
+        takePhoto,
+        uri => ['set-uri', uri],
+        error => ['show-error', error]
+      )
 
       return [['in-progress'], effect]
     }
@@ -48,27 +48,33 @@ const update: Reducer<State, Action> = (_, action) => {
       const [, uri] = action
 
       return uri === undefined
-        ? [['ready'], Effects.fromFunction(() => cleanExtractedImagesCache())]
+        ? [['ready'], Effects.fromFunction(
+            cleanExtractedImagesCache,
+            error => ['show-error', error]
+          )
+        ]
         : [['photo-taken', uri], Effects.none()]
     }
 
     case 'save-photo': {
-      const effect = Effects.fromPromise(() => (
-        saveImage(action[1])
-          .then(() => showMessage('Success', 'Filtered image was saved to camera roll'))
-          .then<Action>(() => ['set-uri', undefined])
-          .catch<Action>(error => ['show-error', error])
-      ))
+      const effect = Effects.fromPromise<Action>(
+        () => (
+          saveImage(action[1])
+            .then(() => showMessage('Success', 'Filtered image was saved to camera roll'))
+        ),
+        () => ['set-uri', undefined],
+        error => ['show-error', error]
+      )
 
       return [['in-progress'], effect]
     }
 
     case 'show-error': {
-      const effect = Effects.fromPromise(() => (
-        showMessage('Error', action[1])
-          .then<Action>(() => ['set-uri', undefined])
-          .catch<Action>(error => ['show-error', error])
-      ))
+      const effect = Effects.fromPromise<Action>(
+        () => showMessage('Error', action[1].message),
+        () => ['set-uri', undefined],
+        error => ['show-error', error]
+      )
 
       return [['in-progress'], effect]
     }
@@ -90,15 +96,15 @@ const showMessage = (title: string, message: string) => (
 )
 
 const takePhoto = () => (
-  new Promise<string>((resolve, reject) => {
+  new Promise<string>((resolve, reject: (reason: Error) => void) => {
     ImagePicker.launchCamera(
       {},
       ({ didCancel, error, uri }: ImagePickerResponse) => {
         if (didCancel) {
-          reject('cancelled')
+          reject(new Error('cancelled'))
 
         } else if (error) {
-          reject(error)
+          reject(new Error(error))
 
         } else {
           resolve(uri)
@@ -136,9 +142,11 @@ const Extractor = () => {
       return (
         <Grayscale
           style={styles.image}
-          extractImageEnabled={true}
-          onFilteringError={({ nativeEvent }) => dispatch(['show-error', nativeEvent.message])}
+          onFilteringError={
+            ({ nativeEvent }) => dispatch(['show-error', new Error(nativeEvent.message)])
+          }
           onExtractImage={({ nativeEvent }) => dispatch(['save-photo', nativeEvent.uri])}
+          extractImageEnabled={true}
           image={
             <Image
               style={styles.image}

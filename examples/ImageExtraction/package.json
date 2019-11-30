@@ -23,7 +23,7 @@
     "react-native": "0.61.4",
     "react-native-image-filter-kit": "file:../../",
     "react-native-image-picker": "^1.1.0",
-    "react-use-elmish": "^0.2.3",
+    "react-use-elmish": "github:iyegoroff/react-use-elmish#prebuilt",
     "ts-assert-unreachable": "0.0.9"
   },
   "devDependencies": {
