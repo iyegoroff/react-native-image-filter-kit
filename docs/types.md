@@ -43,7 +43,7 @@ This is the main filter component, all other filters like `ColorMatrix`, `BoxBlu
     remains truthy <code>onExtractImage</code> will trigger every time filtering result changes.
     To delete all temporary files created this way you need to call
     <a href="functions.md#cleanExtractedImagesCache">cleanExtractedImagesCache</a> function. Since
-    these files are saved to cache folder they can be removed by user or system at any time. [Usage example](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples/ImageExtraction#description)
+    these files are saved to cache folder they can be removed by user or system at any time. <a href="../examples/ImageExtraction#description">Usage example.</a>
     </td>
   </tr>
   <tr>
