@@ -48,7 +48,7 @@ const update: Reducer<State, Action> = (_, action) => {
       const [, uri] = action
 
       return uri === undefined
-        ? [['ready'], Effects.fromFunction(
+        ? [['ready'], Effects.attemptFunction(
             cleanExtractedImagesCache,
             error => ['show-error', error]
           )
