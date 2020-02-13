@@ -1,3 +1,4 @@
+
 # react-native-image-filter-kit
 [![npm version](https://badge.fury.io/js/react-native-image-filter-kit.svg)](https://badge.fury.io/js/react-native-image-filter-kit)
 [![CircleCI](https://circleci.com/gh/iyegoroff/react-native-image-filter-kit.svg?style=svg)](https://circleci.com/gh/iyegoroff/react-native-image-filter-kit)
@@ -276,6 +277,22 @@ const result = (
   />
 )
 ```
+## Image Extraction
+This module now supports the extraction of filtered images for `v>=0.7.0`. Now, you can extract the filtered image by passing the `extractImageEnabled` to `true` and using `onExtractImage` in the main filter component like this: 
+```
+<Earlybird
+  extractImageEnabled={true}
+  onExtractImage={image => console.log(image.nativeEvent.uri)}
+  image={
+    <Image
+      style={{ width: 320, height: 320 }}
+      source={require('./parrot.png')}
+      resizeMode={"contain"}
+    />
+  }
+/>;
+```
+
 
 <table>
   <tr>
