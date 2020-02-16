@@ -38,7 +38,7 @@ This is the main filter component, all other filters like `ColorMatrix`, `BoxBlu
     <td>(event:&nbsp;NativeSyntheticEvent<{<br/>&nbsp;&nbsp;uri:&nbsp;string<br/>}>)&nbsp;=>&nbsp;void</td>
     <td>-</td>
     <td>
-    Returns path to a temporary file inside cache folder that contains filtering result. [More information](./image_extraction.md)
+    Returns path to a temporary file inside cache folder that contains filtering result - <a href="https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/docs/image_extraction.md">details</a>
     </td>
   </tr>
   <tr>
