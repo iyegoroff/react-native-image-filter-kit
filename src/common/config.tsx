@@ -73,7 +73,8 @@ const iosMatchMap: { [key: string]: string } = {
 
 const convertKey = Platform.select({
   android: id,
-  ios: (key: string) => iosKeyConvertMap[key] || key
+  ios: (key: string) => iosKeyConvertMap[key] || key,
+  default: id
 })
 
 const convertValue = Platform.select({
@@ -82,7 +83,8 @@ const convertValue = Platform.select({
     typeof value.match === 'string'
       ? { match: iosMatchMap[value.match] || value.match }
       : value
-  )
+  ),
+  default: id
 })
 
 const removePlatformPrefixes = (name: string) => (

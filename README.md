@@ -14,7 +14,7 @@ Various image filters for iOS & Android.
 - iOS & Android:
   - filter components work as combinable wrappers for standard `Image` and `ImageBackground` components
   - resulting images are being cached in memory and can be
-  [extracted into temporary files](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/docs/types.md#imagefilter) of original size
+  [extracted into temporary files](docs/image_extraction.md) of original resolution
   - [additional filters](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples) can be developed as separate modules
 - react-native:
   - supported versions:
@@ -335,26 +335,11 @@ const result = (
 
 </details>
 
-## Image Extraction
-This module now supports the extraction of filtered images for `v>=0.7.0`. Now, you can extract the filtered image by passing the `extractImageEnabled` to `true` and using `onExtractImage` in the main filter component like this: 
-```
-<Earlybird
-  extractImageEnabled={true}
-  onExtractImage={image => console.log(image.nativeEvent.uri)}
-  image={
-    <Image
-      style={{ width: 320, height: 320 }}
-      source={require('./parrot.png')}
-      resizeMode={"contain"}
-    />
-  }
-/>;
-```
-
 ## Reference
 
 - [Types](docs/types.md)
 - [Functions](docs/functions.md)
+- [Image extraction](docs/image_extraction.md)
 - [Color matrix filters](docs/color_matrix_filters.md)
 - [Blur filters](docs/blur_filters.md)
 - [Convolve matrix filters](docs/convolve_matrix_filters.md)
@@ -362,8 +347,8 @@ This module now supports the extraction of filtered images for `v>=0.7.0`. Now, 
 - [Composition filters](docs/composition_filters.md)
 - [Blend filters](docs/blend_filters.md)
 - [CSSGram filters](docs/cssgram_filters.md)
-- [Android-only filters](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/native-platform-filters/shapes.android.ts)
-- [iOS-only filters](https://github.com/iyegoroff/react-native-image-filter-kit/blob/master/src/native-platform-filters/shapes.ios.ts)
+- [Android-only filters](src/native-platform-filters/shapes.android.ts)
+- [iOS-only filters](src/native-platform-filters/shapes.ios.ts)
 
 ## Caveats
 - `blurRadius` Image prop will not work in conjunction with this library, instead of it just use [BoxBlur](docs/blur_filters.md#BoxBlur) filter
@@ -389,7 +374,7 @@ This module now supports the extraction of filtered images for `v>=0.7.0`. Now, 
       ...
     ```
     After this change `ImageFilter` will not throw `TooManyBitmapsException` immediately and will clear Fresco image caches, trim bitmap pool memory and try to filter the image again several times until succeed or reach the limit of retries, specified by [clearCachesMaxRetries](docs/types.md#ImageFilter) prop.
-- If you are using `react-native-asset` with "<strong>&lt;=0.14.4</strong>" version of this library - switch to `iyegoroff/react-native-asset#with-key`. In order to prevent unlinking of `.cikernel` files provided by `react-native-image-filter-kit` use `react-native-asset` the following way: `npx iyegoroff/react-native-asset#with-key -a YOUR-OWN-ASSETS -k YOUR-APP-ID`
+- If you are using `react-native-asset` with "<strong>&lt;=0.4.14</strong>" version of this library - switch to `iyegoroff/react-native-asset#with-key`. In order to prevent unlinking of `.cikernel` files provided by `react-native-image-filter-kit` use `react-native-asset` the following way: `npx iyegoroff/react-native-asset#with-key -a YOUR-OWN-ASSETS -k YOUR-APP-ID`
 
 ## Credits
 - CSSGram filters are taken from [cssgram](https://github.com/una/cssgram) project by @una

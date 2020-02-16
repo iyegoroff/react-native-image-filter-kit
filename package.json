@@ -37,11 +37,11 @@
   "devDependencies": {
     "@types/lodash.pick": "^4.4.6",
     "@types/react-is": "^16.7.1",
-    "@types/react-native": "^0.60.17",
-    "tslint": "^5.20.1",
+    "@types/react-native": "^0.61.15",
+    "tslint": "^6.0.0",
     "tslint-config-standard": "^9.0.0",
-    "tslint-react": "^4.1.0",
-    "typescript": "^3.7.2"
+    "tslint-react": "^4.2.0",
+    "typescript": "^3.7.5"
   },
   "standard": {
     "globals": [

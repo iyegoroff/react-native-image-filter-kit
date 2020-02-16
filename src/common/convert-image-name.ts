@@ -31,6 +31,7 @@ type ConvertMap = { [P in InputShapes]?: { [T in InputImageNames]?: OutputImageN
 
 const convertMap = Platform.select<ConvertMap>({
   android: {},
+
   ios: {
     IosCIMaskedVariableBlur: {
       inputImage: srcImage,
@@ -81,7 +82,9 @@ const convertMap = Platform.select<ConvertMap>({
     IosCISourceOutCompositing: toBackground,
     IosCISourceOverCompositing: toBackground,
     IosCISubtractBlendMode: toBackground
-  }
+  },
+
+  default: {}
 })
 
 export const convertImageName = (

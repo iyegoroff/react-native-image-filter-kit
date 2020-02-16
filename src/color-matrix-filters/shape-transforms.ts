@@ -42,7 +42,9 @@ const asNativeFilterConfig = Platform.select({
     matrix,
     image,
     disableCache
-  } as Config)
+  } as Config),
+
+  default: () => ({} as Config)
 })
 
 export const shapeTransforms: TransformMap<typeof shapes> = {

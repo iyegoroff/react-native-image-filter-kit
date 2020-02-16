@@ -38,7 +38,9 @@ const asNative3x3FilterConfig = Platform.select({
     coefficients: matrix,
     image,
     disableCache
-  } as Config)
+  } as Config),
+
+  default: () => ({} as Config)
 })
 
 const asNative5x5FilterConfig = Platform.select({

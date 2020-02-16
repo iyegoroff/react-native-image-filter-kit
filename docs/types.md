@@ -38,12 +38,7 @@ This is the main filter component, all other filters like `ColorMatrix`, `BoxBlu
     <td>(event:&nbsp;NativeSyntheticEvent<{<br/>&nbsp;&nbsp;uri:&nbsp;string<br/>}>)&nbsp;=>&nbsp;void</td>
     <td>-</td>
     <td>
-    Returns path to a temporary file inside cache folder that contains filtering result. Triggers when
-    <code>extractImageEnabled</code> changes to <code>true</code>. While <code>extractImageEnabled</code>
-    remains truthy <code>onExtractImage</code> will trigger every time filtering result changes.
-    To delete all temporary files created this way you need to call
-    <a href="functions.md#cleanExtractedImagesCache">cleanExtractedImagesCache</a> function. Since
-    these files are saved to cache folder they can be removed by user or system at any time. <a href="../examples/ImageExtraction#description">Usage example.</a>
+    Returns path to a temporary file inside cache folder that contains filtering result. [More information](./image_extraction.md)
     </td>
   </tr>
   <tr>
