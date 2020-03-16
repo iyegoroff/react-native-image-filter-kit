@@ -6,7 +6,7 @@
     "preinstall": "npm run build:image-filter-kit && npm run build:image-filter-kit-haze-removal",
     "build:image-filter-kit": "cd ../.. && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd examples/CustomNativeFilter && which yarn && yarn link react-native-image-filter-kit || :",
     "build:image-filter-kit-haze-removal": "cd local_modules/react-native-image-filter-kit-haze-removal && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd ../.. && which yarn && yarn link react-native-image-filter-kit-haze-removal || :",
-    "postinstall": "npm run build:release",
+    "postinstall": "npm run build:release && which pod && npm run install:pods || :",
     "install:pods": "cd ios && pod install",
     "run:android": "react-native run-android --no-jetifier",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
@@ -25,10 +25,10 @@
     "chroma-js": "^2.0.6",
     "react": "16.9.0",
     "react-native": "0.61.2",
-    "react-native-gesture-handler": "^1.4.1",
+    "react-native-gesture-handler": "https://github.com/software-mansion/react-native-gesture-handler#06c44568e46e2bde4aacf443dcbc1aa161b00e47",
     "react-native-image-filter-kit": "file:../../",
     "react-native-image-filter-kit-haze-removal": "file:local_modules/react-native-image-filter-kit-haze-removal",
-    "react-native-reanimated": "^1.3.0",
+    "react-native-reanimated": "https://github.com/software-mansion/react-native-reanimated#383d2b5874d98416a30d3ca957ebae88c214cd86",
     "react-native-reanimated-color-picker": "0.0.7"
   },
   "devDependencies": {

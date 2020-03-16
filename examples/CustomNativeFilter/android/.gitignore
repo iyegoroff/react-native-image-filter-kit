@@ -6,6 +6,7 @@ local.properties
 *.iml
 .DS_Store
 app/*.keystore
+!app/debug.keystore
 app/src/main/assets/*.bundle
 app/src/main/res/drawable-*
 gradle-yandex.properties
