@@ -110,10 +110,15 @@ Various image filters for iOS & Android.
   -   minSdkVersion = 16
   -   compileSdkVersion = 28
   -   targetSdkVersion = 28
-  +   buildToolsVersion = "29.0.2"
+  +   buildToolsVersion = "29.0.3"
   +   minSdkVersion = 17
   +   compileSdkVersion = 29
   +   targetSdkVersion = 29
+  ...
+  
+    dependencies {
+  -   classpath("com.android.tools.build:gradle:3.4.2")
+  +   classpath("com.android.tools.build:gradle:3.6.0")
   ...
 
   allprojects {
@@ -138,7 +143,12 @@ Various image filters for iOS & Android.
   +   renderscriptSupportModeEnabled true
     }
   ```
+- Modify `android/gradle/wrapper/gradle-wrapper.properties`:
 
+  ```diff
+  - distributionUrl=https\://services.gradle.org/distributions/gradle-5.5-all.zip
+  + distributionUrl=https\://services.gradle.org/distributions/gradle-6.2-all.zip
+  ```
 
 </details>
 </td>
