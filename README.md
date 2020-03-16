@@ -55,6 +55,7 @@ Various image filters for iOS & Android.
   +   targetSdkVersion = 29
   +   renderscriptVersion = 21
   ...
+  
     dependencies {
   -   classpath("com.android.tools.build:gradle:3.4.2")
   +   classpath("com.android.tools.build:gradle:3.6.0")
