@@ -185,7 +185,7 @@ PODS:
   - React-jsinspector (0.61.4)
   - react-native-cameraroll (1.4.1):
     - React
-  - react-native-image-filter-kit (0.7.0):
+  - react-native-image-filter-kit (0.7.1):
     - Bolts/Tasks (= 1.9.0)
     - React
   - react-native-image-picker (1.1.0):
@@ -341,7 +341,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8dfb73b987afa9324e4009bdce62a18ce23d983c
   React-jsinspector: d15478d0a8ada19864aa4d1cc1c697b41b3fa92f
   react-native-cameraroll: 875e31fc43d4a5d8694c85a71c53dcf42f72f608
-  react-native-image-filter-kit: ba46e68ef7557df2d365887bc1bc5823c17eb651
+  react-native-image-filter-kit: 19b6727bc2640bdb0bb50735dfdbfd9ba333599e
   react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
   React-RCTActionSheet: 7369b7c85f99b6299491333affd9f01f5a130c22
   React-RCTAnimation: d07be15b2bd1d06d89417eb0343f98ffd2b099a7

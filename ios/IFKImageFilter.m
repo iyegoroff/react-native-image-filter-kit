@@ -340,7 +340,7 @@ typedef BFTask<NSString *> DeferredExtractedImagePath;
     
     return [[BFTask taskFromExecutor:executor withBlock:^id _Nonnull{
       return [[filterableImage postProcessors] reduce:^id(UIImage *acc, IFKPostProcessor *val, int idx) {
-        return [val process:acc resizeMode:[target resizeMode] canvasSize:canvasSize];
+        return [val process:acc canvasSize:canvasSize];
       } init:originalImage];
       
     }] continueWithExecutor:[BFExecutor mainThreadExecutor] successBlock:^id _Nullable(BFTask<UIImage *> * _Nonnull task) {

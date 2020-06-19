@@ -21,7 +21,7 @@ type Props = ViewProps & {
   readonly onExtractImage?: NativeProps['onIFKExtractImage']
 }
 
-const IFKImageFilter = requireNativeComponent('IFKImageFilter')
+const IFKImageFilter = requireNativeComponent<NativeProps>('IFKImageFilter')
 
 const hideEveryTailChild = (child: React.ReactChild, index: number) => (
   index === 0 ? child : hidden(child as React.ReactElement<ViewProps>)

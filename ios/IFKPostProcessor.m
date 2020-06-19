@@ -1,6 +1,5 @@
 #import "IFKPostProcessor.h"
 #import "IFKInputConverter.h"
-#import "RCTImageUtils.h"
 #import "NSArray+FilterMapReduce.h"
 
 @interface UIImage (React)
@@ -65,28 +64,24 @@
   }
 }
 
-- (nonnull UIImage *)process:(nonnull UIImage *)image
-                  resizeMode:(RCTResizeMode)resizeMode
-                  canvasSize:(CGSize)canvasSize
+- (nonnull UIImage *)process:(nonnull UIImage *)image canvasSize:(CGSize)canvasSize
 {
   return _isGenerator
-    ? [self processGenerator:image resizeMode:resizeMode canvasSize:canvasSize]
-    : [self processFilter:image resizeMode:resizeMode];
+    ? [self processGenerator:image canvasSize:canvasSize]
+    : [self processFilter:image];
 }
 
-- (nonnull UIImage *)processFilter:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
+- (nonnull UIImage *)processFilter:(nonnull UIImage *)image
 {
   CIImage *tmp = [[CIImage alloc] initWithImage:image];
   [self initFilter:tmp.extent.size];
 
   [_filter setValue:_clampToExtent ? [tmp imageByClampingToExtent] : tmp forKey:@"inputImage"];
 
-  return [self filteredImage:image resizeMode:resizeMode viewFrame:tmp.extent];
+  return [self filteredImage:image viewFrame:tmp.extent];
 }
 
-- (nonnull UIImage *)processGenerator:(nonnull UIImage *)image
-                           resizeMode:(RCTResizeMode)resizeMode
-                           canvasSize:(CGSize)canvasSize
+- (nonnull UIImage *)processGenerator:(nonnull UIImage *)image canvasSize:(CGSize)canvasSize
 {
   CGRect frame = CGRectMake(0, 0, canvasSize.width, canvasSize.height);
 
@@ -96,12 +91,10 @@
     [_filter setValue:[CIVector vectorWithCGRect:frame] forKey:@"inputExtent"];
   }
 
-  return [self filteredImage:image resizeMode:resizeMode viewFrame:frame];
+  return [self filteredImage:image viewFrame:frame];
 }
 
-- (nonnull UIImage *)filteredImage:(UIImage *)image
-                        resizeMode:(RCTResizeMode)resizeMode
-                         viewFrame:(CGRect)viewFrame
+- (nonnull UIImage *)filteredImage:(UIImage *)image viewFrame:(CGRect)viewFrame
 {
   CGImageRef cgim = [[self context] createCGImage:_filter.outputImage fromRect:viewFrame];
 

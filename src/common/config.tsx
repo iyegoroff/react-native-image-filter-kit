@@ -105,7 +105,6 @@ export const finalizeConfig = (
       ),
       ''
     ),
-    name: removePlatformPrefixes(name),
     ...(Object.keys(shape).reduce(
       (acc, key) => {
         const inputType = shape[key] as Input
@@ -121,7 +120,8 @@ export const finalizeConfig = (
         return acc
       },
       {} as Config
-    ))
+    )),
+    name: removePlatformPrefixes(name)
   })
 }
 

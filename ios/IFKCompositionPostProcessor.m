@@ -1,12 +1,11 @@
 #import "IFKInputConverter.h"
+#import "RCTAssert.h"
 #import "IFKCompositionPostProcessor.h"
 #import "NSArray+FilterMapReduce.h"
 
 @interface IFKPostProcessor ()
 
-- (nonnull UIImage *)filteredImage:(UIImage *)image
-                        resizeMode:(RCTResizeMode)resizeMode
-                         viewFrame:(CGRect)viewFrame;
+- (nonnull UIImage *)filteredImage:(UIImage *)image viewFrame:(CGRect)viewFrame;
 - (nonnull CIFilter *)filter;
 - (void)initFilter:(CGSize)size;
 - (nonnull NSDictionary*)inputs;
@@ -164,7 +163,7 @@
   return 0;
 }
 
-- (nonnull UIImage *)processFilter:(nonnull UIImage *)image resizeMode:(RCTResizeMode)resizeMode
+- (nonnull UIImage *)processFilter:(nonnull UIImage *)image
 {
   CIImage *srcImage = [[CIImage alloc] initWithImage:image];
   CIImage *dstImage = ((CIImage *)[self inputs][[self dstImageName]][@"image"]);
@@ -202,9 +201,7 @@
   [[self filter] setValue:[dstImage imageByApplyingTransform:dstTransform]
                    forKey:_swapImages ? @"inputImage" : [self dstImageName]];
 
-  return [self filteredImage:image
-                  resizeMode:resizeMode
-                   viewFrame:CGRectMake(0, 0, outSize.width, outSize.height)];
+  return [self filteredImage:image viewFrame:CGRectMake(0, 0, outSize.width, outSize.height)];
 }
 
 @end
