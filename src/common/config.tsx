@@ -122,7 +122,7 @@ export const finalizeConfig = (
       {} as Config
     )),
     name: removePlatformPrefixes(name)
-  })
+  });
 }
 
 const patchComposition = (config: Config) => {
