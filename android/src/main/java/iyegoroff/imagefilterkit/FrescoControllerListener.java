@@ -2,14 +2,14 @@ package iyegoroff.imagefilterkit;
 
 import android.graphics.drawable.Animatable;
 
-import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.react.views.image.ReactImageDownloadListener;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class FrescoControllerListener extends BaseControllerListener<ImageInfo> {
+public class FrescoControllerListener extends ReactImageDownloadListener<ImageInfo> {
   private final @Nullable ControllerListener<ImageInfo> mWrappedListener;
   private final @Nonnull Functor.Arity0 mImageUpdated;
   private final @Nonnull Functor.Arity1<Throwable> mError;
