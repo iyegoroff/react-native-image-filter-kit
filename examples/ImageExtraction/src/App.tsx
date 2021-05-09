@@ -1,7 +1,10 @@
 // tslint:disable:jsx-no-lambda
 
 import React from 'react'
-import { Grayscale, cleanExtractedImagesCache } from 'react-native-image-filter-kit'
+import {
+  Grayscale,
+  cleanExtractedImagesCache,
+} from 'react-native-image-filter-kit'
 import {
   Image,
   View,
@@ -10,17 +13,14 @@ import {
   ImageStyle,
   StyleSheet,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native'
-import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker'
+import { ImagePickerResponse, launchCamera } from 'react-native-image-picker'
 import useElmish, { Effects, Reducer, Effect } from 'react-use-elmish'
 import { unreachableCase } from 'ts-assert-unreachable'
 import CameraRoll from '@react-native-community/cameraroll'
 
-type State =
-  | ['ready']
-  | ['in-progress']
-  | ['photo-taken', string]
+type State = ['ready'] | ['in-progress'] | ['photo-taken', string]
 
 type Action =
   | ['take-photo']
@@ -28,17 +28,15 @@ type Action =
   | ['save-photo', string]
   | ['show-error', Error]
 
-const init = (): [State, Effect<Action>] => (
-  [['ready'], Effects.none()]
-)
+const init = (): [State, Effect<Action>] => [['ready'], Effects.none()]
 
 const update: Reducer<State, Action> = (_, action) => {
   switch (action[0]) {
     case 'take-photo': {
       const effect = Effects.fromPromise<Action, string>(
         takePhoto,
-        uri => ['set-uri', uri],
-        error => ['show-error', error]
+        (uri) => ['set-uri', uri],
+        (error) => ['show-error', error]
       )
 
       return [['in-progress'], effect]
@@ -48,22 +46,24 @@ const update: Reducer<State, Action> = (_, action) => {
       const [, uri] = action
 
       return uri === undefined
-        ? [['ready'], Effects.attemptFunction(
-            cleanExtractedImagesCache,
-            error => ['show-error', error]
-          )
-        ]
+        ? [
+            ['ready'],
+            Effects.attemptFunction(cleanExtractedImagesCache, (error) => [
+              'show-error',
+              error,
+            ]),
+          ]
         : [['photo-taken', uri], Effects.none()]
     }
 
     case 'save-photo': {
       const effect = Effects.fromPromise<Action>(
-        () => (
-          saveImage(action[1])
-            .then(() => showMessage('Success', 'Filtered image was saved to camera roll'))
-        ),
+        () =>
+          saveImage(action[1]).then(() =>
+            showMessage('Success', 'Filtered image was saved to camera roll')
+          ),
         () => ['set-uri', undefined],
-        error => ['show-error', error]
+        (error) => ['show-error', error]
       )
 
       return [['in-progress'], effect]
@@ -73,7 +73,7 @@ const update: Reducer<State, Action> = (_, action) => {
       const effect = Effects.fromPromise<Action>(
         () => showMessage('Error', action[1].message),
         () => ['set-uri', undefined],
-        error => ['show-error', error]
+        (error) => ['show-error', error]
       )
 
       return [['in-progress'], effect]
@@ -84,39 +84,30 @@ const update: Reducer<State, Action> = (_, action) => {
   }
 }
 
-const showMessage = (title: string, message: string) => (
+const showMessage = (title: string, message: string) =>
   new Promise((resolve) => {
-    Alert.alert(
-      title,
-      message,
-      [{ onPress: resolve, text: 'OK' }],
-      { onDismiss: resolve }
-    )
+    Alert.alert(title, message, [{ onPress: resolve, text: 'OK' }], {
+      onDismiss: () => resolve(undefined),
+    })
   })
-)
 
-const takePhoto = () => (
+const takePhoto = () =>
   new Promise<string>((resolve, reject: (reason: Error) => void) => {
-    ImagePicker.launchCamera(
-      {},
-      ({ didCancel, error, uri }: ImagePickerResponse) => {
+    launchCamera(
+      { mediaType: 'photo' },
+      ({ didCancel, errorMessage, uri }: ImagePickerResponse) => {
         if (didCancel) {
           reject(new Error('cancelled'))
-
-        } else if (error) {
-          reject(new Error(error))
-
+        } else if (errorMessage || uri === undefined) {
+          reject(new Error(errorMessage ?? 'no uri'))
         } else {
           resolve(uri)
         }
       }
     )
   })
-)
 
-const saveImage = (uri: string) => (
-  CameraRoll.saveToCameraRoll(uri, 'photo')
-)
+const saveImage = (uri: string) => CameraRoll.saveToCameraRoll(uri, 'photo')
 
 const Extractor = () => {
   const [state, dispatch] = useElmish(update, init)
@@ -133,26 +124,21 @@ const Extractor = () => {
     }
 
     case 'in-progress': {
-      return (
-        <ActivityIndicator size={'large'} />
-      )
+      return <ActivityIndicator size={'large'} />
     }
 
     case 'photo-taken': {
       return (
         <Grayscale
           style={styles.image}
-          onFilteringError={
-            ({ nativeEvent }) => dispatch(['show-error', new Error(nativeEvent.message)])
+          onFilteringError={({ nativeEvent }) =>
+            dispatch(['show-error', new Error(nativeEvent.message)])
           }
-          onExtractImage={({ nativeEvent }) => dispatch(['save-photo', nativeEvent.uri])}
+          onExtractImage={({ nativeEvent }) =>
+            dispatch(['save-photo', nativeEvent.uri])
+          }
           extractImageEnabled={true}
-          image={
-            <Image
-              style={styles.image}
-              source={{ uri: state[1] }}
-            />
-          }
+          image={<Image style={styles.image} source={{ uri: state[1] }} />}
         />
       )
     }
@@ -178,12 +164,12 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   image: {
     width: '100%',
-    height: '100%'
-  }
+    height: '100%',
+  },
 })
 
 export default App
