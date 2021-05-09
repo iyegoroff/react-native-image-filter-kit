@@ -8,14 +8,12 @@
 const path = require('path')
 
 const extraNodeModules = {
-  'react': path.resolve(__dirname, 'node_modules/react'),
+  react: path.resolve(__dirname, 'node_modules/react'),
   'react-native': path.resolve(__dirname, 'node_modules/react-native'),
   '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
   'react-native-image-filter-kit': path.resolve(__dirname, '../../')
 }
-const watchFolders = [
-  path.resolve(__dirname, '../../')
-]
+const watchFolders = [path.resolve(__dirname, '../../')]
 
 module.exports = {
   resolver: {
