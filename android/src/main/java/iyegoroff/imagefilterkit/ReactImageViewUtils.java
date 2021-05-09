@@ -19,7 +19,7 @@ class ReactImageViewUtils {
   @Nullable
   static ControllerListener<ImageInfo> getControllerListener(@Nullable ReactImageView target) {
     return target != null
-      ? ReflectUtils.getFieldValue(target, "mControllerListener")
+      ? ReflectUtils.getFieldValue(target, "mDownloadListener")
       : null;
   }
 
@@ -28,7 +28,7 @@ class ReactImageViewUtils {
     @Nullable ControllerListener<ImageInfo> listener
   ) {
     if (target != null) {
-      ReflectUtils.setFieldValue(target, "mControllerListener", listener);
+      ReflectUtils.setFieldValue(target, "mDownloadListener", listener);
     }
   }
 
