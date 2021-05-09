@@ -1,7 +1,7 @@
 import { TransformMap } from '../common/shapes'
 import { shapes } from './shapes'
 
-interface Offset {
+type Offset = {
   readonly x?: number
   readonly y?: number
 }
@@ -10,14 +10,14 @@ type Angle = number | string
 
 type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | { x?: number; y?: number }
 
-interface Transform {
+type Transform = {
   readonly anchor?: Offset
   readonly translate?: Offset
   readonly scale?: Scale
   readonly rotate?: Angle
 }
 
-interface CompositionConfig {
+type CompositionConfig = {
   readonly dstImage: unknown
   readonly srcImage: unknown
   readonly dstTransform?: Transform

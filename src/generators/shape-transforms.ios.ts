@@ -15,7 +15,7 @@ import {
 import { TransformMap } from '../common/shapes'
 
 export const shapeTransforms: TransformMap<typeof shapes> = {
-  Color: ({ color, image, ...config }: { color: string, image: object }) => ({
+  Color: ({ color, image, ...config }: { color: string; image: object }) => ({
     ...config,
     name: 'IosCIConstantColorGenerator',
     inputImage: image,
@@ -154,9 +154,13 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     inputImage: image
   }),
 
-  OvalShape: (
-    { radiusX = '50w', radiusY = '25h', color = 'black', image, ...config }: OvalShapeConfig
-  ) => ({
+  OvalShape: ({
+    radiusX = '50w',
+    radiusY = '25h',
+    color = 'black',
+    image,
+    ...config
+  }: OvalShapeConfig) => ({
     ...config,
     name: 'IosIFKOvalShape',
     inputRadiusX: radiusX,

@@ -3,7 +3,7 @@ import invariant from 'ts-tiny-invariant'
 import { id } from './util'
 import { Input } from './inputs'
 
-export interface Shape {
+export type Shape = {
   readonly name: string
   [input: string]: Input | string
 }
@@ -14,7 +14,7 @@ export class ShapeRegistry {
 
   public static addShapes = (shapes: object) => {
     const keys = Object.keys(ShapeRegistry.shapes)
-    const intersection = Object.keys(shapes).filter(k => keys.includes(k))
+    const intersection = Object.keys(shapes).filter((k) => keys.includes(k))
     invariant(
       intersection.length === 0,
       `ImageFilterKit: Attempt to add already registered filter(s) - ${intersection.join()}.`
@@ -28,7 +28,7 @@ export class ShapeRegistry {
 
   public static addTransforms = (transforms: object) => {
     const keys = Object.keys(ShapeRegistry.transforms)
-    const intersection = Object.keys(transforms).filter(k => keys.includes(k))
+    const intersection = Object.keys(transforms).filter((k) => keys.includes(k))
     invariant(
       intersection.length === 0,
       `ImageFilterKit: Attempt to add already registered transform(s) - ${intersection.join()}.`
@@ -48,7 +48,5 @@ export class ShapeRegistry {
     return shape
   }
 
-  public static transform = (name: string) => (
-    ShapeRegistry.transforms[name] || id
-  )
+  public static transform = (name: string) => ShapeRegistry.transforms[name] || id
 }

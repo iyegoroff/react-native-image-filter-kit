@@ -79,17 +79,12 @@ const convertKey = Platform.select({
 
 const convertValue = Platform.select({
   android: id,
-  ios: (value: { match: Function | string }) => (
-    typeof value.match === 'string'
-      ? { match: iosMatchMap[value.match] || value.match }
-      : value
-  ),
+  ios: (value: { match: Function | string }) =>
+    typeof value.match === 'string' ? { match: iosMatchMap[value.match] || value.match } : value,
   default: id
 })
 
-const removePlatformPrefixes = (name: string) => (
-  name.replace(/^(?:Android|Ios)/, '')
-)
+const removePlatformPrefixes = (name: string) => name.replace(/^(?:Android|Ios)/, '')
 
 export const finalizeConfig = (
   { name, ...values }: Config,
@@ -98,47 +93,44 @@ export const finalizeConfig = (
 ) => {
   const shape = ShapeRegistry.shape(name)
 
-  return ({
+  return {
     key: images.reduce(
-      (acc, { props }) => (
-        props !== undefined && props.source !== undefined ? `${acc}:${props.source}` : acc
-      ),
+      (acc, { props }) =>
+        props !== undefined && props.source !== undefined ? `${acc}:${props.source}` : acc,
       ''
     ),
-    ...(Object.keys(shape).reduce(
-      (acc, key) => {
-        const inputType = shape[key] as Input
-        const inputValue = values[key]
+    ...Object.keys(shape).reduce<Config>((acc, key) => {
+      const inputType = shape[key] as Input
+      const inputValue = values[key]
 
-        if (inputValue !== undefined) {
-          const convert: Function = paramConvertMap[inputType] ||
-            (inputType === image && typeof inputValue !== 'number' ? finalizeConfig : id)
+      if (inputValue !== undefined) {
+        const convert: Function =
+          paramConvertMap[inputType] ||
+          (inputType === image && typeof inputValue !== 'number' ? finalizeConfig : id)
 
-          acc[convertKey(key)] = { [inputType]: convertValue(convert(values[key])) }
-        }
+        acc[convertKey(key)] = { [inputType]: convertValue(convert(values[key])) }
+      }
 
-        return acc
-      },
-      {} as Config
-    )),
+      return acc
+    }, {}),
     name: removePlatformPrefixes(name)
-  })
+  }
 }
 
 const patchComposition = (config: Config) => {
   const cfg = {
     ...config,
-    resizeCanvasTo: convertImageName(config.name, config['resizeCanvasTo'])
+    resizeCanvasTo: convertImageName(config.name, config.resizeCanvasTo)
   }
 
   return Platform.select({
-    ios: cfg['resizeCanvasTo'] === 'dstImage' ? swapComposition(cfg, 'srcImage') : cfg,
-    android: cfg['resizeCanvasTo'] === 'srcImage' ? swapComposition(cfg, 'dstImage') : cfg
+    ios: cfg.resizeCanvasTo === 'dstImage' ? swapComposition(cfg, 'srcImage') : cfg,
+    android: cfg.resizeCanvasTo === 'srcImage' ? swapComposition(cfg, 'dstImage') : cfg
   })
 }
 
 export const extractConfigAndImages = (filterProps: Config) => {
-  const images: React.ReactElement<unknown>[] = []
+  const images: Array<React.ReactElement<unknown>> = []
 
   const parseFilter = (filter: Config | React.ReactElement<unknown>) => {
     if (filter.type && !filter.type.isImageFilter) {
@@ -150,10 +142,9 @@ export const extractConfigAndImages = (filterProps: Config) => {
       return idx
     }
 
-    const {
-      name: n = (filter.type && filter.type.displayName),
-      ...values
-    } = filter.props ? (filter.props.config || filter.props) : filter
+    const { name: n = filter.type && filter.type.displayName, ...values } = filter.props
+      ? filter.props.config || filter.props
+      : filter
 
     let prevConfig
     let nextConfig = { name: n, ...values }
@@ -165,33 +156,28 @@ export const extractConfigAndImages = (filterProps: Config) => {
     const { name, ...rest } = nextConfig
     const shape = ShapeRegistry.shape(name)
 
-    return ({
+    return {
       name,
-      ...(Object.keys(shape).reduce(
-        (acc, key) => {
-          const inputType = shape[key] as Input
-          const inputValue = rest[key]
+      ...Object.keys(shape).reduce<{ [key: string]: unknown }>((acc, key) => {
+        const inputType = shape[key] as Input
+        const inputValue = rest[key]
 
-          if (inputType === image) {
-            acc[key] = parseFilter(
-              inputValue || <ImagePlaceholder key={`ifk_placeholder_${images.length}`} />
-            )
+        if (inputType === image) {
+          acc[key] = parseFilter(
+            inputValue || <ImagePlaceholder key={`ifk_placeholder_${images.length}`} />
+          )
+        } else if (inputType === marker) {
+          acc[key] = true
+        } else if (inputValue !== undefined) {
+          acc[key] = inputValue
+        }
 
-          } else if (inputType === marker) {
-            acc[key] = true
-
-          } else if (inputValue !== undefined) {
-            acc[key] = inputValue
-          }
-
-          return acc
-        },
-        {} as { [key: string]: unknown }
-      ))
-    })
+        return acc
+      }, {})
+    }
   }
 
   const config = parseFilter(filterProps)
 
-  return { config, images } as { config: Config; images: React.ReactElement<unknown>[] }
+  return { config, images } as { config: Config; images: Array<React.ReactElement<unknown>> }
 }

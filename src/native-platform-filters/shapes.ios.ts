@@ -1034,7 +1034,7 @@ export const shapes = {
   },
 
   // https://developer.apple.com/library/archive/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIParallelogramTile,
-  IosCIParallelogramTile : {
+  IosCIParallelogramTile: {
     inputAcuteAngle: angle,
     ...Tile
   },

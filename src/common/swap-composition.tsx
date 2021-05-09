@@ -16,8 +16,8 @@ const dstImageNames = [
 
 export const swapComposition = (config: Config, resizeCanvasTo: string) => {
   const shape = ShapeRegistry.shape(config.name)
-  const dstImage = Object.keys(shape).find(key => dstImageNames.some(name => name === key))
-  const srcImage = Object.keys(shape).find(key => srcImageNames.some(name => name === key))
+  const dstImage = Object.keys(shape).find((key) => dstImageNames.some((name) => name === key))
+  const srcImage = Object.keys(shape).find((key) => srcImageNames.some((name) => name === key))
 
   invariant(srcImage !== undefined, `ImageFilterKit: can't find srcImage in ${config.name} shape.`)
   invariant(dstImage !== undefined, `ImageFilterKit: can't find dstImage in ${config.name} shape.`)

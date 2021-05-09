@@ -13,7 +13,6 @@ const asRenderscriptCompositingConfig = (name: string) => (config: Object) => ({
 })
 
 export const shapeTransforms: TransformMap<typeof shapes> = {
-
   DstATopComposition: asRenderscriptCompositingConfig('AndroidDestinationATopCompositing'),
 
   DstInComposition: asRenderscriptCompositingConfig('AndroidDestinationInCompositing'),

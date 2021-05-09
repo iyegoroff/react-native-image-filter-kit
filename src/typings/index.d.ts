@@ -20,7 +20,7 @@ type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | Offset
 
 type Angle = number | string
 
-interface Transform {
+type Transform = {
   readonly anchor?: Offset
   readonly translate?: Offset
   readonly scale?: Scale
@@ -34,7 +34,7 @@ type PathStep =
   | { cubicTo: [Distance, Distance, Distance, Distance, Distance, Distance] }
   | { closePath: [] }
 
-type Path = ReadonlyArray<PathStep>
+type Path = readonly PathStep[]
 
 type Area = {
   readonly x: Distance
@@ -69,396 +69,415 @@ type PorterDuffMode =
 
 export type Filterable<Rest> = React.ReactElement<unknown> | Config<Rest>
 
-interface CacheableConfig {
+type CacheableConfig = {
   /** Should be used only when defining custom filters */
   readonly disableCache?: boolean
 }
 
-interface CommonConfig<Rest = never> extends CacheableConfig {
+type CommonConfig<Rest = never> = {
   readonly image: Filterable<Rest>
-}
+} & CacheableConfig
 
-interface ColorMatrixConfig<Rest = never> extends CommonConfig<Rest> {
+type ColorMatrixConfig<Rest = never> = {
   readonly matrix: Matrix
-}
+} & CommonConfig<Rest>
 
-interface RGBAConfig<Rest = never> extends CommonConfig<Rest> {
+type RGBAConfig<Rest = never> = {
   readonly red?: number
   readonly green?: number
   readonly blue?: number
   readonly alpha?: number
-}
+} & CommonConfig<Rest>
 
-interface AmountConfig<Rest = never> extends CommonConfig<Rest> {
+type AmountConfig<Rest = never> = {
   readonly amount?: number
-}
+} & CommonConfig<Rest>
 
-interface ColorToneConfig<Rest = never> extends CommonConfig<Rest> {
+type ColorToneConfig<Rest = never> = {
   readonly desaturation?: number
   readonly toned?: number
   readonly lightColor?: string
   readonly darkColor?: string
-}
+} & CommonConfig<Rest>
 
-interface DuoToneConfig<Rest = never> extends CommonConfig<Rest> {
+type DuoToneConfig<Rest = never> = {
   readonly firstColor?: string
   readonly secondColor?: string
-}
+} & CommonConfig<Rest>
 
-interface ConvolveMatrix3x3Config<Rest = never> extends CommonConfig<Rest> {
+type ConvolveMatrix3x3Config<Rest = never> = {
+  readonly matrix?: [number, number, number, number, number, number, number, number, number]
+} & CommonConfig<Rest>
+
+type ConvolveMatrix5x5Config<Rest = never> = {
   readonly matrix?: [
-    number, number, number,
-    number, number, number,
-    number, number, number
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number
   ]
-}
+} & CommonConfig<Rest>
 
-interface ConvolveMatrix5x5Config<Rest = never> extends CommonConfig<Rest> {
-  readonly matrix?: [
-    number, number, number, number, number,
-    number, number, number, number, number,
-    number, number, number, number, number,
-    number, number, number, number, number,
-    number, number, number, number, number
-  ]
-}
-
-interface BlurConfig<Rest = never> extends CommonConfig<Rest> {
+type BlurConfig<Rest = never> = {
   readonly radius?: number
-}
+} & CommonConfig<Rest>
 
-interface CompositionConfig<Rest = never> extends CacheableConfig {
+type CompositionConfig<Rest = never> = {
   readonly dstImage: Filterable<Rest>
   readonly dstTransform?: Transform
   readonly srcImage: Filterable<Rest>
   readonly srcTransform?: Transform
   readonly resizeCanvasTo?: 'dstImage' | 'srcImage'
-}
+} & CacheableConfig
 
-interface BlendColorConfig<Rest = never> extends CacheableConfig {
+type BlendColorConfig<Rest = never> = {
   readonly dstImage: Filterable<Rest>
   readonly srcColor: string
   /** Should be used only when defining custom filters */
   readonly disableIntermediateCaches?: boolean
-}
+} & CacheableConfig
 
-interface GradientConfig<Rest> extends Partial<CommonConfig<Rest>> {
+type GradientConfig<Rest> = {
   readonly colors?: [
-    string, string?, string?, string?, string?, string?, string?, string?, string?, string?
+    string,
+    string?,
+    string?,
+    string?,
+    string?,
+    string?,
+    string?,
+    string?,
+    string?,
+    string?
   ]
   readonly stops?: [
-    number, number?, number?, number?, number?, number?, number?, number?, number?, number?
+    number,
+    number?,
+    number?,
+    number?,
+    number?,
+    number?,
+    number?,
+    number?,
+    number?,
+    number?
   ]
   readonly mixStep?: MixStep
-}
+} & Partial<CommonConfig<Rest>>
 
-interface QuadGradientConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+type QuadGradientConfig<Rest = never> = {
   readonly bottomLeftColor: string
   readonly bottomRightColor: string
   readonly topLeftColor: string
   readonly topRightColor: string
-}
+} & Partial<CommonConfig<Rest>>
 
-interface LinearGradientConfig<Rest = never> extends GradientConfig<Rest> {
+type LinearGradientConfig<Rest = never> = {
   readonly start?: Position
   readonly end?: Position
-}
+} & GradientConfig<Rest>
 
-interface RadialGradientConfig<Rest = never> extends GradientConfig<Rest> {
+type RadialGradientConfig<Rest = never> = {
   readonly center?: Position
   readonly radius?: Distance
-}
+} & GradientConfig<Rest>
 
-interface EllipticalGradientConfig<Rest = never> extends GradientConfig<Rest> {
+type EllipticalGradientConfig<Rest = never> = {
   readonly center?: Position
   readonly radiusX?: Distance
   readonly radiusY?: Distance
-}
+} & GradientConfig<Rest>
 
-interface RectangularGradientConfig<Rest = never> extends GradientConfig<Rest> {
+type RectangularGradientConfig<Rest = never> = {
   readonly center?: Position
   readonly halfWidth?: Distance
   readonly halfHeight?: Distance
-}
+} & GradientConfig<Rest>
 
-interface SweepGradientConfig<Rest = never> extends GradientConfig<Rest> {
+type SweepGradientConfig<Rest = never> = {
   readonly center?: Position
-}
+} & GradientConfig<Rest>
 
-interface ColorConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+type ColorConfig<Rest = never> = {
   readonly color: string
-}
+} & Partial<CommonConfig<Rest>>
 
-interface TextImageConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+type TextImageConfig<Rest = never> = {
   readonly text: string
   readonly fontName?: string
   readonly fontSize?: number
   readonly color?: string
-}
+} & Partial<CommonConfig<Rest>>
 
-interface ShapeConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+type ShapeConfig<Rest = never> = {
   readonly color?: string
-}
+} & Partial<CommonConfig<Rest>>
 
-interface CircleShapeConfig<Rest = never> extends ShapeConfig<Rest> {
+type CircleShapeConfig<Rest = never> = {
   readonly radius?: Distance
-}
+} & ShapeConfig<Rest>
 
-interface OvalShapeConfig<Rest = never> extends ShapeConfig<Rest> {
+type OvalShapeConfig<Rest = never> = {
   readonly radiusX?: Distance
   readonly radiusY?: Distance
-}
+} & ShapeConfig<Rest>
 
-interface PathShapeConfig<Rest = never> extends ShapeConfig<Rest> {
+type PathShapeConfig<Rest = never> = {
   readonly path: Path
-}
+} & ShapeConfig<Rest>
 
-interface RegularPolygonShapeConfig<Rest = never> extends ShapeConfig<Rest> {
-  readonly borderRadiuses?: ReadonlyArray<Distance>
+type RegularPolygonShapeConfig<Rest = never> = {
+  readonly borderRadiuses?: readonly Distance[]
   readonly circumradius?: Distance
-}
+} & ShapeConfig<Rest>
 
-interface ConfigWithIntermediates<Rest = never> extends CommonConfig<Rest> {
+type ConfigWithIntermediates<Rest = never> = {
   /** Should be used only when defining custom filters */
   readonly disableIntermediateCaches?: boolean
-}
+} & CommonConfig<Rest>
 
-interface IosCommonConfig<Rest = never> extends CacheableConfig {
+type IosCommonConfig<Rest = never> = {
   readonly inputImage: Filterable<Rest>
   readonly clampToExtent?: boolean
-}
+} & CacheableConfig
 
-interface IosRadiusConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosRadiusConfig<Rest = never> = {
   readonly inputRadius?: Distance
-}
+} & IosCommonConfig<Rest>
 
-interface IosCompositionBaseConfig<ResizeTo, Rest = never> extends IosCommonConfig<Rest> {
+type IosCompositionBaseConfig<ResizeTo, Rest = never> = {
   readonly resizeCanvasTo?: ResizeTo
   readonly inputImageTransform?: Transform
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIMaskedVariableBlurConfig<Rest = never> extends IosCompositionBaseConfig<
-  'inputImage' | 'inputMask',
-  Rest
-> {
+type IosCIMaskedVariableBlurConfig<Rest = never> = {
   readonly inputMask: Filterable<Rest>
   readonly inputMaskTransform?: Transform
   readonly inputRadius?: Distance
-}
+} & IosCompositionBaseConfig<'inputImage' | 'inputMask', Rest>
 
-interface IosCIMotionBlurConfig<Rest = never> extends IosRadiusConfig<Rest> {
+type IosCIMotionBlurConfig<Rest = never> = {
   readonly inputAngle?: Angle
-}
+} & IosRadiusConfig<Rest>
 
-interface IosCINoiseReductionConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCINoiseReductionConfig<Rest = never> = {
   readonly inputNoiseLevel?: number
   readonly inputSharpness?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosAmountConfig<Amount, Rest = never> extends IosCommonConfig<Rest> {
+type IosAmountConfig<Amount, Rest = never> = {
   readonly inputAmount?: Amount
-}
+} & IosCommonConfig<Rest>
 
-interface IosDistanceAmountConfig<Rest = never> extends IosAmountConfig<Distance, Rest> { }
+type IosDistanceAmountConfig<Rest = never> = {} & IosAmountConfig<Distance, Rest>
 
-interface IosCIZoomBlurConfig<Rest = never> extends IosDistanceAmountConfig<Rest> {
+type IosCIZoomBlurConfig<Rest = never> = {
   readonly inputCenter?: Position
-}
+} & IosDistanceAmountConfig<Rest>
 
-interface IosCIColorClampConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIColorClampConfig<Rest = never> = {
   readonly inputMinComponents?: [number, number, number, number]
   readonly inputMaxComponents?: [number, number, number, number]
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIColorControlsConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIColorControlsConfig<Rest = never> = {
   readonly inputSaturation?: number
   readonly inputBrightness?: number
   readonly inputContrast?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIColorMatrixConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIColorMatrixConfig<Rest = never> = {
   readonly inputRVector?: [number, number, number, number]
   readonly inputGVector?: [number, number, number, number]
   readonly inputBVector?: [number, number, number, number]
   readonly inputAVector?: [number, number, number, number]
   readonly inputBiasVector?: [number, number, number, number]
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIColorPolynomialBaseConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIColorPolynomialBaseConfig<Rest = never> = {
   readonly inputRedCoefficients?: [number, number, number, number]
   readonly inputGreenCoefficients?: [number, number, number, number]
   readonly inputBlueCoefficients?: [number, number, number, number]
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIColorPolynomialConfig<Rest = never> extends IosCIColorPolynomialBaseConfig<Rest> {
+type IosCIColorPolynomialConfig<Rest = never> = {
   readonly inputAlphaCoefficients?: [number, number, number, number]
-}
+} & IosCIColorPolynomialBaseConfig<Rest>
 
-interface IosCIExposureAdjustConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIExposureAdjustConfig<Rest = never> = {
   readonly inputEV?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIGammaAdjustConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIGammaAdjustConfig<Rest = never> = {
   readonly inputPower?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosAngleConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosAngleConfig<Rest = never> = {
   readonly inputAngle?: Angle
-}
+} & IosCommonConfig<Rest>
 
-interface IosCITemperatureAndTintConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCITemperatureAndTintConfig<Rest = never> = {
   readonly inputNeutral?: Offset
   readonly inputTargetNeutral?: Offset
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIToneCurveConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIToneCurveConfig<Rest = never> = {
   readonly inputPoint0?: Offset
   readonly inputPoint1?: Offset
   readonly inputPoint2?: Offset
   readonly inputPoint3?: Offset
   readonly inputPoint4?: Offset
-}
+} & IosCommonConfig<Rest>
 
-interface IosColorConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosColorConfig<Rest = never> = {
   readonly inputColor?: string
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIColorCubeConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIColorCubeConfig<Rest = never> = {
   readonly inputCubeDimension?: number
   readonly inputCubeData?: string
-}
+} & IosCommonConfig<Rest>
 
-interface IosScalarAmountConfig<Rest = never> extends IosAmountConfig<number, Rest> { }
+type IosScalarAmountConfig<Rest = never> = {} & IosAmountConfig<number, Rest>
 
-interface IosCIColorMapConfig<Rest = never> extends IosCompositionBaseConfig<
-  'inputImage' | 'inputGradientImage',
-  Rest
-> {
+type IosCIColorMapConfig<Rest = never> = {
   readonly inputGradientImage: Filterable<Rest>
   readonly inputGradientImageTransform?: Transform
-}
+} & IosCompositionBaseConfig<'inputImage' | 'inputGradientImage', Rest>
 
-interface IosCIColorMonochromeConfig<Rest = never> extends IosColorConfig<Rest> {
+type IosCIColorMonochromeConfig<Rest = never> = {
   readonly inputIntensity?: number
-}
+} & IosColorConfig<Rest>
 
-interface IosCIColorPosterizeConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIColorPosterizeConfig<Rest = never> = {
   readonly inputLevels?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIFalseColorConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIFalseColorConfig<Rest = never> = {
   readonly inputColor0?: string
   readonly inputColor1?: string
-}
+} & IosCommonConfig<Rest>
 
-interface IosCISepiaToneConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCISepiaToneConfig<Rest = never> = {
   readonly inputIntensity?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIVignetteConfig<Rest = never> extends IosRadiusConfig<Rest> {
+type IosCIVignetteConfig<Rest = never> = {
   readonly inputIntensity?: number
-}
+} & IosRadiusConfig<Rest>
 
-interface IosCIVignetteEffectConfig<Rest = never> extends IosCIVignetteConfig<Rest> {
+type IosCIVignetteEffectConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputFalloff?: number
-}
+} & IosCIVignetteConfig<Rest>
 
-interface IosCIBackgroundImageCompositionConfig<Rest = never> extends IosCompositionBaseConfig<
-  'inputImage' | 'inputBackgroundImage',
-  Rest
-> {
+type IosCIBackgroundImageCompositionConfig<Rest = never> = {
   readonly inputBackgroundImage: Filterable<Rest>
   readonly inputBackgroundImageTransform?: Transform
-}
+} & IosCompositionBaseConfig<'inputImage' | 'inputBackgroundImage', Rest>
 
-interface IosCenterRadiusConfig<Rest = never> extends IosRadiusConfig<Rest> {
+type IosCenterRadiusConfig<Rest = never> = {
   readonly inputCenter?: Position
-}
+} & IosRadiusConfig<Rest>
 
-interface IosScaleCenterRadiusConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+type IosScaleCenterRadiusConfig<Rest = never> = {
   readonly inputScale?: number
-}
+} & IosCenterRadiusConfig<Rest>
 
-interface IosCIBumpDistortionLinearConfig<Rest = never> extends IosScaleCenterRadiusConfig<Rest> {
+type IosCIBumpDistortionLinearConfig<Rest = never> = {
   readonly inputAngle?: Angle
-}
+} & IosScaleCenterRadiusConfig<Rest>
 
-interface IosAngleCenterRadiusConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+type IosAngleCenterRadiusConfig<Rest = never> = {
   readonly inputAngle?: Angle
-}
+} & IosCenterRadiusConfig<Rest>
 
-interface IosCIDrosteConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIDrosteConfig<Rest = never> = {
   readonly inputInsetPoint0?: Position
   readonly inputInsetPoint1?: Position
   readonly inputStrands?: Distance
   readonly inputPeriodicity?: Distance
   readonly inputRotation?: Distance
   readonly inputZoom?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIDisplacementDistortionConfig<Rest = never> extends IosCompositionBaseConfig<
-  'inputImage' | 'inputDisplacementImage',
-  Rest
-> {
+type IosCIDisplacementDistortionConfig<Rest = never> = {
   readonly inputDisplacementImage: Filterable<Rest>
   readonly inputDisplacementImageTransform?: Transform
   readonly inputScale?: Distance
-}
+} & IosCompositionBaseConfig<'inputImage' | 'inputDisplacementImage', Rest>
 
-interface IosCIGlassDistortionConfig<Rest = never> extends IosCompositionBaseConfig<
-  'inputImage' | 'inputTexture',
-  Rest
-> {
+type IosCIGlassDistortionConfig<Rest = never> = {
   readonly inputTexture: Filterable<Rest>
   readonly inputTextureTransform?: Transform
   readonly inputScale?: Distance
   readonly inputCenter?: Position
-}
+} & IosCompositionBaseConfig<'inputImage' | 'inputTexture', Rest>
 
-interface IosCIGlassLozengeConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIGlassLozengeConfig<Rest = never> = {
   readonly inputPoint0?: Position
   readonly inputPoint1?: Position
   readonly inputRadius?: Distance
   readonly inputRefraction?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCILightTunnelConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+type IosCILightTunnelConfig<Rest = never> = {
   readonly inputRotation?: Angle
-}
+} & IosCenterRadiusConfig<Rest>
 
-interface IosCIStretchCropConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIStretchCropConfig<Rest = never> = {
   readonly inputSize?: [Distance, Distance]
   readonly inputCropAmount?: number
   readonly inputCenterStretchAmount?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCITorusLensDistortionConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+type IosCITorusLensDistortionConfig<Rest = never> = {
   readonly inputWidth?: Distance
   readonly inputRefraction?: number
-}
+} & IosCenterRadiusConfig<Rest>
 
-interface IosCITorusLensDistortionConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCITorusLensDistortionConfig<Rest = never> = {
   readonly inputWidth?: Distance
   readonly inputRefraction?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIAztecCodeGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIAztecCodeGeneratorConfig<Rest = never> = {
   readonly inputMessage: string
   readonly inputCorrectionLevel?: number
   readonly inputLayers?: number
   readonly inputCompactStyle?: boolean
-}
+} & IosCommonConfig<Rest>
 
-interface IosCICheckerboardGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCICheckerboardGeneratorConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputColor0?: string
   readonly inputColor1?: string
   readonly inputWidth?: Distance
   readonly inputShaprness?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCILenticularHaloGeneratorConfig<Rest = never> extends IosColorConfig<Rest> {
+type IosCILenticularHaloGeneratorConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputHaloRadius?: Distance
   readonly inputHaloWidth?: Distance
@@ -466,203 +485,262 @@ interface IosCILenticularHaloGeneratorConfig<Rest = never> extends IosColorConfi
   readonly inputStriationStrength?: number
   readonly inputStriationContrast?: number
   readonly inputTime?: number
-}
+} & IosColorConfig<Rest>
 
-interface IosCIQRCodeGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIQRCodeGeneratorConfig<Rest = never> = {
   readonly inputMessage: string
   readonly inputCorrectionLevel?: 'L' | 'M' | 'Q' | 'H'
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIStarShineGeneratorConfig<Rest = never> extends IosCenterRadiusConfig<Rest> {
+type IosCIStarShineGeneratorConfig<Rest = never> = {
   readonly inputColor?: string
   readonly inputCrossScale?: number
   readonly inputCrossAngle?: Angle
   readonly inputCrossOpacity?: number
   readonly inputCrossWidth?: Distance
   readonly inputEpsilon?: number
-}
+} & IosCenterRadiusConfig<Rest>
 
-interface IosCIStripesGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIStripesGeneratorConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputColor0?: string
   readonly inputColor1?: string
   readonly inputWidth?: Distance
   readonly inputSharpness?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCISunbeamsGeneratorConfig<Rest = never> extends IosColorConfig<Rest> {
+type IosCISunbeamsGeneratorConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputSunRadius?: Distance
   readonly inputMaxStriationRadius?: number
   readonly inputStriationStrength?: number
   readonly inputStriationContrast?: number
   readonly inputTime?: number
-}
+} & IosColorConfig<Rest>
 
-interface IosCICropConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCICropConfig<Rest = never> = {
   readonly inputRectangle?: Area
-}
+} & IosCommonConfig<Rest>
 
-interface IosCILanczosScaleTransformConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCILanczosScaleTransformConfig<Rest = never> = {
   readonly inputScale?: number
   readonly inputAspectRatio?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosPerspectiveConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosPerspectiveConfig<Rest = never> = {
   readonly inputTopLeft?: Position
   readonly inputTopRight?: Position
   readonly inputBottomLeft?: Position
   readonly inputBottomRight?: Position
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIPerspectiveCorrectionConfig<Rest = never> extends IosPerspectiveConfig<Rest> {
+type IosCIPerspectiveCorrectionConfig<Rest = never> = {
   readonly inputCrop?: boolean
-}
+} & IosPerspectiveConfig<Rest>
 
-interface IosCIPerspectiveTransformWithExtentConfig<Rest = never> extends IosPerspectiveConfig<Rest> {
+type IosCIPerspectiveTransformWithExtentConfig<Rest = never> = {
   readonly inputExtent?: Area
-}
+} & IosPerspectiveConfig<Rest>
 
-interface IosCIStraightenFilterConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIStraightenFilterConfig<Rest = never> = {
   readonly inputAngle?: Angle
-}
+} & IosCommonConfig<Rest>
 
-interface IosGradientConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosGradientConfig<Rest = never> = {
   readonly inputColor0?: string
   readonly inputColor1?: string
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIGaussianGradientConfig<Rest = never> extends IosGradientConfig<Rest> {
+type IosCIGaussianGradientConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputRadius?: Distance
-}
+} & IosGradientConfig<Rest>
 
-interface IosCILinearGradientConfig<Rest = never> extends IosGradientConfig<Rest> {
+type IosCILinearGradientConfig<Rest = never> = {
   readonly inputPoint0?: Position
   readonly inputPoint1?: Position
-}
+} & IosGradientConfig<Rest>
 
-interface IosCIRadialGradientConfig<Rest = never> extends IosGradientConfig<Rest> {
+type IosCIRadialGradientConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputRadius0?: Position
   readonly inputRadius1?: Position
-}
+} & IosGradientConfig<Rest>
 
-interface IosHalftoneEffectConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosHalftoneEffectConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputWidth?: Distance
   readonly inputSharpness?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosAngleHalftoneEffectConfig<Rest = never> extends IosHalftoneEffectConfig<Rest> {
+type IosAngleHalftoneEffectConfig<Rest = never> = {
   readonly inputAngle?: Angle
-}
+} & IosHalftoneEffectConfig<Rest>
 
-interface IosCICMYKHalftoneConfig<Rest = never> extends IosAngleHalftoneEffectConfig<Rest> {
+type IosCICMYKHalftoneConfig<Rest = never> = {
   readonly inputGCR?: number
   readonly inputUCR?: number
-}
+} & IosAngleHalftoneEffectConfig<Rest>
 
-interface IosAreaConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosAreaConfig<Rest = never> = {
   readonly inputExtent?: Area
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIAreaHistogramConfig<Rest = never> extends IosAreaConfig<Rest> {
+type IosCIAreaHistogramConfig<Rest = never> = {
   readonly inputScale?: number
   readonly inputCount?: number
-}
+} & IosAreaConfig<Rest>
 
-interface IosCIHistogramDisplayFilterConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIHistogramDisplayFilterConfig<Rest = never> = {
   readonly inputHeight?: number
   readonly inputHighLimit?: number
   readonly inputLowLimit?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCISharpenLuminanceConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCISharpenLuminanceConfig<Rest = never> = {
   readonly inputSharpness?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIUnsharpMaskConfig<Rest = never> extends IosRadiusConfig<Rest> {
+type IosCIUnsharpMaskConfig<Rest = never> = {
   readonly inputIntensity?: number
-}
+} & IosRadiusConfig<Rest>
 
-interface IosCIBloomConfig<Rest = never> extends IosRadiusConfig<Rest> {
+type IosCIBloomConfig<Rest = never> = {
   readonly inputIntensity?: number
-}
+} & IosRadiusConfig<Rest>
 
-interface IosConvolutionConfig<
+type IosConvolutionConfig<
   Weights = [number, number, number, number, number, number, number, number, number],
   Rest = never
-> extends IosCommonConfig<Rest> {
+> = {
   readonly inputWeights?: Weights
   readonly inputBias?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIConvolution5X5Config<Rest = never> extends IosConvolutionConfig<
+type IosCIConvolution5X5Config<Rest = never> = {} & IosConvolutionConfig<
   [
-    number, number, number, number, number,
-    number, number, number, number, number,
-    number, number, number, number, number,
-    number, number, number, number, number,
-    number, number, number, number, number
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number
   ],
   Rest
-> { }
+>
 
-interface IosCIConvolution7X7Config<Rest = never> extends IosConvolutionConfig<
+type IosCIConvolution7X7Config<Rest = never> = {} & IosConvolutionConfig<
   [
-    number, number, number, number, number, number, number,
-    number, number, number, number, number, number, number,
-    number, number, number, number, number, number, number,
-    number, number, number, number, number, number, number,
-    number, number, number, number, number, number, number,
-    number, number, number, number, number, number, number,
-    number, number, number, number, number, number, number
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number
   ],
   Rest
-> { }
+>
 
-interface IosCIEdgesConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIEdgesConfig<Rest = never> = {
   readonly inputIntensity?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIGloomConfig<Rest = never> extends IosRadiusConfig<Rest> {
+type IosCIGloomConfig<Rest = never> = {
   readonly inputIntensity?: number
-}
+} & IosRadiusConfig<Rest>
 
-interface IosCIHexagonalPixellateConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIHexagonalPixellateConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputScale?: Distance
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIHighlightShadowAdjustConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIHighlightShadowAdjustConfig<Rest = never> = {
   readonly inputHighlightAmount?: number
   readonly inputShadowAmount?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCILineOverlayConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCILineOverlayConfig<Rest = never> = {
   readonly inputNRNoiseLevel?: number
   readonly inputNRSharpness?: number
   readonly inputEdgeIntensity?: number
   readonly inputThreshold?: number
   readonly inputContrast?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIPixellateConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIPixellateConfig<Rest = never> = {
   readonly inputCenter?: Position
   readonly inputScale?: Distance
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIShadedMaterialConfig<Rest = never> extends IosCompositionBaseConfig<
-  'inputImage' | 'inputShadingImage',
-  Rest
-> {
+type IosCIShadedMaterialConfig<Rest = never> = {
   readonly inputShadingImage: Filterable<Rest>
   readonly inputShadingImageTransform?: Transform
   readonly inputScale?: number
-}
+} & IosCompositionBaseConfig<'inputImage' | 'inputShadingImage', Rest>
 
-interface IosCISpotColorConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCISpotColorConfig<Rest = never> = {
   readonly inputCenterColor1?: string
   readonly inputReplacementColor1?: string
   readonly inputCloseness1?: number
@@ -675,183 +753,203 @@ interface IosCISpotColorConfig<Rest = never> extends IosCommonConfig<Rest> {
   readonly inputReplacementColor3?: string
   readonly inputCloseness3?: number
   readonly inputContrast3?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCISpotLightConfig<Rest = never> extends IosColorConfig<Rest> {
+type IosCISpotLightConfig<Rest = never> = {
   readonly inputLightPosition?: [Distance, Distance, Distance]
   readonly inputLightPointsAt?: [Distance, Distance, Distance]
   readonly inputBrightness?: number
   readonly inputConcentration?: number
-}
+} & IosColorConfig<Rest>
 
-interface IosTileConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosTileConfig<Rest = never> = {
   readonly inputAngle?: Angle
   readonly inputCenter?: Position
   readonly inputWidth?: Distance
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIFourfoldTranslatedTileConfig<Rest = never> extends IosTileConfig<Rest> {
+type IosCIFourfoldTranslatedTileConfig<Rest = never> = {
   readonly inputAcuteAngle?: Angle
-}
+} & IosTileConfig<Rest>
 
-interface IosCIKaleidoscopeConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIKaleidoscopeConfig<Rest = never> = {
   readonly inputAngle?: Angle
   readonly inputCenter?: Position
   readonly inputCount?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIOpTileConfig<Rest = never> extends IosTileConfig<Rest> {
+type IosCIOpTileConfig<Rest = never> = {
   readonly inputScale?: number
-}
+} & IosTileConfig<Rest>
 
-interface IosCITriangleKaleidoscopeConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCITriangleKaleidoscopeConfig<Rest = never> = {
   readonly inputPoint?: Position
   readonly inputSize?: Distance
   readonly inputRotation?: Angle
   readonly inputDecay?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIBokehBlurConfig<Rest = never> extends IosRadiusConfig<Rest> {
+type IosCIBokehBlurConfig<Rest = never> = {
   readonly inputRingAmount?: number
   readonly inputRingSize?: number
   readonly inputSoftness?: number
-}
+} & IosRadiusConfig<Rest>
 
-interface IosCIMixConfig<Rest = never> extends IosCIBackgroundImageCompositionConfig<Rest> {
+type IosCIMixConfig<Rest = never> = {
   readonly inputAmount?: number
-}
+} & IosCIBackgroundImageCompositionConfig<Rest>
 
-interface IosCITextImageGeneratorConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCITextImageGeneratorConfig<Rest = never> = {
   readonly inputText: string
   readonly inputFontName?: string
   readonly inputFontSize?: Distance
   readonly inputScaleFactor?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIHueSaturationValueGradientConfig<Rest = never> extends IosRadiusConfig<Rest> {
+type IosCIHueSaturationValueGradientConfig<Rest = never> = {
   readonly inputValue?: number
   readonly inputSoftness?: number
   readonly inputDither?: number
-}
+} & IosRadiusConfig<Rest>
 
-interface IosCINinePartStretchedConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCINinePartStretchedConfig<Rest = never> = {
   readonly inputBreakpoint0?: Position
   readonly inputBreakpoint1?: Position
   readonly inputGrowAmount?: Position
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIMirrorConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIMirrorConfig<Rest = never> = {
   readonly inputPoint?: Position
   readonly inputAngle?: Angle
-}
+} & IosCommonConfig<Rest>
 
-interface IosCICheapBlurConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCICheapBlurConfig<Rest = never> = {
   readonly inputPasses?: number
   readonly inputSampling?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIDitherConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIDitherConfig<Rest = never> = {
   readonly inputIntensity?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCISkyAndGrassAdjustConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCISkyAndGrassAdjustConfig<Rest = never> = {
   readonly inputSkyAmount?: number
   readonly inputGrassAmount?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIRingBlurConfig<Rest = never> extends IosRadiusConfig<Rest> {
+type IosCIRingBlurConfig<Rest = never> = {
   readonly inputPointCount?: number
-}
+} & IosRadiusConfig<Rest>
 
-interface IosCIPhotoGrainConfig<Rest = never> extends IosScalarAmountConfig<Rest> {
+type IosCIPhotoGrainConfig<Rest = never> = {
   readonly inputISO?: number
   readonly inputSeed?: number
-}
+} & IosScalarAmountConfig<Rest>
 
-interface IosCILocalContrastConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCILocalContrastConfig<Rest = never> = {
   readonly inputStrength?: number
   readonly inputScale?: number
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIGaussianBlurXYConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIGaussianBlurXYConfig<Rest = never> = {
   readonly inputSigmaX?: Distance
   readonly inputSigmaY?: Distance
-}
+} & IosCommonConfig<Rest>
 
-interface IosCIPaperWashConfig<Rest = never> extends IosCommonConfig<Rest> {
+type IosCIPaperWashConfig<Rest = never> = {
   readonly inputSaturation?: number
   readonly inputGreyscale?: number
-}
+} & IosCommonConfig<Rest>
 
-interface AndroidIterativeBoxBlurConfig<Rest = never> extends CommonConfig<Rest> {
+type AndroidIterativeBoxBlurConfig<Rest = never> = {
   readonly blurRadius?: number
   readonly iterations?: number
-}
+} & CommonConfig<Rest>
 
-interface AndroidLightingColorFilterConfig<Rest = never> extends CommonConfig<Rest> {
+type AndroidLightingColorFilterConfig<Rest = never> = {
   readonly mul?: string
   readonly add?: string
-}
+} & CommonConfig<Rest>
 
-interface AndroidLinearGradientConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+type AndroidLinearGradientConfig<Rest = never> = {
   readonly x0?: Distance
   readonly y0?: Distance
   readonly x1?: Distance
   readonly y1?: Distance
-  readonly colors?: ReadonlyArray<string>
-  readonly locations?: ReadonlyArray<number>
+  readonly colors?: readonly string[]
+  readonly locations?: readonly number[]
   readonly tile?: TileMode
-}
+} & Partial<CommonConfig<Rest>>
 
-interface AndroidRadialGradientConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+type AndroidRadialGradientConfig<Rest = never> = {
   readonly centerX?: Distance
   readonly centerY?: Distance
   readonly radius?: Distance
-  readonly colors?: ReadonlyArray<string>
-  readonly stops?: ReadonlyArray<number>
+  readonly colors?: readonly string[]
+  readonly stops?: readonly number[]
   readonly tileMode?: TileMode
-}
+} & Partial<CommonConfig<Rest>>
 
-interface AndroidSweepGradientConfig<Rest = never> extends Partial<CommonConfig<Rest>> {
+type AndroidSweepGradientConfig<Rest = never> = {
   readonly cx?: Distance
   readonly cy?: Distance
-  readonly colors?: ReadonlyArray<string>
-  readonly positions?: ReadonlyArray<number>
-}
+  readonly colors?: readonly string[]
+  readonly positions?: readonly number[]
+} & Partial<CommonConfig<Rest>>
 
-interface AndroidPorterDuffColorFilterConfig<Rest = never> extends CommonConfig<Rest> {
+type AndroidPorterDuffColorFilterConfig<Rest = never> = {
   readonly color?: string
   readonly mode?: PorterDuffMode
-}
+} & CommonConfig<Rest>
 
-interface AndroidPorterDuffXfermodeConfig<Rest = never> extends CompositionConfig<Rest> {
+type AndroidPorterDuffXfermodeConfig<Rest = never> = {
   readonly mode?: PorterDuffMode
-}
+} & CompositionConfig<Rest>
 
-interface AndroidScriptIntrinsicBlurConfig<Rest = never> extends CommonConfig<Rest> {
+type AndroidScriptIntrinsicBlurConfig<Rest = never> = {
   readonly radius?: number
-}
+} & CommonConfig<Rest>
 
-interface AndroidScriptIntrinsicConvolve3x3Config<Rest = never> extends CommonConfig<Rest> {
+type AndroidScriptIntrinsicConvolve3x3Config<Rest = never> = {
   readonly coefficients?: [number, number, number, number, number, number, number, number, number]
-}
+} & CommonConfig<Rest>
 
-interface AndroidScriptIntrinsicConvolve5x5Config<Rest = never> extends CommonConfig<Rest> {
+type AndroidScriptIntrinsicConvolve5x5Config<Rest = never> = {
   readonly coefficients?: [
-    number, number, number, number, number,
-    number, number, number, number, number,
-    number, number, number, number, number,
-    number, number, number, number, number,
-    number, number, number, number, number
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number
   ]
-}
+} & CommonConfig<Rest>
 
-interface AndroidTextImageConfig<Rest = never> extends CommonConfig<Rest> {
+type AndroidTextImageConfig<Rest = never> = {
   readonly text: string
   readonly fontName?: string
   readonly fontSize?: Distance
   readonly color?: string
-}
+} & CommonConfig<Rest>
 
 export type ConfigCase<Name, Config> = { readonly name: Name } & Config
 
@@ -1007,7 +1105,6 @@ export type Config<Rest = never> =
   | ConfigCase<'PathShape', PathShapeConfig<Rest>>
   | ConfigCase<'RegularPolygonShape', RegularPolygonShapeConfig<Rest>>
   | ConfigCase<'QuadGradient', QuadGradientConfig<Rest>>
-
   | ConfigCase<'IosCIBoxBlur', IosRadiusConfig<Rest>>
   | ConfigCase<'IosCIDiscBlur', IosRadiusConfig<Rest>>
   | ConfigCase<'IosCIGaussianBlur', IosRadiusConfig<Rest>>
@@ -1106,7 +1203,10 @@ export type Config<Rest = never> =
   | ConfigCase<'IosCILanczosScaleTransform', IosCILanczosScaleTransformConfig<Rest>>
   | ConfigCase<'IosCIPerspectiveCorrection', IosCIPerspectiveCorrectionConfig<Rest>>
   | ConfigCase<'IosCIPerspectiveTransform', IosPerspectiveConfig<Rest>>
-  | ConfigCase<'IosCIPerspectiveTransformWithExtent', IosCIPerspectiveTransformWithExtentConfig<Rest>>
+  | ConfigCase<
+      'IosCIPerspectiveTransformWithExtent',
+      IosCIPerspectiveTransformWithExtentConfig<Rest>
+    >
   | ConfigCase<'IosCIStraightenFilter', IosCIStraightenFilterConfig<Rest>>
   | ConfigCase<'IosCIGaussianGradient', IosCIGaussianGradientConfig<Rest>>
   | ConfigCase<'IosCILinearGradient', IosCILinearGradientConfig<Rest>>
@@ -1202,7 +1302,6 @@ export type Config<Rest = never> =
   | ConfigCase<'IosCIASG75Percent', IosCommonConfig<Rest>>
   | ConfigCase<'IosCIASG80Percent', IosCommonConfig<Rest>>
   | ConfigCase<'IosCIPaperWash', IosCIPaperWashConfig<Rest>>
-
   | ConfigCase<'AndroidColorMatrixColorFilter', ColorMatrixConfig<Rest>>
   | ConfigCase<'AndroidIterativeBoxBlur', AndroidIterativeBoxBlurConfig<Rest>>
   | ConfigCase<'AndroidLightingColorFilter', AndroidLightingColorFilterConfig<Rest>>
@@ -1217,387 +1316,826 @@ export type Config<Rest = never> =
   | ConfigCase<'AndroidScriptIntrinsicConvolve3x3', AndroidScriptIntrinsicConvolve3x3Config<Rest>>
   | ConfigCase<'AndroidScriptIntrinsicConvolve5x5', AndroidScriptIntrinsicConvolve5x5Config<Rest>>
   | ConfigCase<'AndroidTextImage', AndroidTextImageConfig<Rest>>
-
   | Rest
 
-export type ImageFilterProps<Rest> = ViewProps & Rest & {
-  readonly onFilteringStart?: (event: NativeSyntheticEvent<{}>) => void
-  readonly onFilteringFinish?: (event: NativeSyntheticEvent<{}>) => void
-  readonly onFilteringError?: (event: NativeSyntheticEvent<{ message: string }>) => void
-  readonly onExtractImage?: (event: NativeSyntheticEvent<{ uri: string }>) => void
-  readonly clearCachesMaxRetries?: number
-  readonly extractImageEnabled?: boolean
-}
+export type ImageFilterProps<Rest> = ViewProps &
+  Rest & {
+    readonly onFilteringStart?: (event: NativeSyntheticEvent<{}>) => void
+    readonly onFilteringFinish?: (event: NativeSyntheticEvent<{}>) => void
+    readonly onFilteringError?: (event: NativeSyntheticEvent<{ message: string }>) => void
+    readonly onExtractImage?: (event: NativeSyntheticEvent<{ uri: string }>) => void
+    readonly clearCachesMaxRetries?: number
+    readonly extractImageEnabled?: boolean
+  }
 
-export declare class GenericImageFilter<Rest>
-  extends React.Component<ImageFilterProps<{ readonly config: Config<Rest> }>> { }
+export declare class GenericImageFilter<Rest> extends React.Component<
+  ImageFilterProps<{ readonly config: Config<Rest> }>
+> {}
 
-export declare class ImageFilter extends GenericImageFilter<never> { }
+export declare class ImageFilter extends GenericImageFilter<never> {}
 
-export declare class ColorMatrix extends React.Component<ImageFilterProps<ColorMatrixConfig>> { }
-export declare class Normal extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class RGBA extends React.Component<ImageFilterProps<RGBAConfig>> { }
-export declare class Saturate extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class HueRotate extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class LuminanceToAlpha extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Invert extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Grayscale extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class Sepia extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class Nightvision extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Warm extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Cool extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Brightness extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class Contrast extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class Temperature extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class Tint extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class Threshold extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class Technicolor extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Polaroid extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class ToBGR extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Kodachrome extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Browni extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Vintage extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Night extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class Predator extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class Lsd extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class ColorTone extends React.Component<ImageFilterProps<ColorToneConfig>> { }
-export declare class DuoTone extends React.Component<ImageFilterProps<DuoToneConfig>> { }
-export declare class Protanomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Deuteranomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Tritanomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Protanopia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Deuteranopia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Tritanopia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Achromatopsia extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class Achromatomaly extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class ConvolveMatrix3x3 extends React.Component<ImageFilterProps<ConvolveMatrix3x3Config>> { }
-export declare class ConvolveMatrix5x5 extends React.Component<ImageFilterProps<ConvolveMatrix5x5Config>> { }
-export declare class Sharpen extends React.Component<ImageFilterProps<AmountConfig>> { }
-export declare class EdgeDetection extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Emboss extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class FuzzyGlass extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class BoxBlur extends React.Component<ImageFilterProps<BlurConfig>> { }
-export declare class GaussianBlur extends React.Component<ImageFilterProps<BlurConfig>> { }
-export declare class PlusBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class DarkenBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class LightenBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class ModulateBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class OverlayBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class ScreenBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class ColorDodgeBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class ExclusionBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class ColorBurnBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class SoftLightBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class HueBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class ColorBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class SaturationBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class LuminosityBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class DifferenceBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class HardLightBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class MultiplyBlend extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class PlusBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class DarkenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class LightenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class ModulateBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class OverlayBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class ScreenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class ColorDodgeBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class ExclusionBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class ColorBurnBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class SoftLightBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class HueBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class ColorBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class SaturationBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class LuminosityBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class DifferenceBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class HardLightBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class MultiplyBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> { }
-export declare class DstATopComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class DstInComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class DstOutComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class DstOverComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class SrcATopComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class SrcInComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class SrcOutComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class SrcOverComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class XorComposition extends React.Component<ImageFilterProps<CompositionConfig>> { }
-export declare class _1977 extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Aden extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Brannan extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Brooklyn extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Clarendon extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Earlybird extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Gingham extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Hudson extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Inkwell extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Kelvin extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Lark extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Lofi extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Maven extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Mayfair extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Moon extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Nashville extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Perpetua extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Reyes extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Rise extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Slumber extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Stinson extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Toaster extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Valencia extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Walden extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Willow extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Xpro2 extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class _1977Compat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class AdenCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class BrannanCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class BrooklynCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class ClarendonCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class EarlybirdCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class GinghamCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class HudsonCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class InkwellCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class KelvinCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class LarkCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class LofiCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class MavenCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class MayfairCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class MoonCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class NashvilleCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class PerpetuaCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class ReyesCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class RiseCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class SlumberCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class StinsonCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class ToasterCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class ValenciaCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class WaldenCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class WillowCompat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Xpro2Compat extends React.Component<ImageFilterProps<ConfigWithIntermediates>> { }
-export declare class Color extends React.Component<ImageFilterProps<ColorConfig>> { }
-export declare class LinearGradient extends React.Component<ImageFilterProps<LinearGradientConfig>> { }
-export declare class RadialGradient extends React.Component<ImageFilterProps<RadialGradientConfig>> { }
-export declare class EllipticalGradient extends React.Component<ImageFilterProps<EllipticalGradientConfig>> { }
-export declare class RectangularGradient extends React.Component<ImageFilterProps<RectangularGradientConfig>> { }
-export declare class SweepGradient extends React.Component<ImageFilterProps<SweepGradientConfig>> { }
-export declare class TextImage extends React.Component<ImageFilterProps<TextImageConfig>> { }
-export declare class CircleShape extends React.Component<ImageFilterProps<CircleShapeConfig>> { }
-export declare class OvalShape extends React.Component<ImageFilterProps<OvalShapeConfig>> { }
-export declare class PathShape extends React.Component<ImageFilterProps<PathShapeConfig>> { }
-export declare class RegularPolygonShape extends React.Component<ImageFilterProps<RegularPolygonShapeConfig>> { }
-export declare class QuadGradient extends React.Component<ImageFilterProps<QuadGradientConfig>> { }
+export declare class ColorMatrix extends React.Component<ImageFilterProps<ColorMatrixConfig>> {}
+export declare class Normal extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class RGBA extends React.Component<ImageFilterProps<RGBAConfig>> {}
+export declare class Saturate extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class HueRotate extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class LuminanceToAlpha extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Invert extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Grayscale extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class Sepia extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class Nightvision extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Warm extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Cool extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Brightness extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class Contrast extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class Temperature extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class Tint extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class Threshold extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class Technicolor extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Polaroid extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class ToBGR extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Kodachrome extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Browni extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Vintage extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Night extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class Predator extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class Lsd extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class ColorTone extends React.Component<ImageFilterProps<ColorToneConfig>> {}
+export declare class DuoTone extends React.Component<ImageFilterProps<DuoToneConfig>> {}
+export declare class Protanomaly extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Deuteranomaly extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Tritanomaly extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Protanopia extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Deuteranopia extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Tritanopia extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Achromatopsia extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class Achromatomaly extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class ConvolveMatrix3x3 extends React.Component<
+  ImageFilterProps<ConvolveMatrix3x3Config>
+> {}
+export declare class ConvolveMatrix5x5 extends React.Component<
+  ImageFilterProps<ConvolveMatrix5x5Config>
+> {}
+export declare class Sharpen extends React.Component<ImageFilterProps<AmountConfig>> {}
+export declare class EdgeDetection extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class Emboss extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class FuzzyGlass extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class BoxBlur extends React.Component<ImageFilterProps<BlurConfig>> {}
+export declare class GaussianBlur extends React.Component<ImageFilterProps<BlurConfig>> {}
+export declare class PlusBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class DarkenBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class LightenBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class ModulateBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class OverlayBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class ScreenBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class ColorDodgeBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class ExclusionBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class ColorBurnBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class SoftLightBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class HueBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class ColorBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class SaturationBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class LuminosityBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class DifferenceBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class HardLightBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class MultiplyBlend extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class PlusBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> {}
+export declare class DarkenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> {}
+export declare class LightenBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class ModulateBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class OverlayBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class ScreenBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> {}
+export declare class ColorDodgeBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class ExclusionBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class ColorBurnBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class SoftLightBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class HueBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> {}
+export declare class ColorBlendColor extends React.Component<ImageFilterProps<BlendColorConfig>> {}
+export declare class SaturationBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class LuminosityBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class DifferenceBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class HardLightBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class MultiplyBlendColor extends React.Component<
+  ImageFilterProps<BlendColorConfig>
+> {}
+export declare class DstATopComposition extends React.Component<
+  ImageFilterProps<CompositionConfig>
+> {}
+export declare class DstInComposition extends React.Component<
+  ImageFilterProps<CompositionConfig>
+> {}
+export declare class DstOutComposition extends React.Component<
+  ImageFilterProps<CompositionConfig>
+> {}
+export declare class DstOverComposition extends React.Component<
+  ImageFilterProps<CompositionConfig>
+> {}
+export declare class SrcATopComposition extends React.Component<
+  ImageFilterProps<CompositionConfig>
+> {}
+export declare class SrcInComposition extends React.Component<
+  ImageFilterProps<CompositionConfig>
+> {}
+export declare class SrcOutComposition extends React.Component<
+  ImageFilterProps<CompositionConfig>
+> {}
+export declare class SrcOverComposition extends React.Component<
+  ImageFilterProps<CompositionConfig>
+> {}
+export declare class XorComposition extends React.Component<ImageFilterProps<CompositionConfig>> {}
+export declare class _1977 extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Aden extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Brannan extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Brooklyn extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Clarendon extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Earlybird extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Gingham extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Hudson extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Inkwell extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Kelvin extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Lark extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Lofi extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Maven extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Mayfair extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Moon extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Nashville extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Perpetua extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Reyes extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Rise extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Slumber extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Stinson extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Toaster extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Valencia extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Walden extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Willow extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class Xpro2 extends React.Component<ImageFilterProps<ConfigWithIntermediates>> {}
+export declare class _1977Compat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class AdenCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class BrannanCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class BrooklynCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class ClarendonCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class EarlybirdCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class GinghamCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class HudsonCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class InkwellCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class KelvinCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class LarkCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class LofiCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class MavenCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class MayfairCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class MoonCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class NashvilleCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class PerpetuaCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class ReyesCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class RiseCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class SlumberCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class StinsonCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class ToasterCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class ValenciaCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class WaldenCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class WillowCompat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class Xpro2Compat extends React.Component<
+  ImageFilterProps<ConfigWithIntermediates>
+> {}
+export declare class Color extends React.Component<ImageFilterProps<ColorConfig>> {}
+export declare class LinearGradient extends React.Component<
+  ImageFilterProps<LinearGradientConfig>
+> {}
+export declare class RadialGradient extends React.Component<
+  ImageFilterProps<RadialGradientConfig>
+> {}
+export declare class EllipticalGradient extends React.Component<
+  ImageFilterProps<EllipticalGradientConfig>
+> {}
+export declare class RectangularGradient extends React.Component<
+  ImageFilterProps<RectangularGradientConfig>
+> {}
+export declare class SweepGradient extends React.Component<ImageFilterProps<SweepGradientConfig>> {}
+export declare class TextImage extends React.Component<ImageFilterProps<TextImageConfig>> {}
+export declare class CircleShape extends React.Component<ImageFilterProps<CircleShapeConfig>> {}
+export declare class OvalShape extends React.Component<ImageFilterProps<OvalShapeConfig>> {}
+export declare class PathShape extends React.Component<ImageFilterProps<PathShapeConfig>> {}
+export declare class RegularPolygonShape extends React.Component<
+  ImageFilterProps<RegularPolygonShapeConfig>
+> {}
+export declare class QuadGradient extends React.Component<ImageFilterProps<QuadGradientConfig>> {}
 
-export declare class IosCIBoxBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCIDiscBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCIGaussianBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCIMaskedVariableBlur extends React.Component<ImageFilterProps<IosCIMaskedVariableBlurConfig>> { }
-export declare class IosCIMedianFilter extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIMotionBlur extends React.Component<ImageFilterProps<IosCIMotionBlurConfig>> { }
-export declare class IosCINoiseReduction extends React.Component<ImageFilterProps<IosCINoiseReductionConfig>> { }
-export declare class IosCIZoomBlur extends React.Component<ImageFilterProps<IosCIZoomBlurConfig>> { }
-export declare class IosCIColorClamp extends React.Component<ImageFilterProps<IosCIColorClampConfig>> { }
-export declare class IosCIColorControls extends React.Component<ImageFilterProps<IosCIColorControlsConfig>> { }
-export declare class IosCIColorMatrix extends React.Component<ImageFilterProps<IosCIColorMatrixConfig>> { }
-export declare class IosCIColorPolynomial extends React.Component<ImageFilterProps<IosCIColorPolynomialConfig>> { }
-export declare class IosCIExposureAdjust extends React.Component<ImageFilterProps<IosCIExposureAdjustConfig>> { }
-export declare class IosCIGammaAdjust extends React.Component<ImageFilterProps<IosCIGammaAdjustConfig>> { }
-export declare class IosCIHueAdjust extends React.Component<ImageFilterProps<IosAngleConfig>> { }
-export declare class IosCILinearToSRGBToneCurve extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCISRGBToneCurveToLinear extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCITemperatureAndTint extends React.Component<ImageFilterProps<IosCITemperatureAndTintConfig>> { }
-export declare class IosCIToneCurve extends React.Component<ImageFilterProps<IosCIToneCurveConfig>> { }
-export declare class IosCIVibrance extends React.Component<ImageFilterProps<IosScalarAmountConfig>> { }
-export declare class IosCIWhitePointAdjust extends React.Component<ImageFilterProps<IosColorConfig>> { }
-export declare class IosCIColorCrossPolynomial extends React.Component<ImageFilterProps<IosCIColorPolynomialBaseConfig>> { }
-export declare class IosCIColorCube extends React.Component<ImageFilterProps<IosCIColorCubeConfig>> { }
-export declare class IosCIColorInvert extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIColorMap extends React.Component<ImageFilterProps<IosCIColorMapConfig>> { }
-export declare class IosCIColorMonochrome extends React.Component<ImageFilterProps<IosCIColorMonochromeConfig>> { }
-export declare class IosCIColorPosterize extends React.Component<ImageFilterProps<IosCIColorPosterizeConfig>> { }
-export declare class IosCIFalseColor extends React.Component<ImageFilterProps<IosCIFalseColorConfig>> { }
-export declare class IosCIMaskToAlpha extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIMaximumComponent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIMinimumComponent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPhotoEffectChrome extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPhotoEffectFade extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPhotoEffectInstant extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPhotoEffectMono extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPhotoEffectNoir extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPhotoEffectProcess extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPhotoEffectTonal extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPhotoEffectTransfer extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCISepiaTone extends React.Component<ImageFilterProps<IosCISepiaToneConfig>> { }
-export declare class IosCIVignette extends React.Component<ImageFilterProps<IosCIVignetteConfig>> { }
-export declare class IosCIVignetteEffect extends React.Component<ImageFilterProps<IosCIVignetteEffectConfig>> { }
-export declare class IosCIAdditionCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIColorBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIColorBurnBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIColorDodgeBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIDarkenBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIDifferenceBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIDivideBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIExclusionBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIHardLightBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIHueBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCILightenBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCILinearBurnBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCILinearDodgeBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCILuminosityBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIMaximumCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIMinimumCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIMultiplyBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIMultiplyCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIOverlayBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIPinLightBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCISaturationBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIScreenBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCISoftLightBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCISourceAtopCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCISourceInCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCISourceOutCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCISourceOverCompositing extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCISubtractBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCIBumpDistortion extends React.Component<ImageFilterProps<IosScaleCenterRadiusConfig>> { }
-export declare class IosCIBumpDistortionLinear extends React.Component<ImageFilterProps<IosCIBumpDistortionLinearConfig>> { }
-export declare class IosCICircleSplashDistortion extends React.Component<ImageFilterProps<IosCenterRadiusConfig>> { }
-export declare class IosCICircularWrap extends React.Component<ImageFilterProps<IosAngleCenterRadiusConfig>> { }
-export declare class IosCIDroste extends React.Component<ImageFilterProps<IosCIDrosteConfig>> { }
-export declare class IosCIDisplacementDistortion extends React.Component<ImageFilterProps<IosCIDisplacementDistortionConfig>> { }
-export declare class IosCIGlassDistortion extends React.Component<ImageFilterProps<IosCIGlassDistortionConfig>> { }
-export declare class IosCIGlassLozenge extends React.Component<ImageFilterProps<IosCIGlassLozengeConfig>> { }
-export declare class IosCIHoleDistortion extends React.Component<ImageFilterProps<IosCenterRadiusConfig>> { }
-export declare class IosCILightTunnel extends React.Component<ImageFilterProps<IosCILightTunnelConfig>> { }
-export declare class IosCIPinchDistortion extends React.Component<ImageFilterProps<IosScaleCenterRadiusConfig>> { }
-export declare class IosCIStretchCrop extends React.Component<ImageFilterProps<IosCIStretchCropConfig>> { }
-export declare class IosCITorusLensDistortion extends React.Component<ImageFilterProps<IosCITorusLensDistortionConfig>> { }
-export declare class IosCITwirlDistortion extends React.Component<ImageFilterProps<IosAngleCenterRadiusConfig>> { }
-export declare class IosCIVortexDistortion extends React.Component<ImageFilterProps<IosAngleCenterRadiusConfig>> { }
-export declare class IosCIAztecCodeGenerator extends React.Component<ImageFilterProps<IosCIAztecCodeGeneratorConfig>> { }
-export declare class IosCICheckerboardGenerator extends React.Component<ImageFilterProps<IosCICheckerboardGeneratorConfig>> { }
-export declare class IosCIConstantColorGenerator extends React.Component<ImageFilterProps<IosColorConfig>> { }
-export declare class IosCILenticularHaloGenerator extends React.Component<ImageFilterProps<IosCILenticularHaloGeneratorConfig>> { }
-export declare class IosCIQRCodeGenerator extends React.Component<ImageFilterProps<IosCIQRCodeGeneratorConfig>> { }
-export declare class IosCIRandomGenerator extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIStarShineGenerator extends React.Component<ImageFilterProps<IosCIStarShineGeneratorConfig>> { }
-export declare class IosCIStripesGenerator extends React.Component<ImageFilterProps<IosCIStripesGeneratorConfig>> { }
-export declare class IosCISunbeamsGenerator extends React.Component<ImageFilterProps<IosCISunbeamsGeneratorConfig>> { }
-export declare class IosCICrop extends React.Component<ImageFilterProps<IosCICropConfig>> { }
-export declare class IosCILanczosScaleTransform extends React.Component<ImageFilterProps<IosCILanczosScaleTransformConfig>> { }
-export declare class IosCIPerspectiveCorrection extends React.Component<ImageFilterProps<IosCIPerspectiveCorrectionConfig>> { }
-export declare class IosCIPerspectiveTransform extends React.Component<ImageFilterProps<IosPerspectiveConfig>> { }
-export declare class IosCIPerspectiveTransformWithExtent extends React.Component<ImageFilterProps<IosCIPerspectiveTransformWithExtentConfig>> { }
-export declare class IosCIStraightenFilter extends React.Component<ImageFilterProps<IosCIStraightenFilterConfig>> { }
-export declare class IosCIGaussianGradient extends React.Component<ImageFilterProps<IosCIGaussianGradientConfig>> { }
-export declare class IosCILinearGradient extends React.Component<ImageFilterProps<IosCILinearGradientConfig>> { }
-export declare class IosCIRadialGradient extends React.Component<ImageFilterProps<IosCIRadialGradientConfig>> { }
-export declare class IosCISmoothLinearGradient extends React.Component<ImageFilterProps<IosCILinearGradientConfig>> { }
-export declare class IosCICircularScreen extends React.Component<ImageFilterProps<IosHalftoneEffectConfig>> { }
-export declare class IosCICMYKHalftone extends React.Component<ImageFilterProps<IosCICMYKHalftoneConfig>> { }
-export declare class IosCIDotScreen extends React.Component<ImageFilterProps<IosAngleHalftoneEffectConfig>> { }
-export declare class IosCIHatchedScreen extends React.Component<ImageFilterProps<IosAngleHalftoneEffectConfig>> { }
-export declare class IosCILineScreen extends React.Component<ImageFilterProps<IosAngleHalftoneEffectConfig>> { }
-export declare class IosCIAreaAverage extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCIAreaHistogram extends React.Component<ImageFilterProps<IosCIAreaHistogramConfig>> { }
-export declare class IosCIRowAverage extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCIColumnAverage extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCIHistogramDisplayFilter extends React.Component<ImageFilterProps<IosCIHistogramDisplayFilterConfig>> { }
-export declare class IosCIAreaMaximum extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCIAreaMinimum extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCIAreaMaximumAlpha extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCIAreaMinimumAlpha extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCISharpenLuminance extends React.Component<ImageFilterProps<IosCISharpenLuminanceConfig>> { }
-export declare class IosCIUnsharpMask extends React.Component<ImageFilterProps<IosCIUnsharpMaskConfig>> { }
-export declare class IosCIBloom extends React.Component<ImageFilterProps<IosCIBloomConfig>> { }
-export declare class IosCIComicEffect extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIConvolution3X3 extends React.Component<ImageFilterProps<IosConvolutionConfig>> { }
-export declare class IosCIConvolution5X5 extends React.Component<ImageFilterProps<IosCIConvolution5X5Config>> { }
-export declare class IosCIConvolution7X7 extends React.Component<ImageFilterProps<IosCIConvolution7X7Config>> { }
-export declare class IosCIConvolution9Horizontal extends React.Component<ImageFilterProps<IosConvolutionConfig>> { }
-export declare class IosCIConvolution9Vertical extends React.Component<ImageFilterProps<IosConvolutionConfig>> { }
-export declare class IosCICrystallize extends React.Component<ImageFilterProps<IosCenterRadiusConfig>> { }
-export declare class IosCIEdges extends React.Component<ImageFilterProps<IosCIEdgesConfig>> { }
-export declare class IosCIEdgeWork extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCIGloom extends React.Component<ImageFilterProps<IosCIGloomConfig>> { }
-export declare class IosCIHeightFieldFromMask extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCIHexagonalPixellate extends React.Component<ImageFilterProps<IosCIHexagonalPixellateConfig>> { }
-export declare class IosCIHighlightShadowAdjust extends React.Component<ImageFilterProps<IosCIHighlightShadowAdjustConfig>> { }
-export declare class IosCILineOverlay extends React.Component<ImageFilterProps<IosCILineOverlayConfig>> { }
-export declare class IosCIPixellate extends React.Component<ImageFilterProps<IosCIPixellateConfig>> { }
-export declare class IosCIPointillize extends React.Component<ImageFilterProps<IosCenterRadiusConfig>> { }
-export declare class IosCIShadedMaterial extends React.Component<ImageFilterProps<IosCIShadedMaterialConfig>> { }
-export declare class IosCISpotColor extends React.Component<ImageFilterProps<IosCISpotColorConfig>> { }
-export declare class IosCISpotLight extends React.Component<ImageFilterProps<IosCISpotLightConfig>> { }
-export declare class IosCIEightfoldReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
-export declare class IosCIFourfoldReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
-export declare class IosCIFourfoldRotatedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
-export declare class IosCIFourfoldTranslatedTile extends React.Component<ImageFilterProps<IosCIFourfoldTranslatedTileConfig>> { }
-export declare class IosCIGlideReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
-export declare class IosCIKaleidoscope extends React.Component<ImageFilterProps<IosCIKaleidoscopeConfig>> { }
-export declare class IosCIOpTile extends React.Component<ImageFilterProps<IosCIOpTileConfig>> { }
-export declare class IosCIParallelogramTile extends React.Component<ImageFilterProps<IosCIFourfoldTranslatedTileConfig>> { }
-export declare class IosCIPerspectiveTile extends React.Component<ImageFilterProps<IosPerspectiveConfig>> { }
-export declare class IosCISixfoldReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
-export declare class IosCISixfoldRotatedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
-export declare class IosCITriangleKaleidoscope extends React.Component<ImageFilterProps<IosCITriangleKaleidoscopeConfig>> { }
-export declare class IosCITriangleTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
-export declare class IosCITwelvefoldReflectedTile extends React.Component<ImageFilterProps<IosTileConfig>> { }
-export declare class IosCIXRay extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIThermal extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIMorphologyGradient extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCIDisparityToDepth extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIBokehBlur extends React.Component<ImageFilterProps<IosCIBokehBlurConfig>> { }
-export declare class IosCISaliencyMapFilter extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCISampleNearest extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIMix extends React.Component<ImageFilterProps<IosCIMixConfig>> { }
-export declare class IosCIDepthToDisparity extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCITextImageGenerator extends React.Component<ImageFilterProps<IosCITextImageGeneratorConfig>> { }
-export declare class IosCIHueSaturationValueGradient extends React.Component<ImageFilterProps<IosCIHueSaturationValueGradientConfig>> { }
-export declare class IosCIMorphologyMaximum extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCIMorphologyMinimum extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCINinePartStretched extends React.Component<ImageFilterProps<IosCINinePartStretchedConfig>> { }
-export declare class IosCIWrapMirror extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIMirror extends React.Component<ImageFilterProps<IosCIMirrorConfig>> { }
-export declare class IosCIAreaMinMaxRed extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCIAreaMinMax extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCICheatBlur extends React.Component<ImageFilterProps<IosDistanceAmountConfig>> { }
-export declare class IosCICheapMorphology extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCIMorphology extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCICheapBlur extends React.Component<ImageFilterProps<IosCICheapBlurConfig>> { }
-export declare class IosCIDither extends React.Component<ImageFilterProps<IosCIDitherConfig>> { }
-export declare class IosCIVividLightBlendMode extends React.Component<ImageFilterProps<IosCIBackgroundImageCompositionConfig>> { }
-export declare class IosCISkyAndGrassAdjust extends React.Component<ImageFilterProps<IosCISkyAndGrassAdjustConfig>> { }
-export declare class IosCIRingBlur extends React.Component<ImageFilterProps<IosCIRingBlurConfig>> { }
-export declare class IosCIPremultiply extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPhotoGrain extends React.Component<ImageFilterProps<IosCIPhotoGrainConfig>> { }
-export declare class IosCIUnpremultiply extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCILocalContrast extends React.Component<ImageFilterProps<IosCILocalContrastConfig>> { }
-export declare class IosCILinearBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> { }
-export declare class IosCIGaussianBlurXY extends React.Component<ImageFilterProps<IosCIGaussianBlurXYConfig>> { }
-export declare class IosCIDocumentEnhancer extends React.Component<ImageFilterProps<IosScalarAmountConfig>> { }
-export declare class IosCIClamp extends React.Component<ImageFilterProps<IosAreaConfig>> { }
-export declare class IosCIASG50Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIASG60Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIASG66Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIASG75Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIASG80Percent extends React.Component<ImageFilterProps<IosCommonConfig>> { }
-export declare class IosCIPaperWash extends React.Component<ImageFilterProps<IosCIPaperWashConfig>> { }
+export declare class IosCIBoxBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> {}
+export declare class IosCIDiscBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> {}
+export declare class IosCIGaussianBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> {}
+export declare class IosCIMaskedVariableBlur extends React.Component<
+  ImageFilterProps<IosCIMaskedVariableBlurConfig>
+> {}
+export declare class IosCIMedianFilter extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIMotionBlur extends React.Component<
+  ImageFilterProps<IosCIMotionBlurConfig>
+> {}
+export declare class IosCINoiseReduction extends React.Component<
+  ImageFilterProps<IosCINoiseReductionConfig>
+> {}
+export declare class IosCIZoomBlur extends React.Component<ImageFilterProps<IosCIZoomBlurConfig>> {}
+export declare class IosCIColorClamp extends React.Component<
+  ImageFilterProps<IosCIColorClampConfig>
+> {}
+export declare class IosCIColorControls extends React.Component<
+  ImageFilterProps<IosCIColorControlsConfig>
+> {}
+export declare class IosCIColorMatrix extends React.Component<
+  ImageFilterProps<IosCIColorMatrixConfig>
+> {}
+export declare class IosCIColorPolynomial extends React.Component<
+  ImageFilterProps<IosCIColorPolynomialConfig>
+> {}
+export declare class IosCIExposureAdjust extends React.Component<
+  ImageFilterProps<IosCIExposureAdjustConfig>
+> {}
+export declare class IosCIGammaAdjust extends React.Component<
+  ImageFilterProps<IosCIGammaAdjustConfig>
+> {}
+export declare class IosCIHueAdjust extends React.Component<ImageFilterProps<IosAngleConfig>> {}
+export declare class IosCILinearToSRGBToneCurve extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCISRGBToneCurveToLinear extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCITemperatureAndTint extends React.Component<
+  ImageFilterProps<IosCITemperatureAndTintConfig>
+> {}
+export declare class IosCIToneCurve extends React.Component<
+  ImageFilterProps<IosCIToneCurveConfig>
+> {}
+export declare class IosCIVibrance extends React.Component<
+  ImageFilterProps<IosScalarAmountConfig>
+> {}
+export declare class IosCIWhitePointAdjust extends React.Component<
+  ImageFilterProps<IosColorConfig>
+> {}
+export declare class IosCIColorCrossPolynomial extends React.Component<
+  ImageFilterProps<IosCIColorPolynomialBaseConfig>
+> {}
+export declare class IosCIColorCube extends React.Component<
+  ImageFilterProps<IosCIColorCubeConfig>
+> {}
+export declare class IosCIColorInvert extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIColorMap extends React.Component<ImageFilterProps<IosCIColorMapConfig>> {}
+export declare class IosCIColorMonochrome extends React.Component<
+  ImageFilterProps<IosCIColorMonochromeConfig>
+> {}
+export declare class IosCIColorPosterize extends React.Component<
+  ImageFilterProps<IosCIColorPosterizeConfig>
+> {}
+export declare class IosCIFalseColor extends React.Component<
+  ImageFilterProps<IosCIFalseColorConfig>
+> {}
+export declare class IosCIMaskToAlpha extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIMaximumComponent extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIMinimumComponent extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIPhotoEffectChrome extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIPhotoEffectFade extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIPhotoEffectInstant extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIPhotoEffectMono extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIPhotoEffectNoir extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIPhotoEffectProcess extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIPhotoEffectTonal extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIPhotoEffectTransfer extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCISepiaTone extends React.Component<
+  ImageFilterProps<IosCISepiaToneConfig>
+> {}
+export declare class IosCIVignette extends React.Component<ImageFilterProps<IosCIVignetteConfig>> {}
+export declare class IosCIVignetteEffect extends React.Component<
+  ImageFilterProps<IosCIVignetteEffectConfig>
+> {}
+export declare class IosCIAdditionCompositing extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIColorBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIColorBurnBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIColorDodgeBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIDarkenBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIDifferenceBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIDivideBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIExclusionBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIHardLightBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIHueBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCILightenBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCILinearBurnBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCILinearDodgeBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCILuminosityBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIMaximumCompositing extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIMinimumCompositing extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIMultiplyBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIMultiplyCompositing extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIOverlayBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIPinLightBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCISaturationBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIScreenBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCISoftLightBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCISourceAtopCompositing extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCISourceInCompositing extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCISourceOutCompositing extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCISourceOverCompositing extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCISubtractBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCIBumpDistortion extends React.Component<
+  ImageFilterProps<IosScaleCenterRadiusConfig>
+> {}
+export declare class IosCIBumpDistortionLinear extends React.Component<
+  ImageFilterProps<IosCIBumpDistortionLinearConfig>
+> {}
+export declare class IosCICircleSplashDistortion extends React.Component<
+  ImageFilterProps<IosCenterRadiusConfig>
+> {}
+export declare class IosCICircularWrap extends React.Component<
+  ImageFilterProps<IosAngleCenterRadiusConfig>
+> {}
+export declare class IosCIDroste extends React.Component<ImageFilterProps<IosCIDrosteConfig>> {}
+export declare class IosCIDisplacementDistortion extends React.Component<
+  ImageFilterProps<IosCIDisplacementDistortionConfig>
+> {}
+export declare class IosCIGlassDistortion extends React.Component<
+  ImageFilterProps<IosCIGlassDistortionConfig>
+> {}
+export declare class IosCIGlassLozenge extends React.Component<
+  ImageFilterProps<IosCIGlassLozengeConfig>
+> {}
+export declare class IosCIHoleDistortion extends React.Component<
+  ImageFilterProps<IosCenterRadiusConfig>
+> {}
+export declare class IosCILightTunnel extends React.Component<
+  ImageFilterProps<IosCILightTunnelConfig>
+> {}
+export declare class IosCIPinchDistortion extends React.Component<
+  ImageFilterProps<IosScaleCenterRadiusConfig>
+> {}
+export declare class IosCIStretchCrop extends React.Component<
+  ImageFilterProps<IosCIStretchCropConfig>
+> {}
+export declare class IosCITorusLensDistortion extends React.Component<
+  ImageFilterProps<IosCITorusLensDistortionConfig>
+> {}
+export declare class IosCITwirlDistortion extends React.Component<
+  ImageFilterProps<IosAngleCenterRadiusConfig>
+> {}
+export declare class IosCIVortexDistortion extends React.Component<
+  ImageFilterProps<IosAngleCenterRadiusConfig>
+> {}
+export declare class IosCIAztecCodeGenerator extends React.Component<
+  ImageFilterProps<IosCIAztecCodeGeneratorConfig>
+> {}
+export declare class IosCICheckerboardGenerator extends React.Component<
+  ImageFilterProps<IosCICheckerboardGeneratorConfig>
+> {}
+export declare class IosCIConstantColorGenerator extends React.Component<
+  ImageFilterProps<IosColorConfig>
+> {}
+export declare class IosCILenticularHaloGenerator extends React.Component<
+  ImageFilterProps<IosCILenticularHaloGeneratorConfig>
+> {}
+export declare class IosCIQRCodeGenerator extends React.Component<
+  ImageFilterProps<IosCIQRCodeGeneratorConfig>
+> {}
+export declare class IosCIRandomGenerator extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIStarShineGenerator extends React.Component<
+  ImageFilterProps<IosCIStarShineGeneratorConfig>
+> {}
+export declare class IosCIStripesGenerator extends React.Component<
+  ImageFilterProps<IosCIStripesGeneratorConfig>
+> {}
+export declare class IosCISunbeamsGenerator extends React.Component<
+  ImageFilterProps<IosCISunbeamsGeneratorConfig>
+> {}
+export declare class IosCICrop extends React.Component<ImageFilterProps<IosCICropConfig>> {}
+export declare class IosCILanczosScaleTransform extends React.Component<
+  ImageFilterProps<IosCILanczosScaleTransformConfig>
+> {}
+export declare class IosCIPerspectiveCorrection extends React.Component<
+  ImageFilterProps<IosCIPerspectiveCorrectionConfig>
+> {}
+export declare class IosCIPerspectiveTransform extends React.Component<
+  ImageFilterProps<IosPerspectiveConfig>
+> {}
+export declare class IosCIPerspectiveTransformWithExtent extends React.Component<
+  ImageFilterProps<IosCIPerspectiveTransformWithExtentConfig>
+> {}
+export declare class IosCIStraightenFilter extends React.Component<
+  ImageFilterProps<IosCIStraightenFilterConfig>
+> {}
+export declare class IosCIGaussianGradient extends React.Component<
+  ImageFilterProps<IosCIGaussianGradientConfig>
+> {}
+export declare class IosCILinearGradient extends React.Component<
+  ImageFilterProps<IosCILinearGradientConfig>
+> {}
+export declare class IosCIRadialGradient extends React.Component<
+  ImageFilterProps<IosCIRadialGradientConfig>
+> {}
+export declare class IosCISmoothLinearGradient extends React.Component<
+  ImageFilterProps<IosCILinearGradientConfig>
+> {}
+export declare class IosCICircularScreen extends React.Component<
+  ImageFilterProps<IosHalftoneEffectConfig>
+> {}
+export declare class IosCICMYKHalftone extends React.Component<
+  ImageFilterProps<IosCICMYKHalftoneConfig>
+> {}
+export declare class IosCIDotScreen extends React.Component<
+  ImageFilterProps<IosAngleHalftoneEffectConfig>
+> {}
+export declare class IosCIHatchedScreen extends React.Component<
+  ImageFilterProps<IosAngleHalftoneEffectConfig>
+> {}
+export declare class IosCILineScreen extends React.Component<
+  ImageFilterProps<IosAngleHalftoneEffectConfig>
+> {}
+export declare class IosCIAreaAverage extends React.Component<ImageFilterProps<IosAreaConfig>> {}
+export declare class IosCIAreaHistogram extends React.Component<
+  ImageFilterProps<IosCIAreaHistogramConfig>
+> {}
+export declare class IosCIRowAverage extends React.Component<ImageFilterProps<IosAreaConfig>> {}
+export declare class IosCIColumnAverage extends React.Component<ImageFilterProps<IosAreaConfig>> {}
+export declare class IosCIHistogramDisplayFilter extends React.Component<
+  ImageFilterProps<IosCIHistogramDisplayFilterConfig>
+> {}
+export declare class IosCIAreaMaximum extends React.Component<ImageFilterProps<IosAreaConfig>> {}
+export declare class IosCIAreaMinimum extends React.Component<ImageFilterProps<IosAreaConfig>> {}
+export declare class IosCIAreaMaximumAlpha extends React.Component<
+  ImageFilterProps<IosAreaConfig>
+> {}
+export declare class IosCIAreaMinimumAlpha extends React.Component<
+  ImageFilterProps<IosAreaConfig>
+> {}
+export declare class IosCISharpenLuminance extends React.Component<
+  ImageFilterProps<IosCISharpenLuminanceConfig>
+> {}
+export declare class IosCIUnsharpMask extends React.Component<
+  ImageFilterProps<IosCIUnsharpMaskConfig>
+> {}
+export declare class IosCIBloom extends React.Component<ImageFilterProps<IosCIBloomConfig>> {}
+export declare class IosCIComicEffect extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIConvolution3X3 extends React.Component<
+  ImageFilterProps<IosConvolutionConfig>
+> {}
+export declare class IosCIConvolution5X5 extends React.Component<
+  ImageFilterProps<IosCIConvolution5X5Config>
+> {}
+export declare class IosCIConvolution7X7 extends React.Component<
+  ImageFilterProps<IosCIConvolution7X7Config>
+> {}
+export declare class IosCIConvolution9Horizontal extends React.Component<
+  ImageFilterProps<IosConvolutionConfig>
+> {}
+export declare class IosCIConvolution9Vertical extends React.Component<
+  ImageFilterProps<IosConvolutionConfig>
+> {}
+export declare class IosCICrystallize extends React.Component<
+  ImageFilterProps<IosCenterRadiusConfig>
+> {}
+export declare class IosCIEdges extends React.Component<ImageFilterProps<IosCIEdgesConfig>> {}
+export declare class IosCIEdgeWork extends React.Component<ImageFilterProps<IosRadiusConfig>> {}
+export declare class IosCIGloom extends React.Component<ImageFilterProps<IosCIGloomConfig>> {}
+export declare class IosCIHeightFieldFromMask extends React.Component<
+  ImageFilterProps<IosRadiusConfig>
+> {}
+export declare class IosCIHexagonalPixellate extends React.Component<
+  ImageFilterProps<IosCIHexagonalPixellateConfig>
+> {}
+export declare class IosCIHighlightShadowAdjust extends React.Component<
+  ImageFilterProps<IosCIHighlightShadowAdjustConfig>
+> {}
+export declare class IosCILineOverlay extends React.Component<
+  ImageFilterProps<IosCILineOverlayConfig>
+> {}
+export declare class IosCIPixellate extends React.Component<
+  ImageFilterProps<IosCIPixellateConfig>
+> {}
+export declare class IosCIPointillize extends React.Component<
+  ImageFilterProps<IosCenterRadiusConfig>
+> {}
+export declare class IosCIShadedMaterial extends React.Component<
+  ImageFilterProps<IosCIShadedMaterialConfig>
+> {}
+export declare class IosCISpotColor extends React.Component<
+  ImageFilterProps<IosCISpotColorConfig>
+> {}
+export declare class IosCISpotLight extends React.Component<
+  ImageFilterProps<IosCISpotLightConfig>
+> {}
+export declare class IosCIEightfoldReflectedTile extends React.Component<
+  ImageFilterProps<IosTileConfig>
+> {}
+export declare class IosCIFourfoldReflectedTile extends React.Component<
+  ImageFilterProps<IosTileConfig>
+> {}
+export declare class IosCIFourfoldRotatedTile extends React.Component<
+  ImageFilterProps<IosTileConfig>
+> {}
+export declare class IosCIFourfoldTranslatedTile extends React.Component<
+  ImageFilterProps<IosCIFourfoldTranslatedTileConfig>
+> {}
+export declare class IosCIGlideReflectedTile extends React.Component<
+  ImageFilterProps<IosTileConfig>
+> {}
+export declare class IosCIKaleidoscope extends React.Component<
+  ImageFilterProps<IosCIKaleidoscopeConfig>
+> {}
+export declare class IosCIOpTile extends React.Component<ImageFilterProps<IosCIOpTileConfig>> {}
+export declare class IosCIParallelogramTile extends React.Component<
+  ImageFilterProps<IosCIFourfoldTranslatedTileConfig>
+> {}
+export declare class IosCIPerspectiveTile extends React.Component<
+  ImageFilterProps<IosPerspectiveConfig>
+> {}
+export declare class IosCISixfoldReflectedTile extends React.Component<
+  ImageFilterProps<IosTileConfig>
+> {}
+export declare class IosCISixfoldRotatedTile extends React.Component<
+  ImageFilterProps<IosTileConfig>
+> {}
+export declare class IosCITriangleKaleidoscope extends React.Component<
+  ImageFilterProps<IosCITriangleKaleidoscopeConfig>
+> {}
+export declare class IosCITriangleTile extends React.Component<ImageFilterProps<IosTileConfig>> {}
+export declare class IosCITwelvefoldReflectedTile extends React.Component<
+  ImageFilterProps<IosTileConfig>
+> {}
+export declare class IosCIXRay extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIThermal extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIMorphologyGradient extends React.Component<
+  ImageFilterProps<IosRadiusConfig>
+> {}
+export declare class IosCIDisparityToDepth extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIBokehBlur extends React.Component<
+  ImageFilterProps<IosCIBokehBlurConfig>
+> {}
+export declare class IosCISaliencyMapFilter extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCISampleNearest extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCIMix extends React.Component<ImageFilterProps<IosCIMixConfig>> {}
+export declare class IosCIDepthToDisparity extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCITextImageGenerator extends React.Component<
+  ImageFilterProps<IosCITextImageGeneratorConfig>
+> {}
+export declare class IosCIHueSaturationValueGradient extends React.Component<
+  ImageFilterProps<IosCIHueSaturationValueGradientConfig>
+> {}
+export declare class IosCIMorphologyMaximum extends React.Component<
+  ImageFilterProps<IosRadiusConfig>
+> {}
+export declare class IosCIMorphologyMinimum extends React.Component<
+  ImageFilterProps<IosRadiusConfig>
+> {}
+export declare class IosCINinePartStretched extends React.Component<
+  ImageFilterProps<IosCINinePartStretchedConfig>
+> {}
+export declare class IosCIWrapMirror extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIMirror extends React.Component<ImageFilterProps<IosCIMirrorConfig>> {}
+export declare class IosCIAreaMinMaxRed extends React.Component<ImageFilterProps<IosAreaConfig>> {}
+export declare class IosCIAreaMinMax extends React.Component<ImageFilterProps<IosAreaConfig>> {}
+export declare class IosCICheatBlur extends React.Component<
+  ImageFilterProps<IosDistanceAmountConfig>
+> {}
+export declare class IosCICheapMorphology extends React.Component<
+  ImageFilterProps<IosRadiusConfig>
+> {}
+export declare class IosCIMorphology extends React.Component<ImageFilterProps<IosRadiusConfig>> {}
+export declare class IosCICheapBlur extends React.Component<
+  ImageFilterProps<IosCICheapBlurConfig>
+> {}
+export declare class IosCIDither extends React.Component<ImageFilterProps<IosCIDitherConfig>> {}
+export declare class IosCIVividLightBlendMode extends React.Component<
+  ImageFilterProps<IosCIBackgroundImageCompositionConfig>
+> {}
+export declare class IosCISkyAndGrassAdjust extends React.Component<
+  ImageFilterProps<IosCISkyAndGrassAdjustConfig>
+> {}
+export declare class IosCIRingBlur extends React.Component<ImageFilterProps<IosCIRingBlurConfig>> {}
+export declare class IosCIPremultiply extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIPhotoGrain extends React.Component<
+  ImageFilterProps<IosCIPhotoGrainConfig>
+> {}
+export declare class IosCIUnpremultiply extends React.Component<
+  ImageFilterProps<IosCommonConfig>
+> {}
+export declare class IosCILocalContrast extends React.Component<
+  ImageFilterProps<IosCILocalContrastConfig>
+> {}
+export declare class IosCILinearBlur extends React.Component<ImageFilterProps<IosRadiusConfig>> {}
+export declare class IosCIGaussianBlurXY extends React.Component<
+  ImageFilterProps<IosCIGaussianBlurXYConfig>
+> {}
+export declare class IosCIDocumentEnhancer extends React.Component<
+  ImageFilterProps<IosScalarAmountConfig>
+> {}
+export declare class IosCIClamp extends React.Component<ImageFilterProps<IosAreaConfig>> {}
+export declare class IosCIASG50Percent extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIASG60Percent extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIASG66Percent extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIASG75Percent extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIASG80Percent extends React.Component<ImageFilterProps<IosCommonConfig>> {}
+export declare class IosCIPaperWash extends React.Component<
+  ImageFilterProps<IosCIPaperWashConfig>
+> {}
 
-export declare class AndroidColorMatrixColorFilter extends React.Component<ImageFilterProps<ColorMatrixConfig>> { }
-export declare class AndroidIterativeBoxBlur extends React.Component<ImageFilterProps<AndroidIterativeBoxBlurConfig>> { }
-export declare class AndroidLightingColorFilter extends React.Component<ImageFilterProps<AndroidLightingColorFilterConfig>> { }
-export declare class AndroidRoundAsCircle extends React.Component<ImageFilterProps<CommonConfig>> { }
-export declare class AndroidColor extends React.Component<ImageFilterProps<ColorConfig>> { }
-export declare class AndroidLinearGradient extends React.Component<ImageFilterProps<AndroidLinearGradientConfig>> { }
-export declare class AndroidRadialGradient extends React.Component<ImageFilterProps<AndroidRadialGradientConfig>> { }
-export declare class AndroidSweepGradient extends React.Component<ImageFilterProps<AndroidSweepGradientConfig>> { }
-export declare class AndroidPorterDuffColorFilter extends React.Component<ImageFilterProps<AndroidPorterDuffColorFilterConfig>> { }
-export declare class AndroidPorterDuffXfermode extends React.Component<ImageFilterProps<AndroidPorterDuffXfermodeConfig>> { }
-export declare class AndroidScriptIntrinsicBlur extends React.Component<ImageFilterProps<AndroidScriptIntrinsicBlurConfig>> { }
-export declare class AndroidScriptIntrinsicConvolve3x3 extends React.Component<ImageFilterProps<AndroidScriptIntrinsicConvolve3x3Config>> { }
-export declare class AndroidScriptIntrinsicConvolve5x5 extends React.Component<ImageFilterProps<AndroidScriptIntrinsicConvolve5x5Config>> { }
-export declare class AndroidTextImage extends React.Component<ImageFilterProps<AndroidTextImageConfig>> { }
+export declare class AndroidColorMatrixColorFilter extends React.Component<
+  ImageFilterProps<ColorMatrixConfig>
+> {}
+export declare class AndroidIterativeBoxBlur extends React.Component<
+  ImageFilterProps<AndroidIterativeBoxBlurConfig>
+> {}
+export declare class AndroidLightingColorFilter extends React.Component<
+  ImageFilterProps<AndroidLightingColorFilterConfig>
+> {}
+export declare class AndroidRoundAsCircle extends React.Component<ImageFilterProps<CommonConfig>> {}
+export declare class AndroidColor extends React.Component<ImageFilterProps<ColorConfig>> {}
+export declare class AndroidLinearGradient extends React.Component<
+  ImageFilterProps<AndroidLinearGradientConfig>
+> {}
+export declare class AndroidRadialGradient extends React.Component<
+  ImageFilterProps<AndroidRadialGradientConfig>
+> {}
+export declare class AndroidSweepGradient extends React.Component<
+  ImageFilterProps<AndroidSweepGradientConfig>
+> {}
+export declare class AndroidPorterDuffColorFilter extends React.Component<
+  ImageFilterProps<AndroidPorterDuffColorFilterConfig>
+> {}
+export declare class AndroidPorterDuffXfermode extends React.Component<
+  ImageFilterProps<AndroidPorterDuffXfermodeConfig>
+> {}
+export declare class AndroidScriptIntrinsicBlur extends React.Component<
+  ImageFilterProps<AndroidScriptIntrinsicBlurConfig>
+> {}
+export declare class AndroidScriptIntrinsicConvolve3x3 extends React.Component<
+  ImageFilterProps<AndroidScriptIntrinsicConvolve3x3Config>
+> {}
+export declare class AndroidScriptIntrinsicConvolve5x5 extends React.Component<
+  ImageFilterProps<AndroidScriptIntrinsicConvolve5x5Config>
+> {}
+export declare class AndroidTextImage extends React.Component<
+  ImageFilterProps<AndroidTextImageConfig>
+> {}
 
-export declare class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> { }
-export declare class ImageBackgroundPlaceholder extends React.Component<Omit<ImageBackgroundProps, 'source'>> { }
+export declare class ImagePlaceholder extends React.Component<Omit<ImageProps, 'source'>> {}
+export declare class ImageBackgroundPlaceholder extends React.Component<
+  Omit<ImageBackgroundProps, 'source'>
+> {}
 
 export function rgbaToRgb(RGB_background: string, RGBA_color: string): string
 export function concatColorMatrices(matrices: Matrix[]): Matrix

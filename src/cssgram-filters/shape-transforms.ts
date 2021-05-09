@@ -8,7 +8,7 @@ import { TransformMap } from '../common/shapes'
 import { shapes } from './shapes'
 const { brightness, contrast, saturate, grayscale, hueRotate, sepia } = matrices
 
-export interface CSSGramConfig {
+export type CSSGramConfig = {
   readonly image: unknown
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean
@@ -90,9 +90,7 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     }
   }),
 
-  BrooklynCompat: (
-    { image, disableCache, disableIntermediateCaches = true }: CSSGramConfig
-  ) => ({
+  BrooklynCompat: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Brightness',
     disableCache,
     amount: 1.1,
@@ -134,9 +132,7 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     }
   }),
 
-  EarlybirdCompat: (
-    { image, disableCache, disableIntermediateCaches = true }: CSSGramConfig
-  ) => ({
+  EarlybirdCompat: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'Sepia',
     disableCache,
     amount: 0.2,
@@ -701,9 +697,12 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
         colors: ['rgba(66, 10, 14, .2)', 'transparent']
       }
     },
-    matrix: concatColorMatrices(
-      [hueRotate(degToRad(-20)), contrast(0.9), saturate(0.85), brightness(1.2)]
-    ),
+    matrix: concatColorMatrices([
+      hueRotate(degToRad(-20)),
+      contrast(0.9),
+      saturate(0.85),
+      brightness(1.2)
+    ]),
     disableCache
   }),
 
@@ -720,9 +719,7 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     disableCache
   }),
 
-  Brooklyn: (
-    { image, disableCache, disableIntermediateCaches = true }: CSSGramConfig
-  ) => ({
+  Brooklyn: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'ColorMatrix',
     image: {
       name: 'OverlayBlend',
@@ -759,9 +756,7 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     disableCache
   }),
 
-  Earlybird: (
-    { image, disableCache, disableIntermediateCaches = true }: CSSGramConfig
-  ) => ({
+  Earlybird: ({ image, disableCache, disableIntermediateCaches = true }: CSSGramConfig) => ({
     name: 'ColorMatrix',
     image: {
       name: 'OverlayBlend',
@@ -1082,9 +1077,12 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
       dstImage: image,
       srcColor: 'rgba(0, 68, 204, 0.3)'
     },
-    matrix: concatColorMatrices(
-      [brightness(1.1), hueRotate(degToRad(-10)), sepia(0.3), saturate(1.6)]
-    ),
+    matrix: concatColorMatrices([
+      brightness(1.1),
+      hueRotate(degToRad(-10)),
+      sepia(0.3),
+      saturate(1.6)
+    ]),
     disableCache
   }),
 

@@ -13,9 +13,7 @@ type InputImageNames =
   | 'inputTexture'
   | 'inputShadingImage'
 
-type OutputImageNames =
-  | 'srcImage'
-  | 'dstImage'
+type OutputImageNames = 'srcImage' | 'dstImage'
 
 const srcImage: OutputImageNames = 'srcImage'
 const dstImage: OutputImageNames = 'dstImage'
@@ -87,11 +85,8 @@ const convertMap = Platform.select<ConvertMap>({
   default: {}
 })
 
-export const convertImageName = (
-  filterName: string,
-  normalImageName: InputImageNames
-) => (
+export const convertImageName = (filterName: string, normalImageName: InputImageNames) =>
   // tslint:disable-next-line: no-non-null-assertion
-  convertMap[filterName as InputShapes] && convertMap[filterName as InputShapes]![normalImageName]
-    || normalImageName
-)
+  (convertMap[filterName as InputShapes] != null &&
+    convertMap[filterName as InputShapes]![normalImageName]) ||
+  normalImageName

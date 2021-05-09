@@ -10,8 +10,9 @@ import {
   Config
 } from 'react-native-image-filter-kit'
 
-interface InstagramCSSConfig<Rest = never>
-  extends ConfigWithIntermediates<InstagramCSSExtensionConfig<Rest>> { }
+type InstagramCSSConfig<Rest = never> = {} & ConfigWithIntermediates<
+  InstagramCSSExtensionConfig<Rest>
+>
 
 export type InstagramCSSExtensionConfig<Rest = never> =
   | ConfigCase<'Ashby', InstagramCSSConfig<Rest>>
@@ -114,9 +115,11 @@ export const Poprocket = registerFilter<InstagramCSSConfig, Config>(
  * It is possible to create custom filter just with JSX without registering it, but in this case
  * the resulting filter can't be mixed with other filters
  */
-export const PoprocketStandalone = (
-  { image, disableCache, disableIntermediateCaches = true }: ConfigWithIntermediates
-) => (
+export const PoprocketStandalone = ({
+  image,
+  disableCache,
+  disableIntermediateCaches = true
+}: ConfigWithIntermediates) => (
   <Brightness
     disableCache={disableCache}
     amount={1.2}

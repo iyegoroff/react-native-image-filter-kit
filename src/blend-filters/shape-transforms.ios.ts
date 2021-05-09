@@ -1,14 +1,14 @@
 import { TransformMap } from '../common/shapes'
 import { shapes } from './shapes'
 
-interface ColorBlendConfig {
+type ColorBlendConfig = {
   readonly dstImage: unknown
   readonly srcColor: string
   readonly disableCache?: boolean
   readonly disableIntermediateCaches?: boolean
 }
 
-interface Offset {
+type Offset = {
   readonly x?: number
   readonly y?: number
 }
@@ -17,14 +17,14 @@ type Angle = number | string
 
 type Scale = 'COVER' | 'CONTAIN' | 'STRETCH' | { x?: number; y?: number }
 
-interface Transform {
+type Transform = {
   readonly anchor?: Offset
   readonly translate?: Offset
   readonly scale?: Scale
   readonly rotate?: Angle
 }
 
-interface BlendConfig {
+type BlendConfig = {
   readonly dstImage: unknown
   readonly srcImage: unknown
   readonly dstTransform?: Transform
@@ -49,9 +49,12 @@ const asNativeBlendConfig = (name: string) => ({
   name
 })
 
-const asNativeBlendColorConfig = (name: string) => (
-  { srcColor, dstImage, disableIntermediateCaches = true, ...config }: ColorBlendConfig
-) => ({
+const asNativeBlendColorConfig = (name: string) => ({
+  srcColor,
+  dstImage,
+  disableIntermediateCaches = true,
+  ...config
+}: ColorBlendConfig) => ({
   ...config,
   name,
   inputImage: {

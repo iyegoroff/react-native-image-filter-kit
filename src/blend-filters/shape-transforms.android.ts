@@ -2,7 +2,7 @@ import { TransformMap } from '../common/shapes'
 import { shapes } from './shapes'
 import { id } from '../common/util'
 
-interface ColorBlendConfig {
+type ColorBlendConfig = {
   readonly dstImage: unknown
   readonly srcColor: string
   readonly disableCache?: boolean
@@ -27,9 +27,11 @@ const asNativeBlendColorConfig = (mode: string) => ({
   mode
 })
 
-const asRenderscriptBlendColorConfig = (name: string) => (
-  { srcColor, disableIntermediateCaches = true, ...config }: ColorBlendConfig
-) => ({
+const asRenderscriptBlendColorConfig = (name: string) => ({
+  srcColor,
+  disableIntermediateCaches = true,
+  ...config
+}: ColorBlendConfig) => ({
   ...config,
   name,
   resizeCanvasTo: 'dstImage',

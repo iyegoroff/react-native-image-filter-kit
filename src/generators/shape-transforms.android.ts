@@ -105,7 +105,7 @@ export const shapeTransforms: TransformMap<typeof shapes> = {
     ...config,
     name: mixStep === 'CLAMP' ? 'AndroidSweepGradient' : 'AndroidSmoothSweepGradient',
     colors: Array.from(colors).reverse(),
-    positions: stops.map(stop => 1 - stop).reverse(),
+    positions: stops.map((stop) => 1 - stop).reverse(),
     cx: center.x,
     cy: `100h - ${center.y}`
   }),

@@ -12,28 +12,28 @@ import {
 import { Generator } from '../common/shapes'
 import { Position, MixStep } from '../common/configs'
 
-interface GradientConfig {
-  readonly colors?: ReadonlyArray<string>
-  readonly stops?: ReadonlyArray<number>
+type GradientConfig = {
+  readonly colors?: readonly string[]
+  readonly stops?: readonly number[]
   readonly mixStep?: MixStep
   readonly image: object
 }
 
-export interface LinearGradientConfig extends GradientConfig {
+export type LinearGradientConfig = {
   readonly start?: Position
   readonly end?: Position
-}
+} & GradientConfig
 
-export interface RadialGradientConfig extends GradientConfig {
+export type RadialGradientConfig = {
   readonly center?: Position
   readonly radius?: string
-}
+} & GradientConfig
 
-export interface SweepGradientConfig extends GradientConfig {
+export type SweepGradientConfig = {
   readonly center?: Position
-}
+} & GradientConfig
 
-export interface QuadGradientConfig {
+export type QuadGradientConfig = {
   readonly bottomLeftColor: string
   readonly bottomRightColor: string
   readonly topLeftColor: string
@@ -41,19 +41,19 @@ export interface QuadGradientConfig {
   readonly image: object
 }
 
-export interface EllipticalGradientConfig extends GradientConfig {
+export type EllipticalGradientConfig = {
   readonly radiusX?: string
   readonly radiusY?: string
   readonly center?: Position
-}
+} & GradientConfig
 
-export interface RectangularGradientConfig extends GradientConfig {
+export type RectangularGradientConfig = {
   readonly halfWidth?: string
   readonly halfHeight?: string
   readonly center?: Position
-}
+} & GradientConfig
 
-export interface TextImageConfig {
+export type TextImageConfig = {
   readonly text: string
   readonly fontName?: string
   readonly fontSize?: string
@@ -61,28 +61,28 @@ export interface TextImageConfig {
   readonly color?: string
 }
 
-interface ShapeConfig {
+type ShapeConfig = {
   readonly color?: string
   readonly image: object
 }
 
-export interface CircleShapeConfig extends ShapeConfig {
+export type CircleShapeConfig = {
   readonly radius?: string
-}
+} & ShapeConfig
 
-export interface OvalShapeConfig extends ShapeConfig {
+export type OvalShapeConfig = {
   readonly radiusX?: string
   readonly radiusY?: string
-}
+} & ShapeConfig
 
-export interface PathShapeConfig extends ShapeConfig {
+export type PathShapeConfig = {
   readonly path: unknown[]
-}
+} & ShapeConfig
 
-export interface RegularPolygonShapeConfig extends ShapeConfig {
+export type RegularPolygonShapeConfig = {
   readonly borderRadiuses: number[]
   readonly circumradius?: string
-}
+} & ShapeConfig
 
 const Gradient = {
   colors: colorVector,

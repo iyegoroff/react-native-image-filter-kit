@@ -22,7 +22,7 @@ export const checkStyle = (style: StyleProp<ViewStyle>) => {
     invariant(
       processColor(backgroundColor) !== 0,
       `ImageFilterKit: Can't use '${backgroundColor}' backgroundColor,` +
-      ` consider using '#fff0' instead.`
+        ` consider using '#fff0' instead.`
     )
   }
 }

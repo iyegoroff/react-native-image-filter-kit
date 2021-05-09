@@ -6,4 +6,4 @@ const unitPattern = () => /(\d+)(h|w|min|max)/
 
 export const isUnit = (unit: string | number) => unitPattern().test(`${unit}`)
 
-export const degToRad = (deg: number) => Math.PI * deg / 180
+export const degToRad = (deg: number) => (Math.PI * deg) / 180

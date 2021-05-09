@@ -1,25 +1,25 @@
-import { Image } from 'react-native';
-import { Matrix } from 'rn-color-matrices';
+import { Image } from 'react-native'
+import { Matrix } from 'rn-color-matrices'
 
-export interface Config {
+export type Config = {
   readonly name: string
   [key: string]: any
 }
 
-export interface FilterConfig {
+export type FilterConfig = {
   readonly image: Image
   readonly disableCache?: boolean
 }
 
-export interface AmountFilterConfig extends FilterConfig {
+export type AmountFilterConfig = {
   readonly amount?: number
-}
+} & FilterConfig
 
-export interface MatrixFilterConfig extends FilterConfig {
+export type MatrixFilterConfig = {
   readonly matrix: number[]
-}
+} & FilterConfig
 
-export interface Position {
+export type Position = {
   readonly x: string | number
   readonly y: string | number
 }

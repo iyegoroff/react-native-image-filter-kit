@@ -3,12 +3,14 @@ import { Image, ImageProps, ImageBackgroundProps, ImageBackground } from 'react-
 import { Omit } from './util'
 
 export const imagePlaceholderSource = {
-  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAM' +
+  uri:
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAM' +
     'AAWgmWQ0AAAAASUVORK5CYII='
 }
 
 export const transparentPlaceholderSource = {
-  uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAY' +
+  uri:
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAY' +
     'AAjCB0C8AAAAASUVORK5CYII='
 }
 
@@ -21,9 +23,10 @@ export const ImagePlaceholder = ({ style, ...props }: Omit<ImageProps, 'source'>
   <Image {...props} source={imagePlaceholderSource} style={[defaultStyle, style]} />
 )
 
-export const ImageBackgroundPlaceholder = (
-  { style, ...props }: Omit<ImageBackgroundProps, 'source'>
-) => (
+export const ImageBackgroundPlaceholder = ({
+  style,
+  ...props
+}: Omit<ImageBackgroundProps, 'source'>) => (
   <ImageBackground {...props} source={imagePlaceholderSource} style={[defaultStyle, style]} />
 )
 

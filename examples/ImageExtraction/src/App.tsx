@@ -1,10 +1,7 @@
 // tslint:disable:jsx-no-lambda
 
 import React from 'react'
-import {
-  Grayscale,
-  cleanExtractedImagesCache,
-} from 'react-native-image-filter-kit'
+import { Grayscale, cleanExtractedImagesCache } from 'react-native-image-filter-kit'
 import {
   Image,
   View,
@@ -13,7 +10,7 @@ import {
   ImageStyle,
   StyleSheet,
   Alert,
-  ActivityIndicator,
+  ActivityIndicator
 } from 'react-native'
 import { ImagePickerResponse, launchCamera } from 'react-native-image-picker'
 import useElmish, { Effects, Reducer, Effect } from 'react-use-elmish'
@@ -48,10 +45,7 @@ const update: Reducer<State, Action> = (_, action) => {
       return uri === undefined
         ? [
             ['ready'],
-            Effects.attemptFunction(cleanExtractedImagesCache, (error) => [
-              'show-error',
-              error,
-            ]),
+            Effects.attemptFunction(cleanExtractedImagesCache, (error) => ['show-error', error])
           ]
         : [['photo-taken', uri], Effects.none()]
     }
@@ -87,7 +81,7 @@ const update: Reducer<State, Action> = (_, action) => {
 const showMessage = (title: string, message: string) =>
   new Promise((resolve) => {
     Alert.alert(title, message, [{ onPress: resolve, text: 'OK' }], {
-      onDismiss: () => resolve(undefined),
+      onDismiss: () => resolve(undefined)
     })
   })
 
@@ -107,7 +101,7 @@ const takePhoto = () =>
     )
   })
 
-const saveImage = (uri: string) => CameraRoll.saveToCameraRoll(uri, 'photo')
+const saveImage = (uri: string) => CameraRoll.save(uri, { type: 'photo' })
 
 const Extractor = () => {
   const [state, dispatch] = useElmish(update, init)
@@ -134,9 +128,7 @@ const Extractor = () => {
           onFilteringError={({ nativeEvent }) =>
             dispatch(['show-error', new Error(nativeEvent.message)])
           }
-          onExtractImage={({ nativeEvent }) =>
-            dispatch(['save-photo', nativeEvent.uri])
-          }
+          onExtractImage={({ nativeEvent }) => dispatch(['save-photo', nativeEvent.uri])}
           extractImageEnabled={true}
           image={<Image style={styles.image} source={{ uri: state[1] }} />}
         />
@@ -164,12 +156,12 @@ const styles = StyleSheet.create<Styles>({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '100%',
+    height: '100%'
   },
   image: {
     width: '100%',
-    height: '100%',
-  },
+    height: '100%'
+  }
 })
 
 export default App
