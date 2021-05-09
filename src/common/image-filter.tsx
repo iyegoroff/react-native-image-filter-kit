@@ -49,10 +49,10 @@ export const createImageFilter = (name: string, shape: object): React.FunctionCo
     <IFKImageFilter
       style={[defaultStyle, style]}
       config={JSON.stringify(finalizeConfig(config, images))}
-      onIFKFilteringError={onFilteringError != null || id}
-      onIFKFilteringStart={onFilteringStart != null || id}
-      onIFKFilteringFinish={onFilteringFinish != null || id}
-      onIFKExtractImage={onExtractImage != null || id}
+      onIFKFilteringError={onFilteringError ?? id}
+      onIFKFilteringStart={onFilteringStart ?? id}
+      onIFKFilteringFinish={onFilteringFinish ?? id}
+      onIFKExtractImage={onExtractImage ?? id}
       {...(pick(props, restPropKeys) as object)}
     >
       {React.Children.map(images, hideEveryTailChild)}

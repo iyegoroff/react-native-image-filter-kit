@@ -24,7 +24,7 @@ const anyToString = (n: unknown) => `${n}`
 const convertDistances = (distances: unknown[]) => distances.map(anyToString)
 const convertPosition = ({ x, y }: { x: unknown; y: unknown }) => ({ x: `${x}`, y: `${y}` })
 const convertColor = processColor
-const convertColors = (cs: unknown[]) => cs.map(convertColor)
+const convertColors = (cs: number[]) => cs.map(convertColor)
 const convertArea = (rect: { x: unknown; y: unknown; width: unknown; height: unknown }) => ({
   x: `${rect.x}`,
   y: `${rect.y}`,
@@ -99,7 +99,7 @@ export const finalizeConfig = (
         props !== undefined && props.source !== undefined ? `${acc}:${props.source}` : acc,
       ''
     ),
-    ...Object.keys(shape).reduce<Config>((acc, key) => {
+    ...Object.keys(shape).reduce((acc, key) => {
       const inputType = shape[key] as Input
       const inputValue = values[key]
 
@@ -112,7 +112,7 @@ export const finalizeConfig = (
       }
 
       return acc
-    }, {}),
+    }, {} as Config),
     name: removePlatformPrefixes(name)
   }
 }
@@ -120,17 +120,17 @@ export const finalizeConfig = (
 const patchComposition = (config: Config) => {
   const cfg = {
     ...config,
-    resizeCanvasTo: convertImageName(config.name, config.resizeCanvasTo)
+    resizeCanvasTo: convertImageName(config.name, config['resizeCanvasTo'])
   }
 
   return Platform.select({
-    ios: cfg.resizeCanvasTo === 'dstImage' ? swapComposition(cfg, 'srcImage') : cfg,
-    android: cfg.resizeCanvasTo === 'srcImage' ? swapComposition(cfg, 'dstImage') : cfg
+    ios: cfg['resizeCanvasTo'] === 'dstImage' ? swapComposition(cfg, 'srcImage') : cfg,
+    android: cfg['resizeCanvasTo'] === 'srcImage' ? swapComposition(cfg, 'dstImage') : cfg
   })
 }
 
 export const extractConfigAndImages = (filterProps: Config) => {
-  const images: Array<React.ReactElement<unknown>> = []
+  const images: React.ReactElement<unknown>[] = []
 
   const parseFilter = (filter: Config | React.ReactElement<unknown>) => {
     if (filter.type && !filter.type.isImageFilter) {
@@ -158,7 +158,7 @@ export const extractConfigAndImages = (filterProps: Config) => {
 
     return {
       name,
-      ...Object.keys(shape).reduce<{ [key: string]: unknown }>((acc, key) => {
+      ...Object.keys(shape).reduce((acc, key) => {
         const inputType = shape[key] as Input
         const inputValue = rest[key]
 
@@ -173,11 +173,11 @@ export const extractConfigAndImages = (filterProps: Config) => {
         }
 
         return acc
-      }, {})
+      }, {} as { [key: string]: unknown })
     }
   }
 
   const config = parseFilter(filterProps)
 
-  return { config, images } as { config: Config; images: Array<React.ReactElement<unknown>> }
+  return { config, images } as { config: Config; images: React.ReactElement<unknown>[] }
 }

@@ -86,7 +86,4 @@ const convertMap = Platform.select<ConvertMap>({
 })
 
 export const convertImageName = (filterName: string, normalImageName: InputImageNames) =>
-  // tslint:disable-next-line: no-non-null-assertion
-  (convertMap[filterName as InputShapes] != null &&
-    convertMap[filterName as InputShapes]![normalImageName]) ||
-  normalImageName
+  convertMap[filterName as InputShapes]?.[normalImageName] ?? normalImageName

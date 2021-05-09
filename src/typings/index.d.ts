@@ -457,11 +457,6 @@ type IosCITorusLensDistortionConfig<Rest = never> = {
   readonly inputRefraction?: number
 } & IosCenterRadiusConfig<Rest>
 
-type IosCITorusLensDistortionConfig<Rest = never> = {
-  readonly inputWidth?: Distance
-  readonly inputRefraction?: number
-} & IosCommonConfig<Rest>
-
 type IosCIAztecCodeGeneratorConfig<Rest = never> = {
   readonly inputMessage: string
   readonly inputCorrectionLevel?: number
