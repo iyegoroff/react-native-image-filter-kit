@@ -1,4 +1,5 @@
 # react-native-image-filter-kit
+
 [![npm version](https://badge.fury.io/js/react-native-image-filter-kit.svg)](https://badge.fury.io/js/react-native-image-filter-kit)
 [![CircleCI](https://circleci.com/gh/iyegoroff/react-native-image-filter-kit.svg?style=svg)](https://circleci.com/gh/iyegoroff/react-native-image-filter-kit)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/standard/standard)
@@ -14,25 +15,71 @@ Various image filters for iOS & Android.
 - iOS & Android:
   - filter components work as combinable wrappers for standard `Image` and `ImageBackground` components
   - resulting images are being cached in memory and can be
-  [extracted into temporary files](docs/image_extraction.md) of original resolution
+    [extracted into temporary files](docs/image_extraction.md) of original resolution
   - [additional filters](https://github.com/iyegoroff/react-native-image-filter-kit/tree/master/examples) can be developed as separate modules
 - react-native:
+
   - supported versions:
 
-    | react-native     | min Android SDK | min iOS version |
-    |------------------|-----------------|-----------------|
-    | >=0.57.1         | 17              | 9.0             |
+    | react-native | min Android SDK | min iOS version |
+    | ------------ | --------------- | --------------- |
+    | >=0.57.1     | 17              | 9.0             |
 
 ## Installation
 
 <table>
 <td>
 <details style="border: 1px solid; border-radius: 5px; padding: 5px">
-  <summary>with react-native "<strong>&gt;=0.61.0</strong>"</summary>
+  <summary>with react-native "<strong>&gt;=0.64.0</strong>"</summary>
 
 ### 1. Install latest version from npm
 
 `$ npm i react-native-image-filter-kit -S`
+
+### 2. Install pods
+
+`$ cd ios && pod install && cd ..`
+
+### 3. Enable renderscript
+
+- Modify `android/build.gradle`:
+
+  ```diff
+  buildscript {
+    ext {
+      ...
+  +   renderscriptVersion = 21
+    }
+  ...
+  ```
+
+- Modify `android/app/build.gradle`:
+
+  ```diff
+  android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+  + buildToolsVersion rootProject.ext.buildToolsVersion
+
+    ...
+
+    defaultConfig {
+      ...
+  +   renderscriptTargetApi rootProject.ext.renderscriptVersion
+  +   renderscriptSupportModeEnabled true
+    }
+  ```
+
+</details>
+</td>
+</table>
+<table>
+<td>
+<details style="border: 1px solid; border-radius: 5px; padding: 5px">
+  <summary>with react-native "<strong>&gt;=0.61.0 &lt;0.64.0</strong>"</summary>
+
+### 1. Install v0.7.3 from npm
+
+`$ npm i react-native-image-filter-kit@0.7.3 -S`
 
 ### 2. Install pods
 
@@ -55,11 +102,12 @@ Various image filters for iOS & Android.
   +   targetSdkVersion = 29
   +   renderscriptVersion = 21
   ...
-  
+
     dependencies {
   -   classpath("com.android.tools.build:gradle:3.4.2")
   +   classpath("com.android.tools.build:gradle:3.6.0")
   ```
+
 - Modify `android/app/build.gradle`:
 
   ```diff
@@ -75,13 +123,13 @@ Various image filters for iOS & Android.
   +   renderscriptSupportModeEnabled true
     }
   ```
+
 - Modify `android/gradle/wrapper/gradle-wrapper.properties`:
 
   ```diff
   - distributionUrl=https\://services.gradle.org/distributions/gradle-5.5-all.zip
   + distributionUrl=https\://services.gradle.org/distributions/gradle-6.2-all.zip
   ```
-
 
 </details>
 </td>
@@ -115,7 +163,7 @@ Various image filters for iOS & Android.
   +   compileSdkVersion = 29
   +   targetSdkVersion = 29
   ...
-  
+
     dependencies {
   -   classpath("com.android.tools.build:gradle:3.4.2")
   +   classpath("com.android.tools.build:gradle:3.6.0")
@@ -128,6 +176,7 @@ Various image filters for iOS & Android.
     }
   }
   ```
+
 - Modify `android/app/build.gradle`:
 
   ```diff
@@ -143,6 +192,7 @@ Various image filters for iOS & Android.
   +   renderscriptSupportModeEnabled true
     }
   ```
+
 - Modify `android/gradle/wrapper/gradle-wrapper.properties`:
 
   ```diff
@@ -244,18 +294,17 @@ Open `android/build.gradle` and change `minSdkVersion` to 17.
 
 The purpose of this module is to support most of the native image filters on each platform and to provide a common interface for these filters. If the filter exists only on one platform, then its counterpart will be implemented using `renderscript` on Android and `cikernel` on iOS. If you need only [color matrix](docs/color_matrix_filters.md) filters - better use a [lightweight predecessor](https://github.com/iyegoroff/react-native-color-matrix-image-filters) of this module.
 
-
 ## Example
 
 ```javascript
-import { Image } from 'react-native';
+import { Image } from 'react-native'
 import {
   SoftLightBlend,
   Emboss,
   Earlybird,
   Invert,
   RadialGradient
-} from 'react-native-image-filter-kit';
+} from 'react-native-image-filter-kit'
 
 const result = (
   <Earlybird
@@ -371,32 +420,34 @@ const result = (
 - [iOS-only filters](src/native-platform-filters/shapes.ios.ts)
 
 ## Caveats
+
 - `blurRadius` Image prop will not work in conjunction with this library, instead of it just use [BoxBlur](docs/blur_filters.md#BoxBlur) filter
 - When running on pre-Lollipop (SDK < 21) Android devices you may experience [TooManyBitmapsException](https://frescolib.org/javadoc/reference/com/facebook/imagepipeline/common/TooManyBitmapsException.html), which results in image is not being rendered (this can be logged with [onFilteringError](docs/types.md#ImageFilter) prop). It looks like this is a relatively rare case which arises on low-end devices when filtering wallpaper-sized images (like 1920 × 1080 pixels). The common workarounds are:
+
   - using smaller images
   - using [ColorMatrix](docs/color_matrix_filters.md#ColorMatrix) filter with [concatColorMatrices](docs/functions.md#concatColorMatrices) instead of wrapping the image with multiple color matrix based filters
   - adding `android:largeHeap="true"` to `android/app/src/main/AndroidManifest.xml`
-  - replacing standard `MainReactPackage` with [alternative](android/src/main/java/iyegoroff/imagefilterkit/MainReactPackageWithFrescoCache.java
-) one provided by this module:
+  - replacing standard `MainReactPackage` with [alternative](android/src/main/java/iyegoroff/imagefilterkit/MainReactPackageWithFrescoCache.java) one provided by this module:
     ```diff
-      ...
-    + import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
+    ... + import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
 
-      public class MainApplication extends Application implements ReactApplication {
+          public class MainApplication extends Application implements ReactApplication {
 
-      ...
-          List<ReactPackage> packages = new PackageList(this).getPackages();
-          // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
-    -     return packages;
-    +     return MainReactPackageWithFrescoCache.inject(packages);
-        }
-      ...
-    ```
-    After this change `ImageFilter` will not throw `TooManyBitmapsException` immediately and will clear Fresco image caches, trim bitmap pool memory and try to filter the image again several times until succeed or reach the limit of retries, specified by [clearCachesMaxRetries](docs/types.md#ImageFilter) prop.
+          ...
+              List<ReactPackage> packages = new PackageList(this).getPackages();
+              // Packages that cannot be autolinked yet can be added manually here, for example:
+              // packages.add(new MyReactNativePackage());
+        -     return packages;
+        +     return MainReactPackageWithFrescoCache.inject(packages);
+            }
+          ...
+        ```
+        After this change `ImageFilter` will not throw `TooManyBitmapsException` immediately and will clear Fresco image caches, trim bitmap pool memory and try to filter the image again several times until succeed or reach the limit of retries, specified by [clearCachesMaxRetries](docs/types.md#ImageFilter) prop.
+
 - If you are using `react-native-asset` with "<strong>&lt;=0.4.14</strong>" version of this library - switch to `iyegoroff/react-native-asset#with-key`. In order to prevent unlinking of `.cikernel` files provided by `react-native-image-filter-kit` use `react-native-asset` the following way: `npx iyegoroff/react-native-asset#with-key -a YOUR-OWN-ASSETS -k YOUR-APP-ID`
 
 ## Credits
+
 - CSSGram filters are taken from [cssgram](https://github.com/una/cssgram) project by @una
 - `EdgeDetection`, `Emboss` and `FuzzyGlass` filters are taken from [android-graphics-demo](https://github.com/chiuki/android-graphics-demo) project by @chiuki
 - Parrot [image](https://commons.wikimedia.org/wiki/File:Ara_macao_-flying_away-8a.jpg) by

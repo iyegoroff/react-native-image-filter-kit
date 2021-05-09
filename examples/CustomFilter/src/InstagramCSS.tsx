@@ -10,9 +10,8 @@ import {
   Config
 } from 'react-native-image-filter-kit'
 
-type InstagramCSSConfig<Rest = never> = {} & ConfigWithIntermediates<
-  InstagramCSSExtensionConfig<Rest>
->
+interface InstagramCSSConfig<Rest = never>
+  extends ConfigWithIntermediates<InstagramCSSExtensionConfig<Rest>> {}
 
 export type InstagramCSSExtensionConfig<Rest = never> =
   | ConfigCase<'Ashby', InstagramCSSConfig<Rest>>
