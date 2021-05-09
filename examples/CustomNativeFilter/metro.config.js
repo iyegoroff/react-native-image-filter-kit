@@ -19,21 +19,21 @@ const extraNodeModules = {
   'react-native': path.resolve(__dirname, 'node_modules/react-native'),
   '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
   'react-native-image-filter-kit': packagePath,
-  'react-native-image-filter-kit-haze-removal': hazeRemovalPath,
+  'react-native-image-filter-kit-haze-removal': hazeRemovalPath
 }
 
 module.exports = {
   resolver: {
     extraNodeModules,
-    blockList: blacklist([/^src[/\\].*/, /^examples[/\\]\w+[/\\]src[/\\].*/]),
+    blockList: blacklist([/^src[/\\].*/, /^examples[/\\]\w+[/\\]src[/\\].*/])
   },
   watchFolders: [packagePath, hazeRemovalPath],
   transformer: {
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
-        inlineRequires: false,
-      },
-    }),
-  },
+        inlineRequires: false
+      }
+    })
+  }
 }

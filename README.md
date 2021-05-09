@@ -48,6 +48,7 @@ Various image filters for iOS & Android.
   buildscript {
     ext {
       ...
+      ndkVersion = ...
   +   renderscriptVersion = 21
     }
   ...
@@ -428,7 +429,8 @@ const result = (
   - using [ColorMatrix](docs/color_matrix_filters.md#ColorMatrix) filter with [concatColorMatrices](docs/functions.md#concatColorMatrices) instead of wrapping the image with multiple color matrix based filters
   - adding `android:largeHeap="true"` to `android/app/src/main/AndroidManifest.xml`
   - replacing standard `MainReactPackage` with [alternative](android/src/main/java/iyegoroff/imagefilterkit/MainReactPackageWithFrescoCache.java) one provided by this module:
-    ```diff
+
+    ````diff
     ... + import iyegoroff.imagefilterkit.MainReactPackageWithFrescoCache;
 
           public class MainApplication extends Application implements ReactApplication {
@@ -443,6 +445,7 @@ const result = (
           ...
         ```
         After this change `ImageFilter` will not throw `TooManyBitmapsException` immediately and will clear Fresco image caches, trim bitmap pool memory and try to filter the image again several times until succeed or reach the limit of retries, specified by [clearCachesMaxRetries](docs/types.md#ImageFilter) prop.
+    ````
 
 - If you are using `react-native-asset` with "<strong>&lt;=0.4.14</strong>" version of this library - switch to `iyegoroff/react-native-asset#with-key`. In order to prevent unlinking of `.cikernel` files provided by `react-native-image-filter-kit` use `react-native-asset` the following way: `npx iyegoroff/react-native-asset#with-key -a YOUR-OWN-ASSETS -k YOUR-APP-ID`
 
