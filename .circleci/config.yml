@@ -80,7 +80,8 @@ jobs:
       - attach_workspace:
           at: .
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-      - run: npm run build:all
+      - run: yarn
+      - run: yarn build:all
       - run: npm publish
 
 workflows:
