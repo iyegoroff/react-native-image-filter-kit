@@ -1,14 +1,13 @@
 # react-native-image-filter-kit
 
 [![npm version](https://badge.fury.io/js/react-native-image-filter-kit.svg)](https://badge.fury.io/js/react-native-image-filter-kit)
-
-<!-- [![CircleCI](https://circleci.com/gh/iyegoroff/react-native-image-filter-kit.svg?style=svg)](https://circleci.com/gh/iyegoroff/react-native-image-filter-kit) -->
-
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/standard/standard)
 [![Dependency Status](https://david-dm.org/iyegoroff/react-native-image-filter-kit.svg)](https://david-dm.org/iyegoroff/react-native-image-filter-kit)
 [![devDependencies Status](https://david-dm.org/iyegoroff/react-native-image-filter-kit/dev-status.svg)](https://david-dm.org/iyegoroff/react-native-image-filter-kit?type=dev)
 [![typings included](https://img.shields.io/badge/typings-included-brightgreen.svg?t=1495378566925)](src/typings/index.d.ts)
 [![npm](https://img.shields.io/npm/l/express.svg)](https://www.npmjs.com/package/react-native-image-filter-kit)
+
+<!-- [![CircleCI](https://circleci.com/gh/iyegoroff/react-native-image-filter-kit.svg?style=svg)](https://circleci.com/gh/iyegoroff/react-native-image-filter-kit) -->
 
 Various image filters for iOS & Android.
 

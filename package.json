@@ -72,7 +72,7 @@
     "examples/CustomFilter",
     "examples/CustomNativeFilter",
     "examples/ImageExtraction",
-    ".eslintrc",
+    "tslint.json",
     "*.md",
     "*.podspec",
     "LICENSE"
