@@ -2,7 +2,7 @@ package iyegoroff.imagefilterkit;
 
 import android.content.Context;
 
-import androidx.renderscript.RenderScript;
+import android.renderscript.RenderScript;
 
 public class SharedRenderscript {
   private static volatile SharedRenderscript sInstance = null;

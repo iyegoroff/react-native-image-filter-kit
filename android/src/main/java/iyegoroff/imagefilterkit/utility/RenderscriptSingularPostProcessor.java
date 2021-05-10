@@ -2,8 +2,8 @@ package iyegoroff.imagefilterkit.utility;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import androidx.renderscript.Allocation;
-import androidx.renderscript.RenderScript;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
 
 import org.json.JSONObject;
 

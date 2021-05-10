@@ -3,8 +3,8 @@ package iyegoroff.imagefilterkit.utility;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import androidx.renderscript.Allocation;
-import androidx.renderscript.RenderScript;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
 
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;

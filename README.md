@@ -41,36 +41,6 @@ Various image filters for iOS & Android.
 
 `$ cd ios && pod install && cd ..`
 
-### 3. Enable renderscript
-
-- Modify `android/build.gradle`:
-
-  ```diff
-  buildscript {
-    ext {
-      ...
-      ndkVersion = ...
-  +   renderscriptVersion = 21
-    }
-  ...
-  ```
-
-- Modify `android/app/build.gradle`:
-
-  ```diff
-  android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-  + buildToolsVersion rootProject.ext.buildToolsVersion
-
-    ...
-
-    defaultConfig {
-      ...
-  +   renderscriptTargetApi rootProject.ext.renderscriptVersion
-  +   renderscriptSupportModeEnabled true
-    }
-  ```
-
 </details>
 </td>
 </table>

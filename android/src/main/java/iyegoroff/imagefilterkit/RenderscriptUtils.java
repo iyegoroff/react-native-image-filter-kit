@@ -2,7 +2,7 @@ package iyegoroff.imagefilterkit;
 
 import android.graphics.Color;
 
-import androidx.renderscript.Float4;
+import android.renderscript.Float4;
 
 public class RenderscriptUtils {
 
