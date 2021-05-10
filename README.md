@@ -22,9 +22,10 @@ Various image filters for iOS & Android.
 
   - supported versions:
 
-    | react-native | min Android SDK | min iOS version |
-    | ------------ | --------------- | --------------- |
-    | >=0.57.1     | 17              | 9.0             |
+    | react-native     | min Android SDK | min iOS version |
+    | ---------------- | --------------- | --------------- |
+    | >=0.64.0         | 21              | 9.0             |
+    | >=0.57.1 <0.64.0 | 17              | 9.0             |
 
 ## Installation
 
