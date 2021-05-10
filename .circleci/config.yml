@@ -80,28 +80,28 @@ jobs:
       - attach_workspace:
           at: .
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-      - run: yarn
-      - run: yarn build:all
+      # - run: yarn
+      # - run: yarn build:all
       - run: npm publish
 
 workflows:
   version: 2
   test:
     jobs:
-      # - test-android:
-      #     filters:
-      #       tags:
-      #         only: /.*/
+      - test-android:
+          filters:
+            tags:
+              only: /.*/
 
-      # - test-ios:
-      #     filters:
-      #       tags:
-      #         only: /.*/
+      - test-ios:
+          filters:
+            tags:
+              only: /.*/
 
       - publish:
-          # requires:
-          #   - test-android
-          #   - test-ios
+          requires:
+            - test-android
+            - test-ios
           filters:
             tags:
               only: /^v.*/
