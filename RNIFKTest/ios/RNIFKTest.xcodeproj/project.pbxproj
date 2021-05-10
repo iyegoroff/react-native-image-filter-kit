@@ -291,6 +291,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/YogaKit/YogaKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FlipperKit/FlipperKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/React/React-Core.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/yoga/Yoga.modulemap\" -Xcc";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = RNIFKTest;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
