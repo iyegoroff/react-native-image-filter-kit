@@ -86,20 +86,20 @@ workflows:
   version: 2
   test:
     jobs:
-      - test-android:
-          filters:
-            tags:
-              only: /.*/
+      # - test-android:
+      #     filters:
+      #       tags:
+      #         only: /.*/
 
-      - test-ios:
-          filters:
-            tags:
-              only: /.*/
+      # - test-ios:
+      #     filters:
+      #       tags:
+      #         only: /.*/
 
       - publish:
-          requires:
-            - test-android
-            - test-ios
+          # requires:
+          #   - test-android
+          #   - test-ios
           filters:
             tags:
               only: /^v.*/
