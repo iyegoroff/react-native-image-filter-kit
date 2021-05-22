@@ -8,6 +8,7 @@
     "lib": ["es2016"],
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "declaration": true
+    "declaration": true,
+    "types": ["react-native"]
   }
 }

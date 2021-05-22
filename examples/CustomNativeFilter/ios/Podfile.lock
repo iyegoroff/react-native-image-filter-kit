@@ -253,7 +253,7 @@ PODS:
     - React-jsi (= 0.64.1)
     - React-perflogger (= 0.64.1)
   - React-jsinspector (0.64.1)
-  - react-native-image-filter-kit (0.7.7):
+  - react-native-image-filter-kit (0.8.0):
     - Bolts/Tasks (= 1.9.0)
     - React
   - react-native-image-filter-kit-haze-removal (0.0.1):
@@ -528,7 +528,7 @@ SPEC CHECKSUMS:
   React-jsi: 5de8204706bd872b78ea646aee5d2561ca1214b6
   React-jsiexecutor: 124e8f99992490d0d13e0649d950d3e1aae06fe9
   React-jsinspector: 500a59626037be5b3b3d89c5151bc3baa9abf1a9
-  react-native-image-filter-kit: 67625a103a9cdc29211a230ee9215c09c1c1942d
+  react-native-image-filter-kit: d79137549eb44f8215b7f2be5e77213f605e2c92
   react-native-image-filter-kit-haze-removal: d421058ef879dacdacfaefe892876ef75fead2eb
   react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
   React-perflogger: aad6d4b4a267936b3667260d1f649b6f6069a675

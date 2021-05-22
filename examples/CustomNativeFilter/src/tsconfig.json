@@ -9,6 +9,7 @@
     "lib": ["es6"],
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
+    "noEmitOnError": true,
     "types": [
       "react",
       "react-native",

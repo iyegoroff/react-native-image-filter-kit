@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "preinstall": "npm run build:image-filter-kit && npm run build:image-filter-kit-haze-removal",
+    "preinstall": "npm run build:image-filter-kit",
     "build:image-filter-kit": "cd ../.. && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd examples/CustomNativeFilter && which yarn && yarn link react-native-image-filter-kit || :",
     "build:image-filter-kit-haze-removal": "cd local_modules/react-native-image-filter-kit-haze-removal && which yarn && yarn link || : && yarn || npm i && npm run build:all && cd ../.. && which yarn && yarn link react-native-image-filter-kit-haze-removal || :",
-    "postinstall": "patch-package && npm run build:release && which pod && npm run install:pods || :",
+    "postinstall": "../../node_modules/.bin/patch-package && npm run build:image-filter-kit-haze-removal && npm run build:release && which pod && npm run install:pods || :",
     "install:pods": "cd ios && pod install",
     "run:android": "react-native run-android --no-jetifier",
     "reset:packager": "watchman watch-del-all && node_modules/react-native/scripts/packager.sh --reset-cache",
@@ -29,13 +29,12 @@
     "react-native-image-filter-kit": "file:../../",
     "react-native-image-filter-kit-haze-removal": "file:local_modules/react-native-image-filter-kit-haze-removal",
     "react-native-reanimated": "^2.1.0",
-    "react-native-reanimated-color-picker": "0.0.8"
+    "react-native-reanimated-color-picker": "0.0.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@types/chroma-js": "^2.1.3",
-    "metro-react-native-babel-preset": "^0.64.0",
-    "patch-package": "^6.4.7"
+    "metro-react-native-babel-preset": "^0.64.0"
   }
 }
