@@ -41,6 +41,19 @@ Various image filters for iOS & Android.
 ### 2. Install pods
 
 `$ cd ios && pod install && cd ..`
+  
+### 3. Add ProGuard rules
+  
+  - Check if ProGuard is enabled in `android/app/build.gradle` and then add to `android/app/proguard-rules.pro`:
+
+    ```
+    # react-native-image-filter-kit https://github.com/iyegoroff/react-native-image-filter-kit/issues/89
+    -keep class com.facebook.react.views.image.** { *; }
+    -keep class com.facebook.drawee.** { *; }
+    ```
+    
+    Thanks @NikitaDudin for [pointing this out](/../../issues/89)!
+  
 
 </details>
 </td>
