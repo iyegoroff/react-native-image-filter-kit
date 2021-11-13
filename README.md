@@ -44,7 +44,7 @@ Various image filters for iOS & Android.
   
 ### 3. Add ProGuard rules
   
-  - Check if ProGuard is enabled in `android/app/build.gradle` and then </br>add to `android/app/proguard-rules.pro`:
+  - Add ProGuard rules to `android/app/proguard-rules.pro`:
 
     ```
     # react-native-image-filter-kit
