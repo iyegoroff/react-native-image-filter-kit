@@ -28,7 +28,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-filter-kit": "file:../../",
     "react-native-image-filter-kit-haze-removal": "file:local_modules/react-native-image-filter-kit-haze-removal",
-    "react-native-reanimated": "^2.1.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-reanimated-color-picker": "0.0.11"
   },
   "devDependencies": {
